@@ -1,0 +1,11 @@
+public/storage
+public/storages
+/storages
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+.phpunit.result.cache
+.DS_STORE
+.editorconfig
