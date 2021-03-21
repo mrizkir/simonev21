@@ -14,7 +14,7 @@ class TATableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::statement('DELETE FROM pe3_ta');        
+        \DB::statement('DELETE FROM pe3_ta');
         \DB::table('pe3_ta')->insert([
             'tahun'=>date('Y'),
             'tahun_akademik'=>date('Y').'/'.(date('Y')+1),                       

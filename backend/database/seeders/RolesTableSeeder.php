@@ -17,6 +17,7 @@ class RolesTableSeeder extends Seeder
     {
         \DB::statement('DELETE FROM roles');
         \DB::statement('ALTER TABLE roles AUTO_INCREMENT = 1;');
+        
         \DB::table('roles')->insert([
             [
                 'name'=>'superadmin',
@@ -25,233 +26,40 @@ class RolesTableSeeder extends Seeder
                 'updated_at'=>Carbon::now()
             ], 
             [
-                'name'=>'akademik',
+                'name'=>'bapelitbang',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
-            ],
+            ],    
             [
-                'name'=>'programstudi',
+                'name'=>'tapd',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
-            ],
+            ],   
             [
-                'name'=>'pmb',
+                'name'=>'opd',
+                'guard_name'=>'api',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],    
+            [
+                'name'=>'dewan',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
             ], 
             [
-                'name'=>'keuangan',
+                'name'=>'pptk',
                 'guard_name'=>'api',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
-            ],
-            [
-                'name'=>'perpustakaan',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],
-            [
-                'name'=>'lppm',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],
-            [
-                'name'=>'puslahta',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ], 
-            [
-                'name'=>'dosen',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],  
-            [
-                'name'=>'dosenwali',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],  
-            [
-                'name'=>'mahasiswa',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],  
-            [
-                'name'=>'mahasiswabaru',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],  
-            [
-                'name'=>'alumni',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],  
-            [
-                'name'=>'orangtuawali',
-                'guard_name'=>'api',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],  
+            ],             
         ]);
 
-        $role = Role::findByName('mahasiswabaru');
+        $role = Role::findByName('bapelitbang');
         $records=[
-            'DASHBOARD_SHOW',
-            'SPMB-GROUP', 
-            'SPMB-PMB-FORMULIR-PENDAFTARAN_BROWSE',
-            'SPMB-PMB-FORMULIR-PENDAFTARAN_SHOW',
-            'SPMB-PMB-FORMULIR-PENDAFTARAN_STORE',
-            'SPMB-PMB-FORMULIR-PENDAFTARAN_UPDATE',
-            'SPMB-PMB-PERSYARATAN_BROWSE',
-            'SPMB-PMB-PERSYARATAN_SHOW',
-            'SPMB-PMB-PERSYARATAN_STORE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_BROWSE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_SHOW',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',   
-            'SPMB-PMB-JADWAL-UJIAN_BROWSE',
-            'SPMB-PMB-UJIAN-ONLINE_BROWSE',   
-            'SPMB-PMB-UJIAN-ONLINE_SHOW',   
-            'SPMB-PMB-UJIAN-ONLINE_STORE',   
-            'SPMB-PMB-UJIAN-ONLINE_UPDATE',
-        ];
-        $role->syncPermissions($records);
-        
-        $role = Role::findByName('mahasiswa');
-        $records=[
-            'DASHBOARD_SHOW',
-
-            'AKADEMIK-GROUP',
-            'AKADEMIK-DULANG-MHS_BROWSE',
-            'AKADEMIK-DULANG-MHS_SHOW',   
             
-            'AKADEMIK-PERKULIAHAN-PENYELENGGARAAN_BROWSE', 
-
-            'AKADEMIK-PERKULIAHAN-KRS_BROWSE', 
-            'AKADEMIK-PERKULIAHAN-KRS_DESTROY', 
-            'AKADEMIK-PERKULIAHAN-KRS_STORE', 
-            'AKADEMIK-PERKULIAHAN-KRS_SHOW', 
-            'AKADEMIK-PERKULIAHAN-KRS_UPDATE', 
-
-            'KEUANGAN-GROUP', 
-            'KEUANGAN-RINGKASAN_BROWSE',  
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_BROWSE',  
-            
-            'KEUANGAN-TRANSAKSI_BROWSE',  
-            'KEUANGAN-TRANSAKSI-BIAYA-PENDAFTARAN_BROWSE',
-            'KEUANGAN-TRANSAKSI-PENGEMBANGAN_BROWSE',
-
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_BROWSE',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_DESTROY',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_STORE',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_SHOW',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_UPDATE',
-            
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_BROWSE',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_DESTROY',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_STORE',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_SHOW',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_UPDATE',
-            
-            'KEUANGAN-TRANSAKSI-SKRIPSI_BROWSE',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_DESTROY',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_STORE',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_SHOW',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_UPDATE',
-            
-            'KEUANGAN-TRANSAKSI-WISUDA_BROWSE',
-            'KEUANGAN-TRANSAKSI-WISUDA_DESTROY',
-            'KEUANGAN-TRANSAKSI-WISUDA_STORE',
-            'KEUANGAN-TRANSAKSI-WISUDA_SHOW',
-            'KEUANGAN-TRANSAKSI-WISUDA_UPDATE',
-            
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_BROWSE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_SHOW',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',   
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_UPDATE',   
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_DESTROY',
-
-            'AKADEMIK-PERKULIAHAN-KRS_BROWSE', 
-            'AKADEMIK-PERKULIAHAN-KRS_DESTROY', 
-            'AKADEMIK-PERKULIAHAN-KRS_STORE', 
-            'AKADEMIK-PERKULIAHAN-KRS_SHOW', 
-            'AKADEMIK-PERKULIAHAN-KRS_UPDATE', 
-            
-        ];
-        $role->syncPermissions($records);
-
-        $role = Role::findByName('keuangan');
-        $records=[
-            'DASHBOARD_SHOW',
-            'KEUANGAN-GROUP',
-            'KEUANGAN-RINGKASAN_BROWSE', 
-
-            'KEUANGAN-KOMPONEN-BIAYA_BROWSE',    
-            
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_BROWSE',
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_STORE',
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_SHOW',
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_STORE',   
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_UPDATE',   
-            'KEUANGAN-BIAYA-KOMPONEN-PERIODE_DESTROY',   
-            
-            'KEUANGAN-TRANSAKSI_BROWSE',
-            'KEUANGAN-TRANSAKSI_STORE',
-            'KEUANGAN-TRANSAKSI_SHOW',
-            'KEUANGAN-TRANSAKSI_STORE',   
-            'KEUANGAN-TRANSAKSI_UPDATE',   
-            'KEUANGAN-TRANSAKSI_DESTROY',   
-
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_BROWSE',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_DESTROY',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_STORE',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_SHOW',
-            'KEUANGAN-TRANSAKSI-SPP-KEMAHASISWAAN_UPDATE',
-            
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_BROWSE',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_DESTROY',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_STORE',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_SHOW',
-            'KEUANGAN-TRANSAKSI-KERJA-PRAKTEK_UPDATE',
-            
-            'KEUANGAN-TRANSAKSI-SKRIPSI_BROWSE',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_DESTROY',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_STORE',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_SHOW',
-            'KEUANGAN-TRANSAKSI-SKRIPSI_UPDATE',
-            
-            'KEUANGAN-TRANSAKSI-WISUDA_BROWSE',
-            'KEUANGAN-TRANSAKSI-WISUDA_DESTROY',
-            'KEUANGAN-TRANSAKSI-WISUDA_STORE',
-            'KEUANGAN-TRANSAKSI-WISUDA_SHOW',
-            'KEUANGAN-TRANSAKSI-WISUDA_UPDATE',
-            
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_BROWSE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_SHOW',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',   
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_UPDATE',   
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_DESTROY',
-
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_BROWSE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_SHOW',
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_STORE',   
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_UPDATE',   
-            'KEUANGAN-KONFIRMASI-PEMBAYARAN_DESTROY',
-
-            'AKADEMIK-GROUP',   
-            'AKADEMIK-KEMAHASISWAAN-DAFTAR-MAHASISWA_BROWSE',   
         ];
         $role->syncPermissions($records);
     }
