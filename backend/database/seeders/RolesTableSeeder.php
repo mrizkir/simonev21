@@ -59,7 +59,14 @@ class RolesTableSeeder extends Seeder
 
         $role = Role::findByName('bapelitbang');
         $records=[
+            'DASHBOARD_SHOW',
+            'DMASTER-GROUP_BROWSE',
             
+            'RPJMD-GROUP_BROWSE',
+            'RKPD-GROUP_BROWSE',
+            'RENJA-GROUP_BROWSE',
+            'SYSTEM-SETTING-GROUP',
+            'SYSTEM-USERS-GROUP',
         ];
         $role->syncPermissions($records);
     }

@@ -17,6 +17,13 @@ class PermissionsTableSeeder extends Seeder
     {
         \DB::statement('DELETE FROM permissions');
         \DB::statement('ALTER TABLE permissions AUTO_INCREMENT = 1');
+
+        \DB::table('permissions')->insert([
+            'name'=>"DASHBOARD_SHOW",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
         
         \DB::table('permissions')->insert([
             'name'=>"DMASTER-GROUP_BROWSE",
@@ -68,15 +75,20 @@ class PermissionsTableSeeder extends Seeder
             'updated_at'=>Carbon::now()
         ]);
 
-        $modules = [
-            'DASHBOARD',
+        $modules = [            
             'DMASTER-KELOMPOK-URUSAN',
             'DMASTER-BIDANG-URUSAN',
-            'DMASTER-REKENING-TRANSAKSI',
+            'DMASTER-PROGRAM',
+            'DMASTER-KEGIATAN',
+            'DMASTER-SUB-KEGIATAN',
+
+            'DMASTER-REKENING-AKUN',
             'DMASTER-REKENING-KELOMPOK',
             'DMASTER-REKENING-JENIS',
-            'DMASTER-REKENING-RINCIAN',
             'DMASTER-REKENING-OBJEK',
+            'DMASTER-REKENING-RINCIAN-OBJEK',
+            'DMASTER-REKENING-SUB-RINCIAN-OBJEK',
+
             'DMASTER-OPD',
             'DMASTER-UNIT-KERJA',
             'DMASTER-JENIS-PELAKSANAAN',
