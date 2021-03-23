@@ -26,42 +26,43 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"BELANJA-GROUP_BROWSE",
+            'name'=>"RPJMD-GROUP_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('permissions')->insert([
+            'name'=>"RENSTRA-GROUP_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"REPORT-GROUP_BROWSE",
+            'name'=>"RKPD-GROUP_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"EVALUASI-RKPD-GROUP_BROWSE",
+            'name'=>"RENJA-GROUP_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        //system
+        \DB::table('permissions')->insert([
+            'name'=>"SYSTEM-SETTING-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"EVALUASI-RENJA-GROUP_BROWSE",
-            'guard_name'=>'api',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'name'=>"SETTING-GROUP_BROWSE",
-            'guard_name'=>'api',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'name'=>"SETTING-USERS-GROUP_BROWSE",
+            'name'=>"SYSTEM-USERS-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
@@ -69,31 +70,33 @@ class PermissionsTableSeeder extends Seeder
 
         $modules = [
             'DASHBOARD',
-            'KELOMPOK-URUSAN',
-            'BIDANG-URUSAN',
-            'REKENING-TRANSAKSI',
-            'REKENING-KELOMPOK',
-            'REKENING-JENIS',
-            'REKENING-RINCIAN',
-            'REKENING-OBJEK',
-            'OPD',
-            'UNIT KERJA',
-            'JENIS PELAKSANAAN',
-            'JENIS PEMBANGUNAN',
-            'ASN',
-            'PEJABAT',
-            'TA',
-            'RKA MURNI',
-            'RKA PERUBAHAN',
-            'PERMISSIONS',
-            'ROLES',
-            'USERS',
-            'USERS BAPELITBANG',
-            'USERS OPD',
-            'USERS PPTK',
-            'USERS DEWAN',
-            'USERS TAPD',
-            'MENUS',
+            'DMASTER-KELOMPOK-URUSAN',
+            'DMASTER-BIDANG-URUSAN',
+            'DMASTER-REKENING-TRANSAKSI',
+            'DMASTER-REKENING-KELOMPOK',
+            'DMASTER-REKENING-JENIS',
+            'DMASTER-REKENING-RINCIAN',
+            'DMASTER-REKENING-OBJEK',
+            'DMASTER-OPD',
+            'DMASTER-UNIT-KERJA',
+            'DMASTER-JENIS-PELAKSANAAN',
+            'DMASTER-JENIS-PEMBANGUNAN',
+            'DMASTER-ASN',
+            'DMASTER-PEJABAT',
+            'DMASTER-TA',            
+
+            'RENJA-RKA-MURNI',
+            'RENJA-RKA-PERUBAHAN',
+
+            'SYSTEM-SETTING-PERMISSIONS',
+            'SYSTEM-SETTING-ROLES',
+
+            'SYSTEM-USERS-SUPERADMIN',
+            'SYSTEM-USERS-USERS-BAPELITBANG',
+            'SYSTEM-USERS-USERS-OPD',
+            'SYSTEM-USERS-USERS-PPTK',
+            'SYSTEM-USERS-USERS-DEWAN',
+            'SYSTEM-USERS-USERS-TAPD',            
         ];
         $records=[];
         foreach($modules as $v)
@@ -107,55 +110,71 @@ class PermissionsTableSeeder extends Seeder
             );
             \DB::table('permissions')->insert($records);
         }
+        
+        \DB::table('permissions')->insert([
+            'name'=>"RPJMD-EVALUASI_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('permissions')->insert([
+            'name'=>"EVALUASI-EVALUASI_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"FORM A MURNI_BROWSE",
+            'name'=>"RKPD-EVALUASI-MURNI_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
-            'name'=>"FORM A PERUBAHAN_BROWSE",
+            'name'=>"RKPD-EVALUASI-PERUBAHAN_BROWSE",
+            'guard_name'=>'api',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'name'=>"RENJA-FORM-A-MURNI_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
-            'name'=>"FORM B MURNI_BROWSE",
+            'name'=>"RENJA-FORM-A-PERUBAHAN_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
-            'name'=>"FORM B PERUBAHAN_BROWSE",
+            'name'=>"RENJA-FORM-B-MURNI_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
-            'name'=>"EVALUASI RKPD MURNI_BROWSE",
+            'name'=>"RENJA-FORM-B-PERUBAHAN_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
-            'name'=>"EVALUASI RKPD PERUBAHAN_BROWSE",
+            'name'=>"RENJA-EVALUASI-MURNI_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         \DB::table('permissions')->insert([
-            'name'=>"EVALUASI-RENJA-MURNI_BROWSE",
+            'name'=>"RENJA-EVALUASI-PERUBAHAN_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
-        ]);
-        \DB::table('permissions')->insert([
-            'name'=>"EVALUASI-RENJA-PERUBAHAN_BROWSE",
-            'guard_name'=>'api',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
+        ]);        
+
         \DB::table('permissions')->insert([
             'name'=>"USER_STOREPERMISSIONS",
             'guard_name'=>'api',

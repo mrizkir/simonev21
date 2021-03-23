@@ -21,7 +21,7 @@ class ConfigurationTableSeeder extends Seeder
             'config_id'=>"101",
             'config_group'=>'identitas',
             'config_key'=>'NAMA_APP',
-            'config_value'=>'SISTEM INFORMASI MONITORING DAN EVALUASI PEMBANGUNAN versi 3',
+            'config_value'=>'SISTEM INFORMASI MONITORING DAN EVALUASI PEMBANGUNAN versi 21',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);    
@@ -30,7 +30,7 @@ class ConfigurationTableSeeder extends Seeder
             'config_id'=>"102",
             'config_group'=>'identitas',
             'config_key'=>'NAMA_APP_ALIAS',
-            'config_value'=>'SIMONEV VERSI 3',
+            'config_value'=>'SIMONEV VERSI 21',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);        
@@ -58,6 +58,15 @@ class ConfigurationTableSeeder extends Seeder
             'config_group'=>'basic',
             'config_key'=>'DEFAULT_TA',
             'config_value'=>date('Y'),
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('configuration')->insert([
+            'config_id'=>"202",
+            'config_group'=>'basic',
+            'config_key'=>'DEFAULT_BULAN_REALISASI',
+            'config_value'=>1,
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
@@ -170,8 +179,6 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-
-
         ConfigurationModel::toCache();
     }
 }
