@@ -14,7 +14,7 @@ class CreateConfigurationTable extends Migration
     public function up()
     {
         Schema::defaultStringLength(191);
-        Schema::create('pe3_configuration', function (Blueprint $table) {
+        Schema::create('configuration', function (Blueprint $table) {
             $table->smallInteger('config_id',1);
             $table->string('config_group');
             $table->string('config_key');
@@ -30,6 +30,6 @@ class CreateConfigurationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pe3_configuration');
+        Schema::dropIfExists('configuration');
     }
 }

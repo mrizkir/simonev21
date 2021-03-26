@@ -14,16 +14,10 @@ class TATableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::statement('DELETE FROM pe3_ta');
-        \DB::table('pe3_ta')->insert([
+        \DB::statement('DELETE FROM ta');
+        \DB::table('ta')->insert([
             'tahun'=>date('Y'),
-            'tahun_akademik'=>date('Y').'/'.(date('Y')+1),                       
-            'awal_ganjil'=>date('Y').'-09-01',
-            'akhir_ganjil'=>(date('Y')+1).'-02-01',
-            'awal_genap'=>(date('Y')+1).'-03-01',
-            'akhir_genap'=>(date('Y')+1).'-06-31',
-            'awal_pendek'=>(date('Y')+1).'-07-01',
-            'akhir_pendek'=>(date('Y')+1).'-08-31',
+            'tahun_anggaran'=>date('Y').'/'.(date('Y')+1),
         ]);        
     }
 }

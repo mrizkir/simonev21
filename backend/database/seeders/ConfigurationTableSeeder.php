@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use Carbon\Carbon;
-use App\Models\Settings\ConfigurationModel;
+use App\Models\System\ConfigurationModel;
 class ConfigurationTableSeeder extends Seeder
 {
     /**

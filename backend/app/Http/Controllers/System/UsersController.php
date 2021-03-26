@@ -90,7 +90,7 @@ class UsersController extends Controller {
 
                         if ($v=='dosenwali')
                         {
-                            \DB::table('pe3_dosen')
+                            \DB::table('dosen')
                                 ->where('user_id',$user->id)
                                 ->update(['is_dw'=>true]);
                         }
@@ -181,7 +181,7 @@ class UsersController extends Controller {
                 $prodi_id=$request->input('prodi_id');
                 $data = User::where('default_role','mahasiswabaru')
                         ->select(\DB::raw('users.id'))
-                        ->join('pe3_formulir_pendaftaran','pe3_formulir_pendaftaran.user_id','users.id')
+                        ->join('formulir_pendaftaran','formulir_pendaftaran.user_id','users.id')
                         ->where('users.ta',$ta)
                         ->where('kjur1',$prodi_id)
                         ->get();
@@ -203,9 +203,9 @@ class UsersController extends Controller {
                 $prodi_id=$request->input('prodi_id');
                 $data = User::where('default_role','mahasiswa')
                         ->select(\DB::raw('users.id'))
-                        ->join('pe3_register_mahasiswa','pe3_register_mahasiswa.user_id','users.id')
-                        ->where('pe3_register_mahasiswa.tahun',$ta)
-                        ->where('pe3_register_mahasiswa.kjur',$prodi_id)
+                        ->join('register_mahasiswa','register_mahasiswa.user_id','users.id')
+                        ->where('register_mahasiswa.tahun',$ta)
+                        ->where('register_mahasiswa.kjur',$prodi_id)
                         ->get();
 
                 foreach ($data as $user)
@@ -522,13 +522,13 @@ class UsersController extends Controller {
                         }
                         if ($v=='dosenwali' && $v=='dosen')
                         {
-                            \DB::table('pe3_dosen')
+                            \DB::table('dosen')
                                 ->where('user_id',$user->id)
                                 ->update(['is_dw'=>true]);
                         }
                         else
                         {
-                            \DB::table('pe3_dosen')
+                            \DB::table('dosen')
                                 ->where('user_id',$user->id)
                                 ->update(['is_dw'=>false]);
                         }

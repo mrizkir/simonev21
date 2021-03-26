@@ -47,7 +47,7 @@ class VariablesController extends Controller {
         
         foreach($config as $k=>$v)
         {
-            \DB::table('pe3_configuration')->where('config_id',$k)->update(['config_value'=>$v]);
+            \DB::table('configuration')->where('config_id',$k)->update(['config_value'=>$v]);
         }
 
         ConfigurationModel::clear();

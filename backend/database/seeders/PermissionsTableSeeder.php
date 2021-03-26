@@ -89,6 +89,8 @@ class PermissionsTableSeeder extends Seeder
             'DMASTER-REKENING-RINCIAN-OBJEK',
             'DMASTER-REKENING-SUB-RINCIAN-OBJEK',
 
+            'DMASTER-SUMBER-DANA',
+
             'DMASTER-OPD',
             'DMASTER-UNIT-KERJA',
             'DMASTER-JENIS-PELAKSANAAN',
@@ -97,6 +99,20 @@ class PermissionsTableSeeder extends Seeder
             'DMASTER-PEJABAT',
             'DMASTER-TA',            
 
+            'RPJMD-VISI',
+            'RPJMD-MISI',
+            'RPJMD-TUJUAN',
+            'RPJMD-SASARAN',
+            'RPJMD-STRATEGI',
+            'RPJMD-ARAH-KEBIJAKAN',
+            'RPJMD-PROGRAM-PEMBANGUNAN',
+            'RPJMD-INDIKASI-PROGRAM',
+
+            'RENSTRA-TUJUAN',
+            'RENSTRA-SASARAN',
+            'RENSTRA-STRATEGI',
+            'RENSTRA-ARAH-KEBIJAKAN',
+
             'RENJA-RKA-MURNI',
             'RENJA-RKA-PERUBAHAN',
 
@@ -104,11 +120,11 @@ class PermissionsTableSeeder extends Seeder
             'SYSTEM-SETTING-ROLES',
 
             'SYSTEM-USERS-SUPERADMIN',
-            'SYSTEM-USERS-USERS-BAPELITBANG',
-            'SYSTEM-USERS-USERS-OPD',
-            'SYSTEM-USERS-USERS-PPTK',
-            'SYSTEM-USERS-USERS-DEWAN',
-            'SYSTEM-USERS-USERS-TAPD',            
+            'SYSTEM-USERS-BAPELITBANG',
+            'SYSTEM-USERS-OPD',
+            'SYSTEM-USERS-PPTK',
+            'SYSTEM-USERS-DEWAN',
+            'SYSTEM-USERS-TAPD',            
         ];
         $records=[];
         foreach($modules as $v)
@@ -131,7 +147,7 @@ class PermissionsTableSeeder extends Seeder
         ]);
         
         \DB::table('permissions')->insert([
-            'name'=>"EVALUASI-EVALUASI_BROWSE",
+            'name'=>"RENSTRA-EVALUASI_BROWSE",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()

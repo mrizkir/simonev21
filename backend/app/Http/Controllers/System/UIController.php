@@ -108,7 +108,7 @@ class UIController extends Controller {
                                 ->whereExists(function ($query) use ($userid) {
                                     $query->select(\DB::raw(1))
                                         ->from('usersprodi')
-                                        ->join('pe3_prodi','pe3_prodi.id','usersprodi.prodi_id')
+                                        ->join('prodi','prodi.id','usersprodi.prodi_id')
                                         ->where('user_id',$userid);
                                 })
                                 ->get();
@@ -142,7 +142,7 @@ class UIController extends Controller {
                                 ->whereExists(function ($query) use ($userid) {
                                     $query->select(\DB::raw(1))
                                         ->from('usersprodi')
-                                        ->join('pe3_prodi','pe3_prodi.id','usersprodi.prodi_id')
+                                        ->join('prodi','prodi.id','usersprodi.prodi_id')
                                         ->where('user_id',$userid);
                                 })
                                 ->get();
@@ -176,7 +176,7 @@ class UIController extends Controller {
                                 ->whereExists(function ($query) use ($userid) {
                                     $query->select(\DB::raw(1))
                                         ->from('usersprodi')
-                                        ->join('pe3_prodi','pe3_prodi.id','usersprodi.prodi_id')
+                                        ->join('prodi','prodi.id','usersprodi.prodi_id')
                                         ->where('user_id',$userid);
                                 })
                                 ->get();
@@ -242,7 +242,7 @@ class UIController extends Controller {
                             ->whereExists(function ($query) use ($userid) {
                                 $query->select(\DB::raw(1))
                                     ->from('usersprodi')
-                                    ->join('pe3_prodi','pe3_prodi.id','usersprodi.prodi_id')
+                                    ->join('prodi','prodi.id','usersprodi.prodi_id')
                                     ->where('user_id',$userid);
                             })
                             ->get();

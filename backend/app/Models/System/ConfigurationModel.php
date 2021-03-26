@@ -11,7 +11,7 @@ class ConfigurationModel extends Model {
      *
      * @var string
      */
-    protected $table = 'pe3_configuration';
+    protected $table = 'configuration';
     /**
      * primary key tabel ini.
      *
