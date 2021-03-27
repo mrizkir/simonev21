@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
 use App\Models\DMaster\TAModel;
-use App\Models\DMaster\FakultasModel;
-use App\Models\DMaster\ProgramStudiModel;
-use App\Models\DMaster\StatusMahasiswaModel;
-
 
 class UIController extends Controller {
     /**
@@ -18,33 +14,32 @@ class UIController extends Controller {
     public function frontend ()
     {
         $config = ConfigurationModel::getCache();        
-        $captcha_site_key = $config['CAPTCHA_SITE_KEY'];
-        $tahun_pendaftaran = $config['DEFAULT_TAHUN_PENDAFTARAN'];
-        $semester_pendaftaran = $config['DEFAULT_SEMESTER_PENDAFTARAN'];
-        $identitas['nama_pt']=$config['NAMA_PT'];
-        $identitas['nama_pt_alias']=$config['NAMA_PT_ALIAS'];
-        $identitas['bentuk_pt']=$config['BENTUK_PT'];
+        $identitas['nama_app']=$config['NAMA_APP'];
+        $identitas['nama_app_alias']=$config['NAMA_APP_ALIAS'];
+        $identitas['nama_opd']=$config['NAMA_OPD'];
+        $identitas['nama_opd_alias']=$config['NAMA_OPD_ALIAS'];       
 
         $theme=[
-            'V_SYSTEM_BAR_CSS_CLASS'=>$config['V_SYSTEM_BAR_CSS_CLASS'],
-            'V_APP_BAR_NAV_ICON_CSS_CLASS'=>$config['V_APP_BAR_NAV_ICON_CSS_CLASS'],
-            'V_NAVIGATION_DRAWER_CSS_CLASS'=>$config['V_NAVIGATION_DRAWER_CSS_CLASS'],
-            'V_LIST_ITEM_BOARD_CSS_CLASS'=>$config['V_LIST_ITEM_BOARD_CSS_CLASS'],
-            'V_LIST_ITEM_BOARD_COLOR'=>$config['V_LIST_ITEM_BOARD_COLOR'],
-            'V_LIST_ITEM_ACTIVE_CSS_CLASS'=>$config['V_LIST_ITEM_ACTIVE_CSS_CLASS'],
-            'COLOR_DASHBOARD'=>json_decode($config['COLOR_DASHBOARD'],true)
+            'V-SYSTEM-BAR-CSS-CLASS'=>$config['V-SYSTEM-BAR-CSS-CLASS'],
+            'V-APP-BAR-NAV-ICON-CSS-CLASS'=>$config['V-APP-BAR-NAV-ICON-CSS-CLASS'],
+            'V-NAVIGATION-DRAWER-CSS-CLASS'=>$config['V-NAVIGATION-DRAWER-CSS-CLASS'],
+            'V-LIST-ITEM-BOARD-CSS-CLASS'=>$config['V-LIST-ITEM-BOARD-CSS-CLASS'],
+            'V-LIST-ITEM-BOARD-COLOR'=>$config['V-LIST-ITEM-BOARD-COLOR'],
+            'V-LIST-ITEM-ACTIVE-CSS-CLASS'=>$config['V-LIST-ITEM-ACTIVE-CSS-CLASS'],            
         ];
+        $daftar_ta=TAModel::select(\DB::raw('tahun AS value,tahun AS text'))
+                                ->orderBy('tahun','asc')
+                                ->get();
         return Response()->json([
                                     'status'=>1,
-                                    'pid'=>'fetchdata',
-                                    'captcha_site_key'=>$captcha_site_key,
-                                    'tahun_pendaftaran'=>$tahun_pendaftaran,
-                                    'semester_pendaftaran'=>$semester_pendaftaran,
-                                    'identitas'=>$identitas,
-                                    'theme'=>$identitas,
+                                    'pid'=>'fetchdata',                                    
+                                    'tahun_anggaran'=>$config['DEFAULT_TA'],
+                                    'bulan_realisasi'=>date('m'),
+                                    'identitas'=>$identitas,       
+                                    'daftar_ta'=>$daftar_ta,                             
                                     'theme'=>$theme,
                                     'message'=>'Fetch data ui untuk front berhasil diperoleh'
-                                ],200);
+                                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
     /**
      * digunakan untuk mendapatkan setting variabel ui admin

@@ -5,6 +5,8 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix'=>'v1'], function () use ($router)
 {
+    //dashboard
+    $router->post('/dashboard/front',['uses'=>'DashboardController@indexfront','as'=>'dashboard.indexfront']);
 
     //dmaster - provinsi
     $router->get('/datamaster/provinsi',['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);

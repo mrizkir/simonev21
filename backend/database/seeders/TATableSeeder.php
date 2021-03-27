@@ -17,7 +17,7 @@ class TATableSeeder extends Seeder
         \DB::statement('DELETE FROM ta');
         \DB::table('ta')->insert([
             'tahun'=>date('Y'),
-            'tahun_anggaran'=>date('Y').'/'.(date('Y')+1),
+            'tahun_anggaran'=>'Realisasi T.A 2021 sesuai SIPD',
         ]);        
     }
 }
