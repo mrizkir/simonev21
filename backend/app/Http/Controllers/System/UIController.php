@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
 use App\Models\DMaster\TAModel;
 
+use App\Helpers\Helper;
+
 class UIController extends Controller {
     /**
      * digunakan untuk mendapatkan setting variabel ui frontend
@@ -30,6 +32,16 @@ class UIController extends Controller {
         $daftar_ta=TAModel::select(\DB::raw('tahun AS value,tahun AS text'))
                                 ->orderBy('tahun','asc')
                                 ->get();
+
+        $bulan=Helper::getNamaBulan();
+        $daftar_bulan = [];
+        foreach ($bulan as $k=>$v)
+        {
+            $daftar_bulan[]=[
+                'text'=>$v,
+                'value'=>$k,
+            ];
+        }
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',                                    
@@ -37,6 +49,7 @@ class UIController extends Controller {
                                     'bulan_realisasi'=>date('m'),
                                     'identitas'=>$identitas,       
                                     'daftar_ta'=>$daftar_ta,                             
+                                    'daftar_bulan'=>$daftar_bulan,                             
                                     'theme'=>$theme,
                                     'message'=>'Fetch data ui untuk front berhasil diperoleh'
                                 ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);

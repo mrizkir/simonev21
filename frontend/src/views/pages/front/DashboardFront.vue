@@ -261,11 +261,10 @@
 					]
 			}),
 		methods: {
-			changeTahunAnggaran (ta){
+			changeTahunAnggaran(ta) {
 					this.tahun_anggaran=ta;
 			},
-			changeBulanRealisasi (bulan)
-			{
+			changeBulanRealisasi(bulan) {
 					this.bulan_realisasi=bulan;
 			},
 			async initialize() {

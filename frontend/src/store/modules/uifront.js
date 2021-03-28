@@ -3,7 +3,14 @@ const getDefaultState = () => {
 		loaded: false,
 		daftar_ta: [],
 		tahun_anggaran: null,
+		daftar_bulan: [],
 		bulan_realisasi: null,
+		identitas: {
+			nama_app: "",
+			nama_app_alias: "",
+			nama_opd: "",
+			nama_opd_alias: "",
+		},
 		theme: null,
 	};
 };
@@ -19,8 +26,14 @@ const mutations = {
 	setTahunAnggaran(state, ta) {
 		state.tahun_anggaran = ta;
 	},
+	setDaftarBulan(state, daftar) {
+		state.daftar_bulan = daftar;
+	},
 	setBulanRealisasi(state, bulan) {
 		state.bulan_realisasi = bulan;
+	},
+	setIdentitas(state, identitas) {
+		state.identitas = identitas;
 	},
 	setTheme(state, theme) {
 		state.theme = theme;
@@ -34,12 +47,24 @@ const getters = {
 		return state.daftar_ta;
 	},
 	getTahunAnggaran: state => {
-		var ta = state.tahun_anggaran == null ? new Date().getFullYear() : state.tahun_anggaran;
+		var ta =
+			state.tahun_anggaran == null
+				? new Date().getFullYear()
+				: state.tahun_anggaran;
 		return ta;
+	},
+	getDaftarBulan: state => {
+		return state.daftar_bulan;
 	},
 	getBulanRealisasi: state => {
 		var bulan = state.bulan_realisasi == null ? 1 : state.bulan_realisasi;
 		return bulan;
+	},
+	getNamaAPP: state => {
+		return state.identitas.nama_app;
+	},
+	getNamaAPPAlias: state => {
+		return state.identitas.nama_app_alias;
 	},
 	getTheme: state => key => {
 		return state.theme == null ? "" : state.theme[key];
@@ -50,15 +75,25 @@ const actions = {
 		//dipindahkan kesini karena ada beberapa kasus yang melaporkan ini membuat bermasalah.
 		commit("setLoaded", false);
 		if (!state.loaded) {
-			await ajax.get("/system/setting/uifront")
-				.then(({ data }) => {
-					commit("setDaftarTA", data.daftar_ta);
-					commit("setTahunAnggaran", data.tahun_anggaran);
-					commit("setBulanRealisasi", data.bulan_realisasi);
-					commit("setTheme", data.theme);
-					commit("setLoaded", true);
+			ajax.get("/system/setting/uifront").then(({ data }) => {
+				commit("setDaftarTA", data.daftar_ta);
+				commit("setTahunAnggaran", data.tahun_anggaran);
+				commit("setDaftarBulan", data.daftar_bulan);
+				commit("setBulanRealisasi", data.bulan_realisasi);
+				commit("setIdentitas", data.identitas);
+				commit("setTheme", data.theme);
+				commit("setLoaded", true);
 			});
 		}
+	},
+	updateTahunAnggaran({ commit }, tahun) {
+		commit("setTahunAnggaran", tahun);
+	},
+	updateBulanRealisasi({ commit }, bulan) {
+		commit("setBulanRealisasi", bulan);
+	},
+	reinit({ commit }) {
+		commit("resetState");
 	},
 };
 export default {
