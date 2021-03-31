@@ -56,6 +56,14 @@ const getters = {
 	getDaftarBulan: state => {
 		return state.daftar_bulan;
 	},
+	getNamaBulan: state => key => {
+		if (key == "" || key == null || key == "undefined") {
+			return "N.A";
+		} else {
+			var daftar_bulan = state.daftar_bulan.find(el => el.value == key);
+			return daftar_bulan.text;
+		}
+	},
 	getBulanRealisasi: state => {
 		var bulan = state.bulan_realisasi == null ? 1 : state.bulan_realisasi;
 		return bulan;

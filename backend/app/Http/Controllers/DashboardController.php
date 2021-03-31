@@ -22,15 +22,15 @@ class DashboardController extends Controller
         $bulan_realisasi=$request->input('bulan_realisasi');
         
         $statistik1_murni = Statistik1Model::select(\DB::raw('
-                                            "PaguDana1",
-                                            "JumlahProgram1",
-                                            "JumlahKegiatan1",
-                                            "RealisasiKeuangan1",
-                                            "RealisasiFisik1",
-                                            0 AS "PersenRealisasiKeuangan1"
+                                            `PaguDana1`,
+                                            `JumlahProgram1`,
+                                            `JumlahKegiatan1`,
+                                            `RealisasiKeuangan1`,
+                                            `RealisasiFisik1`,
+                                            0 AS `PersenRealisasiKeuangan1`
                                         '))
                                         ->find($tahun);
-
+        
         if (is_null($statistik1_murni) )
         {
             $statistik1_murni = Statistik1Model::create([
@@ -71,11 +71,11 @@ class DashboardController extends Controller
                                     ->count();
                                     
         $statistik2=Statistik2Model::select(\DB::raw('
-                                                "Bulan",
-                                                SUM("PersenTargetKeuangan1") AS "PersenTargetKeuangan1",
-                                                SUM("PersenRealisasiKeuangan1") AS "PersenRealisasiKeuangan1",                                                
-                                                SUM("TargetFisik1") AS "TargetFisik1",
-                                                SUM("RealisasiFisik1") AS "RealisasiFisik1"                                                
+                                                `Bulan`,
+                                                SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
+                                                SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
+                                                SUM(`TargetFisik1`) AS `TargetFisik1`,
+                                                SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
                                             '))
                                             ->where('TA',$tahun)                                                                                       
                                             ->where('EntryLvl',0)        
@@ -173,12 +173,12 @@ class DashboardController extends Controller
         }
         //perubahan
         $statistik1_perubahan = Statistik1Model::select(\DB::raw('
-                                            "PaguDana2",
-                                            "JumlahProgram2",
-                                            "JumlahKegiatan2",
-                                            "RealisasiKeuangan2",
-                                            "RealisasiFisik2",
-                                            0 AS "PersenRealisasiKeuangan2"
+                                            `PaguDana2`,
+                                            `JumlahProgram2`,
+                                            `JumlahKegiatan2`,
+                                            `RealisasiKeuangan2`,
+                                            `RealisasiFisik2`,
+                                            0 AS `PersenRealisasiKeuangan2`
                                         '))
                                         ->find($tahun);
 
@@ -202,11 +202,11 @@ class DashboardController extends Controller
         ];
 
         $statistik2=Statistik2Model::select(\DB::raw('
-                                                "Bulan",
-                                                SUM("PersenTargetKeuangan2") AS "PersenTargetKeuangan2",
-                                                SUM("PersenRealisasiKeuangan2") AS "PersenRealisasiKeuangan2",                                                
-                                                SUM("TargetFisik2") AS "TargetFisik2",
-                                                SUM("RealisasiFisik2") AS "RealisasiFisik2"                                                
+                                                `Bulan`,
+                                                SUM(`PersenTargetKeuangan2`) AS `PersenTargetKeuangan2`,
+                                                SUM(`PersenRealisasiKeuangan2`) AS `PersenRealisasiKeuangan2`,                                                
+                                                SUM(`TargetFisik2`) AS `TargetFisik2`,
+                                                SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
                                             '))
                                             ->where('TA',$tahun)                                                                                   
                                             ->where('EntryLvl',0)        
@@ -305,7 +305,7 @@ class DashboardController extends Controller
         }
         return Response()->json([
                                 'status'=>1,
-                                'pid'=>'fetchdata',                                                             
+                                'pid'=>'fetchdata',                                                            
                                 'statistik1_murni'=>$statistik1_murni,                                                                                                                                                             
                                 'statistik1_perubahan'=>$statistik1_perubahan,              
                                 'chart_keuangan_murni'=>$chart_keuangan_murni,
@@ -313,6 +313,6 @@ class DashboardController extends Controller
                                 'chart_fisik_murni'=>$chart_fisik_murni,                                                                                                                                               
                                 'chart_fisik_perubahan'=>$chart_fisik_perubahan,                                                                                                                                               
                                 'message'=>'Fetch data dashboard berhasil diperoleh'
-                            ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+                            ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 }

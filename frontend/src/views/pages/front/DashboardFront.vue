@@ -1,8 +1,8 @@
 <template>
-		<FrontLayout>        
-				<template v-slot:system-bar>
-					Tahun Anggaran: {{tahun_anggaran}} | Bulan Realisasi: {{$store.getters["uifront/getNamaBulan"]}}
-				</template>
+	<FrontLayout>        
+		<template v-slot:system-bar>
+			Tahun Anggaran: {{ tahun_anggaran }} | Bulan Realisasi: {{ $store.getters["uifront/getNamaBulan"]($store.getters["uifront/getBulanRealisasi"]) }}
+		</template>
 				<v-container fluid>
 						<v-row dense>
 								<v-col cols="12">

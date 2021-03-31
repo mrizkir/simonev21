@@ -11,6 +11,14 @@ const routes = [
 		},
 		component: () => import("../views/pages/front/DashboardFront.vue"),
 	},
+	{
+		path: "/login",
+		name: "Login",
+		meta: {
+			title: "LOGIN",
+		},
+		component: () => import("../views/pages/front/Login.vue"),
+	},
 ];
 
 const router = new VueRouter({

@@ -10,12 +10,18 @@ Vue.use(api);
 
 Vue.config.productionTip = false;
 
-Vue.filter("formatUang", function(value) 
-{
+Vue.filter("formatUang", function(value) {
 	var num = new Number(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1.");
 	var pos = num.lastIndexOf(".");
-	num = num.substring(0,pos) + "," + num.substring(pos+1)	
+	num = num.substring(0, pos) + "," + num.substring(pos + 1);
 	return num;
+});
+Vue.filter("makeLookPrecision", function(value) {
+	if (value) {
+		return new Number(value).toFixed(2);
+	} else {
+		return "0.00";
+	}
 });
 
 new Vue({
