@@ -1,7 +1,12 @@
 <template>
 	<FrontLayout :showrightsidebar="false">
 		<template v-slot:system-bar>
-			Tahun Anggaran: {{ tahun_anggaran }} | Bulan Realisasi: {{ $store.getters["uifront/getNamaBulan"]($store.getters["uifront/getBulanRealisasi"]) }}
+			Tahun Anggaran: {{ tahun_anggaran }} | Bulan Realisasi:
+			{{
+				$store.getters["uifront/getNamaBulan"](
+					$store.getters["uifront/getBulanRealisasi"]
+				)
+			}}
 		</template>
 		<v-parallax
 			dark

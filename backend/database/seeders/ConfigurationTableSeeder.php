@@ -179,6 +179,16 @@ class ConfigurationTableSeeder extends Seeder
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
+
+        \DB::table('configuration')->insert([
+			'config_id'=>"901",
+			'config_group'=>'server',
+			'config_key'=>'TOKEN_TTL_EXPIRE',
+			'config_value'=>'60',//minute
+			'created_at'=>Carbon::now(),
+			'updated_at'=>Carbon::now()
+		]);
+
         ConfigurationModel::toCache();
     }
 }

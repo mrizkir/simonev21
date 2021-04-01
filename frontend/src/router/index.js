@@ -19,6 +19,16 @@ const routes = [
 		},
 		component: () => import("../views/pages/front/Login.vue"),
 	},
+	//admin
+	//dashboard
+	{
+		path: "/dashboard/:token",
+		name: "DashboardAdmin",
+		meta: {
+			title: "DASHBOARD",
+		},
+		component: () => import("../views/pages/admin/DashboardAdmin.vue"),
+	},
 ];
 
 const router = new VueRouter({
