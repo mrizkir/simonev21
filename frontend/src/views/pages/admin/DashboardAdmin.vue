@@ -6,14 +6,16 @@
 			:class="this.$store.getters['uifront/getTheme']('V-SYSTEM-BAR-CSS-CLASS')"
 		>
 			<v-spacer></v-spacer>
-			<strong>Hak Akses Sebagai :</strong> {{ ROLE }}
-			Tahun Anggaran: {{ this.$store.getters["uifront/getTahunAnggaran"] }} | Bulan Realisasi:
+			<strong>Hak Akses Sebagai:</strong> {{ ROLE }} |
+			<strong>Tahun Anggaran:</strong>
+			{{ this.$store.getters["uifront/getTahunAnggaran"] }} |
+			<strong>Bulan Realisasi:</strong>
 			{{
 				$store.getters["uifront/getNamaBulan"](
 					$store.getters["uifront/getBulanRealisasi"]
 				)
 			}}
-		</v-system-bar>	
+		</v-system-bar>
 	</div>
 </template>
 <script>

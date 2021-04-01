@@ -1,7 +1,7 @@
 <template>
 	<FrontLayout :showrightsidebar="false">
 		<template v-slot:system-bar>
-			Tahun Anggaran: {{ tahun_anggaran }} | Bulan Realisasi:
+			Tahun Anggaran: {{ formlogin.tahun_anggaran }} | Bulan Realisasi:
 			{{
 				$store.getters["uifront/getNamaBulan"](
 					$store.getters["uifront/getBulanRealisasi"]
@@ -85,17 +85,24 @@
 	export default {
 		name: "Login",
 		created() {
-			this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+			this.$store.dispatch("uifront/init", this.$ajax);
 			if (this.$store.getters["auth/Authenticated"]) {
 				this.$router.push(
 					"/dashboard/" + this.$store.getters["auth/AccessToken"]
 				);
 			}
 		},
+		mounted() {
+			this.formlogin.tahun_anggaran = this.$store.getters[
+				"uifront/getTahunAnggaran"
+			];
+			this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+		},
 		data: () => ({
 			btnLoading: false,
 			//form
 			form_error: false,
+			daftar_ta: [],
 			formlogin: {
 				username: "",
 				password: "",
