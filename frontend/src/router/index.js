@@ -1,6 +1,7 @@
 import Vue from "vue";
 import store from "../store/index";
 import VueRouter from "vue-router";
+import NotFoundComponent from "../components/NotFoundComponent";
 Vue.use(VueRouter);
 const routes = [
 	{
@@ -28,6 +29,38 @@ const routes = [
 			title: "DASHBOARD",
 		},
 		component: () => import("../views/pages/admin/DashboardAdmin.vue"),
+	},
+	//dmaster
+	{
+		path: "/dmaster",
+		name: "DMaster",
+		meta: {
+			title: "DATA MASTER",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/DMaster.vue"),
+	},
+	{
+		path: '/dmaster/kodefikasi/kelompokurusan',
+		name: 'KodefikasiKelompokUrusan',
+		meta:{
+			title: "KODEFIKASI - KELOMPOK URUSAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/KodefikasiKelompokUrusan.vue"),		
+	},
+	// other page
+	{
+		path: "/404",
+		name: "NotFoundComponent",
+		meta: {
+			title: "PAGE NOT FOUND"
+		},
+		component: NotFoundComponent
+	},
+	{ 
+		path: "*", 
+		redirect: "/404", 
 	},
 ];
 

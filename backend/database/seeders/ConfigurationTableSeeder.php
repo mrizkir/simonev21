@@ -1,11 +1,12 @@
 <?php
 
-namespace Database\Seeders;
+namespace database\Seeders;
 
 use Illuminate\Database\Seeder;
 
 use Carbon\Carbon;
 use App\Models\System\ConfigurationModel;
+
 class ConfigurationTableSeeder extends Seeder
 {
     /**
@@ -129,8 +130,8 @@ class ConfigurationTableSeeder extends Seeder
         \DB::table('configuration')->insert([
             'config_id'=>"802",
             'config_group'=>'theme',
-            'config_key'=>'V-APP-BAR-NAV-ICON-CSS-CLASS',
-            'config_value'=>'grey--text',
+            'config_key'=>'V-APP-BAR-CSS-CLASS',
+            'config_value'=>'purple darken-4 green--text font-weight-bold',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
@@ -138,17 +139,17 @@ class ConfigurationTableSeeder extends Seeder
         \DB::table('configuration')->insert([
             'config_id'=>"803",
             'config_group'=>'theme',
-            'config_key'=>'V-NAVIGATION-DRAWER-CSS-CLASS',
-            'config_value'=>'blue darken-1',
+            'config_key'=>'V-APP-BAR-COLOR',
+            'config_value'=>'green',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
-        
+
         \DB::table('configuration')->insert([
             'config_id'=>"804",
             'config_group'=>'theme',
-            'config_key'=>'V-LIST-ITEM-BOARD-CSS-CLASS',
-            'config_value'=>'yellow',
+            'config_key'=>'V-APP-BAR-NAV-ICON-CSS-CLASS',
+            'config_value'=>'grey--text',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
@@ -156,8 +157,8 @@ class ConfigurationTableSeeder extends Seeder
         \DB::table('configuration')->insert([
             'config_id'=>"805",
             'config_group'=>'theme',
-            'config_key'=>'V-LIST-ITEM-BOARD-COLOR',
-            'config_value'=>'blue',
+            'config_key'=>'V-NAVIGATION-DRAWER-CSS-CLASS',
+            'config_value'=>'purple darken-3',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
@@ -165,14 +166,32 @@ class ConfigurationTableSeeder extends Seeder
         \DB::table('configuration')->insert([
             'config_id'=>"806",
             'config_group'=>'theme',
-            'config_key'=>'V-LIST-ITEM-ACTIVE-CSS-CLASS',
-            'config_value'=>'blue darken-1',
+            'config_key'=>'V-LIST-ITEM-BOARD-CSS-CLASS',
+            'config_value'=>'purple accent-1',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        \DB::table('configuration')->insert([
+            'config_id'=>"807",
+            'config_group'=>'theme',
+            'config_key'=>'V-LIST-ITEM-BOARD-COLOR',
+            'config_value'=>'purple',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         
         \DB::table('configuration')->insert([
-            'config_id'=>"807",
+            'config_id'=>"808",
+            'config_group'=>'theme',
+            'config_key'=>'V-LIST-ITEM-ACTIVE-CSS-CLASS',
+            'config_value'=>'purple darken-3 white--text',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('configuration')->insert([
+            'config_id'=>"809",
             'config_group'=>'theme',
             'config_key'=>'V-APP-BAR-NAV-ICON-CSS-CLASS',
             'config_value'=>'grey--text',

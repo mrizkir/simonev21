@@ -4,8 +4,6 @@ const getDefaultState = () => {
 		//page
 		default_dashboard: null,
 		pages: [],
-
-		theme: null,
 	};
 };
 const state = getDefaultState();
@@ -33,9 +31,6 @@ const mutations = {
 			}
 		}
 	},
-	setTheme(state, theme) {
-		state.theme = theme;
-	},
 	resetState(state) {
 		Object.assign(state, getDefaultState());
 	},
@@ -48,9 +43,6 @@ const getters = {
 	AtributeValueOfPage: state => (name, key) => {
 		let page = state.pages.find(halaman => halaman.name == name);
 		return page[key];
-	},
-	getTheme: state => key => {
-		return state.theme == null ? "" : state.theme[key];
 	},
 };
 const actions = {

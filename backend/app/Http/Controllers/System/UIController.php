@@ -23,6 +23,8 @@ class UIController extends Controller {
 
         $theme=[
             'V-SYSTEM-BAR-CSS-CLASS'=>$config['V-SYSTEM-BAR-CSS-CLASS'],
+            'V-APP-BAR-CSS-CLASS'=>$config['V-APP-BAR-CSS-CLASS'],
+            'V-APP-BAR-COLOR'=>$config['V-APP-BAR-COLOR'],
             'V-APP-BAR-NAV-ICON-CSS-CLASS'=>$config['V-APP-BAR-NAV-ICON-CSS-CLASS'],
             'V-NAVIGATION-DRAWER-CSS-CLASS'=>$config['V-NAVIGATION-DRAWER-CSS-CLASS'],
             'V-LIST-ITEM-BOARD-CSS-CLASS'=>$config['V-LIST-ITEM-BOARD-CSS-CLASS'],

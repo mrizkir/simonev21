@@ -131,9 +131,9 @@
 			<v-card class="flex" flat tile>
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
-					<strong>{{ NamaAPP }} (2019-2020)</strong>
+					<strong>{{ NamaAPP }} (2019-2021)</strong>
 					dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
-					<v-btn dark icon href="https://github.com/mrizkir/simonev">
+					<v-btn dark icon href="https://github.com/mrizkir/simonev21">
 						<v-icon>mdi-github</v-icon>
 					</v-btn>
 				</v-card-text>
