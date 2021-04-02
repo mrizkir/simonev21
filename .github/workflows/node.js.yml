@@ -39,5 +39,15 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET_FRONTEND }}
-          EXCLUDE: "/frontend/dist/, /frontend/node_modules/,/frontend/public/,/frontend/**"
+          TARGET: ${{ secrets.REMOTE_TARGET_FRONTEND }}          
+    - name: Deploy Backend
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rltgoDzvO"
+          SOURCE: "backend/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET_BACKEND }}
+          EXCLUDE: "backend/storage/, backend/storages/"
