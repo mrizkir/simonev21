@@ -29,6 +29,7 @@ jobs:
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "frontend/dist/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET_FRONTEND }}
           EXCLUDE: "/frontend/dist/, /frontend/node_modules/,/frontend/public/,/frontend/**"
