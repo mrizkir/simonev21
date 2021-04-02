@@ -78,34 +78,34 @@
 		<v-main>
 			<v-container fluid>
 				<v-row>
-					<v-col xs="12" sm="4" md="3" v-if="$store.getters['auth/can']('DMASTER-GROUP')">
-							<v-card 
-								elevation="0"
-								class="mx-auto clickable deep-purple darken-1"
-								max-width="344"
-								min-height="230"
-								color="#385F73"
-								@click.native="$router.push('/dmaster')">
-								<div class="text-center pt-4">
-									<v-btn
-										class="mx-2"
-										fab
-										dark
-										large
-										elevation ="0"
-										color="white">
-										<v-icon 
-											color="#DA4453">
-											mdi-monitor-multiple
-										</v-icon>
-									</v-btn>
-								</div>
-								<v-card-title class="white--text font-weight-bold justify-center">
-									DATA MASTER
-								</v-card-title>    
-								<v-card-subtitle class="white--text font-weight-medium text-center">
-									Pengaturan berbagai parameter sebagai referensi dari modul-modul lain dalam sistem.
-								</v-card-subtitle>
+					<v-col
+						xs="12"
+						sm="4"
+						md="3"
+						v-if="$store.getters['auth/can']('DMASTER-GROUP')"
+					>
+						<v-card
+							elevation="0"
+							class="mx-auto clickable deep-purple darken-1"
+							max-width="344"
+							min-height="230"
+							color="#385F73"
+							@click.native="$router.push('/dmaster')"
+						>
+							<div class="text-center pt-4">
+								<v-btn class="mx-2" fab dark large elevation="0" color="white">
+									<v-icon color="#DA4453">mdi-monitor-multiple</v-icon>
+								</v-btn>
+							</div>
+							<v-card-title class="white--text font-weight-bold justify-center">
+								DATA MASTER
+							</v-card-title>
+							<v-card-subtitle
+								class="white--text font-weight-medium text-center"
+							>
+								Pengaturan berbagai parameter sebagai referensi dari modul-modul
+								lain dalam sistem.
+							</v-card-subtitle>
 						</v-card>
 					</v-col>
 				</v-row>
@@ -115,7 +115,9 @@
 			<v-card class="flex" flat tile>
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
-					<strong>{{ this.$store.getters['uifront/getNamaAPP'] }}(2019-2021)</strong>
+					<strong>
+						{{ this.$store.getters["uifront/getNamaAPP"] }}(2019-2021)
+					</strong>
 					dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
 					<v-btn dark icon href="https://github.com/mrizkir/simonev21">
 						<v-icon>mdi-github</v-icon>
@@ -185,15 +187,11 @@
 					)
 					.then(() => {
 						this.$store.dispatch("auth/logout");
-						this.$store.dispatch("uifront/reinit");
-						this.$store.dispatch("uiadmin/reinit");
-						this.$router.push("/");
+						this.$router.push("/login");
 					})
 					.catch(() => {
 						this.$store.dispatch("auth/logout");
-						this.$store.dispatch("uifront/reinit");
-						this.$store.dispatch("uiadmin/reinit");
-						this.$router.push("/");
+						this.$router.push("/login");
 					});
 			},
 		},

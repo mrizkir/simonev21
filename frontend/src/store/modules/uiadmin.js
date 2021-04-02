@@ -86,8 +86,9 @@ const actions = {
 		commit("setDashboard", name);
 	},
 
-	reinit({ commit }) {
+	reinit({ commit, dispatch }, ajax) {
 		commit("resetState");
+		dispatch("init", ajax);
 	},
 };
 export default {

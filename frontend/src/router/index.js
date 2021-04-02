@@ -40,27 +40,39 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/DMaster.vue"),
 	},
+	//dmaster - kelompok urusan
 	{
-		path: '/dmaster/kodefikasi/kelompokurusan',
-		name: 'KodefikasiKelompokUrusan',
-		meta:{
+		path: "/dmaster/kodefikasi/kelompokurusan",
+		name: "KodefikasiKelompokUrusan",
+		meta: {
 			title: "KODEFIKASI - KELOMPOK URUSAN",
 			requiresAuth: true,
 		},
-		component: () => import("../views/pages/admin/dmaster/KodefikasiKelompokUrusan.vue"),		
+		component: () =>
+			import("../views/pages/admin/dmaster/KodefikasiKelompokUrusan.vue"),
+	},
+	//dmaster - pegawai
+	{
+		path: "/dmaster/asn",
+		name: "DMasterASN",
+		meta: {
+			title: "ASN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/ASN.vue"),
 	},
 	// other page
 	{
 		path: "/404",
 		name: "NotFoundComponent",
 		meta: {
-			title: "PAGE NOT FOUND"
+			title: "PAGE NOT FOUND",
 		},
-		component: NotFoundComponent
+		component: NotFoundComponent,
 	},
-	{ 
-		path: "*", 
-		redirect: "/404", 
+	{
+		path: "*",
+		redirect: "/404",
 	},
 ];
 

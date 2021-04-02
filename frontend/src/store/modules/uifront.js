@@ -100,8 +100,9 @@ const actions = {
 	updateBulanRealisasi({ commit }, bulan) {
 		commit("setBulanRealisasi", bulan);
 	},
-	reinit({ commit }) {
+	reinit({ commit, dispatch }, ajax) {
 		commit("resetState");
+		dispatch("init", ajax);
 	},
 };
 export default {
