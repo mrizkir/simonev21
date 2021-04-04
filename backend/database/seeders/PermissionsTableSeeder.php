@@ -76,7 +76,7 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         $modules = [            
-            'DMASTER-KODEFIKASI-KELOMPOK-URUSAN',
+            'DMASTER-KODEFIKASI-URUSAN',
             'DMASTER-KODEFIKASI-BIDANG-URUSAN',
             'DMASTER-KODEFIKASI-PROGRAM',
             'DMASTER-KODEFIKASI-KEGIATAN',

@@ -15,8 +15,19 @@ class CreateOrganisasiTable extends Migration
     {
         Schema::create('tmOrg', function (Blueprint $table) {
             $table->uuid('OrgID');
-            $table->uuid('BidangID')->nullable();
-            $table->string('Nm_Bidang');
+            
+            $table->uuid('BidangID_1')->nullable();
+            $table->string('kode_bidang_1',5)->nullable();
+            $table->string('Nm_Bidang_1')->nullable();
+
+            $table->uuid('BidangID_2')->nullable();
+            $table->string('kode_bidang_2',5)->nullable();
+            $table->string('Nm_Bidang_2')->nullable();
+
+            $table->uuid('BidangID_3')->nullable();
+            $table->string('kode_bidang_3')->nullable();
+            $table->string('Nm_Bidang_3')->nullable();
+            
             $table->string('kode_organisasi');
             $table->string('Kd_Organisasi',5);
             $table->string('Nm_Organisasi');            
@@ -39,12 +50,29 @@ class CreateOrganisasiTable extends Migration
             $table->timestamps();
 
             $table->primary('OrgID'); 
-            $table->index('BidangID'); 
+            $table->index('BidangID_1'); 
+            $table->index('kode_bidang_1'); 
+            $table->index('BidangID_2'); 
+            $table->index('kode_bidang_2'); 
+            $table->index('BidangID_3');
+            $table->index('kode_bidang_3');  
             $table->index('kode_organisasi'); 
             $table->index('Kd_Organisasi'); 
             $table->index('Nm_Organisasi');             
 
-            $table->foreign('BidangID')
+            $table->foreign('BidangID_1')
+                ->references('BidangID')
+                ->on('tmBidangUrusan')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+
+            $table->foreign('BidangID_2')
+                ->references('BidangID')
+                ->on('tmBidangUrusan')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+
+            $table->foreign('BidangID_3')
                 ->references('BidangID')
                 ->on('tmBidangUrusan')
                 ->onDelete('set null')

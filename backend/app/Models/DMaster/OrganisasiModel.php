@@ -18,8 +18,19 @@ class OrganisasiModel extends Model {
      */
     protected $fillable = [
         'OrgID', 
-        'BidangID', 
-        'Nm_Bidang', 
+        
+        'BidangID_1',         
+        'kode_bidang_1',         
+        'Nm_Bidang_1',         
+        
+        'BidangID_2',         
+        'kode_bidang_2',         
+        'Nm_Bidang_2',         
+
+        'BidangID_3',         
+        'kode_bidang_3',         
+        'Nm_Bidang_3',         
+
         'kode_organisasi', 
         'Kd_Organisasi', 
         'Nm_Organisasi', 

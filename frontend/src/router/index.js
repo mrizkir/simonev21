@@ -49,7 +49,7 @@ const routes = [
 			requiresAuth: true,
 		},
 		component: () =>
-			import("../views/pages/admin/dmaster/KodefikasiKelompokUrusan.vue"),
+			import("../views/pages/admin/dmaster/KodefikasiUrusan.vue"),
 	},
 	//dmaster - pegawai
 	{
