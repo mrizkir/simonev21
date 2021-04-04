@@ -125,7 +125,7 @@
 			<v-subheader class="purple accent-5 white--text">KODEFIKASI</v-subheader>
 			<v-list-item
 				link
-				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-KELOMPOK-URUSAN')"
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-KELOMPOK-URUSAN_BROWSE')"
 				to="/dmaster/kodefikasi/kelompokurusan"
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
@@ -143,7 +143,7 @@
 			<v-subheader class="purple accent-5 white--text">PEGAWAI</v-subheader>
 			<v-list-item
 				link
-				v-if="CAN_ACCESS('DMASTER-ASN')"
+				v-if="CAN_ACCESS('DMASTER-ASN_BROWSE')"
 				to="/dmaster/asn"
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
@@ -155,6 +155,23 @@
 				<v-list-item-content>
 					<v-list-item-title>
 						ASN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-PEJABAT_BROWSE')"
+				to="/dmaster/pejabat"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account-circle</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						PEJABAT
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>

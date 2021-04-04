@@ -4,29 +4,30 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrganisasiModel extends Model {
+class SubOrganisasiModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmOrg';
+    protected $table = 'tmSOrg';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'SOrgID', 
         'OrgID', 
-        'BidangID', 
-        'Nm_Bidang', 
+        'Nm_Urusan', 
         'kode_organisasi', 
-        'Kd_Organisasi', 
-        'Nm_Organisasi', 
-        'Alias_Organisasi',                
+        'OrgNm', 
+        'kode_suborganisasi', 
+        'SOrgNm', 
+        'SOrgAlias', 
         'Alamat', 
-        'NamaKepalaSKPD', 
-        'NIPKepalaSKPD', 
+        'NamaKepalaUnitKerja', 
+        'NIPKepalaUnitKerja', 
         'PaguDana1',
         'PaguDana2',
         'JumlahProgram',
@@ -36,7 +37,7 @@ class OrganisasiModel extends Model {
         'RealisasiKeuangan1',            
         'RealisasiKeuangan2',        
         'RealisasiFisik1',        
-        'RealisasiFisik2',        
+        'RealisasiFisik2',
         'Descr', 
         'TA'
     ];
@@ -45,7 +46,7 @@ class OrganisasiModel extends Model {
      *
      * @var string
      */
-    protected $primaryKey = 'OrgID';
+    protected $primaryKey = 'SOrgID';
     /**
      * enable auto_increment.
      *
@@ -59,8 +60,9 @@ class OrganisasiModel extends Model {
      */
     public $timestamps = true;
 
-    public function unitkerja ()
+    public function OPD ()
     {
-        return $this->hasMany('App\Models\DMaster\SubOrganisasiModel','OrgID');
+        return $this->belongsTo('App\DMaster\OrganisasiModel','OrgID','OrgID');
     }
+
 }

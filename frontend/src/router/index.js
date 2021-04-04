@@ -56,10 +56,19 @@ const routes = [
 		path: "/dmaster/asn",
 		name: "DMasterASN",
 		meta: {
-			title: "ASN",
+			title: "PEGAWAI - ASN",
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/dmaster/ASN.vue"),
+	},
+	{
+		path: "/dmaster/pejabat",
+		name: "DMasterPejabat",
+		meta: {
+			title: "PEGAWAI - PEJABAT",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/Pejabat.vue"),
 	},
 	// other page
 	{

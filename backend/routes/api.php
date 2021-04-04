@@ -34,6 +34,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/auth/refresh',['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
     $router->get('/auth/me',['uses'=>'AuthController@me','as'=>'auth.me']);
 
+    //data master - opd
+    $router->post('/dmaster/opd',['uses'=>'DMaster\OrganisasiController@index','as'=>'v1.opd.index']);    
+    $router->post('/dmaster/opd/loadopd',['middleware'=>['role:superadmin'],'uses'=>'DMaster\OrganisasiController@loadopd','as'=>'v1.opd.loadopd']);    
+    $router->post('/dmaster/opd/loadpaguapbdp',['middleware'=>['role:superadmin'],'uses'=>'DMaster\OrganisasiController@loadpaguapbdp','as'=>'v1.opd.loadpaguapbdp']);    
+    $router->put('/dmaster/opd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\OrganisasiController@update','as'=>'v1.opd.update']);
+    $router->get('/dmaster/opd/{id}/unitkerja',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\OrganisasiController@opdunitkerja','as'=>'v1.opd.unitkerja']);
+    $router->get('/dmaster/opd/{id}/pejabat',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\OrganisasiController@pejabatopd','as'=>'v1.opd.pejabatopd']);
+    
     //data master - ASN
     $router->post('/dmaster/asn',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\ASNController@index','as'=>'v1.ASN.index']);    
     $router->post('/dmaster/asn/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ASNController@store','as'=>'v1.ASN.store']);

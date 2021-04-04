@@ -15,7 +15,9 @@ class CreateOrganisasiTable extends Migration
     {
         Schema::create('tmOrg', function (Blueprint $table) {
             $table->uuid('OrgID');
-            $table->uuid('BidangID');
+            $table->uuid('BidangID')->nullable();
+            $table->string('Nm_Bidang');
+            $table->string('kode_organisasi');
             $table->string('Kd_Organisasi',5);
             $table->string('Nm_Organisasi');            
             $table->string('Alias_Organisasi');
@@ -38,12 +40,14 @@ class CreateOrganisasiTable extends Migration
 
             $table->primary('OrgID'); 
             $table->index('BidangID'); 
+            $table->index('kode_organisasi'); 
             $table->index('Kd_Organisasi'); 
+            $table->index('Nm_Organisasi');             
 
             $table->foreign('BidangID')
                 ->references('BidangID')
                 ->on('tmBidangUrusan')
-                ->onDelete('cascade')
+                ->onDelete('set null')
                 ->onUpdate('cascade');
         });        
     }
