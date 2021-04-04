@@ -40,16 +40,27 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/DMaster.vue"),
 	},
-	//dmaster - kelompok urusan
+	//dmaster - urusan
 	{
-		path: "/dmaster/kodefikasi/kelompokurusan",
-		name: "KodefikasiKelompokUrusan",
+		path: "/dmaster/kodefikasi/urusan",
+		name: "KodefikasiUrusan",
 		meta: {
-			title: "KODEFIKASI - KELOMPOK URUSAN",
+			title: "KODEFIKASI - URUSAN",
 			requiresAuth: true,
 		},
 		component: () =>
 			import("../views/pages/admin/dmaster/KodefikasiUrusan.vue"),
+	},
+	//dmaster - bidang urusan
+	{
+		path: "/dmaster/kodefikasi/bidangurusan",
+		name: "KodefikasiBidangUrusan",
+		meta: {
+			title: "KODEFIKASI - BIDANG URUSAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/KodefikasiBidangUrusan.vue"),
 	},
 	//dmaster - pegawai
 	{

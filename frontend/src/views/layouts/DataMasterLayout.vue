@@ -125,8 +125,8 @@
 			<v-subheader class="purple accent-5 white--text">KODEFIKASI</v-subheader>
 			<v-list-item
 				link
-				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-KELOMPOK-URUSAN_BROWSE')"
-				to="/dmaster/kodefikasi/kelompokurusan"
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-URUSAN_BROWSE')"
+				to="/dmaster/kodefikasi/urusan"
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
 				"
@@ -137,6 +137,23 @@
 				<v-list-item-content>
 					<v-list-item-title>
 						URUSAN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-BIDANG-URUSAN_BROWSE')"
+				to="/dmaster/kodefikasi/bidangurusan"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-group</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						BIDANG URUSAN
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
