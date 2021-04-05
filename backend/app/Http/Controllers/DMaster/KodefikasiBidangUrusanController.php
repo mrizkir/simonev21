@@ -74,7 +74,7 @@ class KodefikasiBidangUrusanController extends Controller {
             'BidangID' => Uuid::uuid4()->toString(),            
             'UrsID' => $request->input('UrsID'),            
             'Kd_Bidang' => $request->input('Kd_Bidang'),
-            'Nm_Bidang' => $request->input('Nm_Bidang'),
+            'Nm_Bidang' => strtoupper($request->input('Nm_Bidang')),
             'Descr' => $request->input('Descr'),
             'TA'=>$ta,
         ]);
@@ -131,7 +131,7 @@ class KodefikasiBidangUrusanController extends Controller {
             
             
             $kodefikasibidangurusan->Kd_Bidang = $request->input('Kd_Bidang');
-            $kodefikasibidangurusan->Nm_Bidang = $request->input('Nm_Bidang');
+            $kodefikasibidangurusan->Nm_Bidang = strtoupper($request->input('Nm_Bidang'));
             $kodefikasibidangurusan->Descr = $request->input('Descr');
             $kodefikasibidangurusan->save();
 

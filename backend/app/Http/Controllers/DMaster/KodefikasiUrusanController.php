@@ -69,7 +69,7 @@ class KodefikasiUrusanController extends Controller {
         $kodefikasiurusan = KodefikasiUrusanModel::create([
             'UrsID' => Uuid::uuid4()->toString(),            
             'Kd_Urusan' => $request->input('Kd_Urusan'),
-            'Nm_Urusan' => $request->input('Nm_Urusan'),
+            'Nm_Urusan' => strtoupper($request->input('Nm_Urusan')),
             'Descr' => $request->input('Descr'),
             'TA'=>$ta,
         ]);
@@ -126,7 +126,7 @@ class KodefikasiUrusanController extends Controller {
             
             
             $kodefikasiurusan->Kd_Urusan = $request->input('Kd_Urusan');
-            $kodefikasiurusan->Nm_Urusan = $request->input('Nm_Urusan');
+            $kodefikasiurusan->Nm_Urusan = strtoupper($request->input('Nm_Urusan'));
             $kodefikasiurusan->Descr = $request->input('Descr');
             $kodefikasiurusan->save();
 

@@ -36,15 +36,15 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
     //data master - kegiatan - urusan
     $router->post('/dmaster/kodefikasi/urusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\KodefikasiUrusanController@index','as'=>'kodefikasi-urusan.index']);    
-    $router->post('/dmaster/kodefikasi/urusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\kodefikasiUrusanController@store','as'=>'kodefikasi-urusan.store']);
-    $router->put('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\kodefikasiUrusanController@update','as'=>'kodefikasi-urusan.update']);
-    $router->delete('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\kodefikasiUrusanController@destroy','as'=>'kodefikasi-urusan.destroy']);
+    $router->post('/dmaster/kodefikasi/urusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiUrusanController@store','as'=>'kodefikasi-urusan.store']);
+    $router->put('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiUrusanController@update','as'=>'kodefikasi-urusan.update']);
+    $router->delete('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiUrusanController@destroy','as'=>'kodefikasi-urusan.destroy']);
     
     //data master - kegiatan - bidang urusan
-    $router->post('/dmaster/kodefikasi/bidangurusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\kodefikasiBidangUrusanController@index','as'=>'kodefikasi-bidang-urusan.index']);    
-    $router->post('/dmaster/kodefikasi/bidangurusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\kodefikasiBidangUrusanController@store','as'=>'kodefikasi-bidang-urusan.store']);
-    $router->put('/dmaster/kodefikasi/bidangurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\kodefikasiBidangUrusanController@update','as'=>'kodefikasi-bidang-urusan.update']);
-    $router->delete('/dmaster/kodefikasi/bidangurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\kodefikasiBidangUrusanController@destroy','as'=>'kodefikasi-bidang-urusan.destroy']);
+    $router->post('/dmaster/kodefikasi/bidangurusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\KodefikasiBidangUrusanController@index','as'=>'kodefikasi-bidang-urusan.index']);    
+    $router->post('/dmaster/kodefikasi/bidangurusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiBidangUrusanController@store','as'=>'kodefikasi-bidang-urusan.store']);
+    $router->put('/dmaster/kodefikasi/bidangurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiBidangUrusanController@update','as'=>'kodefikasi-bidang-urusan.update']);
+    $router->delete('/dmaster/kodefikasi/bidangurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiBidangUrusanController@destroy','as'=>'kodefikasi-bidang-urusan.destroy']);
 
     //data master - opd
     $router->post('/dmaster/opd',['uses'=>'DMaster\OrganisasiController@index','as'=>'v1.opd.index']);    
