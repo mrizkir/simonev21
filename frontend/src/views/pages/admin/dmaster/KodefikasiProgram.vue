@@ -5,7 +5,7 @@
 				mdi-group
 			</template>
 			<template v-slot:name>
-				URUSAN
+				PROGRAM
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "urusan" sesuai dengan Keputusan Menteri Dalam Negeri No.
+					Daftar "program" sesuai dengan Keputusan Menteri Dalam Negeri No.
 					050-3708 tentang pemutakhiran, klasifikasi,
 					kodefikasi, perencanaan,
 					dan pembangunan daerah.
@@ -47,7 +47,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="UrsID"
+						item-key="PrgID"
 						show-expand
 						:expanded.sync="expanded"
 						:single-expand="true"
@@ -58,24 +58,23 @@
 					>
 						<template v-slot:top>
 							<v-toolbar flat color="white">
-								<v-toolbar-title>DAFTAR URUSAN</v-toolbar-title>
+								<v-toolbar-title>DAFTAR PROGRAM</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
+								<v-btn
+									color="primary"
+									class="mb-2"
+									v-on="on"
+									@click.stop="addItem"
+									:disabled="
+										!$store.getters['auth/can'](
+											'DMASTER-KODEFIKASI-PROGRAM_STORE'
+										)
+									"
+								>
+									TAMBAH
+								</v-btn>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
-									<template v-slot:activator="{ on }">
-										<v-btn
-											color="primary"
-											class="mb-2"
-											v-on="on"
-											:disabled="
-												!$store.getters['auth/can'](
-													'DMASTER-KODEFIKASI-URUSAN_STORE'
-												)
-											"
-										>
-											TAMBAH
-										</v-btn>
-									</template>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
 											<v-card-title>
@@ -87,9 +86,20 @@
 												<v-container fluid>
 													<v-row>
 														<v-col cols="12" sm="12" md="12">
+															<v-select
+																v-model="formdata.BidangID"
+																:items="daftar_bidang_urusan"
+																item-text="Nm_Bidang"
+																item-value="BidangID"
+																label="BIDANG URUSAN"
+																:rules="rule_urusan"
+																single-line
+																filled
+															>
+															</v-select>
 															<v-text-field
-																v-model="formdata.Kd_Urusan"
-																label="KODE URUSAN"
+																v-model="formdata.Kd_Program"
+																label="KODE PROGRAM"
 																filled
 																:rules="rule_kode"
 															>
@@ -97,8 +107,8 @@
 														</v-col>
 														<v-col cols="12" sm="12" md="12">
 															<v-text-field
-																v-model="formdata.Nm_Urusan"
-																label="NAMA URUSAN"
+																v-model="formdata.Nm_Program"
+																label="NAMA PROGRAM"
 																filled
 																:rules="rule_name"
 															>
@@ -152,10 +162,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															UrsID
+															BidangID
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.UrsID }}
+															{{ formdata.BidangID }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -182,10 +192,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															KODE URUSAN
+															KODE PROGRAM
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Kd_Urusan }}
+															{{ formdata.kode_bidang }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -216,10 +226,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															NAMA URUSAN
+															NAMA PROGRAM
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_Urusan }}
+															{{ formdata.Nm_Program }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -270,7 +280,7 @@
 								class="mr-2"
 								:disabled="
 									!$store.getters['auth/can'](
-										'DMASTER-KODEFIKASI-URUSAN_UPDATE'
+										'DMASTER-KODEFIKASI-PROGRAM_UPDATE'
 									)
 								"
 								@click.stop="editItem(item)"
@@ -282,7 +292,7 @@
 								:disabled="
 									btnLoading ||
 										!$store.getters['auth/can'](
-											'DMASTER-KODEFIKASI-URUSAN_STORE'
+											'DMASTER-KODEFIKASI-PROGRAM_STORE'
 										)
 								"
 								@click.stop="deleteItem(item)"
@@ -292,7 +302,7 @@
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<strong>ID:</strong>{{ item.UrsID }}
+								<strong>ID:</strong>{{ item.BidangID }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -312,7 +322,7 @@
 	import DataMasterLayout from "@/views/layouts/DataMasterLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "KodefikasiUrusan",
+		name: "KodefikasiBidangUrusan",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -331,7 +341,7 @@
 					href: "#",
 				},
 				{
-					text: "URUSAN",
+					text: "PROGRAM",
 					disabled: true,
 					href: "#",
 				},
@@ -345,11 +355,12 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "KODE URUSAN", value: "Kd_Urusan", width: 150 },
-					{ text: "NAMA URUSAN", value: "Nm_Urusan" },
+					{ text: "KODE PROGRAM", value: "kode_program", width: 150 },
+					{ text: "NAMA PROGRAM", value: "Nm_Program" },
+					{ text: "BIDANG URUSAN", value: "Nm_Program" },
 					{ text: "KET", value: "Descr" },
 					{ text: "TA", value: "TA" },
-					{ text: "AKSI", value: "actions", sortable: false, width: 100 },
+					{ text: "AKSI", value: "actions", srotable: false, width: 100 },
 				],
 				search: "",
 				//dialog
@@ -357,19 +368,24 @@
 				dialogdetailitem: false,
 				//form data
 				form_valid: true,
+				daftar_bidang_urusan: [],
 				formdata: {
-					UrsID: "",
-					Kd_Urusan: "",
-					Nm_Urusan: "",
+					PrgID: "",
+					BidangID: "",
+					Kd_Program: "",
+					Nm_Program: "",
+					Jns: 1,
 					Descr: "",
 					TA: "",
 					created_at: "",
 					updated_at: "",
 				},
 				formdefault: {
-					UrsID: "",
-					Kd_Urusan: "",
-					Nm_Urusan: "",
+					PrgID: "",
+					BidangID: "",
+					Kd_Program: "",
+					Nm_Program: "",
+					Jns: 1,
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -377,15 +393,20 @@
 				},
 				editedIndex: -1,
 				//form rules
+				rule_urusan: [
+					value => !!value || "Mohon untuk di pilih Jenis Jabatan !!!",
+				],
 				rule_kode: [
-					value => !!value || "Mohon untuk di isi Kode Urusan!!!",
-					value => /^[0-9]+$/.test(value) || "Kode Urusan hanya boleh angka",
+					value => !!value || "Mohon untuk di isi Kode Bidang Urusan!!!",
+					value =>
+						/^[0-9]+$/.test(value) || "Kode Bidang Urusan hanya boleh angka",
+					value => value.length > 1 || "Kode Bidang minimaml 2 angka",
 				],
 				rule_name: [
-					value => !!value || "Mohon untuk di isi Nama Urusan !!!",
+					value => !!value || "Mohon untuk di isi Nama Bidang Urusan !!!",
 					value =>
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Urusan hanya boleh string dan spasi",
+						"Nama Bidang Urusan hanya boleh string dan spasi",
 				],
 			};
 		},
@@ -394,7 +415,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/urusan",
+						"/dmaster/kodefikasi/program",
 						{
 							TA: this.$store.getters["uifront/getTahunAnggaran"],
 						},
@@ -405,7 +426,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.datatable = data.kodefikasiurusan;
+						this.datatable = data.kodefikasibidangurusan;
 						this.datatableLoading = false;
 					});
 			},
@@ -416,10 +437,43 @@
 					this.expanded = [item];
 				}
 			},
-			editItem(item) {
+			async addItem() {
+				await this.$ajax
+					.post(
+						"/dmaster/kodefikasi/bidangurusan",
+						{
+							TA: this.$store.getters["uifront/getTahunAnggaran"],
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						this.dialogfrm = true;
+					});
+			},
+			async editItem(item) {
 				this.editedIndex = this.datatable.indexOf(item);
-				this.formdata = Object.assign({}, item);
-				this.dialogfrm = true;
+				await this.$ajax
+					.post(
+						"/dmaster/kodefikasi/program",
+						{
+							TA: this.$store.getters["uifront/getTahunAnggaran"],
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						this.formdata = Object.assign({}, item);
+						this.dialogfrm = true;
+					});
 			},
 			viewItem(item) {
 				this.formdata = item;
@@ -431,11 +485,12 @@
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/dmaster/kodefikasi/urusan/" + this.formdata.UrsID,
+								"/dmaster/kodefikasi/program/" + this.formdata.BidangID,
 								{
 									_method: "PUT",
-									Kd_Urusan: this.formdata.Kd_Urusan,
-									Nm_Urusan: this.formdata.Nm_Urusan,
+									BidangID: this.formdata.BidangID,
+									Kd_Program: this.formdata.Kd_Program,
+									Nm_Program: this.formdata.Nm_Program,
 									Descr: this.formdata.Descr,
 								},
 								{
@@ -444,12 +499,9 @@
 									},
 								}
 							)
-							.then(({ data }) => {
-								Object.assign(
-									this.datatable[this.editedIndex],
-									data.kodefikasiurusan
-								);
+							.then(() => {
 								this.closedialogfrm();
+								this.$router.go();
 							})
 							.catch(() => {
 								this.btnLoading = false;
@@ -457,10 +509,11 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/kodefikasi/urusan/store",
+								"/dmaster/kodefikasi/program/store",
 								{
-									Kd_Urusan: this.formdata.Kd_Urusan,
-									Nm_Urusan: this.formdata.Nm_Urusan,
+									BidangID: this.formdata.BidangID,
+									Kd_Program: this.formdata.Kd_Program,
+									Nm_Program: this.formdata.Nm_Program,
 									Descr: this.formdata.Descr,
 									TA: this.$store.getters["uifront/getTahunAnggaran"],
 								},
@@ -470,9 +523,9 @@
 									},
 								}
 							)
-							.then(({ data }) => {
-								this.datatable.push(data.kodefikasiurusan);
+							.then(() => {
 								this.closedialogfrm();
+								this.$router.go();
 							})
 							.catch(() => {
 								this.btnLoading = false;
@@ -484,8 +537,8 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data urusan dengan ID " +
-							item.UrsID +
+						"Apakah Anda ingin menghapus data bidang urusan dengan ID " +
+							item.BidangID +
 							" ?",
 						{ color: "red" }
 					)
@@ -494,7 +547,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/kodefikasi/urusan/" + item.UrsID,
+									"/dmaster/kodefikasi/program/" + item.BidangID,
 									{
 										_method: "DELETE",
 									},

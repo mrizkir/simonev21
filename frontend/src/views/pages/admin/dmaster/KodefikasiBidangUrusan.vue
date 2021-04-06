@@ -16,8 +16,10 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "urusan" uraian digunakan sebagai referensi di uraian kegiatan
-					saat proses integrasi.
+					Daftar "bidang urusan" sesuai dengan Keputusan Menteri Dalam Negeri No.
+					050-3708 tentang pemutakhiran, klasifikasi,
+					kodefikasi, perencanaan,
+					dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -388,8 +390,8 @@
 				},
 				editedIndex: -1,
 				//form rules
-				rule_jenis_jabatan: [
-					value => !!value || "Mohon untuk di pilih Jenis Jabatan !!!",
+				rule_urusan: [
+					value => !!value || "Mohon untuk di pilih Urusan !!!",
 				],
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Bidang Urusan!!!",

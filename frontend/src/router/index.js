@@ -62,6 +62,17 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/dmaster/KodefikasiBidangUrusan.vue"),
 	},
+	//dmaster - program
+	{
+		path: "/dmaster/kodefikasi/program",
+		name: "KodefikasiProgram",
+		meta: {
+			title: "KODEFIKASI - PROGRAM",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/KodefikasiProgram.vue"),
+	},
 	//dmaster - pegawai
 	{
 		path: "/dmaster/asn",

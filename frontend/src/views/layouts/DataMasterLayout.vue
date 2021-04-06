@@ -157,6 +157,24 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-divider color="yellow" />
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-PROGRAM_BROWSE')"
+				to="/dmaster/kodefikasi/program"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-group</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						PROGRAM
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 			<v-subheader class="purple accent-5 white--text">PEGAWAI</v-subheader>
 			<v-list-item
 				link
