@@ -16,10 +16,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "urusan" sesuai dengan Keputusan Menteri Dalam Negeri No.
-					050-3708 tentang pemutakhiran, klasifikasi,
-					kodefikasi, perencanaan,
-					dan pembangunan daerah.
+					Daftar "bidang urusan" sesuai dengan Keputusan Menteri Dalam Negeri
+					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
+					perencanaan, dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -61,21 +60,29 @@
 								<v-toolbar-title>DAFTAR URUSAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
-									<template v-slot:activator="{ on }">
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
 										<v-btn
-											color="primary"
-											class="mb-2"
+											v-bind="attrs"
 											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="addItem"
 											:disabled="
 												!$store.getters['auth/can'](
 													'DMASTER-KODEFIKASI-URUSAN_STORE'
 												)
 											"
 										>
-											TAMBAH
+											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
+									<span>Tambah Kelompok Urusan</span>
+								</v-tooltip>
+								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
 											<v-card-title>
@@ -262,33 +269,59 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="viewItem(item)">
-								mdi-eye
-							</v-icon>
-							<v-icon
-								small
-								class="mr-2"
-								:disabled="
-									!$store.getters['auth/can'](
-										'DMASTER-KODEFIKASI-URUSAN_UPDATE'
-									)
-								"
-								@click.stop="editItem(item)"
-							>
-								mdi-pencil
-							</v-icon>
-							<v-icon
-								small
-								:disabled="
-									btnLoading ||
-										!$store.getters['auth/can'](
-											'DMASTER-KODEFIKASI-URUSAN_STORE'
-										)
-								"
-								@click.stop="deleteItem(item)"
-							>
-								mdi-delete
-							</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="viewItem(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>Detail Kelompok Urusan</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="editItem(item)"
+										:disabled="
+											!$store.getters['auth/can'](
+												'DMASTER-KODEFIKASI-URUSAN_UPDATE'
+											)
+										"
+									>
+										mdi-pencil
+									</v-icon>
+								</template>
+								<span>Ubah Kelompok Urusan</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										color="red darken-1"
+										:disabled="
+											btnLoading ||
+												!$store.getters['auth/can'](
+													'DMASTER-KODEFIKASI-URUSAN_STORE'
+												)
+										"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus Kelompok Urusan</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
@@ -416,6 +449,9 @@
 					this.expanded = [item];
 				}
 			},
+			addItem() {
+				this.dialogfrm = true;
+			},
 			editItem(item) {
 				this.editedIndex = this.datatable.indexOf(item);
 				this.formdata = Object.assign({}, item);
@@ -487,7 +523,7 @@
 						"Apakah Anda ingin menghapus data urusan dengan ID " +
 							item.UrsID +
 							" ?",
-						{ color: "red" }
+						{ color: "red", width: "500px" }
 					)
 					.then(confirm => {
 						if (confirm) {

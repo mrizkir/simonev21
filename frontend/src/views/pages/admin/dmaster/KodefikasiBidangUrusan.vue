@@ -60,18 +60,28 @@
 								<v-toolbar-title>DAFTAR URUSAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="primary"
-									class="mb-2"
-									@click.stop="addItem"
-									:disabled="
-										!$store.getters['auth/can'](
-											'DMASTER-KODEFIKASI-BIDANG-URUSAN_STORE'
-										)
-									"
-								>
-									TAMBAH
-								</v-btn>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="addItem"
+											:disabled="
+												!$store.getters['auth/can'](
+													'DMASTER-KODEFIKASI-BIDANG-URUSAN_STORE'
+												)
+											"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>Tambah Bidang Urusan</span>
+								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
@@ -270,33 +280,59 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="viewItem(item)">
-								mdi-eye
-							</v-icon>
-							<v-icon
-								small
-								class="mr-2"
-								:disabled="
-									!$store.getters['auth/can'](
-										'DMASTER-KODEFIKASI-BIDANG-URUSAN_UPDATE'
-									)
-								"
-								@click.stop="editItem(item)"
-							>
-								mdi-pencil
-							</v-icon>
-							<v-icon
-								small
-								:disabled="
-									btnLoading ||
-										!$store.getters['auth/can'](
-											'DMASTER-KODEFIKASI-BIDANG-URUSAN_STORE'
-										)
-								"
-								@click.stop="deleteItem(item)"
-							>
-								mdi-delete
-							</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="viewItem(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>Detail Bidang Urusan</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="editItem(item)"
+										:disabled="
+											!$store.getters['auth/can'](
+												'DMASTER-KODEFIKASI-BIDANG-URUSAN_UPDATE'
+											)
+										"
+									>
+										mdi-pencil
+									</v-icon>
+								</template>
+								<span>Ubah Bidang Urusan</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										color="red darken-1"
+										:disabled="
+											btnLoading ||
+												!$store.getters['auth/can'](
+													'DMASTER-KODEFIKASI-BIDANG-URUSAN_STORE'
+												)
+										"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus Bidang Urusan</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
@@ -533,7 +569,7 @@
 						"Apakah Anda ingin menghapus data bidang urusan dengan ID " +
 							item.BidangID +
 							" ?",
-						{ color: "red" }
+						{ color: "red", width: "500px" }
 					)
 					.then(confirm => {
 						if (confirm) {
