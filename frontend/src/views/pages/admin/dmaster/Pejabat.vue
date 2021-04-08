@@ -163,7 +163,7 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															ASNID
+															ID
 														</v-card-title>
 														<v-card-subtitle>
 															{{ formdata.ASNID }}

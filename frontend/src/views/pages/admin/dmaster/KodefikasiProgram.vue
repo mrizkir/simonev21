@@ -16,10 +16,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "program" sesuai dengan Keputusan Menteri Dalam Negeri No.
-					050-3708 tentang pemutakhiran, klasifikasi,
-					kodefikasi, perencanaan,
-					dan pembangunan daerah.
+					Daftar "bidang urusan" sesuai dengan Keputusan Menteri Dalam Negeri
+					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
+					perencanaan, dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -64,7 +63,6 @@
 								<v-btn
 									color="primary"
 									class="mb-2"
-									v-on="on"
 									@click.stop="addItem"
 									:disabled="
 										!$store.getters['auth/can'](
@@ -86,15 +84,21 @@
 												<v-container fluid>
 													<v-row>
 														<v-col cols="12" sm="12" md="12">
+															<v-radio-group v-model="formdata.Jns" row>
+																<v-radio label="Per Urusan" value="1"></v-radio>
+																<v-radio label="Semua Urusan" value="0">
+																</v-radio>
+															</v-radio-group>
 															<v-select
 																v-model="formdata.BidangID"
 																:items="daftar_bidang_urusan"
-																item-text="Nm_Bidang"
+																item-text="bidangurusan"
 																item-value="BidangID"
 																label="BIDANG URUSAN"
 																:rules="rule_urusan"
 																single-line
 																filled
+																v-if="formdata.Jns == '1'"
 															>
 															</v-select>
 															<v-text-field
@@ -162,10 +166,40 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															BidangID
+															ID
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.BidangID }}
+															{{ formdata.PrgID }}
+														</v-card-subtitle>
+													</v-card>
+												</v-col>
+												<v-responsive
+													width="100%"
+													v-if="$vuetify.breakpoint.xsOnly"
+												/>
+												<v-col xs="12" sm="6" md="6">
+													<v-card flat>
+														<v-card-title>
+															BIDANG URUSAN
+														</v-card-title>
+														<v-card-subtitle>
+															{{ formdata.Nm_Bidang }}
+														</v-card-subtitle>
+													</v-card>							
+												</v-col>
+												<v-responsive
+													width="100%"
+													v-if="$vuetify.breakpoint.xsOnly"
+												/>
+											</v-row>
+											<v-row no-gutters>
+												<v-col xs="12" sm="6" md="6">
+													<v-card flat>
+														<v-card-title>
+															KODE PROGRAM
+														</v-card-title>
+														<v-card-subtitle>
+															{{ formdata.kode_program }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -192,40 +226,6 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															KODE PROGRAM
-														</v-card-title>
-														<v-card-subtitle>
-															{{ formdata.kode_bidang }}
-														</v-card-subtitle>
-													</v-card>
-												</v-col>
-												<v-responsive
-													width="100%"
-													v-if="$vuetify.breakpoint.xsOnly"
-												/>
-												<v-col xs="12" sm="6" md="6">
-													<v-card flat>
-														<v-card-title>
-															CREATED
-														</v-card-title>
-														<v-card-subtitle>
-															{{
-																$date(formdata.created_at).format(
-																	"DD/MM/YYYY HH:mm"
-																)
-															}}
-														</v-card-subtitle>
-													</v-card>
-												</v-col>
-												<v-responsive
-													width="100%"
-													v-if="$vuetify.breakpoint.xsOnly"
-												/>
-											</v-row>
-											<v-row no-gutters>
-												<v-col xs="12" sm="6" md="6">
-													<v-card flat>
-														<v-card-title>
 															NAMA PROGRAM
 														</v-card-title>
 														<v-card-subtitle>
@@ -240,11 +240,16 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															UPDATED
+															CREATED/UPDATED
 														</v-card-title>
 														<v-card-subtitle>
 															{{
 																$date(formdata.updated_at).format(
+																	"DD/MM/YYYY HH:mm"
+																)
+															}}/
+															{{
+																$date(formdata.created_at).format(
 																	"DD/MM/YYYY HH:mm"
 																)
 															}}
@@ -302,7 +307,7 @@
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<strong>ID:</strong>{{ item.BidangID }}
+								<strong>ID:</strong>{{ item.PrgID }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -357,7 +362,7 @@
 				headers: [
 					{ text: "KODE PROGRAM", value: "kode_program", width: 150 },
 					{ text: "NAMA PROGRAM", value: "Nm_Program" },
-					{ text: "BIDANG URUSAN", value: "Nm_Program" },
+					{ text: "BIDANG URUSAN", value: "Nm_Bidang" },
 					{ text: "KET", value: "Descr" },
 					{ text: "TA", value: "TA" },
 					{ text: "AKSI", value: "actions", srotable: false, width: 100 },
@@ -374,7 +379,7 @@
 					BidangID: "",
 					Kd_Program: "",
 					Nm_Program: "",
-					Jns: 1,
+					Jns: "1",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -385,7 +390,7 @@
 					BidangID: "",
 					Kd_Program: "",
 					Nm_Program: "",
-					Jns: 1,
+					Jns: "1",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -426,7 +431,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.datatable = data.kodefikasibidangurusan;
+						this.datatable = data.kodefikasiprogram;
 						this.datatableLoading = false;
 					});
 			},
@@ -452,6 +457,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						this.formdata.Jns = "1";
 						this.dialogfrm = true;
 					});
 			},
@@ -459,7 +465,7 @@
 				this.editedIndex = this.datatable.indexOf(item);
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/program",
+						"/dmaster/kodefikasi/bidangurusan",
 						{
 							TA: this.$store.getters["uifront/getTahunAnggaran"],
 						},
@@ -472,6 +478,10 @@
 					.then(({ data }) => {
 						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
 						this.formdata = Object.assign({}, item);
+						if (this.formdata.Jns == 1) {
+							this.formdata.BidangID = item.BidangID;
+						}
+						this.formdata.Jns = "" + this.formdata.Jns;
 						this.dialogfrm = true;
 					});
 			},
@@ -485,9 +495,10 @@
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/dmaster/kodefikasi/program/" + this.formdata.BidangID,
+								"/dmaster/kodefikasi/program/" + this.formdata.PrgID,
 								{
 									_method: "PUT",
+									Jns: this.formdata.Jns,
 									BidangID: this.formdata.BidangID,
 									Kd_Program: this.formdata.Kd_Program,
 									Nm_Program: this.formdata.Nm_Program,
@@ -511,6 +522,7 @@
 							.post(
 								"/dmaster/kodefikasi/program/store",
 								{
+									Jns: this.formdata.Jns,
 									BidangID: this.formdata.BidangID,
 									Kd_Program: this.formdata.Kd_Program,
 									Nm_Program: this.formdata.Nm_Program,
@@ -538,7 +550,7 @@
 					.open(
 						"Delete",
 						"Apakah Anda ingin menghapus data bidang urusan dengan ID " +
-							item.BidangID +
+							item.PrgID +
 							" ?",
 						{ color: "red" }
 					)
@@ -547,7 +559,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/kodefikasi/program/" + item.BidangID,
+									"/dmaster/kodefikasi/program/" + item.PrgID,
 									{
 										_method: "DELETE",
 									},

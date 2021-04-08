@@ -16,10 +16,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "bidang urusan" sesuai dengan Keputusan Menteri Dalam Negeri No.
-					050-3708 tentang pemutakhiran, klasifikasi,
-					kodefikasi, perencanaan,
-					dan pembangunan daerah.
+					Daftar "bidang urusan" sesuai dengan Keputusan Menteri Dalam Negeri
+					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
+					perencanaan, dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -64,7 +63,6 @@
 								<v-btn
 									color="primary"
 									class="mb-2"
-									v-on="on"
 									@click.stop="addItem"
 									:disabled="
 										!$store.getters['auth/can'](
@@ -162,7 +160,7 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															BidangID
+															ID
 														</v-card-title>
 														<v-card-subtitle>
 															{{ formdata.BidangID }}
@@ -390,9 +388,7 @@
 				},
 				editedIndex: -1,
 				//form rules
-				rule_urusan: [
-					value => !!value || "Mohon untuk di pilih Urusan !!!",
-				],
+				rule_urusan: [value => !!value || "Mohon untuk di pilih Urusan !!!"],
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Bidang Urusan!!!",
 					value =>
@@ -453,7 +449,7 @@
 					});
 			},
 			async editItem(item) {
-				this.editedIndex = this.datatable.indexOf(item);				
+				this.editedIndex = this.datatable.indexOf(item);
 				await this.$ajax
 					.post(
 						"/dmaster/kodefikasi/urusan",
@@ -496,7 +492,7 @@
 									},
 								}
 							)
-							.then(() => {								
+							.then(() => {
 								this.closedialogfrm();
 								this.$router.go();
 							})
@@ -520,7 +516,7 @@
 									},
 								}
 							)
-							.then(() => {								
+							.then(() => {
 								this.closedialogfrm();
 								this.$router.go();
 							})
