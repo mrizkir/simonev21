@@ -5,7 +5,7 @@
 				mdi-group
 			</template>
 			<template v-slot:name>
-				PROGRAM
+				KEGIATAN
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "program" sesuai dengan Keputusan Menteri Dalam Negeri
+					Daftar "kegiatan" sesuai dengan Keputusan Menteri Dalam Negeri
 					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
 					perencanaan, dan pembangunan daerah.
 				</v-alert>
@@ -46,7 +46,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="PrgID"
+						item-key="KgtID"
 						show-expand
 						:expanded.sync="expanded"
 						:single-expand="true"
@@ -57,7 +57,7 @@
 					>
 						<template v-slot:top>
 							<v-toolbar flat color="white">
-								<v-toolbar-title>DAFTAR PROGRAM</v-toolbar-title>
+								<v-toolbar-title>DAFTAR KEGIATAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
 								<v-tooltip bottom>
@@ -73,14 +73,14 @@
 											@click.stop="addItem"
 											:disabled="
 												!$store.getters['auth/can'](
-													'DMASTER-KODEFIKASI-PROGRAM_STORE'
+													'DMASTER-KODEFIKASI-KEGIATAN_STORE'
 												)
 											"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah Program</span>
+									<span>Tambah Kegiatan</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -93,27 +93,21 @@
 											<v-card-text>
 												<v-container fluid>
 													<v-row>
-														<v-col cols="12" sm="12" md="12">
-															<v-radio-group v-model="formdata.Jns" row>
-																<v-radio label="Per Urusan" value="1"></v-radio>
-																<v-radio label="Semua Urusan" value="0">
-																</v-radio>
-															</v-radio-group>
+														<v-col cols="12" sm="12" md="12">															
 															<v-select
-																v-model="formdata.BidangID"
-																:items="daftar_bidang_urusan"
-																item-text="bidangurusan"
-																item-value="BidangID"
-																label="BIDANG URUSAN"
-																:rules="rule_bidang_urusan"
+																v-model="formdata.PrgID"
+																:items="daftar_program"
+																item-text="nama_program"
+																item-value="PrgID"
+																label="PROGRAM"
+																:rules="rule_program"
 																single-line
 																filled
-																v-if="formdata.Jns == '1'"
 															>
 															</v-select>
 															<v-text-field
-																v-model="formdata.Kd_Program"
-																label="KODE PROGRAM"
+																v-model="formdata.Kd_Kegiatan"
+																label="KODE KEGIATAN"
 																filled
 																:rules="rule_kode"
 															>
@@ -121,8 +115,8 @@
 														</v-col>
 														<v-col cols="12" sm="12" md="12">
 															<v-text-field
-																v-model="formdata.Nm_Program"
-																label="NAMA PROGRAM"
+																v-model="formdata.Nm_Kegiatan"
+																label="NAMA KEGIATAN"
 																filled
 																:rules="rule_name"
 															>
@@ -179,7 +173,7 @@
 															ID
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.PrgID }}
+															{{ formdata.KgtID }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -190,10 +184,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															BIDANG URUSAN
+															PROGRAM
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_Bidang }}
+															{{ formdata.Nm_Program }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -206,10 +200,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															KODE PROGRAM
+															KODE KEGIATAN
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.kode_program }}
+															{{ formdata.kode_kegiatan }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -236,10 +230,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															NAMA PROGRAM
+															NAMA KEGIATAN
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_Program }}
+															{{ formdata.Nm_Kegiatan }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -299,7 +293,7 @@
 										mdi-eye
 									</v-icon>
 								</template>
-								<span>Detail Program</span>
+								<span>Detail Kegiatan</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -311,14 +305,14 @@
 										@click.stop="editItem(item)"
 										:disabled="
 											!$store.getters['auth/can'](
-												'DMASTER-KODEFIKASI-PROGRAM_UPDATE'
+												'DMASTER-KODEFIKASI-KEGIATAN_UPDATE'
 											)
 										"
 									>
 										mdi-pencil
 									</v-icon>
 								</template>
-								<span>Ubah Program</span>
+								<span>Ubah Kegiatan</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -330,7 +324,7 @@
 										:disabled="
 											btnLoading ||
 												!$store.getters['auth/can'](
-													'DMASTER-KODEFIKASI-PROGRAM_STORE'
+													'DMASTER-KODEFIKASI-KEGIATAN_STORE'
 												)
 										"
 										@click.stop="deleteItem(item)"
@@ -338,12 +332,12 @@
 										mdi-delete
 									</v-icon>
 								</template>
-								<span>Hapus Program</span>
+								<span>Hapus Kegiatan</span>
 							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<strong>ID:</strong>{{ item.PrgID }}
+								<strong>ID:</strong>{{ item.KgtID }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -363,7 +357,7 @@
 	import DataMasterLayout from "@/views/layouts/DataMasterLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "KodefikasiProgram",
+		name: "KodefikasiKegiatan",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -382,7 +376,7 @@
 					href: "#",
 				},
 				{
-					text: "PROGRAM",
+					text: "KEGIATAN",
 					disabled: true,
 					href: "#",
 				},
@@ -396,9 +390,9 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "KODE PROGRAM", value: "kode_program", width: 150 },
-					{ text: "NAMA PROGRAM", value: "Nm_Program" },
-					{ text: "BIDANG URUSAN", value: "Nm_Bidang" },
+					{ text: "KODE KEGIATAN", value: "kode_kegiatan", width: 150 },
+					{ text: "NAMA KEGIATAN", value: "Nm_Kegiatan" },
+					{ text: "PROGRAM", value: "Nm_Program" },
 					{ text: "KET", value: "Descr" },
 					{ text: "TA", value: "TA" },
 					{ text: "AKSI", value: "actions", srotable: false, width: 100 },
@@ -409,24 +403,22 @@
 				dialogdetailitem: false,
 				//form data
 				form_valid: true,
-				daftar_bidang_urusan: [],
+				daftar_program: [],
 				formdata: {
+					KgtID: "",
 					PrgID: "",
-					BidangID: "",
-					Kd_Program: "",
-					Nm_Program: "",
-					Jns: "1",
+					Kd_Kegiatan: "",
+					Nm_Kegiatan: "",					
 					Descr: "",
 					TA: "",
 					created_at: "",
 					updated_at: "",
 				},
 				formdefault: {
+					KgtID: "",
 					PrgID: "",
-					BidangID: "",
-					Kd_Program: "",
-					Nm_Program: "",
-					Jns: "1",
+					Kd_Kegiatan: "",
+					Nm_Kegiatan: "",					
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -434,20 +426,20 @@
 				},
 				editedIndex: -1,
 				//form rules
-				rule_bidang_urusan: [
-					value => !!value || "Mohon untuk di pilih Bidang Urusan !!!",
+				rule_program: [
+					value => !!value || "Mohon untuk di pilih Program !!!",
 				],
 				rule_kode: [
-					value => !!value || "Mohon untuk di isi Kode Program!!!",
+					value => !!value || "Mohon untuk di isi Kode Kegiatan!!!",
 					value =>
-						/^[0-9]+$/.test(value) || "Kode Program hanya boleh angka",
+						/^[0-9]+$/.test(value) || "Kode Kegiatan hanya boleh angka",
 					value => value.length > 1 || "Kode Bidang minimaml 2 angka",
 				],
 				rule_name: [
-					value => !!value || "Mohon untuk di isi Nama Program !!!",
+					value => !!value || "Mohon untuk di isi Nama Kegiatan !!!",
 					value =>
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Program hanya boleh string dan spasi",
+						"Nama Kegiatan hanya boleh string dan spasi",
 				],
 			};
 		},
@@ -481,7 +473,7 @@
 			async addItem() {
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/bidangurusan",
+						"/dmaster/kodefikasi/program",
 						{
 							TA: this.$store.getters["uifront/getTahunAnggaran"],
 						},
@@ -492,8 +484,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
-						this.formdata.Jns = "1";
+						this.daftar_program = data.kodefikasiprogram;						
 						this.dialogfrm = true;
 					});
 			},
@@ -501,7 +492,7 @@
 				this.editedIndex = this.datatable.indexOf(item);
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/bidangurusan",
+						"/dmaster/kodefikasi/program",
 						{
 							TA: this.$store.getters["uifront/getTahunAnggaran"],
 						},
@@ -512,10 +503,10 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						this.daftar_program = data.kodefikasiprogram;
 						this.formdata = Object.assign({}, item);
 						if (this.formdata.Jns == 1) {
-							this.formdata.BidangID = item.BidangID;
+							this.formdata.PrgID = item.PrgID;
 						}
 						this.formdata.Jns = "" + this.formdata.Jns;
 						this.dialogfrm = true;
@@ -531,13 +522,13 @@
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/dmaster/kodefikasi/program/" + this.formdata.PrgID,
+								"/dmaster/kodefikasi/program/" + this.formdata.KgtID,
 								{
 									_method: "PUT",
 									Jns: this.formdata.Jns,
-									BidangID: this.formdata.BidangID,
-									Kd_Program: this.formdata.Kd_Program,
-									Nm_Program: this.formdata.Nm_Program,
+									PrgID: this.formdata.PrgID,
+									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
+									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
 									Descr: this.formdata.Descr,
 								},
 								{
@@ -559,9 +550,9 @@
 								"/dmaster/kodefikasi/program/store",
 								{
 									Jns: this.formdata.Jns,
-									BidangID: this.formdata.BidangID,
-									Kd_Program: this.formdata.Kd_Program,
-									Nm_Program: this.formdata.Nm_Program,
+									PrgID: this.formdata.PrgID,
+									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
+									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
 									Descr: this.formdata.Descr,
 									TA: this.$store.getters["uifront/getTahunAnggaran"],
 								},
@@ -586,7 +577,7 @@
 					.open(
 						"Delete",
 						"Apakah Anda ingin menghapus data bidang urusan dengan ID " +
-							item.PrgID +
+							item.KgtID +
 							" ?",
 						{ color: "red", width: "500px" }
 					)
@@ -595,7 +586,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/kodefikasi/program/" + item.PrgID,
+									"/dmaster/kodefikasi/program/" + item.KgtID,
 									{
 										_method: "DELETE",
 									},
