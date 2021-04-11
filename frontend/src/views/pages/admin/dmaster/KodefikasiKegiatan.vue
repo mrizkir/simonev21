@@ -433,7 +433,7 @@
 					value => !!value || "Mohon untuk di isi Kode Kegiatan!!!",
 					value =>
 						/^[0-9]+$/.test(value) || "Kode Kegiatan hanya boleh angka",
-					value => value.length > 1 || "Kode Bidang minimaml 2 angka",
+					value => value.length > 1 || "Kode Kegiatan minimaml 2 angka",
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Kegiatan !!!",
@@ -504,11 +504,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_program = data.kodefikasiprogram;
-						this.formdata = Object.assign({}, item);
-						if (this.formdata.Jns == 1) {
-							this.formdata.PrgID = item.PrgID;
-						}
-						this.formdata.Jns = "" + this.formdata.Jns;
+						this.formdata = Object.assign({}, item);						
 						this.dialogfrm = true;
 					});
 			},
@@ -548,7 +544,6 @@
 							.post(
 								"/dmaster/kodefikasi/kegiatan/store",
 								{
-									Jns: this.formdata.Jns,
 									PrgID: this.formdata.PrgID,
 									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,

@@ -192,6 +192,23 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-SUB-KEGIATAN_BROWSE')"
+				to="/dmaster/kodefikasi/subkegiatan"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-group</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						SUB KEGIATAN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 			<v-subheader class="purple accent-5 white--text">PEGAWAI</v-subheader>
 			<v-list-item
 				link

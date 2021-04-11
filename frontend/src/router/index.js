@@ -73,7 +73,29 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/dmaster/KodefikasiProgram.vue"),
 	},
-	//dmaster - program
+	//dmaster - kegiatan
+	{
+		path: "/dmaster/kodefikasi/kegiatan",
+		name: "KodefikasiKegiatan",
+		meta: {
+			title: "KODEFIKASI - KEGIATAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/KodefikasiKegiatan.vue"),
+	},
+	//dmaster - sub kegiatan
+	{
+		path: "/dmaster/kodefikasi/subkegiatan",
+		name: "KodefikasiSubKegiatan",
+		meta: {
+			title: "KODEFIKASI - SUB KEGIATAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/KodefikasiSubKegiatan.vue"),
+	},
+	//dmaster - kegiatan
 	{
 		path: "/dmaster/kodefikasi/kegiatan",
 		name: "KodefikasiKegiatan",

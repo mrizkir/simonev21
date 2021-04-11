@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class CreateKegiatanTable extends Migration
+class CreateSubKegiatanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -11,21 +11,21 @@ class CreateKegiatanTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmKegiatan', function (Blueprint $table) {
+        Schema::create('tmSubKegiatan', function (Blueprint $table) {
+            $table->uuid('SubKgtID');
             $table->uuid('KgtID');
-            $table->uuid('PrgID');
-            $table->string('Kd_Kegiatan',5);
-            $table->string('Nm_Kegiatan');
+            $table->string('Kd_SubKegiatan',5);
+            $table->string('Nm_SubKegiatan');
             $table->string('Descr')->nullable();
             $table->year('TA');                        
             $table->timestamps();
             
-            $table->primary('KgtID');
-            $table->index('PrgID');
+            $table->primary('SubKgtID');
+            $table->index('KgtID');
 
-            $table->foreign('PrgID')
-                ->references('PrgID')
-                ->on('tmProgram')
+            $table->foreign('KgtID')
+                ->references('KgtID')
+                ->on('tmKegiatan')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -37,6 +37,6 @@ class CreateKegiatanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmKegiatan');
+        Schema::dropIfExists('tmSubKegiatan');
     }
 }
