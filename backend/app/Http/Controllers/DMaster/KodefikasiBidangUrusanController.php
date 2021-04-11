@@ -32,7 +32,9 @@ class KodefikasiBidangUrusanController extends Controller {
                                         CONCAT(`tmUrusan`.`Kd_Urusan`,'.',`tmBidangUrusan`.`Kd_Bidang`) AS `kode_bidang`,
                                         CONCAT('[',`tmUrusan`.`Kd_Urusan`,'.',`tmBidangUrusan`.`Kd_Bidang`,'] ',`Nm_Bidang`) AS `bidangurusan`,
                                         `tmBidangUrusan`.`Descr`,
-                                        `tmBidangUrusan`.`TA`
+                                        `tmBidangUrusan`.`TA`,
+                                        `tmBidangUrusan`.`created_at`,
+                                        `tmBidangUrusan`.`updated_at`
                                     "))
                                     ->join('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
                                     ->orderBy('kode_bidang','ASC')                                    
@@ -120,6 +122,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                                         else
                                                         {
                                                             return $query->where('Kd_Bidang',$request->input('Kd_Bidang'))
+                                                                    ->where('UrsID',$kodefikasibidangurusan->UrsID)
                                                                     ->where('TA',$kodefikasibidangurusan->TA);
                                                         }                                                                                    
                                                     }),

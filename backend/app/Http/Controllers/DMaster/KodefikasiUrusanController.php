@@ -30,7 +30,9 @@ class KodefikasiUrusanController extends Controller {
                                         `Nm_Urusan`,
                                         CONCAT(\'[\',`Kd_Urusan`,\'] \',`Nm_Urusan`) AS `urusan`,
                                         `Descr`,
-                                        `TA`
+                                        `TA`,
+                                        created_at,
+                                        updated_at
                                     '))
                                     ->orderBy('Kd_Urusan','ASC')                                    
                                     ->where('TA',$ta)

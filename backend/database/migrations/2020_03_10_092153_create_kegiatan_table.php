@@ -14,7 +14,7 @@ class CreateKegiatanTable extends Migration
         Schema::create('tmKegiatan', function (Blueprint $table) {
             $table->uuid('KgtID');
             $table->uuid('PrgID');
-            $table->string('Kd_Keg',4);
+            $table->string('Kd_Kegiatan',4);
             $table->string('Nm_Kegiatan');
             $table->string('Descr')->nullable();
             $table->year('TA');                        

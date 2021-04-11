@@ -16,8 +16,8 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "program" sesuai dengan Keputusan Menteri Dalam Negeri
-					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
+					Daftar "program" sesuai dengan Keputusan Menteri Dalam Negeri No.
+					050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
 					perencanaan, dan pembangunan daerah.
 				</v-alert>
 			</template>
@@ -585,7 +585,7 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data bidang urusan dengan ID " +
+						"Apakah Anda ingin menghapus data program dengan ID " +
 							item.PrgID +
 							" ?",
 						{ color: "red", width: "500px" }

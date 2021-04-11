@@ -42,8 +42,15 @@ class KodefikasiProgramController extends Controller {
                                         COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA BIDANG URUSAN') AS Nm_Urusan,
                                         COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
                                         tmProgram.`Nm_Program`,
+                                        CASE 
+                                            WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                              CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+                                            ELSE
+                                              CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+                                        END AS nama_program,                                        
                                         tmProgram.`Jns`,
                                         tmProgram.`TA`,                                        
+                                        tmProgram.`Descr`,                                        
                                         tmProgram.`created_at`,
                                         tmProgram.`updated_at`
                                     "))
@@ -82,28 +89,30 @@ class KodefikasiProgramController extends Controller {
                 new KodefikasiKodeProgramRule($request,'unique')
             ],
         ]);     
-            
-        $ta = $request->input('TA');
-        $jns = $request->input('Jns');
+        $kodefikasiprogram = \DB::transaction(function () use ($request){
+            $ta = $request->input('TA');
+            $jns = $request->input('Jns');
 
-        $kodefikasiprogram = KodefikasiProgramModel::create([
-            'PrgID' => Uuid::uuid4()->toString(),                                              
-            'Kd_Program' => $request->input('Kd_Program'),
-            'Nm_Program' => strtoupper($request->input('Nm_Program')),
-            'Jns' => $request->input('Jns'),
-            'Descr' => $request->input('Descr'),
-            'TA'=>$ta,
-        ]);
-        if ($jns == 1)  // per urusan
-        {
-            KodefikasiUrusanProgramModel::create ([
-                'UrsPrgID'=>Uuid::uuid4()->toString(),
-                'BidangID'=>$request->input('BidangID'),
-                'PrgID'=>$kodefikasiprogram->PrgID,
-                'Descr'=>$kodefikasiprogram->Descr,
-                'TA'=>$kodefikasiprogram->TA,
+            $kodefikasiprogram = KodefikasiProgramModel::create([
+                'PrgID' => Uuid::uuid4()->toString(),                                              
+                'Kd_Program' => $request->input('Kd_Program'),
+                'Nm_Program' => strtoupper($request->input('Nm_Program')),
+                'Jns' => $request->input('Jns'),
+                'Descr' => $request->input('Descr'),
+                'TA'=>$ta,
             ]);
-        }
+            if ($jns == 1)  // per urusan
+            {
+                KodefikasiUrusanProgramModel::create ([
+                    'UrsPrgID'=>Uuid::uuid4()->toString(),
+                    'BidangID'=>$request->input('BidangID'),
+                    'PrgID'=>$kodefikasiprogram->PrgID,
+                    'Descr'=>$kodefikasiprogram->Descr,
+                    'TA'=>$kodefikasiprogram->TA,
+                ]);
+            }
+            return $kodefikasiprogram;
+        });
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
@@ -143,19 +152,30 @@ class KodefikasiProgramController extends Controller {
                                         'Nm_Program'=>'required',
                                     ]);
             
-            
-            $kodefikasiprogram->Jns = $request->input('Jns');
-            $kodefikasiprogram->Kd_Program = $request->input('Kd_Program');
-            $kodefikasiprogram->Nm_Program = strtoupper($request->input('Nm_Program'));
-            $kodefikasiprogram->Descr = $request->input('Descr');
-            $kodefikasiprogram->save();
-            
-            if ($request->input('Jns') == 0)
-            {
+            $kodefikasiprogram = \DB::transaction(function () use ($request, $kodefikasiprogram) {
+                $kodefikasiprogram->Jns = $request->input('Jns');
+                $kodefikasiprogram->Kd_Program = $request->input('Kd_Program');
+                $kodefikasiprogram->Nm_Program = strtoupper($request->input('Nm_Program'));
+                $kodefikasiprogram->Descr = $request->input('Descr');
+                $kodefikasiprogram->save();
+                
                 \DB::table('tmUrusanProgram')
-                    ->where('PrgID',$kodefikasiprogram->PrgID)
-                    ->delete();
-            }
+                        ->where('PrgID', $kodefikasiprogram->PrgID)
+                        ->delete();
+
+                if ($request->input('Jns') == 1)
+                {
+                    KodefikasiUrusanProgramModel::create ([
+                        'UrsPrgID'=>Uuid::uuid4()->toString(),
+                        'BidangID'=>$request->input('BidangID'),
+                        'PrgID'=>$kodefikasiprogram->PrgID,
+                        'Descr'=>$kodefikasiprogram->Descr,
+                        'TA'=>$kodefikasiprogram->TA,
+                    ]);
+                }            
+                return $kodefikasiprogram;
+            });
+            
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',

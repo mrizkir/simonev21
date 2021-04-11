@@ -17,7 +17,7 @@ class KodefikasiKegiatanModel extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'PrgID';
+    protected $primaryKey = 'KgtID';
     /**
      * The attributes that are mass assignable.
      *

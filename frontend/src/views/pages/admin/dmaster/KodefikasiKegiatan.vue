@@ -448,7 +448,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/program",
+						"/dmaster/kodefikasi/kegiatan",
 						{
 							TA: this.$store.getters["uifront/getTahunAnggaran"],
 						},
@@ -459,7 +459,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.datatable = data.kodefikasiprogram;
+						this.datatable = data.kodefikasikegiatan;
 						this.datatableLoading = false;
 					});
 			},
@@ -522,10 +522,9 @@
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/dmaster/kodefikasi/program/" + this.formdata.KgtID,
+								"/dmaster/kodefikasi/kegiatan/" + this.formdata.KgtID,
 								{
-									_method: "PUT",
-									Jns: this.formdata.Jns,
+									_method: "PUT",									
 									PrgID: this.formdata.PrgID,
 									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
@@ -547,7 +546,7 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/kodefikasi/program/store",
+								"/dmaster/kodefikasi/kegiatan/store",
 								{
 									Jns: this.formdata.Jns,
 									PrgID: this.formdata.PrgID,
@@ -576,7 +575,7 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data bidang urusan dengan ID " +
+						"Apakah Anda ingin menghapus data kegiatan dengan ID " +
 							item.KgtID +
 							" ?",
 						{ color: "red", width: "500px" }
@@ -586,7 +585,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/kodefikasi/program/" + item.KgtID,
+									"/dmaster/kodefikasi/kegiatan/" + item.KgtID,
 									{
 										_method: "DELETE",
 									},
