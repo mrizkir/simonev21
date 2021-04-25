@@ -22,6 +22,15 @@
 			app
 			:class="$store.getters['uifront/getTheme']('V-APP-BAR-CSS-CLASS')"
 		>
+			<v-app-bar-nav-icon
+				@click.stop="drawer = !drawer"
+				:class="
+					this.$store.getters['uifront/getTheme'](
+						'V-APP-BAR-NAV-ICON-CSS-CLASS'
+					)
+				"
+			>
+			</v-app-bar-nav-icon>
 			<v-toolbar-title
 				class="headline clickable"
 				@click.stop="
