@@ -181,43 +181,41 @@
 				RealisasiFisik1: 0,
 			},
 			//chart
-			chartLoaded:false,
-			chartrealisasikeuangan: [
-				[],
-				[],
-			],
-			chartrealisasifisik: [
-				[],
-				[],
-			],
+			chartLoaded: false,
+			chartrealisasikeuangan: [[], []],
+			chartrealisasifisik: [[], []],
 		}),
 		methods: {
 			async initialize() {
-				await this.$ajax.post('/renjamurni',
-            {
-                ta:this.tahun_anggaran,                
-                bulan_realisasi:this.bulan_realisasi,                
-            },
-            {
-                headers: {
-                    Authorization:this.$store.getters['auth/Token']
-                }
-            }).then(({data})=>{ 
-                this.statistik1 = data.statistik1;
-                //chart realisasi-keuangan
-                var realisasi_keuangan = data.chart_keuangan;
-                var realisasi_fisik = data.chart_fisik;
-                this.chartrealisasikeuangan[0] = realisasi_keuangan[0];
-                this.chartrealisasikeuangan[1] = realisasi_keuangan[1];                                
-                this.chartrealisasifisik[0] = realisasi_fisik[0];
-                this.chartrealisasifisik[1] = realisasi_fisik[1];     
-                this.chartLoaded = true;     
-            });            
+				await this.$ajax
+					.post(
+						"/renjamurni",
+						{
+							ta: this.tahun_anggaran,
+							bulan_realisasi: this.bulan_realisasi,
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.statistik1 = data.statistik1;
+						//chart realisasi-keuangan
+						var realisasi_keuangan = data.chart_keuangan;
+						var realisasi_fisik = data.chart_fisik;
+						this.chartrealisasikeuangan[0] = realisasi_keuangan[0];
+						this.chartrealisasikeuangan[1] = realisasi_keuangan[1];
+						this.chartrealisasifisik[0] = realisasi_fisik[0];
+						this.chartrealisasifisik[1] = realisasi_fisik[1];
+						this.chartLoaded = true;
+					});
 			},
 		},
 		components: {
 			RenjaMurniLayout,
-			"chart-realisasi-keuangan": ChartTargetRealisasi,        
+			"chart-realisasi-keuangan": ChartTargetRealisasi,
 			"chart-realisasi-fisik": ChartTargetRealisasi,
 		},
 	};
