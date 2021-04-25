@@ -3,7 +3,7 @@
 		<v-system-bar
 			app
 			dark
-			:class="this.$store.getters['uifront/getTheme']('V-SYSTEM-BAR-CSS-CLASS')"
+			:class="$store.getters['uifront/getTheme']('V-SYSTEM-BAR-CSS-CLASS')"
 		>
 			<v-spacer></v-spacer>
 			<strong>Hak Akses Sebagai:</strong> {{ ROLE }} |
@@ -20,7 +20,7 @@
 		<v-app-bar
 			elevation="0"
 			app
-			:class="this.$store.getters['uifront/getTheme']('V-APP-BAR-CSS-CLASS')"
+			:class="$store.getters['uifront/getTheme']('V-APP-BAR-CSS-CLASS')"
 		>
 			<v-toolbar-title
 				class="headline clickable"
@@ -88,7 +88,7 @@
 			width="300"
 			dark
 			:class="
-				this.$store.getters['uifront/getTheme']('V-NAVIGATION-DRAWER-CSS-CLASS')
+				$store.getters['uifront/getTheme']('V-NAVIGATION-DRAWER-CSS-CLASS')
 			"
 			:temporary="temporaryleftsidebar"
 			app
@@ -268,7 +268,7 @@
 				<v-divider></v-divider>
 				<v-list-item
 					:class="
-						this.$store.getters['uifrontend/getTheme'](
+						$store.getters['uifrontend/getTheme'](
 							'V_LIST_ITEM_ACTIVE_CSS_CLASS'
 						)
 					"
@@ -291,7 +291,7 @@
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
 					<strong>
-						{{ this.$store.getters["uifront/getNamaAPP"] }} (2019-2021)
+						{{ $store.getters["uifront/getNamaAPP"] }} (2019-2021)
 					</strong>
 					dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
 					<v-btn dark icon href="https://github.com/mrizkir/simonev21">

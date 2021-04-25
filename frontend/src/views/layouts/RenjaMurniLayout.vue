@@ -15,8 +15,13 @@
 					$store.getters["uifront/getBulanRealisasi"]
 				)
 			}}
+			<strong><slot name="system-bar"/></strong>
 		</v-system-bar>
-		<v-app-bar app color="#E6E9ED" elevation="0">
+		<v-app-bar
+			elevation="0"
+			app
+			:class="$store.getters['uifront/getTheme']('V-APP-BAR-CSS-CLASS')"
+		>
 			<v-toolbar-title
 				class="headline clickable"
 				@click.stop="
@@ -74,78 +79,98 @@
 					</v-list-item>
 				</v-list>
 			</v-menu>
+			<v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
+				<v-icon color="white">mdi-menu-open</v-icon>
+			</v-app-bar-nav-icon>
 		</v-app-bar>
-		<v-main>
-			<v-container fluid>
-				<v-row>
-					<v-col
-						xs="12"
-						sm="4"
-						md="3"
-						v-if="$store.getters['auth/can']('DMASTER-GROUP')"
-					>
-						<v-card
-							elevation="0"
-							class="mx-auto clickable deep-purple darken-1"
-							max-width="344"
-							min-height="230"
-							color="#385F73"
-							@click.native="$router.push('/dmaster')"
-						>
-							<div class="text-center pt-4">
-								<v-btn class="mx-2" fab dark large elevation="0" color="white">
-									<v-icon color="#DA4453">mdi-monitor-multiple</v-icon>
-								</v-btn>
-							</div>
-							<v-card-title class="white--text font-weight-bold justify-center">
-								DATA MASTER
-							</v-card-title>
-							<v-card-subtitle
-								class="white--text font-weight-medium text-center"
-							>
-								Pengaturan berbagai parameter sebagai referensi dari modul-modul
-								lain dalam sistem.
-							</v-card-subtitle>
-						</v-card>
-					</v-col>
-					<v-col
-						xs="12"
-						sm="4"
-						md="3"
-						v-if="$store.getters['auth/can']('DMASTER-GROUP')"
-					>
-						<v-card
-							elevation="0"
-							class="mx-auto clickable deep-purple darken-1"
-							max-width="344"
-							min-height="230"
-							color="#385F73"
-							@click.native="$router.push('/renjamurni')"
-						>
-							<div class="text-center pt-4">
-								<v-btn class="mx-2" fab dark large elevation="0" color="white">
-									<v-icon color="#DA4453">mdi-currency-brl</v-icon>
-								</v-btn>
-							</div>
-							<v-card-title class="white--text font-weight-bold justify-center">
-								RENJA MURNI
-							</v-card-title>
-							<v-card-subtitle
-								class="white--text font-weight-medium text-center"
-							>
-								Rencana Kerja APBD Murni OPD / Unit Kerja
-							</v-card-subtitle>
-						</v-card>
-					</v-col>
-				</v-row>
-			</v-container>
+		<v-navigation-drawer
+			v-model="drawer"
+			width="300"
+			dark
+			:class="
+				$store.getters['uifront/getTheme']('V-NAVIGATION-DRAWER-CSS-CLASS')
+			"
+			:temporary="temporaryleftsidebar"
+			app
+		>
+			<v-list-item>
+				<v-list-item-avatar>
+					<v-img :src="photoUser" @click.stop="toProfile"></v-img>
+				</v-list-item-avatar>
+				<v-list-item-content>
+					<v-list-item-title class="title white--text">
+						{{ ATTRIBUTE_USER("username") }}
+					</v-list-item-title>
+					<v-list-item-subtitle class="white--text">
+						[{{ DEFAULT_ROLE }}]
+					</v-list-item-subtitle>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				:to="{ path: '/renjamurni' }"
+				v-if="CAN_ACCESS('DMASTER-GROUP')"
+				link
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+				"
+				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-monitor-multiple</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>BOARD DATA RENJA</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-subheader class="purple accent-5 white--text">KODEFIKASI</v-subheader>
+		</v-navigation-drawer>
+		<v-navigation-drawer
+			v-model="drawerRight"
+			width="300"
+			app
+			fixed
+			right
+			temporary
+			v-if="showrightsidebar"
+		>
+			<v-list dense>
+				<v-list-item>
+					<v-list-item-icon class="mr-2">
+						<v-icon>mdi-menu-open</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title class="title">
+							OPTIONS
+						</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+				<v-divider></v-divider>
+				<v-list-item
+					:class="
+						$store.getters['uifrontend/getTheme'](
+							'V_LIST_ITEM_ACTIVE_CSS_CLASS'
+						)
+					"
+				>
+					<v-list-item-icon class="mr-2">
+						<v-icon>mdi-filter</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title>FILTER</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+				<slot name="filtersidebar" />
+			</v-list>
+		</v-navigation-drawer>
+		<v-main class="mx-4 mb-4">
+			<slot />
 		</v-main>
 		<v-footer app padless fixed dark>
 			<v-card class="flex" flat tile>
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
 					<strong>
-						{{ this.$store.getters["uifront/getNamaAPP"] }}(2019-2021)
+						{{ $store.getters["uifront/getNamaAPP"] }} (2019-2021)
 					</strong>
 					dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
 					<v-btn dark icon href="https://github.com/mrizkir/simonev21">
@@ -159,49 +184,23 @@
 <script>
 	import { mapGetters } from "vuex";
 	export default {
-		name: "Dashboard",
-		created() {
-			this.TOKEN = this.$route.params.token;
-			this.tahun_pendaftaran = this.$store.getters["uifront/getTahunAnggaran"];
-			this.breadcrumbs = [
-				{
-					text: "HOME",
-					disabled: false,
-					href: "/dashboard/" + this.TOKEN,
-				},
-				{
-					text: "DASHBOARD",
-					disabled: true,
-					href: "#",
-				},
-			];
-			this.initialize();
+		name: "RenjaMurniLayout",
+		props: {
+			showrightsidebar: {
+				type: Boolean,
+				default: true,
+			},
+			temporaryleftsidebar: {
+				type: Boolean,
+				default: false,
+			},
 		},
 		data: () => ({
-			breadcrumbs: [],
-			TOKEN: null,
-			dashboard: null,
-			tahun_pendaftaran: "",
+			loginTime: 0,
+			drawer: null,
+			drawerRight: null,
 		}),
 		methods: {
-			initialize: async function() {
-				await this.$ajax
-					.get("/auth/me", {
-						headers: {
-							Authorization: "Bearer " + this.TOKEN,
-						},
-					})
-					.then(({ data }) => {
-						this.dashboard = data.role[0];
-						this.$store.dispatch("uiadmin/changeDashboard", this.dashboard);
-					})
-					.catch(error => {
-						if (error.response.status == 401) {
-							this.$router.push("/login");
-						}
-					});
-				this.$store.dispatch("uiadmin/init", this.$ajax);
-			},
 			logout() {
 				this.loginTime = 0;
 				this.$ajax

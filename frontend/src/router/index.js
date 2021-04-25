@@ -95,17 +95,6 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/dmaster/KodefikasiSubKegiatan.vue"),
 	},
-	//dmaster - kegiatan
-	{
-		path: "/dmaster/kodefikasi/kegiatan",
-		name: "KodefikasiKegiatan",
-		meta: {
-			title: "KODEFIKASI - KEGIATAN",
-			requiresAuth: true,
-		},
-		component: () =>
-			import("../views/pages/admin/dmaster/KodefikasiKegiatan.vue"),
-	},
 	//dmaster - pegawai
 	{
 		path: "/dmaster/asn",
@@ -124,6 +113,15 @@ const routes = [
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/dmaster/Pejabat.vue"),
+	},
+	{
+		path: "/renjamurni",
+		name: "RenjaMurni",
+		meta: {
+			title: "RENCA KERJA MURNI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/RenjaMurni.vue"),
 	},
 	// other page
 	{
