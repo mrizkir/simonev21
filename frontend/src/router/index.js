@@ -95,6 +95,17 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/dmaster/KodefikasiSubKegiatan.vue"),
 	},
+	//dmaster - opd
+	{
+		path: "/dmaster/organisasi/opd",
+		name: "DMasterOPD",
+		meta: {
+			title: "ORGANISASI PERANGKAT DAERAH",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/OPD.vue"),
+	},
 	//dmaster - pegawai
 	{
 		path: "/dmaster/asn",
