@@ -114,14 +114,25 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/Pejabat.vue"),
 	},
+	//renja murni
 	{
 		path: "/renjamurni",
 		name: "RenjaMurni",
 		meta: {
-			title: "RENCA KERJA MURNI",
+			title: "RENCANA KERJA MURNI",
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/renjamurni/RenjaMurni.vue"),
+	},
+	//renja murni - rka murni
+	{
+		path: "/renjamurni/rka",
+		name: "RenjaMurniRKA",
+		meta: {
+			title: "RENCANA KERJA DAN ANGGARAN MURNI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/RKAMurni.vue"),
 	},
 	// other page
 	{
