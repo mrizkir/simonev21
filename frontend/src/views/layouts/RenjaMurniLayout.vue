@@ -149,7 +149,7 @@
 						RKA MURNI
 					</v-list-item-title>
 				</v-list-item-content>
-		</v-list-item> 
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"

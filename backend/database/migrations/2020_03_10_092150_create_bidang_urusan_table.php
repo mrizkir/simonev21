@@ -19,12 +19,14 @@ class CreateBidangUrusanTable extends Migration
             $table->string('Kd_Bidang',5);
             $table->string('Nm_Bidang');                        
             $table->string('Descr');
-            $table->year('TA');       
+            $table->year('TA');
+            $table->uuid('BidangID_Src')->nullable();
             $table->timestamps();
 
             $table->primary('BidangID'); 
             $table->index('UrsID'); 
             $table->index('Kd_Bidang'); 
+            $table->index('BidangID_Src'); 
 
             $table->foreign('UrsID')
                 ->references('UrsID')

@@ -17,11 +17,13 @@ class CreateSubKegiatanTable extends Migration
             $table->string('Kd_SubKegiatan',5);
             $table->string('Nm_SubKegiatan');
             $table->string('Descr')->nullable();
-            $table->year('TA');                        
+            $table->year('TA');           
+            $table->uuid('SubKgtID_Src')->nullable();             
             $table->timestamps();
             
             $table->primary('SubKgtID');
             $table->index('KgtID');
+            $table->index('SubKgtID_Src');
 
             $table->foreign('KgtID')
                 ->references('KgtID')

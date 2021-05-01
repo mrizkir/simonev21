@@ -17,11 +17,13 @@ class CreateKegiatanTable extends Migration
             $table->string('Kd_Kegiatan',5);
             $table->string('Nm_Kegiatan');
             $table->string('Descr')->nullable();
-            $table->year('TA');                        
+            $table->year('TA');          
+            $table->uuid('KgtID_Src')->nullable();                         
             $table->timestamps();
             
             $table->primary('KgtID');
             $table->index('PrgID');
+            $table->index('KgtID_Src');
 
             $table->foreign('PrgID')
                 ->references('PrgID')

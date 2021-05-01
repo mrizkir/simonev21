@@ -18,11 +18,13 @@ class CreateUrusanTable extends Migration
             $table->string('Kd_Urusan',5);
             $table->string('Nm_Urusan');                        
             $table->string('Descr');
-            $table->year('TA');       
+            $table->year('TA');
+            $table->uuid('UrsID_Src')->nullable();
             $table->timestamps();
 
             $table->primary('UrsID'); 
             $table->index('Kd_Urusan'); 
+            $table->index('UrsID_Src'); 
         });        
     }
 

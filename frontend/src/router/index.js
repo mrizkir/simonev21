@@ -103,8 +103,7 @@ const routes = [
 			title: "ORGANISASI PERANGKAT DAERAH",
 			requiresAuth: true,
 		},
-		component: () =>
-			import("../views/pages/admin/dmaster/OPD.vue"),
+		component: () => import("../views/pages/admin/dmaster/OPD.vue"),
 	},
 	//dmaster - pegawai
 	{

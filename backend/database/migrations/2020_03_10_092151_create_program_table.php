@@ -19,11 +19,13 @@ class CreateProgramTable extends Migration
             $table->string('Nm_Program');
             $table->tinyInteger('Jns')->default(1);            
             $table->string('Descr')->nullable();
-            $table->year('TA');                 
+            $table->year('TA');      
+            $table->uuid('PrgID_Src')->nullable();           
             $table->timestamps();
 
             $table->primary('PrgID');
             $table->index('Kd_Program');
+            $table->index('PrgID_Src');
         });        
     }
 

@@ -30,6 +30,7 @@ class KodefikasiProgramModel extends Model
         'Jns',
         'Descr',
         'TA',
+        'PrgID_Src',
     ];
     /**
      * enable auto_increment.

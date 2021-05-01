@@ -30,6 +30,7 @@ class KodefikasiKegiatanModel extends Model
         'Nm_Kegiatan',        
         'Descr',
         'TA',
+        'KgtID_Src',
     ];
     /**
      * enable auto_increment.

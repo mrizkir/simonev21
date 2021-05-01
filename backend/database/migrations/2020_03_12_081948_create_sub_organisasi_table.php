@@ -33,12 +33,14 @@ class CreateSubOrganisasiTable extends Migration
             $table->decimal('RealisasiFisik1',5,2)->default(0);
             $table->decimal('RealisasiFisik2',5,2)->default(0);            
             $table->string('Descr')->nullable();
-            $table->year('TA');       
+            $table->year('TA');      
+            $table->uuid('SubOrgID_Src')->nullable();      
             $table->timestamps();
 
             $table->primary('SOrgID'); 
             $table->index('OrgID'); 
             $table->index('Kd_SOrg'); 
+            $table->index('SubOrgID_Src'); 
 
             $table->foreign('OrgID')
                             ->references('OrgID')

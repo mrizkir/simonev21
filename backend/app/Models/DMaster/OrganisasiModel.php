@@ -49,7 +49,8 @@ class OrganisasiModel extends Model {
         'RealisasiFisik1',        
         'RealisasiFisik2',        
         'Descr', 
-        'TA'
+        'TA',
+        'OrgID_Src'
     ];
     /**
      * primary key tabel ini.

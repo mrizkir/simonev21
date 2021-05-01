@@ -46,7 +46,8 @@ class CreateOrganisasiTable extends Migration
             $table->decimal('RealisasiFisik1',5,2)->default(0);
             $table->decimal('RealisasiFisik2',5,2)->default(0);
             $table->string('Descr')->nullable();
-            $table->year('TA');       
+            $table->year('TA');
+            $table->uuid('OrgID_Src')->nullable();     
             $table->timestamps();
 
             $table->primary('OrgID'); 
@@ -58,7 +59,8 @@ class CreateOrganisasiTable extends Migration
             $table->index('kode_bidang_3');  
             $table->index('kode_organisasi'); 
             $table->index('Kd_Organisasi'); 
-            $table->index('Nm_Organisasi');             
+            $table->index('Nm_Organisasi');  
+            $table->index('OrgID_Src');           
 
             $table->foreign('BidangID_1')
                 ->references('BidangID')

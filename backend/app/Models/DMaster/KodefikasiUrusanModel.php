@@ -29,6 +29,7 @@ class KodefikasiUrusanModel extends Model
         'Nm_Urusan',
         'Descr',
         'TA',
+        'UrsID_Src',
     ];
     /**
      * enable auto_increment.

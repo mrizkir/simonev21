@@ -30,6 +30,7 @@ class KodefikasiBidangUrusanModel extends Model
         'Nm_Bidang',
         'Descr',
         'TA',
+        'BidangID_Src',
     ];
     /**
      * enable auto_increment.

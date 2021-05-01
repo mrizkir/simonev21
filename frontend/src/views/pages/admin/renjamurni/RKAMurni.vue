@@ -1,11 +1,11 @@
 <template>
-	<RenjaMurniLayout :showrightsidebar="false">			 
+	<RenjaMurniLayout :showrightsidebar="false">
 		<ModuleHeader>
 			<template v-slot:icon>
 				mdi-graph
 			</template>
 			<template v-slot:name>
-					RKA MURNI
+				RKA MURNI
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -15,187 +15,186 @@
 				</v-breadcrumbs>
 			</template>
 			<template v-slot:desc>
-				<v-alert                                        
-					color="cyan"
-					border="left"                    
-					colored-border
-					type="info"
-					>
+				<v-alert color="cyan" border="left" colored-border type="info">
 					Rencana Kegiatan dan Anggaran (RKA) OPD / Unit Kerja APBD Murni
 				</v-alert>
 			</template>
 		</ModuleHeader>
-				<v-container fluid>    
-						<v-row class="mb-4" no-gutters>
-								<v-col cols="12">
-										<v-card>
-												<v-card-title>
-														FILTER
-												</v-card-title>
-												<v-card-text>
-														<v-autocomplete 
-																:items="daftar_opd" 
-																v-model="OrgID_Selected"
-																label="OPD / SKPD" 
-																item-text="OrgNm" 
-																item-value="OrgID">                                        
-														</v-autocomplete>                          
-														<v-autocomplete 
-																:items="daftar_unitkerja" 
-																v-model="SOrgID_Selected"
-																label="UNIT KERJA" 
-																item-text="SOrgNm" 
-																item-value="SOrgID">                                        
-														</v-autocomplete>                          
-												</v-card-text>
-										</v-card>
+		<v-container fluid>
+			<v-row class="mb-4" no-gutters>
+				<v-col cols="12">
+					<v-card>
+						<v-card-title>
+							FILTER
+						</v-card-title>
+						<v-card-text>
+							<v-autocomplete
+								:items="daftar_opd"
+								v-model="OrgID_Selected"
+								label="OPD / SKPD"
+								item-text="OrgNm"
+								item-value="OrgID"
+							>
+							</v-autocomplete>
+							<v-autocomplete
+								:items="daftar_unitkerja"
+								v-model="SOrgID_Selected"
+								label="UNIT KERJA"
+								item-text="SOrgNm"
+								item-value="SOrgID"
+							>
+							</v-autocomplete>
+						</v-card-text>
+					</v-card>
+				</v-col>
+			</v-row>
+			<v-row class="mb-4" no-gutters>
+				<v-col cols="12">
+					<v-card>
+						<v-card-text>
+							<v-text-field
+								v-model="search"
+								append-icon="mdi-database-search"
+								label="Search"
+								single-line
+								hide-details
+							>
+							</v-text-field>
+						</v-card-text>
+					</v-card>
+				</v-col>
+			</v-row>
+			<v-row class="mb-4" no-gutters>
+				<v-col cols="12">
+					<v-data-table
+						:headers="headers"
+						:items="datatable"
+						:search="search"
+						item-key="RKAID"
+						sort-by="kode_kegiatan"
+						show-expand
+						dense
+						:expanded.sync="expanded"
+						:single-expand="true"
+						class="elevation-1"
+						:loading="datatableLoading"
+						loading-text="Loading... Please wait"
+						@click:row="dataTableRowClicked"
+					>
+						<template v-slot:top>
+							<v-toolbar flat color="white">
+								<v-toolbar-title>DAFTAR KEGIATAN</v-toolbar-title>
+								<v-divider class="mx-4" inset vertical></v-divider>
+								<v-spacer></v-spacer>
+							</v-toolbar>
+						</template>
+						<template v-slot:item.actions="{ item }">
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										small
+										v-bind="attrs"
+										v-on="on"
+										color="primary"
+										@click.stop="viewUraian(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>detail uraian kegiatan</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										small
+										v-bind="attrs"
+										v-on="on"
+										class="ma-2"
+										color="warning"
+										:loading="btnLoading"
+										:disabled="item.PaguDana1 > 0 || item.Locked || btnLoading"
+										@click.stop="loaddatauraianfirsttime(item)"
+									>
+										mdi-sync-circle
+									</v-icon>
+								</template>
+								<span>load uraian</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										small
+										v-bind="attrs"
+										v-on="on"
+										color="red"
+										:loading="btnLoading"
+										:disabled="btnLoading || item.Locked"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus RKA</span>
+							</v-tooltip>
+							<v-icon small class="mr-2" v-if="item.Locked">
+								mdi-lock
+							</v-icon>
+						</template>
+						<template v-slot:item.PaguDana1="{ item }">
+							{{ item.PaguDana1 | formatUang }}
+						</template>
+						<template v-slot:item.RealisasiKeuangan1="{ item }">
+							{{ item.RealisasiKeuangan1 | formatUang }}
+						</template>
+						<template v-slot:item.SisaAnggaran="{ item }">
+							{{ (item.PaguDana1 - item.RealisasiKeuangan1) | formatUang }}
+						</template>
+						<template v-slot:expanded-item="{ headers, item }">
+							<td :colspan="headers.length" class="text-center">
+								<v-col cols="12" clœass="mb1">
+									<strong>ID:</strong>{{ item.RKAID }}
+									<strong>created_at:</strong>
+									{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
+									<strong>updated_at:</strong>
+									{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								</v-col>
-						</v-row>
-						<v-row class="mb-4" no-gutters>
-								<v-col cols="12">
-										<v-card>
-												<v-card-text>
-														<v-text-field
-																v-model="search"
-																append-icon="mdi-database-search"
-																label="Search"
-																single-line
-																hide-details
-														></v-text-field>
-												</v-card-text>
-										</v-card>
-								</v-col>
-						</v-row>
-						 <v-row class="mb-4" no-gutters>
-								<v-col cols="12">
-										<v-data-table
-												:headers="headers"
-												:items="datatable"
-												:search="search"
-												item-key="RKAID"
-												sort-by="kode_kegiatan"
-												show-expand
-												dense
-												:expanded.sync="expanded"
-												:single-expand="true"
-												class="elevation-1"
-												:loading="datatableLoading"
-												loading-text="Loading... Please wait"
-												@click:row="dataTableRowClicked">
-										>
-												<template v-slot:top>
-														<v-toolbar flat color="white">
-																<v-toolbar-title>DAFTAR KEGIATAN</v-toolbar-title>
-																<v-divider
-																		class="mx-4"
-																		inset
-																		vertical
-																></v-divider>
-																<v-spacer></v-spacer>
-														</v-toolbar>
-												</template>
-												<template v-slot:item.actions="{ item }">                             
-														<v-tooltip bottom>             
-																<template v-slot:activator="{ on, attrs }">      
-																		<v-icon
-																				small
-																				v-bind="attrs"
-																				v-on="on"                                        
-																				color="primary"
-																				@click.stop="viewUraian(item)"
-																		>
-																				mdi-eye
-																		</v-icon>                                                                       
-																</template>
-																<span>detail uraian kegiatan</span>                                   
-														</v-tooltip>
-														<v-tooltip bottom>             
-																<template v-slot:activator="{ on, attrs }">      
-																		<v-icon
-																				small
-																				v-bind="attrs"
-																				v-on="on"
-																				class="ma-2"
-																				color="warning"
-																				:loading="btnLoading"
-																				:disabled="item.PaguDana1>0 || item.Locked || btnLoading"
-																				@click.stop="loaddatauraianfirsttime(item)"
-																		>
-																				mdi-sync-circle
-																		</v-icon>                                                                       
-																</template>
-																<span>load uraian</span>                                   
-														</v-tooltip>                     
-														<v-tooltip bottom>             
-																<template v-slot:activator="{ on, attrs }">      
-																		<v-icon
-																				small
-																				v-bind="attrs"
-																				v-on="on"                                        
-																				color="red"
-																				:loading="btnLoading"    
-																				:disabled="btnLoading||item.Locked"                                    
-																				@click.stop="deleteItem(item)">
-																		>
-																				mdi-delete
-																		</v-icon>                                                                       
-																</template>
-																<span>Hapus RKA</span>                                   
-														</v-tooltip>
-														<v-icon
-																small
-																class="mr-2"
-																v-if="item.Locked">
-																mdi-lock
-														</v-icon>
-												</template>
-												<template v-slot:item.PaguDana1="{ item }">                            
-														{{ item.PaguDana1|formatUang }}
-												</template>
-												<template v-slot:item.RealisasiKeuangan1="{ item }">                            
-														{{ item.RealisasiKeuangan1|formatUang }}
-												</template>
-												<template v-slot:item.SisaAnggaran="{ item }">                            
-														{{ (item.PaguDana1-item.RealisasiKeuangan1)|formatUang }}
-												</template>
-												<template v-slot:expanded-item="{ headers, item }">
-														<td :colspan="headers.length" class="text-center">
-																<v-col cols="12" clœass="mb1">
-																		<strong>ID:</strong>{{ item.RKAID }}  
-																		<strong>created_at:</strong>{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
-																		<strong>updated_at:</strong>{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
-																</v-col>                                
-														</td>
-												</template>  
-												<template v-slot:body.append>
-														<tr class="amber darken-1 font-weight-black">
-																<td colspan="3" class="text-right">TOTAL</td>
-																<td class="text-right">{{footers.pagukegiatan|formatUang}}</td>
-																<td class="text-right">{{footers.fisik}}</td>
-																<td class="text-right">{{footers.realisasi|formatUang}}</td>                                
-																<td class="text-right">{{footers.persen_keuangan.toFixed(2)}}</td>
-																<td class="text-right">{{footers.sisa|formatUang}}</td> 
-																<td></td>                               
-														</tr>
-												</template>
-												<template v-slot:no-data>                                                                                                           
-														<v-btn
-																class="ma-2"
-																:loading="btnLoading"
-																:disabled="showBtnLoadDataKegiatan || btnLoading"                                
-																color="primary"             
-																@click.stop="loaddatakegiatanFirsttime"                   
-																>
-																		LOAD DATA KEGIATAN
-																<template v-slot:loader>
-																		<span>LOADING DATA ...</span>
-																</template>
-														</v-btn>
-												</template>                 
-										</v-data-table>
-								</v-col>
-						</v-row>             
-				</v-container>
+							</td>
+						</template>
+						<template v-slot:body.append>
+							<tr class="amber darken-1 font-weight-black">
+								<td colspan="3" class="text-right">TOTAL</td>
+								<td class="text-right">
+									{{ footers.pagukegiatan | formatUang }}
+								</td>
+								<td class="text-right">{{ footers.fisik }}</td>
+								<td class="text-right">{{ footers.realisasi | formatUang }}</td>
+								<td class="text-right">
+									{{ footers.persen_keuangan.toFixed(2) }}
+								</td>
+								<td class="text-right">
+									{{ footers.sisa | formatUang }}
+								</td>
+								<td></td>
+							</tr>
+						</template>
+						<template v-slot:no-data>
+							<v-btn
+								class="ma-2"
+								:loading="btnLoading"
+								:disabled="showBtnLoadDataKegiatan || btnLoading"
+								color="primary"
+								@click.stop="loaddatakegiatanFirsttime"
+							>
+								LOAD DATA KEGIATAN
+								<template v-slot:loader>
+									<span>LOADING DATA ...</span>
+								</template>
+							</v-btn>
+						</template>
+					</v-data-table>
+				</v-col>
+			</v-row>
+		</v-container>
 	</RenjaMurniLayout>
 </template>
 <script>
@@ -348,7 +347,7 @@
 					summary.sisa = totalpagukegiatan - totalrealisasi;
 					summary.persen_keuangan =
 						totalrealisasi > 0 && totalpagukegiatan > 0
-							? ((totalrealisasi / totalpagukegiatan) * 100)
+							? (totalrealisasi / totalpagukegiatan) * 100
 							: 0;
 					summary.fisik = this.DataUnitKerja.RealisasiFisik1;
 				}
