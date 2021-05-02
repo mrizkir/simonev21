@@ -68,19 +68,26 @@
 								>
 									LOAD PAGU APBDP
 								</v-btn>
-								<v-btn
-									v-bind="attrs"
-									v-on="on"
-									color="primary"
-									icon
-									outlined
-									small
-									class="ma-2"
-									@click.stop="addItem"
-									:disabled="!$store.getters['auth/can']('DMASTER-OPD_STORE')"
-								>
-									<v-icon>mdi-plus</v-icon>
-								</v-btn>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="addItem"
+											:disabled="
+												!$store.getters['auth/can']('DMASTER-OPD_STORE')
+											"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>Tambah Perangkat Daerah (OPD)</span>
+								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="700px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
@@ -90,51 +97,85 @@
 												</span>
 											</v-card-title>
 											<v-card-text>
-												<v-text-field
-													v-model="formdata.Nm_Urusan"
-													label="URUSAN"
-													disabled
+												<v-autocomplete
+													:items="daftar_bidang_urusan"
+													v-model="bidangid_1"
+													label="KODE BIDANG URUSAN 1"
+													item-text="bidangurusan"
+													item-value="BidangID"
+													single-line
+													filled
+													return-object
 												>
-												</v-text-field>
+												</v-autocomplete>
+												<v-autocomplete
+													:items="daftar_bidang_urusan"
+													v-model="bidangid_2"
+													label="KODE BIDANG URUSAN 2"
+													item-text="bidangurusan"
+													item-value="BidangID"
+													single-line
+													filled
+													return-object
+												>
+												</v-autocomplete>
+												<v-autocomplete
+													:items="daftar_bidang_urusan"
+													v-model="bidangid_3"
+													label="KODE BIDANG URUSAN 3"
+													item-text="bidangurusan"
+													item-value="BidangID"
+													single-line
+													filled
+													return-object
+												>
+												</v-autocomplete>
 												<v-text-field
-													v-model="formdata.kode_organisasi"
+													v-model="formdata.Kd_Organisasi"
 													label="KODE OPD"
-													disabled
+													:rules="rule_kode"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
-													v-model="formdata.OrgNm"
+													v-model="formdata.Nm_Organisasi"
 													label="NAMA OPD"
-													disabled
+													:rules="rule_required"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
-													v-model="formdata.OrgAlias"
+													v-model="formdata.Alias_Organisasi"
 													:rules="rule_required"
 													label="SINGKATAN OPD"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
 													v-model="formdata.Alamat"
 													:rules="rule_required"
 													label="ALAMAT"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
 													v-model="formdata.NamaKepalaSKPD"
 													:rules="rule_kepala_skpd"
 													label="NAMA KEPALA OPD"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
 													v-model="formdata.NIPKepalaSKPD"
 													:rules="rule_nip_kepala_skpd"
 													label="NIP KEPALA OPD"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
 													v-model="formdata.Descr"
 													label="KETERANGAN"
+													filled
 												>
 												</v-text-field>
 											</v-card-text>
@@ -494,12 +535,25 @@
 				dialogfrm: false,
 				//form data
 				form_valid: true,
+				daftar_bidang_urusan: [],
+				bidangid_1: null,
+				bidangid_2: null,
+				bidangid_3: null,
 				formdata: {
 					OrgID: "",
-					Nm_Urusan: "",
+					BidangID_1: null,
+					kode_bidang_1: null,
+					Nm_Bidang_1: null,
+					BidangID_2: null,
+					kode_bidang_2: null,
+					Nm_Bidang_2: null,
+					BidangID_3: null,
+					kode_bidang_3: null,
+					Nm_Bidang_3: null,
 					kode_organisasi: "",
-					OrgNm: "",
-					OrgAlias: "",
+					Kd_Organisasi: "",
+					Nm_Organisasi: "",
+					Alias_Organisasi: "",
 					Alamat: "",
 					NamaKepalaSKPD: "",
 					NIPKepalaSKPD: "",
@@ -512,10 +566,19 @@
 				},
 				formdefault: {
 					OrgID: "",
-					Nm_Urusan: "",
+					BidangID_1: "",
+					kode_bidang_1: "",
+					Nm_Bidang_1: "",
+					BidangID_2: "",
+					kode_bidang_2: "",
+					Nm_Bidang_2: "",
+					BidangID_3: "",
+					kode_bidang_3: "",
+					Nm_Bidang_3: "",
 					kode_organisasi: "",
-					OrgNm: "",
-					OrgAlias: "",
+					Kd_Organisasi: "",
+					Nm_Organisasi: "",
+					Alias_Organisasi: "",
 					Alamat: "",
 					NamaKepalaSKPD: "",
 					NIPKepalaSKPD: "",
@@ -529,6 +592,11 @@
 				//form rules
 				rule_required: [
 					value => !!value || "Mohon untuk di isi karena dibutuhkan !!!",
+				],
+				rule_kode: [
+					value => !!value || "Mohon untuk di isi Kode OPD!!!",
+					value => /^[0-9]+$/.test(value) || "Kode OPD hanya boleh angka",
+					value => value.length > 1 || "Kode OPD Kegiatan minimaml 2 angka",
 				],
 				rule_kepala_skpd: [
 					value => !!value || "Mohon untuk di isi nama Kepala OPD / SKPD !!!",
@@ -624,6 +692,24 @@
 						this.btnLoading = false;
 					});
 			},
+			async addItem() {
+				await this.$ajax
+					.post(
+						"/dmaster/kodefikasi/bidangurusan",
+						{
+							TA: this.$store.getters["uifront/getTahunAnggaran"],
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						this.dialogfrm = true;
+					});
+			},
 			viewItem(item) {
 				this.formdata = item;
 				this.dialogdetailitem = true;
@@ -636,6 +722,37 @@
 			save() {
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
+					var org1 = "0-00.";
+					var kode_bidang = "";
+					if (this.bidangid_1) {
+						kode_bidang = this.bidangid_1.kode_bidang;
+						kode_bidang = kode_bidang.replace(".", "-");
+						this.formdata.BidangID_1 = this.bidangid_1.BidangID;
+						this.formdata.kode_bidang_1 = kode_bidang;
+						this.formdata.Nm_Bidang_1 = this.bidangid_1.Nm_Bidang;
+						org1 = kode_bidang;
+					}
+					var org2 = "0-00.";
+					if (this.bidangid_2) {
+						kode_bidang = this.bidangid_2.kode_bidang;
+						kode_bidang = kode_bidang.replace(".", "-");
+						this.formdata.BidangID_2 = this.bidangid_2.BidangID;
+						this.formdata.kode_bidang_2 = kode_bidang;
+						this.formdata.Nm_Bidang_2 = this.bidangid_2.Nm_Bidang;
+
+						org2 = kode_bidang;
+					}
+					var org3 = "0-00.";
+					if (this.bidangid_3) {
+						kode_bidang = this.bidangid_2.kode_bidang;
+						kode_bidang = kode_bidang.replace(".", "-");
+						this.formdata.BidangID_3 = this.bidangid_3.BidangID;
+						this.formdata.kode_bidang_3 = kode_bidang;
+						this.formdata.Nm_Bidang_3 = this.bidangid_3.Nm_Bidang;
+
+						org1 = kode_bidang;
+					}
+					var kode_organisasi = org1 + org2 + org3;
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
@@ -643,6 +760,42 @@
 								{
 									_method: "PUT",
 									OrgAlias: this.formdata.OrgAlias,
+									Alamat: this.formdata.Alamat,
+									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
+									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,
+									Descr: this.formdata.Descr,
+								},
+								{
+									headers: {
+										Authorization: this.$store.getters["auth/Token"],
+									},
+								}
+							)
+							.then(({ data }) => {
+								Object.assign(this.datatable[this.editedIndex], data.opd);
+								this.closedialogfrm();
+							})
+							.catch(() => {
+								this.btnLoading = false;
+							});
+					} else {
+						this.$ajax
+							.post(
+								"/dmaster/opd/" + this.formdata.OrgID,
+								{
+									BidangID_1: this.formdata.BidangID_1,
+									kode_bidang_1: this.formdata.kode_bidang_1,
+									Nm_Bidang_1: this.formdata.Nm_Bidang_1,
+
+									BidangID_2: this.formdata.BidangID_2,
+									kode_bidang_2: this.formdata.kode_bidang_2,
+									Nm_Bidang_2: this.formdata.Nm_Bidang_2,
+									
+									BidangID_3: this.formdata.BidangID_3,
+									kode_bidang_3: this.formdata.kode_bidang_3,
+									Nm_Bidang_3: this.formdata.Nm_Bidang_3,
+
+									kode_organisasi: kode_organisasi,
 									Alamat: this.formdata.Alamat,
 									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
 									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,

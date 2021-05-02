@@ -16,9 +16,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "sub kegiatan" sesuai dengan Keputusan Menteri Dalam Negeri
-					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
-					perencanaan, dan pembangunan daerah.
+					Daftar "sub kegiatan" sesuai dengan Keputusan Menteri Dalam Negeri No.
+					050-3708 tentang pemutakhiran, klasifikasi, kodefikasi, perencanaan,
+					dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -93,7 +93,7 @@
 											<v-card-text>
 												<v-container fluid>
 													<v-row>
-														<v-col cols="12" sm="12" md="12">															
+														<v-col cols="12" sm="12" md="12">
 															<v-select
 																v-model="formdata.KgtID"
 																:items="daftar_kegiatan"
@@ -408,7 +408,7 @@
 					SubKgtID: "",
 					KgtID: "",
 					Kd_SubKegiatan: "",
-					Nm_SubKegiatan: "",					
+					Nm_SubKegiatan: "",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -418,7 +418,7 @@
 					SubKgtID: "",
 					KgtID: "",
 					Kd_SubKegiatan: "",
-					Nm_SubKegiatan: "",					
+					Nm_SubKegiatan: "",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -484,7 +484,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_kegiatan = data.kodefikasikegiatan;						
+						this.daftar_kegiatan = data.kodefikasikegiatan;
 						this.dialogfrm = true;
 					});
 			},
@@ -520,7 +520,7 @@
 							.post(
 								"/dmaster/kodefikasi/subkegiatan/" + this.formdata.SubKgtID,
 								{
-									_method: "PUT",									
+									_method: "PUT",
 									KgtID: this.formdata.KgtID,
 									Kd_SubKegiatan: this.formdata.Kd_SubKegiatan,
 									Nm_SubKegiatan: this.formdata.Nm_SubKegiatan,
