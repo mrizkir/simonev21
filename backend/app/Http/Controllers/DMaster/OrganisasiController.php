@@ -8,6 +8,8 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\Statistik1Model;
 use App\Helpers\Helper;
 
+use Ramsey\Uuid\Uuid;
+
 class OrganisasiController extends Controller {     
     
     /**
@@ -29,7 +31,7 @@ class OrganisasiController extends Controller {
         {
             $data = OrganisasiModel::where('TA',$tahun)
                                 ->orderBy('kode_organisasi','ASC')
-                                ->get();
+                                ->get();            
         }       
         else if ($user->hasRole('opd'))
         {
@@ -38,8 +40,7 @@ class OrganisasiController extends Controller {
                                 ->whereIn('OrgID',$daftar_opd)
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();
-        }
-        
+        }        
 
         return Response()->json([
                                 'status'=>1,
@@ -263,8 +264,67 @@ class OrganisasiController extends Controller {
                             ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
     }
     
-    
+    /**
+     * STORE the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->hasPermissionTo('DMASTER-OPD_STORE');
 
+        $this->validate($request, [
+            'BidangID_1'=>'required|exists:tmBidangUrusan,BidangID',
+            'kode_bidang_1'=>'required',
+            'Nm_Bidang_1'=>'required',            
+
+            'kode_organisasi'=>'required',
+            'Kd_Organisasi'=>'required',
+            'Nm_Organisasi'=>'required',
+            'Alias_Organisasi'=>'required',
+            'Alamat'=>'required|min:5',
+
+            'NamaKepalaSKPD'=>'required|min:5',
+            'NIPKepalaSKPD'=>'required|min:5',
+
+            'TA'=>'required|numeric',
+        ]);
+
+        $organisasi = OrganisasiModel::create([
+            'OrgID' => Uuid::uuid4()->toString(), 
+        
+            'BidangID_1'=>$request->input('BidangID_1'),         
+            'kode_bidang_1'=>$request->input('kode_bidang_1'),
+            'Nm_Bidang_1'=>$request->input('Nm_Bidang_1'),
+            
+            'BidangID_2'=>$request->input('BidangID_2'),         
+            'kode_bidang_2'=>$request->input('kode_bidang_2'),         
+            'Nm_Bidang_2'=>$request->input('BidangID_2'),         
+
+            'BidangID_3'=>$request->input('BidangID_3'),         
+            'kode_bidang_3'=>$request->input('kode_bidang_3'),         
+            'Nm_Bidang_3'=>$request->input('Nm_Bidang_3'),         
+
+            'kode_organisasi'=>$request->input('kode_organisasi'), 
+            'Kd_Organisasi'=>$request->input('Kd_Organisasi'), 
+            'Nm_Organisasi'=>$request->input('Nm_Organisasi'), 
+            'Alias_Organisasi'=>$request->input('Alias_Organisasi'),                
+            'Alamat'=>$request->input('Alamat'), 
+            'NamaKepalaSKPD'=>$request->input('NamaKepalaSKPD'), 
+            'NIPKepalaSKPD'=>$request->input('NIPKepalaSKPD'), 
+
+            'TA'=>$request->input('TA'), 
+        ]);        
+        
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'store',
+                                'opd'=>$organisasi,                                    
+                                'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil diubah.'
+                            ], 200); 
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -277,17 +337,42 @@ class OrganisasiController extends Controller {
         $this->hasPermissionTo('DMASTER-OPD_UPDATE');
 
         $this->validate($request, [            
-            'OrgAlias'=>'required',
-            'NIPKepalaSKPD'=>'required|min:5',
-            'NamaKepalaSKPD'=>'required|min:5',
+            'BidangID_1'=>'required|exists:tmBidangUrusan,BidangID',
+            'kode_bidang_1'=>'required',
+            'Nm_Bidang_1'=>'required',            
+
+            'kode_organisasi'=>'required',
+            'Kd_Organisasi'=>'required',
+            'Nm_Organisasi'=>'required',
+            'Alias_Organisasi'=>'required',
             'Alamat'=>'required|min:5',
+
+            'NamaKepalaSKPD'=>'required|min:5',
+            'NIPKepalaSKPD'=>'required|min:5',
         ]);
 
         $organisasi = OrganisasiModel::find($id);
-        $organisasi->OrgAlias = $request->input('OrgAlias');
+        
+        $organisasi->BidangID_1 = $request->input('BidangID_1');
+        $organisasi->kode_bidang_1 = $request->input('kode_bidang_1');
+        $organisasi->Nm_Bidang_1 = $request->input('Nm_Bidang_1');
+        
+        $organisasi->BidangID_2 = $request->input('BidangID_2');
+        $organisasi->kode_bidang_2 = $request->input('kode_bidang_2');
+        $organisasi->Nm_Bidang_2 = $request->input('Nm_Bidang_2');
+        
+        $organisasi->BidangID_3 = $request->input('BidangID_3');
+        $organisasi->kode_bidang_3 = $request->input('kode_bidang_3');
+        $organisasi->Nm_Bidang_3 = $request->input('Nm_Bidang_3');
+        
+        $organisasi->kode_organisasi = $request->input('kode_organisasi');
+        $organisasi->Kd_Organisasi = $request->input('Kd_Organisasi');
+        $organisasi->Nm_Organisasi = $request->input('Nm_Organisasi');
+        $organisasi->Alias_Organisasi = $request->input('Alias_Organisasi');
+        $organisasi->Alamat = $request->input('Alamat');
         $organisasi->NamaKepalaSKPD = $request->input('NamaKepalaSKPD');
         $organisasi->NIPKepalaSKPD = $request->input('NIPKepalaSKPD');
-        $organisasi->Alamat = $request->input('Alamat');
+        
         $organisasi->Descr = $request->input('Descr');
         $organisasi->save();
 
@@ -295,9 +380,41 @@ class OrganisasiController extends Controller {
                                     'status'=>1,
                                     'pid'=>'update',
                                     'opd'=>$organisasi,                                    
-                                    'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil diubah.'
+                                    'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
                                 ],200); 
     
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $uuid
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request,$id)
+    {   
+        $this->hasPermissionTo('DMASTER-OPD_DESTROY');
+
+        $organisasi = OrganisasiModel::find($id);
+
+        if (is_null($organisasi))
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>["Data OPD ($id) gagal dihapus"]
+                                ],422); 
+        }
+        else
+        {
+            
+            $result=$organisasi->delete();
+
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Data OPD dengan ID ($id) berhasil dihapus"
+                                ],200);
+        }
     }
     /**
      * digunakan untuk mendapat unit kerja berdasarkan OrgID

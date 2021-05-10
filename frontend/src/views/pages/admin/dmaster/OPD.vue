@@ -47,11 +47,13 @@
 						item-key="OrgID"
 						sort-by="kode_organisasi"
 						show-expand
+						:expanded.sync="expanded"						
 						dense
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"
 						:single-expand="true"
 						class="elevation-1"
+						@click:row="dataTableRowClicked"
 					>
 						<template v-slot:top>
 							<v-toolbar flat color="white">
@@ -277,7 +279,7 @@
 															<strong>NAMA OPD:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.OrgNm }}
+															{{ formdata.Nm_Organisasi }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -307,7 +309,7 @@
 															<strong>SINGKATAN:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.OrgAlias }}
+															{{ formdata.Alias_Organisasi }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -334,10 +336,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															<strong>URUSAN:</strong>
+															<strong>BIDANG URUSAN:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_Urusan }}
+															{{ formdata.Nm_Bidang_1 }} {{ formdata.Nm_Bidang_2 }} {{ formdata.Nm_Bidang_3 }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -419,16 +421,62 @@
 						<template v-slot:item.PaguDana1="{ item }">
 							{{ item.PaguDana1 | formatUang }}
 						</template>
+						<template v-slot:item.Nm_Bidang_1="{ item }">
+							{{ item.Nm_Bidang_1 }} {{ item.Nm_Bidang_2 }} {{ item.Nm_Bidang_3 }}
+						</template>
 						<template v-slot:item.PaguDana2="{ item }">
 							{{ item.PaguDana2 | formatUang }}
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="viewItem(item)">
-								mdi-eye
-							</v-icon>
-							<v-icon small class="mr-2" @click.stop="editItem(item)">
-								mdi-pencil
-							</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="viewItem(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>Detail OPD</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="editItem(item)"
+										:disabled="
+											!$store.getters['auth/can']('DMASTER-OPD_UPDATE')
+										"
+									>
+										mdi-pencil
+									</v-icon>
+								</template>
+								<span>Ubah OPD</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										color="red darken-1"
+										:disabled="
+											btnLoading ||
+												!$store.getters['auth/can']('DMASTER-OPD_DESTROY')
+										"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus OPD</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
@@ -442,6 +490,15 @@
 								{{ item.Alamat }}
 								<strong>TA:</strong>
 								{{ item.TA }}
+								<strong>created_at:</strong>
+								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
+								<strong>updated_at:</strong>
+								{{ $date(item.updated_at).format("DD/MM/YYYY HH:mm") }}
+							</td>
+						</template>
+						<template v-slot:expanded-item="{ headers, item }">
+							<td :colspan="headers.length" class="text-center">
+								<strong>ID:</strong>{{ item.OrgID }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -510,10 +567,12 @@
 				btnLoading: false,
 				datatableLoading: false,
 				datatableLoaded: false,
+				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "KODE OPD", value: "kode_organisasi", width: 70 },
-					{ text: "NAMA OPD", value: "OrgNm", width: 300 },
+					{ text: "KODE OPD", value: "kode_organisasi", width: 150 },
+					{ text: "NAMA OPD", value: "Nm_Organisasi", width: 300 },
+					{ text: "BIDANG URUSAN", value: "Nm_Bidang_1", width: 200 },
 					{ text: "KEPALA OPD", value: "NamaKepalaSKPD", width: 200 },
 					{ text: "APBD", align: "end", value: "PaguDana1", width: 100 },
 					{
@@ -589,6 +648,7 @@
 					created_at: "",
 					updated_at: "",
 				},
+				editedIndex: -1,
 				//form rules
 				rule_required: [
 					value => !!value || "Mohon untuk di isi karena dibutuhkan !!!",
@@ -596,7 +656,13 @@
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode OPD!!!",
 					value => /^[0-9]+$/.test(value) || "Kode OPD hanya boleh angka",
-					value => value.length > 1 || "Kode OPD Kegiatan minimaml 2 angka",
+					value => {
+						if (value && typeof value !== "undefined" && value.length >= 2){
+							return true;
+						} else {
+							return "Kode OPD Kegiatan minimaml 2 angka";
+						}     
+					}
 				],
 				rule_kepala_skpd: [
 					value => !!value || "Mohon untuk di isi nama Kepala OPD / SKPD !!!",
@@ -627,12 +693,25 @@
 						}
 					)
 					.then(({ data }) => {
+						var opd = data.opd;
+						for (var key in opd) {
+							if (opd[key].Kd_Organisasi < 10) {
+								opd[key].Kd_Organisasi = "0" + opd[key].Kd_Organisasi;
+							}
+						}
 						this.datatable = data.opd;
 						this.footers.jumlah_apbd = data.jumlah_apbd;
 						this.footers.jumlah_apbdp = data.jumlah_apbdp;
 						this.datatableLoaded = true;
 						this.datatableLoading = false;
 					});
+			},
+			dataTableRowClicked(item) {
+				if (item === this.expanded[0]) {
+					this.expanded = [];
+				} else {
+					this.expanded = [item];
+				}
 			},
 			loaddataopd() {
 				this.$root.$confirm
@@ -714,15 +793,51 @@
 				this.formdata = item;
 				this.dialogdetailitem = true;
 			},
-			editItem(item) {
+			async editItem(item) {
 				this.editedIndex = this.datatable.indexOf(item);
 				this.formdata = Object.assign({}, item);
-				this.dialogfrm = true;
+				await this.$ajax
+					.post(
+						"/dmaster/kodefikasi/bidangurusan",
+						{
+							TA: this.$store.getters["uifront/getTahunAnggaran"],
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						if (this.formdata.BidangID_1) {
+							this.bidangid_1 = {
+								BidangID: this.formdata.BidangID_1,
+								kode_bidang: this.formdata.kode_bidang_1,
+								Nm_Bidang: this.formdata.Nm_Bidang_1,
+							};
+						}
+						if (this.formdata.BidangID_2) {
+							this.bidangid_2 = {
+								BidangID: this.formdata.BidangID_2,
+								kode_bidang: this.formdata.kode_bidang_2,
+								Nm_Bidang: this.formdata.Nm_Bidang_2,
+							};
+						}
+						if (this.formdata.BidangID_3) {
+							this.bidangid_3 = {
+								BidangID: this.formdata.BidangID_3,
+								kode_bidang: this.formdata.kode_bidang_3,
+								Nm_Bidang: this.formdata.Nm_Bidang_3,
+							};
+						}
+						this.dialogfrm = true;
+					});				
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
-					var org1 = "0-00.";
+					var org1 = "0-00";
 					var kode_bidang = "";
 					if (this.bidangid_1) {
 						kode_bidang = this.bidangid_1.kode_bidang;
@@ -732,7 +847,7 @@
 						this.formdata.Nm_Bidang_1 = this.bidangid_1.Nm_Bidang;
 						org1 = kode_bidang;
 					}
-					var org2 = "0-00.";
+					var org2 = "0-00";
 					if (this.bidangid_2) {
 						kode_bidang = this.bidangid_2.kode_bidang;
 						kode_bidang = kode_bidang.replace(".", "-");
@@ -742,24 +857,37 @@
 
 						org2 = kode_bidang;
 					}
-					var org3 = "0-00.";
+					var org3 = "0-00";
 					if (this.bidangid_3) {
-						kode_bidang = this.bidangid_2.kode_bidang;
+						kode_bidang = this.bidangid_3.kode_bidang;
 						kode_bidang = kode_bidang.replace(".", "-");
 						this.formdata.BidangID_3 = this.bidangid_3.BidangID;
 						this.formdata.kode_bidang_3 = kode_bidang;
 						this.formdata.Nm_Bidang_3 = this.bidangid_3.Nm_Bidang;
 
-						org1 = kode_bidang;
+						org3 = kode_bidang;
 					}
-					var kode_organisasi = org1 + org2 + org3;
+					this.formdata.kode_organisasi =
+						org1 + "." + org2 + "." + org3 + "." + this.formdata.Kd_Organisasi;
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
 								"/dmaster/opd/" + this.formdata.OrgID,
 								{
 									_method: "PUT",
-									OrgAlias: this.formdata.OrgAlias,
+									BidangID_1: this.formdata.BidangID_1,
+									kode_bidang_1: this.formdata.kode_bidang_1,
+									Nm_Bidang_1: this.formdata.Nm_Bidang_1,
+									BidangID_2: this.formdata.BidangID_2,
+									kode_bidang_2: this.formdata.kode_bidang_2,
+									Nm_Bidang_2: this.formdata.Nm_Bidang_2,
+									BidangID_3: this.formdata.BidangID_3,
+									kode_bidang_3: this.formdata.kode_bidang_3,
+									Nm_Bidang_3: this.formdata.Nm_Bidang_3,
+									kode_organisasi: this.formdata.kode_organisasi,
+									Kd_Organisasi: this.formdata.Kd_Organisasi,
+									Nm_Organisasi: this.formdata.Nm_Organisasi,
+									Alias_Organisasi: this.formdata.Alias_Organisasi,
 									Alamat: this.formdata.Alamat,
 									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
 									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,
@@ -781,25 +909,26 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/opd/" + this.formdata.OrgID,
+								"/dmaster/opd/store/",
 								{
 									BidangID_1: this.formdata.BidangID_1,
 									kode_bidang_1: this.formdata.kode_bidang_1,
 									Nm_Bidang_1: this.formdata.Nm_Bidang_1,
-
 									BidangID_2: this.formdata.BidangID_2,
 									kode_bidang_2: this.formdata.kode_bidang_2,
 									Nm_Bidang_2: this.formdata.Nm_Bidang_2,
-									
 									BidangID_3: this.formdata.BidangID_3,
 									kode_bidang_3: this.formdata.kode_bidang_3,
 									Nm_Bidang_3: this.formdata.Nm_Bidang_3,
-
-									kode_organisasi: kode_organisasi,
+									kode_organisasi: this.formdata.kode_organisasi,
+									Kd_Organisasi: this.formdata.Kd_Organisasi,
+									Nm_Organisasi: this.formdata.Nm_Organisasi,
+									Alias_Organisasi: this.formdata.Alias_Organisasi,
 									Alamat: this.formdata.Alamat,
 									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
 									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,
 									Descr: this.formdata.Descr,
+									TA: this.$store.getters["uifront/getTahunAnggaran"],
 								},
 								{
 									headers: {
@@ -807,8 +936,8 @@
 									},
 								}
 							)
-							.then(({ data }) => {
-								Object.assign(this.datatable[this.editedIndex], data.opd);
+							.then(() => {								
+								this.initialize();
 								this.closedialogfrm();
 							})
 							.catch(() => {
@@ -816,6 +945,41 @@
 							});
 					}
 				}
+			},
+			deleteItem(item) {
+				this.$root.$confirm
+					.open(
+						"Delete",
+						"Apakah Anda ingin menghapus data OPD dengan ID " +
+							item.OrgID +
+							" ?",
+						{ color: "red", width: "500px" }
+					)
+					.then(confirm => {
+						if (confirm) {
+							this.btnLoading = true;
+							this.$ajax
+								.post(
+									"/dmaster/opd/" + item.OrgID,
+									{
+										_method: "DELETE",
+									},
+									{
+										headers: {
+											Authorization: this.$store.getters["auth/Token"],
+										},
+									}
+								)
+								.then(() => {
+									const index = this.datatable.indexOf(item);
+									this.datatable.splice(index, 1);
+									this.btnLoading = false;
+								})
+								.catch(() => {
+									this.btnLoading = false;
+								});
+						}
+					});
 			},
 			closedialogdetailitem() {
 				this.btnLoading = false;

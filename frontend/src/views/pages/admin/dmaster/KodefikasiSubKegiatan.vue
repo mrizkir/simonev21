@@ -570,7 +570,7 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data kegiatan dengan ID " +
+						"Apakah Anda ingin menghapus data sub kegiatan dengan ID " +
 							item.SubKgtID +
 							" ?",
 						{ color: "red", width: "500px" }
