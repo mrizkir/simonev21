@@ -507,7 +507,7 @@
 						</template>
 						<template v-slot:body.append>
 							<tr class="amber darken-1 font-weight-black">
-								<td colspan="4" class="text-right">TOTAL</td>
+								<td colspan="5" class="text-right">TOTAL</td>
 								<td class="text-right">
 									{{ footers.jumlah_apbd | formatUang }}
 								</td>
