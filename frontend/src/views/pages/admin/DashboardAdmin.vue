@@ -153,7 +153,7 @@
 						>
 							<div class="text-center pt-4">
 								<v-btn class="mx-2" fab dark large elevation="0" color="white">
-									<v-icon color="#DA4453">mdi-account-key</v-icon>
+									<v-icon color="#DA4453">mdi-account</v-icon>
 								</v-btn>
 							</div>
 							<v-card-title class="white--text font-weight-bold justify-center">

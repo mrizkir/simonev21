@@ -295,9 +295,7 @@
 				<v-divider></v-divider>
 				<v-list-item
 					:class="
-						$store.getters['uifrontend/getTheme'](
-							'V_LIST_ITEM_ACTIVE_CSS_CLASS'
-						)
+						$store.getters['uifront/getTheme']('V_LIST_ITEM_ACTIVE_CSS_CLASS')
 					"
 				>
 					<v-list-item-icon class="mr-2">
