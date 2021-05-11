@@ -44,6 +44,9 @@ const getters = {
 		let page = state.pages.find(halaman => halaman.name == name);
 		return page[key];
 	},
+	getDefaultDashboard: state => {
+		return state.default_dashboard;
+	},
 };
 const actions = {
 	init: async function({ commit, state, rootGetters }, ajax) {

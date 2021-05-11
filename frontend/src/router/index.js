@@ -144,6 +144,34 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjamurni/RKAMurni.vue"),
 	},
+	//system
+	{
+		path: "/system-users",
+		name: "SystemUsers",
+		meta: {
+			title: "SYSTEM - USERS",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/SystemUsers.vue"),
+	},
+	{
+		path: "/system-users/permissions",
+		name: "UsersPermissions",
+		meta: {
+			title: "USERS - PERMISSIONS",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/Permissions.vue"),
+	},
+	{
+		path: "/system-users/roles",
+		name: "UsersRoles",
+		meta: {
+			title: "USERS - ROLES",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/Roles.vue"),
+	},
 	// other page
 	{
 		path: "/404",

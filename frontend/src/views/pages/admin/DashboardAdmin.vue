@@ -137,6 +137,35 @@
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
+					<v-col
+						xs="12"
+						sm="4"
+						md="3"
+						v-if="$store.getters['auth/can']('SYSTEM-USERS-GROUP')"
+					>
+						<v-card
+							elevation="0"
+							class="mx-auto clickable deep-purple darken-1"
+							max-width="344"
+							min-height="230"
+							color="#385F73"
+							@click.native="$router.push('/system-users')"
+						>
+							<div class="text-center pt-4">
+								<v-btn class="mx-2" fab dark large elevation="0" color="white">
+									<v-icon color="#DA4453">mdi-account-key</v-icon>
+								</v-btn>
+							</div>
+							<v-card-title class="white--text font-weight-bold justify-center">
+								USER SISTEM
+							</v-card-title>
+							<v-card-subtitle
+								class="white--text font-weight-medium text-center"
+							>
+								Modul ini digunakan untuk mengelola user sistem.
+							</v-card-subtitle>
+						</v-card>
+					</v-col>
 				</v-row>
 			</v-container>
 		</v-main>
