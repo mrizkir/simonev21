@@ -62,14 +62,24 @@
 								</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="primary"
-									class="mb-2"
-									@click.stop="loadPaguAPBDP"
-									:disabled="btnLoading"
-								>
-									LOAD PAGU APBDP
-								</v-btn>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="warning"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="loadPaguAPBDP"
+											:disabled="btnLoading"
+										>
+											<v-icon>mdi-database-refresh</v-icon>
+										</v-btn>
+									</template>
+									<span>LOAD PAGU APBDP</span>
+								</v-tooltip>
 								<v-tooltip bottom>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn
