@@ -8,48 +8,60 @@
 				<v-row class="mb-4" no-gutters>
 					<v-col xs="12" sm="12" md="12">
 						<v-card>
-						   <v-card-text>
+							<v-card-text>
 								<v-row no-gutters>
-								   <v-col xs="12" sm="6" md="6">
-									   <v-card flat>
+									<v-col xs="12" sm="6" md="6">
+										<v-card flat>
 											<v-card-title>ID :</v-card-title>
 											<v-card-subtitle>
-												{{role.id}}
+												{{ role.id }}
 											</v-card-subtitle>
 										</v-card>
-								   </v-col>
-								   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-								   <v-col xs="12" sm="6" md="6">
-									   <v-card flat>
+									</v-col>
+									<v-responsive
+										width="100%"
+										v-if="$vuetify.breakpoint.xsOnly"
+									/>
+									<v-col xs="12" sm="6" md="6">
+										<v-card flat>
 											<v-card-title>TANGGAL BUAT :</v-card-title>
 											<v-card-subtitle>
-												{{$date(role.created_at).format("DD/MM/YYYY HH:mm")}}
+												{{ $date(role.created_at).format("DD/MM/YYYY HH:mm") }}
 											</v-card-subtitle>
 										</v-card>
-								   </v-col>
-								   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-								</v-row>        
+									</v-col>
+									<v-responsive
+										width="100%"
+										v-if="$vuetify.breakpoint.xsOnly"
+									/>
+								</v-row>
 								<v-row no-gutters>
-								   <v-col xs="12" sm="6" md="6">
-									   <v-card flat>
+									<v-col xs="12" sm="6" md="6">
+										<v-card flat>
 											<v-card-title>NAMA ROLE :</v-card-title>
 											<v-card-subtitle>
-												{{role.name}}
+												{{ role.name }}
 											</v-card-subtitle>
 										</v-card>
-								   </v-col>
-								   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
-								   <v-col xs="12" sm="6" md="6">
-									   <v-card flat>
+									</v-col>
+									<v-responsive
+										width="100%"
+										v-if="$vuetify.breakpoint.xsOnly"
+									/>
+									<v-col xs="12" sm="6" md="6">
+										<v-card flat>
 											<v-card-title>TANGGAL UBAH :</v-card-title>
 											<v-card-subtitle>
-												{{$date(role.updated_at).format("DD/MM/YYYY HH:mm")}}
+												{{ $date(role.updated_at).format("DD/MM/YYYY HH:mm") }}
 											</v-card-subtitle>
 										</v-card>
-								   </v-col>
-								   <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly"/>
+									</v-col>
+									<v-responsive
+										width="100%"
+										v-if="$vuetify.breakpoint.xsOnly"
+									/>
 								</v-row>
-						   </v-card-text>
+							</v-card-text>
 						</v-card>
 					</v-col>
 				</v-row>
@@ -68,7 +80,7 @@
 						</v-card>
 					</v-col>
 				</v-row>
-				<v-row no-gutters> 
+				<v-row no-gutters>
 					<v-col col="12">
 						<v-data-table
 							v-model="permissions_selected"
@@ -80,22 +92,22 @@
 							show-select
 							class="elevation-1"
 						>
-							<template v-slot:item.actions="{ item }">      
+							<template v-slot:item.actions="{ item }">
 								<v-tooltip color="info" bottom>
-									<template v-slot:activator="{on,attrs}">
-										<v-btn 
-											icon                                        
-											
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											icon
 											:disabled="btnLoading"
 											v-bind="attrs"
 											v-on="on"
-											@click.stop="revoke(item)">
+											@click.stop="revoke(item)"
+										>
 											<v-icon small>
 												mdi-delete
 											</v-icon>
-										</v-btn>                                     
+										</v-btn>
 									</template>
-									<span>Hapus Permission dari Role ini</span>  
+									<span>Hapus Permission dari Role ini</span>
 								</v-tooltip>
 							</template>
 						</v-data-table>
@@ -106,13 +118,13 @@
 		<v-card-actions>
 			<v-spacer></v-spacer>
 			<v-btn color="blue darken-1" text @click.stop="close">KELUAR</v-btn>
-			<v-btn 
-				color="blue darken-1" 
-				text 
-				
-				:disabled="btnLoading||!perm_selected.length > 0"
-				@click.stop="save">
-					SIMPAN
+			<v-btn
+				color="blue darken-1"
+				text
+				:disabled="btnLoading || !perm_selected.length > 0"
+				@click.stop="save"
+			>
+				SIMPAN
 			</v-btn>
 		</v-card-actions>
 	</v-card>
@@ -126,56 +138,64 @@
 			//tables
 			headers: [
 				{ text: "NAMA PERMISSION", value: "name" },
-				{ text: "GUARD", value: "guard_name" },  
-				{ text: "AKSI", value: "actions", sortable: false, width: 100 },      
+				{ text: "GUARD", value: "guard_name" },
+				{ text: "AKSI", value: "actions", sortable: false, width: 100 },
 			],
-			search: "",   
-			perm_selected: []
+			search: "",
+			perm_selected: [],
 		}),
 		methods: {
 			save() {
 				this.btnLoading = true;
-				this.$ajax.post("/system/setting/roles/storerolepermissions",
-					{
-						role_id: this.role.id,
-						chkpermission: this.permissions_selected
-					},
-					{
-						headers: {
-							Authorization: this.TOKEN
+				this.$ajax
+					.post(
+						"/system/setting/roles/storerolepermissions",
+						{
+							role_id: this.role.id,
+							chkpermission: this.permissions_selected,
+						},
+						{
+							headers: {
+								Authorization: this.TOKEN,
+							},
 						}
-					}
-				).then(() => {
-					this.btnLoading = false;
-					this.close();              
-				}).catch(() => {
-					this.btnLoading = false;
-				});
+					)
+					.then(() => {
+						this.btnLoading = false;
+						this.close();
+					})
+					.catch(() => {
+						this.btnLoading = false;
+					});
 			},
-			revoke(item) {   
-				this.btnLoading = true;       
-				this.$ajax.post("/system/setting/roles/revokerolepermissions",
-					{
-						role_id: this.role.id,
-						name:item.name
-					},
-					{
-						headers: {
-							Authorization: this.TOKEN
+			revoke(item) {
+				this.btnLoading = true;
+				this.$ajax
+					.post(
+						"/system/setting/roles/revokerolepermissions",
+						{
+							role_id: this.role.id,
+							name: item.name,
+						},
+						{
+							headers: {
+								Authorization: this.TOKEN,
+							},
 						}
-					}
-				).then(() => {
-					this.btnLoading = false;
-					this.close();              
-				}).catch(() => {
-					this.btnLoading = false;
-				});
+					)
+					.then(() => {
+						this.btnLoading = false;
+						this.close();
+					})
+					.catch(() => {
+						this.btnLoading = false;
+					});
 			},
 			close() {
 				this.btnLoading = false;
-				this.permissions_selected=[];
-				this.$emit("closeRolePermissions",this.role.id);
-			}
+				this.permissions_selected = [];
+				this.$emit("closeRolePermissions", this.role.id);
+			},
 		},
 		props: {
 			role: Object,
@@ -183,24 +203,24 @@
 			permissionsselected: Array,
 		},
 		computed: {
-			...mapGetters("auth", {                  
-				TOKEN: "Token",     
+			...mapGetters("auth", {
+				TOKEN: "Token",
 			}),
 			daftar_permissions() {
 				return this.daftarpermissions;
 			},
 			permissions_selected: {
-				get() {     
-					if (this.perm_selected.length >0) {
+				get() {
+					if (this.perm_selected.length > 0) {
 						return this.perm_selected;
 					} else {
 						return this.permissionsselected;
 					}
 				},
-				set(val) {     
-					this.perm_selected=val;              
-				}
+				set(val) {
+					this.perm_selected = val;
+				},
 			},
 		},
-	}
+	};
 </script>
