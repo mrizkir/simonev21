@@ -97,6 +97,11 @@
 				"uifront/getTahunAnggaran"
 			];
 			this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+			if (!(this.daftar_ta.length > 0)) {
+				this.$ajax.get("/system/setting/uifront").then(({ data }) => {
+					this.daftar_ta = data.daftar_ta;
+				});
+			}
 		},
 		data: () => ({
 			btnLoading: false,

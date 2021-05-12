@@ -57,11 +57,11 @@ const getters = {
 		return state.daftar_bulan;
 	},
 	getNamaBulan: state => key => {
-		if (key == "" || key == null || key == "undefined") {
+		if (key == "" || key == null || typeof key == "undefined") {
 			return "N.A";
 		} else {
 			var daftar_bulan = state.daftar_bulan.find(el => el.value == key);
-			return daftar_bulan.text;
+			return typeof daftar_bulan === "undefined" ? "N.A" : daftar_bulan.text;
 		}
 	},
 	getBulanRealisasi: state => {
