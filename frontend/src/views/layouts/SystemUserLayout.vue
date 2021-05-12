@@ -142,6 +142,20 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')"
+				to="/system-users/roles"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account-group</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						ROLES
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"
