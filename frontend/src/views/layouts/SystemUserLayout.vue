@@ -156,6 +156,91 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-divider color="yellow" />
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN_BROWSE')"
+				to="/system-users/superadmin"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						SUPERADMIN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-BAPELITBANG_BROWSE')"
+				to="/system-users/bapelitbang"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						BAPPELITBANG
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-OPD_BROWSE')"
+				to="/system-users/opd"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						OPD
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-PPTK_BROWSE')"
+				to="/system-users/pptk"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						PPTK
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-DEWAN_BROWSE')"
+				to="/system-users/dewan"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						DEWAN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-TAPD_BROWSE')"
+				to="/system-users/tapd"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-account</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						TAPD
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"
