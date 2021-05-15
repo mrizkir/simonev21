@@ -58,14 +58,24 @@
 								<v-toolbar-title>DAFTAR USERS SUPER ADMIN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="primary"
-									class="mb-2"
-									:disabled="btnLoading"
-									@click.stop="showDialogTambahUserSuperAdmin"
-								>
-									TAMBAH
-								</v-btn>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											:disabled="btnLoading"
+											@click.stop="showDialogTambahUserSuperAdmin"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>Tambah Superadmin</span>
+								</v-tooltip>
 								<v-dialog v-model="dialog" max-width="500px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
@@ -209,21 +219,37 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon
-								small
-								class="mr-2"
-								:disabled="btnLoading"
-								@click.stop="editItem(item)"
-							>
-								mdi-pencil
-							</v-icon>
-							<v-icon
-								small
-								:disabled="btnLoading"
-								@click.stop="deleteItem(item)"
-							>
-								mdi-delete
-							</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										:disabled="btnLoading"
+										@click.stop="editItem(item)"
+									>
+										mdi-pencil
+									</v-icon>
+								</template>
+								<span>Ubah User</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										color="red darken-1"
+										:disabled="btnLoading || item.isdeleted == 0"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus User</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:item.foto="{ item }">
 							<v-avatar size="30">
