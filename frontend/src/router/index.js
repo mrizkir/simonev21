@@ -172,6 +172,15 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/system/Roles.vue"),
 	},
+	{
+		path: "/system-users/superadmin",
+		name: "UsersSuperadmin",
+		meta: {
+			title: "USERS - SUPER ADMIN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersSuperadmin.vue"),
+	},
 	// other page
 	{
 		path: "/404",
