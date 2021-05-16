@@ -181,6 +181,15 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/system/UsersSuperadmin.vue"),
 	},
+	{
+		path: "/system-users/bapelitbang",
+		name: "UsersBapelitbang",
+		meta: {
+			title: "USERS - BAPPELITBANG",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersBapelitbang.vue"),
+	},
 	// other page
 	{
 		path: "/404",
