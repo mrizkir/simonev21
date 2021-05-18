@@ -74,7 +74,7 @@
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah Superadmin</span>
+									<span>Tambah User Superadmin</span>
 								</v-tooltip>
 								<v-dialog v-model="dialog" max-width="500px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>

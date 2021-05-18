@@ -58,23 +58,42 @@
 								<v-toolbar-title>DAFTAR USERS BAPPELITBANG</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="warning"
-									:disabled="btnLoading"
-									class="mb-2 mr-2"
-									@click.stop="syncPermission"
-									v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')"
-								>
-									SYNC PERMISSION
-								</v-btn>
-								<v-btn
-									color="primary"
-									class="mb-2"
-									:disabled="btnLoading"
-									@click.stop="showDialogTambahUserBapelitbang"
-								>
-									TAMBAH
-								</v-btn>
+								<v-tooltip bottom v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="warning"
+											icon
+											outlined
+											small
+											class="ma-2"
+											:disabled="btnLoading"
+											@click.stop="syncPermission"
+										>
+											<v-icon>mdi-head-sync-outline</v-icon>
+										</v-btn>
+									</template>
+									<span>Sinkronisasi Permission</span>
+								</v-tooltip>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											:disabled="btnLoading"
+											@click.stop="showDialogTambahUserBapelitbang"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>Tambah User Bapelitbang</span>
+								</v-tooltip>
 								<v-dialog v-model="dialog" max-width="500px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
@@ -341,7 +360,7 @@
 				{ text: "NAME", value: "name", sortable: true },
 				{ text: "EMAIL", value: "email", sortable: true },
 				{ text: "NOMOR HP", value: "nomor_hp", sortable: true },
-				{ text: "AKSI", value: "actions", sortable: false, width: 100 },
+				{ text: "AKSI", value: "actions", sortable: false, width: 120 },
 			],
 			expanded: [],
 			search: "",
@@ -439,7 +458,7 @@
 				this.$root.$confirm
 					.open(
 						"Konfirmasi Sinkronisasi",
-						"Sinkronisasi hanya untuk user dalam role program studi, bila user memiliki role lain akan terhapus permission-nya ?",
+						"Sinkronisasi hanya untuk user dalam role bapelitbang, bila user memiliki role lain akan terhapus permission-nya ?",
 						{ color: "warning", width: 500 }
 					)
 					.then(async confirm => {
