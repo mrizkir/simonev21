@@ -26,35 +26,35 @@ class PermissionsTableSeeder extends Seeder
         ]);
         
         \DB::table('permissions')->insert([
-            'name'=>"DMASTER-GROUP_BROWSE",
+            'name'=>"DMASTER-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"RPJMD-GROUP_BROWSE",
+            'name'=>"RPJMD-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
         
         \DB::table('permissions')->insert([
-            'name'=>"RENSTRA-GROUP_BROWSE",
+            'name'=>"RENSTRA-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"RKPD-GROUP_BROWSE",
+            'name'=>"RKPD-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
 
         \DB::table('permissions')->insert([
-            'name'=>"RENJA-GROUP_BROWSE",
+            'name'=>"RENJA-GROUP",
             'guard_name'=>'api',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
@@ -97,7 +97,7 @@ class PermissionsTableSeeder extends Seeder
             'DMASTER-JENIS-PEMBANGUNAN',
             'DMASTER-ASN',
             'DMASTER-PEJABAT',
-            'DMASTER-TA',            
+            'DMASTER-TA',
 
             'RPJMD-VISI',
             'RPJMD-MISI',
@@ -124,7 +124,7 @@ class PermissionsTableSeeder extends Seeder
             'SYSTEM-USERS-OPD',
             'SYSTEM-USERS-PPTK',
             'SYSTEM-USERS-DEWAN',
-            'SYSTEM-USERS-TAPD',            
+            'SYSTEM-USERS-TAPD',
         ];
         $records=[];
         foreach($modules as $v)
