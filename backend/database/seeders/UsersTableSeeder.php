@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
             'username'=>'admin',
             'password'=>Hash::make('1234'),
             'name'=>'Mochammad Rizki Romdoni',
-            'nomor_hp'=>'081214553388',
+            'nomor_hp'=>'+6281214553388',
             'email'=>'support@yacanet.com',
             'theme'=>'default',
             'default_role'=>'superadmin',

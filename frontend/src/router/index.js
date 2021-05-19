@@ -190,6 +190,15 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/system/UsersBapelitbang.vue"),
 	},
+	{
+		path: "/system-users/opd",
+		name: "UsersOPD",
+		meta: {
+			title: "USERS - OPD",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersOPD.vue"),
+	},
 	// other page
 	{
 		path: "/404",
