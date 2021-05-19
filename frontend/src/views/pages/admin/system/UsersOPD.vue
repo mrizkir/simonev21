@@ -149,6 +149,7 @@
 													multiple
 													small-chips
 													outlined
+													:rules="rule_user_opd"
 												>
 												</v-autocomplete>
 												<v-autocomplete
@@ -230,6 +231,7 @@
 													multiple
 													small-chips
 													outlined
+													:rules="rule_user_opd"
 												>
 												</v-autocomplete>
 												<v-autocomplete
@@ -445,6 +447,11 @@
 					/^[A-Za-z_]*$/.test(value) ||
 					"Username hanya boleh string dan underscore",
 			],
+			rule_user_opd: [
+				value =>
+					value.length > 0 ||
+					"Mohon untuk di pilih OPD / SKPD dari User ini !!!",
+			],
 			rule_user_password: [
 				value => !!value || "Mohon untuk di isi password User !!!",
 				value => {
@@ -562,7 +569,7 @@
 			editItem: async function(item) {
 				this.editedIndex = this.daftar_users.indexOf(item);
 				item.password = "";
-				this.editedItem = Object.assign({}, item);				
+				this.editedItem = Object.assign({}, item);
 				this.btnLoading = true;
 
 				await this.$ajax
@@ -578,7 +585,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_opd = data.opd;						
+						this.daftar_opd = data.opd;
 					})
 					.catch(() => {
 						this.btnLoading = false;
@@ -617,17 +624,17 @@
 						this.daftar_roles = daftar_roles;
 					});
 
-					await this.$ajax
-						.get("/system/users/" + item.id + "/roles", {
-							headers: {
-								Authorization: this.TOKEN,
-							},
-						})
-						.then(({ data }) => {
-							this.editedItem.role_id = data.roles;
-							this.btnLoading = false;
-							this.dialogEdit = true;
-						});
+				await this.$ajax
+					.get("/system/users/" + item.id + "/roles", {
+						headers: {
+							Authorization: this.TOKEN,
+						},
+					})
+					.then(({ data }) => {
+						this.editedItem.role_id = data.roles;
+						this.btnLoading = false;
+						this.dialogEdit = true;
+					});
 			},
 			setPermission: async function(item) {
 				this.dialogUserPermission = true;
