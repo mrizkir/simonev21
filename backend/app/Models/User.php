@@ -78,8 +78,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
-    public function prodi()
+    public function opd()
     {
-        return $this->hasMany('App\Models\UserProdi','user_id','id')->select(\DB::raw('prodi_id AS id,kode_prodi,nama_prodi,nama_prodi_alias,kode_jenjang,nama_jenjang'));
+        return $this->hasMany('App\Models\UserOPD','user_id','id')->select(\DB::raw('`OrgID`,kode_organisasi,`Nm_Organisasi`,`Alias_Organisasi`,ta'));
     }
 }

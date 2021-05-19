@@ -369,7 +369,7 @@
 				value => !!value || "Mohon untuk di isi password User !!!",
 				value => {
 					if (value && typeof value !== "undefined" && value.length > 0) {
-						return value.length >= 8 || "Minimial Password 8 karaketer";
+						return value.length >= 8 || "Minimial Password 8 Karakter";
 					} else {
 						return true;
 					}
@@ -378,7 +378,7 @@
 			rule_user_passwordEdit: [
 				value => {
 					if (value && typeof value !== "undefined" && value.length > 0) {
-						return value.length >= 8 || "Minimial Password 8 karaketer";
+						return value.length >= 8 || "Minimial Password 8 Karakter";
 					} else {
 						return true;
 					}

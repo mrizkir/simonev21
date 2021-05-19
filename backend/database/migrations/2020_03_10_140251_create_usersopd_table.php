@@ -14,7 +14,7 @@ class CreateUsersopdTable extends Migration
     public function up()
     {
         Schema::create('usersopd', function (Blueprint $table) {
-            $table->uuid('id');            
+            $table->uuid('id');
             $table->uuid('user_id');                                  
             $table->uuid('OrgID');  
             $table->string('kode_organisasi');
@@ -24,6 +24,8 @@ class CreateUsersopdTable extends Migration
             $table->boolean('locked')->default(0);             
             $table->timestamps();
             
+            $table->primary('id');
+
             $table->index('user_id');
             $table->index('OrgID');  
 

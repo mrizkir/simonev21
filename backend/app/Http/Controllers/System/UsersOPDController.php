@@ -21,10 +21,26 @@ class UsersOPDController extends Controller {
     {           
         $this->hasPermissionTo('SYSTEM-USERS-OPD_BROWSE');
         $data = User::where('default_role','opd')
+                    ->select(\DB::raw('
+                        users.*,
+                        "" AS opd
+                    '))
                     ->orderBy('username','ASC')
                     ->get();       
                     
         $role = Role::findByName('opd');
+
+        $data->transform(function ($item, $key) {
+            $daftar_opd = UserOPD::select(\DB::raw('
+                                `OrgID`,
+                                kode_organisasi,
+                                `Nm_Organisasi`,
+                                locked
+                            '))
+                            ->where('user_id',$item->id)->get();
+            $item->opd = $daftar_opd;
+            return $item;
+        });
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
@@ -48,7 +64,7 @@ class UsersOPDController extends Controller {
             'nomor_hp'=>'required|string|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',            
-            'prodi_id'=>'required',
+            'org_id'=>'required',
         ]);
         $user = \DB::transaction(function () use ($request){
             $now = \Carbon\Carbon::now()->toDateTimeString();        
@@ -73,63 +89,38 @@ class UsersOPDController extends Controller {
             $user->givePermissionTo($permissions);
 
             $user_id=$user->id;
-            $daftar_prodi=json_decode($request->input('prodi_id'),true);
-            foreach($daftar_prodi as $v)
+            $daftar_opd=json_decode($request->input('org_id'),true);
+            foreach($daftar_opd as $v)
             {
+                $uuid=Uuid::uuid4()->toString();
                 $sql = "
-                    INSERT INTO usersprodi (                    
+                    INSERT INTO usersopd ( 
+                        id,  
                         user_id, 
-                        prodi_id,
-                        kode_forlap,
-                        nama_prodi,
-                        nama_prodi_alias,
-                        kode_jenjang,
-                        nama_jenjang,                                                        
+                        `OrgID`,
+                        kode_organisasi,
+                        `Nm_Organisasi`,
+                        `Alias_Organisasi`,
+                        ta,
                         created_at, 
                         updated_at
                     ) 
                     SELECT
+                        '$uuid',
                         '$user_id',                    
-                        id,
-                        kode_forlap,
-                        nama_prodi,
-                        nama_prodi_alias,
-                        kode_jenjang,
-                        nama_jenjang,                          
+                        `OrgID`,
+                        kode_organisasi,
+                        `Nm_Organisasi`,
+                        `Alias_Organisasi`,
+                        `TA`,                        
                         NOW() AS created_at,
                         NOW() AS updated_at
-                    FROM pe3_prodi                    
+                    FROM `tmOrg`
                     WHERE 
-                        id='$v' 
+                        `OrgID`='$v' 
                 ";
 
                 \DB::statement($sql); 
-            }
-
-            $daftar_roles=json_decode($request->input('role_id'),true);
-            foreach($daftar_roles as $v)
-            {
-                if ($v=='dosen' || $v=='dosenwali' )
-                {
-                    $user->assignRole($v);               
-                    $permission=Role::findByName($v)->permissions;
-                    $permissions=$permission->pluck('name');
-                    $user->givePermissionTo($permissions);
-
-                    if ($v=='dosen')
-                    {
-                        UserOPD::create([
-                            'user_id'=>$user->id,
-                            'nama_dosen'=>$request->input('name'),                                                            
-                        ]);
-                        if ($v=='dosenwali')
-                        {
-                            \DB::table('pe3_dosen')
-                                ->where('user_id',$user->id)
-                                ->update(['is_dw'=>true]);
-                        }
-                    }                    
-                }
             }
 
             \App\Models\System\ActivityLog::log($request,[
@@ -208,7 +199,7 @@ class UsersOPDController extends Controller {
                                         'name'=>'required',            
                                         'email'=>'required|string|email|unique:users,email,'.$user->id,
                                         'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,   
-                                        'prodi_id'=>'required',           
+                                        'org_id'=>'required',           
                                     ]); 
             $user = \DB::transaction(function () use ($request,$user){
                 $user->name = $request->input('name');
@@ -221,104 +212,40 @@ class UsersOPDController extends Controller {
                 $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
                 $user->save();
 
-                if ($request->input('role_dosen')=='true')
-                {
-                    $user->assignRole('dosen'); 
-                    $permission=Role::findByName('dosen')->permissions;
-                    $permissions=$permission->pluck('name');
-                    $user->givePermissionTo($permissions);
-                }
-                elseif ($user->hasRole('dosen'))
-                {
-                    $user->removeRole('dosen');
-                    $permission=Role::findByName('dosen')->permissions;
-                    $permissions=$permission->pluck('name');
-                    $user->revokePermissionTo($permissions);
-                }    
                 $user_id=$user->id;
-                \DB::table('usersprodi')->where('user_id',$user_id)->delete();
-                $daftar_prodi=json_decode($request->input('prodi_id'),true);
-                foreach($daftar_prodi as $v)
+                \DB::table('usersopd')->where('user_id',$user_id)->delete();
+                $daftar_opd=json_decode($request->input('org_id'),true);
+                foreach($daftar_opd as $v)
                 {
+                    $uuid=Uuid::uuid4()->toString();
                     $sql = "
-                        INSERT INTO usersprodi (                    
+                        INSERT INTO usersopd ( 
+                            id,  
                             user_id, 
-                            prodi_id,
-                            kode_forlap,
-                            nama_prodi,
-                            nama_prodi_alias,
-                            kode_jenjang,
-                            nama_jenjang,                                                        
+                            `OrgID`,
+                            kode_organisasi,
+                            `Nm_Organisasi`,
+                            `Alias_Organisasi`,
+                            ta,
                             created_at, 
                             updated_at
                         ) 
                         SELECT
+                            '$uuid',
                             '$user_id',                    
-                            id,
-                            kode_forlap,
-                            nama_prodi,
-                            nama_prodi_alias,
-                            kode_jenjang,
-                            nama_jenjang,                          
+                            `OrgID`,
+                            kode_organisasi,
+                            `Nm_Organisasi`,
+                            `Alias_Organisasi`,
+                            `TA`,                        
                             NOW() AS created_at,
                             NOW() AS updated_at
-                        FROM pe3_prodi                    
+                        FROM `tmOrg`
                         WHERE 
-                            id='$v' 
+                            `OrgID`='$v' 
                     ";
+
                     \DB::statement($sql); 
-                }
-                $daftar_roles=json_decode($request->input('role_id'),true);                
-                if (($key= array_search('dosen',$daftar_roles))===false)
-                {                    
-                    $key= array_search('dosenwali',$daftar_roles);                    
-                    if ($key)
-                    {
-                        unset($daftar_roles[$key]);
-                    }                    
-                }
-                $user->syncRoles($daftar_roles);
-                $dosen=UserOPD::find($user->id);
-
-                foreach($daftar_roles as $v)
-                {
-                    if ($v=='dosen'||$v=='dosenwali') // sementara seperti ini karena kalau bertambah tinggal diganti
-                    {              
-                        $permission=Role::findByName($v)->permissions;
-                        $permissions=$permission->pluck('name');
-                        $user->givePermissionTo($permissions);
-
-                        if ($v=='dosen' && is_null($dosen))
-                        {
-                            UserOPD::create([
-                                'user_id'=>$user->id,
-                                'nama_dosen'=>$request->input('name'),                                                            
-                            ]);
-                        }
-                        else if ($v=='dosen' && !is_null($dosen))
-                        {
-                            $dosen->active=1;
-                            $dosen->save();
-                        }
-                        else if (!is_null($dosen))
-                        {
-                            $dosen->active=0;
-                            $dosen->save();
-                        }
-                        //set dosen wali
-                        if ($v=='dosenwali' && $v=='dosen')
-                        {
-                            \DB::table('pe3_dosen')
-                                ->where('user_id',$user->id)
-                                ->update(['is_dw'=>true]);
-                        }
-                        else
-                        {
-                            \DB::table('pe3_dosen')
-                                ->where('user_id',$user->id)
-                                ->update(['is_dw'=>false]);
-                        }
-                    }
                 }
 
                 \App\Models\System\ActivityLog::log($request,[

@@ -37,7 +37,7 @@ class CreateSubOrganisasiTable extends Migration
             $table->uuid('SubOrgID_Src')->nullable();      
             $table->timestamps();
 
-            $table->primary('SOrgID'); 
+            $table->primary('SOrgID');
             $table->index('OrgID'); 
             $table->index('Kd_SOrg'); 
             $table->index('SubOrgID_Src'); 

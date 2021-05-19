@@ -765,7 +765,7 @@ class UsersController extends Controller {
                                     ],200); 
         }
     }
-    public function usersprodi (Request $request,$id)
+    public function usersopd (Request $request,$id)
     {
         $user = User::find($id); 
 
@@ -780,12 +780,12 @@ class UsersController extends Controller {
         else
         {
             $username = $user->username;            
-            $prodi=$user->prodi;            
+            $opd=$user->opd;            
             return Response()->json([
                                         'status'=>1,
                                         'pid'=>'fetchdata',
-                                        'daftar_prodi'=>$prodi,                
-                                        'message'=>"Daftar Prodi dari username ($username)  berhasil diperoleh"
+                                        'daftar_opd'=>$opd,                
+                                        'message'=>"Daftar OPD dari username ($username)  berhasil diperoleh"
                                     ],200); 
         }
     }

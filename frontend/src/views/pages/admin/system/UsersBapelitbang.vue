@@ -58,7 +58,10 @@
 								<v-toolbar-title>DAFTAR USERS BAPPELITBANG</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-tooltip bottom v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')">
+								<v-tooltip
+									bottom
+									v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')"
+								>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn
 											v-bind="attrs"
@@ -416,7 +419,7 @@
 				value => !!value || "Mohon untuk di isi password User !!!",
 				value => {
 					if (value && typeof value !== "undefined" && value.length > 0) {
-						return value.length >= 8 || "Minimial Password 8 karaketer";
+						return value.length >= 8 || "Minimial Password 8 Karakter";
 					} else {
 						return true;
 					}
@@ -425,7 +428,7 @@
 			rule_user_passwordEdit: [
 				value => {
 					if (value && typeof value !== "undefined" && value.length > 0) {
-						return value.length >= 8 || "Minimial Password 8 karaketer";
+						return value.length >= 8 || "Minimial Password 8 Karakter";
 					} else {
 						return true;
 					}
