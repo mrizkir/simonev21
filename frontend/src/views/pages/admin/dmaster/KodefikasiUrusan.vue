@@ -91,36 +91,29 @@
 												</span>
 											</v-card-title>
 											<v-card-text>
-												<v-container fluid>
-													<v-row>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.Kd_Urusan"
-																label="KODE URUSAN"
-																filled
-																:rules="rule_kode"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.Nm_Urusan"
-																label="NAMA URUSAN"
-																filled
-																:rules="rule_name"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-textarea
-																v-model="formdata.Descr"
-																label="KETERANGAN"
-																filled
-															>
-															</v-textarea>
-														</v-col>
-													</v-row>
-												</v-container>
+												<v-text-field
+													v-model="formdata.Kd_Urusan"
+													label="KODE URUSAN"
+													filled
+													:rules="rule_kode"
+													outlined
+												>
+												</v-text-field>
+												<v-text-field
+													v-model="formdata.Nm_Urusan"
+													label="NAMA URUSAN"
+													filled
+													:rules="rule_name"
+													outlined
+												>
+												</v-text-field>
+												<v-textarea
+													v-model="formdata.Descr"
+													label="KETERANGAN"
+													filled
+													outlined
+												>
+												</v-textarea>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>

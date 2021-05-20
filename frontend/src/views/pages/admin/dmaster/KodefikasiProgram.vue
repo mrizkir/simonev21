@@ -91,53 +91,46 @@
 												</span>
 											</v-card-title>
 											<v-card-text>
-												<v-container fluid>
-													<v-row>
-														<v-col cols="12" sm="12" md="12">
-															<v-radio-group v-model="formdata.Jns" row>
-																<v-radio label="Per Urusan" value="1"></v-radio>
-																<v-radio label="Semua Urusan" value="0">
-																</v-radio>
-															</v-radio-group>
-															<v-select
-																v-model="formdata.BidangID"
-																:items="daftar_bidang_urusan"
-																item-text="bidangurusan"
-																item-value="BidangID"
-																label="BIDANG URUSAN"
-																:rules="rule_bidang_urusan"
-																single-line
-																filled
-																v-if="formdata.Jns == '1'"
-															>
-															</v-select>
-															<v-text-field
-																v-model="formdata.Kd_Program"
-																label="KODE PROGRAM"
-																filled
-																:rules="rule_kode"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.Nm_Program"
-																label="NAMA PROGRAM"
-																filled
-																:rules="rule_name"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-textarea
-																v-model="formdata.Descr"
-																label="KETERANGAN"
-																filled
-															>
-															</v-textarea>
-														</v-col>
-													</v-row>
-												</v-container>
+												<v-radio-group v-model="formdata.Jns" row>
+													<v-radio label="Per Urusan" value="1"></v-radio>
+													<v-radio label="Semua Urusan" value="0"></v-radio>
+												</v-radio-group>
+												<v-select
+													v-model="formdata.BidangID"
+													:items="daftar_bidang_urusan"
+													item-text="bidangurusan"
+													item-value="BidangID"
+													label="BIDANG URUSAN"
+													:rules="rule_bidang_urusan"
+													single-line
+													filled
+													v-if="formdata.Jns == '1'"
+													outlined
+												>
+												</v-select>
+												<v-text-field
+													v-model="formdata.Kd_Program"
+													label="KODE PROGRAM"
+													filled
+													:rules="rule_kode"
+													outlined
+												>
+												</v-text-field>
+												<v-text-field
+													v-model="formdata.Nm_Program"
+													label="NAMA PROGRAM"
+													filled
+													:rules="rule_name"
+													outlined
+												>
+												</v-text-field>
+												<v-textarea
+													v-model="formdata.Descr"
+													label="KETERANGAN"
+													filled
+													outlined
+												>
+												</v-textarea>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -439,8 +432,7 @@
 				],
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Program!!!",
-					value =>
-						/^[0-9]+$/.test(value) || "Kode Program hanya boleh angka",
+					value => /^[0-9]+$/.test(value) || "Kode Program hanya boleh angka",
 					value => value.length > 1 || "Kode Program minimaml 2 angka",
 				],
 				rule_name: [

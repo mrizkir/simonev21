@@ -103,6 +103,7 @@
 																:rules="rule_urusan"
 																single-line
 																filled
+																outlined
 															>
 															</v-select>
 															<v-text-field
@@ -110,6 +111,7 @@
 																label="KODE BIDANG URUSAN"
 																filled
 																:rules="rule_kode"
+																outlined
 															>
 															</v-text-field>
 														</v-col>
@@ -119,6 +121,7 @@
 																label="NAMA BIDANG URUSAN"
 																filled
 																:rules="rule_name"
+																outlined
 															>
 															</v-text-field>
 														</v-col>
@@ -127,6 +130,7 @@
 																v-model="formdata.Descr"
 																label="KETERANGAN"
 																filled
+																outlined
 															>
 															</v-textarea>
 														</v-col>

@@ -91,47 +91,41 @@
 												</span>
 											</v-card-title>
 											<v-card-text>
-												<v-container fluid>
-													<v-row>
-														<v-col cols="12" sm="12" md="12">
-															<v-select
-																v-model="formdata.KgtID"
-																:items="daftar_kegiatan"
-																item-text="nama_kegiatan"
-																item-value="KgtID"
-																label="KEGIATAN"
-																:rules="rule_kegiatan"
-																single-line
-																filled
-															>
-															</v-select>
-															<v-text-field
-																v-model="formdata.Kd_SubKegiatan"
-																label="KODE SUB KEGIATAN"
-																filled
-																:rules="rule_kode"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.Nm_SubKegiatan"
-																label="NAMA SUB KEGIATAN"
-																filled
-																:rules="rule_name"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-textarea
-																v-model="formdata.Descr"
-																label="KETERANGAN"
-																filled
-															>
-															</v-textarea>
-														</v-col>
-													</v-row>
-												</v-container>
+												<v-select
+													v-model="formdata.KgtID"
+													:items="daftar_kegiatan"
+													item-text="nama_kegiatan"
+													item-value="KgtID"
+													label="KEGIATAN"
+													:rules="rule_kegiatan"
+													single-line
+													filled
+													outlined
+												>
+												</v-select>
+												<v-text-field
+													v-model="formdata.Kd_SubKegiatan"
+													label="KODE SUB KEGIATAN"
+													filled
+													:rules="rule_kode"
+													outlined
+												>
+												</v-text-field>
+												<v-text-field
+													v-model="formdata.Nm_SubKegiatan"
+													label="NAMA SUB KEGIATAN"
+													filled
+													:rules="rule_name"
+													outlined
+												>
+												</v-text-field>
+												<v-textarea
+													v-model="formdata.Descr"
+													label="KETERANGAN"
+													filled
+													outlined
+												>
+												</v-textarea>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>

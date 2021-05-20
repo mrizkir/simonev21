@@ -69,7 +69,9 @@
 											outlined
 											small
 											class="ma-2"
-											:disabled="!$store.getters['auth/can']('DMASTER-ASN_STORE')"
+											:disabled="
+												!$store.getters['auth/can']('DMASTER-ASN_STORE')
+											"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
@@ -289,9 +291,7 @@
 										color="red darken-1"
 										:disabled="
 											btnLoading ||
-												!$store.getters['auth/can'](
-													'DMASTER-ASN_STORE'
-												)
+												!$store.getters['auth/can']('DMASTER-ASN_STORE')
 										"
 										@click.stop="deleteItem(item)"
 									>

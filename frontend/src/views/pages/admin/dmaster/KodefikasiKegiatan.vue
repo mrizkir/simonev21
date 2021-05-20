@@ -91,47 +91,41 @@
 												</span>
 											</v-card-title>
 											<v-card-text>
-												<v-container fluid>
-													<v-row>
-														<v-col cols="12" sm="12" md="12">															
-															<v-select
-																v-model="formdata.PrgID"
-																:items="daftar_program"
-																item-text="nama_program"
-																item-value="PrgID"
-																label="PROGRAM"
-																:rules="rule_program"
-																single-line
-																filled
-															>
-															</v-select>
-															<v-text-field
-																v-model="formdata.Kd_Kegiatan"
-																label="KODE KEGIATAN"
-																filled
-																:rules="rule_kode"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.Nm_Kegiatan"
-																label="NAMA KEGIATAN"
-																filled
-																:rules="rule_name"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-textarea
-																v-model="formdata.Descr"
-																label="KETERANGAN"
-																filled
-															>
-															</v-textarea>
-														</v-col>
-													</v-row>
-												</v-container>
+												<v-select
+													v-model="formdata.PrgID"
+													:items="daftar_program"
+													item-text="nama_program"
+													item-value="PrgID"
+													label="PROGRAM"
+													:rules="rule_program"
+													single-line
+													filled
+													outlined
+												>
+												</v-select>
+												<v-text-field
+													v-model="formdata.Kd_Kegiatan"
+													label="KODE KEGIATAN"
+													filled
+													outlined
+													:rules="rule_kode"
+												>
+												</v-text-field>
+												<v-text-field
+													v-model="formdata.Nm_Kegiatan"
+													label="NAMA KEGIATAN"
+													filled
+													:rules="rule_name"
+													outlined
+												>
+												</v-text-field>
+												<v-textarea
+													v-model="formdata.Descr"
+													label="KETERANGAN"
+													filled
+													outlined
+												>
+												</v-textarea>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -408,7 +402,7 @@
 					KgtID: "",
 					PrgID: "",
 					Kd_Kegiatan: "",
-					Nm_Kegiatan: "",					
+					Nm_Kegiatan: "",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -418,7 +412,7 @@
 					KgtID: "",
 					PrgID: "",
 					Kd_Kegiatan: "",
-					Nm_Kegiatan: "",					
+					Nm_Kegiatan: "",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -426,13 +420,10 @@
 				},
 				editedIndex: -1,
 				//form rules
-				rule_program: [
-					value => !!value || "Mohon untuk di pilih Program !!!",
-				],
+				rule_program: [value => !!value || "Mohon untuk di pilih Program !!!"],
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Kegiatan!!!",
-					value =>
-						/^[0-9]+$/.test(value) || "Kode Kegiatan hanya boleh angka",
+					value => /^[0-9]+$/.test(value) || "Kode Kegiatan hanya boleh angka",
 					value => value.length > 1 || "Kode Kegiatan minimaml 2 angka",
 				],
 				rule_name: [
@@ -484,7 +475,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_program = data.kodefikasiprogram;						
+						this.daftar_program = data.kodefikasiprogram;
 						this.dialogfrm = true;
 					});
 			},
@@ -504,7 +495,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_program = data.kodefikasiprogram;
-						this.formdata = Object.assign({}, item);						
+						this.formdata = Object.assign({}, item);
 						this.dialogfrm = true;
 					});
 			},
@@ -520,7 +511,7 @@
 							.post(
 								"/dmaster/kodefikasi/kegiatan/" + this.formdata.KgtID,
 								{
-									_method: "PUT",									
+									_method: "PUT",
 									PrgID: this.formdata.PrgID,
 									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
