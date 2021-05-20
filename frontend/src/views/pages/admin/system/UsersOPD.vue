@@ -109,6 +109,7 @@
 													label="NAMA USER"
 													outlined
 													:rules="rule_user_name"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -116,6 +117,7 @@
 													label="EMAIL"
 													outlined
 													:rules="rule_user_email"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -123,6 +125,7 @@
 													label="NOMOR HP"
 													outlined
 													:rules="rule_user_nomorhp"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -130,6 +133,7 @@
 													label="USERNAME"
 													outlined
 													:rules="rule_user_username"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -138,6 +142,7 @@
 													type="password"
 													outlined
 													:rules="rule_user_password"
+													filled
 												>
 												</v-text-field>
 												<v-autocomplete
@@ -150,6 +155,7 @@
 													small-chips
 													outlined
 													:rules="rule_user_opd"
+													filled
 												>
 												</v-autocomplete>
 												<v-autocomplete
@@ -159,6 +165,7 @@
 													multiple
 													small-chips
 													outlined
+													filled
 												>
 												</v-autocomplete>
 											</v-card-text>
@@ -191,6 +198,7 @@
 													label="NAMA USER"
 													outlined
 													:rules="rule_user_name"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -198,6 +206,7 @@
 													label="EMAIL"
 													outlined
 													:rules="rule_user_email"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -212,6 +221,7 @@
 													label="USERNAME"
 													outlined
 													:rules="rule_user_username"
+													filled
 												>
 												</v-text-field>
 												<v-text-field
@@ -220,6 +230,7 @@
 													type="password"
 													outlined
 													:rules="rule_user_passwordEdit"
+													filled
 												>
 												</v-text-field>
 												<v-autocomplete
@@ -232,6 +243,7 @@
 													small-chips
 													outlined
 													:rules="rule_user_opd"
+													filled
 												>
 												</v-autocomplete>
 												<v-autocomplete
@@ -241,6 +253,7 @@
 													multiple
 													small-chips
 													outlined
+													filled
 												>
 												</v-autocomplete>
 											</v-card-text>

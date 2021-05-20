@@ -73,7 +73,7 @@ class KodefikasiBidangUrusanController extends Controller {
         $ta = $request->input('TA');
         
         $kodefikasibidangurusan = KodefikasiBidangUrusanModel::create([
-            'BidangID' => Uuid::uuid4()->toString(),            
+            'BidangID' => Uuid::uuid4()->toString(),
             'UrsID' => $request->input('UrsID'),            
             'Kd_Bidang' => $request->input('Kd_Bidang'),
             'Nm_Bidang' => strtoupper($request->input('Nm_Bidang')),

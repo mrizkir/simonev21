@@ -8,6 +8,8 @@ use App\Models\DMaster\PejabatModel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+use Ramsey\Uuid\Uuid;
+
 class PejabatController extends Controller
 {
      /**
@@ -17,7 +19,7 @@ class PejabatController extends Controller
      */
     public function index(Request $request)
     {
-        $this->hasPermissionTo('DMATER-PEJABAT_BROWSE');
+        $this->hasPermissionTo('DMASTER-PEJABAT_BROWSE');
         
         $this->validate($request, [            
             'tahun'=>'required',
@@ -28,12 +30,20 @@ class PejabatController extends Controller
         $OrgID= $request->input('OrgID');
 
         $data = PejabatModel::join('tmASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
-                                ->select(\DB::raw('"RiwayatJabatanASNID","trRiwayatJabatanASN"."ASNID","trRiwayatJabatanASN"."OrgID","NIP_ASN","Nm_ASN","Jenis_Jabatan","trRiwayatJabatanASN".created_at,"trRiwayatJabatanASN".updated_at'))
+                                ->select(\DB::raw('
+                                    `RiwayatJabatanASNID`,
+                                    `trRiwayatJabatanASN`.`ASNID`,
+                                    `trRiwayatJabatanASN`.`OrgID`,
+                                    `NIP_ASN`,
+                                    `Nm_ASN`,
+                                    `Jenis_Jabatan`,
+                                    `trRiwayatJabatanASN`.created_at,
+                                    `trRiwayatJabatanASN`.updated_at'
+                                ))
                                 ->where('trRiwayatJabatanASN.TA', $tahun)            
                                 ->where('OrgID', $OrgID)            
                                 ->orderBy('Nm_ASN', 'ASC')
-                                ->get();                                       
-
+                                ->get();
         
         return Response()->json([
                                 'status'=>1,
@@ -66,7 +76,7 @@ class PejabatController extends Controller
 
        
         $asn = PejabatModel::create ([
-            'RiwayatJabatanASNID'=> uniqid ('uid'),
+            'RiwayatJabatanASNID'=> Uuid::uuid4()->toString(),
             'OrgID'=> $OrgID,
             'ASNID'=> $request->input('ASNID'),
             'Jenis_Jabatan' => $Jenis_Jabatan,

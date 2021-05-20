@@ -33,7 +33,7 @@
 								:items="daftar_opd"
 								v-model="OrgID_Selected"
 								label="OPD / SKPD"
-								item-text="OrgNm"
+								item-text="Nm_Organisasi"
 								item-value="OrgID"
 							>
 							</v-autocomplete>
@@ -80,14 +80,24 @@
 								</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="primary"
-									class="mb-2"
-									:disabled="!OrgID_Selected.length > 0 || btnLoading"
-									@click.stop="addItem"
-								>
-									TAMBAH
-								</v-btn>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											:disabled="!OrgID_Selected.length > 0 || btnLoading"
+											@click.stop="addItem"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>Tambah Pejabat</span>
+								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
@@ -99,10 +109,11 @@
 													:items="daftar_opd"
 													v-model="formdata.OrgID"
 													label="OPD / SKPD"
-													item-text="OrgNm"
+													item-text="Nm_Organisasi"
 													item-value="OrgID"
 													filled
 													:disabled="true"
+													outlined
 												>
 												</v-autocomplete>
 												<v-autocomplete
@@ -113,6 +124,7 @@
 													item-text="Nm_ASN"
 													item-value="ASNID"
 													:rules="rule_nama_asn"
+													outlined
 												>
 												</v-autocomplete>
 												<v-select
@@ -123,6 +135,7 @@
 													label="JENIS JABATAN"
 													:rules="rule_jenis_jabatan"
 													single-line
+													outlined
 												>
 												</v-select>
 											</v-card-text>
@@ -273,16 +286,38 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="viewItem(item)">
-								mdi-eye
-							</v-icon>
-							<v-icon
-								small
-								:disabled="btnLoading"
-								@click.stop="deleteItem(item)"
-							>
-								mdi-delete
-							</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="viewItem(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>Detail Pejabat</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										color="red darken-1"
+										:disabled="
+											btnLoading ||
+												!$store.getters['auth/can']('DMASTER-PEJABAT_DESTROY')
+										"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus Pejabat</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">

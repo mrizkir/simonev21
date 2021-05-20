@@ -86,6 +86,7 @@
 																v-model="editedItem.name"
 																label="NAMA PERMISSION"
 																:rules="rule_permission_name"
+																filled
 															>
 															</v-text-field>
 														</v-col>

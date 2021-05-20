@@ -7,6 +7,8 @@ use App\Models\DMaster\ASNModel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+use Ramsey\Uuid\Uuid;
+
 class ASNController extends Controller
 {    
     /**
@@ -64,7 +66,7 @@ class ASNController extends Controller
 
               
         $asn = ASNModel::create ([
-                                    'ASNID'=> uniqid ('uid'),
+                                    'ASNID'=> Uuid::uuid4()->toString(),
                                     'NIP_ASN' => $request->input('NIP_ASN'),
                                     'Nm_ASN' => $request->input('Nm_ASN'),
                                     'Descr' => $request->input('Descr'),

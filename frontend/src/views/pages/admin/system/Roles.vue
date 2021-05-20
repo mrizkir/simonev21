@@ -79,6 +79,7 @@
 																v-model="editedItem.name"
 																label="NAMA ROLE"
 																:rules="rule_role_name"
+																filled
 															>
 															</v-text-field>
 														</v-col>

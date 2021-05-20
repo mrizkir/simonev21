@@ -62,13 +62,16 @@
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<template v-slot:activator="{ on }">
 										<v-btn
-											color="primary"
-											dark
-											class="mb-2"
+											v-bind="attrs"
 											v-on="on"
-											:disabled="!$store.getters['auth/can']('ASN_STORE')"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											:disabled="!$store.getters['auth/can']('DMASTER-ASN_STORE')"
 										>
-											TAMBAH
+											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -77,36 +80,29 @@
 												<span class="headline">{{ formtitle }}</span>
 											</v-card-title>
 											<v-card-text>
-												<v-container fluid>
-													<v-row>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.NIP_ASN"
-																label="NIP ASN"
-																filled
-																:rules="rule_nip_asn"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-text-field
-																v-model="formdata.Nm_ASN"
-																label="NAMA ASN"
-																filled
-																:rules="rule_name"
-															>
-															</v-text-field>
-														</v-col>
-														<v-col cols="12" sm="12" md="12">
-															<v-textarea
-																v-model="formdata.Descr"
-																label="KETERANGAN"
-																filled
-															>
-															</v-textarea>
-														</v-col>
-													</v-row>
-												</v-container>
+												<v-text-field
+													v-model="formdata.NIP_ASN"
+													label="NIP ASN"
+													filled
+													:rules="rule_nip_asn"
+													outlined
+												>
+												</v-text-field>
+												<v-text-field
+													v-model="formdata.Nm_ASN"
+													label="NAMA ASN"
+													filled
+													:rules="rule_name"
+													outlined
+												>
+												</v-text-field>
+												<v-textarea
+													v-model="formdata.Descr"
+													label="KETERANGAN"
+													filled
+													outlined
+												>
+												</v-textarea>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -253,26 +249,57 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="viewItem(item)">
-								mdi-eye
-							</v-icon>
-							<v-icon
-								small
-								class="mr-2"
-								:disabled="!$store.getters['auth/can']('ASN_UPDATE')"
-								@click.stop="editItem(item)"
-							>
-								mdi-pencil
-							</v-icon>
-							<v-icon
-								small
-								:disabled="
-									btnLoading || !$store.getters['auth/can']('ASN_STORE')
-								"
-								@click.stop="deleteItem(item)"
-							>
-								mdi-delete
-							</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="viewItem(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>Detail ASN</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="mr-2"
+										@click.stop="editItem(item)"
+										:disabled="
+											!$store.getters['auth/can']('DMASTER-ASN_UPDATE')
+										"
+									>
+										mdi-pencil
+									</v-icon>
+								</template>
+								<span>Ubah ASN</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										color="red darken-1"
+										:disabled="
+											btnLoading ||
+												!$store.getters['auth/can'](
+													'DMASTER-ASN_STORE'
+												)
+										"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus ASN</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">

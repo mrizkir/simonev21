@@ -1,15 +1,10 @@
 <template>
 	<v-card color="grey lighten-4">
-		<v-toolbar elevation="2"> 
+		<v-toolbar elevation="2">
 			<v-toolbar-title>PROFIL DAN PERMISSION USER</v-toolbar-title>
-			<v-divider
-				class="mx-4"
-				inset
-				vertical
-			></v-divider>
+			<v-divider class="mx-4" inset vertical></v-divider>
 			<v-spacer></v-spacer>
-			<v-icon                
-				@click.stop="exit">
+			<v-icon @click.stop="exit">
 				mdi-close-thick
 			</v-icon>
 		</v-toolbar>
@@ -18,82 +13,107 @@
 				<v-row>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>USER ID:</v-card-title>  
+							<v-card-title>USER ID:</v-card-title>
 							<v-card-subtitle>
 								{{ user.id }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>NOMOR HP:</v-card-title>  
+							<v-card-title>NOMOR HP:</v-card-title>
 							<v-card-subtitle>
-								{{user.nomor_hp}}
+								{{ user.nomor_hp }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 				</v-row>
 				<v-row>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>USERNAME:</v-card-title>  
+							<v-card-title>USERNAME:</v-card-title>
 							<v-card-subtitle>
-								{{user.username}}
+								{{ user.username }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>THEME:</v-card-title>  
+							<v-card-title>THEME:</v-card-title>
 							<v-card-subtitle>
-								{{user.theme}}
+								{{ user.theme }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 				</v-row>
 				<v-row>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>NAMA:</v-card-title>  
+							<v-card-title>NAMA:</v-card-title>
 							<v-card-subtitle>
-								{{user.name}}
+								{{ user.name }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>ROLE:</v-card-title>  
+							<v-card-title>ROLE:</v-card-title>
 							<v-card-subtitle>
-								{{role_user}}
+								{{ role_user }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 				</v-row>
 				<v-row>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>EMAIL:</v-card-title>  
+							<v-card-title>EMAIL:</v-card-title>
 							<v-card-subtitle>
-								{{user.email}}
+								{{ user.email }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 					<v-col xs="12" sm="12" md="6">
 						<v-card flat class="mb-2">
-							<v-card-title>CREATED/UPDATED:</v-card-title>  
+							<v-card-title>CREATED/UPDATED:</v-card-title>
 							<v-card-subtitle>
-								{{$date(user.created_at).format("DD/MM/YYYY HH:mm")}} ~ {{$date(user.updated_at).format("DD/MM/YYYY HH:mm")}}
+								{{ $date(user.created_at).format("DD/MM/YYYY HH:mm") }} ~
+								{{ $date(user.updated_at).format("DD/MM/YYYY HH:mm") }}
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"/>
+					<v-responsive
+						width="100%"
+						v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly"
+					/>
 				</v-row>
 				<v-row class="mb-4" no-gutters>
 					<v-col cols="12">
@@ -106,7 +126,7 @@
 									label="ROLES"
 									:items="daftar_role"
 									v-model="role_name"
-								>                 
+								>
 								</v-select>
 								<v-text-field
 									v-model="search"
@@ -119,7 +139,7 @@
 						</v-card>
 					</v-col>
 				</v-row>
-				<v-row no-gutters> 
+				<v-row no-gutters>
 					<v-col col="12">
 						<v-data-table
 							:loading="datatableLoading"
@@ -132,16 +152,11 @@
 							show-select
 							class="elevation-1"
 						>
-						<template v-slot:item.actions="{ item }">         
-							<v-icon
-								small
-								
-								:disabled="btnLoading"
-								@click.stop="revoke(item)"
-							>
-								mdi-delete
-							</v-icon>
-						</template>
+							<template v-slot:item.actions="{ item }">
+								<v-icon small :disabled="btnLoading" @click.stop="revoke(item)">
+									mdi-delete
+								</v-icon>
+							</template>
 						</v-data-table>
 					</v-col>
 				</v-row>
@@ -150,13 +165,13 @@
 		<v-card-actions>
 			<v-spacer></v-spacer>
 			<v-btn color="blue darken-1" text @click.stop="exit">KELUAR</v-btn>
-			<v-btn 
-				color="blue darken-1" 
-				text 
-				
-				:disabled="btnLoading||!permissions_selected.length > 0"
-				@click.stop="save">
-					SIMPAN
+			<v-btn
+				color="blue darken-1"
+				text
+				:disabled="btnLoading || !permissions_selected.length > 0"
+				@click.stop="save"
+			>
+				SIMPAN
 			</v-btn>
 		</v-card-actions>
 	</v-card>
@@ -164,9 +179,8 @@
 <script>
 	export default {
 		name: "UserPermissions",
-		mounted()
-		{
-			this.role_name=this.role_default;
+		mounted() {
+			this.role_name = this.role_default;
 			this.initialize();
 		},
 		data: () => ({
@@ -175,8 +189,8 @@
 			//tables
 			headers: [
 				{ text: "NAMA PERMISSION", value: "name" },
-				{ text: "GUARD", value: "guard_name" },   
-				{ text: "AKSI", value: "actions", sortable: false, width: 100 },     
+				{ text: "GUARD", value: "guard_name" },
+				{ text: "AKSI", value: "actions", sortable: false, width: 100 },
 			],
 			search: "",
 
@@ -186,7 +200,7 @@
 			daftar_permissions: [],
 			permissions_selected: [],
 		}),
-		props: {       
+		props: {
 			user: {
 				type: Object,
 				required: true,
@@ -198,14 +212,13 @@
 		methods: {
 			initialize() {
 				this.$ajax
-					.get("/system/users/" + this.user.id+"/roles",    
-					{
+					.get("/system/users/" + this.user.id + "/roles", {
 						headers: {
 							Authorization: this.$store.getters["auth/Token"],
 						},
 					})
 					.then(({ data }) => {
-						this.daftar_role=data.roles;
+						this.daftar_role = data.roles;
 					});
 			},
 			save() {
@@ -231,7 +244,7 @@
 					});
 			},
 			revoke(item) {
-				this.btnLoading = true;  
+				this.btnLoading = true;
 				this.$ajax
 					.post(
 						"/system/users/revokeuserpermissions",
@@ -263,7 +276,7 @@
 		},
 		watch: {
 			async role_name(val) {
-				if(val) {
+				if (val) {
 					this.datatableLoading = true;
 					await this.$ajax
 						.get(

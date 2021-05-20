@@ -16,7 +16,7 @@ class CreateAsnRiwayatJabatanTable extends Migration
         Schema::create('trRiwayatJabatanASN', function (Blueprint $table) {
             $table->uuid('RiwayatJabatanASNID',19);
             $table->uuid('ASNID');
-            $table->string('OrgID',19);                        
+            $table->uuid('OrgID');                        
             $table->string('Jenis_Jabatan',4);    
             $table->year('TA');                    
             $table->boolean('Locked')->default(0);
