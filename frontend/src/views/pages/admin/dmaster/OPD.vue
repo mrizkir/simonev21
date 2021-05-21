@@ -47,7 +47,7 @@
 						item-key="OrgID"
 						sort-by="kode_organisasi"
 						show-expand
-						:expanded.sync="expanded"						
+						:expanded.sync="expanded"
 						dense
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"
@@ -349,7 +349,9 @@
 															<strong>BIDANG URUSAN:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_Bidang_1 }} {{ formdata.Nm_Bidang_2 }} {{ formdata.Nm_Bidang_3 }}
+															{{ formdata.Nm_Bidang_1 }}
+															{{ formdata.Nm_Bidang_2 }}
+															{{ formdata.Nm_Bidang_3 }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -432,7 +434,9 @@
 							{{ item.PaguDana1 | formatUang }}
 						</template>
 						<template v-slot:item.Nm_Bidang_1="{ item }">
-							{{ item.Nm_Bidang_1 }} {{ item.Nm_Bidang_2 }} {{ item.Nm_Bidang_3 }}
+							{{ item.Nm_Bidang_1 }}
+							{{ item.Nm_Bidang_2 }}
+							{{ item.Nm_Bidang_3 }}
 						</template>
 						<template v-slot:item.PaguDana2="{ item }">
 							{{ item.PaguDana2 | formatUang }}
@@ -667,12 +671,12 @@
 					value => !!value || "Mohon untuk di isi Kode OPD!!!",
 					value => /^[0-9]+$/.test(value) || "Kode OPD hanya boleh angka",
 					value => {
-						if (value && typeof value !== "undefined" && value.length >= 2){
+						if (value && typeof value !== "undefined" && value.length >= 2) {
 							return true;
 						} else {
 							return "Kode OPD Kegiatan minimaml 2 angka";
-						}     
-					}
+						}
+					},
 				],
 				rule_kepala_skpd: [
 					value => !!value || "Mohon untuk di isi nama Kepala OPD / SKPD !!!",
@@ -694,7 +698,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -737,7 +741,7 @@
 								.post(
 									"/dmaster/opd/loadopd",
 									{
-										tahun: this.$store.getters["uifront/getTahunAnggaran"],
+										tahun: this.$store.getters["auth/TahunSelected"],
 									},
 									{
 										headers: {
@@ -763,7 +767,7 @@
 					.post(
 						"/dmaster/opd/loadpaguapbdp",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -786,7 +790,7 @@
 					.post(
 						"/dmaster/kodefikasi/bidangurusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -810,7 +814,7 @@
 					.post(
 						"/dmaster/kodefikasi/bidangurusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -842,7 +846,7 @@
 							};
 						}
 						this.dialogfrm = true;
-					});				
+					});
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {
@@ -938,7 +942,7 @@
 									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
 									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {
@@ -946,7 +950,7 @@
 									},
 								}
 							)
-							.then(() => {								
+							.then(() => {
 								this.initialize();
 								this.closedialogfrm();
 							})

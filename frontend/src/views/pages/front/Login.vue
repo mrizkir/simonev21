@@ -140,9 +140,13 @@
 									},
 								})
 								.then(response => {
+									let user = response.data;
+									Object.assign(user, {
+										tahun_selected: this.formlogin.tahun_anggaran,
+									});
 									var data_user = {
 										token: data,
-										user: response.data,
+										user: user,
 									};
 									this.$store.dispatch("auth/afterLoginSuccess", data_user);
 								});

@@ -13,7 +13,7 @@
 				<v-col xs="12" sm="6" md="3">
 					<v-card color="#385F73" dark>
 						<v-card-title class="headline">
-							APBD {{ $store.getters["uifront/getTahunAnggaran"] }}
+							APBD {{ $store.getters["auth/TahunSelected"] }}
 							<v-spacer />
 							<v-icon large @click.stop="loadstatistik1">
 								mdi-database-refresh
@@ -21,7 +21,7 @@
 						</v-card-title>
 						<v-card-subtitle>
 							Total Pagu APBD Murni TA
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>
 							{{ statistik1.PaguDana1 | formatUang }}
@@ -48,7 +48,7 @@
 						</v-card-title>
 						<v-card-subtitle>
 							Jumlah Program dan Kegiatan TA
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>
 							Prog.: {{ statistik1.JumlahProgram1 }} / Keg.:
@@ -76,7 +76,7 @@
 						</v-card-title>
 						<v-card-subtitle>
 							Realisasi Keuangan TA
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>
 							{{ statistik1.RealisasiKeuangan1 | formatUang }}
@@ -104,7 +104,7 @@
 						</v-card-title>
 						<v-card-subtitle>
 							Realisasi Fisik TA
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>{{ statistik1.RealisasiFisik1 }} %</v-card-text>
 						<v-card-actions>
@@ -166,7 +166,7 @@
 	export default {
 		name: "RenjaMurni",
 		created() {
-			this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
+			this.tahun_anggaran = this.$store.getters["auth/TahunSelected"];
 			this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
 			this.initialize();
 		},

@@ -358,7 +358,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -416,7 +416,7 @@
 					.post(
 						"/belanja/rkamurni/loaddatakegiatanfirsttime",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							SOrgID: this.SOrgID_Selected,
 						},
 						{
@@ -441,7 +441,7 @@
 					.post(
 						"/belanja/rkamurni",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							SOrgID: this.SOrgID_Selected,
 						},
 						{

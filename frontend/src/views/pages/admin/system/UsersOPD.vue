@@ -489,11 +489,17 @@
 			initialize: async function() {
 				this.datatableLoading = true;
 				await this.$ajax
-					.get("/system/usersopd", {
-						headers: {
-							Authorization: this.TOKEN,
+					.post(
+						"/system/usersopd",
+						{
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
-					})
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
 					.then(({ data }) => {
 						this.daftar_users = data.users;
 						this.role_id = data.role.id;
@@ -562,7 +568,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -589,7 +595,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {

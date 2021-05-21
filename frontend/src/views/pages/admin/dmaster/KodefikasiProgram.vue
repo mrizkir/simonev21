@@ -450,7 +450,7 @@
 					.post(
 						"/dmaster/kodefikasi/program",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -475,7 +475,7 @@
 					.post(
 						"/dmaster/kodefikasi/bidangurusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -495,7 +495,7 @@
 					.post(
 						"/dmaster/kodefikasi/bidangurusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -555,7 +555,7 @@
 									Kd_Program: this.formdata.Kd_Program,
 									Nm_Program: this.formdata.Nm_Program,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

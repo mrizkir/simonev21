@@ -20,6 +20,12 @@ class UsersOPDController extends Controller {
     public function index(Request $request)
     {           
         $this->hasPermissionTo('SYSTEM-USERS-OPD_BROWSE');
+        
+        $this->validate($request, [        
+            'TA'=>'required'
+        ]);    
+        $ta = $request->input('TA');
+
         $data = User::where('default_role','opd')
                     ->select(\DB::raw('
                         users.*,
@@ -30,13 +36,14 @@ class UsersOPDController extends Controller {
                     
         $role = Role::findByName('opd');
 
-        $data->transform(function ($item, $key) {
+        $data->transform(function ($item, $key) use ($ta) {
             $daftar_opd = UserOPD::select(\DB::raw('
                                 `OrgID`,
                                 kode_organisasi,
                                 `Nm_Organisasi`,
                                 locked
                             '))
+                            ->where('ta', $ta)
                             ->where('user_id',$item->id)->get();
             $item->opd = $daftar_opd;
             return $item;

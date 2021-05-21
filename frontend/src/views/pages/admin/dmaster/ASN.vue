@@ -400,7 +400,7 @@
 					.post(
 						"/dmaster/asn",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -463,7 +463,7 @@
 									NIP_ASN: this.formdata.NIP_ASN,
 									Nm_ASN: this.formdata.Nm_ASN,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

@@ -444,7 +444,7 @@
 					.post(
 						"/dmaster/kodefikasi/subkegiatan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -469,7 +469,7 @@
 					.post(
 						"/dmaster/kodefikasi/kegiatan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -488,7 +488,7 @@
 					.post(
 						"/dmaster/kodefikasi/kegiatan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -542,7 +542,7 @@
 									Kd_SubKegiatan: this.formdata.Kd_SubKegiatan,
 									Nm_SubKegiatan: this.formdata.Nm_SubKegiatan,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

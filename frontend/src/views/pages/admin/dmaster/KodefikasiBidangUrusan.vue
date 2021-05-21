@@ -450,7 +450,7 @@
 					.post(
 						"/dmaster/kodefikasi/bidangurusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -475,7 +475,7 @@
 					.post(
 						"/dmaster/kodefikasi/urusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -494,7 +494,7 @@
 					.post(
 						"/dmaster/kodefikasi/urusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -548,7 +548,7 @@
 									Kd_Bidang: this.formdata.Kd_Bidang,
 									Nm_Bidang: this.formdata.Nm_Bidang,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

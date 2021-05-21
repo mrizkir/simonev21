@@ -124,6 +124,15 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/Pejabat.vue"),
 	},
+	{
+		path: "/dmaster/ta",
+		name: "DMasterTA",
+		meta: {
+			title: "DLL - TAHUN ANGGARAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/TA.vue"),
+	},
 	//renja murni
 	{
 		path: "/renjamurni",

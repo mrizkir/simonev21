@@ -8,7 +8,7 @@
 			<v-spacer></v-spacer>
 			<strong>Hak Akses Sebagai:</strong> {{ ROLE }} |
 			<strong>Tahun Anggaran:</strong>
-			{{ $store.getters["uifront/getTahunAnggaran"] }} |
+			{{ $store.getters["auth/TahunSelected"] }} |
 			<strong>Bulan Realisasi:</strong>
 			{{
 				$store.getters["uifront/getNamaBulan"](
@@ -191,7 +191,7 @@
 		name: "Dashboard",
 		created() {
 			this.TOKEN = this.$route.params.token;
-			this.tahun_pendaftaran = this.$store.getters["uifront/getTahunAnggaran"];
+			this.tahun_anggaran = this.$store.getters["auth/TahunSelected"];
 			this.breadcrumbs = [
 				{
 					text: "HOME",
@@ -210,7 +210,7 @@
 			breadcrumbs: [],
 			TOKEN: null,
 			dashboard: null,
-			tahun_pendaftaran: "",
+			tahun_anggaran: "",
 		}),
 		methods: {
 			initialize: async function() {

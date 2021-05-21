@@ -2,10 +2,10 @@
 	<DataMasterLayout :showrightsidebar="false">
 		<ModuleHeader>
 			<template v-slot:icon>
-				mdi-account-circle
+				mdi-calendar-month
 			</template>
 			<template v-slot:name>
-				PEJABAT
+				TAHUN ANGGARAN
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,31 +16,11 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Pejabat untuk kegiatan masing-masing OPD seperti (PA, KPA, PPK, dan
-					PPTK)
+					TAHUN ANGGARAN REALISASI FISIK DAN KEUANGAN
 				</v-alert>
 			</template>
 		</ModuleHeader>
 		<v-container fluid>
-			<v-row class="mb-4" no-gutters>
-				<v-col cols="12">
-					<v-card>
-						<v-card-title>
-							FILTER
-						</v-card-title>
-						<v-card-text>
-							<v-autocomplete
-								:items="daftar_opd"
-								v-model="OrgID_Selected"
-								label="OPD / SKPD"
-								item-text="Nm_Organisasi"
-								item-value="OrgID"
-							>
-							</v-autocomplete>
-						</v-card-text>
-					</v-card>
-				</v-col>
-			</v-row>
 			<v-row class="mb-4" no-gutters>
 				<v-col cols="12">
 					<v-card>
@@ -63,8 +43,8 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="RiwayatJabatanASNID"
-						sort-by="Nm_ASN"
+						item-key="tahun"
+						sort-by="tahun"
 						show-expand
 						:expanded.sync="expanded"
 						:single-expand="true"
@@ -75,69 +55,47 @@
 					>
 						<template v-slot:top>
 							<v-toolbar flat color="white">
-								<v-toolbar-title>
-									DAFTAR ASN
-								</v-toolbar-title>
+								<v-toolbar-title>DAFTAR TAHUN ANGGARAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-tooltip bottom>
-									<template v-slot:activator="{ on, attrs }">
+								<v-dialog v-model="dialogfrm" max-width="500px" persistent>
+									<template v-slot:activator="{ on }">
 										<v-btn
-											v-bind="attrs"
 											v-on="on"
 											color="primary"
 											icon
 											outlined
 											small
 											class="ma-2"
-											:disabled="!OrgID_Selected.length > 0 || btnLoading"
-											@click.stop="addItem"
+											:disabled="
+												!$store.getters['auth/can']('DMASTER-TA_STORE')
+											"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah Pejabat</span>
-								</v-tooltip>
-								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
 											<v-card-title>
 												<span class="headline">{{ formtitle }}</span>
 											</v-card-title>
 											<v-card-text>
-												<v-autocomplete
-													:items="daftar_opd"
-													v-model="formdata.OrgID"
-													label="OPD / SKPD"
-													item-text="Nm_Organisasi"
-													item-value="OrgID"
+												<v-text-field
+													v-model="formdata.tahun"
+													label="TAHUN"
 													filled
-													:disabled="true"
+													:rules="rule_tahun"
 													outlined
 												>
-												</v-autocomplete>
-												<v-autocomplete
+												</v-text-field>
+												<v-text-field
+													v-model="formdata.tahun_anggaran"
+													label="KETERANGAN"
 													filled
-													:items="daftar_asn"
-													v-model="formdata.ASNID"
-													label="NAMA ASN"
-													item-text="Nm_ASN"
-													item-value="ASNID"
-													:rules="rule_nama_asn"
 													outlined
+													:rules="rule_name"
 												>
-												</v-autocomplete>
-												<v-select
-													v-model="formdata.Jenis_Jabatan"
-													:items="daftar_jenisjabatan"
-													item-text="value"
-													item-value="key"
-													label="JENIS JABATAN"
-													:rules="rule_jenis_jabatan"
-													single-line
-													outlined
-												>
-												</v-select>
+												</v-text-field>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -145,13 +103,13 @@
 													color="blue darken-1"
 													text
 													@click.stop="closedialogfrm"
+													>BATAL</v-btn
 												>
-													BATAL
-												</v-btn>
 												<v-btn
 													color="blue darken-1"
 													text
 													@click.stop="save"
+													:loading="btnLoading"
 													:disabled="!form_valid || btnLoading"
 												>
 													SIMPAN
@@ -167,19 +125,17 @@
 								>
 									<v-card>
 										<v-card-title>
-											<span class="headline">
-												DETAIL DATA
-											</span>
+											<span class="headline">DETAIL DATA</span>
 										</v-card-title>
 										<v-card-text>
 											<v-row no-gutters>
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															ID
+															tahun
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.ASNID }}
+															{{ formdata.tahun }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -193,7 +149,7 @@
 															KETERANGAN
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Jenis_Jabatan.toUpperCase() }}
+															{{ formdata.Descr }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -206,10 +162,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															NIP ASN
+															TAHUN
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.NIP_ASN }}
+															{{ formdata.tahun }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -240,10 +196,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															NAMA ASN
+															KETERANGAN
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_ASN }}
+															{{ formdata.tahun_anggaran }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -277,59 +233,43 @@
 												color="blue darken-1"
 												text
 												@click.stop="closedialogdetailitem"
+												>KELUAR</v-btn
 											>
-												KELUAR
-											</v-btn>
 										</v-card-actions>
 									</v-card>
 								</v-dialog>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										v-bind="attrs"
-										v-on="on"
-										small
-										class="mr-2"
-										@click.stop="viewItem(item)"
-									>
-										mdi-eye
-									</v-icon>
-								</template>
-								<span>Detail Pejabat</span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										v-bind="attrs"
-										v-on="on"
-										small
-										color="red darken-1"
-										:disabled="
-											btnLoading ||
-												!$store.getters['auth/can']('DMASTER-PEJABAT_DESTROY')
-										"
-										@click.stop="deleteItem(item)"
-									>
-										mdi-delete
-									</v-icon>
-								</template>
-								<span>Hapus Pejabat</span>
-							</v-tooltip>
+							<v-icon small class="mr-2" @click.stop="viewItem(item)">
+								mdi-eye
+							</v-icon>
+							<v-icon
+								small
+								class="mr-2"
+								:disabled="!$store.getters['auth/can']('ASN_UPDATE')"
+								@click.stop="editItem(item)"
+							>
+								mdi-pencil
+							</v-icon>
+							<v-icon
+								small
+								:loading="btnLoading"
+								:disabled="
+									btnLoading || !$store.getters['auth/can']('ASN_STORE')
+								"
+								@click.stop="deleteItem(item)"
+							>
+								mdi-delete
+							</v-icon>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<strong>ID:</strong>{{ item.RiwayatJabatanASNID }}
-								<strong>created_at:</strong>
-								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
-								<strong>updated_at:</strong>
-								{{ $date(item.updated_at).format("DD/MM/YYYY HH:mm") }}
+								<strong>ID:</strong>{{ item.tahun }} <strong>created_at:</strong
+								>{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
+								<strong>updated_at:</strong
+								>{{ $date(item.updated_at).format("DD/MM/YYYY HH:mm") }}
 							</td>
-						</template>
-						<template v-slot:item.Jenis_Jabatan="{ item }">
-							{{ item.Jenis_Jabatan.toUpperCase() }}
 						</template>
 						<template v-slot:no-data>
 							Data belum tersedia
@@ -344,7 +284,7 @@
 	import DataMasterLayout from "@/views/layouts/DataMasterLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "Pejabat",
+		name: "TahunAnggaran",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -358,25 +298,12 @@
 					href: "#",
 				},
 				{
-					text: "PEJABAT",
+					text: "TAHUN ANGGARAN",
 					disabled: true,
 					href: "#",
 				},
 			];
-			this.$store.dispatch("uiadmin/addToPages", {
-				name: "pejabat",
-				OrgID_Selected: "",
-			});
-		},
-		mounted() {
-			this.fetchOPD();
-			var OrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
-				"pejabat",
-				"OrgID_Selected"
-			);
-			if (OrgID_Selected.length > 0) {
-				this.OrgID_Selected = OrgID_Selected;
-			}
+			this.initialize();
 		},
 		data() {
 			return {
@@ -385,116 +312,53 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "NIP ASN", value: "NIP_ASN", width: 150 },
-					{ text: "NAMA ASN", value: "Nm_ASN" },
-					{ text: "JENIS JABATAN", value: "Jenis_Jabatan" },
-					{
-						text: "AKSI",
-						value: "actions",
-						sortable: false,
-						width: 100,
-					},
+					{ text: "TAHUN", value: "tahun", width: 150 },
+					{ text: "KETERANGAN", value: "tahun_anggaran" },
+					{ text: "AKSI", value: "actions", sortable: false, width: 100 },
 				],
 				search: "",
-				//filter form
-				daftar_opd: [],
-				OrgID_Selected: "",
 
 				//dialog
 				dialogfrm: false,
 				dialogdetailitem: false,
+
 				//form data
 				form_valid: true,
-				daftar_asn: [],
-				daftar_jenisjabatan: [
-					{
-						key: "pa",
-						value: "PENGGUNA ANGGARAN",
-					},
-					{
-						key: "kpa",
-						value: "KUASA PENGGUNA ANGGARAN",
-					},
-					{
-						key: "ppk",
-						value: "PEJABAT PEMBUAT KOMITMEN",
-					},
-					{
-						key: "pptk",
-						value: "PEJABAT PELAKSANA TEKNIS KEGIATAN",
-					},
-				],
+				old_ta: null,
 				formdata: {
-					RiwayatJabatanASNID: "",
-					OrgID: "",
-					ASNID: "",
-					NIP_ASN: "",
-					Nm_ASN: "",
-					Jenis_Jabatan: "",
-					TA: "",
+					tahun: "",
+					tahun_anggaran: "",
 					created_at: "",
 					updated_at: "",
 				},
 				formdefault: {
-					RiwayatJabatanASNID: "",
-					OrgID: "",
-					NIP_ASN: "",
-					Nm_ASN: "",
-					Jenis_Jabatan: "",
-					TA: "",
+					tahun: "",
+					tahun_anggaran: "",
 					created_at: "",
 					updated_at: "",
 				},
 				editedIndex: -1,
 
 				//form rules
-				rule_nama_asn: [
-					value => !!value || "Mohon untuk di pilih nama ASN !!!",
+				rule_tahun: [
+					value => !!value || "Mohon untuk di isi TAHUN !!!",
+					value => /^[0-9]+$/.test(value) || "TAHUN hanya boleh angka",
 				],
-				rule_jenis_jabatan: [
-					value => !!value || "Mohon untuk di pilih Jenis Jabatan !!!",
-				],
+				rule_name: [value => !!value || "Mohon untuk di isi Nama TAHUN !!!"],
 			};
 		},
 		methods: {
-			initialize: async function(OrgID_Selected) {
+			initialize: async function() {
 				this.datatableLoading = true;
 				await this.$ajax
-					.post(
-						"/dmaster/pejabat",
-						{
-							tahun: this.$store.getters["auth/TahunSelected"],
-							OrgID: OrgID_Selected,
+					.get("/dmaster/ta", {
+						headers: {
+							Authorization: this.$store.getters["auth/Token"],
 						},
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
+					})
 					.then(({ data }) => {
-						this.datatable = data.pejabat;
+						this.datatable = data.ta;
 						this.datatableLoading = false;
-					});
-			},
-			fetchOPD: async function() {
-				await this.$ajax
-					.post(
-						"/dmaster/opd",
-						{
-							tahun: this.$store.getters["auth/TahunSelected"],
-						},
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
-					.then(({ data, status }) => {
-						if (status == 200) {
-							this.daftar_opd = data.opd;
-							this.datatableLoaded = false;
-						}
 					});
 			},
 			dataTableRowClicked(item) {
@@ -504,29 +368,11 @@
 					this.expanded = [item];
 				}
 			},
-			addItem: async function() {
-				this.btnLoading = true;
-				await this.$ajax
-					.post(
-						"/dmaster/asn",
-						{
-							tahun: this.$store.getters["auth/TahunSelected"],
-						},
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
-					.then(({ data }) => {
-						this.dialogfrm = true;
-						this.daftar_asn = data.asn;
-						this.formdata.OrgID = this.OrgID_Selected;
-						this.btnLoading = false;
-					})
-					.catch(() => {
-						this.btnLoading = false;
-					});
+			editItem(item) {
+				this.editedIndex = this.datatable.indexOf(item);
+				this.formdata = Object.assign({}, item);
+				this.old_ta = item.tahun;
+				this.dialogfrm = true;
 			},
 			viewItem(item) {
 				this.formdata = item;
@@ -535,37 +381,57 @@
 			save() {
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
-					this.$ajax
-						.post(
-							"/dmaster/pejabat/store",
-							{
-								OrgID: this.formdata.OrgID,
-								ASNID: this.formdata.ASNID,
-								Jenis_Jabatan: this.formdata.Jenis_Jabatan,
-								TA: this.$store.getters["auth/TahunSelected"],
-							},
-							{
-								headers: {
-									Authorization: this.$store.getters["auth/Token"],
+					if (this.editedIndex > -1) {
+						this.$ajax
+							.post(
+								"/dmaster/ta/" + this.old_ta,
+								{
+									_method: "PUT",
+									tahun: this.formdata.tahun,
+									tahun_anggaran: this.formdata.tahun_anggaran,
 								},
-							}
-						)
-						.then(() => {
-							this.initialize(this.OrgID_Selected);
-							this.closedialogfrm();
-						})
-						.catch(() => {
-							this.btnLoading = false;
-						});
+								{
+									headers: {
+										Authorization: this.$store.getters["auth/Token"],
+									},
+								}
+							)
+							.then(({ data }) => {
+								Object.assign(this.datatable[this.editedIndex], data.ta);
+								this.closedialogfrm();
+							})
+							.catch(() => {
+								this.btnLoading = false;
+							});
+					} else {
+						this.$ajax
+							.post(
+								"/dmaster/ta/store",
+								{
+									tahun: this.formdata.tahun,
+									tahun_anggaran: this.formdata.tahun_anggaran,
+								},
+								{
+									headers: {
+										Authorization: this.$store.getters["auth/Token"],
+									},
+								}
+							)
+							.then(({ data }) => {
+								this.datatable.push(data.ta);
+								this.closedialogfrm();
+							})
+							.catch(() => {
+								this.btnLoading = false;
+							});
+					}
 				}
 			},
 			deleteItem(item) {
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data jabatan ASN dengan ID " +
-							item.ASNID +
-							" ?",
+						"Apakah Anda ingin menghapus data dengan ID " + item.tahun + " ?",
 						{ color: "red" }
 					)
 					.then(confirm => {
@@ -573,7 +439,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/pejabat/" + item.RiwayatJabatanASNID,
+									"/dmaster/ta/" + item.tahun,
 									{
 										_method: "DELETE",
 									},
@@ -600,7 +466,7 @@
 				setTimeout(() => {
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
-					this.$refs.frmdata.resetValidation();
+					this.$refs.frmdata.reset();
 				}, 300);
 			},
 			closedialogdetailitem() {
@@ -609,14 +475,6 @@
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
 				}, 300);
-			},
-		},
-		watch: {
-			OrgID_Selected(val) {
-				var page = this.$store.getters["uiadmin/Page"]("pejabat");
-				page.OrgID_Selected = val;
-				this.$store.dispatch("uiadmin/updatePage", page);
-				this.initialize(val);
 			},
 		},
 		computed: {

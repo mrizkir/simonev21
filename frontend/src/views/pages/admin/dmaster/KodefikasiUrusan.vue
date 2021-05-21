@@ -422,7 +422,7 @@
 					.post(
 						"/dmaster/kodefikasi/urusan",
 						{
-							TA: this.$store.getters["uifront/getTahunAnggaran"],
+							TA: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -491,7 +491,7 @@
 									Kd_Urusan: this.formdata.Kd_Urusan,
 									Nm_Urusan: this.formdata.Nm_Urusan,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

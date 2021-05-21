@@ -8,7 +8,7 @@
 			<v-spacer></v-spacer>
 			<strong>Hak Akses Sebagai:</strong> {{ ROLE }} |
 			<strong>Tahun Anggaran:</strong>
-			{{ $store.getters["uifront/getTahunAnggaran"] }} |
+			{{ $store.getters["auth/TahunSelected"] }} |
 			<strong>Bulan Realisasi:</strong>
 			{{
 				$store.getters["uifront/getNamaBulan"](

@@ -8,7 +8,7 @@
 			<v-spacer></v-spacer>
 			<strong>Hak Akses Sebagai:</strong> {{ ROLE }} |
 			<strong>Tahun Anggaran:</strong>
-			{{ $store.getters["uifront/getTahunAnggaran"] }} |
+			{{ $store.getters["auth/TahunSelected"] }} |
 			<strong>Bulan Realisasi:</strong>
 			{{
 				$store.getters["uifront/getNamaBulan"](
@@ -268,6 +268,24 @@
 				<v-list-item-content>
 					<v-list-item-title>
 						PEJABAT
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-subheader class="purple accent-5 white--text">LAIN-LAIN</v-subheader>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-TA_BROWSE')"
+				to="/dmaster/ta"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-calendar-month</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						TAHUN ANGGARAN
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>

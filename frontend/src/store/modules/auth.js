@@ -72,6 +72,13 @@ const getters = {
 			return name in permissions ? true : false;
 		}
 	},
+	TahunSelected: state => {
+		if (state.user == null) {
+			return 0;
+		} else {
+			return state.user.tahun_selected;
+		}
+	},
 };
 const actions = {
 	afterLoginSuccess({ commit }, data) {
