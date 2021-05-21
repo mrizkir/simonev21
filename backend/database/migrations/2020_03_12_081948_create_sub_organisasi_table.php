@@ -15,10 +15,12 @@ class CreateSubOrganisasiTable extends Migration
     {
         Schema::create('tmSOrg', function (Blueprint $table) {
             $table->uuid('SOrgID');
-            $table->uuid('OrgID');    
-            $table->string('Kd_SOrg',5);
-            $table->string('Nm_SOrg');
-            $table->string('Alias_SOrg');
+            $table->uuid('OrgID');
+            
+            $table->string('kode_sub_organisasi');
+            $table->string('Kd_Sub_Organisasi',5);
+            $table->string('Nm_Sub_Organisasi');            
+            $table->string('Alias_Sub_Organisasi');
             $table->string('Alamat');
             $table->string('NamaKepalaUnitKerja');
             $table->string('NIPKepalaUnitKerja');
@@ -31,22 +33,20 @@ class CreateSubOrganisasiTable extends Migration
             $table->decimal('RealisasiKeuangan1',15,2)->default(0);
             $table->decimal('RealisasiKeuangan2',15,2)->default(0);
             $table->decimal('RealisasiFisik1',5,2)->default(0);
-            $table->decimal('RealisasiFisik2',5,2)->default(0);            
+            $table->decimal('RealisasiFisik2',5,2)->default(0);
             $table->string('Descr')->nullable();
-            $table->year('TA');      
-            $table->uuid('SubOrgID_Src')->nullable();      
+            $table->year('TA');
+            $table->uuid('SOrgID_Src')->nullable();     
             $table->timestamps();
 
             $table->primary('SOrgID');
-            $table->index('OrgID'); 
-            $table->index('Kd_SOrg'); 
-            $table->index('SubOrgID_Src'); 
+            $table->index('OrgID');            
 
             $table->foreign('OrgID')
-                            ->references('OrgID')
-                            ->on('tmOrg')
-                            ->onDelete('cascade')
-                            ->onUpdate('cascade');
+                    ->references('OrgID')
+                    ->on('tmOrg')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
             
         });        
     }

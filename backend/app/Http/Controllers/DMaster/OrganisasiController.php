@@ -26,14 +26,13 @@ class OrganisasiController extends Controller {
         ]);             
         $tahun=$request->input('tahun');
 
-        $user=$this->guard()->user();
-        if ($user->hasRole(['superadmin','bapelitbang']))
+        if ($this->hasRole(['superadmin','bapelitbang']))
         {
             $data = OrganisasiModel::where('TA',$tahun)
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();            
         }       
-        else if ($user->hasRole('opd'))
+        else if ($this->hasRole('opd'))
         {
             $daftar_opd=json_decode($user->payload,true);
             $data = OrganisasiModel::where('TA',$tahun)
@@ -322,7 +321,7 @@ class OrganisasiController extends Controller {
                                 'status'=>1,
                                 'pid'=>'store',
                                 'opd'=>$organisasi,                                    
-                                'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil diubah.'
+                                'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil disimpan.'
                             ], 200); 
     }
     /**

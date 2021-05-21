@@ -105,6 +105,16 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/OPD.vue"),
 	},
+	//dmaster - unit kerja
+	{
+		path: "/dmaster/organisasi/unitkerja",
+		name: "DMasterUnitKerja",
+		meta: {
+			title: "UNIT KERJA",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/UnitKerja.vue"),
+	},
 	//dmaster - pegawai
 	{
 		path: "/dmaster/asn",

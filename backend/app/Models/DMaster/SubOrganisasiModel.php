@@ -19,12 +19,10 @@ class SubOrganisasiModel extends Model {
     protected $fillable = [
         'SOrgID', 
         'OrgID', 
-        'Nm_Urusan', 
-        'kode_organisasi', 
-        'OrgNm', 
-        'kode_suborganisasi', 
-        'SOrgNm', 
-        'SOrgAlias', 
+        'kode_sub_organisasi', 
+        'Kd_Sub_Organisasi', 
+        'Nm_Sub_Organisasi', 
+        'Alias_Sub_Organisasi',         
         'Alamat', 
         'NamaKepalaUnitKerja', 
         'NIPKepalaUnitKerja', 
@@ -39,7 +37,8 @@ class SubOrganisasiModel extends Model {
         'RealisasiFisik1',        
         'RealisasiFisik2',
         'Descr', 
-        'TA'
+        'TA',
+        'SubOrgID_Src',
     ];
     /**
      * primary key tabel ini.

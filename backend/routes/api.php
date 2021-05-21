@@ -21,7 +21,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
     $router->get('/datamaster/kecamatan/{id}/desa',['uses'=>'DMaster\KecamatanController@desa','as'=>'kecamatan.desa']);
 
     //dmaster - tahun anggaran
-    $router->get('/dmaster/ta',['uses'=>'DMaster\TAController@index','as'=>'v1.ta.index']);
+    $router->get('/dmaster/ta',['uses'=>'DMaster\TAController@index','as'=>'ta.index']);
 
     //untuk uifront
     $router->get('/system/setting/uifront',['uses'=>'System\UIController@frontend','as'=>'uifront.frontend']);
@@ -77,6 +77,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/dmaster/opd/{id}/pejabat',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\OrganisasiController@pejabatopd','as'=>'opd.pejabatopd']);
     $router->delete('/dmaster/opd/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@destroy','as'=>'opd.destroy']);
     
+    //data master - unit kerja
+    $router->post('/dmaster/unitkerja',['uses'=>'DMaster\SubOrganisasiController@index','as'=>'unitkerja.index']);    
+    $router->post('/dmaster/unitkerja/loadunitkerja',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadunitkerja','as'=>'unitkerja.loadunitkerja']);    
+    $router->post('/dmaster/unitkerja/loadpaguapbdp',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadpaguapbdp','as'=>'unitkerja.loadpaguapbdp']);    
+    $router->post('/dmaster/unitkerja/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@store','as'=>'unitkerja.store']);    
+    $router->put('/dmaster/unitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\SubOrganisasiController@update','as'=>'unitkerja.update']);
+    $router->delete('/dmaster/unitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SubOrganisasiController@destroy','as'=>'unitkerja.destroy']);
+
     //data master - ASN
     $router->post('/dmaster/asn',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\ASNController@index','as'=>'ASN.index']);    
     $router->post('/dmaster/asn/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ASNController@store','as'=>'ASN.store']);

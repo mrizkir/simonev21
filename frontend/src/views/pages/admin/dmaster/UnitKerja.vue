@@ -5,7 +5,7 @@
 				mdi-office-building
 			</template>
 			<template v-slot:name>
-				ORG. PERANGKAT DAERAH (OPD)
+				UNIT KERJA
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Halaman untuk mengolah data Organisasi Perangkat Daerah.
+					Halaman untuk mengolah data unit kerja.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -43,8 +43,8 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="OrgID"
-						sort-by="kode_organisasi"
+						item-key="SOrgID"
+						sort-by="kode_sub_organisasi"
 						show-expand
 						:expanded.sync="expanded"
 						dense
@@ -57,7 +57,7 @@
 						<template v-slot:top>
 							<v-toolbar flat color="white">
 								<v-toolbar-title>
-									DAFTAR OPD
+									DAFTAR UNIT KERJA
 								</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
@@ -91,13 +91,13 @@
 											class="ma-2"
 											@click.stop="addItem"
 											:disabled="
-												!$store.getters['auth/can']('DMASTER-OPD_STORE')
+												!$store.getters['auth/can']('DMASTER-UNIT-KERJA_STORE')
 											"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah Perangkat Daerah (OPD)</span>
+									<span>Tambah Unit Kerja</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="700px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -109,56 +109,33 @@
 											</v-card-title>
 											<v-card-text>
 												<v-autocomplete
-													:items="daftar_bidang_urusan"
-													v-model="bidangid_1"
-													label="KODE BIDANG URUSAN 1"
-													item-text="bidangurusan"
-													item-value="BidangID"
+													:items="daftar_opd"
+													v-model="formdata.OrgID"
+													label="OPD"
+													item-text="Nm_Organisasi"
+													item-value="OrgID"
 													single-line
 													filled
-													return-object
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_bidang_urusan"
-													v-model="bidangid_2"
-													label="KODE BIDANG URUSAN 2"
-													item-text="bidangurusan"
-													item-value="BidangID"
-													single-line
-													filled
-													return-object
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_bidang_urusan"
-													v-model="bidangid_3"
-													label="KODE BIDANG URUSAN 3"
-													item-text="bidangurusan"
-													item-value="BidangID"
-													single-line
-													filled
-													return-object
 												>
 												</v-autocomplete>
 												<v-text-field
-													v-model="formdata.Kd_Organisasi"
-													label="KODE OPD"
+													v-model="formdata.Kd_Sub_Organisasi"
+													label="KODE UNIT KERJA"
 													:rules="rule_kode"
 													filled
 												>
 												</v-text-field>
 												<v-text-field
-													v-model="formdata.Nm_Organisasi"
-													label="NAMA OPD"
+													v-model="formdata.Nm_Sub_Organisasi"
+													label="NAMA UNIT KERJA"
 													:rules="rule_required"
 													filled
 												>
 												</v-text-field>
 												<v-text-field
-													v-model="formdata.Alias_Organisasi"
+													v-model="formdata.Alias_Sub_Organisasi"
 													:rules="rule_required"
-													label="SINGKATAN OPD"
+													label="SINGKATAN UNIT KERJA"
 													filled
 												>
 												</v-text-field>
@@ -170,16 +147,16 @@
 												>
 												</v-text-field>
 												<v-text-field
-													v-model="formdata.NamaKepalaSKPD"
+													v-model="formdata.NamaKepalaUnitKerja"
 													:rules="rule_kepala_skpd"
-													label="NAMA KEPALA OPD"
+													label="NAMA KEPALA UNIT KERJA"
 													filled
 												>
 												</v-text-field>
 												<v-text-field
-													v-model="formdata.NIPKepalaSKPD"
+													v-model="formdata.NIPKepalaUnitKerja"
 													:rules="rule_nip_kepala_skpd"
-													label="NIP KEPALA OPD"
+													label="NIP KEPALA UNIT KERJA"
 													filled
 												>
 												</v-text-field>
@@ -218,7 +195,7 @@
 								>
 									<v-card>
 										<v-card-title>
-											<span class="headline">DETAIL DATA OPD</span>
+											<span class="headline">DETAIL DATA UNIT KERJA</span>
 										</v-card-title>
 										<v-card-text>
 											<v-row no-gutters>
@@ -255,10 +232,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															<strong>KODE OPD:</strong>
+															<strong>KODE UNIT KERJA:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.kode_organisasi }}
+															{{ formdata.kode_sub_organisasi }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -285,10 +262,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															<strong>NAMA OPD:</strong>
+															<strong>NAMA UNIT KERJA:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Nm_Organisasi }}
+															{{ formdata.Nm_Sub_Organisasi }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -318,7 +295,7 @@
 															<strong>SINGKATAN:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.Alias_Organisasi }}
+															{{ formdata.Alias_Sub_Organisasi }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -377,11 +354,11 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															<strong>KEPALA OPD:</strong>
+															<strong>KEPALA UNIT KERJA:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.NamaKepalaSKPD }}
-															NIP. {{ formdata.NIPKepalaSKPD }}
+															{{ formdata.NamaKepalaUnitKerja }}
+															NIP. {{ formdata.NIPKepalaUnitKerja }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -453,7 +430,7 @@
 										mdi-eye
 									</v-icon>
 								</template>
-								<span>Detail OPD</span>
+								<span>Detail Unit Kerja</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -464,13 +441,13 @@
 										class="mr-2"
 										@click.stop="editItem(item)"
 										:disabled="
-											!$store.getters['auth/can']('DMASTER-OPD_UPDATE')
+											!$store.getters['auth/can']('DMASTER-UNIT-KERJA_UPDATE')
 										"
 									>
 										mdi-pencil
 									</v-icon>
 								</template>
-								<span>Ubah OPD</span>
+								<span>Ubah Unit Kerja</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -481,14 +458,16 @@
 										color="red darken-1"
 										:disabled="
 											btnLoading ||
-												!$store.getters['auth/can']('DMASTER-OPD_DESTROY')
+												!$store.getters['auth/can'](
+													'DMASTER-UNIT-KERJA_DESTROY'
+												)
 										"
 										@click.stop="deleteItem(item)"
 									>
 										mdi-delete
 									</v-icon>
 								</template>
-								<span>Hapus OPD</span>
+								<span>Hapus Unit Kerja</span>
 							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
@@ -516,10 +495,10 @@
 							<v-col cols="12">
 								<v-btn
 									color="primary"
-									@click.stop="loaddataopd"
-									:disabled="showBtnLoadDataOPD || btnLoading"
+									@click.stop="loaddataunitkerja"
+									:disabled="showBtnLoadDataUnitKerja || btnLoading"
 								>
-									LOAD DATA OPD
+									LOAD DATA UNIT KERJA
 									<template v-slot:loader>
 										<span>LOADING ...</span>
 									</template>
@@ -536,7 +515,7 @@
 	import DataMasterLayout from "@/views/layouts/DataMasterLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "OPD",
+		name: "UnitKerja",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -550,7 +529,7 @@
 					href: "#",
 				},
 				{
-					text: "OPD",
+					text: "UNIT KERJA",
 					disabled: true,
 					href: "#",
 				},
@@ -565,10 +544,14 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "KODE OPD", value: "kode_organisasi", width: 150 },
-					{ text: "NAMA OPD", value: "Nm_Organisasi", width: 300 },
+					{ text: "KODE UNIT KERJA", value: "kode_sub_organisasi", width: 200 },
+					{ text: "NAMA UNIT KERJA", value: "Nm_Sub_Organisasi", width: 300 },
 					{ text: "BIDANG URUSAN", value: "Nm_Bidang_1", width: 200 },
-					{ text: "KEPALA OPD", value: "NamaKepalaSKPD", width: 200 },
+					{
+						text: "KEPALA UNIT KERJA",
+						value: "NamaKepalaUnitKerja",
+						width: 200,
+					},
 					{ text: "APBD", align: "end", value: "PaguDana1", width: 100 },
 					{
 						text: "APBDP",
@@ -589,28 +572,17 @@
 				dialogfrm: false,
 				//form data
 				form_valid: true,
-				daftar_bidang_urusan: [],
-				bidangid_1: null,
-				bidangid_2: null,
-				bidangid_3: null,
+				daftar_opd: [],
 				formdata: {
+					SOrgID: "",
 					OrgID: "",
-					BidangID_1: null,
-					kode_bidang_1: null,
-					Nm_Bidang_1: null,
-					BidangID_2: null,
-					kode_bidang_2: null,
-					Nm_Bidang_2: null,
-					BidangID_3: null,
-					kode_bidang_3: null,
-					Nm_Bidang_3: null,
-					kode_organisasi: "",
-					Kd_Organisasi: "",
-					Nm_Organisasi: "",
-					Alias_Organisasi: "",
+					kode_sub_organisasi: "",
+					Kd_Sub_Organisasi: "",
+					Nm_Sub_Organisasi: "",
+					Alias_Sub_Organisasi: "",
 					Alamat: "",
-					NamaKepalaSKPD: "",
-					NIPKepalaSKPD: "",
+					NamaKepalaUnitKerja: "",
+					NIPKepalaUnitKerja: "",
 					PaguDana1: 0,
 					PaguDana2: 0,
 					Descr: "",
@@ -619,23 +591,15 @@
 					updated_at: "",
 				},
 				formdefault: {
+					SOrgID: "",
 					OrgID: "",
-					BidangID_1: "",
-					kode_bidang_1: "",
-					Nm_Bidang_1: "",
-					BidangID_2: "",
-					kode_bidang_2: "",
-					Nm_Bidang_2: "",
-					BidangID_3: "",
-					kode_bidang_3: "",
-					Nm_Bidang_3: "",
-					kode_organisasi: "",
-					Kd_Organisasi: "",
-					Nm_Organisasi: "",
-					Alias_Organisasi: "",
+					kode_sub_organisasi: "",
+					Kd_Sub_Organisasi: "",
+					Nm_Sub_Organisasi: "",
+					Alias_Sub_Organisasi: "",
 					Alamat: "",
-					NamaKepalaSKPD: "",
-					NIPKepalaSKPD: "",
+					NamaKepalaUnitKerja: "",
+					NIPKepalaUnitKerja: "",
 					PaguDana1: 0,
 					PaguDana2: 0,
 					Descr: "",
@@ -649,26 +613,27 @@
 					value => !!value || "Mohon untuk di isi karena dibutuhkan !!!",
 				],
 				rule_kode: [
-					value => !!value || "Mohon untuk di isi Kode OPD!!!",
-					value => /^[0-9]+$/.test(value) || "Kode OPD hanya boleh angka",
+					value => !!value || "Mohon untuk di isi Kode Unit Kerja!!!",
+					value =>
+						/^[0-9]+$/.test(value) || "Kode Unit Kerja hanya boleh angka",
 					value => {
 						if (value && typeof value !== "undefined" && value.length >= 2) {
 							return true;
 						} else {
-							return "Kode OPD Kegiatan minimaml 2 angka";
+							return "Kode Unit Kerja Kegiatan minimaml 2 angka";
 						}
 					},
 				],
 				rule_kepala_skpd: [
-					value => !!value || "Mohon untuk di isi nama Kepala OPD / SKPD !!!",
+					value => !!value || "Mohon untuk di isi nama Kepala Unit Kerja !!!",
 					value =>
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Kepala OPD / SKPD hanya boleh string dan spasi",
+						"Nama Kepala Unit Kerja hanya boleh string dan spasi",
 				],
 				rule_nip_kepala_skpd: [
-					value => !!value || "Mohon untuk di isi NIP Kepala OPD / SKPD !!!",
+					value => !!value || "Mohon untuk di isi NIP Kepala Unit Kerja !!!",
 					value =>
-						/^[0-9]+$/.test(value) || "NIP Kepala OPD / SKPD hanya boleh angka",
+						/^[0-9]+$/.test(value) || "NIP Kepala Unit Kerja hanya boleh angka",
 				],
 			};
 		},
@@ -677,7 +642,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/dmaster/opd",
+						"/dmaster/unitkerja",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 						},
@@ -688,13 +653,14 @@
 						}
 					)
 					.then(({ data }) => {
-						var opd = data.opd;
-						for (var key in opd) {
-							if (opd[key].Kd_Organisasi < 10) {
-								opd[key].Kd_Organisasi = "0" + opd[key].Kd_Organisasi;
+						var unitkerja = data.unitkerja;
+						for (var key in unitkerja) {
+							if (unitkerja[key].Kd_Sub_Organisasi < 10) {
+								unitkerja[key].Kd_Sub_Organisasi =
+									"0" + unitkerja[key].Kd_Sub_Organisasi;
 							}
 						}
-						this.datatable = data.opd;
+						this.datatable = data.unitkerja;
 						this.footers.jumlah_apbd = data.jumlah_apbd;
 						this.footers.jumlah_apbdp = data.jumlah_apbdp;
 						this.datatableLoaded = true;
@@ -708,11 +674,11 @@
 					this.expanded = [item];
 				}
 			},
-			loaddataopd() {
+			loaddataunitkerja() {
 				this.$root.$confirm
 					.open(
-						"Load Data OPD",
-						"Apakah Anda ingin meload data OPD kembali ?",
+						"Load Data Unit Kerja",
+						"Apakah Anda ingin meload data Unit Kerja kembali ?",
 						{ color: "yellow" }
 					)
 					.then(confirm => {
@@ -720,7 +686,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/opd/loadopd",
+									"/dmaster/unitkerja/loadunitkerja",
 									{
 										tahun: this.$store.getters["auth/TahunSelected"],
 									},
@@ -731,7 +697,7 @@
 									}
 								)
 								.then(({ data }) => {
-									this.datatable = data.opd;
+									this.datatable = data.unitkerja;
 									this.footers.jumlah_apbd = data.jumlah_apbd;
 									this.footers.jumlah_apbdp = data.jumlah_apbdp;
 									this.btnLoading = false;
@@ -746,7 +712,7 @@
 				this.btnLoading = true;
 				this.$ajax
 					.post(
-						"/dmaster/opd/loadpaguapbdp",
+						"/dmaster/unitkerja/loadpaguapbdp",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 						},
@@ -757,7 +723,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.datatable = data.opd;
+						this.datatable = data.unitkerja;
 						this.footers.jumlah_apbd = data.jumlah_apbd;
 						this.footers.jumlah_apbdp = data.jumlah_apbdp;
 						this.btnLoading = false;
@@ -769,9 +735,9 @@
 			async addItem() {
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/bidangurusan",
+						"/dmaster/opd",
 						{
-							TA: this.$store.getters["auth/TahunSelected"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -780,7 +746,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
+						this.daftar_opd = data.opd;
 						this.dialogfrm = true;
 					});
 			},
@@ -793,9 +759,9 @@
 				this.formdata = Object.assign({}, item);
 				await this.$ajax
 					.post(
-						"/dmaster/kodefikasi/bidangurusan",
+						"/dmaster/opd",
 						{
-							TA: this.$store.getters["auth/TahunSelected"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -804,88 +770,26 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_bidang_urusan = data.kodefikasibidangurusan;
-						if (this.formdata.BidangID_1) {
-							this.bidangid_1 = {
-								BidangID: this.formdata.BidangID_1,
-								kode_bidang: this.formdata.kode_bidang_1,
-								Nm_Bidang: this.formdata.Nm_Bidang_1,
-							};
-						}
-						if (this.formdata.BidangID_2) {
-							this.bidangid_2 = {
-								BidangID: this.formdata.BidangID_2,
-								kode_bidang: this.formdata.kode_bidang_2,
-								Nm_Bidang: this.formdata.Nm_Bidang_2,
-							};
-						}
-						if (this.formdata.BidangID_3) {
-							this.bidangid_3 = {
-								BidangID: this.formdata.BidangID_3,
-								kode_bidang: this.formdata.kode_bidang_3,
-								Nm_Bidang: this.formdata.Nm_Bidang_3,
-							};
-						}
+						this.daftar_opd = data.opd;
 						this.dialogfrm = true;
 					});
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
-					var org1 = "0-00";
-					var kode_bidang = "";
-					if (this.bidangid_1) {
-						kode_bidang = this.bidangid_1.kode_bidang;
-						kode_bidang = kode_bidang.replace(".", "-");
-						this.formdata.BidangID_1 = this.bidangid_1.BidangID;
-						this.formdata.kode_bidang_1 = kode_bidang;
-						this.formdata.Nm_Bidang_1 = this.bidangid_1.Nm_Bidang;
-						org1 = kode_bidang;
-					}
-					var org2 = "0-00";
-					if (this.bidangid_2) {
-						kode_bidang = this.bidangid_2.kode_bidang;
-						kode_bidang = kode_bidang.replace(".", "-");
-						this.formdata.BidangID_2 = this.bidangid_2.BidangID;
-						this.formdata.kode_bidang_2 = kode_bidang;
-						this.formdata.Nm_Bidang_2 = this.bidangid_2.Nm_Bidang;
-
-						org2 = kode_bidang;
-					}
-					var org3 = "0-00";
-					if (this.bidangid_3) {
-						kode_bidang = this.bidangid_3.kode_bidang;
-						kode_bidang = kode_bidang.replace(".", "-");
-						this.formdata.BidangID_3 = this.bidangid_3.BidangID;
-						this.formdata.kode_bidang_3 = kode_bidang;
-						this.formdata.Nm_Bidang_3 = this.bidangid_3.Nm_Bidang;
-
-						org3 = kode_bidang;
-					}
-					this.formdata.kode_organisasi =
-						org1 + "." + org2 + "." + org3 + "." + this.formdata.Kd_Organisasi;
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/dmaster/opd/" + this.formdata.OrgID,
+								"/dmaster/unitkerja/" + this.formdata.SOrgID,
 								{
 									_method: "PUT",
-									BidangID_1: this.formdata.BidangID_1,
-									kode_bidang_1: this.formdata.kode_bidang_1,
-									Nm_Bidang_1: this.formdata.Nm_Bidang_1,
-									BidangID_2: this.formdata.BidangID_2,
-									kode_bidang_2: this.formdata.kode_bidang_2,
-									Nm_Bidang_2: this.formdata.Nm_Bidang_2,
-									BidangID_3: this.formdata.BidangID_3,
-									kode_bidang_3: this.formdata.kode_bidang_3,
-									Nm_Bidang_3: this.formdata.Nm_Bidang_3,
-									kode_organisasi: this.formdata.kode_organisasi,
-									Kd_Organisasi: this.formdata.Kd_Organisasi,
-									Nm_Organisasi: this.formdata.Nm_Organisasi,
-									Alias_Organisasi: this.formdata.Alias_Organisasi,
+									OrgID: this.formdata.OrgID,
+									Kd_Sub_Organisasi: this.formdata.Kd_Sub_Organisasi,
+									Nm_Sub_Organisasi: this.formdata.Nm_Sub_Organisasi,
+									Alias_Sub_Organisasi: this.formdata.Alias_Sub_Organisasi,
 									Alamat: this.formdata.Alamat,
-									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
-									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,
+									NamaKepalaUnitKerja: this.formdata.NamaKepalaUnitKerja,
+									NIPKepalaUnitKerja: this.formdata.NIPKepalaUnitKerja,
 									Descr: this.formdata.Descr,
 								},
 								{
@@ -895,7 +799,11 @@
 								}
 							)
 							.then(({ data }) => {
-								Object.assign(this.datatable[this.editedIndex], data.opd);
+								if (data.unitkerja.Kd_Sub_Organisasi < 10) {
+									data.unitkerja.Kd_Sub_Organisasi =
+										"0" + data.unitkerja.Kd_Sub_Organisasi;
+								}
+								Object.assign(this.datatable[this.editedIndex], data.unitkerja);
 								this.closedialogfrm();
 							})
 							.catch(() => {
@@ -904,24 +812,15 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/opd/store/",
+								"/dmaster/unitkerja/store/",
 								{
-									BidangID_1: this.formdata.BidangID_1,
-									kode_bidang_1: this.formdata.kode_bidang_1,
-									Nm_Bidang_1: this.formdata.Nm_Bidang_1,
-									BidangID_2: this.formdata.BidangID_2,
-									kode_bidang_2: this.formdata.kode_bidang_2,
-									Nm_Bidang_2: this.formdata.Nm_Bidang_2,
-									BidangID_3: this.formdata.BidangID_3,
-									kode_bidang_3: this.formdata.kode_bidang_3,
-									Nm_Bidang_3: this.formdata.Nm_Bidang_3,
-									kode_organisasi: this.formdata.kode_organisasi,
-									Kd_Organisasi: this.formdata.Kd_Organisasi,
-									Nm_Organisasi: this.formdata.Nm_Organisasi,
-									Alias_Organisasi: this.formdata.Alias_Organisasi,
+									OrgID: this.formdata.OrgID,
+									Kd_Sub_Organisasi: this.formdata.Kd_Sub_Organisasi,
+									Nm_Sub_Organisasi: this.formdata.Nm_Sub_Organisasi,
+									Alias_Sub_Organisasi: this.formdata.Alias_Sub_Organisasi,
 									Alamat: this.formdata.Alamat,
-									NamaKepalaSKPD: this.formdata.NamaKepalaSKPD,
-									NIPKepalaSKPD: this.formdata.NIPKepalaSKPD,
+									NamaKepalaUnitKerja: this.formdata.NamaKepalaUnitKerja,
+									NIPKepalaUnitKerja: this.formdata.NIPKepalaUnitKerja,
 									Descr: this.formdata.Descr,
 									TA: this.$store.getters["auth/TahunSelected"],
 								},
@@ -945,7 +844,7 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data OPD dengan ID " +
+						"Apakah Anda ingin menghapus data Unit Kerja dengan ID " +
 							item.OrgID +
 							" ?",
 						{ color: "red", width: "500px" }
@@ -955,7 +854,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/opd/" + item.OrgID,
+									"/dmaster/unitkerja/" + item.OrgID,
 									{
 										_method: "DELETE",
 									},
@@ -998,7 +897,7 @@
 			formtitle() {
 				return this.editedIndex === -1 ? "TAMBAH DATA" : "UBAH DATA";
 			},
-			showBtnLoadDataOPD() {
+			showBtnLoadDataUnitKerja() {
 				var bool = true;
 				if (this.datatableLoaded == true) {
 					bool = this.datatable.length > 0;
