@@ -218,6 +218,24 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/system/UsersOPD.vue"),
 	},
+	{
+		path: "/system-users/dewan",
+		name: "UsersTAPD",
+		meta: {
+			title: "USERS - DEWAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersDewan.vue"),
+	},
+	{
+		path: "/system-users/tapd",
+		name: "UsersTAPD",
+		meta: {
+			title: "USERS - TAPD",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersTAPD.vue"),
+	},
 	// other page
 	{
 		path: "/404",

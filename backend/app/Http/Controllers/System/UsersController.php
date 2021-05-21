@@ -71,33 +71,6 @@ class UsersController extends Controller {
             $role='superadmin';   
             $user->assignRole($role);               
             
-            $daftar_roles=json_decode($request->input('role_id'),true);
-            foreach($daftar_roles as $v)
-            {
-                if ($v!='superadmin')
-                {
-                    $user->assignRole($v);               
-                    $permission=Role::findByName($v)->permissions;
-                    $permissions=$permission->pluck('name');
-                    $user->givePermissionTo($permissions);
-
-                    if ($v=='dosen')
-                    {
-                        UserDosen::create([
-                            'user_id'=>$user->id,
-                            'nama_dosen'=>$request->input('name'),                                                            
-                        ]);
-
-                        if ($v=='dosenwali')
-                        {
-                            \DB::table('dosen')
-                                ->where('user_id',$user->id)
-                                ->update(['is_dw'=>true]);
-                        }
-                    }
-                    
-                }
-            }
             \App\Models\System\ActivityLog::log($request,[
                                             'object' => $this->guard()->user(), 
                                             'object_id' => $this->guard()->user()->id, 
@@ -168,56 +141,11 @@ class UsersController extends Controller {
         ]);
         $role_name=$request->input('role_name');        
         switch($role_name)
-        {
-            case 'mahasiswabaru':
+        {            
+            case 'bapelitbang':
                 $permission=Role::findByName($role_name)->permissions;
                 $permissions=$permission->pluck('name');
-                $this->validate($request, [           
-                    'TA'=>'required',
-                    'prodi_id'=>'required'
-                ]);                
-
-                $ta=$request->input('TA');
-                $prodi_id=$request->input('prodi_id');
-                $data = User::where('default_role','mahasiswabaru')
-                        ->select(\DB::raw('users.id'))
-                        ->join('formulir_pendaftaran','formulir_pendaftaran.user_id','users.id')
-                        ->where('users.ta',$ta)
-                        ->where('kjur1',$prodi_id)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
-            case 'mahasiswa':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $this->validate($request, [           
-                    'TA'=>'required',
-                    'prodi_id'=>'required'
-                ]);  
-                $ta=$request->input('TA');
-                $prodi_id=$request->input('prodi_id');
-                $data = User::where('default_role','mahasiswa')
-                        ->select(\DB::raw('users.id'))
-                        ->join('register_mahasiswa','register_mahasiswa.user_id','users.id')
-                        ->where('register_mahasiswa.tahun',$ta)
-                        ->where('register_mahasiswa.kjur',$prodi_id)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);   
-                }                
-            break;
-            case 'pmb':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('pmb')
+                $data = User::role('bapelitbang')
                         ->select(\DB::raw('users.id'))                        
                         ->where('active',1)
                         ->get();
@@ -228,10 +156,10 @@ class UsersController extends Controller {
                     $user->givePermissionTo($permissions);                 
                 }                
             break;
-            case 'akademik':
+            case 'opd':
                 $permission=Role::findByName($role_name)->permissions;
                 $permissions=$permission->pluck('name');
-                $data = User::role('akademik')
+                $data = User::role('opd')
                         ->select(\DB::raw('users.id'))                        
                         ->where('active',1)
                         ->get();
@@ -242,10 +170,10 @@ class UsersController extends Controller {
                     $user->givePermissionTo($permissions);                 
                 }                
             break;
-            case 'programstudi':
+            case 'pptk':
                 $permission=Role::findByName($role_name)->permissions;
                 $permissions=$permission->pluck('name');
-                $data = User::role('programstudi')
+                $data = User::role('pptk')
                         ->select(\DB::raw('users.id'))                        
                         ->where('active',1)
                         ->get();
@@ -256,10 +184,10 @@ class UsersController extends Controller {
                     $user->givePermissionTo($permissions);                 
                 }                
             break;
-            case 'puslahta':
+            case 'dewan':
                 $permission=Role::findByName($role_name)->permissions;
                 $permissions=$permission->pluck('name');
-                $data = User::role('puslahta')
+                $data = User::role('dewan')
                         ->select(\DB::raw('users.id'))                        
                         ->where('active',1)
                         ->get();
@@ -270,10 +198,10 @@ class UsersController extends Controller {
                     $user->givePermissionTo($permissions);                 
                 }                
             break;
-            case 'keuangan':
+            case 'tapd':
                 $permission=Role::findByName($role_name)->permissions;
                 $permissions=$permission->pluck('name');
-                $data = User::role('keuangan')
+                $data = User::role('tapd')
                         ->select(\DB::raw('users.id'))                        
                         ->where('active',1)
                         ->get();
@@ -283,91 +211,7 @@ class UsersController extends Controller {
                     \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
                     $user->givePermissionTo($permissions);                 
                 }                
-            break;
-            case 'perpustakaan':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('perpustakaan')
-                        ->select(\DB::raw('users.id'))                        
-                        ->where('active',1)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
-            case 'lppm':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('lppm')
-                        ->select(\DB::raw('users.id'))                        
-                        ->where('active',1)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
-            case 'dosen':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('dosen')
-                        ->select(\DB::raw('users.id'))                        
-                        ->where('active',1)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
-            case 'dosenwali':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('dosenwali')
-                        ->select(\DB::raw('users.id'))                        
-                        ->where('active',1)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
-            case 'alumni':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('alumni')
-                        ->select(\DB::raw('users.id'))                        
-                        ->where('active',1)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
-            case 'orangtuawali':
-                $permission=Role::findByName($role_name)->permissions;
-                $permissions=$permission->pluck('name');
-                $data = User::role('orangtuawali')
-                        ->select(\DB::raw('users.id'))                        
-                        ->where('active',1)
-                        ->get();
-
-                foreach ($data as $user)
-                {
-                    \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
-                    $user->givePermissionTo($permissions);                 
-                }                
-            break;
+            break;            
         }       
         return Response()->json([
                                     'status'=>1,
@@ -482,58 +326,8 @@ class UsersController extends Controller {
                 $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
                 $user->save();                
                 
-                $daftar_roles=json_decode($request->input('role_id'),true);
-                if (($key= array_search('dosen',$daftar_roles))===false)
-                {
-                    $key= array_search('dosenwali',$daftar_roles);
-                    if ($key)
-                    {
-                        unset($daftar_roles[$key]);
-                    }
-                }
+                $daftar_roles=json_decode($request->input('role_id'),true);                
                 $user->syncRoles($daftar_roles);
-                
-                $dosen=UserDosen::find($user->id);
-                
-                foreach($daftar_roles as $v)
-                {
-                    if ($v!='superadmin')
-                    {              
-                        $permission=Role::findByName($v)->permissions;
-                        $permissions=$permission->pluck('name');
-                        $user->givePermissionTo($permissions);
-
-                        if ($v=='dosen' && is_null($dosen))
-                        {
-                            UserDosen::create([
-                                'user_id'=>$user->id,
-                                'nama_dosen'=>$request->input('name'),                                                            
-                            ]);
-                        }
-                        else if ($v=='dosen' && !is_null($dosen))
-                        {
-                            $dosen->active=1;
-                            $dosen->save();
-                        }
-                        else if (!is_null($dosen))
-                        {
-                            $dosen->active=0;
-                            $dosen->save();
-                        }
-                        if ($v=='dosenwali' && $v=='dosen')
-                        {
-                            \DB::table('dosen')
-                                ->where('user_id',$user->id)
-                                ->update(['is_dw'=>true]);
-                        }
-                        else
-                        {
-                            \DB::table('dosen')
-                                ->where('user_id',$user->id)
-                                ->update(['is_dw'=>false]);
-                        }
-                    }
-                }
                 
                 \App\Models\System\ActivityLog::log($request,[
                                                                 'object' => $this->guard()->user(), 

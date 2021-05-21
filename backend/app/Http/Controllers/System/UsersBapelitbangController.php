@@ -122,7 +122,7 @@ class UsersBapelitbangController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',
                                     'user'=>$user,  
-                                    'role_dosen'=>$user->hasRole('dosen'),    
+                                    'role_bapelitbang'=>$user->hasRole('bapelitbang'),    
                                     'message'=>'Data user '.$user->username.' berhasil diperoleh.'
                                 ],200); 
         }
