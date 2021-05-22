@@ -41,6 +41,7 @@ class CreateSubOrganisasiTable extends Migration
 
             $table->primary('SOrgID');
             $table->index('OrgID');            
+            $table->index('kode_sub_organisasi');            
 
             $table->foreign('OrgID')
                     ->references('OrgID')

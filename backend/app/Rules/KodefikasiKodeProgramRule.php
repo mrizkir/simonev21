@@ -36,7 +36,7 @@ class KodefikasiKodeProgramRule implements Rule
     switch($this->pid)
     {
       case 'unique':
-        if ($this->request->input('jns') == 1)
+        if ($this->request->input('Jns') == "1")
         {
           $table = \DB::table('tmProgram')
                   ->join('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')

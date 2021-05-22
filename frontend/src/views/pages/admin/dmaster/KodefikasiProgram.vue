@@ -437,9 +437,6 @@
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Program !!!",
-					value =>
-						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Program hanya boleh string dan spasi",
 				],
 			};
 		},

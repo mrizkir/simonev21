@@ -423,7 +423,7 @@
 				rule_program: [value => !!value || "Mohon untuk di pilih Program !!!"],
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Kegiatan!!!",
-					value => /^[0-9]+$/.test(value) || "Kode Kegiatan hanya boleh angka",
+					value => /^[0-9]*\.?[0-9]*$/.test(value) || "Kode Kegiatan hanya boleh angka",
 					value => value.length > 1 || "Kode Kegiatan minimaml 2 angka",
 				],
 				rule_name: [

@@ -42,7 +42,7 @@ class KodefikasiKegiatanController extends Controller {
                                           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
                                             CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
                                           ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,`tmKegiatan`.`Kd_Kegiatan`)
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
                                       END AS kode_kegiatan,
                                       CASE 
                                           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
@@ -91,7 +91,7 @@ class KodefikasiKegiatanController extends Controller {
                                         ->where('TA',$request->input('TA'));
                         }),
                         'required',
-                        'regex:/^[0-9]+$/'],
+                        'regex:/^[0-9]*\.?[0-9]*$/'],
             'Nm_Kegiatan'=>'required',
             'TA'=>'required'
         ]);     
@@ -153,7 +153,7 @@ class KodefikasiKegiatanController extends Controller {
                                                         }                                                                                    
                                                     }),
                                                     'required',
-                                                    'regex:/^[0-9]+$/'
+                                                    'regex:/^[0-9]*\.?[0-9]*$/'
                                                 ],
                                         'Nm_Kegiatan'=>'required',
                                     ]);
