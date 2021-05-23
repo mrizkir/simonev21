@@ -955,13 +955,6 @@
 			formtitle() {
 				return this.editedIndex === -1 ? "TAMBAH DATA" : "UBAH DATA";
 			},
-			showBtnLoadDataOPD() {
-				var bool = true;
-				if (this.datatableLoaded == true) {
-					bool = this.datatable.length > 0;
-				}
-				return bool;
-			},
 		},
 		components: {
 			DataMasterLayout,

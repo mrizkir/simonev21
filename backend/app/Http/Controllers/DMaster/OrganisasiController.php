@@ -268,7 +268,7 @@ class OrganisasiController extends Controller {
     public function opdunitkerja ($id)
     {
         $organisasi = OrganisasiModel::find($id);
-        $unitkerja = $organisasi->unitkerja()->orderBy('kode_suborganisasi','ASC')->get();        
+        $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi','ASC')->get();        
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',

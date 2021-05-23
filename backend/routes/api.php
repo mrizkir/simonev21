@@ -109,6 +109,26 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     
     $router->post('/renjamurni/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\PeringkatOPDMurniController@index','as'=>'renjamurni-peringkatopdmurni.index']);    
     
+    //renja - rka murni
+    $router->post('/renja/rkamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk|dewan|tapd'],'uses'=>'Renja\RKAMurniController@index','as'=>'rkamurni.index']);    
+    $router->get('/renja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@show','as'=>'rkamurni.show']);    
+    $router->put('/renja/rkamurni/updatekegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatekegiatan','as'=>'rkamurni.updatekegiatan']);   
+    $router->put('/renja/rkamurni/updateuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updateuraian','as'=>'rkamurni.updateuraian']);   
+    $router->put('/renja/rkamurni/updatedetailuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatedetailuraian','as'=>'rkamurni.updatedetailuraian']);   
+    $router->post('/renja/rkamurni/rencanatarget',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@rencanatarget','as'=>'rkamurni.rencanatarget']);        
+    $router->post('/renja/rkamurni/savetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@savetargetfisik','as'=>'rkamurni.savetargetfisik']);        
+    $router->put('/renja/rkamurni/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatetargetfisik','as'=>'rkamurni.updatetargetfisik']);        
+    $router->get('/renja/rkamurni/bulanrealisasi/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@bulanrealisasi','as'=>'rkamurni.bulanrealisasi']);        
+    $router->post('/renja/rkamurni/savetargetanggarankas',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@savetargetanggarankas','as'=>'rkamurni.savetargetanggarankas']);        
+    $router->put('/renja/rkamurni/updatetargetanggarankas',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatetargetanggarankas','as'=>'rkamurni.updatetargetanggarankas']);   
+    $router->post('/renja/rkamurni/realisasi',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@realisasi','as'=>'rkamurni.realisasi']);             
+    $router->post('/renja/rkamurni/saverealisasi',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@saverealisasi','as'=>'rkamurni.saverealisasi']);             
+    $router->put('/renja/rkamurni/updaterealisasi/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updaterealisasi','as'=>'rkamurni.updaterealisasi']);             
+    $router->delete('/renja/rkamurni/deleterealisasi/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@destroy','as'=>'rkamurni.deleterealisasi']);             
+    $router->post('/renja/rkamurni/loaddatakegiatanfirsttime',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\RKAMurniController@loaddatakegiatanFirsttime','as'=>'rkamurni.loaddatakegiatanfirsttime']);    
+    $router->post('/renja/rkamurni/loaddatauraianfirsttime',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\RKAMurniController@loaddatauraianFirsttime','as'=>'rkamurni.loaddatauraianfirsttime']);    
+    $router->delete('/renja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@destroy','as'=>'rkamurni.deleterka']);             
+    
     //renja perubahan
     $router->post('/renjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RenjaPerubahanController@index','as'=>'renjaperubahan.index']);    
     $router->post('/renjaperubahan/reloadstatistik1',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RenjaPerubahanController@reloadstatistik1','as'=>'renjaperubahan.reloadstatistik1']);    

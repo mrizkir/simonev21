@@ -32,7 +32,7 @@
 								:items="daftar_opd"
 								v-model="OrgID_Selected"
 								label="OPD / SKPD"
-								item-text="OrgNm"
+								item-text="Nm_Organisasi"
 								item-value="OrgID"
 							>
 							</v-autocomplete>
@@ -40,7 +40,7 @@
 								:items="daftar_unitkerja"
 								v-model="SOrgID_Selected"
 								label="UNIT KERJA"
-								item-text="SOrgNm"
+								item-text="Nm_Sub_Organisasi"
 								item-value="SOrgID"
 							>
 							</v-autocomplete>
@@ -391,7 +391,7 @@
 					this.btnLoading = true;
 					await this.$ajax
 						.post(
-							"/belanja/rkamurni/loaddatauraianfirsttime",
+							"/renja/rkamurni/loaddatauraianfirsttime",
 							{
 								RKAID: item.RKAID,
 							},
@@ -414,7 +414,7 @@
 				this.btnLoading = true;
 				await this.$ajax
 					.post(
-						"/belanja/rkamurni/loaddatakegiatanfirsttime",
+						"/renja/rkamurni/loaddatakegiatanfirsttime",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 							SOrgID: this.SOrgID_Selected,
@@ -439,7 +439,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/belanja/rkamurni",
+						"/renja/rkamurni",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 							SOrgID: this.SOrgID_Selected,
@@ -496,7 +496,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/belanja/rkamurni/" + item.RKAID,
+									"/renja/rkamurni/" + item.RKAID,
 									{
 										_method: "DELETE",
 										pid: "datarka",

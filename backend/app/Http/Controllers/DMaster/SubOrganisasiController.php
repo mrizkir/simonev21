@@ -88,157 +88,37 @@ class SubOrganisasiController extends Controller {
         ]);
         $tahun=$request->input('tahun');
         
-        $str_update_jumlah_program = 'UPDATE "tmSOrg" SET "JumlahProgram2"=level3.jumlah_program FROM ( 
+        $str_update_jumlah_program = 'UPDATE `tmSOrg` SET `JumlahProgram2`=level3.jumlah_program FROM ( 
             SELECT kode_sub_organisasi, COUNT(kode_program) jumlah_program FROM (
                 SELECT * FROM 
-                    (SELECT kode_sub_organisasi, kode_program FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=2 GROUP BY "kode_program",kode_sub_organisasi ORDER BY kode_program ASC) AS level1
+                    (SELECT kode_sub_organisasi, kode_program FROM sipd WHERE `TA`='.$tahun.' AND `EntryLvl`=2 GROUP BY `kode_program`,kode_sub_organisasi ORDER BY kode_program ASC) AS level1
             ) AS level2 GROUP BY kode_sub_organisasi ORDER BY kode_sub_organisasi
-        ) AS level3 WHERE level3.kode_sub_organisasi="tmSOrg".kode_sub_organisasi';
+        ) AS level3 WHERE level3.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi';
 
         \DB::statement($str_update_jumlah_program); 
         
-        $str_update_jumlah_kegiatan = 'UPDATE "tmSOrg" SET "JumlahKegiatan2"=level2.jumlah_kegiatan FROM 
+        $str_update_jumlah_kegiatan = 'UPDATE `tmSOrg` SET `JumlahKegiatan2`=level2.jumlah_kegiatan FROM 
         (
             SELECT kode_sub_organisasi,COUNT(kode_kegiatan) AS jumlah_kegiatan FROM 
             (
                 SELECT 
                     DISTINCT(kode_kegiatan),				
-                    "kode_sub_organisasi"				
-                FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=2
+                    `kode_sub_organisasi`				
+                FROM sipd WHERE `TA`='.$tahun.' AND `EntryLvl`=2
                 ORDER BY kode_sub_organisasi ASC
             ) AS level1 GROUP BY kode_sub_organisasi
-        ) AS level2 WHERE level2.kode_sub_organisasi="tmSOrg".kode_sub_organisasi';
+        ) AS level2 WHERE level2.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi';
 
         \DB::statement($str_update_jumlah_kegiatan); 
         
         $str_statistik_unitkerja1 = '
-            UPDATE "tmSOrg" SET "PaguDana2"=level1."PaguUraian2" FROM
-            (SELECT kode_sub_organisasi,SUM("PaguUraian2") AS "PaguUraian2" FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=2 GROUP BY kode_sub_organisasi) AS level1
-            WHERE level1.kode_sub_organisasi="tmSOrg".kode_sub_organisasi AND "TA"='.$tahun.'
+            UPDATE `tmSOrg` SET `PaguDana2`=level1.`PaguUraian2` FROM
+            (SELECT kode_sub_organisasi,SUM(`PaguUraian2`) AS `PaguUraian2` FROM sipd WHERE `TA`='.$tahun.' AND `EntryLvl`=2 GROUP BY kode_sub_organisasi) AS level1
+            WHERE level1.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi AND `TA`='.$tahun.'
         ';
 
         \DB::statement($str_statistik_unitkerja1); 
 
-        $data = SubOrganisasiModel::where('TA',$tahun)->get();
-        return Response()->json([
-                                'status'=>1,
-                                'pid'=>'store',
-                                'unitkerja'=>$data,
-                                'jumlah_apbd'=>$data->sum('PaguDana1'),
-                                'jumlah_apbdp'=>$data->sum('PaguDana2'),
-                                'message'=>'Fetch data unit kerja berhasil diperoleh'
-                            ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
-    }
-    /**
-     * load data unit kerja
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function loadunitkerja(Request $request)
-    {        
-        $this->hasPermissionTo('DMASTER-UNIT-KERJA_STORE');
-
-        $this->validate($request, [            
-            'tahun'=>'required',            
-        ]);
-        $tahun=$request->input('tahun');
-        SubOrganisasiModel::where('TA',$tahun)                                    
-                                ->delete();
-       
-        $str_unitkerja = '
-            INSERT INTO "tmSOrg" (
-                "SOrgID",
-                "OrgID",
-                "Nm_Urusan",                 
-                "kode_organisasi",
-                "OrgNm",
-                "kode_sub_organisasi",
-                "SOrgNm",
-                "SOrgAlias",
-                "Alamat",
-                "NamaKepalaUnitKerja",
-                "NIPKepalaUnitKerja",
-                "Descr",
-                "TA",
-                "created_at", 
-                "updated_at"
-            )
-            SELECT
-                DISTINCT(CONCAT(\''.$tahun.'\',\'-\',REPLACE(kode_sub_organisasi,\'.\',\'-\'))) AS "SOrgID",
-                CONCAT(\''.$tahun.'\',\'-\',REPLACE(kode_organisasi,\'.\',\'-\')) AS "OrgID",
-                \'\' AS "Nm_Urusan",                
-                kode_organisasi,
-                "OrgNm",
-                kode_sub_organisasi,
-                "SOrgNm",
-                "SOrgNm" AS "SOrgAlias",
-                \'\' AS "Alamat",
-                \'\' AS "NamaKepalaUnitKerja",
-                \'\' AS "NIPKepalaUnitKerja",
-                \'Imported from SIMDA\' AS "Descr",
-                '.$tahun.' AS "TA",
-                NOW() AS created_at,
-                NOW() AS updated_at
-            FROM
-                simda 
-            WHERE
-                "TA" = '.$tahun.' 
-                AND "Kd_Urusan" IS NOT NULL            
-            ORDER BY
-                kode_sub_organisasi ASC
-        ';
-
-        \DB::statement($str_unitkerja); 
-
-        $str_update_urusan = '
-        UPDATE "tmSOrg" SET "Nm_Urusan"=level2.bidang FROM 
-        (SELECT
-                kode_sub_organisasi,
-                STRING_AGG ( "Nm_Bidang", \', \' ) AS bidang 
-            FROM ( SELECT kode_sub_organisasi,"Nm_Bidang" FROM simda WHERE "Nm_Bidang" IS NOT NULL AND "TA"='.$tahun.' GROUP BY kode_sub_organisasi,"Nm_Bidang" ) AS level1 
-        GROUP BY kode_sub_organisasi) AS level2
-        WHERE level2.kode_sub_organisasi="tmSOrg".kode_sub_organisasi AND "TA"='.$tahun.'' ;
-
-        \DB::statement($str_update_urusan); 
-        
-        $str_update_jumlah_program = 'UPDATE "tmSOrg" SET "JumlahProgram1"=level3.jumlah_program FROM ( 
-            SELECT kode_sub_organisasi, COUNT(kode_program) jumlah_program FROM (
-                SELECT * FROM 
-                    (SELECT kode_sub_organisasi, kode_program FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=1 GROUP BY "kode_program",kode_sub_organisasi ORDER BY kode_program ASC) AS level1
-            ) AS level2 GROUP BY kode_sub_organisasi ORDER BY kode_sub_organisasi
-        ) AS level3 WHERE level3.kode_sub_organisasi="tmSOrg".kode_sub_organisasi';
-
-        \DB::statement($str_update_jumlah_program); 
-
-        $str_update_jumlah_kegiatan = 'UPDATE "tmSOrg" SET "JumlahKegiatan1"=level2.jumlah_kegiatan FROM 
-        (
-            SELECT kode_sub_organisasi,COUNT(kode_kegiatan) AS jumlah_kegiatan FROM 
-            (
-                SELECT 
-                    DISTINCT(kode_kegiatan),				
-                    "kode_sub_organisasi"				
-                FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=1
-                ORDER BY kode_sub_organisasi ASC
-            ) AS level1 GROUP BY kode_sub_organisasi
-        ) AS level2 WHERE level2.kode_sub_organisasi="tmSOrg".kode_sub_organisasi';
-
-        \DB::statement($str_update_jumlah_kegiatan); 
-
-        $str_statistik_unitkerja1 = '
-            UPDATE "tmSOrg" SET "PaguDana1"=level1."PaguUraian1" FROM
-            (SELECT kode_sub_organisasi,SUM("PaguUraian1") AS "PaguUraian1" FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=1 GROUP BY kode_sub_organisasi) AS level1
-            WHERE level1.kode_sub_organisasi="tmSOrg".kode_sub_organisasi AND "TA"='.$tahun.'
-        ';
-
-        \DB::statement($str_statistik_unitkerja1); 
-        
-        \App\Models\Settings\ActivityLog::log($request,[
-                                        'object' => $this->guard()->user(), 
-                                        'object_id' => $this->getUserid(), 
-                                        'user_id' => $this->getUserid(), 
-                                        'message' => 'Meload ulang data OPD kembali'
-                                    ]);
-                                    
         $data = SubOrganisasiModel::where('TA',$tahun)->get();
         return Response()->json([
                                 'status'=>1,
@@ -329,42 +209,42 @@ class SubOrganisasiController extends Controller {
         $sub_organisasi->Descr = $request->input('Descr');
         $sub_organisasi->save();
         
-        // $str_update_jumlah_program = 'UPDATE "tmSOrg" SET "JumlahProgram1"=level3.jumlah_program FROM ( 
+        // $str_update_jumlah_program = 'UPDATE `tmSOrg` SET `JumlahProgram1`=level3.jumlah_program FROM ( 
         //     SELECT kode_sub_organisasi, COUNT(kode_program) jumlah_program FROM (
         //         SELECT * FROM 
-        //             (SELECT kode_sub_organisasi, kode_program FROM simda WHERE "TA"='.$sub_organisasi->TA.' AND kode_sub_organisasi=\''.$sub_organisasi->kode_sub_organisasi.'\' AND "EntryLvl"=1 GROUP BY "kode_program",kode_sub_organisasi ORDER BY kode_program ASC) AS level1
+        //             (SELECT kode_sub_organisasi, kode_program FROM sipd WHERE `TA`='.$sub_organisasi->TA.' AND kode_sub_organisasi=\''.$sub_organisasi->kode_sub_organisasi.'\' AND `EntryLvl`=1 GROUP BY `kode_program`,kode_sub_organisasi ORDER BY kode_program ASC) AS level1
         //     ) AS level2 GROUP BY kode_sub_organisasi ORDER BY kode_sub_organisasi
-        // ) AS level3 WHERE level3.kode_sub_organisasi="tmSOrg".kode_sub_organisasi';
+        // ) AS level3 WHERE level3.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi';
 
         // \DB::statement($str_update_jumlah_program); 
 
-        // $str_update_jumlah_kegiatan = 'UPDATE "tmSOrg" SET "JumlahKegiatan1"=level2.jumlah_kegiatan FROM 
+        // $str_update_jumlah_kegiatan = 'UPDATE `tmSOrg` SET `JumlahKegiatan1`=level2.jumlah_kegiatan FROM 
         // (
         //     SELECT kode_sub_organisasi,COUNT(kode_kegiatan) AS jumlah_kegiatan FROM 
         //     (
         //         SELECT 
         //             DISTINCT(kode_kegiatan),				
-        //             "kode_sub_organisasi"				
-        //         FROM simda WHERE "TA"='.$sub_organisasi->TA.' AND kode_sub_organisasi=\''.$sub_organisasi->kode_sub_organisasi.'\' AND "EntryLvl"=1
+        //             `kode_sub_organisasi`				
+        //         FROM sipd WHERE `TA`='.$sub_organisasi->TA.' AND kode_sub_organisasi=\''.$sub_organisasi->kode_sub_organisasi.'\' AND `EntryLvl`=1
         //         ORDER BY kode_sub_organisasi ASC
         //     ) AS level1 GROUP BY kode_sub_organisasi
-        // ) AS level2 WHERE level2.kode_sub_organisasi="tmSOrg".kode_sub_organisasi';
+        // ) AS level2 WHERE level2.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi';
 
         // \DB::statement($str_update_jumlah_kegiatan);
         
         // $str_statistik_unitkerja1 = '
-        //     UPDATE "tmSOrg" SET 
-        //         "PaguDana1"=level1."PaguUraian1"                
+        //     UPDATE `tmSOrg` SET 
+        //         `PaguDana1`=level1.`PaguUraian1`                
         //     FROM
         //         (
         //             SELECT 
         //                 kode_sub_organisasi,
-        //                 SUM("PaguUraian1") AS "PaguUraian1"                                               
-        //             FROM simda 
+        //                 SUM(`PaguUraian1`) AS `PaguUraian1`                                               
+        //             FROM sipd 
         //             WHERE kode_sub_organisasi=\''.$sub_organisasi->kode_sub_organisasi.'\' 
         //             GROUP BY kode_sub_organisasi
         //         ) AS level1
-        //     WHERE "tmSOrg".kode_sub_organisasi=level1.kode_sub_organisasi
+        //     WHERE `tmSOrg`.kode_sub_organisasi=level1.kode_sub_organisasi
         // ';
         // \DB::statement($str_statistik_unitkerja1); 
         

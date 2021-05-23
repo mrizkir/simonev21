@@ -493,16 +493,7 @@
 						</template>
 						<template v-slot:no-data>
 							<v-col cols="12">
-								<v-btn
-									color="primary"
-									@click.stop="loaddataunitkerja"
-									:disabled="showBtnLoadDataUnitKerja || btnLoading"
-								>
-									LOAD DATA UNIT KERJA
-									<template v-slot:loader>
-										<span>LOADING ...</span>
-									</template>
-								</v-btn>
+								Belum ada data unit kerja
 							</v-col>
 						</template>
 					</v-data-table>
@@ -673,40 +664,6 @@
 				} else {
 					this.expanded = [item];
 				}
-			},
-			loaddataunitkerja() {
-				this.$root.$confirm
-					.open(
-						"Load Data Unit Kerja",
-						"Apakah Anda ingin meload data Unit Kerja kembali ?",
-						{ color: "yellow" }
-					)
-					.then(confirm => {
-						if (confirm) {
-							this.btnLoading = true;
-							this.$ajax
-								.post(
-									"/dmaster/unitkerja/loadunitkerja",
-									{
-										tahun: this.$store.getters["auth/TahunSelected"],
-									},
-									{
-										headers: {
-											Authorization: this.$store.getters["auth/Token"],
-										},
-									}
-								)
-								.then(({ data }) => {
-									this.datatable = data.unitkerja;
-									this.footers.jumlah_apbd = data.jumlah_apbd;
-									this.footers.jumlah_apbdp = data.jumlah_apbdp;
-									this.btnLoading = false;
-								})
-								.catch(() => {
-									this.btnLoading = false;
-								});
-						}
-					});
 			},
 			loadPaguAPBDP() {
 				this.btnLoading = true;
@@ -896,13 +853,6 @@
 		computed: {
 			formtitle() {
 				return this.editedIndex === -1 ? "TAMBAH DATA" : "UBAH DATA";
-			},
-			showBtnLoadDataUnitKerja() {
-				var bool = true;
-				if (this.datatableLoaded == true) {
-					bool = this.datatable.length > 0;
-				}
-				return bool;
 			},
 		},
 		components: {
