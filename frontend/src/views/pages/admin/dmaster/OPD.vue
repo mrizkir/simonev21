@@ -514,16 +514,7 @@
 						</template>
 						<template v-slot:no-data>
 							<v-col cols="12">
-								<v-btn
-									color="primary"
-									@click.stop="loaddataopd"
-									:disabled="showBtnLoadDataOPD || btnLoading"
-								>
-									LOAD DATA OPD
-									<template v-slot:loader>
-										<span>LOADING ...</span>
-									</template>
-								</v-btn>
+								Belum ada data OPD
 							</v-col>
 						</template>
 					</v-data-table>
@@ -707,40 +698,6 @@
 				} else {
 					this.expanded = [item];
 				}
-			},
-			loaddataopd() {
-				this.$root.$confirm
-					.open(
-						"Load Data OPD",
-						"Apakah Anda ingin meload data OPD kembali ?",
-						{ color: "yellow" }
-					)
-					.then(confirm => {
-						if (confirm) {
-							this.btnLoading = true;
-							this.$ajax
-								.post(
-									"/dmaster/opd/loadopd",
-									{
-										tahun: this.$store.getters["auth/TahunSelected"],
-									},
-									{
-										headers: {
-											Authorization: this.$store.getters["auth/Token"],
-										},
-									}
-								)
-								.then(({ data }) => {
-									this.datatable = data.opd;
-									this.footers.jumlah_apbd = data.jumlah_apbd;
-									this.footers.jumlah_apbdp = data.jumlah_apbdp;
-									this.btnLoading = false;
-								})
-								.catch(() => {
-									this.btnLoading = false;
-								});
-						}
-					});
 			},
 			loadPaguAPBDP() {
 				this.btnLoading = true;

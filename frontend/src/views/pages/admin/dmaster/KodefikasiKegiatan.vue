@@ -428,9 +428,6 @@
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Kegiatan !!!",
-					value =>
-						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Kegiatan hanya boleh string dan spasi",
 				],
 			};
 		},

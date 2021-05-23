@@ -205,7 +205,7 @@
 															<strong>ID:</strong>
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.OrgID }}
+															{{ formdata.SOrgID }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -472,7 +472,7 @@
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<strong>ID:</strong>{{ item.OrgID }}
+								<strong>ID:</strong>{{ item.SOrgID }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -845,7 +845,7 @@
 					.open(
 						"Delete",
 						"Apakah Anda ingin menghapus data Unit Kerja dengan ID " +
-							item.OrgID +
+							item.SOrgID +
 							" ?",
 						{ color: "red", width: "500px" }
 					)
@@ -854,7 +854,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/unitkerja/" + item.OrgID,
+									"/dmaster/unitkerja/" + item.SOrgID,
 									{
 										_method: "DELETE",
 									},
