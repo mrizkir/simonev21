@@ -220,7 +220,7 @@ const routes = [
 	},
 	{
 		path: "/system-users/dewan",
-		name: "UsersTAPD",
+		name: "UsersDewan",
 		meta: {
 			title: "USERS - DEWAN",
 			requiresAuth: true,

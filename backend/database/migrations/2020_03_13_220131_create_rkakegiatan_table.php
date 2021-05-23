@@ -15,6 +15,11 @@ class CreateRkakegiatanTable extends Migration
     {
         Schema::create('trRKA', function (Blueprint $table) {
             $table->uuid('RKAID');
+            $table->uuid('OrgID');
+            $table->uuid('SOrgID');
+            $table->uuid('PrgID')->nullable();
+            $table->uuid('KgtID')->nullable();
+            $table->uuid('SubKgtID')->nullable();
             $table->uuid('SumberDanaID')->nullable();
 
             $table->string('kode_urusan');
@@ -29,6 +34,7 @@ class CreateRkakegiatanTable extends Migration
             $table->string('Nm_Bidang');
             $table->string('Nm_Organisasi');
             $table->string('Nm_Sub_Organisasi');
+
             $table->string('Nm_Program');
             $table->string('Nm_Kegiatan');
             $table->string('Nm_Sub_Kegiatan');
@@ -78,7 +84,13 @@ class CreateRkakegiatanTable extends Migration
             $table->timestamps();
 
             $table->primary('RKAID');
+            $table->index('OrgID');
+            $table->index('SOrgID');
+            $table->index('PrgID');
+            $table->index('KgtID');
+            $table->index('SubKgtID');
             $table->index('SumberDanaID');
+
             $table->index('kode_urusan');
             $table->index('kode_bidang');
             $table->index('kode_organisasi');
@@ -97,6 +109,12 @@ class CreateRkakegiatanTable extends Migration
             $table->index('nip_pptk1');
             $table->index('nip_pptk2');
             $table->index('RKAID_Src');
+
+            $table->foreign('SubKgtID')
+                    ->references('SubKgtID')
+                    ->on('tmSubKegiatan')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade'); 
         });       
     }
 

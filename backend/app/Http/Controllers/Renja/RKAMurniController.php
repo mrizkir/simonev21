@@ -35,36 +35,36 @@ class RKAMurniController extends Controller
     }
     private function getDataRKA ($id)
     {
-        $rka = RKAModel::select(\DB::raw('"RKAID",
-                                            "trRKA"."kode_urusan",
-                                            "trRKA"."Nm_Bidang",
-                                            "trRKA"."kode_organisasi",
-                                            "trRKA"."OrgNm",
-                                            "trRKA"."kode_suborganisasi",
-                                            "trRKA"."SOrgNm",
-                                            "trRKA"."kode_program",
-                                            "trRKA"."PrgNm",
-                                            "trRKA"."kode_kegiatan",
-                                            "trRKA"."KgtNm",
-                                            "trRKA"."lokasi_kegiatan1",
-                                            "trRKA"."SumberDanaID",
-                                            "tmSumberDana"."Nm_SumberDana",
-                                            "trRKA"."tk_capaian1",
-                                            "trRKA"."capaian_program1",
-                                            "trRKA"."masukan1",
-                                            "trRKA"."tk_keluaran1",
-                                            "trRKA"."keluaran1",
-                                            "trRKA"."tk_hasil1",
-                                            "trRKA"."hasil1",
-                                            "trRKA"."ksk1",
-                                            "trRKA"."sifat_kegiatan1",
-                                            "trRKA"."waktu_pelaksanaan1",
-                                            "trRKA"."PaguDana1",
-                                            "trRKA"."Descr",
-                                            "trRKA"."EntryLvl",
-                                            "trRKA"."Locked",
-                                            "trRKA"."created_at",
-                                            "trRKA"."updated_at"
+        $rka = RKAModel::select(\DB::raw('`RKAID`,
+                                            `trRKA`.`kode_urusan`,
+                                            `trRKA`.`Nm_Bidang`,
+                                            `trRKA`.`kode_organisasi`,
+                                            `trRKA`.`Nm_Organisasi`,
+                                            `trRKA`.`kode_sub_organisasi`,
+                                            `trRKA`.`Nm_Sub_Organisasi`,
+                                            `trRKA`.`kode_program`,
+                                            `trRKA`.`Nm_Program`,
+                                            `trRKA`.`kode_kegiatan`,
+                                            `trRKA`.`Nm_Kegiatan`,
+                                            `trRKA`.`lokasi_kegiatan1`,
+                                            `trRKA`.`SumberDanaID`,
+                                            `tmSumberDana`.`Nm_SumberDana`,
+                                            `trRKA`.`tk_capaian1`,
+                                            `trRKA`.`capaian_program1`,
+                                            `trRKA`.`masukan1`,
+                                            `trRKA`.`tk_keluaran1`,
+                                            `trRKA`.`keluaran1`,
+                                            `trRKA`.`tk_hasil1`,
+                                            `trRKA`.`hasil1`,
+                                            `trRKA`.`ksk1`,
+                                            `trRKA`.`sifat_kegiatan1`,
+                                            `trRKA`.`waktu_pelaksanaan1`,
+                                            `trRKA`.`PaguDana1`,
+                                            `trRKA`.`Descr`,
+                                            `trRKA`.`EntryLvl`,
+                                            `trRKA`.`Locked`,
+                                            `trRKA`.`created_at`,
+                                            `trRKA`.`updated_at`
                                             '))
                             ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
                             ->where('trRKA.EntryLvl',1)
@@ -94,16 +94,16 @@ class RKAMurniController extends Controller
         {
             $r = \DB::table('trRKARealisasiRinc')
                             ->select(\DB::raw('
-                                                "RKARealisasiRincID",
-                                                "bulan1",
-                                                "target1",
-                                                "realisasi1",
+                                                `RKARealisasiRincID`,
+                                                `bulan1`,
+                                                `target1`,
+                                                `realisasi1`,
                                                 target_fisik1,
                                                 fisik1,
-                                                "TA",
-                                                "Descr",
-                                                "created_at",
-                                                "updated_at"
+                                                `TA`,
+                                                `Descr`,
+                                                `created_at`,
+                                                `updated_at`
                                             '))
                             ->where('RKARincID',$RKARincID)
                             ->orderBy('bulan1','ASC')
@@ -173,85 +173,85 @@ class RKAMurniController extends Controller
         $unitkerja = SubOrganisasiModel::find($SOrgID);
 
         $str_insert = '
-        INSERT INTO "trRKA" (
-            "RKAID",
+        INSERT INTO `trRKA` (
+            `RKAID`,
             kode_kegiatan,
             kode_urusan,
             kode_bidang,
             kode_organisasi,
-            "kode_suborganisasi",
+            `kode_sub_organisasi`,
             kode_program,
-            "Nm_Urusan",
-            "Nm_Bidang",
-            "OrgNm",
-            "SOrgNm",
-            "PrgNm",
-            "KgtNm",
-            "PaguDana1",
-            "RealisasiKeuangan1",
-            "RealisasiKeuangan2",
-            "user_id",
-            "EntryLvl",
-            "TA",
-            "Locked",
+            `Nm_Urusan`,
+            `Nm_Bidang`,
+            `Nm_Organisasi`,
+            `Nm_Sub_Organisasi`,
+            `Nm_Program`,
+            `Nm_Kegiatan`,
+            `PaguDana1`,
+            `RealisasiKeuangan1`,
+            `RealisasiKeuangan2`,
+            `user_id`,
+            `EntryLvl`,
+            `TA`,
+            `Locked`,
             created_at,
             updated_at
         )
         SELECT
-            REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RKAID",
+            REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS `RKAID`,
             * 
         FROM
         (
             SELECT 
                 DISTINCT(kode_kegiatan),
                 CASE 
-                    WHEN "Kd_Urusan" IS NULL THEN
+                    WHEN `Kd_Urusan` IS NULL THEN
                             SPLIT_PART(kode_organisasi, \'.\', 1)
                     ELSE
-                            "Kd_Urusan"
+                            `Kd_Urusan`
                 END AS kode_urusan,
                 CASE 
-                    WHEN "Kd_Bidang" IS NULL THEN
+                    WHEN `Kd_Bidang` IS NULL THEN
                             CONCAT(SPLIT_PART(kode_organisasi, \'.\', 1),\'.\',SPLIT_PART(kode_organisasi, \'.\', 2))
                     ELSE
-                            CONCAT("Kd_Urusan",\'.\',"Kd_Bidang")
+                            CONCAT(`Kd_Urusan`,\'.\',`Kd_Bidang`)
                 END AS kode_bidang,	
-                "kode_organisasi",
-                "kode_suborganisasi",
+                `kode_organisasi`,
+                `kode_sub_organisasi`,
                 kode_program,		
                 CASE 
-                    WHEN "Kd_Urusan" IS NULL THEN
+                    WHEN `Kd_Urusan` IS NULL THEN
                             \'Non-Urusan\'
                     ELSE
-                        "Nm_Urusan"
-                END AS "Nm_Urusan",
+                        `Nm_Urusan`
+                END AS `Nm_Urusan`,
                 CASE 
-                    WHEN "Kd_Bidang" IS NULL THEN
+                    WHEN `Kd_Bidang` IS NULL THEN
                             \'Non-Urusan\'
                     ELSE
-                        "Nm_Bidang"
-                END AS "Nm_Bidang",
-                "OrgNm",
-                "SOrgNm",
-                "PrgNm",
-                "KgtNm",	
-                0 AS "PaguDana1",
-                0 AS "RealisasiKeuangan1",
-                0 AS "RealisasiKeuangan2",
-                '.$this->getUserid().' AS "user_id",
-                1 AS "EntryLvl",
-                '.$tahun.' AS "TA",
-                false AS "Locked",
+                        `Nm_Bidang`
+                END AS `Nm_Bidang`,
+                `Nm_Organisasi`,
+                `Nm_Sub_Organisasi`,
+                `Nm_Program`,
+                `Nm_Kegiatan`,	
+                0 AS `PaguDana1`,
+                0 AS `RealisasiKeuangan1`,
+                0 AS `RealisasiKeuangan2`,
+                '.$this->getUserid().' AS `user_id`,
+                1 AS `EntryLvl`,
+                '.$tahun.' AS `TA`,
+                false AS `Locked`,
                 NOW() AS created_at,
                 NOW() AS updated_at
-            FROM simda WHERE kode_suborganisasi=\''.$unitkerja->kode_suborganisasi.'\' AND 
-                            "TA"='.$tahun.' AND 
-                            "EntryLvl"=1
+            FROM sipd WHERE kode_sub_organisasi=\''.$unitkerja->kode_sub_organisasi.'\' AND 
+                            `TA`='.$tahun.' AND 
+                            `EntryLvl`=1
         ) AS temp
         ';
         \DB::statement($str_insert); 
         
-        $data = RKAModel::where('kode_suborganisasi',$unitkerja->kode_suborganisasi)
+        $data = RKAModel::where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)
                             ->where('TA',$tahun)
                             ->where('EntryLvl',1)
                             ->get();
@@ -281,60 +281,60 @@ class RKAMurniController extends Controller
         $rka = RKAModel::find($RKAID);
 
         $str_insert = '
-            INSERT INTO "trRKARinc" (
-                "RKARincID",
-                "RKAID",
+            INSERT INTO `trRKARinc` (
+                `RKARincID`,
+                `RKAID`,
                 volume1,
                 satuan1,
                 volume2,
                 satuan2,
                 harga_satuan1,
                 harga_satuan2,
-                "EntryLvl",
-                "TA",
+                `EntryLvl`,
+                `TA`,
                 created_at,
                 updated_at
             )
             SELECT 
-                "TepraID" AS "RKARincID",
-                \''.$rka->RKAID.'\' AS "RKAID",
+                `SIPDID` AS `RKARincID`,
+                \''.$rka->RKAID.'\' AS `RKAID`,
                 1 AS volume1,
                 \'Kegiatan\' AS satuan1,
                 1 AS volume2,
                 \'Kegiatan\' AS satuan2,
-                "PaguUraian1" AS "harga_satuan1",
-                "PaguUraian2" AS "harga_satuan2",
-                1 AS "EntryLvl",
-                '.$rka->TA.' AS "TA",
+                `PaguUraian1` AS `harga_satuan1`,
+                `PaguUraian2` AS `harga_satuan2`,
+                1 AS `EntryLvl`,
+                '.$rka->TA.' AS `TA`,
                 NOW () AS created_at,
                 NOW () AS updated_at
-            FROM simda A
-            LEFT JOIN "trRKARinc" B ON B."RKARincID"=A."TepraID"
+            FROM sipd A
+            LEFT JOIN `trRKARinc` B ON B.`RKARincID`=A.`SIPDID`
                 WHERE kode_kegiatan=\''.$rka->kode_kegiatan.'\' AND 
-                kode_suborganisasi=\''.$rka->kode_suborganisasi.'\' AND 
-                A."EntryLvl"=1 AND 
-                A."TA"='.$rka->TA.' AND 
-                "RKARincID" IS NULL
+                kode_sub_organisasi=\''.$rka->kode_sub_organisasi.'\' AND 
+                A.`EntryLvl`=1 AND 
+                A.`TA`='.$rka->TA.' AND 
+                `RKARincID` IS NULL
         ';
         \DB::statement($str_insert); 
         
         $data = RKARincianModel::select(\DB::raw('
-                                    "trRKARinc"."RKARincID",
-                                    simda.kode_uraian,
-                                    simda.nama_uraian,
-                                    CONCAT("trRKARinc".volume1,\' \',"trRKARinc".satuan1) AS volume,
-                                    "trRKARinc"."volume1",
-                                    "trRKARinc"."satuan1",
-                                    "trRKARinc"."harga_satuan1",
-                                    "simda"."PaguUraian1",
-                                    0 AS "realisasi1",
-                                    0 AS "fisik1",
-                                    "trRKARinc"."JenisPelaksanaanID",
-                                    "trRKARinc"."TA",
-                                    "trRKARinc".created_at,
-                                    "trRKARinc".updated_at
+                                    `trRKARinc`.`RKARincID`,
+                                    sipd.kode_uraian,
+                                    sipd.nama_uraian,
+                                    CONCAT(`trRKARinc`.volume1,\' \',`trRKARinc`.satuan1) AS volume,
+                                    `trRKARinc`.`volume1`,
+                                    `trRKARinc`.`satuan1`,
+                                    `trRKARinc`.`harga_satuan1`,
+                                    `sipd`.`PaguUraian1`,
+                                    0 AS `realisasi1`,
+                                    0 AS `fisik1`,
+                                    `trRKARinc`.`JenisPelaksanaanID`,
+                                    `trRKARinc`.`TA`,
+                                    `trRKARinc`.created_at,
+                                    `trRKARinc`.updated_at
                                 '))
-                                ->join('simda','simda.TepraID','trRKARinc.RKARincID')
+                                ->join('sipd','sipd.SIPDID','trRKARinc.RKARincID')
                                 ->where('RKAID',$rka->RKAID)
                                 ->get();
         
@@ -370,20 +370,20 @@ class RKAMurniController extends Controller
         $unitkerja = SubOrganisasiModel::find($SOrgID);
      
         $data = RKAModel::select(\DB::raw('
-                            "RKAID",
-                            "SumberDanaID",
+                            `RKAID`,
+                            `SumberDanaID`,
                             kode_urusan,
                             kode_bidang,
                             kode_organisasi,
-                            kode_suborganisasi,
+                            kode_sub_organisasi,
                             kode_program,
                             kode_kegiatan,
-                            "Nm_Urusan",
-                            "Nm_Bidang",
-                            "OrgNm",
-                            "SOrgNm",
-                            "PrgNm",
-                            "KgtNm",
+                            `Nm_Urusan`,
+                            `Nm_Bidang`,
+                            `Nm_Organisasi`,
+                            `Nm_Sub_Organisasi`,
+                            `Nm_Program`,
+                            `Nm_Kegiatan`,
                             keluaran1,
                             tk_keluaran1,                            
                             hasil1,                            
@@ -395,21 +395,21 @@ class RKAMurniController extends Controller
                             sifat_kegiatan1,                            
                             waktu_pelaksanaan1,                            
                             lokasi_kegiatan1,                            
-                            "PaguDana1",                            
-                            "RealisasiKeuangan1",                            
-                            "RealisasiFisik1",   
+                            `PaguDana1`,                            
+                            `RealisasiKeuangan1`,                            
+                            `RealisasiFisik1`,   
                             0 AS persen_keuangan1,
                             nip_pa1,                            
                             nip_kpa1,
                             nip_ppk1,
                             nip_pptk1,
-                            "Descr",
-                            "TA",
-                            "Locked",
+                            `Descr`,
+                            `TA`,
+                            `Locked`,
                             created_at,
                             updated_at
                         '))
-                        ->where('kode_suborganisasi',$unitkerja->kode_suborganisasi)
+                        ->where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)
                         ->where('TA',$tahun)
                         ->where('EntryLvl',1)
                         ->orderBy('kode_kegiatan','ASC')
@@ -553,14 +553,14 @@ class RKAMurniController extends Controller
                 $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');                   
                 $rinciankegiatan->save();
 
-                \DB::table('simda')
-                    ->where('TepraID',$rinciankegiatan->RKARincID)
+                \DB::table('sipd')
+                    ->where('SIPDID',$rinciankegiatan->RKARincID)
                     ->update(['PaguUraian1'=>$request->input('PaguUraian1')]);                
 
                 $paguuraian=RKARincianModel::select(\DB::raw('
-                                                SUM("PaguUraian1") AS "PaguUraian1"                                               
+                                                SUM(`PaguUraian1`) AS `PaguUraian1`                                               
                                             '))
-                                            ->join('simda','simda.TepraID','trRKARinc.RKARincID')
+                                            ->join('sipd','sipd.SIPDID','trRKARinc.RKARincID')
                                             ->where('RKAID',$rinciankegiatan->RKAID)                                 
                                             ->first();
 
@@ -926,47 +926,47 @@ class RKAMurniController extends Controller
         else
         {
             $data = RKARincianModel::select(\DB::raw('
-                                    "trRKARinc"."RKARincID",
-                                    "trRKARinc"."RKAID",
-                                    "trRKARinc"."JenisPelaksanaanID",
-                                    "trRKARinc"."SumberDanaID",
-                                    "trRKARinc"."JenisPembangunanID",
-                                    simda.kode_uraian,
-                                    simda.nama_uraian,
-                                    "trRKARinc"."volume1",
-                                    "trRKARinc"."satuan1",
-                                    CONCAT("trRKARinc".volume1,\' \',"trRKARinc".satuan1) AS volume,
-                                    "trRKARinc"."harga_satuan1",
-                                    "simda"."PaguUraian1",
-                                    0 AS "realisasi1",
-                                    0 AS "persen_keuangan1",
-                                    0 AS "fisik1",                                                                        
-                                    \'\' AS "PMProvID",
-                                    \'\' AS "PmKotaID",
-                                    \'\' AS "PmKecamatanID",                                    
-                                    \'\' AS "PmDesaID",                                    
-                                    "trRKARinc"."idlok",
-                                    "trRKARinc"."ket_lok",
-                                    "trRKARinc"."rw",
-                                    "trRKARinc"."rt",
-                                    "trRKARinc"."nama_perusahaan",
-                                    "trRKARinc"."alamat_perusahaan",
-                                    "trRKARinc"."no_telepon",
-                                    "trRKARinc"."nama_direktur",
-                                    "trRKARinc"."npwp",
-                                    "trRKARinc"."no_kontrak",
-                                    "trRKARinc"."tgl_mulai_pelaksanaan",
-                                    "trRKARinc"."tgl_selesai_pelaksanaan",
-                                    "trRKARinc"."status_lelang",
-                                    "trRKARinc"."Descr",                                    
-                                    "trRKARinc"."TA",
-                                    "trRKARinc"."Locked",
-                                    "trRKARinc".created_at,
-                                    "trRKARinc".updated_at
+                                    `trRKARinc`.`RKARincID`,
+                                    `trRKARinc`.`RKAID`,
+                                    `trRKARinc`.`JenisPelaksanaanID`,
+                                    `trRKARinc`.`SumberDanaID`,
+                                    `trRKARinc`.`JenisPembangunanID`,
+                                    sipd.kode_uraian,
+                                    sipd.nama_uraian,
+                                    `trRKARinc`.`volume1`,
+                                    `trRKARinc`.`satuan1`,
+                                    CONCAT(`trRKARinc`.volume1,\' \',`trRKARinc`.satuan1) AS volume,
+                                    `trRKARinc`.`harga_satuan1`,
+                                    `sipd`.`PaguUraian1`,
+                                    0 AS `realisasi1`,
+                                    0 AS `persen_keuangan1`,
+                                    0 AS `fisik1`,                                                                        
+                                    \'\' AS `PMProvID`,
+                                    \'\' AS `PmKotaID`,
+                                    \'\' AS `PmKecamatanID`,                                    
+                                    \'\' AS `PmDesaID`,                                    
+                                    `trRKARinc`.`idlok`,
+                                    `trRKARinc`.`ket_lok`,
+                                    `trRKARinc`.`rw`,
+                                    `trRKARinc`.`rt`,
+                                    `trRKARinc`.`nama_perusahaan`,
+                                    `trRKARinc`.`alamat_perusahaan`,
+                                    `trRKARinc`.`no_telepon`,
+                                    `trRKARinc`.`nama_direktur`,
+                                    `trRKARinc`.`npwp`,
+                                    `trRKARinc`.`no_kontrak`,
+                                    `trRKARinc`.`tgl_mulai_pelaksanaan`,
+                                    `trRKARinc`.`tgl_selesai_pelaksanaan`,
+                                    `trRKARinc`.`status_lelang`,
+                                    `trRKARinc`.`Descr`,                                    
+                                    `trRKARinc`.`TA`,
+                                    `trRKARinc`.`Locked`,
+                                    `trRKARinc`.created_at,
+                                    `trRKARinc`.updated_at
                                 '))
-                                ->join('simda','simda.TepraID','trRKARinc.RKARincID')
+                                ->join('sipd','sipd.SIPDID','trRKARinc.RKARincID')
                                 ->where('RKAID',$rka->RKAID)
-                                ->orderBy('simda.kode_uraian','ASC')
+                                ->orderBy('sipd.kode_uraian','ASC')
                                 ->get();
             
             $data->transform(function ($item,$key){
@@ -976,7 +976,7 @@ class RKAMurniController extends Controller
                 switch($item->ket_lok)
                 {
                     case 'desa' :
-                        $lokasi=\App\Models\DMaster\DesaModel::select(\DB::raw('"tmPmDesa"."PmDesaID","tmPmKecamatan"."PmKecamatanID","tmPmKota"."PmKotaID","tmPMProv"."PMProvID"'))
+                        $lokasi=\App\Models\DMaster\DesaModel::select(\DB::raw('`tmPmDesa`.`PmDesaID`,`tmPmKecamatan`.`PmKecamatanID`,`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))
                                                             ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','tmPmDesa.PmKecamatanID')
                                                             ->join('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
                                                             ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
@@ -991,7 +991,7 @@ class RKAMurniController extends Controller
                         }
                     break;
                     case 'kecamatan' :
-                        $lokasi=\App\Models\DMaster\KecamatanModel::select(\DB::raw('"tmPmKecamatan"."PmKecamatanID","tmPmKota"."PmKotaID","tmPMProv"."PMProvID"'))                                                            
+                        $lokasi=\App\Models\DMaster\KecamatanModel::select(\DB::raw('`tmPmKecamatan`.`PmKecamatanID`,`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))                                                            
                                                             ->join('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
                                                             ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
                                                             ->find($item->idlok);
@@ -1004,7 +1004,7 @@ class RKAMurniController extends Controller
                         }
                     break;
                     case 'kota' :
-                        $lokasi=\App\Models\DMaster\KotaModel::select(\DB::raw('"tmPmKota"."PmKotaID","tmPMProv"."PMProvID"'))                                                                                                                        
+                        $lokasi=\App\Models\DMaster\KotaModel::select(\DB::raw('`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))                                                                                                                        
                                                             ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
                                                             ->find($item->idlok);
 
@@ -1015,7 +1015,7 @@ class RKAMurniController extends Controller
                         }
                     break;
                     case 'provinsi' :
-                        $lokasi=\App\Models\DMaster\ProvinsiModel::select(\DB::raw('"tmPMProv"."PMProvID"'))                                                                                                                                                                                                                                            
+                        $lokasi=\App\Models\DMaster\ProvinsiModel::select(\DB::raw('`tmPMProv`.`PMProvID`'))                                                                                                                                                                                                                                            
                                                             ->find($item->idlok);
 
                         if (!is_null($lokasi))
@@ -1024,7 +1024,7 @@ class RKAMurniController extends Controller
                         }
                     break;
                     case 'kota' :
-                        $lokasi=\App\Models\DMaster\KotaModel::select(\DB::raw('"tmPmKecamatan"."PmKecamatanID","tmPmKota"."PmKotaID","tmPMProv"."PMProvID"'))                                                                                                                        
+                        $lokasi=\App\Models\DMaster\KotaModel::select(\DB::raw('`tmPmKecamatan`.`PmKecamatanID`,`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))                                                                                                                        
                                                             ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
                                                             ->find($item->idlok);
 
@@ -1063,7 +1063,7 @@ class RKAMurniController extends Controller
         $mode = $request->input('mode');
         $RKARincID = $request->input('RKARincID');
         
-        $data_uraian = SIPDModel::select(\DB::raw('"TepraID",kode_uraian,nama_uraian,"PaguUraian1"'))
+        $data_uraian = SIPDModel::select(\DB::raw('`SIPDID`,kode_uraian,nama_uraian,`PaguUraian1`'))
                                     ->find($RKARincID);
         
         $data_realisasi = \DB::table('trRKARealisasiRinc')

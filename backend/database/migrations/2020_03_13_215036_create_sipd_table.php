@@ -79,6 +79,12 @@ class CreateSipdTable extends Migration
             $table->timestamps();
 
             $table->primary('SIPDID');    
+            $table->index('kode_organisasi');    
+            $table->index('kode_sub_unit_sipd');                
+            $table->index('master_kode');                
+            $table->index('kd_prog_gabungan');                
+            $table->index('kd_keg_gabung');                
+            $table->index('kd_sub_keg_gabung');                
             
         });
     }

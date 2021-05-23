@@ -24,7 +24,26 @@ class RKAModel extends Model
         'SOrgID', 
         'PrgID', 
         'KgtID', 
-        'KgtNm',         
+        'SubKgtID', 
+        'SumberDanaID', 
+
+        'kode_urusan', 
+        'kode_bidang', 
+        'kode_organisasi', 
+        'kode_sub_organisasi', 
+        'kode_program', 
+        'kode_kegiatan', 
+        'kode_sub_kegiatan',
+        
+        'Nm_Urusan',         
+        'Nm_Bidang',         
+        'Nm_Organisasi',         
+        'Nm_Sub_Organisasi', 
+
+        'Nm_Program',         
+        'Nm_Kegiatan',         
+        'Nm_Sub_Kegiatan', 
+
         'keluaran1',         
         'keluaran2',         
         'tk_keluaran1',         
