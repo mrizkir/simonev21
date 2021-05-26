@@ -1,44 +1,30 @@
 <?php
 
-namespace App\Models\Renja;
+namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RKARencanaTargetModel extends Model 
-{
+class SumberDanaModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'trRKATargetRinc';
+    protected $table = 'tmSumberDana';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'RKATargetRincID', 
-        'RKAID', 
-        'RKARincID', 
-        'bulan1', 
-        'bulan2', 
-        'target1',         
-        'target2',                
-        'fisik1',         
-        'fisik2',    
-        'EntryLvl', 
-        'Descr', 
-        'TA', 
-        'Locked',
-        'RKATargetRincID_Src'
+        'SumberDanaID', 'Kd_SumberDana', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKATargetRincID';
+    protected $primaryKey = 'SumberDanaID';
     /**
      * enable auto_increment.
      *
@@ -51,4 +37,5 @@ class RKARencanaTargetModel extends Model
      * @var string
      */
     public $timestamps = true;
+
 }

@@ -16,8 +16,8 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					User dengan role TAPD bertanggungjawab terhadap proses
-					monitoring dan evaluasi secara keseluruhan.
+					User dengan role TAPD bertanggungjawab terhadap proses monitoring
+					dan evaluasi secara keseluruhan.
 				</v-alert>
 			</template>
 		</ModuleHeader>

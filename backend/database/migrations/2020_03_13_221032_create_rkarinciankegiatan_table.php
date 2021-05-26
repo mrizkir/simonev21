@@ -16,16 +16,21 @@ class CreateRkarinciankegiatanTable extends Migration
         Schema::create('trRKARinc', function (Blueprint $table) {
             $table->uuid('RKARincID');
             $table->uuid('RKAID');
-            $table->uuid('SIPDID')->nullable();                        
+            $table->uuid('SIPDID')->nullable();
+            $table->uuid('JenisPembangunanID')->nullable();
             $table->uuid('JenisPelaksanaanID')->nullable();
             $table->uuid('SumberDanaID')->nullable();
-            $table->uuid('JenisPembangunanID')->nullable();            
+            $table->uuid('SubRObyID')->nullable();
+            $table->string('kode_uraian1')->nullable();
+            $table->string('kode_uraian2')->nullable();
+            $table->string('NamaUraian1')->nullable();
+            $table->string('NamaUraian2')->nullable();
             $table->string('volume1')->nullable();
             $table->string('volume2')->nullable();
             $table->string('satuan1',50)->nullable();            
             $table->string('satuan2',50)->nullable();            
             $table->decimal('harga_satuan1',15,2);
-            $table->decimal('harga_satuan2',15,2);                        
+            $table->decimal('harga_satuan2',15,2);
             $table->decimal('PaguUraian1',15,2);
             $table->decimal('PaguUraian2',15,2);
             $table->string('idlok',10)->nullable();
@@ -54,14 +59,17 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->index('RKAID');
             $table->index('JenisPelaksanaanID');
             $table->index('SumberDanaID');
-            $table->index('JenisPembangunanID');
+            $table->index('JenisPembangunanID');            
+            $table->index('SubRObyID');
+            $table->index('kode_uraian1');
+            $table->index('kode_uraian2');
             $table->index('RKARincID_Src');
             
             $table->foreign('SIPDID')
                     ->references('SIPDID')
                     ->on('sipd')
                     ->onDelete('set null')
-                    ->onUpdate('cascade'); 
+                    ->onUpdate('cascade');
 
             $table->foreign('RKAID')
                     ->references('RKAID')

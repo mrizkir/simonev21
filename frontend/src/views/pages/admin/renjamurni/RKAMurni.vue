@@ -263,10 +263,10 @@
 				datatableLoaded: false,
 				datatable: [],
 				headers: [
-					{ text: "KODE", value: "kode_kegiatan", width: 80 },
+					{ text: "KODE", value: "kode_sub_kegiatan", width: 80 },
 					{
-						text: "NAMA KEGIATAN",
-						value: "KgtNm",
+						text: "NAMA SUB KEGIATAN",
+						value: "Nm_Sub_Kegiatan",
 						width: 300,
 					},
 					{
@@ -487,7 +487,7 @@
 					.open(
 						"Delete",
 						"Apakah Anda ingin menghapus data RKA Murni dengan Nama " +
-							item.KgtNm +
+							item.Nm_Sub_Kegiatan +
 							" ?",
 						{ color: "red", width: "600px" }
 					)

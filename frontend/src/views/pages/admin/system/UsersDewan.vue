@@ -16,8 +16,8 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					User dengan role DEWAN bertanggungjawab terhadap proses
-					monitoring dan evaluasi secara keseluruhan.
+					User dengan role DEWAN bertanggungjawab terhadap proses monitoring dan
+					evaluasi secara keseluruhan.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -675,7 +675,9 @@
 		},
 		computed: {
 			formTitle() {
-				return this.editedIndex === -1 ? "TAMBAH USER DEWAN" : "EDIT USER DEWAN";
+				return this.editedIndex === -1
+					? "TAMBAH USER DEWAN"
+					: "EDIT USER DEWAN";
 			},
 			...mapGetters("auth", {
 				ACCESS_TOKEN: "AccessToken",

@@ -2,14 +2,14 @@
 import {Line} from 'vue-chartjs';
 
 export default {
-    name:'ChartTargetRealisasi',
+    name: 'ChartTargetRealisasi',
     extends: Line,
 
     props:{
         datagrafik:{
-            type:Array,            
-        },     
-    },   
+            type:Array,     
+        },
+    },
     mounted() 
     {
         this.chartdata.datasets[0].data=this.datagrafik[0];
@@ -19,25 +19,25 @@ export default {
     data:() => ({
         chartdata:{
             labels: ['JANUARI', 'FEBRUARI', 'MARET', 'APRIL', 'MEI', 'JUNI', 'JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOVEMBER','DESEMBER'],
-            datasets:[
-                {     
-                    label: 'TARGET',         
-                    fill:false,
-                    data: [],   
-                    borderColor: '#A71C6F',                                                       
-                    borderWidth: 1,                    
+            datasets: [
+                {
+                    label: 'TARGET',  
+                    fill: false,
+                    data: [],
+                    borderColor: '#A71C6F',                 
+                    borderWidth: 1, 
                 },
                 {
-                    label: 'REALISASI',                             
-                    data:[],
-                    fill:false,
+                    label: 'REALISASI',      
+                    data: [],
+                    fill: false,
                     borderColor: '#FF9800',
                     borderWidth: 1, 
                 }
-            ],            
-        },    
+            ],     
+        },
         options:{
-            responsive:true,
+            responsive: true,
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -61,7 +61,7 @@ export default {
                         labelString: 'TARGET & REALISASI'
                     }
                 }]
-            },                                 
+            },         
             layout: {
                 padding: {
                     left: 0,

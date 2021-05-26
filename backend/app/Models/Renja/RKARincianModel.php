@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Belanja;
+namespace App\Models\Renja;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,15 +20,22 @@ class RKARincianModel extends Model
     protected $fillable = [
         'RKARincID',
         'RKAID',
+        'SIPDID',
         'JenisPelaksanaanID',
         'SumberDanaID',
         'JenisPembangunanID',            
+        'kode_uraian1',            
+        'kode_uraian2',            
+        'NamaUraian1',            
+        'NamaUraian2',            
         'volume1',
         'volume2',
         'satuan1',            
         'satuan2',            
         'harga_satuan1',
-        'harga_satuan2',                        
+        'harga_satuan2',
+        'PaguUraian1',
+        'PaguUraian2',
         'idlok',
         'ket_lok',
         'rw',

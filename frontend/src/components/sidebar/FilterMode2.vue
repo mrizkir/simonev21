@@ -11,31 +11,31 @@
 </template>
 <script>
 export default {
-    name:'FilterMode2',
+    name: 'FilterMode2',
     created()
     {
-        this.daftar_bulan=this.$store.getters['uifront/getDaftarBulan'];  
-        this.bulan_realisasi=this.$store.getters['uifront/getBulanRealisasi'];                                            
+        this.daftar_bulan=this.$store.getters['uifront/getDaftarBulan'];
+        this.bulan_realisasi=this.$store.getters['uifront/getBulanRealisasi'];                                     
     },
     data:()=>({
-        firstloading:true,
+        firstloading: true,
         
-        daftar_bulan:[],
-        bulan_realisasi:null,
+        daftar_bulan: [],
+        bulan_realisasi: null,
     }),
     methods:{
         setFirstTimeLoading (bool)
-        {            
-            this.firstloading=bool;            
+        {
+            this.firstloading=bool;      
         }
     },
-    watch:{        
+    watch:{ 
         bulan_realisasi(val)
         {
             if (!this.firstloading)
-            {                
-                this.$store.dispatch('uifront/updateBulanRealisasi',val);  
-                this.$emit('changeBulanRealisasi',val);          
+            {  
+                this.$store.dispatch('uifront/updateBulanRealisasi',val);
+                this.$emit('changeBulanRealisasi',val);   
             }
         },
     }

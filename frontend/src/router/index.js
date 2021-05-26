@@ -163,6 +163,16 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjamurni/RKAMurni.vue"),
 	},
+	{
+		path: "/renjamurni/rka/uraian/:rkaid",
+		name: "RenjaMurniUraianRKA",
+		meta: {
+			title: "RKA MURNI - URAIAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjamurni/UraianRKAMurni.vue"),
+	},
 	//system
 	{
 		path: "/system-users",
