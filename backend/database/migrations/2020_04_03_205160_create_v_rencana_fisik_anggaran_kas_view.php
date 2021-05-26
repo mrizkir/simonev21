@@ -16,10 +16,10 @@ class CreateVRencanaFisikAnggaranKasView extends Migration
         \DB::statement('CREATE VIEW v_rencana_fisik_anggaran_kas AS
             SELECT 
                 `RKARincID`,                
-                JSON_OBJECTAGG(bulan1,fisik1) AS fisik1,
-                JSON_OBJECTAGG(bulan2,fisik2) AS fisik2,
-                JSON_OBJECTAGG(bulan1,target1) AS anggaran1,
-                JSON_OBJECTAGG(bulan2,target2) AS anggaran2
+                JSON_OBJECTAGG(CONCAT(\'fisik_\',bulan1),fisik1) AS fisik1,
+                JSON_OBJECTAGG(CONCAT(\'fisik_\',bulan2),fisik2) AS fisik2,
+                JSON_OBJECTAGG(CONCAT(\'anggaran_\',bulan1),target1) AS anggaran1,
+                JSON_OBJECTAGG(CONCAT(\'anggaran_\',bulan2),target2) AS anggaran2
             FROM 
                 `trRKATargetRinc` 
             GROUP BY

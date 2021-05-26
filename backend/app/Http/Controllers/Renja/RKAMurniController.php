@@ -1116,58 +1116,44 @@ class RKAMurniController extends Controller
 
         if ($mode == 'targetfisik')
         {
-            // $data = \DB::table('v_rencana_fisik_anggaran_kas')
-            //         ->select(\DB::raw('
-            //             fisik_1,
-            //             fisik_2,
-            //             fisik_3,
-            //             fisik_4,
-            //             fisik_5,
-            //             fisik_6,
-            //             fisik_7,
-            //             fisik_8,
-            //             fisik_9,
-            //             fisik_10,
-            //             fisik_11,
-            //             fisik_12
-            //         '))
-            //         ->where('RKARincID',$RKARincID)
-            //         ->get();
-            $target=isset($data[0])?$data[0]:[];
+            $data = \DB::table('v_rencana_fisik_anggaran_kas')
+                    ->select(\DB::raw('
+                        fisik1
+                    '))
+                    ->where('RKARincID',$RKARincID)
+                    ->get();
+            $target=isset($data[0]) ? json_decode($data[0]->fisik1, true) : [];
         }
         else if ($mode == 'targetanggarankas')
         {
-            // $data = \DB::table('v_rencana_fisik_anggaran_kas')
-            //         ->select(\DB::raw('
-            //             anggaran_1,
-            //             anggaran_2,
-            //             anggaran_3,
-            //             anggaran_4,
-            //             anggaran_5,
-            //             anggaran_6,
-            //             anggaran_7,
-            //             anggaran_8,
-            //             anggaran_9,
-            //             anggaran_10,
-            //             anggaran_11,
-            //             anggaran_12
-            //         '))
-            //         ->where('RKARincID',$RKARincID)
-            //         ->get();
-            $target=isset($data[0])?$data[0]:[];
+            $data = \DB::table('v_rencana_fisik_anggaran_kas')
+                    ->select(\DB::raw('
+                        anggaran1                        
+                    '))
+                    ->where('RKARincID',$RKARincID)
+                    ->get();
+            
+            $target=isset($data[0]) ? json_decode($data[0]->anggaran1, true) : [];
         }
         else if ($mode == 'bulan' && $request->has('bulan1'))
         {
-            // $bulan1 = $request->input('bulan1');
+            $bulan1 = $request->input('bulan1');
             
-            // $data = \DB::table('v_rencana_fisik_anggaran_kas')
-            //         ->select(\DB::raw("
-            //             fisik_$bulan1 AS fisik,                        
-            //             anggaran_$bulan1 AS anggaran                       
-            //         "))
-            //         ->where('RKARincID',$RKARincID)
-            //         ->get();
-            $target=isset($data[0])?$data[0]:['fisik'=>0,'anggaran'=>0];
+            $data = \DB::table('v_rencana_fisik_anggaran_kas')
+                    ->select(\DB::raw("
+                        fisik1,
+                        anggaran1
+                    "))
+                    ->where('RKARincID',$RKARincID)
+                    ->get();
+
+            $target = ['fisik'=>0,'anggaran'=>0];
+            if (isset($data[0]))
+            {
+                $fisik1 = json_decode($data[0]->fisik1, true);
+                $anggaran1 = json_decode($data[0]->anggaran1, true);
+                $target = ['fisik'=>$fisik1["fisik_$bulan1"],'anggaran'=>$anggaran1["anggaran_$bulan1"],];
+            }            
         }
         
         return Response()->json([
