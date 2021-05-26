@@ -97,7 +97,7 @@
 																						</v-card-text>
 																						<v-card-actions>
 																								<v-spacer></v-spacer>
-																								<v-btn color="blue darken-1" text @click.stop="closedialogfrm">BATAL</v-btn>
+																								<v-btn color="blue darken-1" text @click.stop="closedialogfrm">TUTUP</v-btn>
 																								<v-btn 
 																										color="blue darken-1" 
 																										text 

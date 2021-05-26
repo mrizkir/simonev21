@@ -140,7 +140,7 @@
                                                     :disabled="!form_valid||btnLoading">
                                                         SALIN
                                                 </v-btn>
-                                                <v-btn color="blue darken-1" text @click.stop="closedialogcopyrka">BATAL</v-btn>                        
+                                                <v-btn color="blue darken-1" text @click.stop="closedialogcopyrka">TUTUP</v-btn>                        
                                             </v-card-actions>
                                         </v-card>                    
                                     </v-form>
@@ -213,7 +213,7 @@ import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name: 'DataMentahMurni',
-    created ()
+    created()
     {
         this.breadcrumbs = [
             {
@@ -317,11 +317,11 @@ export default {
         {
             await this.$ajax.post('/dmaster/opd',
                 {
-                    tahun:this.$store.getters["uifront/getTahunAnggaran"],
+                    tahun: this.$store.getters["uifront/getTahunAnggaran"],
                 },
                 {
-                    headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                    headers: {
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status}) => {
@@ -337,12 +337,12 @@ export default {
             this.datatableLoading = true;
             await this.$ajax.post('/belanja/datamentahmurni',
                 {
-                    tahun:this.$store.getters["uifront/getTahunAnggaran"],
-                    OrgID:this.OrgID_Selected,
+                    tahun: this.$store.getters["uifront/getTahunAnggaran"],
+                    OrgID: this.OrgID_Selected,
                 },
                 {
-                    headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                    headers: {
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({ data }) => {
@@ -374,11 +374,11 @@ export default {
                 await this.$ajax.post('/belanja/datamentahmurni/copyrka',
                     {
                         kode_kegiatan:item.kode_kegiatan,
-                        OrgID:this.OrgID_Selected,
+                        OrgID: this.OrgID_Selected,
                     },
                     {
-                        headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                        headers: {
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(() => {

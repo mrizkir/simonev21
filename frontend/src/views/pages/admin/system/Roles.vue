@@ -89,7 +89,7 @@
 											<v-card-actions>
 												<v-spacer></v-spacer>
 												<v-btn color="blue darken-1" text @click.stop="close">
-													BATAL
+													TUTUP
 												</v-btn>
 												<v-btn
 													color="blue darken-1"

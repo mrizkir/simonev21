@@ -146,7 +146,7 @@
 													text
 													@click.stop="closedialogfrm"
 												>
-													BATAL
+													TUTUP
 												</v-btn>
 												<v-btn
 													color="blue darken-1"

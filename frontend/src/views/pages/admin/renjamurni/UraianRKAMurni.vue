@@ -197,7 +197,7 @@
 										text
 										@click.stop="closedialogedituraian"
 									>
-										BATAL
+										TUTUP
 									</v-btn>
 									<v-btn
 										color="blue darken-1"
@@ -363,7 +363,7 @@
 										text
 										@click.stop="closedialogtargetfisik"
 									>
-										BATAL
+										TUTUP
 									</v-btn>
 									<v-btn
 										color="blue darken-1"
@@ -553,7 +553,7 @@
 										text
 										@click.stop="closedialogtargetanggarankas"
 									>
-										BATAL
+										TUTUP
 									</v-btn>
 									<v-btn
 										color="blue darken-1"

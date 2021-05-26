@@ -28,7 +28,7 @@
                 </v-alert>
             </template>
         </ModuleHeader>
-        <v-container > 
+        <v-container>
             <v-row class="mb-4" no-gutters>
                 <v-col cols="12">
                     <v-bottom-navigation color="purple lighten-1">                        
@@ -312,7 +312,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text @click.stop="closeedituraian">BATAL</v-btn>
+                                <v-btn color="blue darken-1" text @click.stop="closeedituraian">TUTUP</v-btn>
                                 <v-btn 
                                     color="blue darken-1" 
                                     text 
@@ -334,7 +334,7 @@ import RenjaMurniLayout from "@/views/layouts/RenjaMurniLayout";
 import ModuleHeader from "@/components/ModuleHeader";
 export default {
     name: 'EditUraianRKAMurni',
-    created () 
+    created() 
     {
         this.breadcrumbs = [
             {
@@ -534,7 +534,7 @@ export default {
             formlokasi_PmDesaID: "",
             formlokasi_rw: "",
             formlokasi_rt: "",     
-            formdata :{
+            formdata: {
                 RKARincID: "",
                 RKAID: "",
                 JenisPelaksanaanID: "",
@@ -613,7 +613,7 @@ export default {
                         Authorization: this.$store.getters['auth/Token']
                     }
                 }
-            ).then(({ data }) => {              
+            ).then(({ data }) => {        
                 this.daftar_jenispembangunan=data.jenispembangunan; 
             }).catch(() => {
                 this.btnLoading = false;
@@ -674,7 +674,7 @@ export default {
                         rt: this.formlokasi_rt,
                         nama_perusahaan: this.formdata.nama_perusahaan,
                         alamat_perusahaan: this.formdata.alamat_perusahaan,
-                        no_telepon: this.formdata.no_telepon,                                        
+                        no_telepon: this.formdata.no_telepon,
                         nama_direktur: this.formdata.nama_direktur,
                         npwp: this.formdata.npwp,
                         no_kontrak: this.formdata.no_kontrak,
@@ -689,7 +689,7 @@ export default {
                             Authorization: this.$store.getters['auth/Token']
                         }
                     }
-                ).then(()=>{ 
+                ).then(() => { 
                     var page = this.$store.getters["uiadmin/Page"]("rkamurni");
                     page.datauraian.JenisPelaksanaanID= this.formdata.JenisPelaksanaanID;
                     page.datauraian.SumberDanaID= this.formdata.SumberDanaID; 

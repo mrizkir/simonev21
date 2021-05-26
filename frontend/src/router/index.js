@@ -173,6 +173,42 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/renjamurni/UraianRKAMurni.vue"),
 	},
+	{
+		path: "/renjamurni/rka/:rkaid/edit",
+		name: "BelanjaMurniEditRKA",
+		meta: {
+			title: "RKA MURNI - UBAH",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/EditRKAMurni.vue"),		
+	},
+	{
+		path: "/renjamurni/rka/uraian/:rkaid",
+		name: "BelanjaMurniUraianRKA",
+		meta: {
+			title: "RKA MURNI - URAIAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/UraianRKAMurni.vue"),		
+	},
+	{
+		path: "/renjamurni/rka/uraian/:rkarincid/edit",
+		name: "BelanjaEditUraianRKAMurni",
+		meta: {
+			title: "RKA MURNI - UBAH URAIAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/EditUraianRKAMurni.vue"),		
+	},
+	{
+		path: "/renjamurni/rka/realisasi/:rkarincid",
+		name: "BelanjaMurniRealisasiRKAMurni",
+		meta: {
+			title: "RKA MURNI - REALISASI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/RealisasiRKAMurni.vue"),		
+	},
 	//system
 	{
 		path: "/system-users",
