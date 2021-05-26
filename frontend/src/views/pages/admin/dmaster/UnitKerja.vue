@@ -769,7 +769,7 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/unitkerja/store/",
+								"/dmaster/unitkerja/store",
 								{
 									OrgID: this.formdata.OrgID,
 									Kd_Sub_Organisasi: this.formdata.Kd_Sub_Organisasi,

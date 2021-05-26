@@ -861,7 +861,7 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/opd/store/",
+								"/dmaster/opd/store",
 								{
 									BidangID_1: this.formdata.BidangID_1,
 									kode_bidang_1: this.formdata.kode_bidang_1,
