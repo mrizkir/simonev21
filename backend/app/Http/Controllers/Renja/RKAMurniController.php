@@ -1096,7 +1096,12 @@ class RKAMurniController extends Controller
         $mode = $request->input('mode');
         $RKARincID = $request->input('RKARincID');
         
-        $data_uraian = SIPDModel::select(\DB::raw('`SIPDID`,kode_uraian,nama_uraian,`PaguUraian1`'))
+        $data_uraian = RKARincianModel::select(\DB::raw('
+                                        `SIPDID`,
+                                        kode_uraian1 AS kode_uraian,
+                                        NamaUraian1 AS nama_uraian,
+                                        `PaguUraian1`
+                                    '))
                                     ->find($RKARincID);
         
         $data_realisasi = \DB::table('trRKARealisasiRinc')
@@ -1111,57 +1116,57 @@ class RKAMurniController extends Controller
 
         if ($mode == 'targetfisik')
         {
-            $data = \DB::table('v_rencana_fisik_anggaran_kas')
-                    ->select(\DB::raw('
-                        fisik_1,
-                        fisik_2,
-                        fisik_3,
-                        fisik_4,
-                        fisik_5,
-                        fisik_6,
-                        fisik_7,
-                        fisik_8,
-                        fisik_9,
-                        fisik_10,
-                        fisik_11,
-                        fisik_12
-                    '))
-                    ->where('RKARincID',$RKARincID)
-                    ->get();
+            // $data = \DB::table('v_rencana_fisik_anggaran_kas')
+            //         ->select(\DB::raw('
+            //             fisik_1,
+            //             fisik_2,
+            //             fisik_3,
+            //             fisik_4,
+            //             fisik_5,
+            //             fisik_6,
+            //             fisik_7,
+            //             fisik_8,
+            //             fisik_9,
+            //             fisik_10,
+            //             fisik_11,
+            //             fisik_12
+            //         '))
+            //         ->where('RKARincID',$RKARincID)
+            //         ->get();
             $target=isset($data[0])?$data[0]:[];
         }
         else if ($mode == 'targetanggarankas')
         {
-            $data = \DB::table('v_rencana_fisik_anggaran_kas')
-                    ->select(\DB::raw('
-                        anggaran_1,
-                        anggaran_2,
-                        anggaran_3,
-                        anggaran_4,
-                        anggaran_5,
-                        anggaran_6,
-                        anggaran_7,
-                        anggaran_8,
-                        anggaran_9,
-                        anggaran_10,
-                        anggaran_11,
-                        anggaran_12
-                    '))
-                    ->where('RKARincID',$RKARincID)
-                    ->get();
+            // $data = \DB::table('v_rencana_fisik_anggaran_kas')
+            //         ->select(\DB::raw('
+            //             anggaran_1,
+            //             anggaran_2,
+            //             anggaran_3,
+            //             anggaran_4,
+            //             anggaran_5,
+            //             anggaran_6,
+            //             anggaran_7,
+            //             anggaran_8,
+            //             anggaran_9,
+            //             anggaran_10,
+            //             anggaran_11,
+            //             anggaran_12
+            //         '))
+            //         ->where('RKARincID',$RKARincID)
+            //         ->get();
             $target=isset($data[0])?$data[0]:[];
         }
         else if ($mode == 'bulan' && $request->has('bulan1'))
         {
-            $bulan1 = $request->input('bulan1');
+            // $bulan1 = $request->input('bulan1');
             
-            $data = \DB::table('v_rencana_fisik_anggaran_kas')
-                    ->select(\DB::raw("
-                        fisik_$bulan1 AS fisik,                        
-                        anggaran_$bulan1 AS anggaran                       
-                    "))
-                    ->where('RKARincID',$RKARincID)
-                    ->get();
+            // $data = \DB::table('v_rencana_fisik_anggaran_kas')
+            //         ->select(\DB::raw("
+            //             fisik_$bulan1 AS fisik,                        
+            //             anggaran_$bulan1 AS anggaran                       
+            //         "))
+            //         ->where('RKARincID',$RKARincID)
+            //         ->get();
             $target=isset($data[0])?$data[0]:['fisik'=>0,'anggaran'=>0];
         }
         

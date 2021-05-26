@@ -13,7 +13,7 @@ class CreateRekeningakunTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmAKun', function (Blueprint $table) {
+        Schema::create('tmAkun', function (Blueprint $table) {
             $table->uuid('AkunID');
             $table->string('Kd_Rek_1',4);
             $table->string('Nm_Akun');
@@ -34,6 +34,6 @@ class CreateRekeningakunTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmAKun');
+        Schema::dropIfExists('tmAkun');
     }
 }
