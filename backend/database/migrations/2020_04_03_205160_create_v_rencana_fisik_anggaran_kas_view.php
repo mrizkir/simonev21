@@ -15,8 +15,7 @@ class CreateVRencanaFisikAnggaranKasView extends Migration
     {
         \DB::statement('CREATE VIEW v_rencana_fisik_anggaran_kas AS
             SELECT 
-                `RKARincID`,
-                `RKARincID`,
+                `RKARincID`,                
                 JSON_OBJECTAGG(bulan1,fisik1) AS fisik1,
                 JSON_OBJECTAGG(bulan2,fisik2) AS fisik2,
                 JSON_OBJECTAGG(bulan1,target1) AS anggaran1,
@@ -35,6 +34,6 @@ class CreateVRencanaFisikAnggaranKasView extends Migration
      */
     public function down()
     {
-        // \DB::statement('DROP VIEW v_rencana_fisik_anggaran_kas');
+        \DB::statement('DROP VIEW v_rencana_fisik_anggaran_kas');
     }
 }
