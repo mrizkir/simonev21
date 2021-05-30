@@ -25,7 +25,7 @@
 				<v-col cols="12">
 					<v-bottom-navigation color="purple lighten-1">
 						<v-btn
-							:to="{ path: '/belanjamurni/rka/uraian/' + datakegiatan.RKAID }"
+							:to="{ path: '/renja/rka/uraian/' + datakegiatan.RKAID }"
 						>
 							<span>Keluar</span>
 							<v-icon>mdi-close</v-icon>
@@ -39,7 +39,7 @@
 						<v-card>
 							<v-card-title>
 								<v-spacer />
-								<v-icon small class="mr-2" v-if="datakegiatan.Locked">
+								<v-icon small class="mr-2" v-if="datakegiatan.Locked == 1">
 									mdi-lock
 								</v-icon>
 							</v-card-title>
@@ -47,9 +47,10 @@
 								<h5>DATA KEGIATAN</h5>
 								<v-divider class="mb-2"></v-divider>
 								<v-text-field
-									label="KELOMPOK URUSAN"
+									label="URUSAN"
 									type="text"
 									filled
+									outlined
 									:value="
 										'[' +
 											datakegiatan.kode_urusan +
@@ -59,9 +60,10 @@
 									:disabled="true"
 								/>
 								<v-text-field
-									label="URUSAN"
+									label="BIDANG URUSAN"
 									type="text"
 									filled
+									outlined
 									:value="
 										'[' +
 											datakegiatan.kode_bidang +
@@ -74,8 +76,9 @@
 									label="PROGRAM"
 									type="text"
 									filled
+									outlined
 									:value="
-										'[' + datakegiatan.kode_program + '] ' + datakegiatan.PrgNm
+										'[' + datakegiatan.kode_program + '] ' + datakegiatan.Nm_Program
 									"
 									:disabled="true"
 								/>
@@ -83,8 +86,19 @@
 									label="KEGIATAN"
 									type="text"
 									filled
+									outlined
 									:value="
-										'[' + datakegiatan.kode_kegiatan + '] ' + datakegiatan.KgtNm
+										'[' + datakegiatan.kode_kegiatan + '] ' + datakegiatan.Nm_Kegiatan
+									"
+									:disabled="true"
+								/>
+								<v-text-field
+									label="SUB KEGIATAN"
+									type="text"
+									filled
+									outlined
+									:value="
+										'[' + datakegiatan.kode_sub_kegiatan + '] ' + datakegiatan.Nm_Sub_Kegiatan
 									"
 									:disabled="true"
 								/>
@@ -92,6 +106,7 @@
 									label="TARGET KINERJA MASUKAN"
 									type="text"
 									filled
+									outlined
 									:value="datakegiatan.PaguDana1 | formatUang"
 									:disabled="true"
 								/>
@@ -103,7 +118,8 @@
 									item-text="Nm_SumberDana"
 									item-value="SumberDanaID"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-text-field
 									v-model="formdata.lokasi_kegiatan1"
@@ -111,7 +127,8 @@
 									:rules="rule_lokasikegiatan"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<h5>INDIKATOR DAN TOLAK UKUR KINERJA BELANJA LANGSUNG</h5>
 								<v-divider class="mb-2"></v-divider>
@@ -121,7 +138,8 @@
 									:rules="rule_capaianprogram"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-text-field
 									v-model="formdata.tk_capaian1"
@@ -129,7 +147,8 @@
 									:rules="rule_tkcapaian"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
 									v-model="formdata.masukan1"
@@ -137,7 +156,8 @@
 									:rules="rule_masukan"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
 									v-model="formdata.keluaran1"
@@ -145,7 +165,8 @@
 									:rules="rule_keluaran"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
 									v-model="formdata.tk_keluaran1"
@@ -153,7 +174,8 @@
 									:rules="rule_tkkeluaran"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
 									v-model="formdata.hasil1"
@@ -161,7 +183,8 @@
 									:rules="rule_hasil"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
 									v-model="formdata.tk_hasil1"
@@ -169,7 +192,8 @@
 									:rules="rule_tkhasil"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-text-field
 									v-model="formdata.ksk1"
@@ -177,12 +201,13 @@
 									:rules="rule_ksk"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-radio-group
 									v-model="formdata.sifat_kegiatan1"
 									row
-									:disabled="datakegiatan.Locked"
+									:disabled="datakegiatan.Locked == 1"
 								>
 									<v-radio label="BARU" value="baru"></v-radio>
 									<v-radio label="LANJUTAN" value="lanjutan">></v-radio>
@@ -193,7 +218,8 @@
 									:rules="rule_waktupelaksanaan"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<h5>PENGAMPU KEGIATAN</h5>
 								<v-divider class="mb-2"></v-divider>
@@ -210,7 +236,8 @@
 									:rules="rule_pa"
 									:items="daftar_pa"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-select
 									v-model="formdata.nip_kpa1"
@@ -218,7 +245,8 @@
 									:rules="rule_kpa"
 									:items="daftar_kpa"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-select
 									label="PPK"
@@ -226,7 +254,8 @@
 									:rules="rule_ppk"
 									:items="daftar_ppk"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-select
 									label="PPTK"
@@ -234,7 +263,8 @@
 									:rules="rule_pptk"
 									:items="daftar_pptk"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 								<h5>LAIN-LAIN</h5>
 								<v-divider class="mb-2"></v-divider>
@@ -243,7 +273,8 @@
 									label="KETERANGAN"
 									type="text"
 									filled
-									:disabled="datakegiatan.Locked"
+									outlined
+									:disabled="datakegiatan.Locked == 1"
 								/>
 							</v-card-text>
 							<v-card-actions>
@@ -260,7 +291,7 @@
 									text
 									@click.stop="updatekegiatan"
 									:loading="btnLoading"
-									:disabled="!form_valid || btnLoading || datakegiatan.Locked"
+									:disabled="!form_valid || btnLoading || datakegiatan.Locked == 1"
 								>
 									SIMPAN
 								</v-btn>
@@ -287,12 +318,12 @@
 				{
 					text: "BELANJA MURNI",
 					disabled: false,
-					href: "/belanjamurni",
+					href: "/renja",
 				},
 				{
 					text: "RKA (RENCANA KEGIATAN DAN ANGGARAN)",
 					disabled: false,
-					href: "/belanjamurni/rka",
+					href: "/renja/rka",
 				},
 				{
 					text: "UBAH RKA",
@@ -344,12 +375,14 @@
 					kode_suborganisasi: "",
 					kode_program: "",
 					kode_kegiatan: "",
+					kode_sub_kegiatan: "",
 					Nm_Urusan: "",
 					Nm_Bidang: "",
 					OrgNm: "",
 					SOrgNm: "",
-					PrgNm: "",
-					KgtNm: "",
+					Nm_Program: "",
+					Nm_Kegiatan: "",
+					Nm_Sub_Kegiatan: "",
 					keluaran1: null,
 					tk_keluaran1: "",
 					hasil1: "",
@@ -459,7 +492,7 @@
 					this.btnLoading = true;
 					await this.$ajax
 						.post(
-							"/belanja/rkamurni/updatekegiatan/" + this.formdata.RKAID,
+							"/renja/rkamurni/updatekegiatan/" + this.formdata.RKAID,
 							{
 								_method: "PUT",
 								SumberDanaID: this.formdata.SumberDanaID,
@@ -515,7 +548,7 @@
 			},
 			closeeditkegiatan() {
 				this.$router.push(
-					"/belanjamurni/rka/uraian/" + this.datakegiatan.RKAID
+					"/renjamurni/rka/uraian/" + this.datakegiatan.RKAID
 				);
 			},
 		},

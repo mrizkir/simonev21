@@ -66,33 +66,33 @@ class OrganisasiController extends Controller {
         $tahun=$request->input('tahun');
         
         $str_statistik_opd1 = '
-            UPDATE "tmOrg" SET "PaguDana2"=level1."PaguUraian2" FROM
-            (SELECT kode_organisasi,SUM("PaguUraian2") AS "PaguUraian2" FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=2 GROUP BY kode_organisasi) AS level1
-            WHERE level1.kode_organisasi="tmOrg".kode_organisasi AND "TA"='.$tahun.'
+            UPDATE `tmOrg` SET `PaguDana2`=level1.`PaguUraian2` FROM
+            (SELECT kode_organisasi,SUM(`PaguUraian2`) AS `PaguUraian2` FROM simda WHERE `TA`='.$tahun.' AND `EntryLvl`=2 GROUP BY kode_organisasi) AS level1
+            WHERE level1.kode_organisasi=`tmOrg`.kode_organisasi AND `TA`='.$tahun.'
         ';
         
         \DB::statement($str_statistik_opd1); 
 
-        $str_update_jumlah_program = 'UPDATE "tmOrg" SET "JumlahProgram2"=level3.jumlah_program FROM ( 
+        $str_update_jumlah_program = 'UPDATE `tmOrg` SET `JumlahProgram2`=level3.jumlah_program FROM ( 
             SELECT kode_organisasi, COUNT(kode_program) jumlah_program FROM (
                 SELECT * FROM 
-                    (SELECT kode_organisasi, kode_program FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=2 GROUP BY "kode_program",kode_organisasi ORDER BY kode_program ASC) AS level1
+                    (SELECT kode_organisasi, kode_program FROM simda WHERE `TA`='.$tahun.' AND `EntryLvl`=2 GROUP BY `kode_program`,kode_organisasi ORDER BY kode_program ASC) AS level1
             ) AS level2 GROUP BY kode_organisasi ORDER BY kode_organisasi
-        ) AS level3 WHERE level3.kode_organisasi="tmOrg".kode_organisasi';
+        ) AS level3 WHERE level3.kode_organisasi=`tmOrg`.kode_organisasi';
 
         \DB::statement($str_update_jumlah_program); 
         
-        $str_update_jumlah_kegiatan = 'UPDATE "tmOrg" SET "JumlahKegiatan2"=level2.jumlah_kegiatan FROM 
+        $str_update_jumlah_kegiatan = 'UPDATE `tmOrg` SET `JumlahKegiatan2`=level2.jumlah_kegiatan FROM 
         (
             SELECT kode_organisasi,COUNT(kode_kegiatan) AS jumlah_kegiatan FROM 
             (
                 SELECT 
                     DISTINCT(kode_kegiatan),				
-                    "kode_organisasi"				
-                FROM simda WHERE "TA"='.$tahun.' AND "EntryLvl"=2
+                    `kode_organisasi`				
+                FROM simda WHERE `TA`='.$tahun.' AND `EntryLvl`=2
                 ORDER BY kode_organisasi ASC
             ) AS level1 GROUP BY kode_organisasi
-        ) AS level2 WHERE level2.kode_organisasi="tmOrg".kode_organisasi';
+        ) AS level2 WHERE level2.kode_organisasi=`tmOrg`.kode_organisasi';
         
         \DB::statement($str_update_jumlah_kegiatan);
 
@@ -287,7 +287,7 @@ class OrganisasiController extends Controller {
     public function pejabatopd ($id)
     {
         $pejabat = \DB::table('tmASN')
-                        ->select(\DB::raw('"trRiwayatJabatanASN"."ASNID","tmASN"."Nm_ASN","Jenis_Jabatan"'))
+                        ->select(\DB::raw('`trRiwayatJabatanASN`.`ASNID`,`tmASN`.`Nm_ASN`,`Jenis_Jabatan`'))
                         ->join('trRiwayatJabatanASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
                         ->where('trRiwayatJabatanASN.OrgID',$id)
                         ->get();
