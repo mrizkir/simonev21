@@ -306,6 +306,23 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-SUMBER-DANA_BROWSE')"
+				to="/dmaster/sumberdana"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-cash-100</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						SUMBER DANA
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"

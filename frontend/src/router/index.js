@@ -134,6 +134,7 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/Pejabat.vue"),
 	},
+	//dmaster - dan lain-lain
 	{
 		path: "/dmaster/ta",
 		name: "DMasterTA",
@@ -142,6 +143,15 @@ const routes = [
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/dmaster/TA.vue"),
+	},
+	{
+		path: "/dmaster/sumberdana",
+		name: "DMasterSumberDana",
+		meta:{
+			title: "SUMBER DANA",
+			requiresAuth:true,
+        },
+		component: () => import("../views/pages/admin/dmaster/SumberDana.vue"),		
 	},
 	//renja murni
 	{
