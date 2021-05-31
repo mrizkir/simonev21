@@ -115,7 +115,7 @@
 					<v-bottom-navigation color="purple lighten-1">
 						<v-btn
 							:to="{
-								path: '/belanjamurni/rka/uraian/' + this.RKARincID + '/edit',
+								path: '/renjamurni/rka/uraian/' + this.RKARincID + '/edit',
 							}"
 						>
 							<span>Edit Uraian</span>
@@ -507,17 +507,17 @@
 				{
 					text: "BELANJA MURNI",
 					disabled: false,
-					href: "/belanjamurni",
+					href: "/renjamurni",
 				},
 				{
 					text: "RKA (RENCANA KEGIATAN DAN ANGGARAN)",
 					disabled: false,
-					href: "/belanjamurni/rka",
+					href: "/renjamurni/rka",
 				},
 				{
 					text: "URAIAN",
 					disabled: false,
-					href: "/belanjamurni/rka/uraian/" + page.datakegiatan.RKAID,
+					href: "/renjamurni/rka/uraian/" + page.datakegiatan.RKAID,
 				},
 				{
 					text: "REALISASI",
@@ -540,7 +540,7 @@
 				page.datarekening = {};
 
 				this.$store.dispatch("uiadmin/updatePage", page);
-				this.$router.push("/belanjamurni/rka");
+				this.$router.push("/renjamurni/rka");
 			}
 		},
 		data() {
@@ -908,7 +908,7 @@
 				page.datarekening = {};
 				this.$store.dispatch("uiadmin/updatePage", page);
 				this.$router.push(
-					"/belanjamurni/rka/uraian/" + page.datakegiatan.RKAID
+					"/renjamurni/rka/uraian/" + page.datakegiatan.RKAID
 				);
 			},
 		},
