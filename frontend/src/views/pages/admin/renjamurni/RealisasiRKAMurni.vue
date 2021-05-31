@@ -150,15 +150,24 @@
 							<v-toolbar flat color="white">
 								<v-toolbar-title>DAFTAR REALISASI</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
-								<v-spacer></v-spacer>
-								<v-btn
-									color="primary"
-									dark
-									class="mb-2"
-									@click.stop="tambahRealisasi"
-								>
-									TAMBAH REALISASI
-								</v-btn>
+								<v-spacer></v-spacer>								
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="mr-2"
+											@click.stop="tambahRealisasi"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>TAMBAH REALISASI</span>
+								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
