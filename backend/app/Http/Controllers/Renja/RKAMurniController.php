@@ -82,7 +82,7 @@ class RKAMurniController extends Controller
      */
     public function populateDataRealisasi ($RKARincID)
     {
-        $datauraian = SIPDModel::find($RKARincID);
+        $datauraian = RKARincianModel::find($RKARincID);
 
         $data=[
             'datarealisasi'=>[],
