@@ -7,7 +7,7 @@ export default {
 
     props:{
         datagrafik:{
-            type:Array,     
+            type:Array, 
         },
     },
     mounted() 
@@ -24,17 +24,17 @@ export default {
                     label: 'TARGET',  
                     fill: false,
                     data: [],
-                    borderColor: '#A71C6F',                 
+                    borderColor: '#A71C6F',   
                     borderWidth: 1, 
                 },
                 {
-                    label: 'REALISASI',      
+                    label: 'REALISASI',  
                     data: [],
                     fill: false,
                     borderColor: '#FF9800',
                     borderWidth: 1, 
                 }
-            ],     
+            ], 
         },
         options:{
             responsive: true,
@@ -61,7 +61,7 @@ export default {
                         labelString: 'TARGET & REALISASI'
                     }
                 }]
-            },         
+            }, 
             layout: {
                 padding: {
                     left: 0,

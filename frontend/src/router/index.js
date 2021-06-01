@@ -139,7 +139,7 @@ const routes = [
 		path: "/dmaster/ta",
 		name: "DMasterTA",
 		meta: {
-			title: "DLL - TAHUN ANGGARAN",
+			title: "DMASTER - TAHUN ANGGARAN",
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/dmaster/TA.vue"),
@@ -147,11 +147,31 @@ const routes = [
 	{
 		path: "/dmaster/sumberdana",
 		name: "DMasterSumberDana",
-		meta:{
-			title: "SUMBER DANA",
-			requiresAuth:true,
-        },
-		component: () => import("../views/pages/admin/dmaster/SumberDana.vue"),		
+		meta: {
+			title: "DMASTER - SUMBER DANA",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/SumberDana.vue"),
+	},
+	{
+		path: "/dmaster/jenispelaksanaan",
+		name: "DMasterJenisPelaksanaan",
+		meta: {
+			title: "DMASTER - JENIS PELAKSANAAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/JenisPelaksanaan.vue"),
+	},
+	{
+		path: "/dmaster/jenispembangunan",
+		name: "DMasterJenisPembangunan",
+		meta: {
+			title: "DMASTER - JENIS PEMBANGUNAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/JenisPembangunan.vue"),
 	},
 	//renja murni
 	{
@@ -190,7 +210,7 @@ const routes = [
 			title: "RKA MURNI - UBAH",
 			requiresAuth: true,
 		},
-		component: () => import("../views/pages/admin/renjamurni/EditRKAMurni.vue"),		
+		component: () => import("../views/pages/admin/renjamurni/EditRKAMurni.vue"),
 	},
 	{
 		path: "/renjamurni/rka/uraian/:rkaid",
@@ -199,7 +219,8 @@ const routes = [
 			title: "RKA MURNI - URAIAN",
 			requiresAuth: true,
 		},
-		component: () => import("../views/pages/admin/renjamurni/UraianRKAMurni.vue"),		
+		component: () =>
+			import("../views/pages/admin/renjamurni/UraianRKAMurni.vue"),
 	},
 	{
 		path: "/renjamurni/rka/uraian/:rkarincid/edit",
@@ -208,7 +229,8 @@ const routes = [
 			title: "RKA MURNI - UBAH URAIAN",
 			requiresAuth: true,
 		},
-		component: () => import("../views/pages/admin/renjamurni/EditUraianRKAMurni.vue"),		
+		component: () =>
+			import("../views/pages/admin/renjamurni/EditUraianRKAMurni.vue"),
 	},
 	{
 		path: "/renjamurni/rka/realisasi/:rkarincid",
@@ -217,7 +239,8 @@ const routes = [
 			title: "RKA MURNI - REALISASI",
 			requiresAuth: true,
 		},
-		component: () => import("../views/pages/admin/renjamurni/RealisasiRKAMurni.vue"),		
+		component: () =>
+			import("../views/pages/admin/renjamurni/RealisasiRKAMurni.vue"),
 	},
 	//system
 	{

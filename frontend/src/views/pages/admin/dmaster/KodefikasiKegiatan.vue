@@ -16,9 +16,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "kegiatan" sesuai dengan Keputusan Menteri Dalam Negeri
-					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
-					perencanaan, dan pembangunan daerah.
+					Daftar "kegiatan" sesuai dengan Keputusan Menteri Dalam Negeri No.
+					050-3708 tentang pemutakhiran, klasifikasi, kodefikasi, perencanaan,
+					dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -423,12 +423,12 @@
 				rule_program: [value => !!value || "Mohon untuk di pilih Program !!!"],
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Kegiatan!!!",
-					value => /^[0-9]*\.?[0-9]*$/.test(value) || "Kode Kegiatan hanya boleh angka",
+					value =>
+						/^[0-9]*\.?[0-9]*$/.test(value) ||
+						"Kode Kegiatan hanya boleh angka",
 					value => value.length > 1 || "Kode Kegiatan minimaml 2 angka",
 				],
-				rule_name: [
-					value => !!value || "Mohon untuk di isi Nama Kegiatan !!!",
-				],
+				rule_name: [value => !!value || "Mohon untuk di isi Nama Kegiatan !!!"],
 			};
 		},
 		methods: {

@@ -150,7 +150,7 @@
 							<v-toolbar flat color="white">
 								<v-toolbar-title>DAFTAR REALISASI</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
-								<v-spacer></v-spacer>								
+								<v-spacer></v-spacer>
 								<v-tooltip bottom>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn
@@ -916,9 +916,7 @@
 				};
 				page.datarekening = {};
 				this.$store.dispatch("uiadmin/updatePage", page);
-				this.$router.push(
-					"/renjamurni/rka/uraian/" + page.datakegiatan.RKAID
-				);
+				this.$router.push("/renjamurni/rka/uraian/" + page.datakegiatan.RKAID);
 			},
 		},
 		watch: {

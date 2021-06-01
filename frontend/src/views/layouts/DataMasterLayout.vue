@@ -323,6 +323,40 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-JENIS-PELAKSANAAN_BROWSE')"
+				to="/dmaster/jenispelaksanaan"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-road</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						JENIS PELAKSANAAN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-JENIS-PEMBANGUNAN_BROWSE')"
+				to="/dmaster/jenispembangunan"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-shovel</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						JENIS PEMBANGUNAN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"

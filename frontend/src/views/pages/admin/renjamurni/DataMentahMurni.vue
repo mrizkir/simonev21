@@ -278,7 +278,7 @@ export default {
             //form data
             form_valid: true,
             data_rka:{},
-            dialogcopyrka: false,    
+            dialogcopyrka: false,
             
         }
         

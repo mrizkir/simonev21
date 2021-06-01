@@ -17,8 +17,8 @@
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
 					Daftar "program" sesuai dengan Keputusan Menteri Dalam Negeri No.
-					050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
-					perencanaan, dan pembangunan daerah.
+					050-3708 tentang pemutakhiran, klasifikasi, kodefikasi, perencanaan,
+					dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -435,9 +435,7 @@
 					value => /^[0-9]+$/.test(value) || "Kode Program hanya boleh angka",
 					value => value.length > 1 || "Kode Program minimaml 2 angka",
 				],
-				rule_name: [
-					value => !!value || "Mohon untuk di isi Nama Program !!!",
-				],
+				rule_name: [value => !!value || "Mohon untuk di isi Nama Program !!!"],
 			};
 		},
 		methods: {
