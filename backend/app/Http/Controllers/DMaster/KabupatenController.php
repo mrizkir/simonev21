@@ -9,7 +9,7 @@ use App\Models\DMaster\KecamatanModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
-class KotaController extends Controller {        
+class KabupatenController extends Controller {        
     /**
      * digunakan untuk mendapatkan daftar kecamatan
      *
@@ -17,7 +17,7 @@ class KotaController extends Controller {
      */
     public function index(Request $request)
     {
-        $data = KotaModel::orderBy('Nm_Kota','ASC')
+        $data = KotaModel::orderBy('nama','ASC')
                                 ->get();
                                 
         return Response()->json([
@@ -27,10 +27,11 @@ class KotaController extends Controller {
                                 'message'=>'Fetch data provinsi berhasil diperoleh'
                             ],200);  
     }
-    public function kecamatankota (Request $request,$id)
+    public function kecamatan (Request $request,$id)
     {
         
-        $kecamatan = KecamatanModel::where('PmKotaID',$id)
+        $kecamatan = KecamatanModel::where('kabupaten_id',$id)
+                            ->orderBy('nama', 'asc')
                             ->get();
 
         return Response()->json([

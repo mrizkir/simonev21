@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\DMaster\KotaModel;
+use App\Models\DMaster\KabupatenModel;
 use App\Models\DMaster\ProvinsiModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
@@ -17,7 +17,7 @@ class ProvinsiController extends Controller {
      */
     public function index(Request $request)
     {
-        $data = ProvinsiModel::orderBy('Nm_Prov','ASC')
+        $data = ProvinsiModel::orderBy('nama','ASC')
                                 ->get();
                                 
         return Response()->json([
@@ -27,17 +27,18 @@ class ProvinsiController extends Controller {
                                 'message'=>'Fetch data provinsi berhasil diperoleh'
                             ],200);  
     }
-    public function kotaprovinsi (Request $request,$id)
+    public function kabupaten (Request $request,$id)
     {
         
-        $kota = KotaModel::where('PMProvID',$id)
+        $kota = KabupatenModel::where('provinsi_id',$id)
+                            ->orderBy('nama', 'asc')
                             ->get();
 
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',                                
                                 'kota'=>$kota,
-                                'message'=>'Fetch data kota dari provinsi berhasil diperoleh'
+                                'message'=>'Fetch data kabupaten/kota dari provinsi berhasil diperoleh'
                             ],200);  
 
     }

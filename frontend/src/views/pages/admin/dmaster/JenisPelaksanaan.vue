@@ -31,7 +31,6 @@
 								label="Search"
 								single-line
 								filled
-								outlined
 								hide-details
 							></v-text-field>
 						</v-card-text>
@@ -88,6 +87,7 @@
 													v-model="formdata.NamaJenis"
 													label="NAMA JENIS"
 													filled
+													outlined
 													:rules="rule_name"
 												>
 												</v-text-field>

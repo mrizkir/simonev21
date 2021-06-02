@@ -18,7 +18,7 @@ class KecamatanController extends Controller {
      */
     public function index(Request $request)
     {
-        $data = KecamatanModel::orderBy('Nm_Kecamatan','ASC')
+        $data = KecamatanModel::orderBy('nama','ASC')
                                 ->get();
                                 
         return Response()->json([
@@ -28,10 +28,11 @@ class KecamatanController extends Controller {
                                 'message'=>'Fetch data kecamatan berhasil diperoleh'
                             ],200);  
     }
-    public function desakecamatan (Request $request,$id)
+    public function desa (Request $request,$id)
     {
         
-        $desa = DesaModel::where('PmKecamatanID',$id)
+        $desa = DesaModel::where('kecamatan_id',$id)
+                            ->orderBy('nama','ASC')
                             ->get();
 
         return Response()->json([
