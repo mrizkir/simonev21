@@ -75,7 +75,7 @@
 					<v-divider />
 					<v-list-item to="/system-users/profil">
 						<v-list-item-icon class="mr-2">
-							<v-icon>mdi-account</v-icon>
+							<v-icon>mdi-arrow-collapse-right</v-icon>
 						</v-list-item-icon>
 						<v-list-item-title>Profil</v-list-item-title>
 					</v-list-item>
@@ -122,7 +122,7 @@
 				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>BOARD USER SISTEM</v-list-item-title>
@@ -134,7 +134,7 @@
 				to="/system-users/permissions"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account-key</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -148,7 +148,7 @@
 				to="/system-users/roles"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -163,7 +163,7 @@
 				to="/system-users/superadmin"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -177,7 +177,7 @@
 				to="/system-users/bapelitbang"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -191,7 +191,7 @@
 				to="/system-users/opd"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -199,27 +199,27 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
-			<v-list-item
+			<!-- <v-list-item
 				link
 				v-if="CAN_ACCESS('SYSTEM-USERS-PPTK_BROWSE')"
 				to="/system-users/pptk"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
 						PPTK
 					</v-list-item-title>
 				</v-list-item-content>
-			</v-list-item>
+			</v-list-item> -->
 			<v-list-item
 				link
 				v-if="CAN_ACCESS('SYSTEM-USERS-DEWAN_BROWSE')"
 				to="/system-users/dewan"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -233,7 +233,7 @@
 				to="/system-users/tapd"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>

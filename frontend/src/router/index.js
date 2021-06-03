@@ -115,6 +115,55 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/dmaster/UnitKerja.vue"),
 	},
+	//dmaster - rekening - akun
+	{
+		path: "/dmaster/kodefikasi/akun",
+		name: "DMasterRekeningAkun",
+		meta: {
+			title: "REKENING - AKUN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/RekeningAkun.vue"),
+	},
+	{
+		path: "/dmaster/kodefikasi/kelompok",
+		name: "DMasterRekeningKelompok",
+		meta: {
+			title: "REKENING - KELOMPOK",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/RekeningKelompok.vue"),
+	},
+	{
+		path: "/dmaster/kodefikasi/objek",
+		name: "DMasterRekeningObjek",
+		meta: {
+			title: "REKENING - OBJEK",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dmaster/RekeningObjek.vue"),
+	},
+	{
+		path: "/dmaster/kodefikasi/rincianobjek",
+		name: "DMasterRekeningRincianObjek",
+		meta: {
+			title: "REKENING - RINCIAN OBJEK",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/RekeningRincianObjek.vue"),
+	},
+	{
+		path: "/dmaster/kodefikasi/subrincianobjek",
+		name: "DMasterRekeningSubRincianObjek",
+		meta: {
+			title: "REKENING - SUB RINCIAN OBJEK",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/RekeningSubRincianObjek.vue"),
+	},
 	//dmaster - pegawai
 	{
 		path: "/dmaster/asn",

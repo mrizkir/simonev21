@@ -142,7 +142,7 @@
 				v-if="CAN_ACCESS('RENJA-RKA-MURNI_BROWSE')"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-graph</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>

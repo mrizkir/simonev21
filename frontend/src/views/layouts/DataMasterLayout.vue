@@ -141,7 +141,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -158,7 +158,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -176,7 +176,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -193,7 +193,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -210,11 +210,116 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
 						SUB KEGIATAN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-divider color="yellow" />
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-AKUN_BROWSE')"
+				to="/dmaster/kodefikasi/akun"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						AKUN
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-KELOMPOK_BROWSE')"
+				to="/dmaster/kodefikasi/kelompok"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						KELOMPOK
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-JENIS_BROWSE')"
+				to="/dmaster/kodefikasi/akun"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						JENIS
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-OBJEK_BROWSE')"
+				to="/dmaster/kodefikasi/objek"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						OBJEK
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_BROWSE')"
+				to="/dmaster/kodefikasi/rincianobjek"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						RINCIAN OBJEK
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				link
+				v-if="
+					CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK_BROWSE')
+				"
+				to="/dmaster/kodefikasi/subrincianobjek"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
+				"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						SUB RINCIAN OBJEK
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
@@ -228,7 +333,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -245,7 +350,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-group</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -263,7 +368,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account-circle-outline</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -280,7 +385,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-account-circle</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -298,7 +403,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-calendar-month</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -315,7 +420,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-cash-100</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -332,7 +437,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-road</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
@@ -349,7 +454,7 @@
 				"
 			>
 				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-shovel</v-icon>
+					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
