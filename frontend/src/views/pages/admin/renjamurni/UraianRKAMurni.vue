@@ -37,37 +37,47 @@
 									<tr>
 										<td width="150">RKAID</td>
 										<td width="400">{{ datakegiatan.RKAID }}</td>
-										<td width="150">NAMA URUSAN</td>
-										<td width="400">{{ datakegiatan.Nm_Bidang }}</td>
+										<td width="150">PAGU DANA</td>
+										<td width="400">
+											{{ datakegiatan.PaguDana1 | formatUang }}
+										</td>
 									</tr>
 									<tr>
 										<td width="150">KODE PROGRAM</td>
 										<td width="400">{{ datakegiatan.kode_program }}</td>
+										<td width="150">NAMA BIDANG URUSAN</td>
+										<td width="400">{{ datakegiatan.Nm_Bidang }}</td>
+									</tr>
+									<tr>
+										<td width="150">PROGRAM</td>
+										<td width="400">{{ datakegiatan.Nm_Program }}</td>
 										<td width="150">KODE OPD / SKPD</td>
 										<td width="400">{{ datakegiatan.kode_organisasi }}</td>
 									</tr>
 									<tr>
-										<td width="150">PROGRAM</td>
-										<td width="400">{{ datakegiatan.PrgNm }}</td>
-										<td width="150">OPD / SKPD</td>
-										<td width="400">{{ datakegiatan.OrgNm }}</td>
-									</tr>
-									<tr>
 										<td width="150">KODE KEGIATAN</td>
 										<td width="400">{{ datakegiatan.kode_kegiatan }}</td>
-										<td width="150">KODE UNIT KERJA</td>
-										<td width="400">{{ datakegiatan.kode_suborganisasi }}</td>
+										<td width="150">OPD / SKPD</td>
+										<td width="400">{{ datakegiatan.Nm_Organisasi }}</td>
 									</tr>
 									<tr>
 										<td width="150">NAMA KEGIATAN</td>
-										<td width="400">{{ datakegiatan.KgtNm }}</td>
-										<td width="150">UNIT KERJA</td>
-										<td width="400">{{ datakegiatan.SOrgNm }}</td>
+										<td width="400">{{ datakegiatan.Nm_Kegiatan }}</td>
+										<td width="150">KODE UNIT KERJA</td>
+										<td width="400">{{ datakegiatan.kode_sub_organisasi }}</td>
 									</tr>
 									<tr>
-										<td width="150">PAGU DANA</td>
+										<td width="150">KODE SUB KEGIATAN</td>
 										<td width="400">
-											{{ datakegiatan.PaguDana1 | formatUang }}
+											{{ datakegiatan.kode_sub_kegiatan }}
+										</td>
+										<td width="150">UNIT KERJA</td>
+										<td width="400">{{ datakegiatan.Nm_Sub_Organisasi }}</td>
+									</tr>
+									<tr>
+										<td width="150">NAMA SUB KEGIATAN</td>
+										<td width="400">
+											{{ datakegiatan.Nm_Sub_Kegiatan }}
 										</td>
 										<td width="150">DIBUAT/DIUBAH</td>
 										<td width="400">

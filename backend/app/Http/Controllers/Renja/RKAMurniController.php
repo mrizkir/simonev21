@@ -975,10 +975,10 @@ class RKAMurniController extends Controller
                                     0 AS `realisasi1`,
                                     0 AS `persen_keuangan1`,
                                     0 AS `fisik1`,                                                                        
-                                    \'\' AS `PMProvID`,
-                                    \'\' AS `PmKotaID`,
-                                    \'\' AS `PmKecamatanID`,                                    
-                                    \'\' AS `PmDesaID`,                                    
+                                    \'\' AS `provinsi_id`,
+                                    \'\' AS `kabupaten_id`,
+                                    \'\' AS `kecamatan_id`,
+                                    \'\' AS `desa_id`,                                    
                                     `trRKARinc`.`idlok`,
                                     `trRKARinc`.`ket_lok`,
                                     `trRKARinc`.`rw`,
@@ -1009,64 +1009,53 @@ class RKAMurniController extends Controller
                 switch($item->ket_lok)
                 {
                     case 'desa' :
-                        $lokasi=\App\Models\DMaster\DesaModel::select(\DB::raw('`tmPmDesa`.`PmDesaID`,`tmPmKecamatan`.`PmKecamatanID`,`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))
-                                                            ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','tmPmDesa.PmKecamatanID')
-                                                            ->join('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
-                                                            ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
+                        $lokasi=\App\Models\DMaster\DesaModel::select(\DB::raw('`wilayah_desa`.`id` AS desa_id, `wilayah_kecamatan`.`id` AS kecamatan_id, `wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))
+                                                            ->join('wilayah_kecamatan','wilayah_kecamatan.id','wilayah_desa.kecamatan_id')
+                                                            ->join('wilayah_kabupaten','wilayah_kecamatan.kabupaten_id','wilayah_kabupaten.id')
+                                                            ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
                                                             ->find($item->idlok);
                         
                         if (!is_null($lokasi))
                         {
-                            $item->PmDesaID=$lokasi->PmDesaID;
-                            $item->PmKecamatanID=$lokasi->PmKecamatanID;
-                            $item->PmKotaID=$lokasi->PmKotaID;
-                            $item->PMProvID=$lokasi->PMProvID;                            
+                            $item->desa_id=$lokasi->desa_id;
+                            $item->kecamatan_id=$lokasi->kecamatan_id;
+                            $item->kabupaten_id=$lokasi->kabupaten_id;
+                            $item->provinsi_id=$lokasi->provinsi_id;                            
                         }
                     break;
                     case 'kecamatan' :
-                        $lokasi=\App\Models\DMaster\KecamatanModel::select(\DB::raw('`tmPmKecamatan`.`PmKecamatanID`,`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))                                                            
-                                                            ->join('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
-                                                            ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
+                        $lokasi=\App\Models\DMaster\KecamatanModel::select(\DB::raw('`wilayah_kecamatan`.`id` AS kecamatan_id, `wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))                                                            
+                                                            ->join('wilayah_kabupaten','wilayah_kecamatan.kabupaten_id','wilayah_kabupaten.id')
+                                                            ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
                                                             ->find($item->idlok);
 
                         if (!is_null($lokasi))
                         {
-                            $item->PmKecamatanID=$lokasi->PmKecamatanID;
-                            $item->PmKotaID=$lokasi->PmKotaID;
-                            $item->PMProvID=$lokasi->PMProvID;
+                            $item->kecamatan_id=$lokasi->kecamatan_id;
+                            $item->kabupaten_id=$lokasi->kabupaten_id;
+                            $item->provinsi_id=$lokasi->provinsi_id;
                         }
                     break;
                     case 'kota' :
-                        $lokasi=\App\Models\DMaster\KotaModel::select(\DB::raw('`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))                                                                                                                        
-                                                            ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
+                        $lokasi=\App\Models\DMaster\KabupatenModel::select(\DB::raw('`wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))                                                                                                                        
+                                                            ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
                                                             ->find($item->idlok);
 
                         if (!is_null($lokasi))
                         {
-                            $item->PmKotaID=$lokasi->PmKotaID;
-                            $item->PMProvID=$lokasi->PMProvID;
+                            $item->kabupaten_id=$lokasi->kabupaten_id;
+                            $item->provinsi_id=$lokasi->provinsi_id;
                         }
                     break;
                     case 'provinsi' :
-                        $lokasi=\App\Models\DMaster\ProvinsiModel::select(\DB::raw('`tmPMProv`.`PMProvID`'))                                                                                                                                                                                                                                            
+                        $lokasi=\App\Models\DMaster\ProvinsiModel::select(\DB::raw('`wilayah_provinsi`.`id` AS provinsi_id'))                                                                                                                                                                                                                                            
                                                             ->find($item->idlok);
 
                         if (!is_null($lokasi))
                         {
-                            $item->PMProvID=$lokasi->PMProvID;
+                            $item->provinsi_id=$lokasi->provinsi_id;
                         }
-                    break;
-                    case 'kota' :
-                        $lokasi=\App\Models\DMaster\KotaModel::select(\DB::raw('`tmPmKecamatan`.`PmKecamatanID`,`tmPmKota`.`PmKotaID`,`tmPMProv`.`PMProvID`'))                                                                                                                        
-                                                            ->join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')                                                            
-                                                            ->find($item->idlok);
-
-                        if (!is_null($lokasi))
-                        {
-                            $item->PmKotaID=$lokasi->PmKotaID;
-                            $item->PMProvID=$lokasi->PMProvID;
-                        }
-                    break;
+                    break;                
                 }
                 return $item;
             });
