@@ -133,7 +133,26 @@ class OrganisasiController extends Controller {
 
             'TA'=>'required|numeric',
         ]);
+        
+        $BidangID_2 = null;
+        $kode_bidang_2 = null;
+        $Nm_Bidang_2 = null;
 
+        $BidangID_3 = null;
+        $kode_bidang_3 = null;
+        $Nm_Bidang_3 = null;
+
+        if ($request->filled('BidangID_2')) {
+            $BidangID_2 = $request->input('BidangID_2');
+            $kode_bidang_2 = $request->input('kode_bidang_2');
+            $Nm_Bidang_2 = $request->input('Nm_Bidang_2');
+        }
+
+        if ($request->filled('BidangID_3')) {
+            $BidangID_3 = $request->input('BidangID_3');
+            $kode_bidang_3 = $request->input('kode_bidang_3');
+            $Nm_Bidang_3 = $request->input('Nm_Bidang_3');
+        }
         $organisasi = OrganisasiModel::create([
             'OrgID' => Uuid::uuid4()->toString(), 
         
@@ -141,13 +160,13 @@ class OrganisasiController extends Controller {
             'kode_bidang_1'=>$request->input('kode_bidang_1'),
             'Nm_Bidang_1'=>$request->input('Nm_Bidang_1'),
             
-            'BidangID_2'=>$request->input('BidangID_2'),         
-            'kode_bidang_2'=>$request->input('kode_bidang_2'),         
-            'Nm_Bidang_2'=>$request->input('Nm_Bidang_2'),         
+            'BidangID_2'=>$BidangID_2,         
+            'kode_bidang_2'=>$kode_bidang_2,         
+            'Nm_Bidang_2'=>$Nm_Bidang_2,         
 
-            'BidangID_3'=>$request->input('BidangID_3'),         
-            'kode_bidang_3'=>$request->input('kode_bidang_3'),         
-            'Nm_Bidang_3'=>$request->input('Nm_Bidang_3'),         
+            'BidangID_3'=>$BidangID_3,         
+            'kode_bidang_3'=>$kode_bidang_3,         
+            'Nm_Bidang_3'=>$Nm_Bidang_3,         
 
             'kode_organisasi'=>$request->input('kode_organisasi'), 
             'Kd_Organisasi'=>$request->input('Kd_Organisasi'), 
@@ -199,13 +218,33 @@ class OrganisasiController extends Controller {
         $organisasi->kode_bidang_1 = $request->input('kode_bidang_1');
         $organisasi->Nm_Bidang_1 = $request->input('Nm_Bidang_1');
         
-        $organisasi->BidangID_2 = $request->input('BidangID_2');
-        $organisasi->kode_bidang_2 = $request->input('kode_bidang_2');
-        $organisasi->Nm_Bidang_2 = $request->input('Nm_Bidang_2');
+        $BidangID_2 = null;
+        $kode_bidang_2 = null;
+        $Nm_Bidang_2 = null;
+
+        $BidangID_3 = null;
+        $kode_bidang_3 = null;
+        $Nm_Bidang_3 = null;
+
+        if ($request->filled('BidangID_2')) {
+            $BidangID_2 = $request->input('BidangID_2');
+            $kode_bidang_2 = $request->input('kode_bidang_2');
+            $Nm_Bidang_2 = $request->input('Nm_Bidang_2');
+        }
+
+        if ($request->filled('BidangID_3')) {
+            $BidangID_3 = $request->input('BidangID_3');
+            $kode_bidang_3 = $request->input('kode_bidang_3');
+            $Nm_Bidang_3 = $request->input('Nm_Bidang_3');
+        }
+
+        $organisasi->BidangID_2 = $BidangID_2;
+        $organisasi->kode_bidang_2 = $kode_bidang_2;
+        $organisasi->Nm_Bidang_2 = $Nm_Bidang_2;
         
-        $organisasi->BidangID_3 = $request->input('BidangID_3');
-        $organisasi->kode_bidang_3 = $request->input('kode_bidang_3');
-        $organisasi->Nm_Bidang_3 = $request->input('Nm_Bidang_3');
+        $organisasi->BidangID_3 = $BidangID_3;
+        $organisasi->kode_bidang_3 = $kode_bidang_3;
+        $organisasi->Nm_Bidang_3 = $Nm_Bidang_3;
         
         $organisasi->kode_organisasi = $request->input('kode_organisasi');
         $organisasi->Kd_Organisasi = $request->input('Kd_Organisasi');
