@@ -8,6 +8,8 @@ use App\Models\DMaster\RekeningAkunModel;
 
 use Illuminate\Validation\Rule;
 
+use Ramsey\Uuid\Uuid;
+
 class RekeningAKunController extends Controller {              
     /**
      * get all akun rekening
@@ -65,7 +67,7 @@ class RekeningAKunController extends Controller {
         $ta = $request->input('TA');
         
         $akun = RekeningAkunModel::create([
-            'AkunID' => uniqid('uid'),
+            'AkunID' => Uuid::uuid4()->toString(),
             'Kd_Rek_1' => $request->input('Kd_Rek_1'),
             'Nm_Akun' => $request->input('Nm_Akun'),
             'Descr' => $request->input('Descr'),

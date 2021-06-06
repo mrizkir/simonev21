@@ -4,27 +4,27 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RekeningAkunModel extends Model
+class RekeningKelompokModel extends Model
 {
     /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmAkun';
+    protected $table = 'tmKlp';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'AkunID';
+    protected $primaryKey = 'KlpID';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'AkunID', 'Kd_Rek_1', 'Nm_Akun', 'Descr', 'TA', 'AkunID_Src'
+        'KlpID', 'AkunID', 'Kd_Rek_2', 'KlpNm', 'Descr', 'TA', 'KlpID_Src'
     ];
     /**
      * enable auto_increment.
@@ -37,5 +37,5 @@ class RekeningAkunModel extends Model
      *
      * @var string
      */
-    public $timestamps = true;   
+    public $timestamps = true;       
 }
