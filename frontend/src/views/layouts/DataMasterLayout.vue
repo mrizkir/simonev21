@@ -256,7 +256,7 @@
 			<v-list-item
 				link
 				v-if="CAN_ACCESS('DMASTER-KODEFIKASI-REKENING-JENIS_BROWSE')"
-				to="/dmaster/kodefikasi/akun"
+				to="/dmaster/kodefikasi/jenis"
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-ACTIVE-CSS-CLASS')
 				"

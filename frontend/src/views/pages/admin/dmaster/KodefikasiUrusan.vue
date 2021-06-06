@@ -16,9 +16,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "bidang urusan" sesuai dengan Keputusan Menteri Dalam Negeri
-					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
-					perencanaan, dan pembangunan daerah.
+					Daftar "urusan" sesuai dengan Keputusan Menteri Dalam Negeri No.
+					050-3708 tentang pemutakhiran, klasifikasi, kodefikasi, perencanaan,
+					dan pembangunan daerah.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -80,7 +80,7 @@
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah Kelompok Urusan</span>
+									<span>Tambah Urusan</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -274,7 +274,7 @@
 										mdi-eye
 									</v-icon>
 								</template>
-								<span>Detail Kelompok Urusan</span>
+								<span>Detail Urusan</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -293,7 +293,7 @@
 										mdi-pencil
 									</v-icon>
 								</template>
-								<span>Ubah Kelompok Urusan</span>
+								<span>Ubah Urusan</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -313,7 +313,7 @@
 										mdi-delete
 									</v-icon>
 								</template>
-								<span>Hapus Kelompok Urusan</span>
+								<span>Hapus Urusan</span>
 							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
