@@ -5,7 +5,7 @@
 				mdi-group
 			</template>
 			<template v-slot:name>
-				REKENING KELOMPOK
+				REKENING JENIS
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Daftar "rekening kelompok" sesuai dengan Keputusan Menteri Dalam Negeri
+					Daftar "rekening jenis" sesuai dengan Keputusan Menteri Dalam Negeri
 					No. 050-3708 tentang pemutakhiran, klasifikasi, kodefikasi,
 					perencanaan, dan pembangunan daerah.
 				</v-alert>
@@ -46,7 +46,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="KlpID"
+						item-key="JnsID"
 						show-expand
 						:expanded.sync="expanded"
 						:single-expand="true"
@@ -57,7 +57,7 @@
 					>
 						<template v-slot:top>
 							<v-toolbar flat color="white">
-								<v-toolbar-title>DAFTAR KELOMPOK</v-toolbar-title>
+								<v-toolbar-title>DAFTAR JENIS</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
 								<v-tooltip bottom>
@@ -73,14 +73,14 @@
 											@click.stop="addItem"
 											:disabled="
 												!$store.getters['auth/can'](
-													'DMASTER-KODEFIKASI-REKENING-KELOMPOK_STORE'
+													'DMASTER-KODEFIKASI-REKENING-JENIS_STORE'
 												)
 											"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah Rekening Kelompok</span>
+									<span>Tambah Rekening Jenis</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -95,20 +95,20 @@
 													<v-row>
 														<v-col cols="12" sm="12" md="12">
 															<v-select
-																v-model="formdata.AkunID"
-																:items="daftar_akun"
-																item-text="nama_rek1"
-																item-value="AkunID"
-																label="REKENING AKUN"
-																:rules="rule_akun"
+																v-model="formdata.KlpID"
+																:items="daftar_kelompok"
+																item-text="nama_rek2"
+																item-value="KlpID"
+																label="REKENING KELOMPOK"
+																:rules="rule_kelompok"
 																single-line
 																filled
 																outlined
 															>
 															</v-select>
 															<v-text-field
-																v-model="formdata.Kd_Rek_2"
-																label="KODE KELOMPOK"
+																v-model="formdata.Kd_Rek_3"
+																label="KODE JENIS"
 																filled
 																:rules="rule_kode"
 																outlined
@@ -117,8 +117,8 @@
 														</v-col>
 														<v-col cols="12" sm="12" md="12">
 															<v-text-field
-																v-model="formdata.KlpNm"
-																label="NAMA KELOMPOK"
+																v-model="formdata.JnsNm"
+																label="NAMA JENIS"
 																filled
 																:rules="rule_name"
 																outlined
@@ -177,7 +177,7 @@
 															ID
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.KlpID }}
+															{{ formdata.JnsID }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -204,10 +204,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															KODE KELOMPOK
+															KODE JENIS
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.kode_kelompok }}
+															{{ formdata.kode_jenis }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -238,10 +238,10 @@
 												<v-col xs="12" sm="6" md="6">
 													<v-card flat>
 														<v-card-title>
-															NAMA KELOMPOK
+															NAMA JENIS
 														</v-card-title>
 														<v-card-subtitle>
-															{{ formdata.KlpNm }}
+															{{ formdata.JnsNm }}
 														</v-card-subtitle>
 													</v-card>
 												</v-col>
@@ -296,7 +296,7 @@
 										mdi-eye
 									</v-icon>
 								</template>
-								<span>Detail Rekening Kelompok</span>
+								<span>Detail Rekening Jenis</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -308,14 +308,14 @@
 										@click.stop="editItem(item)"
 										:disabled="
 											!$store.getters['auth/can'](
-												'DMASTER-KODEFIKASI-REKENING-KELOMPOK_UPDATE'
+												'DMASTER-KODEFIKASI-REKENING-JENIS_UPDATE'
 											)
 										"
 									>
 										mdi-pencil
 									</v-icon>
 								</template>
-								<span>Ubah Rekening Kelompok</span>
+								<span>Ubah Rekening Jenis</span>
 							</v-tooltip>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -327,7 +327,7 @@
 										:disabled="
 											btnLoading ||
 												!$store.getters['auth/can'](
-													'DMASTER-KODEFIKASI-REKENING-KELOMPOK_STORE'
+													'DMASTER-KODEFIKASI-REKENING-JENIS_STORE'
 												)
 										"
 										@click.stop="deleteItem(item)"
@@ -335,12 +335,12 @@
 										mdi-delete
 									</v-icon>
 								</template>
-								<span>Hapus Rekening Kelompok</span>
+								<span>Hapus Rekening Jenis</span>
 							</v-tooltip>
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<strong>ID:</strong>{{ item.KlpID }}
+								<strong>ID:</strong>{{ item.JnsID }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -360,7 +360,7 @@
 	import DataMasterLayout from "@/views/layouts/DataMasterLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "RekeningKelompok",
+		name: "RekeningJenis",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -379,7 +379,7 @@
 					href: "#",
 				},
 				{
-					text: "KELOMPOK",
+					text: "JENIS",
 					disabled: true,
 					href: "#",
 				},
@@ -393,8 +393,8 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "KODE KELOMPOK", value: "kode_kelompok", width: 150 },
-					{ text: "NAMA KELOMPOK", value: "KlpNm" },
+					{ text: "KODE JENIS", value: "kode_jenis", width: 150 },
+					{ text: "NAMA JENIS", value: "JnsNm" },
 					{ text: "KET", value: "Descr" },
 					{ text: "TA", value: "TA" },
 					{ text: "AKSI", value: "actions", srotable: false, width: 100 },
@@ -405,22 +405,22 @@
 				dialogdetailitem: false,
 				//form data
 				form_valid: true,
-				daftar_akun: [],
+				daftar_kelompok: [],
 				formdata: {
+					JnsID: "",
 					KlpID: "",
-					AkunID: "",
-					Kd_Rek_2: "",
-					KlpNm: "",
+					Kd_Rek_3: "",
+					JnsNm: "",
 					Descr: "",
 					TA: "",
 					created_at: "",
 					updated_at: "",
 				},
 				formdefault: {
+					JnsID: "",
 					KlpID: "",
-					AkunID: "",
-					Kd_Rek_2: "",
-					KlpNm: "",
+					Kd_Rek_3: "",
+					JnsNm: "",
 					Descr: "",
 					TA: "",
 					created_at: "",
@@ -428,21 +428,21 @@
 				},
 				editedIndex: -1,
 				//form rules
-				rule_akun: [
-					value => !!value || "Mohon untuk di pilih rekening akun !!!",
+				rule_kelompok: [
+					value => !!value || "Mohon untuk di pilih rekening kelompok !!!",
 				],
 				rule_kode: [
-					value => !!value || "Mohon untuk di isi Kode Rekening Kelompok!!!",
+					value => !!value || "Mohon untuk di isi Kode Rekening Jenis!!!",
 					value =>
 						/^[0-9]+$/.test(value) ||
-						"Kode Rekening Kelompok hanya boleh angka",
-					value => value.length > 0 || "Kode Kelompok minimaml 1 angka",
+						"Kode Rekening Jenis hanya boleh angka",
+					value => value.length > 1 || "Kode Jenis minimaml 2 angka",
 				],
 				rule_name: [
-					value => !!value || "Mohon untuk di isi Nama Rekening Kelompok !!!",
+					value => !!value || "Mohon untuk di isi Nama Rekening Jenis !!!",
 					value =>
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Rekening Kelompok hanya boleh string dan spasi",
+						"Nama Rekening Jenis hanya boleh string dan spasi",
 				],
 			};
 		},
@@ -451,7 +451,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/dmaster/rekening/kelompok",
+						"/dmaster/rekening/jenis",
 						{
 							TA: this.$store.getters["auth/TahunSelected"],
 						},
@@ -462,7 +462,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.datatable = data.kelompok;
+						this.datatable = data.jenis;
 						this.datatableLoading = false;
 					});
 			},
@@ -476,7 +476,7 @@
 			async addItem() {
 				await this.$ajax
 					.post(
-						"/dmaster/rekening/akun",
+						"/dmaster/rekening/kelompok",
 						{
 							TA: this.$store.getters["auth/TahunSelected"],
 						},
@@ -487,7 +487,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_akun = data.akun;
+						this.daftar_kelompok = data.kelompok;
 						this.dialogfrm = true;
 					});
 			},
@@ -495,7 +495,7 @@
 				this.editedIndex = this.datatable.indexOf(item);
 				await this.$ajax
 					.post(
-						"/dmaster/rekening/akun",
+						"/dmaster/rekening/kelompok",
 						{
 							TA: this.$store.getters["auth/TahunSelected"],
 						},
@@ -506,7 +506,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_akun = data.akun;
+						this.daftar_kelompok = data.kelompok;
 						this.formdata = Object.assign({}, item);
 						this.dialogfrm = true;
 					});
@@ -521,12 +521,12 @@
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/dmaster/rekening/kelompok/" + this.formdata.KlpID,
+								"/dmaster/rekening/jenis/" + this.formdata.JnsID,
 								{
 									_method: "PUT",
-									AkunID: this.formdata.AkunID,
-									Kd_Rek_2: this.formdata.Kd_Rek_2,
-									KlpNm: this.formdata.KlpNm,
+									KlpID: this.formdata.KlpID,
+									Kd_Rek_3: this.formdata.Kd_Rek_3,
+									JnsNm: this.formdata.JnsNm,
 									Descr: this.formdata.Descr,
 								},
 								{
@@ -545,11 +545,11 @@
 					} else {
 						this.$ajax
 							.post(
-								"/dmaster/rekening/kelompok/store",
+								"/dmaster/rekening/jenis/store",
 								{
-									AkunID: this.formdata.AkunID,
-									Kd_Rek_2: this.formdata.Kd_Rek_2,
-									KlpNm: this.formdata.KlpNm,
+									KlpID: this.formdata.KlpID,
+									Kd_Rek_3: this.formdata.Kd_Rek_3,
+									JnsNm: this.formdata.JnsNm,
 									Descr: this.formdata.Descr,
 									TA: this.$store.getters["auth/TahunSelected"],
 								},
@@ -573,8 +573,8 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data rekening kelompok dengan ID " +
-							item.KlpID +
+						"Apakah Anda ingin menghapus data rekening jenis dengan ID " +
+							item.JnsID +
 							" ?",
 						{ color: "red", width: "500px" }
 					)
@@ -583,7 +583,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/dmaster/rekening/kelompok/" + item.KlpID,
+									"/dmaster/rekening/jenis/" + item.JnsID,
 									{
 										_method: "DELETE",
 									},

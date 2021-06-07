@@ -136,6 +136,16 @@ const routes = [
 			import("../views/pages/admin/dmaster/RekeningKelompok.vue"),
 	},
 	{
+		path: "/dmaster/kodefikasi/jenis",
+		name: "DMasterRekeningJenis",
+		meta: {
+			title: "REKENING - JENIS",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/dmaster/RekeningJenis.vue"),
+	},
+	{
 		path: "/dmaster/kodefikasi/objek",
 		name: "DMasterRekeningObjek",
 		meta: {
