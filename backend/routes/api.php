@@ -91,11 +91,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->put('/dmaster/rekening/objek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningObjekController@update','as'=>'rekening.objek.update']);
     $router->delete('/dmaster/rekening/objek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningObjekController@destroy','as'=>'rekening.objek.destroy']);
 
-    //data master - rekening - rincian
-    $router->post('/dmaster/rekening/rincian',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RincianController@index','as'=>'rekening.rincian.index']);    
-    $router->post('/dmaster/rekening/rincian/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RincianController@store','as'=>'rekening.rincian.store']);
-    $router->put('/dmaster/rekening/rincian/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RincianController@update','as'=>'rekening.rincian.update']);
-    $router->delete('/dmaster/rekening/rincian/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RincianController@destroy','as'=>'rekening.rincian.destroy']);
+    //data master - rekening - rincian objek
+    $router->post('/dmaster/rekening/rincianobjek',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningRincianObjekController@index','as'=>'rekening.rincianobjek.index']);    
+    $router->post('/dmaster/rekening/rincianobjek/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@store','as'=>'rekening.rincianobjek.store']);
+    $router->put('/dmaster/rekening/rincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@update','as'=>'rekening.rincianobjek.update']);
+    $router->delete('/dmaster/rekening/rincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@destroy','as'=>'rekening.rincianobjek.destroy']);
     
     
     

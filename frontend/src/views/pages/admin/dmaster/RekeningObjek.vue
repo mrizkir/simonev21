@@ -440,9 +440,6 @@
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Rekening Objek !!!",
-					value =>
-						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Rekening Objek hanya boleh string dan spasi",
 				],
 			};
 		},

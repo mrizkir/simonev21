@@ -414,9 +414,6 @@
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Akun !!!",
-					value =>
-						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
-						"Nama Akun hanya boleh string dan spasi",
 				],
 			};
 		},
