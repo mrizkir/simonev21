@@ -4,27 +4,27 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RekeningJenisModel extends Model
+class RekeningObjekModel extends Model
 {
     /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmJns';
+    protected $table = 'tmOby';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'JnsID';
+    protected $primaryKey = 'ObyID';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'JnsID', 'KlpID', 'Kd_Rek_3', 'JnsNm', 'Descr', 'TA', 'JnsID_Src'
+        'ObyID', 'JnsID', 'Kd_Rek_4', 'ObyNm', 'Descr', 'TA', 'ObyID_Src'
     ];
     /**
      * enable auto_increment.
