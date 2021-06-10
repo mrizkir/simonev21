@@ -97,13 +97,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->put('/dmaster/rekening/rincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@update','as'=>'rekening.rincianobjek.update']);
     $router->delete('/dmaster/rekening/rincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@destroy','as'=>'rekening.rincianobjek.destroy']);
     
-    
-    
-    // //data master - rekening - sub rincian objek
-    // $router->post('/dmaster/rekening/objek',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\ObjekController@index','as'=>'rekening.objek.index']);    
-    // $router->post('/dmaster/rekening/objek/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ObjekController@store','as'=>'rekening.objek.store']);
-    // $router->put('/dmaster/rekening/objek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ObjekController@update','as'=>'rekening.objek.update']);
-    // $router->delete('/dmaster/rekening/objek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ObjekController@destroy','as'=>'rekening.objek.destroy']);
+    //data master - rekening - sub rincian objek
+    $router->post('/dmaster/rekening/subrincianobjek',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningSubRincianObjekController@index','as'=>'rekening.subrincianobjek.index']);    
+    $router->post('/dmaster/rekening/subrincianobjek/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningSubRincianObjekController@store','as'=>'rekening.subrincianobjek.store']);
+    $router->put('/dmaster/rekening/subrincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningSubRincianObjekController@update','as'=>'rekening.subrincianobjek.update']);
+    $router->delete('/dmaster/rekening/subrincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningSubRincianObjekController@destroy','as'=>'rekening.subrincianobjek.destroy']);
     
     //data master - opd
     $router->post('/dmaster/opd',['uses'=>'DMaster\OrganisasiController@index','as'=>'opd.index']);    

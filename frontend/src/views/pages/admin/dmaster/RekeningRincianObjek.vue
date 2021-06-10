@@ -459,7 +459,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.datatable = data.objek;
+						this.datatable = data.rincianobjek;
 						this.datatableLoading = false;
 					});
 			},

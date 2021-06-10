@@ -4,38 +4,39 @@ namespace App\Http\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\DMaster\RekeningRincianObjekModel;
+use App\Models\DMaster\RekeningSubRincianObjekModel;
 
 use Illuminate\Validation\Rule;
 
 use Ramsey\Uuid\Uuid;
 
-class RekeningRincianObjekController extends Controller {              
+class RekeningSubRincianObjekController extends Controller {              
     /**
-     * get all rincian objek
+     * get all sub rincian objek
      *
      * @return \Illuminate\Http\Response
      */
     public function index (Request $request)
     {
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_BROWSE');
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK_BROWSE');
 
         $this->validate($request, [        
             'TA'=>'required'
         ]);    
         $ta = $request->input('TA');
 
-        $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('
-                                        `tmROby`.`RObyID`,                                        
-                                        `tmROby`.`ObyID`,                                        
-                                        `tmROby`.`Kd_Rek_5`,
-                                        `tmROby`.`RObyNm`,
-                                        CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`) AS `kode_rincian_objek`,
-                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'] \',`ObyNm`) AS `nama_rek4`,
+        $subrincianobjek=RekeningSubRincianObjekModel::select(\DB::raw('
+                                        `tmSubROby`.`SubRObyID`,                                        
+                                        `tmSubROby`.`RObyID`,                                        
+                                        `tmSubROby`.`Kd_Rek_6`,
+                                        `tmSubROby`.`SubRObyNm`,
+                                        CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\',`Kd_Rek_6`) AS `kode_sub_rincian_objek`,
                                         CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'] \',`RObyNm`) AS `nama_rek5`,
-                                        `tmROby`.`Descr`,
-                                        `tmROby`.`TA`
+                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\',`Kd_Rek_6`,\'] \',`SubRObyNm`) AS `nama_rek6`,
+                                        `tmSubROby`.`Descr`,
+                                        `tmSubROby`.`TA`
                                     '))
+                                    ->join('tmROby','tmROby.RObyID','tmSubROby.RObyID')
                                     ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
                                     ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                                     ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
@@ -46,13 +47,14 @@ class RekeningRincianObjekController extends Controller {
                                     ->orderBy('Kd_Rek_3','ASC')
                                     ->orderBy('Kd_Rek_4','ASC')
                                     ->orderBy('Kd_Rek_5','ASC')
+                                    ->orderBy('Kd_Rek_6','ASC')
                                     ->get();
 
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',
-                                    'rincianobjek'=>$rincianobjek,
-                                    'message'=>'Fetch data rincian objek berhasil.'
+                                    'subrincianobjek'=>$subrincianobjek,
+                                    'message'=>'Fetch data sub rincian objek berhasil.'
                                 ],200);
     }
     /**
@@ -63,28 +65,28 @@ class RekeningRincianObjekController extends Controller {
      */
     public function store(Request $request)
     {       
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_STORE');
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK_STORE');
 
         $this->validate($request, [
-            'ObyID'=>'required|exists:tmOby,ObyID',
-            'Kd_Rek_5'=> [
-                        Rule::unique('tmROby')->where(function($query) use ($request){
-                            return $query->where('ObyID',$request->input('ObyID'))
+            'RObyID'=>'required|exists:tmROby,RObyID',
+            'Kd_Rek_6'=> [
+                        Rule::unique('tmSubROby')->where(function($query) use ($request){
+                            return $query->where('RObyID',$request->input('RObyID'))
                                         ->where('TA',$request->input('TA'));
                         }),
                         'required',
                         'regex:/^[0-9]+$/'],
-            'RObyNm'=>'required',
+            'SubRObyNm'=>'required',
             'TA'=>'required'
         ]);     
             
         $ta = $request->input('TA');
         
-        $rincianobjek = RekeningRincianObjekModel::create([
-            'RObyID' => Uuid::uuid4()->toString(),
-            'ObyID' => $request->input('ObyID'),
-            'Kd_Rek_5' => $request->input('Kd_Rek_5'),
-            'RObyNm' => $request->input('RObyNm'),
+        $subrincianobjek = RekeningSubRincianObjekModel::create([
+            'SubRObyID' => Uuid::uuid4()->toString(),
+            'RObyID' => $request->input('RObyID'),
+            'Kd_Rek_6' => $request->input('Kd_Rek_6'),
+            'SubRObyNm' => $request->input('SubRObyNm'),
             'Descr' => $request->input('Descr'),
             'TA'=>$ta,
         ]);
@@ -92,7 +94,7 @@ class RekeningRincianObjekController extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'objek'=>$rincianobjek,                                    
+                                    'subrincianobjek'=>$subrincianobjek,                                    
                                     'message'=>'Data Rekening Rincian Objek berhasil disimpan.'
                                 ],200); 
     }               
@@ -105,11 +107,11 @@ class RekeningRincianObjekController extends Controller {
      */
     public function update(Request $request,$id)
     {        
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_UPDATE');
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK_UPDATE');
 
-        $rincianobjek = RekeningRincianObjekModel::find($id);
+        $subrincianobjek = RekeningSubRincianObjekModel::find($id);
         
-        if (is_null($rincianobjek))
+        if (is_null($subrincianobjek))
         {
             return Response()->json([
                                     'status'=>0,
@@ -120,40 +122,40 @@ class RekeningRincianObjekController extends Controller {
         else
         {
             $this->validate($request, [    
-                                        'ObyID'=>'required|exists:tmOby,ObyID',
-                                        'Kd_Rek_5'=>[
-                                                    Rule::unique('tmROby')->where(function($query) use ($request,$rincianobjek) {  
-                                                        if ($request->input('Kd_Rek_5')==$rincianobjek->Kd_Rek_5) 
+                                        'RObyID'=>'required|exists:tmROby,RObyID',
+                                        'Kd_Rek_6'=>[
+                                                    Rule::unique('tmSubROby')->where(function($query) use ($request,$subrincianobjek) {  
+                                                        if ($request->input('Kd_Rek_6')==$subrincianobjek->Kd_Rek_6) 
                                                         {
-                                                            return $query->where('ObyID',$request->input('ObyID'))
-                                                                        ->where('Kd_Rek_5','ignore')
-                                                                        ->where('TA',$rincianobjek->TA);
+                                                            return $query->where('RObyID',$request->input('RObyID'))
+                                                                        ->where('Kd_Rek_6','ignore')
+                                                                        ->where('TA',$subrincianobjek->TA);
                                                         }                 
                                                         else
                                                         {
-                                                            return $query->where('Kd_Rek_5',$request->input('Kd_Rek_5'))
-                                                                    ->where('ObyID',$request->input('ObyID'))
-                                                                    ->where('TA',$rincianobjek->TA);
+                                                            return $query->where('Kd_Rek_6',$request->input('Kd_Rek_6'))
+                                                                    ->where('RObyID',$request->input('RObyID'))
+                                                                    ->where('TA',$subrincianobjek->TA);
                                                         }                                                                                    
                                                     }),
                                                     'required',
                                                     'regex:/^[0-9]+$/'
                                                 ],
-                                        'RObyNm'=>'required',
+                                        'SubRObyNm'=>'required',
                                     ]);
             
             
-            $rincianobjek->ObyID = $request->input('ObyID');
-            $rincianobjek->Kd_Rek_5 = $request->input('Kd_Rek_5');
-            $rincianobjek->RObyNm = $request->input('RObyNm');
-            $rincianobjek->Descr = $request->input('Descr');
-            $rincianobjek->save();
+            $subrincianobjek->RObyID = $request->input('RObyID');
+            $subrincianobjek->Kd_Rek_6 = $request->input('Kd_Rek_6');
+            $subrincianobjek->SubRObyNm = $request->input('SubRObyNm');
+            $subrincianobjek->Descr = $request->input('Descr');
+            $subrincianobjek->save();
 
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
-                                    'objek'=>$rincianobjek,                                    
-                                    'message'=>'Data Rekening Rincian Objek '.$rincianobjek->RObyNm.' berhasil diubah.'
+                                    'subrincianobjek'=>$subrincianobjek,                                    
+                                    'message'=>'Data Rekening Rincian Objek '.$subrincianobjek->SubRObyNm.' berhasil diubah.'
                                 ],200);
         }
         
@@ -166,11 +168,11 @@ class RekeningRincianObjekController extends Controller {
      */
     public function destroy(Request $request,$id)
     {   
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_DESTROY');
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK_DESTROY');
 
-        $rincianobjek = RekeningRincianObjekModel::find($id);
+        $subrincianobjek = RekeningSubRincianObjekModel::find($id);
 
-        if (is_null($rincianobjek))
+        if (is_null($subrincianobjek))
         {
             return Response()->json([
                                     'status'=>0,
@@ -181,7 +183,7 @@ class RekeningRincianObjekController extends Controller {
         else
         {
             
-            $result=$rincianobjek->delete();
+            $result=$subrincianobjek->delete();
 
             return Response()->json([
                                     'status'=>1,
