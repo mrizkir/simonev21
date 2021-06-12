@@ -200,7 +200,7 @@
 										v-on="on"
 										color="red"
 										:loading="btnLoading"
-										:disabled="btnLoading || item.Locked"
+										:disabled="btnLoading || item.Locked == 1"
 										@click.stop="deleteItem(item)"
 									>
 										mdi-delete
