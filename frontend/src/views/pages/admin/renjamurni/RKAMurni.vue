@@ -629,8 +629,7 @@
 				this.dialogfrm = false;
 				setTimeout(() => {
 					this.formdata = Object.assign({}, this.formdefault);
-					this.editedIndex = -1;
-					this.$refs.frmdata.reset();
+					this.editedIndex = -1;					
 				}, 300);
 			},
 		},
@@ -666,6 +665,12 @@
 				page.SOrgID_Selected = val;
 				this.$store.dispatch("uiadmin/updatePage", page);
 				this.loaddatakegiatan();
+			},
+			formdata_PrgID(val) {
+				console.log(val);
+			},
+			formdata_KgtID(val) {
+				console.log(val);
 			},
 		},
 		components: {
