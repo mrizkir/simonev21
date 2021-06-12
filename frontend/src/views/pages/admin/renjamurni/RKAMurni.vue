@@ -86,6 +86,78 @@
 								<v-toolbar-title>DAFTAR KEGIATAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="addItem"
+											:disabled="btnLoading || !(SOrgID_Selected.length > 0)"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>TAMBAH RKA</span>
+								</v-tooltip>
+								<v-dialog v-model="dialogfrm" max-width="800px" persistent v-if="dialogfrm">
+									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
+										<v-card>
+											<v-card-title>
+												<span class="headline">
+													TAMBAH KEGIATAN
+												</span>
+											</v-card-title>
+											<v-card-subtitle>												
+												{{ DataUnitKerja.kode_sub_organisasi }} / {{ DataUnitKerja.Nm_Sub_Organisasi }}												
+											</v-card-subtitle>											
+											<v-card-text>
+												<v-autocomplete
+													:items="daftar_program"
+													v-model="formdata_PrgID"
+													label="PROGRAM"
+													item-text="nama_program"
+													item-value="PrgID"
+													filled
+													outlined
+												>
+												</v-autocomplete>
+												<v-autocomplete
+													:items="daftar_kegiatan"
+													v-model="formdata_KgtID"
+													label="KEGIATAN"
+													item-text="nama_kegiatan"
+													item-value="KgtID"
+													filled
+													outlined
+												>
+												</v-autocomplete>
+											</v-card-text>
+											<v-card-actions>
+												<v-spacer></v-spacer>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="closedialogfrm"
+												>
+													TUTUP
+												</v-btn>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="save"
+													:disabled="!form_valid || btnLoading"
+												>
+													SIMPAN
+												</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-form>
+								</v-dialog>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
@@ -312,6 +384,20 @@
 				//Organisasi
 				DataOPD: null,
 				DataUnitKerja: null,
+				//dialog
+				dialogfrm: false,
+				//form data
+				form_valid: true,
+				daftar_program: [],
+				daftar_kegiatan: [],
+				formdata_PrgID: null,
+				formdata_KgtID: null,
+				formdata: {
+					RKAID: "",
+				},
+				formdefault: {
+					RKAID: "",
+				},
 			};
 		},
 		methods: {
@@ -458,6 +544,28 @@
 						this.footersummary();
 					});
 			},
+			async addItem() {
+				await this.$ajax
+					.post(
+						"/dmaster/kodefikasi/program/rka",
+						{
+							TA: this.$store.getters["auth/TahunSelected"],
+							BidangID_1: this.DataOPD.BidangID_1,
+							BidangID_2: this.DataOPD.BidangID_2,
+							BidangID_3: this.DataOPD.BidangID_3,
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_program = data.programrka;
+						this.dialogfrm = true;
+					});
+				
+			},
 			viewUraian(item) {
 				var page = this.$store.getters["uiadmin/Page"]("rkamurni");
 				if (page.datakegiatan.RKAID == "") {
@@ -515,6 +623,15 @@
 								});
 						}
 					});
+			},
+			closedialogfrm() {
+				this.btnLoading = false;
+				this.dialogfrm = false;
+				setTimeout(() => {
+					this.formdata = Object.assign({}, this.formdefault);
+					this.editedIndex = -1;
+					this.$refs.frmdata.reset();
+				}, 300);
 			},
 		},
 		computed: {

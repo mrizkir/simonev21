@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 
 class KodefikasiProgramController extends Controller {              
     /**
-     * get all kodefikasi urusan
+     * get all kodefikasi program
      *
      * @return \Illuminate\Http\Response
      */
@@ -67,6 +67,60 @@ class KodefikasiProgramController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',
                                     'kodefikasiprogram'=>$kodefikasiprogram,
+                                    'message'=>'Fetch data kodefikasi urusan berhasil.'
+                                ],200);
+    }
+    /**
+     * get all kodefikasi program
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function rka (Request $request)
+    {
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
+
+        $this->validate($request, [        
+            'TA'=>'required',
+            'BidangID_1'=>'required',
+        ]);    
+        $ta = $request->input('TA');
+        $BidangID_1=$request->input('BidangID_1');
+        $BidangID_2=$request->input('BidangID_2');
+        $BidangID_3=$request->input('BidangID_3');
+
+        $program = KodefikasiProgramModel::select(\DB::raw('
+                                `PrgID`,
+                                CONCAT("[X.XX.",`Kd_Program`,"] ",`Nm_Program`) AS nama_program	
+                            '))
+                            ->where('TA',$ta)
+                            ->where('Jns',0)
+                            ->orderBy('Kd_Program','ASC')                                    
+                            ->get();
+
+        $kodefikasiprogram=KodefikasiProgramModel::select(\DB::raw('
+                                        `tmProgram`.`PrgID`,
+	                                    CONCAT("[",D.Kd_Urusan,".",C.Kd_Bidang,".",tmProgram.Kd_Program,"] ",tmProgram.Nm_Program) AS nama_program	
+                                    '))
+                                    ->join('tmUrusanProgram AS B','tmProgram.PrgID','B.PrgID')
+                                    ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
+                                    ->join('tmUrusan AS D','D.UrsID','D.UrsID')                                    
+                                    ->where('tmProgram.TA',$ta)
+                                    ->where('B.BidangID',$BidangID_1)
+                                    ->orWhere('B.BidangID',$BidangID_2)
+                                    ->orWhere('B.BidangID',$BidangID_3)
+                                    ->orderBy('D.Kd_Urusan','ASC')                                    
+                                    ->orderBy('C.Kd_Bidang','ASC')                                    
+                                    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+                                    ->get();
+
+        foreach ($kodefikasiprogram as $item)
+        {
+            $program->add($item);
+        }
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'programrka'=>$program,
                                     'message'=>'Fetch data kodefikasi urusan berhasil.'
                                 ],200);
     }
