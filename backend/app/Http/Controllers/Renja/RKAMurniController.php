@@ -1105,36 +1105,36 @@ class RKAMurniController extends Controller
 
         if ($mode == 'targetfisik')
         {
-            $data = \DB::table('v_rencana_fisik_anggaran_kas')
-                    ->select(\DB::raw('
-                        fisik1
-                    '))
-                    ->where('RKARincID',$RKARincID)
-                    ->get();
+            $data = \DB::table('trRKATargetRinc')
+                        ->select(\DB::raw('
+                            JSON_OBJECTAGG(CONCAT(\'fisik_\',bulan1),fisik1) AS fisik1
+                        '))
+                        ->where('RKARincID',$RKARincID)
+                        ->get();                    
             $target=isset($data[0]) ? json_decode($data[0]->fisik1, true) : [];
         }
         else if ($mode == 'targetanggarankas')
-        {
-            $data = \DB::table('v_rencana_fisik_anggaran_kas')
+        {            
+            $data = \DB::table('trRKATargetRinc')
                     ->select(\DB::raw('
-                        anggaran1                        
+                        JSON_OBJECTAGG(CONCAT(\'anggaran_\',bulan1),target1) AS anggaran1
                     '))
                     ->where('RKARincID',$RKARincID)
-                    ->get();
-            
+                    ->get();      
+
             $target=isset($data[0]) ? json_decode($data[0]->anggaran1, true) : [];
         }
         else if ($mode == 'bulan' && $request->has('bulan1'))
         {
             $bulan1 = $request->input('bulan1');
             
-            $data = \DB::table('v_rencana_fisik_anggaran_kas')
-                    ->select(\DB::raw("
-                        fisik1,
-                        anggaran1
-                    "))
+            $data = \DB::table('trRKATargetRinc')
+                    ->select(\DB::raw('
+                        JSON_OBJECTAGG(CONCAT(\'fisik_\',bulan1),fisik1) AS fisik1,
+                        JSON_OBJECTAGG(CONCAT(\'anggaran_\',bulan1),target1) AS anggaran1
+                    '))
                     ->where('RKARincID',$RKARincID)
-                    ->get();
+                    ->get();                  
 
             $target = ['fisik'=>0,'anggaran'=>0];
             if (isset($data[0]))
