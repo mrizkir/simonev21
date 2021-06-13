@@ -683,8 +683,16 @@
 			closedialogfrm() {
 				this.btnLoading = false;
 				setTimeout(() => {					
-					this.editedIndex = -1;
-					this.dialogfrm = false;					
+					this.daftar_program = [];
+					this.formdata_PrgID = null;
+
+					this.daftar_kegiatan = [];
+					this.formdata_KgtID = null;
+					
+					this.daftar_sub_kegiatan = [];
+					this.formdata_SubKgtID = null;
+
+					this.dialogfrm = false;
 				}, 300);
 			},
 		},
@@ -722,6 +730,15 @@
 				this.loaddatakegiatan();
 			},
 			formdata_BidangID(val) {
+				this.daftar_program = [];
+				this.formdata_PrgID = null;
+
+				this.daftar_kegiatan = [];
+				this.formdata_KgtID = null;
+				
+				this.daftar_sub_kegiatan = [];
+				this.formdata_SubKgtID = null;
+				
 				this.$ajax
 					.post(
 						"/dmaster/kodefikasi/bidangurusan/" + val + "/program",
@@ -740,6 +757,12 @@
 					});
 			},
 			formdata_PrgID(val) {
+				this.daftar_kegiatan = [];
+				this.formdata_KgtID = null;
+				
+				this.daftar_sub_kegiatan = [];
+				this.formdata_SubKgtID = null;
+
 				this.$ajax
 					.get(
 						"/dmaster/kodefikasi/program/" + val + "/kegiatan",
@@ -753,7 +776,10 @@
 						this.daftar_kegiatan = data.programkegiatan;
 					});
 			},
-			formdata_KgtID(val) {
+			formdata_KgtID(val) {				
+				this.daftar_sub_kegiatan = [];
+				this.formdata_SubKgtID = null;
+				
 				this.$ajax
 					.post(
 						"/dmaster/kodefikasi/kegiatan/" + val + "/subkegiatanrka",

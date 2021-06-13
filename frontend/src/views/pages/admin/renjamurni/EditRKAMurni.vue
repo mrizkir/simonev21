@@ -25,7 +25,7 @@
 				<v-col cols="12">
 					<v-bottom-navigation color="purple lighten-1">
 						<v-btn
-							:to="{ path: '/renja/rka/uraian/' + datakegiatan.RKAID }"
+							:to="{ path: '/renjamurni/rka/uraian/' + datakegiatan.RKAID }"
 						>
 							<span>Keluar</span>
 							<v-icon>mdi-close</v-icon>
