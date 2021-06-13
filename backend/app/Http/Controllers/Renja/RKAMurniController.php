@@ -7,10 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\DMaster\SIPDModel;
+use App\Models\DMaster\KodefikasiSubKegiatanModel;
 use App\Models\Renja\RKAModel;
 use App\Models\Renja\RKARincianModel;
 use App\Models\Renja\RKARencanaTargetModel;
 use App\Models\Renja\RKARealisasiModel;
+
+use Ramsey\Uuid\Uuid;
+use Illuminate\Validation\Rule;
 
 class RKAMurniController extends Controller 
 {
@@ -478,7 +482,11 @@ class RKAMurniController extends Controller
         $this->validate($request, [
             'OrgID'=>'required|exists:tmOrg,OrgID',
             'SOrgID'=>'required|exists:tmSOrg,SOrgID',
-            'SubKgtID'=>'required|exists:tmSubKegiatan,SubKgtID',
+            'SubKgtID'=> [
+                'required',                
+                'exists:tmSubKegiatan,SubKgtID',
+                'unique:trRKA,SubKgtID'
+            ]
         ]);     
             
         $SubKgtID = $request->input('SubKgtID');
@@ -495,7 +503,7 @@ class RKAMurniController extends Controller
                                           ELSE
                                             CONCAT('X.','XX.')
                                       END AS kode_bidang,                                      
-                                      `tmBidangUrusan`.`Nm_Bidang_Urusan`,
+                                      `tmBidangUrusan`.`Nm_Bidang`,
                                       CASE 
                                           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
                                             CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
@@ -519,7 +527,7 @@ class RKAMurniController extends Controller
                                       `tmProgram`.`Nm_Program`,
                                       `tmKegiatan`.`Nm_Kegiatan`,
                                       `tmSubKegiatan`.`Nm_SubKegiatan`,
-                                      `tmSubKegiatan`.`TA`,
+                                      `tmSubKegiatan`.`TA`
                                     "))
                                     ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
                                     ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
@@ -533,7 +541,7 @@ class RKAMurniController extends Controller
                                     tmSOrg.kode_sub_organisasi,
                                     tmSOrg.Nm_Sub_Organisasi,
                                     tmOrg.kode_organisasi,
-                                    tmOrg.Nm_Organisasi,
+                                    tmOrg.Nm_Organisasi
                                 '))
                                 ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
                                 ->where('tmSOrg.SOrgID',$request->input('SOrgID'))                                
@@ -549,16 +557,16 @@ class RKAMurniController extends Controller
 
             'kode_urusan' => $kodefikasisubkegiatan->kode_urusan,
             'kode_bidang' => $kodefikasisubkegiatan->kode_bidang,
-            'kode_organisasi' => $kodefikasisubkegiatan->kode_organisasi,
-            'kode_sub_organisasi' => $kodefikasisubkegiatan->kode_sub_organisasi,
+            'kode_organisasi' => $organisasi->kode_organisasi,
+            'kode_sub_organisasi' => $organisasi->kode_sub_organisasi,
             'kode_program' => $kodefikasisubkegiatan->kode_program,
             'kode_kegiatan' => $kodefikasisubkegiatan->kode_kegiatan,
             'kode_sub_kegiatan' => $kodefikasisubkegiatan->kode_sub_kegiatan,
 
             'Nm_Urusan' => $kodefikasisubkegiatan->Nm_Urusan,
-            'Nm_Bidang' => $kodefikasisubkegiatan->Nm_Bidang_Urusan,
-            'Nm_Organisasi' => $$organisasi->Nm_Organisasi,
-            'Nm_Sub_Organisasi' => $$organisasi->Nm_Sub_Organisasi,
+            'Nm_Bidang' => $kodefikasisubkegiatan->Nm_Bidang,
+            'Nm_Organisasi' => $organisasi->Nm_Organisasi,
+            'Nm_Sub_Organisasi' => $organisasi->Nm_Sub_Organisasi,
 
             'Nm_Program' => $kodefikasisubkegiatan->Nm_Program,
             'Nm_Kegiatan' => $kodefikasisubkegiatan->Nm_Kegiatan,
@@ -822,7 +830,7 @@ class RKAMurniController extends Controller
         for ($i=0;$i < 12; $i+=1)
         {
             $data[]=[
-                'RKATargetRincID'=>uniqid ('uid'),
+                'RKATargetRincID'=>Uuid::uuid4()->toString(),
                 'RKAID'=>$request->input('RKAID'),
                 'RKARincID'=>$request->input('RKARincID'),
                 'bulan1'=>$i+1,
@@ -902,7 +910,7 @@ class RKAMurniController extends Controller
         for ($i=0;$i < 12; $i+=1)
         {
             $data[]=[
-                'RKATargetRincID'=>uniqid ('uid'),
+                'RKATargetRincID'=>Uuid::uuid4()->toString(),
                 'RKAID'=>$request->input('RKAID'),
                 'RKARincID'=>$request->input('RKARincID'),
                 'bulan1'=>$i+1,
@@ -983,7 +991,7 @@ class RKAMurniController extends Controller
         ]);
         $RKAID=$request->input('RKAID');
         $realisasi = RKARealisasiModel::create([
-            'RKARealisasiRincID' => uniqid ('uid'),
+            'RKARealisasiRincID' => Uuid::uuid4()->toString(),
             'RKAID' => $RKAID,
             'RKARincID' => $request->input('RKARincID'),            
             'bulan1' => $request->input('bulan1'),

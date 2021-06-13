@@ -260,6 +260,30 @@ class KodefikasiKegiatanController extends Controller {
                                     'message'=>"Fetch data sub kegiatan dari kegiatan $id berhasil."
                                 ],200);   
     }
+    public function updatekodesubkegiatan(Request $request)
+    {
+      $sql = "
+        UPDATE tmKegiatan AS dest,
+          (
+          select 
+            tmKegiatan.`KgtID`, 
+            CASE WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN 
+              CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
+            ELSE 
+              CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
+            END AS kode_kegiatan
+          from `tmKegiatan` 
+          inner join `tmProgram` on `tmKegiatan`.`PrgID` = `tmProgram`.`PrgID` 
+          left join `tmUrusanProgram` on `tmProgram`.`PrgID` = `tmUrusanProgram`.`PrgID` 
+          left join `tmBidangUrusan` on `tmBidangUrusan`.`BidangID` = `tmUrusanProgram`.`BidangID` 
+          left join `tmUrusan` on `tmBidangUrusan`.`UrsID` = `tmUrusan`.`UrsID`
+          ) AS src
+          SET 
+            dest.kode_kegiatan=src.kode_kegiatan
+          WHERE
+            dest.KgtID=src.KgtID    
+      ";
+    }
     /**
      * Remove the specified resource from storage.
      *

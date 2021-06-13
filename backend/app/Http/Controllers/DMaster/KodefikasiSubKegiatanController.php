@@ -213,6 +213,31 @@ class KodefikasiSubKegiatanController extends Controller {
         }
         
     }
+    public function updatekodesubkegiatan(Request $request)
+    {
+      $sql = "
+        UPDATE tmSubKegiatan AS dest,
+        (
+        select 
+          tmSubKegiatan.`SubKgtID`, 
+          CASE WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN 
+            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`) 
+          ELSE 
+            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`) 
+          END AS kode_sub_kegiatan
+        from `tmSubKegiatan` 
+        inner join `tmKegiatan` on `tmKegiatan`.`KgtID` = `tmSubKegiatan`.`KgtID` 
+        inner join `tmProgram` on `tmKegiatan`.`PrgID` = `tmProgram`.`PrgID` 
+        left join `tmUrusanProgram` on `tmProgram`.`PrgID` = `tmUrusanProgram`.`PrgID` 
+        left join `tmBidangUrusan` on `tmBidangUrusan`.`BidangID` = `tmUrusanProgram`.`BidangID` 
+        left join `tmUrusan` on `tmBidangUrusan`.`UrsID` = `tmUrusan`.`UrsID`
+        ) AS src
+        SET 
+          dest.kode_sub_kegiatan=src.kode_sub_kegiatan
+        WHERE
+          dest.SubKgtID=src.SubKgtID
+      ";
+    }
     /**
      * Remove the specified resource from storage.
      *
