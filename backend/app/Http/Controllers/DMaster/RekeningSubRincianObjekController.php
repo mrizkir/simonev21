@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DMaster\RekeningRincianObjekModel;
 use App\Models\DMaster\RekeningSubRincianObjekModel;
 
 use Illuminate\Validation\Rule;
@@ -81,11 +82,23 @@ class RekeningSubRincianObjekController extends Controller {
         ]);     
             
         $ta = $request->input('TA');
-        
+        $RObyID = $request->input('RObyID');
+
+        $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('                                        
+                                        CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\') AS `kode_rincian_objek`                                        
+                                    '))
+                                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                                    ->where('tmROby.RObyID',$RObyID)                                    
+                                    ->first();
+
         $subrincianobjek = RekeningSubRincianObjekModel::create([
             'SubRObyID' => Uuid::uuid4()->toString(),
             'RObyID' => $request->input('RObyID'),
             'Kd_Rek_6' => $request->input('Kd_Rek_6'),
+            'kode_rek_6' => $rincianobjek->kode_rincian_objek.$request->input('Kd_Rek_6'),
             'SubRObyNm' => $request->input('SubRObyNm'),
             'Descr' => $request->input('Descr'),
             'TA'=>$ta,
@@ -144,9 +157,21 @@ class RekeningSubRincianObjekController extends Controller {
                                         'SubRObyNm'=>'required',
                                     ]);
             
-            
+            $RObyID = $request->input('RObyID');
+
+            $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('                                        
+                                            CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\') AS `kode_rincian_objek`                                        
+                                        '))
+                                        ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                                        ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                        ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                                        ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                                        ->where('tmROby.RObyID',$RObyID)                                    
+                                        ->first();
+                                        
             $subrincianobjek->RObyID = $request->input('RObyID');
             $subrincianobjek->Kd_Rek_6 = $request->input('Kd_Rek_6');
+            $subrincianobjek->kode_rek_6 = $rincianobjek->kode_rincian_objek.$request->input('Kd_Rek_6');
             $subrincianobjek->SubRObyNm = $request->input('SubRObyNm');
             $subrincianobjek->Descr = $request->input('Descr');
             $subrincianobjek->save();

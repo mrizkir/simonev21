@@ -24,7 +24,7 @@ class RekeningSubRincianObjekModel extends Model
      * @var array
      */
     protected $fillable = [
-        'SubRObyID', 'RObyID', 'Kd_Rek_6', 'SubRObyNm', 'Descr', 'TA', 'SubRObyID_Src'
+        'SubRObyID', 'RObyID', 'Kd_Rek_6', 'kode_rek_6','SubRObyNm', 'Descr', 'TA', 'SubRObyID_Src'
     ];
     /**
      * enable auto_increment.

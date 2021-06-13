@@ -17,6 +17,7 @@ class CreateRekeningsubrincianobyekTable extends Migration
             $table->uuid('SubRObyID');
             $table->uuid('RObyID');            
             $table->string('Kd_Rek_6',4);
+            $table->string('kode_rek_6');
             $table->string('SubRObyNm');
             $table->string('Descr')->nullable();
             $table->year('TA');
@@ -25,6 +26,7 @@ class CreateRekeningsubrincianobyekTable extends Migration
 
             $table->primary('SubRObyID');
             $table->index('RObyID');
+            $table->index('kode_rek_6');
 
             $table->foreign('RObyID')
                             ->references('RObyID')

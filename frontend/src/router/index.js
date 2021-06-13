@@ -282,6 +282,16 @@ const routes = [
 			import("../views/pages/admin/renjamurni/UraianRKAMurni.vue"),
 	},
 	{
+		path: "/renjamurni/rka/uraian/:rkaid/add",
+		name: "RenjaMurniUraianRKA",
+		meta: {
+			title: "RKA MURNI - URAIAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjamurni/AddUraianRKAMurni.vue"),
+	},
+	{
 		path: "/renjamurni/rka/uraian/:rkarincid/edit",
 		name: "BelanjaEditUraianRKAMurni",
 		meta: {

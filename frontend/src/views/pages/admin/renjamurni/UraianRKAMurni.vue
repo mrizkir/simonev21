@@ -600,6 +600,23 @@
 								<v-toolbar-title>DAFTAR URAIAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="$router.push('/renjamurni/rka/uraian/' + RKAID + '/add')"											
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>TAMBAH URAIAN RKA</span>
+								</v-tooltip>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
