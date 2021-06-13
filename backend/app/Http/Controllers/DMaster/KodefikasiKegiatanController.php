@@ -4,7 +4,9 @@ namespace App\Http\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DMaster\KodefikasiProgramModel;
 use App\Models\DMaster\KodefikasiKegiatanModel;
+use App\Models\DMaster\KodefikasiSubKegiatanModel;
 
 use Illuminate\Validation\Rule;
 
@@ -48,9 +50,9 @@ class KodefikasiKegiatanController extends Controller {
                                           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
                                             CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
                                           ELSE
-                                            CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+                                            CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
                                       END AS nama_kegiatan,
-                                      COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA BIDANG URUSAN') AS Nm_Urusan,
+                                      COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
                                       COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
                                       tmProgram.`Nm_Program`,
                                       tmKegiatan.`Nm_Kegiatan`,
@@ -98,10 +100,27 @@ class KodefikasiKegiatanController extends Controller {
             
         $ta = $request->input('TA');
         
+        $PrgID = $request->input('PrgID');
+
+        $program = KodefikasiProgramModel::select(\DB::raw("                                      
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.')
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.')
+                                      END AS kode_program                                      
+                                    "))                                    
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+                                    ->where('tmProgram.PrgID',$PrgID)
+                                    ->first();
+
         $kodefikasikegiatan = KodefikasiKegiatanModel::create([
             'KgtID' => Uuid::uuid4()->toString(),            
             'PrgID' => $request->input('PrgID'),            
             'Kd_Kegiatan' => $request->input('Kd_Kegiatan'),
+            'kode_kegiatan' => $program->kode_program.$request->input('Kd_Kegiatan'),
             'Nm_Kegiatan' => strtoupper($request->input('Nm_Kegiatan')),
             'Descr' => $request->input('Descr'),
             'TA'=>$ta,
@@ -158,8 +177,24 @@ class KodefikasiKegiatanController extends Controller {
                                         'Nm_Kegiatan'=>'required',
                                     ]);
             
-            
+        $PrgID = $request->input('PrgID');
+
+        $program = KodefikasiProgramModel::select(\DB::raw("                                      
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.')
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.')
+                                      END AS kode_program                                      
+                                    "))                                    
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+                                    ->where('tmProgram.PrgID',$PrgID)
+                                    ->first();
+
             $kodefikasikegiatan->Kd_Kegiatan = $request->input('Kd_Kegiatan');
+            $kodefikasikegiatan->kode_kegiatan = $program->kode_program.$request->input('Kd_Kegiatan');
             $kodefikasikegiatan->Nm_Kegiatan = strtoupper($request->input('Nm_Kegiatan'));
             $kodefikasikegiatan->Descr = $request->input('Descr');
             $kodefikasikegiatan->save();
@@ -172,6 +207,58 @@ class KodefikasiKegiatanController extends Controller {
                                 ],200);
         }
         
+    }
+    /**
+     * digunakan untuk mendapatkan daftar kegiatan dari sebuah program
+     */
+    public function subkegiatanrka(Request $request, $id)
+    {       
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_BROWSE');
+
+        $this->validate($request, [            
+            'SOrgID'=>'required|exists:tmSOrg,SOrgID',            
+        ]);   
+        $SOrgID = $request->input('SOrgID');
+
+        $kodefikasisubkegiatan=KodefikasiSubKegiatanModel::select(\DB::raw("
+                                      tmSubKegiatan.`SubKgtID`,
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+                                      END AS kode_sub_kegiatan,
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT('[', tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
+                                          ELSE
+                                            CONCAT('[', 'X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
+                                      END AS nama_sub_kegiatan
+                                    "))
+                                    ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
+                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
+                                    ->where('tmSubKegiatan.KgtID',$id)
+                                    ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID){
+                                        $query->select('kode_sub_kegiatan')
+                                            ->from('trRKA')
+                                            ->where('SOrgID',$SOrgID);
+                                    })
+                                    ->orderBy('tmSubKegiatan.Kd_SubKegiatan','ASC')                                    
+                                    ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
+                                    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+                                    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
+                                    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
+                                    ->get();
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'subkegiatanrka'=>$kodefikasisubkegiatan,
+                                    'message'=>"Fetch data sub kegiatan dari kegiatan $id berhasil."
+                                ],200);   
     }
     /**
      * Remove the specified resource from storage.

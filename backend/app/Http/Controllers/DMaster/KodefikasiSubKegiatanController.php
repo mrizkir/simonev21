@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DMaster\KodefikasiKegiatanModel;
 use App\Models\DMaster\KodefikasiSubKegiatanModel;
 
 use Illuminate\Validation\Rule;
@@ -44,7 +45,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
                                             CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
                                           ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,`tmKegiatan`.`Kd_Kegiatan`)
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
                                       END AS kode_kegiatan,
                                       CASE 
                                           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
@@ -52,7 +53,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                           ELSE
                                             CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
                                       END AS kode_sub_kegiatan,
-                                      COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA BIDANG URUSAN') AS Nm_Urusan,
+                                      COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
                                       COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
                                       `tmProgram`.`Nm_Program`,
                                       `tmKegiatan`.`Nm_Kegiatan`,
@@ -102,10 +103,28 @@ class KodefikasiSubKegiatanController extends Controller {
             
         $ta = $request->input('TA');
         
+        $KgtID = $request->input('KgtID');
+
+        $kegiatan = KodefikasiKegiatanModel::select(\DB::raw("                                      
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+                                      END AS kode_kegiatan                                      
+                                    "))
+                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+                                    ->where('tmKegiatan.KgtID',$KgtID)
+                                    ->first();
+
         $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::create([
             'SubKgtID' => Uuid::uuid4()->toString(),            
             'KgtID' => $request->input('KgtID'),            
             'Kd_SubKegiatan' => $request->input('Kd_SubKegiatan'),
+            'kode_sub_kegiatan' => $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'),
             'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
             'Descr' => $request->input('Descr'),
             'TA'=>$ta,
@@ -162,8 +181,25 @@ class KodefikasiSubKegiatanController extends Controller {
                                         'Nm_SubKegiatan'=>'required',
                                     ]);
             
-            
+            $KgtID = $request->input('KgtID');
+
+            $kegiatan = KodefikasiKegiatanModel::select(\DB::raw("                                      
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+                                      END AS kode_kegiatan                                      
+                                    "))
+                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+                                    ->where('tmKegiatan.KgtID',$KgtID)
+                                    ->first();
+
             $kodefikasisubkegiatan->Kd_SubKegiatan = $request->input('Kd_SubKegiatan');
+            $kodefikasisubkegiatan->kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan');
             $kodefikasisubkegiatan->Nm_SubKegiatan = strtoupper($request->input('Nm_SubKegiatan'));
             $kodefikasisubkegiatan->Descr = $request->input('Descr');
             $kodefikasisubkegiatan->save();

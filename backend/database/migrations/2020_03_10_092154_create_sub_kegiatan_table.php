@@ -15,6 +15,7 @@ class CreateSubKegiatanTable extends Migration
             $table->uuid('SubKgtID');
             $table->uuid('KgtID');
             $table->string('Kd_SubKegiatan',5);
+            $table->string('kode_sub_kegiatan');
             $table->string('Nm_SubKegiatan');
             $table->string('Descr')->nullable();
             $table->year('TA');           
@@ -23,6 +24,7 @@ class CreateSubKegiatanTable extends Migration
             
             $table->primary('SubKgtID');
             $table->index('KgtID');
+            $table->index('kode_sub_kegiatan');
             $table->index('SubKgtID_Src');
 
             $table->foreign('KgtID')

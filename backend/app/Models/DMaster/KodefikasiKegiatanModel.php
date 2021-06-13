@@ -27,6 +27,7 @@ class KodefikasiKegiatanModel extends Model
         'KgtID',
         'PrgID',
         'Kd_Kegiatan',
+        'kode_kegiatan',
         'Nm_Kegiatan',        
         'Descr',
         'TA',

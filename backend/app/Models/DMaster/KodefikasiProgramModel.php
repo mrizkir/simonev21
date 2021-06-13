@@ -44,4 +44,9 @@ class KodefikasiProgramModel extends Model
      * @var string
      */
     public $timestamps = true;   
+
+    public function kegiatan() 
+    {
+        return $this->hasMany('App\Models\DMaster\KodefikasiKegiatanModel','PrgID','PrgID');
+    }
 }

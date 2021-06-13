@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\KodefikasiProgramModel;
+use App\Models\DMaster\KodefikasiKegiatanModel;
 use App\Models\DMaster\KodefikasiUrusanProgramModel;
 
 use App\Rules\KodefikasiKodeProgramRule;
@@ -67,7 +68,7 @@ class KodefikasiProgramController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',
                                     'kodefikasiprogram'=>$kodefikasiprogram,
-                                    'message'=>'Fetch data kodefikasi urusan berhasil.'
+                                    'message'=>'Fetch data kodefikasi program berhasil.'
                                 ],200);
     }
     /**
@@ -121,8 +122,42 @@ class KodefikasiProgramController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',
                                     'programrka'=>$program,
-                                    'message'=>'Fetch data kodefikasi urusan berhasil.'
+                                    'message'=>'Fetch data kodefikasi program rka berhasil.'
                                 ],200);
+    }
+    /**
+     * digunakan untuk mendapatkan daftar kegiatan dari sebuah program
+     */
+    public function kegiatan(Request $request, $id)
+    {       
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-KEGIATAN_BROWSE');
+
+        $programkegiatan=KodefikasiKegiatanModel::select(\DB::raw("
+                                      tmKegiatan.`KgtID`,                                      
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+                                          ELSE
+                                            CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+                                      END AS nama_kegiatan
+                                    "))
+                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+                                    ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
+                                    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+                                    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
+                                    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
+                                    ->where('tmKegiatan.PrgID',$id)
+                                    ->get();
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'programkegiatan'=>$programkegiatan,
+                                    'message'=>"Fetch data kegiatan dari program $id berhasil."
+                                ],200);   
     }
     /**
      * Store a newly created resource in storage.

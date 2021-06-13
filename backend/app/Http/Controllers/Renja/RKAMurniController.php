@@ -466,6 +466,118 @@ class RKAMurniController extends Controller
                             ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
     }
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storekegiatan(Request $request)
+    {       
+        $this->hasPermissionTo('RENJA-RKA-MURNI_STORE');
+
+        $this->validate($request, [
+            'OrgID'=>'required|exists:tmOrg,OrgID',
+            'SOrgID'=>'required|exists:tmSOrg,SOrgID',
+            'SubKgtID'=>'required|exists:tmSubKegiatan,SubKgtID',
+        ]);     
+            
+        $SubKgtID = $request->input('SubKgtID');
+        
+        $kodefikasisubkegiatan=KodefikasiSubKegiatanModel::select(\DB::raw("
+                                      tmSubKegiatan.`SubKgtID`,
+                                      tmKegiatan.`KgtID`,
+                                      tmKegiatan.`PrgID`,                                      
+                                      COALESCE(tmUrusan.`Kd_Urusan`,'X') AS kode_urusan,
+                                      `tmUrusan`.`Nm_Urusan`,
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`)
+                                          ELSE
+                                            CONCAT('X.','XX.')
+                                      END AS kode_bidang,                                      
+                                      `tmBidangUrusan`.`Nm_Bidang_Urusan`,
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+                                      END AS kode_program,
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+                                      END AS kode_kegiatan,
+                                      CASE 
+                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+                                          ELSE
+                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+                                      END AS kode_sub_kegiatan,
+                                      COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
+                                      COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
+                                      `tmProgram`.`Nm_Program`,
+                                      `tmKegiatan`.`Nm_Kegiatan`,
+                                      `tmSubKegiatan`.`Nm_SubKegiatan`,
+                                      `tmSubKegiatan`.`TA`,
+                                    "))
+                                    ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
+                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
+                                    ->where('tmSubKegiatan.SubKgtID',$SubKgtID)
+                                    ->first();
+
+        $organisasi = SubOrganisasiModel::select(\DB::raw('
+                                    tmSOrg.kode_sub_organisasi,
+                                    tmSOrg.Nm_Sub_Organisasi,
+                                    tmOrg.kode_organisasi,
+                                    tmOrg.Nm_Organisasi,
+                                '))
+                                ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
+                                ->where('tmSOrg.SOrgID',$request->input('SOrgID'))                                
+                                ->first();
+                                
+        $rka = RKAModel::create([
+            'RKAID' => Uuid::uuid4()->toString(),
+            'OrgID' => $request->input('OrgID'),
+            'SOrgID' => $request->input('SOrgID'),
+            'PrgID' => $kodefikasisubkegiatan->PrgID,
+            'KgtID' => $kodefikasisubkegiatan->KgtID,
+            'SubKgtID' => $SubKgtID,            
+
+            'kode_urusan' => $kodefikasisubkegiatan->kode_urusan,
+            'kode_bidang' => $kodefikasisubkegiatan->kode_bidang,
+            'kode_organisasi' => $kodefikasisubkegiatan->kode_organisasi,
+            'kode_sub_organisasi' => $kodefikasisubkegiatan->kode_sub_organisasi,
+            'kode_program' => $kodefikasisubkegiatan->kode_program,
+            'kode_kegiatan' => $kodefikasisubkegiatan->kode_kegiatan,
+            'kode_sub_kegiatan' => $kodefikasisubkegiatan->kode_sub_kegiatan,
+
+            'Nm_Urusan' => $kodefikasisubkegiatan->Nm_Urusan,
+            'Nm_Bidang' => $kodefikasisubkegiatan->Nm_Bidang_Urusan,
+            'Nm_Organisasi' => $$organisasi->Nm_Organisasi,
+            'Nm_Sub_Organisasi' => $$organisasi->Nm_Sub_Organisasi,
+
+            'Nm_Program' => $kodefikasisubkegiatan->Nm_Program,
+            'Nm_Kegiatan' => $kodefikasisubkegiatan->Nm_Kegiatan,
+            'Nm_Sub_Kegiatan' => $kodefikasisubkegiatan->Nm_SubKegiatan,
+
+            'user_id' => $this->getUserid(),
+            'EntryLvl' => 1,
+
+            'TA'=>$kodefikasisubkegiatan->TA,
+        ]);
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'store',
+                                    'rka'=>$rka,                                    
+                                    'message'=>'Data RKA berhasil disimpan.'
+                                ],200); 
+    }               
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -15,6 +15,7 @@ class CreateKegiatanTable extends Migration
             $table->uuid('KgtID');
             $table->uuid('PrgID');
             $table->string('Kd_Kegiatan',5);
+            $table->string('kode_kegiatan');
             $table->string('Nm_Kegiatan');
             $table->string('Descr')->nullable();
             $table->year('TA');          
@@ -23,6 +24,7 @@ class CreateKegiatanTable extends Migration
             
             $table->primary('KgtID');
             $table->index('PrgID');
+            $table->index('kode_kegiatan');
             $table->index('KgtID_Src');
 
             $table->foreign('PrgID')
