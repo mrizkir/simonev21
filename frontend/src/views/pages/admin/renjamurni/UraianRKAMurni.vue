@@ -1304,6 +1304,9 @@
 				});
 				return uraian;
 			},
+			PaguUraian() {
+				return this.formdata.volume1 * this.formdata.harga_satuan1;
+			},
 		},
 		watch: {
 			RKARincID_Selected: async function(val) {
@@ -1398,11 +1401,6 @@
 							}
 						});
 				}
-			},
-		},
-		computed: {
-			PaguUraian() {
-				return this.formdata.volume1 * this.formdata.harga_satuan1;
 			},
 		},
 		components: {
