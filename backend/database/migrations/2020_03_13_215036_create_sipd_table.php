@@ -53,9 +53,9 @@ class CreateSipdTable extends Migration
             $table->string('kd_prog_gabungan')->nullable();
             $table->string('nm_program')->nullable();
             $table->string('kd_keg_gabung')->nullable();
-            $table->string('nm_kegiatan')->nullable();
+            $table->text('nm_kegiatan')->nullable();
             $table->string('kd_sub_keg_gabung')->nullable();
-            $table->string('nm_sub_kegiatan')->nullable();
+            $table->text('nm_sub_kegiatan')->nullable();
             
             $table->string('kd_rek1')->nullable();            
             $table->string('kd_rek2')->nullable();            
