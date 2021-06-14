@@ -189,7 +189,7 @@
 										v-bind="attrs"
 										v-on="on"
 										color="primary"
-										class="ma-2"
+										class="ma-1"
 										@click.stop="viewUraian(item)"
 									>
 										mdi-eye
@@ -203,7 +203,7 @@
 										small
 										v-bind="attrs"
 										v-on="on"
-										class="ma-2"
+										class="ma-1"
 										color="warning"
 										:loading="btnLoading"
 										:disabled="item.PaguDana1 > 0 || item.Locked || btnLoading"
