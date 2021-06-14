@@ -47,11 +47,11 @@
 							</v-icon>
 						</v-card-title>
 						<v-card-subtitle>
-							Jumlah Program dan Kegiatan TA
+							Jumlah Program dan Sub Kegiatan TA
 							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>
-							Prog.: {{ statistik1.JumlahProgram1 }} / Keg.:
+							Prog.: {{ statistik1.JumlahProgram1 }} / Sub Keg.:
 							{{ statistik1.JumlahKegiatan1 }}
 						</v-card-text>
 						<v-card-actions>
@@ -212,6 +212,35 @@
 						this.chartLoaded = true;
 					});
 			},
+			async loadstatistik1() {
+				await this.$ajax
+					.post("/renjamurni/reloadstatistik1", {
+						ta: this.tahun_anggaran,
+					},
+					{
+						headers: {
+							Authorization: this.$store.getters["auth/Token"],
+						},
+					})
+					.then(()=>{                 
+						this.$router.go();
+					});     
+        },
+        async loadstatistik2() {
+					await this.$ajax
+						.post("/renjamurni/reloadstatistik2",
+            {
+                ta: this.tahun_anggaran,
+            },
+            {
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+            })
+						.then(()=>{                 
+                this.$router.go();
+            });     
+        }
 		},
 		components: {
 			RenjaMurniLayout,
