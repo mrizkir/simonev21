@@ -177,7 +177,7 @@ class RenjaMurniController extends Controller
         }       
         else if ($this->hasRole('opd'))
         {
-            $daftar_opd=$this->getDaftarOPDUser();
+            $daftar_opd=$this->getUserOrgID();
             $jumlah_opd=count($daftar_opd);
             if ($jumlah_opd > 0)
             {
@@ -394,7 +394,7 @@ class RenjaMurniController extends Controller
         }
         else if ($this->hasRole('opd'))
         {
-            $daftar_opd=$this->getDaftarOPDUser();
+            $daftar_opd=$this->getUserOrgID();
             $jumlah_opd=count($daftar_opd);
             if ($jumlah_opd > 0)
             {
@@ -458,7 +458,7 @@ class RenjaMurniController extends Controller
         }
         else
         {
-            $daftar_opd=$this->getDaftarOPDUser();
+            $daftar_opd=$this->getUserOrgID();
             $jumlah_opd=count($daftar_opd);
             if ($jumlah_opd > 0)
             {

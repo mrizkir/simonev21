@@ -99,4 +99,18 @@ class Controller extends BaseController
                                     'message'=>'Fetch permission role '.$user->username.' berhasil diperoleh.'
                                 ],200); 
     }
+    /**
+     * @return boolean roles of user in array
+     */
+    public function getUserOrgID() 
+    {
+        $user=$this->guard()->user();
+        $opd=$user->opd;
+        $daftar_opd = [];
+        foreach($opd as $items) 
+        {
+            $daftar_opd[] = $items->OrgID;
+        }
+        return $daftar_opd;
+    }
 }
