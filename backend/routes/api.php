@@ -74,30 +74,35 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //data master - rekening - akun
     $router->post('/dmaster/rekening/akun',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningAkunController@index','as'=>'rekening.akun.index']);    
     $router->post('/dmaster/rekening/akun/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningAkunController@store','as'=>'rekening.akun.store']);
+    $router->get('/dmaster/rekening/akun/{id}/kelompok',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningAkunController@kelompok','as'=>'rekening.akun.kelompok']);
     $router->put('/dmaster/rekening/akun/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningAkunController@update','as'=>'rekening.akun.update']);
     $router->delete('/dmaster/rekening/akun/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningAkunController@destroy','as'=>'rekening.akun.destroy']);    
 
     //data master - rekening - kelompok
     $router->post('/dmaster/rekening/kelompok',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningKelompokController@index','as'=>'rekening.kelompok.index']);    
     $router->post('/dmaster/rekening/kelompok/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningKelompokController@store','as'=>'rekening.kelompok.store']);
+    $router->get('/dmaster/rekening/kelompok/{id}/jenis',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningKelompokController@jenis','as'=>'rekening.kelompok.jenis']);
     $router->put('/dmaster/rekening/kelompok/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningKelompokController@update','as'=>'rekening.kelompok.update']);
     $router->delete('/dmaster/rekening/kelompok/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningKelompokController@destroy','as'=>'rekening.kelompok.destroy']);
     
     //data master - rekening - jenis
     $router->post('/dmaster/rekening/jenis',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningJenisController@index','as'=>'rekening.jenis.index']);    
     $router->post('/dmaster/rekening/jenis/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningJenisController@store','as'=>'rekening.jenis.store']);
+    $router->get('/dmaster/rekening/jenis/{id}/objekrka',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningJenisController@objekrka','as'=>'rekening.jenis.objekrka']);
     $router->put('/dmaster/rekening/jenis/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningJenisController@update','as'=>'rekening.jenis.update']);
     $router->delete('/dmaster/rekening/jenis/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningJenisController@destroy','as'=>'rekening.jenis.destroy']);
     
     //data master - rekening - objek
     $router->post('/dmaster/rekening/objek',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningObjekController@index','as'=>'rekening.objek.index']);    
     $router->post('/dmaster/rekening/objek/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningObjekController@store','as'=>'rekening.objek.store']);
+    $router->get('/dmaster/rekening/objek/{id}/rincianobjekrka',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningObjekController@rincianobjekrka','as'=>'rekening.objek.rincianobjekrka']);
     $router->put('/dmaster/rekening/objek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningObjekController@update','as'=>'rekening.objek.update']);
     $router->delete('/dmaster/rekening/objek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningObjekController@destroy','as'=>'rekening.objek.destroy']);
 
     //data master - rekening - rincian objek
     $router->post('/dmaster/rekening/rincianobjek',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningRincianObjekController@index','as'=>'rekening.rincianobjek.index']);    
     $router->post('/dmaster/rekening/rincianobjek/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@store','as'=>'rekening.rincianobjek.store']);
+    $router->get('/dmaster/rekening/rincianobjek/{id}/subrincianobjekrka',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\RekeningRincianObjekController@subrincianobjekrka','as'=>'rekening.rincianobjek.subrincianobjekrka']);
     $router->put('/dmaster/rekening/rincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@update','as'=>'rekening.rincianobjek.update']);
     $router->delete('/dmaster/rekening/rincianobjek/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\RekeningRincianObjekController@destroy','as'=>'rekening.rincianobjek.destroy']);
     
@@ -172,6 +177,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/renja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@show','as'=>'rkamurni.show']);    
     $router->post('/renja/rkamurni/storekegiatan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@storekegiatan','as'=>'rkamurni.storekegiatan']);   
     $router->put('/renja/rkamurni/updatekegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatekegiatan','as'=>'rkamurni.updatekegiatan']);   
+    $router->post('/renja/rkamurni/storeuraian',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@storeuraian','as'=>'rkamurni.storeuraian']);   
     $router->put('/renja/rkamurni/updateuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updateuraian','as'=>'rkamurni.updateuraian']);   
     $router->put('/renja/rkamurni/updatedetailuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatedetailuraian','as'=>'rkamurni.updatedetailuraian']);   
     $router->post('/renja/rkamurni/rencanatarget',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@rencanatarget','as'=>'rkamurni.rencanatarget']);        

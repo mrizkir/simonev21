@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\RekeningRincianObjekModel;
+use App\Models\DMaster\RekeningSubRincianObjekModel;
 
 use Illuminate\Validation\Rule;
 
@@ -157,6 +158,38 @@ class RekeningRincianObjekController extends Controller {
                                 ],200);
         }
         
+    }
+    public function subrincianobjekrka (Request $request, $id)
+    {
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK_BROWSE');
+
+        $subrincianobjek=RekeningSubRincianObjekModel::select(\DB::raw('
+                                        `tmSubROby`.`SubRObyID`,                                        
+                                        CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\',`Kd_Rek_6`) AS `kode_uraian`,
+                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\',`Kd_Rek_6`,\'] \',`SubRObyNm`) AS `nama_rek6`,
+                                        `tmSubROby`.`SubRObyNm`
+                                    '))
+                                    ->join('tmROby','tmROby.RObyID','tmSubROby.RObyID')
+                                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                                    ->where('tmROby.RObyID',$id)
+                                    ->orderBy('Kd_Rek_1','ASC')
+                                    ->orderBy('Kd_Rek_2','ASC')
+                                    ->orderBy('Kd_Rek_3','ASC')
+                                    ->orderBy('Kd_Rek_4','ASC')
+                                    ->orderBy('Kd_Rek_5','ASC')
+                                    ->orderBy('Kd_Rek_6','ASC')
+                                    ->get();
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'subrincianobjek'=>$subrincianobjek,
+                                    'message'=>"Fetch data sub rincian objek dari rincian objek ($id) berhasil."
+                                ],200);
+
     }
     /**
      * Remove the specified resource from storage.

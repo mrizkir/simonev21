@@ -130,75 +130,80 @@
 								<v-card-title>
 									<span class="headline">UBAH URAIAN</span>
 								</v-card-title>
-								<v-card-text>
-									<v-container fluid>
-										<v-row>
-											<v-col cols="12" sm="12" md="12">
-												<v-text-field
-													label="KODE URAIAN"
-													type="text"
-													:value="formuraian.kode_uraian"
-													:disabled="true"
-												/>
-											</v-col>
-											<v-col cols="12" sm="12" md="12">
-												<v-text-field
-													label="NAMA URAIAN"
-													type="text"
-													:value="formuraian.nama_uraian"
-													:disabled="true"
-												/>
-											</v-col>
-											<v-col cols="6" sm="6" md="6">
-												<v-text-field
-													label="VOLUME"
-													type="text"
-													filled
-													:rules="rule_volume"
-													:value="formuraian.volume1"
-												/>
-											</v-col>
-											<v-col cols="6" sm="6" md="6">
-												<v-text-field
-													label="SATUAN"
-													type="text"
-													filled
-													:rules="rule_satuan"
-													:value="formuraian.satuan1"
-												/>
-											</v-col>
-											<v-col cols="6" sm="6" md="6">
-												<v-currency-field
-													label="HARGA PER SATUAN"
-													:min="null"
-													:max="null"
-													filled
-													v-model="formuraian.harga_satuan1"
-												>
-												</v-currency-field>
-											</v-col>
-											<v-col cols="6" sm="6" md="6">
-												<v-currency-field
-													label="PAGU URAIAN (VOLUME * HARGA PER SATUAN)"
-													:min="null"
-													:max="null"
-													filled
-													v-model="formuraian.PaguUraian1"
-												>
-												</v-currency-field>
-											</v-col>
-											<v-col cols="12" sm="12" md="12">
-												<v-autocomplete
-													:items="daftar_jenispelaksanaan"
-													v-model="formuraian.JenisPelaksanaanID"
-													label="JENIS PELAKSANAAN"
-													item-text="NamaJenis"
-													item-value="JenisPelaksanaanID"
-												>
-												</v-autocomplete>
-											</v-col>
-										</v-row>
-									</v-container>
+								<v-card-text>									
+									<v-row>
+										<v-col cols="12" sm="12" md="12">
+											<v-text-field
+												label="KODE URAIAN"
+												type="text"
+												:value="formdata.kode_uraian"
+												:disabled="true"
+											/>
+										</v-col>
+										<v-col cols="12" sm="12" md="12">
+											<v-text-field
+												label="NAMA URAIAN"
+												type="text"
+												:value="formdata.nama_uraian"
+												:disabled="true"
+											/>
+										</v-col>
+										<v-col cols="6" sm="6" md="6">
+											<v-text-field
+												label="VOLUME"
+												type="text"
+												filled
+												outlined
+												:rules="rule_volume"
+												:value="formdata.volume1"
+											/>
+										</v-col>
+										<v-col cols="6" sm="6" md="6">
+											<v-text-field
+												label="SATUAN"
+												type="text"
+												filled
+												outlined
+												:rules="rule_satuan"
+												:value="formdata.satuan1"
+											/>
+										</v-col>
+										<v-col cols="6" sm="6" md="6">
+											<v-currency-field
+												label="HARGA PER SATUAN"
+												:min="null"
+												:max="null"
+												filled
+												outlined
+												v-model="formdata.harga_satuan1"
+											>
+											</v-currency-field>
+										</v-col>
+										<v-col cols="6" sm="6" md="6">
+											<v-currency-field
+												label="PAGU URAIAN (VOLUME * HARGA PER SATUAN)"
+												:min="null"
+												:max="null"
+												filled
+												outlined
+												v-model="PaguUraian"
+												:disabled="true"
+											>
+											</v-currency-field>
+										</v-col>
+										<v-col cols="12" sm="12" md="12">
+											<v-autocomplete
+												:items="daftar_jenispelaksanaan"
+												v-model="formdata.JenisPelaksanaanID"
+												label="JENIS PELAKSANAAN"
+												item-text="NamaJenis"
+												item-value="JenisPelaksanaanID"
+												outlined
+												filled
+											>
+											</v-autocomplete>
+										</v-col>
+									</v-row>									
 								</v-card-text>
 								<v-card-actions>
 									<v-spacer></v-spacer>
@@ -213,7 +218,7 @@
 										color="blue darken-1"
 										text
 										@click.stop="updateuraian"
-										:loading="btnLoading"
+										
 										:disabled="!form_valid || btnLoading"
 									>
 										SIMPAN
@@ -378,7 +383,7 @@
 									<v-btn
 										color="blue darken-1"
 										text
-										:loading="btnLoading"
+										
 										@click.stop="savetargetfisik"
 										:disabled="!form_valid || btnLoading"
 									>
@@ -568,7 +573,7 @@
 									<v-btn
 										color="blue darken-1"
 										text
-										:loading="btnLoading"
+										
 										@click.stop="savetargetanggarankas"
 										:disabled="!form_valid || btnLoading"
 									>
@@ -619,13 +624,52 @@
 								</v-tooltip>
 							</v-toolbar>
 						</template>
-						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="viewItem(item)">
-								mdi-eye
-							</v-icon>
-							<v-icon small class="mr-2" @click.stop="editItem(item)">
-								mdi-pencil
-							</v-icon>
+						<template v-slot:item.actions="{ item }">							
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										small
+										v-bind="attrs"
+										v-on="on"
+										color="primary"
+										class="ma-1"
+										@click.stop="viewItem(item)"
+									>
+										mdi-eye
+									</v-icon>
+								</template>
+								<span>Realisasi Uraian</span>
+							</v-tooltip>							
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										v-bind="attrs"
+										v-on="on"
+										small
+										class="ma-1"
+										@click.stop="editItem(item)"
+									>
+										mdi-pencil
+									</v-icon>
+								</template>
+								<span>Ubah Uraian</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										small
+										v-bind="attrs"
+										v-on="on"
+										class="ma-1"
+										color="red"										
+										:disabled="btnLoading || item.Locked == 1"
+										@click.stop="deleteItem(item)"
+									>
+										mdi-delete
+									</v-icon>
+								</template>
+								<span>Hapus Uraian</span>
+							</v-tooltip>
 						</template>
 						<template v-slot:item.PaguUraian1="{ item }">
 							{{ item.PaguUraian1 | formatUang }}
@@ -655,7 +699,7 @@
 							<td :colspan="headers.length" class="text-center">
 								<strong>ID:</strong>
 								{{ item.RKARincID }}
-								<strong>VOLUME:</strong>{{ item.volume }}
+								<strong>VOLUME:</strong>{{ item.volume1 }}
 								<strong>HARGA SATUAN:</strong>
 								{{ item.harga_satuan1 | formatUang }}
 								<strong>created_at:</strong>
@@ -667,7 +711,7 @@
 						<template v-slot:no-data>
 							<v-btn
 								class="ma-2"
-								:loading="btnLoading"
+								
 								:disabled="showBtnLoadDataUraian || btnLoading"
 								color="primary"
 								@click.stop="loaddatauraianfirsttime"
@@ -756,7 +800,7 @@
 					},
 					{ text: "%", align: "end", value: "persen_keuangan1", width: 50 },
 					{ text: "SISA PAGU", align: "end", value: "sisa", width: 100 },
-					{ text: "AKSI", value: "actions", sortable: false, width: 80 },
+					{ text: "AKSI", value: "actions", sortable: false, width: 120 },
 				],
 				footers: {
 					paguuraian: 0,
@@ -777,11 +821,10 @@
 				form_valid: true,
 				RKARincID_Selected: null,
 				daftar_jenispelaksanaan: [],
-				formuraian: {
+				formdata: {
 					RKARincID: "",
 					kode_uraian: "",
 					nama_uraian: "",
-					volume: "",
 					volume1: "",
 					satuan1: "",
 					harga_satuan1: 0,
@@ -792,11 +835,10 @@
 					created_at: "",
 					updated_at: "",
 				},
-				formuraiandefault: {
+				formdatadefault: {
 					RKARincID: "",
 					kode_uraian: "",
 					nama_uraian: "",
-					volume: "",
 					volume1: "",
 					satuan1: "",
 					harga_satuan1: 0,
@@ -991,7 +1033,7 @@
 					});
 				this.form_valid = true;
 				this.editedIndex = this.datatable.indexOf(item);
-				this.formuraian = Object.assign({}, item);
+				this.formdata = Object.assign({}, item);
 				this.dialogedituraian = true;
 			},
 			updateuraian: async function() {
@@ -1000,15 +1042,15 @@
 						this.btnLoading = true;
 						await this.$ajax
 							.post(
-								"/renja/rkamurni/updateuraian/" + this.formuraian.RKARincID,
+								"/renja/rkamurni/updateuraian/" + this.formdata.RKARincID,
 								{
 									_method: "PUT",
-									RKARincID: this.formuraian.RKARincID,
-									volume1: this.formuraian.volume1,
-									satuan1: this.formuraian.satuan1,
-									harga_satuan1: this.formuraian.harga_satuan1,
-									PaguUraian1: this.formuraian.PaguUraian1,
-									JenisPelaksanaanID: this.formuraian.JenisPelaksanaanID,
+									RKARincID: this.formdata.RKARincID,
+									volume1: this.formdata.volume1,
+									satuan1: this.formdata.satuan1,
+									harga_satuan1: this.formdata.harga_satuan1,
+									PaguUraian1: this.PaguUraian,
+									JenisPelaksanaanID: this.formdata.JenisPelaksanaanID,
 								},
 								{
 									headers: {
@@ -1192,6 +1234,40 @@
 				this.$store.dispatch("uiadmin/updatePage", page);
 				this.$router.push("/renjamurni/rka");
 			},
+			deleteItem(item) {
+				this.$root.$confirm
+					.open(
+						"Delete",
+						"Apakah Anda ingin menghapus data uraian RKA Murni dengan kode " +
+							item.kode_uraian +
+							" ?",
+						{ color: "red", width: "600px" }
+					)
+					.then(confirm => {
+						if (confirm) {
+							this.btnLoading = true;
+							this.$ajax
+								.post(
+									"/renja/rkamurni/" + item.RKARincID,
+									{
+										_method: "DELETE",
+										pid: "datauraian",
+									},
+									{
+										headers: {
+											Authorization: this.$store.getters["auth/Token"],
+										},
+									}
+								)
+								.then(() => {
+									this.$router.go();
+								})
+								.catch(() => {
+									this.btnLoading = false;
+								});
+						}
+					});
+			},
 		},
 		computed: {
 			showBtnLoadDataUraian() {
@@ -1322,6 +1398,11 @@
 							}
 						});
 				}
+			},
+		},
+		computed: {
+			PaguUraian() {
+				return this.formdata.volume1 * this.formdata.harga_satuan1;
 			},
 		},
 		components: {

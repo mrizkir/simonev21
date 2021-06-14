@@ -283,7 +283,7 @@ const routes = [
 	},
 	{
 		path: "/renjamurni/rka/uraian/:rkaid/add",
-		name: "RenjaMurniUraianRKA",
+		name: "RenjaMurniAddUraianRKA",
 		meta: {
 			title: "RKA MURNI - URAIAN",
 			requiresAuth: true,

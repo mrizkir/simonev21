@@ -586,6 +586,51 @@ class RKAMurniController extends Controller
                                 ],200); 
     }               
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeuraian(Request $request)
+    {       
+        $this->hasPermissionTo('RENJA-RKA-MURNI_STORE');
+
+        $this->validate($request, [
+            'RKAID'=>'required|exists:trRKA,RKAID',
+            'SubRObyID'=>'required|exists:tmSubRoby,SubRObyID',
+            'kode_uraian1'=> 'required',
+            'nama_uraian1'=> 'required',
+            'volume1'=> 'required|numeric',
+            'satuan1'=> 'required',
+            'harga_satuan1'=> 'required|numeric',
+            'PaguUraian1'=> 'required',            
+        ]);     
+
+        $rka = RKAModel::select('TA')
+                        ->find($request->input('RKAID'));
+
+        $uraian = RKARincianModel::create([
+            'RKARincID' => Uuid::uuid4()->toString(),
+            'RKAID' => $request->input('RKAID'),
+            'kode_uraian1' => $request->input('kode_uraian1'),
+            'NamaUraian1' => $request->input('nama_uraian1'),
+            'volume1' => $request->input('volume1'),
+            'satuan1' => $request->input('satuan1'),
+            'harga_satuan1' => $request->input('harga_satuan1'),
+            'PaguUraian1' => $request->input('PaguUraian1'),
+            'Descr' => $request->input('Descr'),
+            'EntryLvl' => 1,
+            'TA' => $rka->TA,
+        ]);
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'store',
+                                    'uraian'=>$uraian,                                    
+                                    'message'=>'Data Uraian RKA berhasil disimpan.'
+                                ],200); 
+    }               
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -703,15 +748,16 @@ class RKAMurniController extends Controller
                 $rinciankegiatan->volume1=$request->input('volume1');
                 $rinciankegiatan->satuan1=$request->input('satuan1');
                 $rinciankegiatan->harga_satuan1=$request->input('harga_satuan1');
+                $rinciankegiatan->PaguUraian1=$request->input('PaguUraian1');
                 $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');                   
                 $rinciankegiatan->save();
 
                 \DB::table('sipd')
-                    ->where('SIPDID',$rinciankegiatan->RKARincID)
+                    ->where('SIPDID',$rinciankegiatan->SIPDID)
                     ->update(['PaguUraian1'=>$request->input('PaguUraian1')]);                
 
                 $paguuraian=RKARincianModel::select(\DB::raw('
-                                                SUM(`PaguUraian1`) AS `PaguUraian1`                                               
+                                                SUM(`trRKARinc`.`PaguUraian1`) AS `PaguUraian1`                                               
                                             '))
                                             ->join('sipd','sipd.SIPDID','trRKARinc.RKARincID')
                                             ->where('RKAID',$rinciankegiatan->RKAID)                                 
@@ -1324,6 +1370,14 @@ class RKAMurniController extends Controller
                 $rka->delete();
                 $message="data rka murni dengan ID ($id) Berhasil di Hapus";                 
             break;  
+            case 'datauraian' :
+                $rincian = RKARincianModel::find($id);
+                $RKAID=$rincian->RKAID;
+                $result=$rincian->delete();
+                $message="data uraian kegiatan dengan ID ($id) Berhasil di Hapus";      
+                
+                $this->recalculate($RKAID);
+            break;
             case 'datarealisasi' :
                 $realisasi = RKARealisasiModel::find($id);
                 $RKAID=$realisasi->RKAID;

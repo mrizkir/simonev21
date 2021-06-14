@@ -35,7 +35,7 @@
 			</v-row>
 			<v-row class="mb-4" no-gutters>
 				<v-col cols="12">
-					<v-form ref="frmadduraian" v-model="form_valid" lazy-validation>
+					<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 						<v-card>
 							<v-card-title>
 								<v-spacer />
@@ -112,97 +112,91 @@
 									item-value="JnsID"
 									filled
 									outlined
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
+								>								
+								</v-autocomplete>
+								<v-autocomplete
+									:items="daftar_objek"
+									v-model="rekening_ObyID"
+									label="REKENING OBJEK"
+									item-text="nama_rek4"
+									item-value="ObyID"
+									filled
+									outlined
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
 								>
-								</v-autocomplete>								
-								<v-text-field
-									v-model="formdata.tk_capaian1"
-									label="TARGET KINERJA CAPAIAN (%)"
-									:rules="rule_tkcapaian"
-									type="text"
+								</v-autocomplete>
+								<v-autocomplete
+									:items="daftar_rincian_objek"
+									v-model="rekening_RObyID"
+									label="REKENING RINCIAN OBJEK"
+									item-text="nama_rek5"
+									item-value="RObyID"
 									filled
 									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-textarea
-									v-model="formdata.masukan1"
-									label="MASUKAN"
-									:rules="rule_masukan"
-									type="text"
-									filled
-									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-textarea
-									v-model="formdata.keluaran1"
-									label="KELUARAN (OUTPUT)"
-									:rules="rule_keluaran"
-									type="text"
-									filled
-									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-textarea
-									v-model="formdata.tk_keluaran1"
-									label="TARGET KINERJA KELUARAN (OUTPUT)"
-									:rules="rule_tkkeluaran"
-									type="text"
-									filled
-									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-textarea
-									v-model="formdata.hasil1"
-									label="HASIL (OUTCOME)"
-									:rules="rule_hasil"
-									type="text"
-									filled
-									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-textarea
-									v-model="formdata.tk_hasil1"
-									label="TARGET KINERJA HASIL (OUTCOME)"
-									:rules="rule_tkhasil"
-									type="text"
-									filled
-									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-text-field
-									v-model="formdata.ksk1"
-									label="KELOMPOK SASARAN KEGIATAN"
-									:rules="rule_ksk"
-									type="text"
-									filled
-									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-radio-group
-									v-model="formdata.sifat_kegiatan1"
-									row
-									:disabled="datakegiatan.Locked == 1"
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
 								>
-									<v-radio label="BARU" value="baru"></v-radio>
-									<v-radio label="LANJUTAN" value="lanjutan">></v-radio>
-								</v-radio-group>
-								<v-text-field
-									v-model="formdata.waktu_pelaksanaan1"
-									label="WAKTU PELAKSANAAN"
-									:rules="rule_waktupelaksanaan"
-									type="text"
+								</v-autocomplete>
+								<v-autocomplete
+									:items="daftar_sub_rincian_objek"
+									v-model="rekening_SubRObyID"
+									label="REKENING SUB RINCIAN OBJEK"
+									item-text="nama_rek6"
+									item-value="SubRObyID"
 									filled
 									outlined
-									:disabled="datakegiatan.Locked == 1"
-								/>
-								<h5>PENGAMPU KEGIATAN</h5>
+									return-object
+									:rules="rule_sub_rincian_objek"
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
+								>
+								</v-autocomplete>
+								<h5>DATA URAIAN</h5>
 								<v-divider class="mb-2"></v-divider>
-								<v-alert dense type="info">
-									Bila pejabat PA, KPA, PPK, dan PPTK kosong; silahkah isi dulu
-									di
-									<v-btn link text to="/dmaster/pejabat">
-										<strong>DMaster->Pejabat</strong>
-									</v-btn>
-								</v-alert>																
+								<v-text-field
+									v-model="formdata.nama_uraian"
+									label="NAMA URAIAN"
+									:rules="rule_uraian"
+									type="text"
+									filled
+									outlined
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
+								/>
+								<v-text-field
+									v-model="formdata.volume"
+									label="VOLUME"
+									:rules="rule_volume"
+									type="text"
+									filled
+									outlined
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
+								/>
+								<v-text-field
+									v-model="formdata.satuan"
+									label="SATUAN"
+									:rules="rule_satuan"
+									type="text"
+									filled
+									outlined
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
+								/>
+								<v-currency-field
+									label="HARGA PER SATUAN"
+									:min="null"
+									:max="null"
+									filled
+									outlined
+									v-model="formdata.harga_satuan"
+									:disabled="datakegiatan.Locked == 1 || btnLoading"
+								/>
+								<v-currency-field
+									label="JUMLAH PAGU URAIAN"
+									:min="null"
+									:max="null"
+									filled
+									outlined
+									v-model="PaguUraian"
+									:disabled="true"
+								/>
 								<h5>LAIN-LAIN</h5>
 								<v-divider class="mb-2"></v-divider>
 								<v-textarea
@@ -219,14 +213,14 @@
 								<v-btn
 									color="blue darken-1"
 									text
-									@click.stop="closeeditkegiatan"
+									@click.stop="closeadduraian"
 								>
 									TUTUP
 								</v-btn>
 								<v-btn
 									color="blue darken-1"
 									text
-									@click.stop="updatekegiatan"
+									@click.stop="save"
 									:loading="btnLoading"
 									:disabled="!form_valid || btnLoading || datakegiatan.Locked == 1"
 								>
@@ -306,91 +300,43 @@
 				daftar_jenis: [],
 				rekening_JnsID: null,
 
-				daftar_pa: [],
-				daftar_kpa: [],
-				daftar_ppk: [],
-				daftar_pptk: [],
+				daftar_objek: [],
+				rekening_ObyID: null,
+				
+				daftar_rincian_objek: [],
+				rekening_RObyID: null,
+				
+				daftar_sub_rincian_objek: [],
+				rekening_SubRObyID: null,
+
 				formdata: {
 					RKAID: "",
-					SumberDanaID: null,
-					kode_urusan: "",
-					kode_bidang: "",
-					kode_organisasi: "",
-					kode_suborganisasi: "",
-					kode_program: "",
-					kode_kegiatan: "",
-					kode_sub_kegiatan: "",
-					Nm_Urusan: "",
-					Nm_Bidang: "",
-					OrgNm: "",
-					SOrgNm: "",
-					Nm_Program: "",
-					Nm_Kegiatan: "",
-					Nm_Sub_Kegiatan: "",
-					keluaran1: null,
-					tk_keluaran1: "",
-					hasil1: "",
-					tk_hasil1: "",
-					capaian_program1: "",
-					tk_capaian1: "",
-					masukan1: "",
-					ksk1: "",
-					sifat_kegiatan1: "baru",
-					waktu_pelaksanaan1: "",
-					lokasi_kegiatan1: "",
-					PaguDana1: "",
-					RealisasiKeuangan1: "",
-					RealisasiFisik1: "",
-					nip_pa1: "",
-					nip_kpa1: "",
-					nip_ppk1: "",
-					nip_pptk1: "",
+					SubRObyID: "",
+					kode_uraian: "",
+					nama_uraian: "",
+					volume: 1,
+					satuan: "",
+					harga_satuan: 0,
 					Descr: "",
-					TA: "",
-					Locked: "",
-					created_at: "",
-					updated_at: "",
 				},
-				rule_sumberdana: [
-					value => !!value || "Mohon untuk di pilih sumber dana !!!",
+				rule_sub_rincian_objek: [
+					value => !!value || "Mohon untuk di pilih rekening sub rincian objek !!!",
 				],
-				rule_lokasikegiatan: [
-					value => !!value || "Mohon untuk di isi lokasi kegiatan !!!",
+				rule_uraian: [
+					value => !!value || "Mohon untuk di isi nama uraian !!!",
 				],
-				rule_capaianprogram: [
-					value => !!value || "Mohon untuk di isi capaian program !!!",
+				rule_volume: [
+					value => {
+						if (value !== null && value !== "" && value.length > 0) {
+							return /^[0-9]+$/.test(value) || "Volume uraian harus angka";
+						} else {
+							return true;
+						}
+					},
 				],
-				rule_tkcapaian: [
-					value => !!value || "Mohon untuk di isi target kinerja capaian !!!",
-					value =>
-						/^(100(\.0{1,2})?|[1-9]?\d(\.\d{1,2})?)$/.test(value) ||
-						"Isi dengan nilai persentase 0.00 s.d 100.00",
+				rule_satuan: [
+					value => !!value || "Mohon untuk di isi satuan uraian !!!",
 				],
-				rule_masukan: [value => !!value || "Mohon untuk di isi masuk !!!"],
-				rule_keluaran: [value => !!value || "Mohon untuk di isi output !!!"],
-				rule_tkkeluaran: [
-					value =>
-						!!value ||
-						"Mohon untuk di isi target kinerja keluaran (OUTPUT) !!!",
-				],
-				rule_hasil: [
-					value => !!value || "Mohon untuk di isi hasil (OUTCOME) !!!",
-				],
-				rule_tkhasil: [
-					value =>
-						!!value || "Mohon untuk di isi target kinerja hasil (OUTCOME) !!!",
-				],
-				rule_ksk: [
-					value =>
-						!!value || "Mohon untuk di isi kelompok sasaran kegiatan !!!",
-				],
-				rule_waktupelaksanaan: [
-					value => !!value || "Mohon untuk di isi waktu pelaksanaan !!!",
-				],
-				rule_pa: [value => !!value || "Mohon untuk di pilih namam PA !!!"],
-				rule_kpa: [value => !!value || "Mohon untuk di pilih namam KPA !!!"],
-				rule_ppk: [value => !!value || "Mohon untuk di pilih namam PPK !!!"],
-				rule_pptk: [value => !!value || "Mohon untuk di pilih namam PPTK !!!"],
 			};
 		},
 		methods: {
@@ -409,32 +355,22 @@
 					)
 					.then(({ data }) => {
 						this.daftar_jenis = data.jenis;
-					});
+					});						
 			},
-			updatekegiatan: async function() {
-				if (this.$refs.frmadduraian.validate()) {
-					this.btnLoading = true;
-					await this.$ajax
+			save() {
+				if (this.$refs.frmdata.validate()) {					
+					this.$ajax
 						.post(
-							"/renja/rkamurni/updatekegiatan/" + this.formdata.RKAID,
+							"/renja/rkamurni/storeuraian",
 							{
-								_method: "PUT",
-								SumberDanaID: this.formdata.SumberDanaID,
-								keluaran1: this.formdata.keluaran1,
-								tk_keluaran1: this.formdata.tk_keluaran1,
-								hasil1: this.formdata.hasil1,
-								tk_hasil1: this.formdata.tk_hasil1,
-								capaian_program1: this.formdata.capaian_program1,
-								tk_capaian1: this.formdata.tk_capaian1,
-								masukan1: this.formdata.masukan1,
-								ksk1: this.formdata.ksk1,
-								sifat_kegiatan1: this.formdata.sifat_kegiatan1,
-								waktu_pelaksanaan1: this.formdata.waktu_pelaksanaan1,
-								lokasi_kegiatan1: this.formdata.lokasi_kegiatan1,
-								nip_pa1: this.formdata.nip_pa1,
-								nip_kpa1: this.formdata.nip_kpa1,
-								nip_ppk1: this.formdata.nip_ppk1,
-								nip_pptk1: this.formdata.nip_pptk1,
+								RKAID: this.RKAID,
+								SubRObyID: this.rekening_SubRObyID.SubRObyID,
+								kode_uraian1: this.rekening_SubRObyID.kode_uraian,
+								nama_uraian1: this.formdata.nama_uraian,
+								volume1: this.formdata.volume,
+								satuan1: this.formdata.satuan,
+								harga_satuan1: this.formdata.harga_satuan,
+								PaguUraian1: this.PaguUraian(),
 								Descr: this.formdata.Descr,
 							},
 							{
@@ -443,37 +379,112 @@
 								},
 							}
 						)
-						.then(() => {
-							var page = this.$store.getters["uiadmin/Page"]("rkamurni");
-							page.datakegiatan.SumberDanaID = this.formdata.SumberDanaID;
-							page.datakegiatan.keluaran1 = this.formdata.keluaran1;
-							page.datakegiatan.tk_keluaran1 = this.formdata.tk_keluaran1;
-							page.datakegiatan.hasil1 = this.formdata.hasil1;
-							page.datakegiatan.tk_hasil1 = this.formdata.tk_hasil1;
-							page.datakegiatan.capaian_program1 = this.formdata.capaian_program1;
-							page.datakegiatan.tk_capaian1 = this.formdata.tk_capaian1;
-							page.datakegiatan.masukan1 = this.formdata.masukan1;
-							page.datakegiatan.ksk1 = this.formdata.ksk1;
-							page.datakegiatan.sifat_kegiatan1 = this.formdata.sifat_kegiatan1;
-							page.datakegiatan.waktu_pelaksanaan1 = this.formdata.waktu_pelaksanaan1;
-							page.datakegiatan.lokasi_kegiatan1 = this.formdata.lokasi_kegiatan1;
-							page.datakegiatan.nip_pa1 = this.formdata.nip_pa1;
-							page.datakegiatan.nip_kpa1 = this.formdata.nip_kpa1;
-							page.datakegiatan.nip_ppk1 = this.formdata.nip_ppk1;
-							page.datakegiatan.nip_pptk1 = this.formdata.nip_pptk1;
-							page.datakegiatan.Descr = this.formdata.Descr;
-							this.$store.dispatch("uiadmin/updatePage", page);
-							this.closeeditkegiatan();
+						.then(() => {							
+							this.$router.push(
+								"/renjamurni/rka/uraian/" + this.datakegiatan.RKAID
+							);
 						})
 						.catch(() => {
 							this.btnLoading = false;
 						});
 				}
 			},
-			closeeditkegiatan() {
+			closeadduraian() {
 				this.$router.push(
 					"/renjamurni/rka/uraian/" + this.datakegiatan.RKAID
 				);
+			},
+		},
+		watch: {
+			rekening_JnsID(val) {
+				this.btnLoading = true;
+				
+				this.daftar_objek = [];
+				this.rekening_ObyID = null;
+				
+				this.daftar_rincian_objek = [];
+				this.rekening_RObyID = null;
+				
+				this.daftar_sub_rincian_objek = [];
+				this.rekening_SubRObyID = null;
+
+				this.$ajax
+					.get(
+						"/dmaster/rekening/jenis/" + val + "/objekrka",
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_objek = data.objek;
+						this.btnLoading = false;
+					})
+					.catch(() => {
+						this.btnLoading = false;
+					});
+			},
+			rekening_ObyID(val) {
+				this.btnLoading = true;
+				
+				this.daftar_rincian_objek = [];
+				this.rekening_RObyID = null;
+				
+				this.daftar_sub_rincian_objek = [];
+				this.rekening_SubRObyID = null;
+
+				this.$ajax
+					.get(
+						"/dmaster/rekening/objek/" + val + "/rincianobjekrka",
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_rincian_objek = data.rincianobjek;
+						this.btnLoading = false;
+					})
+					.catch(() => {
+						this.btnLoading = false;
+					});
+			},
+			rekening_RObyID(val) {
+				this.btnLoading = true;
+				
+				this.daftar_sub_rincian_objek = [];
+				this.rekening_SubRObyID = null;
+
+				this.$ajax
+					.get(
+						"/dmaster/rekening/rincianobjek/" + val + "/subrincianobjekrka",
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						this.daftar_sub_rincian_objek = data.subrincianobjek;
+						this.btnLoading = false;
+					})
+					.catch(() => {
+						this.btnLoading = false;
+					});
+			},
+			rekening_SubRObyID(val) {
+				if (val) {
+					this.formdata.nama_uraian = val.SubRObyNm;					
+				} else {
+					this.formdata.nama_uraian = "";
+				}
+			}
+		},
+		computed: {
+			PaguUraian() {
+				return this.formdata.volume * this.formdata.harga_satuan;
 			},
 		},
 		components: {

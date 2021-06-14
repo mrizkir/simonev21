@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\RekeningJenisModel;
+use App\Models\DMaster\RekeningObjekModel;
 
 use Illuminate\Validation\Rule;
 
@@ -153,6 +154,31 @@ class RekeningJenisController extends Controller {
                                 ],200);
         }
         
+    }
+    public function objekrka (Request $request, $id)
+    {
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_BROWSE');
+
+        $objek=RekeningObjekModel::select(\DB::raw('
+                                        `tmOby`.`ObyID`,                                        
+                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'] \',`ObyNm`) AS `nama_rek4`                                        
+                                    '))                                    
+                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                                    ->where('tmOby.JnsID',$id)
+                                    ->orderBy('Kd_Rek_1','ASC')
+                                    ->orderBy('Kd_Rek_2','ASC')
+                                    ->orderBy('Kd_Rek_3','ASC')
+                                    ->orderBy('Kd_Rek_4','ASC')                                    
+                                    ->get();
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'objek'=>$objek,
+                                    'message'=>"Fetch data objek dari rekening jenis ($id) berhasil."
+                                ],200);
     }
     /**
      * Remove the specified resource from storage.

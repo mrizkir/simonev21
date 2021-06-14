@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\RekeningObjekModel;
+use App\Models\DMaster\RekeningRincianObjekModel;
 
 use Illuminate\Validation\Rule;
 
@@ -155,6 +156,33 @@ class RekeningObjekController extends Controller {
                                 ],200);
         }
         
+    }
+    public function rincianobjekrka (Request $request, $id)
+    {
+        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_BROWSE');
+
+        $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('
+                                        `tmROby`.`RObyID`,                                        
+                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'] \',`RObyNm`) AS `nama_rek5`                                        
+                                    '))
+                                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                                    ->where('tmROby.ObyID',$id)
+                                    ->orderBy('Kd_Rek_1','ASC')
+                                    ->orderBy('Kd_Rek_2','ASC')
+                                    ->orderBy('Kd_Rek_3','ASC')
+                                    ->orderBy('Kd_Rek_4','ASC')
+                                    ->orderBy('Kd_Rek_5','ASC')
+                                    ->get();
+
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'fetchdata',
+                                    'rincianobjek'=>$rincianobjek,
+                                    'message'=>"Fetch data rincian objek dari objek ($id) berhasil."
+                                ],200);
     }
     /**
      * Remove the specified resource from storage.

@@ -189,6 +189,7 @@
 										v-bind="attrs"
 										v-on="on"
 										color="primary"
+										class="ma-2"
 										@click.stop="viewUraian(item)"
 									>
 										mdi-eye
