@@ -142,8 +142,7 @@ const routes = [
 			title: "REKENING - JENIS",
 			requiresAuth: true,
 		},
-		component: () =>
-			import("../views/pages/admin/dmaster/RekeningJenis.vue"),
+		component: () => import("../views/pages/admin/dmaster/RekeningJenis.vue"),
 	},
 	{
 		path: "/dmaster/kodefikasi/objek",
@@ -241,6 +240,16 @@ const routes = [
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/renjamurni/RenjaMurni.vue"),
+	},
+	{
+		path: "/renjamurni/datamentah",
+		name: "RenjaMurniDataMentah",
+		meta: {
+			title: "RENCANA KERJA MURNI - DATA MENTAH",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjamurni/DataMentahMurni.vue"),
 	},
 	//renja murni - rka murni
 	{

@@ -112,7 +112,7 @@
 						xs="12"
 						sm="4"
 						md="3"
-						v-if="$store.getters['auth/can']('DMASTER-GROUP')"
+						v-if="$store.getters['auth/can']('RENJA-GROUP')"
 					>
 						<v-card
 							elevation="0"

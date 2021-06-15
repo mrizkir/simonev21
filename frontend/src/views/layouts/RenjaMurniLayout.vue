@@ -117,7 +117,7 @@
 			</v-list-item>
 			<v-list-item
 				to="/renjamurni"
-				v-if="CAN_ACCESS('DMASTER-GROUP')"
+				v-if="CAN_ACCESS('RENJA-GROUP')"
 				link
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
@@ -131,6 +131,24 @@
 					<v-list-item-title>BOARD DATA RENJA</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-list-item
+				link
+				to="/renjamurni/datamentah"
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+				"
+				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+				 v-if="CAN_ACCESS('RENJA-RKA-MURNI_BROWSE')"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-database</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						DATA MENTAH
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item> 
 			<v-subheader class="purple accent-5 white--text">TRANSAKSI</v-subheader>
 			<v-list-item
 				link

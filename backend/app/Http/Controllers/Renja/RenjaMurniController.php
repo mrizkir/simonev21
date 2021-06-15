@@ -76,7 +76,7 @@ class RenjaMurniController extends Controller
                                                 SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
                                             '))
                                             ->where('TA',$tahun)                                                                                       
-                                            ->where('EntryLvl',0)        
+                                            ->where('EntryLvl',1)        
                                             ->groupBy('Bulan')                                
                                             ->get();
 
@@ -212,7 +212,7 @@ class RenjaMurniController extends Controller
                                             '))
                                             ->where('TA',$tahun)
                                             ->whereIn('OrgID',$daftar_opd)                                             
-                                            ->where('EntryLvl',0)        
+                                            ->where('EntryLvl',1)        
                                             ->groupBy('Bulan')                                
                                             ->get();
                                             
@@ -787,7 +787,7 @@ class RenjaMurniController extends Controller
                 $statistik2 = Statistik2Model::where('Bulan',$i)
                                                 ->where('OrgID',$OrgID)
                                                 ->where('TA',$tahun)   
-                                                ->where('EntryLvl',0)                                                                                   
+                                                ->where('EntryLvl',1)                                                                                   
                                                 ->first();
 
                 if (is_null($statistik2))
@@ -796,22 +796,23 @@ class RenjaMurniController extends Controller
                         'Statistik2ID' => uniqid ('uid'),
                         'OrgID'=>$OrgID,
                         'kode_organisasi'=>$opd->kode_organisasi,
-                        'OrgNm'=>$opd->OrgNm,
-                        'PaguDana1'=>0,
+                        'OrgNm'=>$opd->Nm_Organisasi,                        
                         'PaguDana1'=>$totalPaguOPD,            
-                        'PaguDana3'=>0,            
-                        'JumlahKegiatan1'=>0,
+                        'PaguDana2'=>0,            
+                        'PaguDana3'=>0,                                    
                         'JumlahKegiatan1'=>$total_kegiatan,
+                        'JumlahKegiatan2'=>0,
                         'JumlahKegiatan3'=>0,
-                        'JumlahUraian1'=>0,
-                        'JumlahUraian2'=>$total_uraian,
+                        'JumlahUraian1'=>$total_uraian,
+                        'JumlahUraian2'=>0,
                         'JumlahUraian3'=>0,
                             
-                        'TargetFisik1'=>0,
                         'TargetFisik1'=>$totalPersenTargetFisik,
+                        'TargetFisik1'=>0,
                         'TargetFisik3'=>0,
-                        'RealisasiFisik1'=>0,
+
                         'RealisasiFisik1'=>$totalPersenRealisasiFisik,
+                        'RealisasiFisik2'=>0,
                         'RealisasiFisik3'=>0,
 
                         'TargetKeuangan1'=>0,
@@ -821,28 +822,29 @@ class RenjaMurniController extends Controller
                         'RealisasiKeuangan1'=>$totalRealisasiKeuanganKeseluruhan,
                         'RealisasiKeuangan3'=>0,
 
-                        'PersenTargetKeuangan1'=>0,
                         'PersenTargetKeuangan1'=>$totalPersenTargetKeuangan,
+                        'PersenTargetKeuangan1'=>0,
                         'PersenTargetKeuangan3'=>0,
-                        'PersenRealisasiKeuangan1'=>0,
+
                         'PersenRealisasiKeuangan1'=>$totalPersenRealisasiKeuangan,
+                        'PersenRealisasiKeuangan2'=>0,
                         'PersenRealisasiKeuangan3'=>0,
                             
-                        'SisaPaguDana1'=>0,
                         'SisaPaguDana1'=>$totalSisaAnggaran,
+                        'SisaPaguDana2'=>0,
                         'SisaPaguDana3'=>0,
 
-                        'PersenSisaPaguDana1'=>0,
                         'PersenSisaPaguDana1'=>$totalPersenSisaAnggaran,
+                        'PersenSisaPaguDana2'=>0,
                         'PersenSisaPaguDana3'=>0,
 
-                        'Bobot1'=>0,
-                        'Bobot2'=>$totalPersenBobot,
+                        'Bobot1'=>$totalPersenBobot,
+                        'Bobot2'=>0,
                         'Bobot3'=>0,
                         
                         'Bulan'=>$i,
                         'TA'=>$tahun,
-                        'EntryLvl'=>0,
+                        'EntryLvl'=>1,
                     ]);
                 }
                 else
