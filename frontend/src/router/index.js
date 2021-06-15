@@ -320,6 +320,25 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/renjamurni/RealisasiRKAMurni.vue"),
 	},
+	//renja murni - report form a
+	{
+		path: "/renjamurni/report/forma",
+		name: "ReportFormAMurni",
+		meta: {
+			title: "BELANJA MURNI - LAPORAN FORM A",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/FormAMurni.vue"),
+	},
+	{
+		path: "/renjamurni/report/forma/:rkaid",
+		name: "ReportFormAMurniDetail",
+		meta: {
+			title: "BELANJA MURNI - LAPORAN FORM A",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/FormAMurni.vue"),
+	},
 	//system
 	{
 		path: "/system-users",
