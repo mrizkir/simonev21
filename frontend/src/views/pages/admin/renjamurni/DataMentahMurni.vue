@@ -32,7 +32,7 @@
 								:items="daftar_opd"
 								v-model="OrgID_Selected"
 								label="OPD / SKPD"
-								item-text="OrgNm"
+								item-text="Nm_Organisasi"
 								item-value="OrgID"
 							>
 							</v-autocomplete>
@@ -329,7 +329,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/belanja/datamentahmurni",
+						"/renja/datamentahmurni",
 						{
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
 							OrgID: this.OrgID_Selected,
@@ -363,7 +363,7 @@
 					this.datatableLoading = true;
 					await this.$ajax
 						.post(
-							"/belanja/datamentahmurni/copyrka",
+							"/renja/datamentahmurni/copyrka",
 							{
 								kode_kegiatan: item.kode_kegiatan,
 								OrgID: this.OrgID_Selected,

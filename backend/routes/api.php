@@ -172,6 +172,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     
     $router->post('/renjamurni/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\PeringkatOPDMurniController@index','as'=>'renjamurni-peringkatopdmurni.index']);    
     
+    //renja - data mentah murni
+    $router->post('/renja/datamentahmurni',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\DataMentahMurniController@index','as'=>'v1.datamentahmurni.index']);    
+    $router->post('/renja/datamentahmurni/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\DataMentahMurniController@copyrka','as'=>'v1.datamentahmurni.copyrka']);    
+
+    //renja - data mentah perubahan
+    $router->post('/renja/datamentahperubahan',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahPerubahanController@index','as'=>'v1.datamentahperubahan.index']);    
+    $router->post('/renja/datamentahperubahan/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahPerubahanController@copyrka','as'=>'v1.datamentahperubahan.copyrka']);    
+
     //renja - rka murni
     $router->post('/renja/rkamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk|dewan|tapd'],'uses'=>'Renja\RKAMurniController@index','as'=>'rkamurni.index']);    
     $router->get('/renja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@show','as'=>'rkamurni.show']);    
