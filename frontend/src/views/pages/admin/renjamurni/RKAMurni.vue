@@ -70,8 +70,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="RKAID"
-						sort-by="kode_kegiatan"
+						item-key="RKAID"						
 						show-expand
 						dense
 						:expanded.sync="expanded"

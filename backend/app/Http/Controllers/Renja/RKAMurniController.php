@@ -446,16 +446,21 @@ class RKAMurniController extends Controller
                             created_at,
                             updated_at
                         '))
-                        ->where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)
+                        ->where('SOrgID',$unitkerja->SOrgID)
                         ->where('TA',$tahun)
                         ->where('EntryLvl',1)
+                        ->orderByRaw('kode_urusan="X" DESC')
+                        ->orderBy('kode_bidang','ASC')
+                        ->orderBy('kode_program','ASC')
                         ->orderBy('kode_kegiatan','ASC')
+                        ->orderBy('kode_sub_kegiatan','ASC')
                         ->get();        
                     
-                        $data->transform(function ($item,$key){                            
-                            $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1,$item->PaguDana1);
-                            return $item;
-                        });
+        $data->transform(function ($item,$key){                            
+            $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1,$item->PaguDana1);
+            return $item;
+        });
+        
         $unitkerja->RealisasiKeuangan1=$data->sum('RealisasiKeuangan1');
         $jumlah_realisasi_fisik=$data->sum('RealisasiFisik1');
         $unitkerja->RealisasiFisik1=Helper::formatPecahan($jumlah_realisasi_fisik,$unitkerja->JumlahKegiatan1);

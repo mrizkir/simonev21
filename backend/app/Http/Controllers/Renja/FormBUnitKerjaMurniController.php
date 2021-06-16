@@ -50,9 +50,13 @@ class FormBUnitKerjaMurniController extends Controller
         $totalSisaAnggaran=0;
 
         $daftar_program=\DB::table('trRKA')
-                            ->select(\DB::raw('DISTINCT kode_program,`Nm_Program`'))
-                            ->orderBy('kode_program','ASC')
+                            ->select(\DB::raw('DISTINCT kode_program, `Nm_Program`'))
                             ->where('SOrgID',$unitkerja->SOrgID)
+                            ->orderByRaw('kode_urusan="X" DESC')
+                            ->orderBy('kode_bidang','ASC')
+                            ->orderBy('kode_program','ASC')
+                            ->orderBy('kode_kegiatan','ASC')
+                            ->orderBy('kode_sub_kegiatan','ASC')                            
                             ->get();
         
         $data=[];        
@@ -65,8 +69,11 @@ class FormBUnitKerjaMurniController extends Controller
                                     ->where('SOrgID',$unitkerja->SOrgID)                                   
                                     ->where('TA',$tahun)  
                                     ->where('EntryLvl',1)
-                                    ->orderByRaw('kode_urusan = \'X\' ASC')
-                                    ->orderByRaw('kode_kegiatan ASC')
+                                    ->orderByRaw('kode_urusan="X" DESC')
+                                    ->orderBy('kode_bidang','ASC')
+                                    ->orderBy('kode_program','ASC')
+                                    ->orderBy('kode_kegiatan','ASC')
+                                    ->orderBy('kode_sub_kegiatan','ASC')
                                     ->get();
 
             if(isset($daftar_kegiatan[0]))
