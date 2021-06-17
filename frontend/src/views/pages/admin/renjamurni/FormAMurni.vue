@@ -102,16 +102,69 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:body="{ items }">
-							<tr
-								v-for="item in items"
-								v-bind:key="item.FormBMurniID"								
-							>	
-								<td>{{ item.kode }}</td>
-								<td>{{ item.nama_uraian }}</td>
-								<td class="text-right">
-									{{ item.pagu_dana1 | formatUang }}
-								</td>
-							</tr>
+							<tbody>
+								<tr
+									v-for="item in items"
+									v-bind:key="item.FormBMurniID"		
+									:class="[colorRowFormA(item)]"						
+								>	
+									<td>{{ item.kode }}</td>
+									<td>{{ item.nama_uraian }}</td>
+									<td class="text-right">
+										{{ item.pagu_dana1 | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ item.fisik_target1 }}
+									</td>
+									<td class="text-right">
+										{{ item.fisik_realisasi1 | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ item.keuangan_target1 | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ item.keuangan_realisasi1 | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ item.keuangan_realisasi_persen_1 | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ item.sisa_anggaran | formatUang }}
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr class="orange font-weight-bold dark">
+									<td colspan="2" class="text-right">TOTAL</td>
+									<td class="text-right">
+										{{ total_data.totalPaguUnit | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ total_data.totalPersenTargetFisik | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{
+											total_data.totalPersenRealisasiFisik | makeLookPrecision
+										}}
+									</td>
+									<td class="text-right">
+										{{ total_data.totalTargetKeuanganKeseluruhan | formatUang }}
+									</td>
+									<td class="text-right">
+										{{
+											total_data.totalRealisasiKeuanganKeseluruhan | formatUang
+										}}
+									</td>
+									<td class="text-right">
+										{{
+											total_data.totalPersenTargetKeuangan | makeLookPrecision
+										}}
+									</td>
+									<td class="text-right">
+										{{ total_data.totalSisaAnggaran | formatUang }}
+									</td>
+								</tr>
+							</tfoot>
 						</template>
 					</v-data-table>
 				</v-col>
@@ -361,6 +414,19 @@
 						this.datatableLoaded = false;
 						this.datatableLoading = false;
 					});
+			},
+			colorRowFormA(item) {
+				var color = "";
+				if (item.isprogram == 1) {
+					color = "lime lighten-3";
+				} else if(item.iskegiatan == 1) {
+					color = "lime lighten-4";
+				} else if (item.issubkegiatan == 1) {
+					color = "white";
+				} else {
+					color = "white";
+				}				
+				return color;
 			},
 		},
 		watch: {

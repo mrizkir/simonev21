@@ -79,12 +79,23 @@ class FormBUnitKerjaMurniController extends Controller
                                     ->where('kode_program',$kode_program) 
                                     ->where('EntryLvl',1)
                                     ->sum('PaguDana1'); 
-
+                
                 $data[]=[
                     'FormBMurniID'=>Uuid::uuid4()->toString(),                
                     'kode'=>$kode_program,
                     'nama_uraian'=>$data_program->Nm_Program,         
-                    'pagu_dana1'=>$pagu_dana_program,                       
+                    'pagu_dana1'=>$pagu_dana_program,       
+                    'fisik_target1'=>0,
+                    'fisik_realisasi1'=>0,
+                    'fisik_ttb1'=>0,
+                    'keuangan_target1'=>0,
+                    'keuangan_target_persen_1'=>0,
+                    'keuangan_realisasi1'=>0,
+                    'keuangan_realisasi_persen_1'=>0,
+                    'keuangan_ttb1'=>0,
+                    'lokasi'=>0,
+                    'sisa_anggaran'=>0,
+                    'sisa_anggaran_persen'=>0,               
                     'isprogram'=>true,
                     'iskegiatan'=>false,
                     'issubkegiatan'=>false,
@@ -110,193 +121,110 @@ class FormBUnitKerjaMurniController extends Controller
                                     ->where('kode_kegiatan',$kode_kegiatan) 
                                     ->where('EntryLvl',1)
                                     ->sum('PaguDana1'); 
-
+                        
                         $data[]=[
                             'FormBMurniID'=>Uuid::uuid4()->toString(),
                             'kode'=>$kode_kegiatan,
                             'nama_uraian'=>$data_kegiatan->Nm_Kegiatan,
                             'pagu_dana1'=>$pagu_dana_kegiatan,
+                            'fisik_target1'=>0,
+                            'fisik_realisasi1'=>0,
+                            'fisik_ttb1'=>0,
+                            'keuangan_target1'=>0,
+                            'keuangan_target_persen_1'=>0,
+                            'keuangan_realisasi1'=>0,
+                            'keuangan_realisasi_persen_1'=>0,
+                            'keuangan_ttb1'=>0,
+                            'lokasi'=>0,
+                            'sisa_anggaran'=>0,
+                            'sisa_anggaran_persen'=>0,
                             'isprogram'=>false,
                             'iskegiatan'=>true,
                             'issubkegiatan'=>false,
                         ];
                         foreach ($daftar_sub_kegiatan as $data_sub_kegiatan) 
                         {
+                            $RKAID=$data_sub_kegiatan->RKAID;
                             $kode_sub_kegiatan = $data_sub_kegiatan->kode_sub_kegiatan;
+
+                            $persen_bobot=Helper::formatPersen($data_sub_kegiatan->PaguDana1,$totalPaguUnit);
+                            $totalPersenBobot+=$persen_bobot;
+
+                            //jumlah baris uraian
+                            $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
+
+                            $data_target=\DB::table('trRKATargetRinc')
+                                            ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                                            ->where('RKAID',$RKAID)
+                                            ->where('bulan1','<=',$no_bulan)
+                                            ->get();
+
+                            $data_realisasi=\DB::table('trRKARealisasiRinc')
+                                        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                        ->where('RKAID',$RKAID)
+                                        ->where('bulan1','<=',$no_bulan)
+                                        ->get();
+
+                            //menghitung persen target fisik         
+                            $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
+                            $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+                            $totalPersenTargetFisik+=$persen_target_fisik;
+
+                            //menghitung persen realisasi fisik                
+                            $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
+                            $totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
+
+                            $persen_tertimbang_fisik=0.00;
+                            if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+                            {
+                                $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+                            }							
+                            $total_ttb_fisik+=$persen_tertimbang_fisik;
+
+                            //menghitung total target dan realisasi keuangan 
+                            $totalTargetKeuangan=$data_target[0]->totaltarget;
+                            $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+                            $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$data_sub_kegiatan->PaguDana1);                            							                                 
+                        
+                            $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
+                            $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+                            $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana1);  
+                            
+                            $persen_tertimbang_keuangan=0.00;
+                            if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+                            {
+                                $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+                            }	
+                            $total_ttb_keuangan += $persen_tertimbang_keuangan;
+
+                            $sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;
+                            $totalSisaAnggaran+=$sisa_anggaran; 
+                            
+                            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);                            
 
                             $data[]=[
                                 'FormBMurniID'=>Uuid::uuid4()->toString(),
                                 'kode'=>$kode_sub_kegiatan,
                                 'nama_uraian'=>$data_sub_kegiatan->Nm_Sub_Kegiatan,                                
                                 'pagu_dana1'=>$data_sub_kegiatan->PaguDana1,
+                                'fisik_target1'=>$persen_target_fisik,
+                                'fisik_realisasi1'=>$persen_realisasi_fisik,
+                                'fisik_ttb1'=>$persen_tertimbang_fisik,
+                                'keuangan_target1'=>$totalTargetKeuangan,
+                                'keuangan_target_persen_1'=>$persen_target_keuangan,
+                                'keuangan_realisasi1'=>$totalRealisasiKeuangan,
+                                'keuangan_realisasi_persen_1'=>$persen_realisasi_keuangan,
+                                'keuangan_ttb1'=>$persen_tertimbang_keuangan,
+                                'lokasi'=>$data_sub_kegiatan->lokasi_kegiatan1,
+                                'sisa_anggaran'=>$sisa_anggaran,
+                                'sisa_anggaran_persen'=>$persen_sisa_anggaran,
                                 'isprogram'=>false,
                                 'iskegiatan'=>false,
                                 'issubkegiatan'=>true,
                             ];
                         }
                     }
-                }               
-
-            //     $totalpagueachprogram=$daftar_kegiatan->sum('PaguDana1');
-            //     $persen_bobot_program=Helper::formatPersen($totalpagueachprogram,$totalPaguUnit);
-                
-            //     $jumlahuraian_program = \DB::table('trRKARinc')                               
-            //                             ->join('trRKA','trRKA.RKAID','trRKARinc.RKAID')
-            //                             ->where('kode_program',$kode_program) 
-            //                             ->where('SOrgID',$unitkerja->SOrgID)
-            //                             ->where('trRKA.TA',$tahun)                                   
-            //                             ->where('trRKA.EntryLvl',1)
-            //                             ->count();	
-                
-            //     $data_target_program=\DB::table('trRKATargetRinc')
-            //                         ->join('trRKA','trRKA.RKAID','trRKATargetRinc.RKAID')
-            //                         ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
-            //                         ->where('kode_program',$kode_program) 
-            //                         ->where('SOrgID',$unitkerja->SOrgID)
-            //                         ->where('trRKA.TA',$tahun)    
-            //                         ->where('bulan1','<=',$no_bulan)
-            //                         ->where('trRKA.EntryLvl',1)
-            //                         ->get();
-
-            //     $data_realisasi_program=\DB::table('trRKARealisasiRinc')
-            //                     ->join('trRKA','trRKA.RKAID','trRKARealisasiRinc.RKAID')
-            //                     ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-            //                     ->where('kode_program',$kode_program) 
-            //                     ->where('SOrgID',$unitkerja->SOrgID)
-            //                     ->where('trRKA.TA',$tahun)    
-            //                     ->where('bulan1','<=',$no_bulan)
-            //                     ->where('trRKA.EntryLvl',1)
-            //                     ->get();
-
-            //     //menghitung persen target fisik program         
-            //     $target_fisik_program=Helper::formatPecahan($data_target_program[0]->jumlah_fisik,$jumlahuraian_program);                            
-            //     $persen_target_fisik_program= $target_fisik_program > 100 ?'100.00':$target_fisik_program;                             
-                
-            //     //menghitung persen realisasi fisik                
-            //     $persen_realisasi_fisik_program=Helper::formatPecahan($data_realisasi_program[0]->fisik1,$jumlahuraian_program);
-                
-            //     $persen_tertimbang_fisik_program=0.00;
-            //     if ($persen_realisasi_fisik_program > 0 && $persen_bobot_program > 0)
-            //     {
-            //         $persen_tertimbang_fisik_program=number_format(($persen_realisasi_fisik_program*$persen_bobot_program)/100,2);                            
-            //     }							
-
-            //     // menghitung total target dan realisasi keuangan                 
-            //     $persen_target_keuangan_program=Helper::formatPersen($data_target_program[0]->totaltarget,$totalpagueachprogram); 
-            //     $persen_realisasi_keuangan_program=Helper::formatPersen($data_realisasi_program[0]->realisasi1,$totalpagueachprogram);  
-
-            //     $persen_tertimbang_keuangan_program=0.00;
-            //     if ($persen_realisasi_keuangan_program > 0 && $persen_bobot_program > 0)
-            //     {
-            //         $persen_tertimbang_keuangan_program=number_format(($persen_realisasi_keuangan_program*$persen_bobot_program)/100,2);                            
-            //     }	
-
-            //     $sisa_anggaran_program=$totalpagueachprogram-$data_realisasi_program[0]->realisasi1;
-            //     $persen_sisa_anggaran_program=Helper::formatPersen($sisa_anggaran_program,$totalpagueachprogram);  
-
-                // $data[]=[
-                //     'FormBMurniID'=>Uuid::uuid4()->toString(),
-                //     'RKAID'=>null,
-                //     'kode'=>$kode_program,
-                //     'nama'=>$data_program->Nm_Program,
-                //     'pagu_dana1'=>$totalpagueachprogram,
-                //     'bobot1'=>$persen_bobot_program,
-                //     'fisik_target1'=>$persen_target_fisik_program,
-                //     'fisik_realisasi1'=>$persen_realisasi_fisik_program,
-                //     'fisik_ttb1'=>$persen_tertimbang_fisik_program,
-                //     'keuangan_target1'=>$data_target_program[0]->totaltarget,
-                //     'keuangan_target_persen_1'=>$persen_target_keuangan_program,
-                //     'keuangan_realisasi1'=>$data_realisasi_program[0]->realisasi1,
-                //     'keuangan_realisasi_persen_1'=>$persen_realisasi_keuangan_program,
-                //     'keuangan_ttb1'=>$persen_tertimbang_keuangan_program,
-                //     'lokasi'=>'-',
-                //     'sisa_anggaran'=>$sisa_anggaran_program,
-                //     'sisa_anggaran_persen'=>$persen_sisa_anggaran_program,
-                // ];
-
-            //     foreach ($daftar_kegiatan as $n)
-            //     {
-            //         $RKAID=$n->RKAID;
-            //         $nilai_pagu_proyek=$n->PaguDana1;
-            //         $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguUnit);
-            //         $totalPersenBobot+=$persen_bobot;
-
-            //         //jumlah baris uraian
-            //         $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
-            //         $total_uraian+=$jumlahuraian;
-
-            //         $data_target=\DB::table('trRKATargetRinc')
-            //                             ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
-            //                             ->where('RKAID',$RKAID)
-            //                             ->where('bulan1','<=',$no_bulan)
-            //                             ->get();
-
-            //         $data_realisasi=\DB::table('trRKARealisasiRinc')
-            //                         ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-            //                         ->where('RKAID',$RKAID)
-            //                         ->where('bulan1','<=',$no_bulan)
-            //                         ->get();
-
-            //         //menghitung persen target fisik         
-            //         $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
-            //         $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
-            //         $totalPersenTargetFisik+=$persen_target_fisik;               
-
-            //         //menghitung persen realisasi fisik                
-            //         $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-            //         $totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
-                    
-            //         $persen_tertimbang_fisik=0.00;
-            //         if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-            //         {
-            //             $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
-            //         }							
-            //         $total_ttb_fisik+=$persen_tertimbang_fisik;
-
-            //         //menghitung total target dan realisasi keuangan 
-            //         $totalTargetKeuangan=$data_target[0]->totaltarget;
-            //         $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
-            //         $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
-                
-            //         $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
-            //         $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
-            //         $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
-                    
-            //         $persen_tertimbang_keuangan=0.00;
-            //         if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-            //         {
-            //             $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
-            //         }	
-            //         $total_ttb_keuangan += $persen_tertimbang_keuangan;
-
-            //         $sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
-            //         $totalSisaAnggaran+=$sisa_anggaran; 
-                    
-            //         $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);                            
-
-                    
-            //         $data[]=[
-            //             'FormBMurniID'=>Uuid::uuid4()->toString(),
-            //             'RKAID'=>$RKAID,
-            //             'kode'=>$n->kode_kegiatan,
-            //             'nama'=>$n->Nm_Kegiatan,
-            //             'pagu_dana1'=>$nilai_pagu_proyek,
-            //             'bobot1'=>$persen_bobot,
-            //             'fisik_target1'=>$persen_target_fisik,
-            //             'fisik_realisasi1'=>$persen_realisasi_fisik,
-            //             'fisik_ttb1'=>$persen_tertimbang_fisik,
-            //             'keuangan_target1'=>$totalTargetKeuangan,
-            //             'keuangan_target_persen_1'=>$persen_target_keuangan,
-            //             'keuangan_realisasi1'=>$totalRealisasiKeuangan,
-            //             'keuangan_realisasi_persen_1'=>$persen_realisasi_keuangan,
-            //             'keuangan_ttb1'=>$persen_tertimbang_keuangan,
-            //             'lokasi'=>$n->lokasi_kegiatan1,
-            //             'sisa_anggaran'=>$sisa_anggaran,
-            //             'sisa_anggaran_persen'=>$persen_sisa_anggaran,
-            //         ];
-
-            //         $total_kegiatan+=1;
-            //     }
+                }                           
             }
         }
         
@@ -333,7 +261,7 @@ class FormBUnitKerjaMurniController extends Controller
                                     'rka'=>$data,
                                     'total_data'=>$total_data,                                    
                                     'message'=>'Fetch data form b murni berhasil diperoleh'
-                                ],200);    
+                                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);       
         
     }
     public function printtoexcel (Request $request)
