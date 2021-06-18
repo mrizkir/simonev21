@@ -106,7 +106,7 @@
 								<tr
 									v-for="item in items"
 									v-bind:key="item.FormBMurniID"		
-									:class="[colorRowFormA(item)]"						
+									:class="[colorRowFormA(item),fontWeight(item)]"						
 								>	
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama_uraian }}</td>
@@ -427,6 +427,19 @@
 					color = "white";
 				}				
 				return color;
+			},
+			fontWeight(item) {
+				var weight = "";
+				if (item.isprogram == 1) {
+					weight = "font-weight-bold";
+				} else if(item.iskegiatan == 1) {
+					weight = "font-weight-medium";
+				} else if (item.issubkegiatan == 1) {
+					weight = "Normal weight text";
+				} else {
+					weight = "Normal weight text";
+				}				
+				return weight;
 			},
 		},
 		watch: {
