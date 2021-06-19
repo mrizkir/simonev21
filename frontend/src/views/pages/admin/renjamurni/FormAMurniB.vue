@@ -445,7 +445,7 @@
 				"formadetail"
 			);
 			if (this.formadetail) {
-				this.initalizeforma();
+				this.initializeforma();
 				this.firstloading = false;
 				this.$refs.filter2.setFirstTimeLoading(this.firstloading);
 			} else {

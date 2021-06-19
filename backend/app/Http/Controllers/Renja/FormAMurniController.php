@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use App\Models\DMaster\SubOrganisasiModel;
-use App\Models\Belanja\RKAModel;
-use App\Models\Report\FormAMurniModel;
+use App\Models\Renja\RKAModel;
+use App\Models\Renja\FormAMurniModel;
 
 
 class FormAMurniController extends Controller 
@@ -19,7 +19,7 @@ class FormAMurniController extends Controller
      */
     public function index(Request $request)
     {             
-        $this->hasPermissionTo('FORM A MURNI_BROWSE');
+        $this->hasPermissionTo('RENJA-FORM-A-MURNI_BROWSE');
 
         $this->validate($request, [            
             'RKAID'=>'required',         
@@ -342,7 +342,7 @@ class FormAMurniController extends Controller
     }
     public function printtoexcel (Request $request)
     {
-        $this->hasPermissionTo('FORM A MURNI_BROWSE');
+        $this->hasPermissionTo('RENJA-FORM-A-MURNI_BROWSE');
 
         $this->validate($request, [                            
             'no_bulan'=>'required',   

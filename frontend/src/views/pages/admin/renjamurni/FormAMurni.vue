@@ -26,7 +26,65 @@
 			</template>
 		</ModuleHeader>
 		<v-container fluid v-if="formadetail">
-
+			<v-row class="mb-4" no-gutters>
+				<v-col xs="12" sm="12" md="12">
+					<v-card>
+						<v-card-text>
+							<v-row no-gutters>
+								<v-col xs="12" sm="6" md="6">
+									<v-card flat>
+										<v-card-title>RKAID :</v-card-title>
+										<v-card-subtitle>
+											{{ datakegiatan.RKAID }}
+										</v-card-subtitle>
+									</v-card>
+								</v-col>
+								<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+							</v-row>
+							<v-row no-gutters>
+								<v-col xs="12" sm="6" md="6">
+									<v-card flat>
+										<v-card-title>KODE KEGIATAN :</v-card-title>
+										<v-card-subtitle>
+											{{ datakegiatan.kode }}
+										</v-card-subtitle>
+									</v-card>
+								</v-col>
+								<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+							</v-row>
+							<v-row no-gutters>
+								<v-col xs="12" sm="6" md="6">
+									<v-card flat>
+										<v-card-title>NAMA KEGIATAN :</v-card-title>
+										<v-card-subtitle>
+											{{ datakegiatan.nama_uraian }}
+										</v-card-subtitle>
+									</v-card>
+								</v-col>
+								<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+							</v-row>
+						</v-card-text>
+					</v-card>
+				</v-col>
+			</v-row>
+			<v-row class="mb-4" no-gutters>
+				<v-col xs="12" sm="12" md="12">
+					<v-bottom-navigation color="purple lighten-1">
+						<v-btn
+							@click.stop="printtoexcel"
+							:loading="btnLoading"
+							:disabled="btnLoading"
+						>
+							<span>Cetak</span>
+							<v-icon>mdi-printer</v-icon>
+						</v-btn>
+						<v-btn @click.stop="exitforma">
+							<span>Keluar</span>
+							<v-icon>mdi-close</v-icon>
+						</v-btn>
+					</v-bottom-navigation>
+				</v-col>
+			</v-row>
 		</v-container>
 		<v-container fluid v-else>
 			<v-row class="mb-4" no-gutters>
@@ -108,7 +166,20 @@
 									v-bind:key="item.FormBMurniID"		
 									:class="[colorRowFormA(item),fontWeight(item)]"						
 								>	
-									<td>{{ item.kode }}</td>
+									<td v-if="item.issubkegiatan">
+										<v-btn
+											color="primary"
+											@click.stop="viewItem(item)"
+											text
+											link
+											dense
+										>
+											{{ item.kode }}
+										</v-btn>
+									</td>
+									<td v-else>
+										{{ item.kode }}
+									</td>
 									<td>{{ item.nama_uraian }}</td>
 									<td class="text-right">
 										{{ item.pagu_dana1 | formatUang }}
@@ -224,6 +295,7 @@
 				"formadetail"
 			);
 			if (this.formadetail) {
+				this.initializeforma();
 				this.firstloading = false;
 				this.$refs.filter2.setFirstTimeLoading(this.firstloading);
 			} else {
@@ -249,6 +321,7 @@
 		},
 		data() {
 			return {
+				btnLoading: false,
 				firstloading: true,
 				bulan_realisasi: null,
 				nama_bulan: null,
@@ -260,14 +333,13 @@
 				SOrgID_Selected: "",
 				//Organisasi
 				DataOPD: null,
-				DataUnitKerja: null,
-
-				formadetail: false,
+				DataUnitKerja: null,			
 
 				//data table
 				datatableLoaded: true,
 				datatableLoading: false,
-				datatable: [],
+				expanded: [],
+				datatable: [],			
 				headers: [
 					{
 						text: "KODE",
@@ -332,6 +404,7 @@
 					},
 				],
 				search: "",
+
 				total_data: {
 					totalPaguUnit: 0,
 					totalTargetKeuanganKeseluruhan: 0,
@@ -351,6 +424,10 @@
 					totalSisaAnggaran: 0,
 					totalPersenSisaAnggaran: 0,
 				},
+
+				//form a detail
+				datakegiatan: [],
+				formadetail: false,
 			};
 		},
 		methods: {
@@ -415,6 +492,39 @@
 						this.datatableLoading = false;
 					});
 			},
+			viewItem(item) {
+				this.formadetail = true;
+				var page = this.$store.getters["uiadmin/Page"]("formamurni");
+				page.formadetail = true;
+				page.datakegiatan = item;
+				this.$store.dispatch("uiadmin/updatePage", page);
+				this.initializeforma();
+				this.$router.replace("/renjamurni/report/forma/" + item.RKAID);
+			},
+			async initializeforma() {
+				var page = this.$store.getters["uiadmin/Page"]("formamurni");
+				this.datakegiatan = page.datakegiatan;
+				let RKAID = this.datakegiatan.RKAID;
+
+				await this.$ajax
+					.post(
+						"/renjamurni/report/forma",
+						{
+							RKAID: RKAID,
+							no_bulan: this.bulan_realisasi,
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {
+						console.log(data);
+						this.total_forma = data.total_data;
+						this.datatabledetail = data.rka;
+					});
+			},
 			colorRowFormA(item) {
 				var color = "";
 				if (item.isprogram == 1) {
@@ -440,6 +550,13 @@
 					weight = "Normal weight text";
 				}				
 				return weight;
+			},
+			exitforma() {
+				var page = this.$store.getters["uiadmin/Page"]("formamurni");
+				page.formadetail = false;
+				page.datakegiatan = [];
+				this.$store.dispatch("uiadmin/updatePage", page);
+				this.$router.go();
 			},
 		},
 		watch: {

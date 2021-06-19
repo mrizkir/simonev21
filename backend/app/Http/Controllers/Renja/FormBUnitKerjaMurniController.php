@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use App\Models\DMaster\SubOrganisasiModel;
-use App\Models\Belanja\RKAModel;
+use App\Models\Renja\RKAModel;
 
 use Ramsey\Uuid\Uuid;
 
@@ -84,7 +84,8 @@ class FormBUnitKerjaMurniController extends Controller
                 $target_keuangan_program = 0;
                 $realisasi_keuangan_program = 0;
                 $data[$row]=[
-                    'FormBMurniID'=>Uuid::uuid4()->toString(),                
+                    'FormBMurniID'=>Uuid::uuid4()->toString(),          
+                    'RKAID'=>null,      
                     'kode'=>$kode_program,
                     'nama_uraian'=>$data_program->Nm_Program,         
                     'pagu_dana1'=>0,       
@@ -128,6 +129,7 @@ class FormBUnitKerjaMurniController extends Controller
                         
                         $data[$row]=[
                             'FormBMurniID'=>Uuid::uuid4()->toString(),
+                            'RKAID'=>null,
                             'kode'=>$kode_kegiatan,
                             'nama_uraian'=>$data_kegiatan->Nm_Kegiatan,
                             'pagu_dana1'=>$pagu_dana_kegiatan,
@@ -233,6 +235,7 @@ class FormBUnitKerjaMurniController extends Controller
 
                             $data[$row]=[
                                 'FormBMurniID'=>Uuid::uuid4()->toString(),
+                                'RKAID'=>$RKAID,
                                 'kode'=>$kode_sub_kegiatan,
                                 'nama_uraian'=>$data_sub_kegiatan->Nm_Sub_Kegiatan,                                
                                 'pagu_dana1'=>$data_sub_kegiatan->PaguDana1,
@@ -276,6 +279,7 @@ class FormBUnitKerjaMurniController extends Controller
                         
                         $data[$kegiatan_last_row]=[
                             'FormBMurniID'=>Uuid::uuid4()->toString(),
+                            'RKAID'=>null,
                             'kode'=>$kode_kegiatan,
                             'nama_uraian'=>$data_kegiatan->Nm_Kegiatan,
                             'pagu_dana1'=>$pagu_dana_kegiatan,
@@ -318,7 +322,8 @@ class FormBUnitKerjaMurniController extends Controller
             $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
             $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);                            
             $data[$program_last_row]=[
-                'FormBMurniID'=>Uuid::uuid4()->toString(),                
+                'FormBMurniID'=>Uuid::uuid4()->toString(),
+                'RKAID'=>null,
                 'kode'=>$kode_program,
                 'nama_uraian'=>$data_program->Nm_Program,         
                 'pagu_dana1'=>$pagu_dana_program,
