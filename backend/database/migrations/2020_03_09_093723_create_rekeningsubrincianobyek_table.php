@@ -21,7 +21,7 @@ class CreateRekeningsubrincianobyekTable extends Migration
             $table->string('SubRObyNm');
             $table->string('Descr')->nullable();
             $table->year('TA');
-            $table->uuid('RObyID_Src')->nullable();
+            $table->uuid('SubRObyID_Src')->nullable();
             $table->timestamps();
 
             $table->primary('SubRObyID');

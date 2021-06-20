@@ -106,65 +106,73 @@ class ReportModel extends Model
                     $totalPaguUraian = $rka->PaguDana1;
                     $this->dataKegiatan['total_pagu_uraian']=$totalPaguUraian;
                     $data_akhir = \DB::table('trRKARinc')
-                                    ->select(\DB::raw('`trRKARinc`.`RKARincID`,
-                                            `trRKARinc`.`RKAID`,
-                                            sipd.`Kd_Rek1`,
-                                            sipd.`Nm_Rek1`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`) AS `Kd_Rek2`,
-                                            sipd.`Nm_Rek2`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`,\'.\',sipd.`Kd_Rek3`) AS `Kd_Rek3`,
-                                            sipd.`Nm_Rek3`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`,\'.\',sipd.`Kd_Rek3`,\'.\',sipd.`Kd_Rek4`) AS `Kd_Rek4`,
-                                            sipd.`Nm_Rek4`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`,\'.\',sipd.`Kd_Rek3`,\'.\',sipd.`Kd_Rek4`,\'.\',sipd.`Kd_Rek5`) AS `Kd_Rek5`,
-                                            sipd.`Nm_Rek5`,
-                                            sipd.`nama_uraian`,
-                                            sipd.`PaguUraian1`,
-                                            `trRKARinc`.`volume1`,
-                                            `trRKARinc`.`satuan1`,
-                                            `trRKARinc`.`harga_satuan1`                                    
-                                    '))
+                                    ->select(\DB::raw("
+                                        `trRKARinc`.`RKARincID`,
+                                        `trRKARinc`.`RKAID`,
+                                        tmAkun.`Kd_Rek_1`, 
+                                        tmAkun.`Nm_Akun`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`) AS `Kd_Rek_2`, tmKlp.`KlpNm`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`) AS `Kd_Rek_6`, 
+                                        `tmSubROby`.`SubRObyNm`, 
+                                        `trRKARinc`.`NamaUraian1`, 
+                                        `trRKARinc`.`PaguUraian1`, 
+                                        `trRKARinc`.`volume1`, 
+                                        `trRKARinc`.`satuan1`, 
+                                        `trRKARinc`.`harga_satuan1` 
+                                    "))
                                     ->where('RKAID',$rka->RKAID)
-                                    ->join('sipd','sipd.TepraID','trRKARinc.RKARincID')
+                                    ->join('tmSubROby','tmSubROby.kode_rek_6','trRKARinc.kode_uraian1')
+                                    ->join('tmROby','tmROby.RobyID','tmSubROby.RobyID')
+                                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                    ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
+                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                                     ->get();   
-                                                
+                    
                     foreach ($data_akhir as $k=>$v)
                     {
                         $RKARincID=$v->RKARincID;                      
-                        $nama_uraian=$v->nama_uraian;
+                        $nama_uraian=$v->NamaUraian1;
                         $target=(float)\DB::table('trRKATargetRinc')
                                             ->where('RKARincID',$RKARincID)
                                             ->where('bulan1','<=',$no_bulan)
-                                            ->sum('target1');                                
+                                            ->sum('target1');  
+                        
                         $data_realisasi=\DB::table('trRKARealisasiRinc')
                                             ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
                                             ->where('RKARincID',$RKARincID)
                                             ->where('bulan1','<=',$no_bulan)
                                             ->get();
-
+                        
                         $realisasi=(float)$data_realisasi[0]->realisasi1;
                         $fisik=(float)$data_realisasi[0]->fisik1;            
                         $persen_fisik=number_format((($fisik > 100) ? 100:$fisik),2);
-                        $no_rek5=$v->Kd_Rek5;            
-                        if (array_key_exists ($no_rek5,$dataAkhir)) 
+                        $no_rek6=$v->Kd_Rek_6;            
+                        if (array_key_exists ($no_rek6, $dataAkhir)) 
                         {
                             $persenbobot=Helper::formatPersen($v->PaguUraian1,$totalPaguUraian); 
                             $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
                             $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
                             $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                             $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+
                             $dataAkhir[$no_rek5]['child'][]=[
                                                     'RKARincID'=>$v->RKARincID,
-                                                    'Kd_Rek1'=>$v->Kd_Rek1,
-                                                    'Nm_Rek1'=>$v->Nm_Rek1,
-                                                    'Kd_Rek2'=>$v->Kd_Rek2,
-                                                    'Nm_Rek2'=>$v->Nm_Rek2,
-                                                    'Kd_Rek3'=>$v->Kd_Rek3,
-                                                    'Nm_Rek3'=>$v->Nm_Rek3,
-                                                    'Kd_Rek4'=>$v->Kd_Rek4,
-                                                    'Nm_Rek4'=>$v->Nm_Rek4,
-                                                    'Kd_Rek5'=>$v->Kd_Rek5,
-                                                    'Nm_Rek5'=>$v->Nm_Rek5,
+                                                    'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                                    'Nm_Akun'=>$v->Nm_Akun,
+                                                    'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                                    'KlpNm'=>$v->KlpNm,
+                                                    'Kd_Rek_3'=>$v->Kd_Rek_3,
+                                                    'JnsNm'=>$v->JnsNm,
+                                                    'Kd_Rek_4'=>$v->Kd_Rek_4,
+                                                    'ObyNm'=>$v->ObyNm,
+                                                    'Kd_Rek_5'=>$v->Kd_Rek_5,
+                                                    'RObyNm'=>$v->RObyNm,
+                                                    'Kd_Rek_6'=>$v->Kd_Rek_6,
+                                                    'SubRObyNm'=>$v->SubRObyNm,
                                                     'nama_uraian'=>$nama_uraian,                                        
                                                     'pagu_uraian'=>$v->PaguUraian1,
                                                     'persen_bobot'=>$persenbobot,
@@ -188,18 +196,21 @@ class ReportModel extends Model
                             $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
                             $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                             $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
-                            $dataAkhir[$no_rek5]=[
+                            
+                            $dataAkhir[$no_rek6]=[
                                                     'RKARincID'=>$v->RKARincID,
-                                                    'Kd_Rek1'=>$v->Kd_Rek1,
-                                                    'Nm_Rek1'=>$v->Nm_Rek1,
-                                                    'Kd_Rek2'=>$v->Kd_Rek2,
-                                                    'Nm_Rek2'=>$v->Nm_Rek2,
-                                                    'Kd_Rek3'=>$v->Kd_Rek3,
-                                                    'Nm_Rek3'=>$v->Nm_Rek3,
-                                                    'Kd_Rek4'=>$v->Kd_Rek4,
-                                                    'Nm_Rek4'=>$v->Nm_Rek4,
-                                                    'Kd_Rek5'=>$v->Kd_Rek5,
-                                                    'Nm_Rek5'=>$v->Nm_Rek5,
+                                                    'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                                    'Nm_Akun'=>$v->Nm_Akun,
+                                                    'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                                    'KlpNm'=>$v->KlpNm,
+                                                    'Kd_Rek_3'=>$v->Kd_Rek_3,
+                                                    'JnsNm'=>$v->JnsNm,
+                                                    'Kd_Rek_4'=>$v->Kd_Rek_4,
+                                                    'ObyNm'=>$v->ObyNm,
+                                                    'Kd_Rek_5'=>$v->Kd_Rek_5,
+                                                    'RObyNm'=>$v->RObyNm,
+                                                    'Kd_Rek_6'=>$v->Kd_Rek_6,
+                                                    'SubRObyNm'=>$v->SubRObyNm,
                                                     'nama_uraian'=>$nama_uraian,                                        
                                                     'pagu_uraian'=>$v->PaguUraian1,
                                                     'persen_bobot'=>$persenbobot,
@@ -215,6 +226,7 @@ class ReportModel extends Model
                                                     'harga_satuan'=>(float)$v->harga_satuan1,
                                                     'satuan'=>$v->satuan1
                                                 ];
+                            
                         }
 
                     }       	
@@ -271,16 +283,16 @@ class ReportModel extends Model
                     $data_akhir = \DB::table('trRKARinc')
                                     ->select(\DB::raw('`trRKARinc`.`RKARincID`,
                                             `trRKARinc`.`RKAID`,
-                                            sipd.`Kd_Rek1`,
-                                            sipd.`Nm_Rek1`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`) AS `Kd_Rek2`,
-                                            sipd.`Nm_Rek2`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`,\'.\',sipd.`Kd_Rek3`) AS `Kd_Rek3`,
-                                            sipd.`Nm_Rek3`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`,\'.\',sipd.`Kd_Rek3`,\'.\',sipd.`Kd_Rek4`) AS `Kd_Rek4`,
-                                            sipd.`Nm_Rek4`,
-                                            CONCAT(sipd.`Kd_Rek1`,\'.\',sipd.`Kd_Rek2`,\'.\',sipd.`Kd_Rek3`,\'.\',sipd.`Kd_Rek4`,\'.\',sipd.`Kd_Rek5`) AS `Kd_Rek5`,
-                                            sipd.`Nm_Rek5`,
+                                            sipd.`Kd_Rek_1`,
+                                            sipd.`Nm_Akun`,
+                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`) AS `Kd_Rek_2`,
+                                            sipd.`KlpNm`,
+                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`,\'.\',sipd.`Kd_Rek_3`) AS `Kd_Rek_3`,
+                                            sipd.`JnsNm`,
+                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`,\'.\',sipd.`Kd_Rek_3`,\'.\',sipd.`Kd_Rek_4`) AS `Kd_Rek_4`,
+                                            sipd.`ObyNm`,
+                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`,\'.\',sipd.`Kd_Rek_3`,\'.\',sipd.`Kd_Rek_4`,\'.\',sipd.`Kd_Rek_5`) AS `Kd_Rek_5`,
+                                            sipd.`RObyNm`,
                                             sipd.`nama_uraian`,
                                             sipd.`PaguUraian2`,
                                             `trRKARinc`.`volume2`,
@@ -308,7 +320,7 @@ class ReportModel extends Model
                         $realisasi=(float)$data_realisasi[0]->realisasi2;
                         $fisik=(float)$data_realisasi[0]->fisik2;            
                         $persen_fisik=number_format((($fisik > 100) ? 100:$fisik),2);
-                        $no_rek5=$v->Kd_Rek5;            
+                        $no_rek5=$v->Kd_Rek_5;            
                         if (array_key_exists ($no_rek5,$dataAkhir)) 
                         {
                             $persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
@@ -318,16 +330,16 @@ class ReportModel extends Model
                             $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
                             $dataAkhir[$no_rek5]['child'][]=[
                                                     'RKARincID'=>$v->RKARincID,
-                                                    'Kd_Rek1'=>$v->Kd_Rek1,
-                                                    'Nm_Rek1'=>$v->Nm_Rek1,
-                                                    'Kd_Rek2'=>$v->Kd_Rek2,
-                                                    'Nm_Rek2'=>$v->Nm_Rek2,
-                                                    'Kd_Rek3'=>$v->Kd_Rek3,
-                                                    'Nm_Rek3'=>$v->Nm_Rek3,
-                                                    'Kd_Rek4'=>$v->Kd_Rek4,
-                                                    'Nm_Rek4'=>$v->Nm_Rek4,
-                                                    'Kd_Rek5'=>$v->Kd_Rek5,
-                                                    'Nm_Rek5'=>$v->Nm_Rek5,
+                                                    'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                                    'Nm_Akun'=>$v->Nm_Akun,
+                                                    'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                                    'KlpNm'=>$v->KlpNm,
+                                                    'Kd_Rek_3'=>$v->Kd_Rek_3,
+                                                    'JnsNm'=>$v->JnsNm,
+                                                    'Kd_Rek_4'=>$v->Kd_Rek_4,
+                                                    'ObyNm'=>$v->ObyNm,
+                                                    'Kd_Rek_5'=>$v->Kd_Rek_5,
+                                                    'RObyNm'=>$v->RObyNm,
                                                     'nama_uraian'=>$nama_uraian,                                        
                                                     'pagu_uraian'=>$v->PaguUraian2,
                                                     'persen_bobot'=>$persenbobot,
@@ -353,16 +365,18 @@ class ReportModel extends Model
                             $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
                             $dataAkhir[$no_rek5]=[
                                                     'RKARincID'=>$v->RKARincID,
-                                                    'Kd_Rek1'=>$v->Kd_Rek1,
-                                                    'Nm_Rek1'=>$v->Nm_Rek1,
-                                                    'Kd_Rek2'=>$v->Kd_Rek2,
-                                                    'Nm_Rek2'=>$v->Nm_Rek2,
-                                                    'Kd_Rek3'=>$v->Kd_Rek3,
-                                                    'Nm_Rek3'=>$v->Nm_Rek3,
-                                                    'Kd_Rek4'=>$v->Kd_Rek4,
-                                                    'Nm_Rek4'=>$v->Nm_Rek4,
-                                                    'Kd_Rek5'=>$v->Kd_Rek5,
-                                                    'Nm_Rek5'=>$v->Nm_Rek5,
+                                                    'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                                    'Nm_Akun'=>$v->Nm_Akun,
+                                                    'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                                    'KlpNm'=>$v->KlpNm,
+                                                    'Kd_Rek_3'=>$v->Kd_Rek_3,
+                                                    'JnsNm'=>$v->JnsNm,
+                                                    'Kd_Rek_4'=>$v->Kd_Rek_4,
+                                                    'ObyNm'=>$v->ObyNm,
+                                                    'Kd_Rek_5'=>$v->Kd_Rek_5,
+                                                    'RObyNm'=>$v->RObyNm,
+                                                    'Kd_Rek_6'=>$v->Kd_Rek_6,
+                                                    'SubRObyNm'=>$v->SubRObyNm,
                                                     'nama_uraian'=>$nama_uraian,                                        
                                                     'pagu_uraian'=>$v->PaguUraian2,
                                                     'persen_bobot'=>$persenbobot,
@@ -391,14 +405,15 @@ class ReportModel extends Model
 	* digunakan untuk mendapatkan tingkat rekening Form A	
 	*/
 	public function getRekeningProyek () {		 
-		$a=$this->dataRKA;
+		$a=$this->dataRKA;        
         $tingkat=[];
 		foreach ($a as $v) {					
-			$tingkat[1][$v['Kd_Rek1']]=$v['Nm_Rek1'];
-			$tingkat[2][$v['Kd_Rek2']]=$v['Nm_Rek2'];
-			$tingkat[3][$v['Kd_Rek3']]=$v['Nm_Rek3'];
-			$tingkat[4][$v['Kd_Rek4']]=$v['Nm_Rek4'];
-			$tingkat[5][$v['Kd_Rek5']]=$v['Nm_Rek5'];				
+			$tingkat[1][$v['Kd_Rek_1']]=$v['Nm_Akun'];
+			$tingkat[2][$v['Kd_Rek_2']]=$v['KlpNm'];
+			$tingkat[3][$v['Kd_Rek_3']]=$v['JnsNm'];
+			$tingkat[4][$v['Kd_Rek_4']]=$v['ObyNm'];
+			$tingkat[5][$v['Kd_Rek_5']]=$v['RObyNm'];				
+			$tingkat[6][$v['Kd_Rek_6']]=$v['SubRObyNm'];				
 		}
 		return $tingkat;
     }
@@ -417,7 +432,7 @@ class ReportModel extends Model
         $totalpersentertimbangfisik=0;
         $totalbaris=0;        
         foreach ($dataproyek as $de) {                        
-            if ($k==$de[$no_rek]) {                                               
+            if ($k==$de[$no_rek]) {
                 $totalpagu+=$de['pagu_uraian'];
                 $totaltarget+=$de['target'];
                 $totalrealisasi+=$de['realisasi'];
@@ -428,8 +443,8 @@ class ReportModel extends Model
                 $totalpersentertimbangrealisasi+=$de['persen_tertimbang_realisasi'];
                 $totalpersentertimbangfisik+=$de['persen_tertimbang_fisik'];
                 $totalbaris+=1;
-                if (isset($dataproyek[$de['Kd_Rek5']]['child'][0])) {                    
-                    $child=$dataproyek[$de['Kd_Rek5']]['child'];                    
+                if (isset($dataproyek[$de['Kd_Rek_5']]['child'][0])) {                    
+                    $child=$dataproyek[$de['Kd_Rek_5']]['child'];                    
                     foreach ($child as $n) {                       
                         $totalbaris+=1;
                         $totalpagu+=$n['pagu_uraian'];

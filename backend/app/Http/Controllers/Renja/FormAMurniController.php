@@ -59,6 +59,7 @@ class FormAMurniController extends Controller
             $tingkat_3=$tingkat[3];
             $tingkat_4=$tingkat[4];
             $tingkat_5=$tingkat[5]; 
+            $tingkat_6=$tingkat[6]; 
             $totalPaguDana=0;
             $totalUraian=0;
             $totalTargetSatuKegiatan=0;
@@ -77,7 +78,7 @@ class FormAMurniController extends Controller
                     {
                         //tingkat i
                         
-                        $totalPaguDana_Rek1=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k1,'Kd_Rek1');   
+                        $totalPaguDana_Rek1=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k1,'Kd_Rek_1');   
                         $totalPaguDana=$totalPaguDana_Rek1['totalpagu'];                                             
                         $data[]=[
                             'FormAMurniDetailID'=>uniqid('uid'),  
@@ -108,7 +109,7 @@ class FormAMurniController extends Controller
                             }
                             foreach ($rek2_tampil as $a=>$b) 
                             {
-                                $totalPaguDana_Rek2=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$a,'Kd_Rek2');                                
+                                $totalPaguDana_Rek2=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$a,'Kd_Rek_2');                                
                                 $no_=explode ('.',$a);                                                   
                                 $data[]=[
                                     'FormAMurniDetailID'=>uniqid('uid'),   
@@ -131,7 +132,7 @@ class FormAMurniController extends Controller
                                     $rek3=substr($k3,0,3);
                                     if ($a==$rek3) 
                                     {
-                                        $totalPaguDana_Rek3=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k3,'Kd_Rek3');                                        
+                                        $totalPaguDana_Rek3=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k3,'Kd_Rek_3');                                        
                                         $no_=explode (".",$k3);
                                         $persen_bobot_rek3=Helper::formatPecahan($totalPaguDana_Rek3['totalpersenbobot'],1);
                                         $persen_target_rek3=Helper::formatPecahan($totalPaguDana_Rek3['totalpersentarget'],1);
@@ -159,7 +160,7 @@ class FormAMurniController extends Controller
                                         {
                                             if (preg_match("/^$k3/", $k4)) 
                                             {
-                                                $totalPaguDana_Rek4=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k4,'Kd_Rek4');                                                
+                                                $totalPaguDana_Rek4=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k4,'Kd_Rek_4');
                                                 $no_=explode (".",$k4);
                                                 $persen_bobot_rek4=Helper::formatPecahan($totalPaguDana_Rek4['totalpersenbobot'],1);                                                
                                                 $persen_target_rek4=Helper::formatPecahan($totalPaguDana_Rek4['totalpersentarget'],1);                                                
@@ -183,27 +184,23 @@ class FormAMurniController extends Controller
                                                     'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek4,
                                                     'sisa_anggaran'=>$totalPaguDana_Rek4['totalpagu']-$totalPaguDana_Rek4['totalrealisasi'],
                                                 ];
-
                                                 foreach ($tingkat_5 as $k5=>$v5) 
                                                 {
                                                     if (preg_match("/^$k4/", $k5)) 
-                                                    {      
-                                                        $totalUraian+=1;
-                                                        $totalPaguDana_Rek5=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k5,'Kd_Rek5');													                                                        
-                                                        $RKARincID=$rka[$k5]['RKARincID'];
-                                                        $nama_uraian=$rka[$k5]['nama_uraian']; 
-                                                        $no_=explode (".",$k5);    
-                                                        $persen_bobot_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersenbobot'],1);                                                        
-                                                        $persen_target_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentarget'],1);                                                        
+                                                    {   
+                                                        $totalPaguDana_Rek5=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k5,'Kd_Rek_5');
+                                                        $no_=explode (".",$k5);
+                                                        $persen_bobot_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersenbobot'],1);                                                
+                                                        $persen_target_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentarget'],1);                                                
                                                         $persen_realisasi_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersenrealisasi'],1);
-                                                        $persen_tertimbang_realisasi_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentertimbangrealisasi'],1);                                                        
+                                                        $persen_tertimbang_realisasi_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentertimbangrealisasi'],1);                                                
                                                         $persen_rata2_fisik_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalfisik'],$totalPaguDana_Rek5['totalbaris']);
-                                                        $persen_tertimbang_fisik_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentertimbangfisik'],1);
-                                                        
+                                                        $persen_tertimbang_fisik_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentertimbangfisik'],1);                                                                                                
+
                                                         $data[]=[
                                                             'FormAMurniDetailID'=>uniqid('uid'),        
-                                                            'tingkat'=>5,   
-                                                            'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4],                                                                                                                                                    
+                                                            'tingkat'=>5,    
+                                                            'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4],
                                                             'nama_uraian'=>$v5,
                                                             'totalPaguDana'=>$totalPaguDana_Rek5['totalpagu'],
                                                             'persen_bobot'=>$persen_bobot_rek5,
@@ -215,88 +212,109 @@ class FormAMurniController extends Controller
                                                             'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek5,
                                                             'sisa_anggaran'=>$totalPaguDana_Rek5['totalpagu']-$totalPaguDana_Rek5['totalrealisasi'],
                                                         ];
-                                                        $nilaiuraian=$rka[$k5]['pagu_uraian']; 
-                                                        $target=$rka[$k5]['target'];                                                         
-                                                        $totalTargetSatuKegiatan+=$target;
-                                                        $realisasi=$rka[$k5]['realisasi'];                                                  
-                                                        $totalRealisasiSatuKegiatan+=$realisasi;
-                                                        $fisik=$rka[$k5]['fisik'];                                                        
-                                                        $volume=$rka[$k5]['volume'];                                                        
-                                                        $persen_bobot=Helper::formatPecahan($rka[$k5]['persen_bobot'],1);
-                                                        $totalPersenBobotSatuKegiatan+=$persen_bobot;
-                                                        $persen_target=Helper::formatPecahan($rka[$k5]['persen_target'],1);   
-                                                        $totalPersenTargetSatuKegiatan+=$persen_target;   
-                                                        $persen_realisasi=Helper::formatPecahan($rka[$k5]['persen_realisasi'],1);
-                                                        $totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
-                                                        $persen_tertimbang_realisasi=Helper::formatPecahan($rka[$k5]['persen_tertimbang_realisasi'],1);                                                        
-                                                        $persen_fisik=Helper::formatPecahan($rka[$k5]['persen_fisik'],1);
-                                                        $totalPersenFisikSatuKegiatan+=$persen_fisik;
-                                                        $persen_tertimbang_fisik=Helper::formatPecahan($rka[$k5]['persen_tertimbang_fisik'],1);
-                                                        $totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
-                                                        $sisa_anggaran=$nilaiuraian-$realisasi;                                                                                                                                                                   
-                                                        
-                                                        $data[]=[
-                                                            'FormAMurniDetailID'=>uniqid('uid'),        
-                                                            'tingkat'=>6,   
-                                                            'kode'=>'',
-                                                            'nama_uraian'=>$nama_uraian,
-                                                            'totalPaguDana'=>$nilaiuraian,
-                                                            'persen_bobot'=>$persen_bobot,
-                                                            'persen_rata2_fisik'=>$persen_fisik,
-                                                            'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                                                            'total_target'=>$target,
-                                                            'total_realisasi'=>$realisasi,
-                                                            'persen_realisasi'=>$persen_realisasi,
-                                                            'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                                                            'sisa_anggaran'=>$sisa_anggaran,
-                                                        ];
-                                                        if (isset($rka[$k5]['child'][0])) 
+
+                                                        foreach ($tingkat_6 as $k6=>$v6) 
                                                         {
-                                                            $child=$rka[$k5]['child'];    
-                                                            foreach ($child as $n) 
-                                                            {
+                                                            if (preg_match("/^$k5/", $k6)) 
+                                                            {  
                                                                 $totalUraian+=1;
-                                                                $RKARincID=$n['RKARincID'];                                                                
-                                                                $nama_uraian=$n['nama_uraian'];
-                                                                $nilaiuraian=$n['pagu_uraian']; 
-                                                                $target=$n['target'];                                                                 
-                                                                $totalTargetSatuKegiatan+=$target;
-                                                                $realisasi=$n['realisasi'];    
-                                                                $totalRealisasiSatuKegiatan+=$realisasi;
-                                                                $fisik=$n['fisik'];                                                                
-                                                                $volume=$n['volume'];
-                                                                $persen_bobot=Helper::formatPecahan($n['persen_bobot'],1);
-                                                                $totalPersenBobotSatuKegiatan+=$persen_bobot;   
-                                                                $persen_target=Helper::formatPecahan($n['persen_target'],1);   
-                                                                $totalPersenTargetSatuKegiatan+=$persen_target;   
-                                                                $persen_realisasi=Helper::formatPecahan($n['persen_realisasi'],1);
-                                                                $totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
-                                                                $persen_tertimbang_realisasi=Helper::formatPecahan($n['persen_tertimbang_realisasi'],1);                                                                
-                                                                $persen_fisik=Helper::formatPecahan($n['persen_fisik'],1);
-                                                                $totalPersenFisikSatuKegiatan+=$persen_fisik;
-                                                                $persen_tertimbang_fisik=Helper::formatPecahan($n['persen_tertimbang_fisik'],1);
-                                                                $totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
-                                                                $sisa_anggaran=$nilaiuraian-$realisasi;                                                                                                                                                                                     
-                                                                
+                                                                $totalPaguDana_Rek6=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k6,'Kd_Rek_6');
+                                                                $RKARincID=$rka[$k6]['RKARincID'];
+                                                                $nama_uraian=$rka[$k6]['nama_uraian']; 
+                                                                $no_=explode (".",$k6);    
+                                                                $persen_bobot_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersenbobot'],1);                                                        
+                                                                $persen_target_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentarget'],1);                                                        
+                                                                $persen_realisasi_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersenrealisasi'],1);
+                                                                $persen_tertimbang_realisasi_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentertimbangrealisasi'],1);                                                        
+                                                                $persen_rata2_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalfisik'],$totalPaguDana_Rek6['totalbaris']);
+                                                                $persen_tertimbang_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentertimbangfisik'],1);
+
                                                                 $data[]=[
                                                                     'FormAMurniDetailID'=>uniqid('uid'),        
-                                                                    'tingkat'=>7,                    
-                                                                    'kode'=>'',
-                                                                    'nama_uraian'=>$nama_uraian,
-                                                                    'totalPaguDana'=>$nilaiuraian,
-                                                                    'persen_bobot'=>$persen_bobot,
-                                                                    'persen_rata2_fisik'=>$persen_fisik,
-                                                                    'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                                                                    'total_target'=>$target,
-                                                                    'total_realisasi'=>$realisasi,
-                                                                    'persen_realisasi'=>$persen_realisasi,
-                                                                    'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                                                                    'sisa_anggaran'=>$sisa_anggaran,
+                                                                    'tingkat'=>6,   
+                                                                    'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_[5],
+                                                                    'nama_uraian'=>$v6,
+                                                                    'totalPaguDana'=>$totalPaguDana_Rek6['totalpagu'],
+                                                                    'persen_bobot'=>$persen_bobot_rek6,
+                                                                    'persen_rata2_fisik'=>$persen_rata2_fisik_rek6,
+                                                                    'persen_tertimbang_fisik'=>$persen_tertimbang_fisik_rek6,
+                                                                    'total_target'=>$totalPaguDana_Rek6['totaltarget'],
+                                                                    'total_realisasi'=>$totalPaguDana_Rek6['totalrealisasi'],
+                                                                    'persen_realisasi'=>$persen_realisasi_rek6,
+                                                                    'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek6,
+                                                                    'sisa_anggaran'=>$totalPaguDana_Rek6['totalpagu']-$totalPaguDana_Rek6['totalrealisasi'],
                                                                 ];
-                                                            } 
-                                                        }     
+
+                                                                $nilaiuraian=$rka[$k6]['pagu_uraian']; 
+                                                                $target=$rka[$k6]['target'];                                                         
+                                                                $totalTargetSatuKegiatan+=$target;
+                                                                $realisasi=$rka[$k6]['realisasi'];                                                  
+                                                                $totalRealisasiSatuKegiatan+=$realisasi;
+                                                                $fisik=$rka[$k6]['fisik'];                                                        
+                                                                $volume=$rka[$k6]['volume'];                                                        
+                                                                $persen_bobot=Helper::formatPecahan($rka[$k6]['persen_bobot'],1);
+                                                                $totalPersenBobotSatuKegiatan+=$persen_bobot;
+                                                                $persen_target=Helper::formatPecahan($rka[$k6]['persen_target'],1);   
+                                                                $totalPersenTargetSatuKegiatan+=$persen_target;   
+                                                                $persen_realisasi=Helper::formatPecahan($rka[$k6]['persen_realisasi'],1);
+                                                                $totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
+                                                                $persen_tertimbang_realisasi=Helper::formatPecahan($rka[$k6]['persen_tertimbang_realisasi'],1);                                                        
+                                                                $persen_fisik=Helper::formatPecahan($rka[$k6]['persen_fisik'],1);
+                                                                $totalPersenFisikSatuKegiatan+=$persen_fisik;
+                                                                $persen_tertimbang_fisik=Helper::formatPecahan($rka[$k6]['persen_tertimbang_fisik'],1);
+                                                                $totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
+                                                                $sisa_anggaran=$nilaiuraian-$realisasi;
+
+                                                                if (isset($rka[$k6]['child'][0])) 
+                                                                {
+                                                                    $child=$rka[$k6]['child'];    
+                                                                    foreach ($child as $n) 
+                                                                    {
+                                                                        $totalUraian+=1;
+                                                                        $RKARincID=$n['RKARincID'];                                                                
+                                                                        $nama_uraian=$n['nama_uraian'];
+                                                                        $nilaiuraian=$n['pagu_uraian']; 
+                                                                        $target=$n['target'];                                                                 
+                                                                        $totalTargetSatuKegiatan+=$target;
+                                                                        $realisasi=$n['realisasi'];    
+                                                                        $totalRealisasiSatuKegiatan+=$realisasi;
+                                                                        $fisik=$n['fisik'];                                                                
+                                                                        $volume=$n['volume'];
+                                                                        $persen_bobot=Helper::formatPecahan($n['persen_bobot'],1);
+                                                                        $totalPersenBobotSatuKegiatan+=$persen_bobot;   
+                                                                        $persen_target=Helper::formatPecahan($n['persen_target'],1);   
+                                                                        $totalPersenTargetSatuKegiatan+=$persen_target;   
+                                                                        $persen_realisasi=Helper::formatPecahan($n['persen_realisasi'],1);
+                                                                        $totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
+                                                                        $persen_tertimbang_realisasi=Helper::formatPecahan($n['persen_tertimbang_realisasi'],1);                                                                
+                                                                        $persen_fisik=Helper::formatPecahan($n['persen_fisik'],1);
+                                                                        $totalPersenFisikSatuKegiatan+=$persen_fisik;
+                                                                        $persen_tertimbang_fisik=Helper::formatPecahan($n['persen_tertimbang_fisik'],1);
+                                                                        $totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
+                                                                        $sisa_anggaran=$nilaiuraian-$realisasi;                                                                                                                                                                                     
+                                                                        
+                                                                        $data[]=[
+                                                                            'FormAMurniDetailID'=>uniqid('uid'),        
+                                                                            'tingkat'=>7,                    
+                                                                            'kode'=>'',
+                                                                            'nama_uraian'=>$nama_uraian,
+                                                                            'totalPaguDana'=>$nilaiuraian,
+                                                                            'persen_bobot'=>$persen_bobot,
+                                                                            'persen_rata2_fisik'=>$persen_fisik,
+                                                                            'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
+                                                                            'total_target'=>$target,
+                                                                            'total_realisasi'=>$realisasi,
+                                                                            'persen_realisasi'=>$persen_realisasi,
+                                                                            'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
+                                                                            'sisa_anggaran'=>$sisa_anggaran,
+                                                                        ];
+                                                                    } 
+                                                                }     
+                                                            }
+                                                        }
                                                     }
-                                                }	                                                                                                                                                                        
+                                                    
+                                                }                                                
                                             }
                                         }  
                                     }
@@ -367,7 +385,7 @@ class FormAMurniController extends Controller
                             'nama_pengguna_anggaran'=>$unitkerja->NamaKepalaUnitKerja,
                             'nip_pengguna_anggaran'=>$unitkerja->NIPKepalaUnitKerja
                         ];
-            $report= new \App\Models\Report\FormAMurniModel ($data_report);
+            $report= new \App\Models\Renja\FormAMurniModel ($data_report);
             $generate_date=date('Y-m-d_H_m_s');
             return $report->download("forma_a_$generate_date.xlsx");
         }
