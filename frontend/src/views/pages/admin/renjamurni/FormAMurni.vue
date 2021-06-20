@@ -73,7 +73,7 @@
 						<v-btn
 							@click.stop="printtoexcel"
 							:loading="btnLoading"
-							:disabled="btnLoading"
+							:disabled="btnLoading || true"
 						>
 							<span>Cetak</span>
 							<v-icon>mdi-printer</v-icon>
@@ -83,6 +83,101 @@
 							<v-icon>mdi-close</v-icon>
 						</v-btn>
 					</v-bottom-navigation>
+				</v-col>
+			</v-row>
+			<v-row class="mb-4" no-gutters>
+				<v-col xs="12" sm="12" md="12">
+					<v-alert type="info">
+						Catatan: Nilai realisasi keuangan dan fisik dihitung akumulasi s.d
+						<strong>
+							BULAN {{ nama_bulan }} T.A
+							{{ $store.getters["uifront/getTahunAnggaran"] }}
+						</strong>
+					</v-alert>
+					<v-data-table
+						:headers="headersdetail"
+						:items="datatabledetail"
+						:search="search"
+						item-key="FormAMurniDetailID"
+						dense
+						:single-expand="true"
+						class="elevation-1"
+						:loading="datatableLoading"
+						loading-text="Loading... Please wait"
+						:disable-pagination="true"
+						:hide-default-footer="true"
+					>
+						<template v-slot:body="{ items }">
+							<tbody>
+								<tr
+									v-for="item in items"
+									v-bind:key="item.FormBMurniID"									
+								>
+									<td>{{ item.kode }}</td>
+									<td>{{ item.nama_uraian }}</td>
+									<td class="text-right">
+										{{ item.totalPaguDana | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ item.persen_bobot| makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ item.persen_rata2_fisik| makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ item.persen_tertimbang_fisik| makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ item.total_target | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ item.total_realisasi | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ item.persen_realisasi }}
+									</td>
+									<td class="text-right">
+										{{ item.persen_tertimbang_realisasi| makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ item.sisa_anggaran | formatUang }}
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr class="orange font-weight-bold dark">
+									<td colspan="2" class="text-right">TOTAL</td>
+									<td class="text-right">
+										{{ total_forma.totalPaguDana | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.totalPersenBobot | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.totalRealisasiFisik | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.totalPersenTertimbangFisikSatuKegiatan }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.totalTargetSatuKegiatan | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.totalRealisasiSatuKegiatan | formatUang }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.total_persen_rata2_realisasi | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.totalPersenTertimbangRealisasiSatuKegiatan | makeLookPrecision }}
+									</td>
+									<td class="text-right">
+										{{ total_forma.sisa_anggaran | formatUang }}
+									</td>
+								</tr>
+							</tfoot>
+						</template>
+					</v-data-table>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -185,7 +280,7 @@
 										{{ item.pagu_dana1 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_target1 }}
+										{{ item.fisik_target1| makeLookPrecision }}
 									</td>
 									<td class="text-right">
 										{{ item.fisik_realisasi1 | makeLookPrecision }}
@@ -428,6 +523,76 @@
 				//form a detail
 				datakegiatan: [],
 				formadetail: false,
+
+				//headers detail form
+				datatabledetail: [],
+				headersdetail: [
+					{ text: "KODE REKENING", value: "kode", width: 80, sortable: false },
+					{ text: "URAIAN", value: "nama_uraian", width: 300, sortable: false },
+					{
+						text: "JUMLAH",
+						value: "totalPaguDana",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "BOBOT (%)",
+						value: "persen_bobot",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "REALISASI FISIK (%)",
+						value: "persen_rata2_fisik",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "TTB FISIK (%)",
+						value: "persen_tertimbang_fisik",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "TARGET KEUANGAN (RP)",
+						value: "total_target",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "REALISASI KEUANGAN (RP)",
+						value: "total_realisasi",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "(%)",
+						value: "persen_realisasi",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "TTB KEUANGAN (%)",
+						value: "persen_tertimbang_realisasi",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+					{
+						text: "SISA ANGGARAN (RP)",
+						value: "sisa_anggaran",
+						align: "end",
+						width: 100,
+						sortable: false,
+					},
+				],
 			};
 		},
 		methods: {
@@ -520,7 +685,6 @@
 						}
 					)
 					.then(({ data }) => {
-						console.log(data);
 						this.total_forma = data.total_data;
 						this.datatabledetail = data.rka;
 					});

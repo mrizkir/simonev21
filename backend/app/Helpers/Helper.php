@@ -266,12 +266,8 @@ class Helper {
         $result=0.00;
 		if ($pembilang > 0 && $penyebut > 0) {
             $temp=round(number_format((float)($pembilang/$penyebut)*100,2),$dec_sep);
-            $result = $temp;
-        }
-        else
-        {
-            $result=0;
-        }
+            $result = $temp > 100 ? 100.00 : $temp;
+        }        
         return $result;
 	}
     /**
