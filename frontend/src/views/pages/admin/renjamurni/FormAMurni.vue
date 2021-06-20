@@ -73,7 +73,7 @@
 						<v-btn
 							@click.stop="printtoexcel"
 							:loading="btnLoading"
-							:disabled="btnLoading || true"
+							:disabled="btnLoading"
 						>
 							<span>Cetak</span>
 							<v-icon>mdi-printer</v-icon>
@@ -687,6 +687,40 @@
 					.then(({ data }) => {
 						this.total_forma = data.total_data;
 						this.datatabledetail = data.rka;
+					});
+			},
+			async printtoexcel() {
+				var SOrgID_Selected = this.$store.getters[
+					"uiadmin/AtributeValueOfPage"
+				]("formamurni", "SOrgID_Selected");
+				this.btnLoading = true;
+				await this.$ajax
+					.post(
+						"/renjamurni/report/forma/printtoexcel",
+						{
+							SOrgID: SOrgID_Selected,
+							RKAID: this.datakegiatan.RKAID,
+							no_bulan: this.$store.getters["uifront/getBulanRealisasi"],
+							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+							responseType: "arraybuffer",
+						}
+					)
+					.then(({ data }) => {
+						const url = window.URL.createObjectURL(new Blob([data]));
+						const link = document.createElement("a");
+						link.href = url;
+						link.setAttribute("download", "form_a_" + Date.now() + ".xlsx");
+						document.body.appendChild(link);
+						link.click();
+						this.btnLoading = false;
+					})
+					.catch(() => {
+						this.btnLoading = false;
 					});
 			},
 			colorRowFormA(item) {

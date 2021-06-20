@@ -19,7 +19,7 @@ class ReportModel extends Model
     */
     protected $spreadsheet;
     /**
-     * digunakan untuk menyimpan data satu skegiatan
+     * digunakan untuk menyimpan data satu kegiatan
      */
     protected $dataKegiatan = [];
     /**
@@ -60,6 +60,8 @@ class ReportModel extends Model
             case 1 :
                 $sql = \DB::raw('`trRKA`.`RKAID`,
                                 `trRKA`.`kode_urusan`,
+                                `trRKA`.`Nm_Urusan`,
+                                `trRKA`.`kode_bidang`,
                                 `trRKA`.`Nm_Bidang`,
                                 `trRKA`.`kode_organisasi`,
                                 `trRKA`.`Nm_Organisasi`,
@@ -69,6 +71,8 @@ class ReportModel extends Model
                                 `trRKA`.`Nm_Program`,                                
                                 `trRKA`.`kode_kegiatan`,
                                 `trRKA`.`Nm_Kegiatan`,
+                                `trRKA`.`kode_sub_kegiatan`,
+                                `trRKA`.`Nm_Sub_Kegiatan`,
                                 `trRKA`.`lokasi_kegiatan1`,
                                 `trRKA`.`SumberDanaID`,
                                 `C`.`Nm_SumberDana`,
@@ -84,6 +88,7 @@ class ReportModel extends Model
                                 `trRKA`.`waktu_pelaksanaan1`,
                                 `trRKA`.`PaguDana1`,
                                 `trRKA`.`Descr`,
+                                `trRKA`.`TA`,
                                 `trRKA`.`EntryLvl`,
                                 `A`.`NIP_ASN` AS nip_pa,
                                 `A`.`Nm_ASN` AS nama_pa,
@@ -235,6 +240,8 @@ class ReportModel extends Model
             case 2 :
                 $sql = \DB::raw('`trRKA`.`RKAID`,
                                 `trRKA`.`kode_urusan`,
+                                `trRKA`.`Nm_Urusan`,
+                                `trRKA`.`kode_bidang`,
                                 `trRKA`.`Nm_Bidang`,
                                 `trRKA`.`kode_organisasi`,
                                 `trRKA`.`Nm_Organisasi`,
@@ -244,21 +251,24 @@ class ReportModel extends Model
                                 `trRKA`.`Nm_Program`,                                
                                 `trRKA`.`kode_kegiatan`,
                                 `trRKA`.`Nm_Kegiatan`,
-                                `trRKA`.`lokasi_kegiatan2`,
+                                `trRKA`.`kode_sub_kegiatan`,
+                                `trRKA`.`Nm_Sub_Kegiatan`,
+                                `trRKA`.`lokasi_kegiatan1`,
                                 `trRKA`.`SumberDanaID`,
                                 `C`.`Nm_SumberDana`,
-                                `trRKA`.`tk_capaian2`,
-                                `trRKA`.`capaian_program2`,
-                                `trRKA`.`masukan2`,
-                                `trRKA`.`tk_keluaran2`,
-                                `trRKA`.`keluaran2`,
-                                `trRKA`.`tk_hasil2`,
-                                `trRKA`.`hasil2`,
-                                `trRKA`.`ksk2`,
-                                `trRKA`.`sifat_kegiatan2`,
-                                `trRKA`.`waktu_pelaksanaan2`,
-                                `trRKA`.`PaguDana2`,
+                                `trRKA`.`tk_capaian1`,
+                                `trRKA`.`capaian_program1`,
+                                `trRKA`.`masukan1`,
+                                `trRKA`.`tk_keluaran1`,
+                                `trRKA`.`keluaran1`,
+                                `trRKA`.`tk_hasil1`,
+                                `trRKA`.`hasil1`,
+                                `trRKA`.`ksk1`,
+                                `trRKA`.`sifat_kegiatan1`,
+                                `trRKA`.`waktu_pelaksanaan1`,
+                                `trRKA`.`PaguDana1`,
                                 `trRKA`.`Descr`,
+                                `trRKA`.`TA`,
                                 `trRKA`.`EntryLvl`,
                                 `A`.`NIP_ASN` AS nip_pa,
                                 `A`.`Nm_ASN` AS nama_pa,
@@ -267,6 +277,7 @@ class ReportModel extends Model
                                 `trRKA`.`created_at`,
                                 `trRKA`.`updated_at`
                             ');
+
 
                 $rka = \App\Models\Renja\RKAModel::select($sql)                              
                             ->leftJoin('tmASN AS A','A.ASNID','trRKA.nip_pa2')     
@@ -400,7 +411,14 @@ class ReportModel extends Model
         }          
         $this->dataRKA=$dataAkhir;
         return $dataAkhir;
-    }   
+    }
+    /**
+     * digunakan untuk mendapatkan data kegiatan
+    */  
+    public function gerDataKegiatan()
+    {
+        return $this->dataKegiatan;
+    }
     /**
 	* digunakan untuk mendapatkan tingkat rekening Form A	
 	*/

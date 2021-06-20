@@ -686,7 +686,7 @@
 						"/renjamurni/report/formbunitkerja",
 						{
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
-							no_bulan: this.$store.getters["uifront/getBulanRealisasi"],
+							no_bulan: this.bulan_realisasi,
 							SOrgID: this.SOrgID_Selected,
 						},
 						{
@@ -763,9 +763,8 @@
 						"/renjamurni/report/forma/printtoexcel",
 						{
 							SOrgID: SOrgID_Selected,
-							RKAID: this.datakegiatan.RKAID,
-							no_bulan: this.$store.getters["uifront/getBulanRealisasi"],
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							RKAID: this.datakegiatan.RKAID,							
+							no_bulan: this.bulan_realisasi,
 						},
 						{
 							headers: {
