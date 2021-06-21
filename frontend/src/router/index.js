@@ -339,6 +339,24 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjamurni/FormAMurni.vue"),
 	},
+	{
+		path: "/renjamurni/report/formbopd",
+		name: "ReportFormBOPDMurni",
+		meta: {
+			title: "BELANJA MURNI - LAPORAN FORM B OPD",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/FormBOPDMurni.vue"),
+	},
+	{
+		path: "/renjamurni/report/formbunitkerja",
+		name: "ReportFormBOPDMurni",
+		meta: {
+			title: "BELANJA MURNI - LAPORAN FORM B UNIT KERJA",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/FormBUnitKerjaMurni.vue"),
+	},
 	//system
 	{
 		path: "/system-users",

@@ -72,7 +72,6 @@
 					<v-bottom-navigation color="purple lighten-1">
 						<v-btn
 							@click.stop="printtoexcel"
-							:loading="btnLoading"
 							:disabled="btnLoading"
 						>
 							<span>Cetak</span>
