@@ -129,7 +129,7 @@
 								<tr
 									v-for="item in items"
 									v-bind:key="item.FormBMurniID"
-									class="test"
+									:class="[colorRowFormA(item), fontWeight(item)]"
 								>
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama }}</td>
@@ -303,7 +303,7 @@
 				headers: [
 					{ text: "KODE", value: "kode", width: 80, sortable: false },
 					{
-						text: "PROGRAM/KEGIATAN",
+						text: "PROGRAM/KEGIATAN/SUB KEGIATAN",
 						value: "nama",
 						width: 300,
 						sortable: false,
@@ -447,10 +447,10 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/report/formbopdmurni",
+						"/renjamurni/report/formbopd",
 						{
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
-							no_bulan: this.$store.getters["uifront/getBulanRealisasi"],
+							no_bulan: this.bulan_realisasi,
 							OrgID: this.OrgID_Selected,
 						},
 						{
@@ -466,14 +466,37 @@
 						this.datatableLoading = false;
 					});
 			},
-			isProgram(item) {
-				return item.RKAID == null || item.RKAID == "";
+			colorRowFormA(item) {
+				var color = "";
+				if (item.isprogram == 1) {
+					color = "lime lighten-3";
+				} else if (item.iskegiatan == 1) {
+					color = "lime lighten-4";
+				} else if (item.issubkegiatan == 1) {
+					color = "white";
+				} else {
+					color = "white";
+				}
+				return color;
+			},
+			fontWeight(item) {
+				var weight = "";
+				if (item.isprogram == 1) {
+					weight = "font-weight-bold";
+				} else if (item.iskegiatan == 1) {
+					weight = "font-weight-medium";
+				} else if (item.issubkegiatan == 1) {
+					weight = "Normal weight text";
+				} else {
+					weight = "Normal weight text";
+				}
+				return weight;
 			},
 			printtoexcel: async function() {
 				this.btnLoading = true;
 				await this.$ajax
 					.post(
-						"/report/formbopdmurni/printtoexcel",
+						"/report/formbopd/printtoexcel",
 						{
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
 							no_bulan: this.bulan_realisasi,

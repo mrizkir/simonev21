@@ -210,6 +210,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/renjamurni/report/formbunitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@index','as'=>'formbunitkerjamurni.index']);
     $router->post('/renjamurni/report/formbunitkerja/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);
 
+    //report - form b opd murni
+    $router->post('/renjamurni/report/formbopd',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\FormBOPDMurniController@index','as'=>'formbopdmurni.index']);    
+    $router->post('/renjamurni/report/formbopd/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\FormBOPDMurniController@printtoexcel','as'=>'formbopdmurni.printtoexcel']);    
+    
+    //report - form b unit kerja murni
+    $router->post('/renjamurni/report/formbunitkerjamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@index','as'=>'formbunitkerjamurni.index']);    
+    $router->post('/renjamurni/report/formbunitkerjamurni/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);    
+    
     //renja perubahan
     $router->post('/renjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RenjaPerubahanController@index','as'=>'renjaperubahan.index']);
     $router->post('/renjaperubahan/reloadstatistik1',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RenjaPerubahanController@reloadstatistik1','as'=>'renjaperubahan.reloadstatistik1']);

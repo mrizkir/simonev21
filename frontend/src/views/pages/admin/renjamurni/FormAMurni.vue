@@ -70,10 +70,7 @@
 			<v-row class="mb-4" no-gutters>
 				<v-col xs="12" sm="12" md="12">
 					<v-bottom-navigation color="purple lighten-1">
-						<v-btn
-							@click.stop="printtoexcel"
-							:disabled="btnLoading"
-						>
+						<v-btn @click.stop="printtoexcel" :disabled="btnLoading">
 							<span>Cetak</span>
 							<v-icon>mdi-printer</v-icon>
 						</v-btn>
@@ -110,7 +107,7 @@
 							<tbody>
 								<tr
 									v-for="item in items"
-									v-bind:key="item.FormBMurniID"									
+									v-bind:key="item.FormBMurniID"					
 								>
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama_uraian }}</td>
@@ -118,13 +115,13 @@
 										{{ item.totalPaguDana | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.persen_bobot| makeLookPrecision }}
+										{{ item.persen_bobot | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.persen_rata2_fisik| makeLookPrecision }}
+										{{ item.persen_rata2_fisik | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.persen_tertimbang_fisik| makeLookPrecision }}
+										{{ item.persen_tertimbang_fisik | makeLookPrecision }}
 									</td>
 									<td class="text-right">
 										{{ item.total_target | formatUang }}
@@ -136,7 +133,7 @@
 										{{ item.persen_realisasi }}
 									</td>
 									<td class="text-right">
-										{{ item.persen_tertimbang_realisasi| makeLookPrecision }}
+										{{ item.persen_tertimbang_realisasi | makeLookPrecision }}
 									</td>
 									<td class="text-right">
 										{{ item.sisa_anggaran | formatUang }}
@@ -165,10 +162,16 @@
 										{{ total_forma.totalRealisasiSatuKegiatan | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ total_forma.total_persen_rata2_realisasi | makeLookPrecision }}
+										{{
+											total_forma.total_persen_rata2_realisasi
+												| makeLookPrecision
+										}}
 									</td>
 									<td class="text-right">
-										{{ total_forma.totalPersenTertimbangRealisasiSatuKegiatan | makeLookPrecision }}
+										{{
+											total_forma.totalPersenTertimbangRealisasiSatuKegiatan
+												| makeLookPrecision
+										}}
 									</td>
 									<td class="text-right">
 										{{ total_forma.sisa_anggaran | formatUang }}
@@ -232,7 +235,7 @@
 							{{ $store.getters["uifront/getTahunAnggaran"] }}
 						</strong>
 					</v-alert>
-						<v-data-table
+					<v-data-table
 						:headers="headers"
 						:items="datatable"
 						:search="search"
@@ -257,9 +260,9 @@
 							<tbody>
 								<tr
 									v-for="item in items"
-									v-bind:key="item.FormBMurniID"		
-									:class="[colorRowFormA(item),fontWeight(item)]"						
-								>	
+									v-bind:key="item.FormBMurniID"
+									:class="[colorRowFormA(item), fontWeight(item)]"
+								>
 									<td v-if="item.issubkegiatan">
 										<v-btn
 											color="primary"
@@ -279,7 +282,7 @@
 										{{ item.pagu_dana1 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_target1| makeLookPrecision }}
+										{{ item.fisik_target1 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
 										{{ item.fisik_realisasi1 | makeLookPrecision }}
@@ -427,13 +430,13 @@
 				SOrgID_Selected: "",
 				//Organisasi
 				DataOPD: null,
-				DataUnitKerja: null,			
+				DataUnitKerja: null,
 
 				//data table
 				datatableLoaded: true,
 				datatableLoading: false,
 				expanded: [],
-				datatable: [],			
+				datatable: [],
 				headers: [
 					{
 						text: "KODE",
@@ -726,26 +729,26 @@
 				var color = "";
 				if (item.isprogram == 1) {
 					color = "lime lighten-3";
-				} else if(item.iskegiatan == 1) {
+				} else if (item.iskegiatan == 1) {
 					color = "lime lighten-4";
 				} else if (item.issubkegiatan == 1) {
 					color = "white";
 				} else {
 					color = "white";
-				}				
+				}
 				return color;
 			},
 			fontWeight(item) {
 				var weight = "";
 				if (item.isprogram == 1) {
 					weight = "font-weight-bold";
-				} else if(item.iskegiatan == 1) {
+				} else if (item.iskegiatan == 1) {
 					weight = "font-weight-medium";
 				} else if (item.issubkegiatan == 1) {
 					weight = "Normal weight text";
 				} else {
 					weight = "Normal weight text";
-				}				
+				}
 				return weight;
 			},
 			exitforma() {
@@ -785,7 +788,7 @@
 		components: {
 			RenjaMurniLayout,
 			ModuleHeader,
-			Filter2
+			Filter2,
 		},
 	};
 </script>
