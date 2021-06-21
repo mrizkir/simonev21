@@ -702,7 +702,7 @@
 						{
 							SOrgID: SOrgID_Selected,
 							RKAID: this.datakegiatan.RKAID,
-							no_bulan: this.$store.getters["uifront/getBulanRealisasi"],
+							no_bulan: this.bulan_realisasi,
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
 						},
 						{

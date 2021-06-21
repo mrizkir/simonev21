@@ -94,7 +94,7 @@
 									fab
 									small
 									@click.stop="printtoexcel"
-									:disabled="btnLoading || datatableLoaded"
+									:disabled="btnLoading || datatableLoaded | true"
 								>
 									<v-icon>mdi-printer</v-icon>
 								</v-btn>
@@ -295,10 +295,17 @@
 				firstloading: true,
 				bulan_realisasi: null,
 				nama_bulan: null,
-				expanded: [],
-				search: "",
-				datatableLoading: false,
+
+				//filter form
+				daftar_opd: [],
+				OrgID_Selected: "",
+				//Organisasi
+				DataOPD: null,
+
+				//data table
 				datatableLoaded: true,
+				datatableLoading: false,
+				expanded: [],
 				datatable: [],
 				headers: [
 					{ text: "KODE", value: "kode", width: 80, sortable: false },
@@ -400,6 +407,7 @@
 						sortable: false,
 					},
 				],
+				search: "",
 				total_data: {
 					totalPaguOPD: 0,
 					totalTargetKeuanganKeseluruhan: 0,
@@ -411,11 +419,6 @@
 					totalSisaAnggaran: 0,
 					totalPersenSisaAnggaran: 0,
 				},
-				//filter form
-				daftar_opd: [],
-				OrgID_Selected: "",
-				//Organisasi
-				DataOPD: null,
 			};
 		},
 		methods: {
