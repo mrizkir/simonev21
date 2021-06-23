@@ -507,7 +507,7 @@
 				this.btnLoading = true;
 				await this.$ajax
 					.post(
-						"/report/formbunitkerjamurni/printtoexcel",
+						"/renjamurni/report/formbunitkerja/printtoexcel",
 						{
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
 							no_bulan: this.bulan_realisasi,
