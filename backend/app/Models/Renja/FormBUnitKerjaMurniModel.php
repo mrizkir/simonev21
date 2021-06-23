@@ -346,7 +346,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
                         {
                             $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);
                         }
-
+                        
                         $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);
                         $persen_tertimbang_keuangan=0.00;
                         if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
@@ -356,11 +356,24 @@ class FormBUnitKerjaMurniModel extends ReportModel
 
                         $sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
                         $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
+
+                        $sheet->setCellValue("D$kegiatan_last_row",Helper::formatUang($pagu_dana_kegiatan));  
+                        $sheet->setCellValue("E$kegiatan_last_row",$persen_bobot);  
+                        $sheet->setCellValue("F$kegiatan_last_row",$persen_target_fisik);
+                        $sheet->setCellValue("G$program_last_row",$persen_realisasi_fisik);  
+                        $sheet->setCellValue("H$program_last_row",$persen_tertimbang_fisik);  
+                        $sheet->setCellValue("I$program_last_row",Helper::formatUang($target_keuangan_kegiatan));  
+                        $sheet->setCellValue("J$program_last_row",$persen_target_keuangan);  
+                        $sheet->setCellValue("K$program_last_row",Helper::formatUang($realisasi_keuangan_kegiatan));  
+                        $sheet->setCellValue("L$program_last_row",$persen_realisasi_keuangan);  
+                        $sheet->setCellValue("M$program_last_row",$persen_tertimbang_keuangan);  
+                        $sheet->setCellValue("N$program_last_row",'N/A');  
+                        $sheet->setCellValue("O$program_last_row",Helper::formatUang($sisa_anggaran)); 
+                        $sheet->setCellValue("P$program_last_row",$persen_sisa_anggaran);    
                     }
                     $no_kegiatan+=1;
                 }
-                $no_huruf+=1;
-                $row+=1;
+                $no_huruf+=1;                
             }
             $persen_bobot=Helper::formatPersen($pagu_dana_program,$totalPaguUnit);
             $target_fisik=Helper::formatPecahan($target_fisik_program,$jumlah_uraian_program);
@@ -372,7 +385,8 @@ class FormBUnitKerjaMurniModel extends ReportModel
             {
                 $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);
             }
-
+            
+            $persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
             $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);
             $persen_tertimbang_keuangan=0.00;
             if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
@@ -383,6 +397,20 @@ class FormBUnitKerjaMurniModel extends ReportModel
             $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
             $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
             
+            $sheet->setCellValue("D$program_last_row",Helper::formatUang($pagu_dana_program));  
+            $sheet->setCellValue("E$program_last_row",$persen_bobot);  
+            $sheet->setCellValue("F$program_last_row",$persen_target_fisik);  
+            $sheet->setCellValue("G$program_last_row",$persen_realisasi_fisik);  
+            $sheet->setCellValue("H$program_last_row",$persen_tertimbang_fisik);  
+            $sheet->setCellValue("I$program_last_row",Helper::formatUang($target_keuangan_program));  
+            $sheet->setCellValue("J$program_last_row",$persen_target_keuangan);  
+            $sheet->setCellValue("K$program_last_row",Helper::formatUang($realisasi_keuangan_program));  
+            $sheet->setCellValue("L$program_last_row",$persen_realisasi_keuangan);  
+            $sheet->setCellValue("M$program_last_row",$persen_tertimbang_keuangan);  
+            $sheet->setCellValue("N$program_last_row",'N/A');  
+            $sheet->setCellValue("O$program_last_row",Helper::formatUang($sisa_anggaran)); 
+            $sheet->setCellValue("P$program_last_row",$persen_sisa_anggaran);  
+
         }
         if ($totalPersenBobot > 100) {
             $totalPersenBobot = 100.00;
