@@ -25,6 +25,7 @@ class FormBOPDMurniModel extends ReportModel
     }    
     private function print()  
     {
+        $OrgID = $this->dataReport['OrgID'];
         $kode_organisasi=$this->dataReport['kode_organisasi'];
         $no_bulan = $this->dataReport['no_bulan'];
         $nama_bulan = Helper::getNamaBulan($no_bulan);
@@ -45,7 +46,7 @@ class FormBOPDMurniModel extends ReportModel
         $sheet->setCellValue("A$row",'LAPORAN FORM B');         
         $row+=1;        
         $sheet->mergeCells("A$row:U$row");		
-        $sheet->setCellValue("A$row",strtoupper($this->dataReport['OrgNm']." [$kode_organisasi]"));         
+        $sheet->setCellValue("A$row",strtoupper($this->dataReport['Nm_Organisasi']." [$kode_organisasi]"));         
         $row+=1;        
         $sheet->mergeCells("A$row:U$row");		
         $sheet->setCellValue("A$row",'KABUPATEN BINTAN');         
@@ -153,11 +154,12 @@ class FormBOPDMurniModel extends ReportModel
         $sheet->getStyle("A$row:U$row_akhir")->getAlignment()->setWrapText(true);
         
         
-        $totalPaguUnit = (float)\DB::table('trRKA')
-                                    ->where('kode_organisasi',$kode_organisasi)                                            
+        $totalPaguOPD = (float)\DB::table('trRKA')
+                                    ->where('OrgID',$OrgID)                                            
                                     ->where('TA',$tahun)  
                                     ->where('EntryLvl',1)
                                     ->sum('PaguDana1');        
+        
         
         $no_huruf=ord('A');
         $total_kegiatan=0;
@@ -171,10 +173,14 @@ class FormBOPDMurniModel extends ReportModel
         $total_ttb_keuangan=0;
         $totalSisaAnggaran=0;
 
-        $daftar_program=\DB::table('simda')
-                            ->select(\DB::raw('DISTINCT kode_program,"PrgNm"'))
+        $daftar_program=\DB::table('trRKA')
+                            ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
+                            ->where('OrgID',$OrgID)
+                            ->orderByRaw('kode_urusan="X" DESC')
+                            ->orderBy('kode_bidang','ASC')
                             ->orderBy('kode_program','ASC')
-                            ->where('kode_organisasi',$kode_organisasi)
+                            ->orderBy('kode_kegiatan','ASC')
+                            ->orderBy('kode_sub_kegiatan','ASC')
                             ->get();
         
         $row=$row_akhir+1;
@@ -182,208 +188,253 @@ class FormBOPDMurniModel extends ReportModel
         foreach ($daftar_program as $data_program)
         {
             $kode_program = $data_program->kode_program;
-            $daftar_kegiatan = \DB::table('trRKA')
-                                    ->select(\DB::raw('"RKAID","kode_kegiatan","KgtNm","PaguDana1","lokasi_kegiatan1","SOrgNm"'))
-                                    ->where('kode_program',$kode_program)                                            
-                                    ->where('kode_organisasi',$kode_organisasi)                                            
-                                    ->where('TA',$tahun)  
-                                    ->where('EntryLvl',1)
-                                    ->orderBy('kode_kegiatan','ASC')
-                                    ->orderBy('SOrgNm','ASC')
-                                    ->get();
+            $sheet->setCellValue("A$row",chr($no_huruf));
+            $sheet->setCellValue("B$row",$kode_program);  
+            $sheet->setCellValue("C$row",$data_program->Nm_Program);  
 
+            $daftar_kegiatan=\DB::table('trRKA')
+                            ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
+                            ->where('kode_program',$kode_program)
+                            ->where('OrgID', $OrgID)
+                            ->orderBy('kode_kegiatan','ASC')
+                            ->orderBy('kode_sub_kegiatan','ASC')
+                            ->get();
+
+            
             if(isset($daftar_kegiatan[0]))
             {
-                $totalpagueachprogram=$daftar_kegiatan->sum('PaguDana1');
-                $persen_bobot_program=Helper::formatPersen($totalpagueachprogram,$totalPaguUnit,4);
-                
-                $jumlahuraian_program = \DB::table('trRKARinc')                                        
-                                        ->join('trRKA','trRKA.RKAID','trRKARinc.RKAID')
-                                        ->where('kode_program',$kode_program) 
-                                        ->where('kode_organisasi',$kode_organisasi)
-                                        ->where('trRKA.TA',$tahun)                                            
-                                        ->where('trRKA.EntryLvl',1)
-                                        ->count();	
-                
-                $data_target_program=\DB::table('trRKATargetRinc')
-                                    ->join('trRKA','trRKA.RKAID','trRKATargetRinc.RKAID')
-                                    ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
-                                    ->where('kode_program',$kode_program) 
-                                    ->where('kode_organisasi',$kode_organisasi)
-                                    ->where('trRKA.TA',$tahun)    
-                                    ->where('bulan1','<=',$no_bulan)
-                                    ->where('trRKA.EntryLvl',1)
+                $jumlah_uraian_program = 0;
+
+                $pagu_dana_program = 0;
+                $target_fisik_program = 0;
+                $realisasi_fisik_program = 0;
+                $ttb_fisik_program = 0;
+                $target_keuangan_program = 0;
+                $realisasi_keuangan_program = 0;
+
+                $program_last_row = $row;
+                $row += 1;
+                $no_kegiatan = 1;
+                foreach ($daftar_kegiatan as $data_kegiatan)
+                {
+                    $kode_kegiatan = $data_kegiatan->kode_kegiatan;
+                    $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan);
+                    $sheet->setCellValue("B$row",$kode_kegiatan);  
+                    $sheet->setCellValue("C$row",$data_kegiatan->Nm_Kegiatan);  
+
+                    $daftar_sub_kegiatan = \DB::table('trRKA')
+                                    ->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana1`,`lokasi_kegiatan1`, `Nm_Sub_Organisasi`'))
+                                    ->where('kode_kegiatan',$kode_kegiatan)
+                                    ->where('OrgID',$OrgID)
+                                    ->where('TA',$tahun)
+                                    ->where('EntryLvl',1)
+                                    ->orderBy('kode_sub_kegiatan','ASC')
                                     ->get();
+                    
+                    if(isset($daftar_sub_kegiatan[0]))
+                    {
+                        $pagu_dana_kegiatan = (float)\DB::table('trRKA')
+                                    ->where('OrgID',$OrgID)
+                                    ->where('kode_kegiatan',$kode_kegiatan)
+                                    ->where('EntryLvl',1)
+                                    ->sum('PaguDana1');
 
-                $data_realisasi_program=\DB::table('trRKARealisasiRinc')
-                                ->join('trRKA','trRKA.RKAID','trRKARealisasiRinc.RKAID')
-                                ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-                                ->where('kode_program',$kode_program) 
-                                ->where('kode_organisasi',$kode_organisasi)
-                                ->where('trRKA.TA',$tahun)    
-                                ->where('bulan1','<=',$no_bulan)
-                                ->where('trRKA.EntryLvl',1)
-                                ->get();
+                        $jumlah_uraian_kegiatan = 0;
 
-                //menghitung persen target fisik program         
-                $target_fisik_program=Helper::formatPecahan($data_target_program[0]->jumlah_fisik,$jumlahuraian_program);                            
-                $persen_target_fisik_program= $target_fisik_program > 100 ?'100.00':$target_fisik_program;                             
-                
-                //menghitung persen realisasi fisik                
-                $persen_realisasi_fisik_program=Helper::formatPecahan($data_realisasi_program[0]->fisik1,$jumlahuraian_program);
-                
-                $persen_tertimbang_fisik_program=0.00;
-                if ($persen_realisasi_fisik_program > 0 && $persen_bobot_program > 0)
-                {
-                    $persen_tertimbang_fisik_program=number_format(($persen_realisasi_fisik_program*$persen_bobot_program)/100,3);                            
-                }							
+                        $pagu_dana_kegiatan = 0;
+                        $target_fisik_kegiatan = 0;
+                        $realisasi_fisik_kegiatan = 0;
+                        $ttb_fisik_kegiatan = 0;
+                        $target_keuangan_kegiatan = 0;
+                        $realisasi_keuangan_kegiatan = 0;
 
-                // menghitung total target dan realisasi keuangan                 
-                $persen_target_keuangan_program=Helper::formatPersen($data_target_program[0]->totaltarget,$totalpagueachprogram); 
-                $persen_realisasi_keuangan_program=Helper::formatPersen($data_realisasi_program[0]->realisasi1,$totalpagueachprogram);  
+                        $kegiatan_last_row = $row;
+                        $row += 1;
+                        $no_sub_kegiatan = 1;
+                        foreach ($daftar_sub_kegiatan as $data_sub_kegiatan)
+                        {
+                            $pagu_dana_program += $data_sub_kegiatan->PaguDana1;
+                            $pagu_dana_kegiatan += $data_sub_kegiatan->PaguDana1;
 
-                $persen_tertimbang_keuangan_program=0.00;
-                if ($persen_realisasi_keuangan_program > 0 && $persen_bobot_program > 0)
-                {
-                    $persen_tertimbang_keuangan_program=number_format(($persen_realisasi_keuangan_program*$persen_bobot_program)/100,3);                            
-                }	
+                            $RKAID=$data_sub_kegiatan->RKAID;
+                            $kode_sub_kegiatan = $data_sub_kegiatan->kode_sub_kegiatan;
 
-                $sisa_anggaran_program=$totalpagueachprogram-$data_realisasi_program[0]->realisasi1;
-                $persen_sisa_anggaran_program=Helper::formatPersen($sisa_anggaran_program,$totalpagueachprogram);  
+                            $persen_bobot=Helper::formatPersen($data_sub_kegiatan->PaguDana1,$totalPaguOPD);
+                            $totalPersenBobot+=$persen_bobot;
 
-                $sheet->setCellValue("A$row",chr($no_huruf));                                                  
-                $sheet->setCellValue("B$row",$kode_program);  
-                $sheet->setCellValue("C$row",$data_program->PrgNm);  
-                
-                $sheet->setCellValue("E$row",Helper::formatUang($totalpagueachprogram));  
-                $sheet->setCellValue("F$row",$persen_bobot_program);  
-                $sheet->setCellValue("G$row",$persen_target_fisik_program);  
-                $sheet->setCellValue("H$row",$persen_realisasi_fisik_program);  
-                $sheet->setCellValue("I$row",$persen_tertimbang_fisik_program);  
-                $sheet->setCellValue("J$row",Helper::formatUang($data_target_program[0]->totaltarget));  
-                $sheet->setCellValue("K$row",$persen_target_keuangan_program);  
-                $sheet->setCellValue("L$row",Helper::formatUang($data_realisasi_program[0]->realisasi1));  
-                $sheet->setCellValue("M$row",$persen_realisasi_keuangan_program);  
-                $sheet->setCellValue("N$row",$persen_tertimbang_keuangan_program);  
-                $sheet->setCellValue("O$row",'-');  
-                $sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran_program));  
-                $sheet->setCellValue("Q$row",$persen_sisa_anggaran_program); 
+                            //jumlah baris uraian
+                            $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();
+                            $jumlah_uraian_program += $jumlahuraian;
+                            $jumlah_uraian_kegiatan += $jumlahuraian;
 
-                
-                $styleArray = [
-                    'font' => [
-                        'bold' => true,
-                    ],
-                    'fill' => [
-                        'fillType' => Fill::FILL_SOLID,
-                        'startColor' => [
-                            'argb' => 'b5d6e5',
-                        ],
-                    ],
-                ];
-                
-                $sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+                            $data_target=\DB::table('trRKATargetRinc')
+                                            ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                                            ->where('RKAID',$RKAID)
+                                            ->where('bulan1','<=',$no_bulan)
+                                            ->get();
 
-                $no=1;
-                $row+=1;
-                foreach ($daftar_kegiatan as $n)
-                {
-                    $RKAID=$n->RKAID;
-                    $nilai_pagu_proyek=$n->PaguDana1;
-                    $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguUnit,4);
-                    $totalPersenBobot+=$persen_bobot;
-
-                    //jumlah baris uraian
-                    $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
-                    $total_uraian+=$jumlahuraian;
-
-                    $data_target=\DB::table('trRKATargetRinc')
-                                        ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                            $data_realisasi=\DB::table('trRKARealisasiRinc')
+                                        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
                                         ->where('RKAID',$RKAID)
                                         ->where('bulan1','<=',$no_bulan)
                                         ->get();
 
-                    $data_realisasi=\DB::table('trRKARealisasiRinc')
-                                    ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-                                    ->where('RKAID',$RKAID)
-                                    ->where('bulan1','<=',$no_bulan)
-                                    ->get();
+                            //menghitung persen target fisik
+                            $target_fisik_program += $data_target[0]->jumlah_fisik;
+                            $target_fisik_kegiatan += $data_target[0]->jumlah_fisik;
+                            $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);
+                            $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+                            $totalPersenTargetFisik+=$persen_target_fisik;
 
-                    //menghitung persen target fisik         
-                    $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
-                    $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
-                    $totalPersenTargetFisik+=$persen_target_fisik;               
+                            //menghitung persen realisasi fisik
+                            $realisasi_fisik_program += $data_realisasi[0]->fisik1;
+                            $realisasi_fisik_kegiatan += $data_realisasi[0]->fisik1;
+                            $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
+                            $totalPersenRealisasiFisik+=$persen_realisasi_fisik;
 
-                    //menghitung persen realisasi fisik                
-                    $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-                    $totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
-                    
-                    $persen_tertimbang_fisik=0.00;
-                    if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-                    {
-                        $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,3);                            
-                    }							
-                    $total_ttb_fisik+=$persen_tertimbang_fisik;
+                            $persen_tertimbang_fisik=0.00;
+                            if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+                            {
+                                $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);
+                            }
+                            $total_ttb_fisik+=$persen_tertimbang_fisik;
 
-                    //menghitung total target dan realisasi keuangan 
-                    $totalTargetKeuangan=$data_target[0]->totaltarget;
-                    $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
-                    $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
-                    
-                    $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
-                    $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
-                    $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
-                    
-                    $persen_tertimbang_keuangan=0.00;
-                    if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-                    {
-                        $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,3);                            
-                    }	
-                    $total_ttb_keuangan += $persen_tertimbang_keuangan;
+                            //menghitung total target dan realisasi keuangan
+                            $totalTargetKeuangan=$data_target[0]->totaltarget;
+                            $target_keuangan_program += $totalTargetKeuangan;
+                            $target_keuangan_kegiatan += $totalTargetKeuangan;
+                            $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+                            $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$data_sub_kegiatan->PaguDana1);
 
-                    $sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
-                    $totalSisaAnggaran+=$sisa_anggaran; 
-                    
-                    $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);                            
+                            $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
+                            $realisasi_keuangan_program += $totalRealisasiKeuangan;
+                            $realisasi_keuangan_kegiatan += $totalRealisasiKeuangan;
+                            $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+                            $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana1);
 
-                    $sheet->setCellValue("A$row",$no);                                                  
-                    $sheet->setCellValue("B$row",$n->kode_kegiatan);  
-                    $sheet->setCellValue("C$row",$n->KgtNm);  
-                    $sheet->setCellValue("D$row",$n->SOrgNm);  
-                    $sheet->setCellValue("E$row",Helper::formatUang($nilai_pagu_proyek));  
-                    $sheet->setCellValue("F$row",$persen_bobot);  
-                    $sheet->setCellValue("G$row",$persen_target_fisik);  
-                    $sheet->setCellValue("H$row",$persen_realisasi_fisik);  
-                    $sheet->setCellValue("I$row",$persen_tertimbang_fisik);  
-                    $sheet->setCellValue("J$row",Helper::formatUang($totalTargetKeuangan));  
-                    $sheet->setCellValue("K$row",$persen_target_keuangan);  
-                    $sheet->setCellValue("L$row",Helper::formatUang($totalRealisasiKeuangan));  
-                    $sheet->setCellValue("M$row",$persen_realisasi_keuangan);  
-                    $sheet->setCellValue("N$row",$persen_tertimbang_keuangan);  
-                    $sheet->setCellValue("O$row",$n->lokasi_kegiatan1);  
-                    $sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
-                    $sheet->setCellValue("Q$row",$persen_sisa_anggaran); 
-                    $no+=1;
-                    $total_kegiatan+=1;
-                    $row+=1;
+                            $persen_tertimbang_keuangan=0.00;
+                            if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
+                            {
+                                $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);
+                            }
+                            $total_ttb_keuangan += $persen_tertimbang_keuangan;
+
+                            $sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;
+                            $totalSisaAnggaran+=$sisa_anggaran;
+
+                            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
+                            
+                            $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan.'.'.$no_sub_kegiatan);
+                            $sheet->setCellValue("B$row",$kode_sub_kegiatan);  
+                            $sheet->setCellValue("C$row",$data_sub_kegiatan->Nm_Sub_Kegiatan);  
+                            $sheet->setCellValue("D$row",$data_sub_kegiatan->Nm_Sub_Organisasi);  
+                            $sheet->setCellValue("E$row",Helper::formatUang($data_sub_kegiatan->PaguDana1));  
+                            $sheet->setCellValue("F$row",$persen_bobot);  
+                            $sheet->setCellValue("GF$row",$persen_target_fisik);  
+                            $sheet->setCellValue("H$row",$persen_realisasi_fisik);  
+                            $sheet->setCellValue("I$row",$persen_tertimbang_fisik);  
+                            $sheet->setCellValue("J$row",Helper::formatUang($totalTargetKeuangan));  
+                            $sheet->setCellValue("K$row",$persen_target_keuangan);  
+                            $sheet->setCellValue("L$row",Helper::formatUang($totalRealisasiKeuangan));  
+                            $sheet->setCellValue("M$row",$persen_realisasi_keuangan);  
+                            $sheet->setCellValue("N$row",$persen_tertimbang_keuangan);  
+                            $sheet->setCellValue("O$row",$data_sub_kegiatan->lokasi_kegiatan1);  
+                            $sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
+                            $sheet->setCellValue("Q$row",$persen_sisa_anggaran);
+                            $row += 1; 
+                            $no_sub_kegiatan += 1;                           
+                        }
+                        $persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
+                        $target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);
+                        $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+
+                        $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_kegiatan,$jumlah_uraian_kegiatan);
+                        $persen_tertimbang_fisik=0.00;
+                        if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+                        {
+                            $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);
+                        }
+                        
+                        $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);
+                        $persen_tertimbang_keuangan=0.00;
+                        if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
+                        {
+                            $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);
+                        }
+
+                        $sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
+                        $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
+
+                        $sheet->setCellValue("D$kegiatan_last_row",'N/A');
+                        $sheet->setCellValue("E$kegiatan_last_row",Helper::formatUang($pagu_dana_kegiatan));  
+                        $sheet->setCellValue("F$kegiatan_last_row",$persen_bobot);  
+                        $sheet->setCellValue("G$kegiatan_last_row",$persen_target_fisik);
+                        $sheet->setCellValue("H$program_last_row",$persen_realisasi_fisik);  
+                        $sheet->setCellValue("I$program_last_row",$persen_tertimbang_fisik);  
+                        $sheet->setCellValue("J$program_last_row",Helper::formatUang($target_keuangan_kegiatan));  
+                        $sheet->setCellValue("K$program_last_row",$persen_target_keuangan);  
+                        $sheet->setCellValue("L$program_last_row",Helper::formatUang($realisasi_keuangan_kegiatan));  
+                        $sheet->setCellValue("M$program_last_row",$persen_realisasi_keuangan);  
+                        $sheet->setCellValue("N$program_last_row",$persen_tertimbang_keuangan);  
+                        $sheet->setCellValue("O$program_last_row",'N/A');  
+                        $sheet->setCellValue("P$program_last_row",Helper::formatUang($sisa_anggaran)); 
+                        $sheet->setCellValue("Q$program_last_row",$persen_sisa_anggaran);    
+                    }
+                    $no_kegiatan+=1;
                 }
+                $no_huruf+=1;                
             }
-            $no_huruf+=1;  
-            $row+=1;
-        }
+            $persen_bobot=Helper::formatPersen($pagu_dana_program,$totalPaguOPD);
+            $target_fisik=Helper::formatPecahan($target_fisik_program,$jumlah_uraian_program);
+            $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+
+            $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_program,$jumlah_uraian_program);
+            $persen_tertimbang_fisik=0.00;
+            if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+            {
+                $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);
+            }
+            
+            $persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
+            $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);
+            $persen_tertimbang_keuangan=0.00;
+            if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
+            {
+                $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);
+            }
+
+            $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
+            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
+            
+            $sheet->setCellValue("D$program_last_row",'N/A');
+            $sheet->setCellValue("E$program_last_row",Helper::formatUang($pagu_dana_program));  
+            $sheet->setCellValue("F$program_last_row",$persen_bobot);  
+            $sheet->setCellValue("G$program_last_row",$persen_target_fisik);  
+            $sheet->setCellValue("H$program_last_row",$persen_realisasi_fisik);  
+            $sheet->setCellValue("I$program_last_row",$persen_tertimbang_fisik);  
+            $sheet->setCellValue("J$program_last_row",Helper::formatUang($target_keuangan_program));  
+            $sheet->setCellValue("K$program_last_row",$persen_target_keuangan);  
+            $sheet->setCellValue("L$program_last_row",Helper::formatUang($realisasi_keuangan_program));  
+            $sheet->setCellValue("M$program_last_row",$persen_realisasi_keuangan);  
+            $sheet->setCellValue("N$program_last_row",$persen_tertimbang_keuangan);  
+            $sheet->setCellValue("O$program_last_row",'N/A');  
+            $sheet->setCellValue("P$program_last_row",Helper::formatUang($sisa_anggaran)); 
+            $sheet->setCellValue("Q$program_last_row",$persen_sisa_anggaran);  
+
+        }        
         
         if ($totalPersenBobot > 100) {
             $totalPersenBobot = 100.00;
         }
         $totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
         $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
-        $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);                
-        $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
-        $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
+        $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
+        $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
+        $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
 
         $sheet->mergeCells("A$row:D$row");                
         $sheet->setCellValue("A$row",'Jumlah');                                       
-        $sheet->setCellValue("E$row",Helper::formatUang($totalPaguUnit));
+        $sheet->setCellValue("E$row",Helper::formatUang($totalPaguOPD));
         $sheet->setCellValue("F$row",$totalPersenBobot);
 
         $sheet->setCellValue("G$row",$totalPersenTargetFisik);

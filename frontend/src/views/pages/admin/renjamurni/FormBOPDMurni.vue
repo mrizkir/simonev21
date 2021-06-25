@@ -499,7 +499,7 @@
 				this.btnLoading = true;
 				await this.$ajax
 					.post(
-						"/report/formbopd/printtoexcel",
+						"/renjamurni/report/formbopd/printtoexcel",
 						{
 							tahun: this.$store.getters["uifront/getTahunAnggaran"],
 							no_bulan: this.bulan_realisasi,
