@@ -350,7 +350,7 @@ const routes = [
 	},
 	{
 		path: "/renjamurni/report/formbunitkerja",
-		name: "ReportFormBOPDMurni",
+		name: "ReportFormBUnitkerjaMurni",
 		meta: {
 			title: "BELANJA MURNI - LAPORAN FORM B UNIT KERJA",
 			requiresAuth: true,
@@ -476,7 +476,7 @@ const routes = [
 },
 {
   path: "/renjaperubahan/report/formbunitkerja",
-  name: "ReportFormBOPDPerubahan",
+  name: "ReportFormBUnitKerjaPerubahan",
   meta: {
     title: "BELANJA PERUBAHAN - LAPORAN FORM B UNIT KERJA",
     requiresAuth: true,
