@@ -10,7 +10,7 @@ use \PhpOffice\PhpSpreadsheet\Cell\DataType;
 use App\Models\ReportModel;
 use App\Helpers\Helper;
 
-class FormAMurniModel extends ReportModel
+class FormAPerubahanModel extends ReportModel
 {   
     public function __construct($dataReport,$print=true)
     {
@@ -19,7 +19,7 @@ class FormAMurniModel extends ReportModel
         {
             $RKAID = $this->dataReport['RKAID'];
             $no_bulan = $this->dataReport['no_bulan'];
-            $rka=$this->getDataRKA($RKAID,$no_bulan,1);    
+            $rka=$this->getDataRKA($RKAID,$no_bulan,2);    
                    
             $tahun=$this->dataKegiatan['TA'];
             $this->spreadsheet->getProperties()->setTitle("Laporan Form A Tahun $tahun");
@@ -50,7 +50,7 @@ class FormAMurniModel extends ReportModel
 
         $row=2;
         $sheet->mergeCells("A$row:Z$row");				                
-        $sheet->setCellValue("A$row",'LAPORAN FORM.A RINCIAN');
+        $sheet->setCellValue("A$row",'LAPORAN FORM.A PERUBAHAN RINCIAN');
 
         $row+=1;
         $sheet->mergeCells("A$row:Z$row");		
@@ -168,35 +168,35 @@ class FormAMurniModel extends ReportModel
         $sheet->mergeCells("B$row:G$row");
         $sheet->setCellValue("B$row",'CAPAIAN PROGRAM');
         $sheet->mergeCells("H$row:N$row");
-        $sheet->setCellValue("H$row",$datakegiatan['capaian_program1']);
+        $sheet->setCellValue("H$row",$datakegiatan['capaian_program2']);
         $sheet->mergeCells("O$row:O$row");
-        $sheet->setCellValue("O$row",$datakegiatan['tk_capaian1'] . "%");    
+        $sheet->setCellValue("O$row",$datakegiatan['tk_capaian2'] . "%");    
         $row+=1;                
         $sheet->mergeCells("B$row:G$row");
         $sheet->setCellValue("B$row",'MASUKAN');
         $sheet->mergeCells("H$row:N$row");
-        $sheet->setCellValue("H$row",$datakegiatan['masukan1']);
+        $sheet->setCellValue("H$row",$datakegiatan['masukan2']);
         $sheet->mergeCells("O$row:P$row");
         $sheet->setCellValue("O$row",Helper::formatUang($datakegiatan['PaguDana1']));
         $row+=1;                
         $sheet->mergeCells("B$row:G$row");
         $sheet->setCellValue("B$row",'KELUARAN');
         $sheet->mergeCells("H$row:N$row");
-        $sheet->setCellValue("H$row",$datakegiatan['keluaran1']);
+        $sheet->setCellValue("H$row",$datakegiatan['keluaran2']);
         $sheet->mergeCells("O$row:P$row");
-        $sheet->setCellValue("O$row",$datakegiatan['tk_keluaran1']);
+        $sheet->setCellValue("O$row",$datakegiatan['tk_keluaran2']);
         $row+=1;                                
         $sheet->mergeCells("B$row:G$row");
         $sheet->setCellValue("B$row",'HASIL');
         $sheet->mergeCells("H$row:N$row");
-        $sheet->setCellValue("H$row",$datakegiatan['hasil1']);
+        $sheet->setCellValue("H$row",$datakegiatan['hasil2']);
         $sheet->mergeCells("O$row:P$row");
-        $sheet->setCellValue("O$row",$datakegiatan['tk_hasil1']);
+        $sheet->setCellValue("O$row",$datakegiatan['tk_hasil2']);
         $row+=1;                
         $sheet->mergeCells("B$row:G$row");
         $sheet->setCellValue("B$row",'KELOMPOK SASARAN KEGIATAN');                                
         $sheet->mergeCells("H$row:P$row");
-        $sheet->setCellValue("H$row",$datakegiatan['ksk1']);
+        $sheet->setCellValue("H$row",$datakegiatan['ksk2']);
         $row+=1;                                
         $sheet->setCellValue("A$row",'III.');
         $sheet->mergeCells("B$row:Z$row");
@@ -425,7 +425,7 @@ class FormAMurniModel extends ReportModel
                                         {
                                             if (preg_match("/^$k3/", $k4)) 
                                             {
-                                                $totalPaguDana_Rek4=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k4,'Kd_Rek_4');
+                                                $totalPaguDana_Rek4=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k4,'Kd_Rek_4');
                                                 $rp_total_pagu_dana_rek4=Helper::formatUang($totalPaguDana_Rek4['totalpagu']);
                                                 $no_=explode (".",$k4);
                                                 $persen_bobot_rek4=$totalPaguDana_Rek4['totalpersenbobot'];
@@ -461,7 +461,7 @@ class FormAMurniModel extends ReportModel
                                                 {
                                                     if (preg_match("/^$k4/", $k5)) 
                                                     {
-                                                        $totalPaguDana_Rek5=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k5,'Kd_Rek_5');
+                                                        $totalPaguDana_Rek5=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k5,'Kd_Rek_5');
                                                         $rp_total_pagu_dana_rek5=Helper::formatUang($totalPaguDana_Rek5['totalpagu']);
                                                         $no_=explode (".",$k5);
                                                         $persen_bobot_rek5=$totalPaguDana_Rek5['totalpersenbobot'];
@@ -718,10 +718,10 @@ class FormAMurniModel extends ReportModel
 
         $row+=1;
         $data = \DB::table('trRKATargetRinc')
-                    ->select(\DB::raw('bulan1,SUM(target1) AS target'))
+                    ->select(\DB::raw('bulan2,SUM(target2) AS target'))
                     ->where('RKAID',$RKAID)
-                    ->groupBy('bulan1')
-                    ->orderBy('bulan1','ASC')
+                    ->groupBy('bulan2')
+                    ->orderBy('bulan2','ASC')
                     ->get();
                     
         $triwulan1=0;
@@ -730,7 +730,7 @@ class FormAMurniModel extends ReportModel
         $triwulan4=0;
         
         foreach ($data as $v) {
-            switch ($v->bulan1) {
+            switch ($v->bulan2) {
                 case 1 :
                 case 2 :
                 case 3 :                        

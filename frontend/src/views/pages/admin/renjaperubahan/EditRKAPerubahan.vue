@@ -122,7 +122,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-text-field
-									v-model="formdata.lokasi_kegiatan1"
+									v-model="formdata.lokasi_kegiatan2"
 									label="LOKASI KEGIATAN"
 									:rules="rule_lokasikegiatan"
 									type="text"
@@ -133,7 +133,7 @@
 								<h5>INDIKATOR DAN TOLAK UKUR KINERJA BELANJA LANGSUNG</h5>
 								<v-divider class="mb-2"></v-divider>
 								<v-text-field
-									v-model="formdata.capaian_program1"
+									v-model="formdata.capaian_program2"
 									label="CAPAIAN PROGRAM"
 									:rules="rule_capaianprogram"
 									type="text"
@@ -142,7 +142,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-text-field
-									v-model="formdata.tk_capaian1"
+									v-model="formdata.tk_capaian2"
 									label="TARGET KINERJA CAPAIAN (%)"
 									:rules="rule_tkcapaian"
 									type="text"
@@ -151,7 +151,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
-									v-model="formdata.masukan1"
+									v-model="formdata.masukan2"
 									label="MASUKAN"
 									:rules="rule_masukan"
 									type="text"
@@ -160,7 +160,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
-									v-model="formdata.keluaran1"
+									v-model="formdata.keluaran2"
 									label="KELUARAN (OUTPUT)"
 									:rules="rule_keluaran"
 									type="text"
@@ -169,7 +169,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
-									v-model="formdata.tk_keluaran1"
+									v-model="formdata.tk_keluaran2"
 									label="TARGET KINERJA KELUARAN (OUTPUT)"
 									:rules="rule_tkkeluaran"
 									type="text"
@@ -178,7 +178,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
-									v-model="formdata.hasil1"
+									v-model="formdata.hasil2"
 									label="HASIL (OUTCOME)"
 									:rules="rule_hasil"
 									type="text"
@@ -187,7 +187,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-textarea
-									v-model="formdata.tk_hasil1"
+									v-model="formdata.tk_hasil2"
 									label="TARGET KINERJA HASIL (OUTCOME)"
 									:rules="rule_tkhasil"
 									type="text"
@@ -196,7 +196,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-text-field
-									v-model="formdata.ksk1"
+									v-model="formdata.ksk2"
 									label="KELOMPOK SASARAN KEGIATAN"
 									:rules="rule_ksk"
 									type="text"
@@ -205,7 +205,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-radio-group
-									v-model="formdata.sifat_kegiatan1"
+									v-model="formdata.sifat_kegiatan2"
 									row
 									:disabled="datakegiatan.Locked == 1"
 								>
@@ -213,7 +213,7 @@
 									<v-radio label="LANJUTAN" value="lanjutan">></v-radio>
 								</v-radio-group>
 								<v-text-field
-									v-model="formdata.waktu_pelaksanaan1"
+									v-model="formdata.waktu_pelaksanaan2"
 									label="WAKTU PELAKSANAAN"
 									:rules="rule_waktupelaksanaan"
 									type="text"
@@ -231,7 +231,7 @@
 									</v-btn>
 								</v-alert>
 								<v-select
-									v-model="formdata.nip_pa1"
+									v-model="formdata.nip_pa2"
 									label="PENGGUNA ANGGARAN"
 									:rules="rule_pa"
 									:items="daftar_pa"
@@ -240,7 +240,7 @@
 									:disabled="datakegiatan.Locked == 1"
 								/>
 								<v-select
-									v-model="formdata.nip_kpa1"
+									v-model="formdata.nip_kpa2"
 									label="KUASA PENGGUNA ANGGARAN"
 									:rules="rule_kpa"
 									:items="daftar_kpa"
@@ -250,7 +250,7 @@
 								/>
 								<v-select
 									label="PPK"
-									v-model="formdata.nip_ppk1"
+									v-model="formdata.nip_ppk2"
 									:rules="rule_ppk"
 									:items="daftar_ppk"
 									filled
@@ -259,7 +259,7 @@
 								/>
 								<v-select
 									label="PPTK"
-									v-model="formdata.nip_pptk1"
+									v-model="formdata.nip_pptk2"
 									:rules="rule_pptk"
 									:items="daftar_pptk"
 									filled
@@ -383,24 +383,24 @@
 					Nm_Program: "",
 					Nm_Kegiatan: "",
 					Nm_Sub_Kegiatan: "",
-					keluaran1: null,
-					tk_keluaran1: "",
-					hasil1: "",
-					tk_hasil1: "",
-					capaian_program1: "",
-					tk_capaian1: "",
-					masukan1: "",
-					ksk1: "",
-					sifat_kegiatan1: "baru",
-					waktu_pelaksanaan1: "",
-					lokasi_kegiatan1: "",
+					keluaran2: null,
+					tk_keluaran2: "",
+					hasil2: "",
+					tk_hasil2: "",
+					capaian_program2: "",
+					tk_capaian2: "",
+					masukan2: "",
+					ksk2: "",
+					sifat_kegiatan2: "baru",
+					waktu_pelaksanaan2: "",
+					lokasi_kegiatan2: "",
 					PaguDana1: "",
 					RealisasiKeuangan1: "",
 					RealisasiFisik1: "",
-					nip_pa1: "",
-					nip_kpa1: "",
-					nip_ppk1: "",
-					nip_pptk1: "",
+					nip_pa2: "",
+					nip_kpa2: "",
+					nip_ppk2: "",
+					nip_pptk2: "",
 					Descr: "",
 					TA: "",
 					Locked: "",
@@ -496,21 +496,21 @@
 							{
 								_method: "PUT",
 								SumberDanaID: this.formdata.SumberDanaID,
-								keluaran1: this.formdata.keluaran1,
-								tk_keluaran1: this.formdata.tk_keluaran1,
-								hasil1: this.formdata.hasil1,
-								tk_hasil1: this.formdata.tk_hasil1,
-								capaian_program1: this.formdata.capaian_program1,
-								tk_capaian1: this.formdata.tk_capaian1,
-								masukan1: this.formdata.masukan1,
-								ksk1: this.formdata.ksk1,
-								sifat_kegiatan1: this.formdata.sifat_kegiatan1,
-								waktu_pelaksanaan1: this.formdata.waktu_pelaksanaan1,
-								lokasi_kegiatan1: this.formdata.lokasi_kegiatan1,
-								nip_pa1: this.formdata.nip_pa1,
-								nip_kpa1: this.formdata.nip_kpa1,
-								nip_ppk1: this.formdata.nip_ppk1,
-								nip_pptk1: this.formdata.nip_pptk1,
+								keluaran2: this.formdata.keluaran2,
+								tk_keluaran2: this.formdata.tk_keluaran2,
+								hasil2: this.formdata.hasil2,
+								tk_hasil2: this.formdata.tk_hasil2,
+								capaian_program2: this.formdata.capaian_program2,
+								tk_capaian2: this.formdata.tk_capaian2,
+								masukan2: this.formdata.masukan2,
+								ksk2: this.formdata.ksk2,
+								sifat_kegiatan2: this.formdata.sifat_kegiatan2,
+								waktu_pelaksanaan2: this.formdata.waktu_pelaksanaan2,
+								lokasi_kegiatan2: this.formdata.lokasi_kegiatan2,
+								nip_pa2: this.formdata.nip_pa2,
+								nip_kpa2: this.formdata.nip_kpa2,
+								nip_ppk2: this.formdata.nip_ppk2,
+								nip_pptk2: this.formdata.nip_pptk2,
 								Descr: this.formdata.Descr,
 							},
 							{
@@ -522,21 +522,21 @@
 						.then(() => {
 							var page = this.$store.getters["uiadmin/Page"]("rkaperubahan");
 							page.datakegiatan.SumberDanaID = this.formdata.SumberDanaID;
-							page.datakegiatan.keluaran1 = this.formdata.keluaran1;
-							page.datakegiatan.tk_keluaran1 = this.formdata.tk_keluaran1;
-							page.datakegiatan.hasil1 = this.formdata.hasil1;
-							page.datakegiatan.tk_hasil1 = this.formdata.tk_hasil1;
-							page.datakegiatan.capaian_program1 = this.formdata.capaian_program1;
-							page.datakegiatan.tk_capaian1 = this.formdata.tk_capaian1;
-							page.datakegiatan.masukan1 = this.formdata.masukan1;
-							page.datakegiatan.ksk1 = this.formdata.ksk1;
-							page.datakegiatan.sifat_kegiatan1 = this.formdata.sifat_kegiatan1;
-							page.datakegiatan.waktu_pelaksanaan1 = this.formdata.waktu_pelaksanaan1;
-							page.datakegiatan.lokasi_kegiatan1 = this.formdata.lokasi_kegiatan1;
-							page.datakegiatan.nip_pa1 = this.formdata.nip_pa1;
-							page.datakegiatan.nip_kpa1 = this.formdata.nip_kpa1;
-							page.datakegiatan.nip_ppk1 = this.formdata.nip_ppk1;
-							page.datakegiatan.nip_pptk1 = this.formdata.nip_pptk1;
+							page.datakegiatan.keluaran2 = this.formdata.keluaran2;
+							page.datakegiatan.tk_keluaran2 = this.formdata.tk_keluaran2;
+							page.datakegiatan.hasil2 = this.formdata.hasil2;
+							page.datakegiatan.tk_hasil2 = this.formdata.tk_hasil2;
+							page.datakegiatan.capaian_program2 = this.formdata.capaian_program2;
+							page.datakegiatan.tk_capaian2 = this.formdata.tk_capaian2;
+							page.datakegiatan.masukan2 = this.formdata.masukan2;
+							page.datakegiatan.ksk2 = this.formdata.ksk2;
+							page.datakegiatan.sifat_kegiatan2 = this.formdata.sifat_kegiatan2;
+							page.datakegiatan.waktu_pelaksanaan2 = this.formdata.waktu_pelaksanaan2;
+							page.datakegiatan.lokasi_kegiatan2 = this.formdata.lokasi_kegiatan2;
+							page.datakegiatan.nip_pa2 = this.formdata.nip_pa2;
+							page.datakegiatan.nip_kpa2 = this.formdata.nip_kpa2;
+							page.datakegiatan.nip_ppk2 = this.formdata.nip_ppk2;
+							page.datakegiatan.nip_pptk2 = this.formdata.nip_pptk2;
 							page.datakegiatan.Descr = this.formdata.Descr;
 							this.$store.dispatch("uiadmin/updatePage", page);
 							this.closeeditkegiatan();

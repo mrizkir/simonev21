@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 use App\Models\ReportModel;
 
-class FormBUnitKerjaMurniModel extends ReportModel
+class FormBUnitKerjaPerubahanModel extends ReportModel
 {   
     public function __construct($dataReport,$print=true)
     {
@@ -43,7 +43,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
         
         $row=1;        
         $sheet->mergeCells("A$row:T$row");		
-        $sheet->setCellValue("A$row",'LAPORAN FORM B');         
+        $sheet->setCellValue("A$row",'LAPORAN FORM B PERUBAHAN');         
         $row+=1;        
         $sheet->mergeCells("A$row:T$row");		
         $sheet->setCellValue("A$row",strtoupper($this->dataReport['Nm_Sub_Organisasi']." [$kode_sub_organisasi]"));         
@@ -151,8 +151,8 @@ class FormBUnitKerjaMurniModel extends ReportModel
         $totalPaguUnit = (float)\DB::table('trRKA')
                                     ->where('SOrgID',$SOrgID)
                                     ->where('TA',$tahun)
-                                    ->where('EntryLvl',1)
-                                    ->sum('PaguDana1');
+                                    ->where('EntryLvl',2)
+                                    ->sum('PaguDana2');
         
         $no_huruf=ord('A');
         $total_kegiatan=0;
@@ -216,11 +216,11 @@ class FormBUnitKerjaMurniModel extends ReportModel
                     $sheet->setCellValue("C$row",$data_kegiatan->Nm_Kegiatan);  
 
                     $daftar_sub_kegiatan = \DB::table('trRKA')
-                                    ->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana1`,`lokasi_kegiatan1`'))
+                                    ->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana2`,`lokasi_kegiatan2`'))
                                     ->where('kode_kegiatan',$kode_kegiatan)
                                     ->where('SOrgID',$SOrgID)
                                     ->where('TA',$tahun)
-                                    ->where('EntryLvl',1)
+                                    ->where('EntryLvl',2)
                                     ->orderBy('kode_sub_kegiatan','ASC')
                                     ->get();
                     
@@ -229,8 +229,8 @@ class FormBUnitKerjaMurniModel extends ReportModel
                         $pagu_dana_kegiatan = (float)\DB::table('trRKA')
                                     ->where('SOrgID',$SOrgID)
                                     ->where('kode_kegiatan',$kode_kegiatan)
-                                    ->where('EntryLvl',1)
-                                    ->sum('PaguDana1');
+                                    ->where('EntryLvl',2)
+                                    ->sum('PaguDana2');
 
                         $jumlah_uraian_kegiatan = 0;
 
@@ -246,13 +246,13 @@ class FormBUnitKerjaMurniModel extends ReportModel
                         $no_sub_kegiatan = 1;
                         foreach ($daftar_sub_kegiatan as $data_sub_kegiatan)
                         {
-                            $pagu_dana_program += $data_sub_kegiatan->PaguDana1;
-                            $pagu_dana_kegiatan += $data_sub_kegiatan->PaguDana1;
+                            $pagu_dana_program += $data_sub_kegiatan->PaguDana2;
+                            $pagu_dana_kegiatan += $data_sub_kegiatan->PaguDana2;
 
                             $RKAID=$data_sub_kegiatan->RKAID;
                             $kode_sub_kegiatan = $data_sub_kegiatan->kode_sub_kegiatan;
 
-                            $persen_bobot=Helper::formatPersen($data_sub_kegiatan->PaguDana1,$totalPaguUnit);
+                            $persen_bobot=Helper::formatPersen($data_sub_kegiatan->PaguDana2,$totalPaguUnit);
                             $totalPersenBobot+=$persen_bobot;
 
                             //jumlah baris uraian
@@ -261,15 +261,15 @@ class FormBUnitKerjaMurniModel extends ReportModel
                             $jumlah_uraian_kegiatan += $jumlahuraian;
 
                             $data_target=\DB::table('trRKATargetRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                                            ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
                                             ->where('RKAID',$RKAID)
-                                            ->where('bulan1','<=',$no_bulan)
+                                            ->where('bulan2','<=',$no_bulan)
                                             ->get();
 
                             $data_realisasi=\DB::table('trRKARealisasiRinc')
-                                        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                        ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                         ->where('RKAID',$RKAID)
-                                        ->where('bulan1','<=',$no_bulan)
+                                        ->where('bulan2','<=',$no_bulan)
                                         ->get();
 
                             //menghitung persen target fisik
@@ -280,9 +280,9 @@ class FormBUnitKerjaMurniModel extends ReportModel
                             $totalPersenTargetFisik+=$persen_target_fisik;
 
                             //menghitung persen realisasi fisik
-                            $realisasi_fisik_program += $data_realisasi[0]->fisik1;
-                            $realisasi_fisik_kegiatan += $data_realisasi[0]->fisik1;
-                            $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
+                            $realisasi_fisik_program += $data_realisasi[0]->fisik2;
+                            $realisasi_fisik_kegiatan += $data_realisasi[0]->fisik2;
+                            $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
                             $totalPersenRealisasiFisik+=$persen_realisasi_fisik;
 
                             $persen_tertimbang_fisik=0.00;
@@ -297,13 +297,13 @@ class FormBUnitKerjaMurniModel extends ReportModel
                             $target_keuangan_program += $totalTargetKeuangan;
                             $target_keuangan_kegiatan += $totalTargetKeuangan;
                             $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
-                            $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$data_sub_kegiatan->PaguDana1);
+                            $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$data_sub_kegiatan->PaguDana2);
 
-                            $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
+                            $totalRealisasiKeuangan=$data_realisasi[0]->realisasi2;
                             $realisasi_keuangan_program += $totalRealisasiKeuangan;
                             $realisasi_keuangan_kegiatan += $totalRealisasiKeuangan;
                             $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
-                            $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana1);
+                            $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana2);
 
                             $persen_tertimbang_keuangan=0.00;
                             if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
@@ -312,15 +312,15 @@ class FormBUnitKerjaMurniModel extends ReportModel
                             }
                             $total_ttb_keuangan += $persen_tertimbang_keuangan;
 
-                            $sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;
+                            $sisa_anggaran=$data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;
                             $totalSisaAnggaran+=$sisa_anggaran;
 
-                            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
+                            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);
 
                             $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan.'.'.$no_sub_kegiatan);
                             $sheet->setCellValue("B$row",$kode_sub_kegiatan);  
                             $sheet->setCellValue("C$row",$data_sub_kegiatan->Nm_Sub_Kegiatan);  
-                            $sheet->setCellValue("D$row",Helper::formatUang($data_sub_kegiatan->PaguDana1));  
+                            $sheet->setCellValue("D$row",Helper::formatUang($data_sub_kegiatan->PaguDana2));  
                             $sheet->setCellValue("E$row",$persen_bobot);  
                             $sheet->setCellValue("F$row",$persen_target_fisik);  
                             $sheet->setCellValue("G$row",$persen_realisasi_fisik);  
@@ -330,7 +330,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
                             $sheet->setCellValue("K$row",Helper::formatUang($totalRealisasiKeuangan));  
                             $sheet->setCellValue("L$row",$persen_realisasi_keuangan);  
                             $sheet->setCellValue("M$row",$persen_tertimbang_keuangan);  
-                            $sheet->setCellValue("N$row",$data_sub_kegiatan->lokasi_kegiatan1);  
+                            $sheet->setCellValue("N$row",$data_sub_kegiatan->lokasi_kegiatan2);  
                             $sheet->setCellValue("O$row",Helper::formatUang($sisa_anggaran));  
                             $sheet->setCellValue("P$row",$persen_sisa_anggaran);
                             $row += 1; 

@@ -119,7 +119,7 @@
 														<td><strong>Pagu Dana</strong></td>
 														<td>
 															<strong>{{
-																data_rka.PaguDana1 | formatUang
+																data_rka.PaguDana2 | formatUang
 															}}</strong>
 														</td>
 													</tr>
@@ -154,8 +154,8 @@
 								mdi-lock
 							</v-icon>
 						</template>
-						<template v-slot:item.PaguDana1="{ item }">
-							{{ item.PaguDana1 | formatUang }}
+						<template v-slot:item.PaguDana2="{ item }">
+							{{ item.PaguDana2 | formatUang }}
 						</template>
 						<template v-slot:item.status="{ item }">
 							<v-chip label outlined :color="colorStatus(item.status)">
@@ -265,7 +265,7 @@
 					{ text: "NAMA PROGRAM", value: "PrgNm", width: 200 },
 					{ text: "KODE KEGIATAN", value: "kode_kegiatan", width: 80 },
 					{ text: "NAMA KEGIATAN", value: "KgtNm", width: 300 },
-					{ text: "PAGU DANA", value: "PaguDana1", align: "end", width: 100 },
+					{ text: "PAGU DANA", value: "PaguDana2", align: "end", width: 100 },
 					{ text: "STATUS", value: "status", width: 100 },
 					{ text: "AKSI", value: "actions", sortable: false, width: 80 },
 				],
@@ -298,7 +298,7 @@
 				if (data.length > 0) {
 					var totalpagukegiatan = 0;
 					for (var i = 0; i < data.length; i++) {
-						var num = new Number(data[i].PaguDana1);
+						var num = new Number(data[i].PaguDana2);
 						totalpagukegiatan += num;
 					}
 					summary.paguopd = totalpagukegiatan;

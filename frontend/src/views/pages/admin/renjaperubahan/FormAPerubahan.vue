@@ -279,22 +279,22 @@
 									</td>
 									<td>{{ item.nama_uraian }}</td>
 									<td class="text-right">
-										{{ item.pagu_dana1 | formatUang }}
+										{{ item.pagu_dana2 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_target1 | makeLookPrecision }}
+										{{ item.fisik_target2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_realisasi1 | makeLookPrecision }}
+										{{ item.fisik_realisasi2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_target1 | formatUang }}
+										{{ item.keuangan_target2 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_realisasi1 | formatUang }}
+										{{ item.keuangan_realisasi2 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_realisasi_persen_1 | makeLookPrecision }}
+										{{ item.keuangan_realisasi_persen_2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
 										{{ item.sisa_anggaran | formatUang }}
@@ -452,42 +452,42 @@
 					},
 					{
 						text: "PAGU DANA (RP)",
-						value: "pagu_dana1",
+						value: "pagu_dana2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "TARGET FISIK (%)",
-						value: "fisik_target1",
+						value: "fisik_target2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "REALISASI FISIK (%)",
-						value: "fisik_realisasi1",
+						value: "fisik_realisasi2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "TARGET KEUANGAN (RP)",
-						value: "keuangan_target1",
+						value: "keuangan_target2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "REALISASI KEUANGAN (RP)",
-						value: "keuangan_realisasi1",
+						value: "keuangan_realisasi2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "%",
-						value: "keuangan_realisasi_persen_1",
+						value: "keuangan_realisasi_persen_2",
 						align: "end",
 						width: 100,
 						sortable: false,

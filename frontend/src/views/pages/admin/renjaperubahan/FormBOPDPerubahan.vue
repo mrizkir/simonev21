@@ -100,26 +100,26 @@
 								</v-btn>
 							</v-toolbar>
 						</template>
-						<template v-slot:item.bobot1="{ item }">
-							{{ item.bobot1 | makeLookPrecision }}
+						<template v-slot:item.bobot2="{ item }">
+							{{ item.bobot2 | makeLookPrecision }}
 						</template>
-						<template v-slot:item.fisik_target1="{ item }">
-							{{ item.fisik_target1 | makeLookPrecision }}
+						<template v-slot:item.fisik_target2="{ item }">
+							{{ item.fisik_target2 | makeLookPrecision }}
 						</template>
-						<template v-slot:item.fisik_realisasi1="{ item }">
-							{{ item.fisik_realisasi1 | makeLookPrecision }}
+						<template v-slot:item.fisik_realisasi2="{ item }">
+							{{ item.fisik_realisasi2 | makeLookPrecision }}
 						</template>
-						<template v-slot:item.fisik_ttb1="{ item }">
-							{{ item.fisik_ttb1 | makeLookPrecision }}
+						<template v-slot:item.fisik_ttb2="{ item }">
+							{{ item.fisik_ttb2 | makeLookPrecision }}
 						</template>
-						<template v-slot:item.keuangan_target_persen_1="{ item }">
-							{{ item.keuangan_target_persen_1 | makeLookPrecision }}
+						<template v-slot:item.keuangan_target_persen_2="{ item }">
+							{{ item.keuangan_target_persen_2 | makeLookPrecision }}
 						</template>
-						<template v-slot:item.keuangan_realisasi_persen_1="{ item }">
-							{{ item.keuangan_realisasi_persen_1 | makeLookPrecision }}
+						<template v-slot:item.keuangan_realisasi_persen_2="{ item }">
+							{{ item.keuangan_realisasi_persen_2 | makeLookPrecision }}
 						</template>
-						<template v-slot:item.keuangan_ttb1="{ item }">
-							{{ item.keuangan_ttb1 | makeLookPrecision }}
+						<template v-slot:item.keuangan_ttb2="{ item }">
+							{{ item.keuangan_ttb2 | makeLookPrecision }}
 						</template>
 						<template v-slot:item.sisa_anggaran_persen="{ item }">
 							{{ item.sisa_anggaran_persen | makeLookPrecision }}
@@ -134,34 +134,34 @@
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama }}</td>
 									<td class="text-right">
-										{{ item.pagu_dana1 | formatUang }}
+										{{ item.pagu_dana2 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.bobot1 | makeLookPrecision }}
+										{{ item.bobot2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_target1 | makeLookPrecision }}
+										{{ item.fisik_target2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_realisasi1 | makeLookPrecision }}
+										{{ item.fisik_realisasi2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.fisik_ttb1 | makeLookPrecision }}
+										{{ item.fisik_ttb2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_target1 | formatUang }}
+										{{ item.keuangan_target2 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_target_persen_1 | makeLookPrecision }}
+										{{ item.keuangan_target_persen_2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_realisasi1 | formatUang }}
+										{{ item.keuangan_realisasi2 | formatUang }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_realisasi_persen_1 | makeLookPrecision }}
+										{{ item.keuangan_realisasi_persen_2 | makeLookPrecision }}
 									</td>
 									<td class="text-right">
-										{{ item.keuangan_ttb1 | makeLookPrecision }}
+										{{ item.keuangan_ttb2 | makeLookPrecision }}
 									</td>
 									<td class="text-left">
 										{{ item.lokasi }}
@@ -317,70 +317,70 @@
 					},
 					{
 						text: "PAGU DANA (RP)",
-						value: "pagu_dana1",
+						value: "pagu_dana2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "BOBOT (%)",
-						value: "bobot1",
+						value: "bobot2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "TARGET FISIK (%)",
-						value: "fisik_target1",
+						value: "fisik_target2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "REALISASI FISIK (%)",
-						value: "fisik_realisasi1",
+						value: "fisik_realisasi2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "TTB FISIK (%)",
-						value: "fisik_ttb1",
+						value: "fisik_ttb2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "TARGET KEUANGAN (RP)",
-						value: "keuangan_target1",
+						value: "keuangan_target2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "(%)",
-						value: "keuangan_target_persen_1",
+						value: "keuangan_target_persen_2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "REALISASI KEUANGAN (RP)",
-						value: "keuangan_realisasi1",
+						value: "keuangan_realisasi2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "(%)",
-						value: "keuangan_realisasi_persen_1",
+						value: "keuangan_realisasi_persen_2",
 						align: "end",
 						width: 100,
 						sortable: false,
 					},
 					{
 						text: "TTB KEUANGAN (%)",
-						value: "keuangan_ttb1",
+						value: "keuangan_ttb2",
 						align: "end",
 						width: 100,
 						sortable: false,

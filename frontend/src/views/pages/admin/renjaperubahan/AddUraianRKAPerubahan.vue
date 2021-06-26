@@ -365,12 +365,12 @@
 							{
 								RKAID: this.RKAID,
 								SubRObyID: this.rekening_SubRObyID.SubRObyID,
-								kode_uraian1: this.rekening_SubRObyID.kode_uraian,
-								nama_uraian1: this.formdata.nama_uraian,
-								volume1: this.formdata.volume,
-								satuan1: this.formdata.satuan,
-								harga_satuan1: this.formdata.harga_satuan,
-								PaguUraian1: this.PaguUraian(),
+								kode_uraian2: this.rekening_SubRObyID.kode_uraian,
+								nama_uraian2: this.formdata.nama_uraian,
+								volume2: this.formdata.volume,
+								satuan2: this.formdata.satuan,
+								harga_satuan2: this.formdata.harga_satuan,
+								PaguUraian2: this.PaguUraian(),
 								Descr: this.formdata.Descr,
 							},
 							{

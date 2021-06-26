@@ -253,20 +253,20 @@ class ReportModel extends Model
                                 `trRKA`.`Nm_Kegiatan`,
                                 `trRKA`.`kode_sub_kegiatan`,
                                 `trRKA`.`Nm_Sub_Kegiatan`,
-                                `trRKA`.`lokasi_kegiatan1`,
+                                `trRKA`.`lokasi_kegiatan2`,
                                 `trRKA`.`SumberDanaID`,
                                 `C`.`Nm_SumberDana`,
-                                `trRKA`.`tk_capaian1`,
-                                `trRKA`.`capaian_program1`,
-                                `trRKA`.`masukan1`,
-                                `trRKA`.`tk_keluaran1`,
-                                `trRKA`.`keluaran1`,
-                                `trRKA`.`tk_hasil1`,
-                                `trRKA`.`hasil1`,
-                                `trRKA`.`ksk1`,
-                                `trRKA`.`sifat_kegiatan1`,
-                                `trRKA`.`waktu_pelaksanaan1`,
-                                `trRKA`.`PaguDana1`,
+                                `trRKA`.`tk_capaian2`,
+                                `trRKA`.`capaian_program2`,
+                                `trRKA`.`masukan2`,
+                                `trRKA`.`tk_keluaran2`,
+                                `trRKA`.`keluaran2`,
+                                `trRKA`.`tk_hasil2`,
+                                `trRKA`.`hasil2`,
+                                `trRKA`.`ksk2`,
+                                `trRKA`.`sifat_kegiatan2`,
+                                `trRKA`.`waktu_pelaksanaan2`,
+                                `trRKA`.`PaguDana2`,
                                 `trRKA`.`Descr`,
                                 `trRKA`.`TA`,
                                 `trRKA`.`EntryLvl`,
@@ -278,103 +278,73 @@ class ReportModel extends Model
                                 `trRKA`.`updated_at`
                             ');
 
-
                 $rka = \App\Models\Renja\RKAModel::select($sql)                              
                             ->leftJoin('tmASN AS A','A.ASNID','trRKA.nip_pa2')     
                             ->leftJoin('tmASN AS B','B.ASNID','trRKA.nip_pptk2')     
                             ->leftJoin('tmSumberDana AS C','C.SumberDanaID','trRKA.SumberDanaID')                                 
                             ->where('trRKA.EntryLvl',$entryLvl)
                             ->find($id);
-                
+
                 if (!is_null($rka))
                 {
                     $this->dataKegiatan=$rka->toArray();        
                     $totalPaguUraian = $rka->PaguDana2;
                     $this->dataKegiatan['total_pagu_uraian']=$totalPaguUraian;
                     $data_akhir = \DB::table('trRKARinc')
-                                    ->select(\DB::raw('`trRKARinc`.`RKARincID`,
-                                            `trRKARinc`.`RKAID`,
-                                            sipd.`Kd_Rek_1`,
-                                            sipd.`Nm_Akun`,
-                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`) AS `Kd_Rek_2`,
-                                            sipd.`KlpNm`,
-                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`,\'.\',sipd.`Kd_Rek_3`) AS `Kd_Rek_3`,
-                                            sipd.`JnsNm`,
-                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`,\'.\',sipd.`Kd_Rek_3`,\'.\',sipd.`Kd_Rek_4`) AS `Kd_Rek_4`,
-                                            sipd.`ObyNm`,
-                                            CONCAT(sipd.`Kd_Rek_1`,\'.\',sipd.`Kd_Rek_2`,\'.\',sipd.`Kd_Rek_3`,\'.\',sipd.`Kd_Rek_4`,\'.\',sipd.`Kd_Rek_5`) AS `Kd_Rek_5`,
-                                            sipd.`RObyNm`,
-                                            sipd.`nama_uraian`,
-                                            sipd.`PaguUraian2`,
-                                            `trRKARinc`.`volume2`,
-                                            `trRKARinc`.`satuan2`,
-                                            `trRKARinc`.`harga_satuan2`                                    
-                                    '))
+                                    ->select(\DB::raw("
+                                        `trRKARinc`.`RKARincID`,
+                                        `trRKARinc`.`RKAID`,
+                                        tmAkun.`Kd_Rek_1`, 
+                                        tmAkun.`Nm_Akun`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`) AS `Kd_Rek_2`, tmKlp.`KlpNm`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
+                                        CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`) AS `Kd_Rek_6`, 
+                                        `tmSubROby`.`SubRObyNm`, 
+                                        `trRKARinc`.`NamaUraian2`, 
+                                        `trRKARinc`.`PaguUraian2`, 
+                                        `trRKARinc`.`volume2`, 
+                                        `trRKARinc`.`satuan2`, 
+                                        `trRKARinc`.`harga_satuan2` 
+                                    "))
                                     ->where('RKAID',$rka->RKAID)
-                                    ->join('sipd','sipd.TepraID','trRKARinc.RKARincID')
+                                    ->join('tmSubROby','tmSubROby.kode_rek_6','trRKARinc.kode_uraian2')
+                                    ->join('tmROby','tmROby.RobyID','tmSubROby.RobyID')
+                                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                                    ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
+                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                                     ->get();   
-                                                
+                    
                     foreach ($data_akhir as $k=>$v)
                     {
                         $RKARincID=$v->RKARincID;                      
-                        $nama_uraian=$v->nama_uraian;
+                        $nama_uraian=$v->NamaUraian1;
                         $target=(float)\DB::table('trRKATargetRinc')
                                             ->where('RKARincID',$RKARincID)
                                             ->where('bulan2','<=',$no_bulan)
-                                            ->sum('target2');                                
+                                            ->sum('target2');  
+                        
                         $data_realisasi=\DB::table('trRKARealisasiRinc')
                                             ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->where('RKARincID',$RKARincID)
                                             ->where('bulan2','<=',$no_bulan)
                                             ->get();
-
+                        
                         $realisasi=(float)$data_realisasi[0]->realisasi2;
                         $fisik=(float)$data_realisasi[0]->fisik2;            
                         $persen_fisik=number_format((($fisik > 100) ? 100:$fisik),2);
-                        $no_rek5=$v->Kd_Rek_5;            
-                        if (array_key_exists ($no_rek5,$dataAkhir)) 
+                        $no_rek6=$v->Kd_Rek_6;            
+                        if (array_key_exists ($no_rek6, $dataAkhir)) 
                         {
                             $persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
                             $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
                             $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
                             $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                             $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+
                             $dataAkhir[$no_rek5]['child'][]=[
-                                                    'RKARincID'=>$v->RKARincID,
-                                                    'Kd_Rek_1'=>$v->Kd_Rek_1,
-                                                    'Nm_Akun'=>$v->Nm_Akun,
-                                                    'Kd_Rek_2'=>$v->Kd_Rek_2,
-                                                    'KlpNm'=>$v->KlpNm,
-                                                    'Kd_Rek_3'=>$v->Kd_Rek_3,
-                                                    'JnsNm'=>$v->JnsNm,
-                                                    'Kd_Rek_4'=>$v->Kd_Rek_4,
-                                                    'ObyNm'=>$v->ObyNm,
-                                                    'Kd_Rek_5'=>$v->Kd_Rek_5,
-                                                    'RObyNm'=>$v->RObyNm,
-                                                    'nama_uraian'=>$nama_uraian,                                        
-                                                    'pagu_uraian'=>$v->PaguUraian2,
-                                                    'persen_bobot'=>$persenbobot,
-                                                    'target'=>$target,
-                                                    'persen_target'=>$persen_target,
-                                                    'realisasi'=>$realisasi,
-                                                    'persen_realisasi'=>$persen_realisasi,
-                                                    'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                                                    'fisik'=>$fisik,
-                                                    'persen_fisik'=>$persen_fisik,
-                                                    'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                                                    'volume'=>$v->volume2,
-                                                    'harga_satuan'=>(float)$v->harga_satuan2,
-                                                    'satuan'=>$v->satuan2
-                                                ];
-                        }
-                        else
-                        {
-                            $persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
-                            $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
-                            $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
-                            $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
-                            $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
-                            $dataAkhir[$no_rek5]=[
                                                     'RKARincID'=>$v->RKARincID,
                                                     'Kd_Rek_1'=>$v->Kd_Rek_1,
                                                     'Nm_Akun'=>$v->Nm_Akun,
@@ -404,10 +374,50 @@ class ReportModel extends Model
                                                     'satuan'=>$v->satuan2
                                                 ];
                         }
+                        else
+                        {
+                            $persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
+                            $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
+                            $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
+                            $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
+                            $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+                            
+                            $dataAkhir[$no_rek6]=[
+                                                    'RKARincID'=>$v->RKARincID,
+                                                    'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                                    'Nm_Akun'=>$v->Nm_Akun,
+                                                    'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                                    'KlpNm'=>$v->KlpNm,
+                                                    'Kd_Rek_3'=>$v->Kd_Rek_3,
+                                                    'JnsNm'=>$v->JnsNm,
+                                                    'Kd_Rek_4'=>$v->Kd_Rek_4,
+                                                    'ObyNm'=>$v->ObyNm,
+                                                    'Kd_Rek_5'=>$v->Kd_Rek_5,
+                                                    'RObyNm'=>$v->RObyNm,
+                                                    'Kd_Rek_6'=>$v->Kd_Rek_6,
+                                                    'SubRObyNm'=>$v->SubRObyNm,
+                                                    'nama_uraian'=>$nama_uraian,                                        
+                                                    'pagu_uraian'=>$v->PaguUraian2,
+                                                    'persen_bobot'=>$persenbobot,
+                                                    'target'=>$target,
+                                                    'persen_target'=>$persen_target,
+                                                    'realisasi'=>$realisasi,
+                                                    'persen_realisasi'=>$persen_realisasi,
+                                                    'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
+                                                    'fisik'=>$fisik,
+                                                    'persen_fisik'=>$persen_fisik,
+                                                    'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
+                                                    'volume'=>$v->volume2,
+                                                    'harga_satuan'=>(float)$v->harga_satuan2,
+                                                    'satuan'=>$v->satuan2
+                                                ];
+                            
+                        }
 
                     }       	
                 }
             break;
+            
         }          
         $this->dataRKA=$dataAkhir;
         return $dataAkhir;

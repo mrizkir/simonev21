@@ -64,7 +64,7 @@
 									label="PAGU URAIAN"
 									type="text"
 									filled
-									:value="datauraian.PaguUraian1 | formatUang"
+									:value="datauraian.PaguUraian2 | formatUang"
 									:disabled="true"
 								/>
 								<v-select
@@ -588,10 +588,10 @@
 					JenisPembangunanID: "",
 					kode_uraian: "",
 					nama_uraian: "",
-					volume1: 0,
-					satuan1: "",
-					harga_satuan1: 0,
-					PaguUraian1: 0,
+					volume2: 0,
+					satuan2: "",
+					harga_satuan2: 0,
+					PaguUraian2: 0,
 					PMProvID: "",
 					PmKotaID: "",
 					PmKecamatanID: "",

@@ -71,7 +71,7 @@
 									<tr>
 										<td width="150">PAGU URAIAN</td>
 										<td width="400">
-											{{ datauraian.PaguUraian1 | formatUang }}
+											{{ datauraian.PaguUraian2 | formatUang }}
 										</td>
 										<td width="150">NAMA SUB KEGIATAN</td>
 										<td width="400">{{ datakegiatan.Nm_Sub_Kegiatan }}</td>
@@ -134,7 +134,7 @@
 						:headers="headers"
 						:items="datatable"
 						item-key="RKARealisasiRincID"
-						sort-by="bulan1"
+						sort-by="bulan2"
 						show-expand
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"
@@ -189,7 +189,7 @@
 															<tr>
 																<td width="150">PAGU URAIAN :</td>
 																<td>
-																	{{ datauraian.PaguUraian1 | formatUang }}
+																	{{ datauraian.PaguUraian2 | formatUang }}
 																</td>
 															</tr>
 														</tbody>
@@ -200,7 +200,7 @@
 														<v-col cols="12" sm="12" md="12">
 															<v-autocomplete
 																:items="daftar_bulan"
-																v-model="bulan1"
+																v-model="bulan2"
 																label="BULAN"
 																:rules="rule_bulan"
 															>
@@ -255,7 +255,7 @@
 																:max="null"
 																:rules="rule_realisasi"
 																filled
-																v-model="formdata.realisasi1"
+																v-model="formdata.realisasi2"
 															>
 															</v-currency-field>
 														</v-col>
@@ -265,7 +265,7 @@
 																type="text"
 																filled
 																:rules="rule_fisik"
-																v-model="formdata.fisik1"
+																v-model="formdata.fisik2"
 															/>
 														</v-col>
 														<v-col cols="12" sm="12" md="12">
@@ -317,7 +317,7 @@
 															<tr>
 																<td width="150">PAGU URAIAN :</td>
 																<td>
-																	{{ datauraian.PaguUraian1 | formatUang }}
+																	{{ datauraian.PaguUraian2 | formatUang }}
 																</td>
 															</tr>
 														</tbody>
@@ -328,7 +328,7 @@
 														<v-col cols="12" sm="12" md="12">
 															<v-autocomplete
 																:items="daftar_bulan"
-																v-model="bulan1"
+																v-model="bulan2"
 																label="BULAN"
 																:rules="rule_bulan"
 																:disabled="true"
@@ -386,7 +386,7 @@
 																:max="null"
 																:rules="rule_realisasiedit"
 																filled
-																v-model="formdata.realisasi1"
+																v-model="formdata.realisasi2"
 															>
 															</v-currency-field>
 														</v-col>
@@ -396,7 +396,7 @@
 																type="text"
 																filled
 																:rules="rule_fisikedit"
-																v-model="formdata.fisik1"
+																v-model="formdata.fisik2"
 															/>
 														</v-col>
 														<v-col cols="12" sm="12" md="12">
@@ -447,11 +447,11 @@
 								mdi-delete
 							</v-icon>
 						</template>
-						<template v-slot:item.target1="{ item }">
-							{{ item.target1 | formatUang }}
+						<template v-slot:item.target2="{ item }">
+							{{ item.target2 | formatUang }}
 						</template>
-						<template v-slot:item.realisasi1="{ item }">
-							{{ item.realisasi1 | formatUang }}
+						<template v-slot:item.realisasi2="{ item }">
+							{{ item.realisasi2 | formatUang }}
 						</template>
 						<template v-slot:item.sisa_anggaran="{ item }">
 							{{ item.sisa_anggaran | formatUang }}
@@ -565,20 +565,20 @@
 				datatable: [],
 				headers: [
 					{ text: "BULAN", value: "NamaBulan", width: 70 },
-					{ text: "ANGGARAN KAS", align: "end", value: "target1", width: 100 },
+					{ text: "ANGGARAN KAS", align: "end", value: "target2", width: 100 },
 					{
 						text: "REALISASI/SP2D",
 						align: "end",
-						value: "realisasi1",
+						value: "realisasi2",
 						width: 100,
 					},
 					{
 						text: "TARGET FISIK",
 						align: "end",
-						value: "target_fisik1",
+						value: "target_fisik2",
 						width: 100,
 					},
-					{ text: "FISIK (%)", align: "end", value: "fisik1", width: 100 },
+					{ text: "FISIK (%)", align: "end", value: "fisik2", width: 100 },
 					{
 						text: "SISA ANGGARAN",
 						align: "end",
@@ -603,15 +603,15 @@
 				//form data
 				form_valid: true,
 				daftar_bulan: [],
-				bulan1: null,
+				bulan2: null,
 				formdata: {
 					RKARealisasiRincID: "",
 					anggarankas: 0,
 					targetfisik: 0,
 					sisapagu: 0,
 					sisafisik: 0,
-					realisasi1: 0,
-					fisik1: 0,
+					realisasi2: 0,
+					fisik2: 0,
 					Descr: "",
 					created_at: "",
 					updated_at: "",
@@ -622,8 +622,8 @@
 					targetfisik: 0,
 					sisapagu: 0,
 					sisafisik: 0,
-					realisasi1: 0,
-					fisik1: 0,
+					realisasi2: 0,
+					fisik2: 0,
 					Descr: "",
 					created_at: "",
 					updated_at: "",
@@ -646,13 +646,13 @@
 				rule_realisasi: [
 					value => {
 						if (value.length > 0) {
-							let PaguUraian1 = parseFloat(this.datauraian.PaguUraian1);
+							let PaguUraian2 = parseFloat(this.datauraian.PaguUraian2);
 							let sisapagu = parseFloat(this.formdata.sisapagu);
-							let realisasi1 = parseFloat(value.replace(/[^0-9.-]+/g, ""));
+							let realisasi2 = parseFloat(value.replace(/[^0-9.-]+/g, ""));
 							return (
-								realisasi1 <= sisapagu ||
+								realisasi2 <= sisapagu ||
 								"Jumlah realisasi keuangan telah melampaui pagu uraian (" +
-									Vue.filter("formatUang")(PaguUraian1) +
+									Vue.filter("formatUang")(PaguUraian2) +
 									")"
 							);
 						} else {
@@ -663,13 +663,13 @@
 				rule_realisasiedit: [
 					value => {
 						if (value.length > 0) {
-							let PaguUraian1 = parseFloat(this.datauraian.PaguUraian1);
+							let PaguUraian2 = parseFloat(this.datauraian.PaguUraian2);
 							let sisapagu = parseFloat(this.formdata.sisapagu);
-							let realisasi1 = parseFloat(value.replace(/[^0-9.-]+/g, ""));
+							let realisasi2 = parseFloat(value.replace(/[^0-9.-]+/g, ""));
 							return (
-								realisasi1 <= sisapagu ||
+								realisasi2 <= sisapagu ||
 								"Jumlah realisasi keuangan telah melampaui pagu uraian (" +
-									Vue.filter("formatUang")(PaguUraian1) +
+									Vue.filter("formatUang")(PaguUraian2) +
 									")"
 							);
 						} else {
@@ -769,10 +769,10 @@
 									this.formdata.RKARealisasiRincID,
 								{
 									_method: "put",
-									target1: this.formdata.anggarankas,
-									realisasi1: this.formdata.realisasi1,
-									target_fisik1: this.formdata.targetfisik,
-									fisik1: this.formdata.fisik1,
+									target2: this.formdata.anggarankas,
+									realisasi2: this.formdata.realisasi2,
+									target_fisik2: this.formdata.targetfisik,
+									fisik2: this.formdata.fisik2,
 									Descr: this.formdata.Descr,
 								},
 								{
@@ -795,11 +795,11 @@
 								{
 									RKARincID: this.datauraian.RKARincID,
 									RKAID: this.datakegiatan.RKAID,
-									bulan1: this.bulan1,
-									target1: this.formdata.anggarankas,
-									realisasi1: this.formdata.realisasi1,
-									target_fisik1: this.formdata.targetfisik,
-									fisik1: this.formdata.fisik1,
+									bulan2: this.bulan2,
+									target2: this.formdata.anggarankas,
+									realisasi2: this.formdata.realisasi2,
+									target_fisik2: this.formdata.targetfisik,
+									fisik2: this.formdata.fisik2,
 									TA: this.datakegiatan.TA,
 									Descr: this.formdata.Descr,
 								},
@@ -822,14 +822,14 @@
 			editItem: async function(item) {
 				this.editedIndex = this.datatable.indexOf(item);
 				this.daftar_bulan = this.$store.getters["uifront/getDaftarBulan"];
-				this.bulan1 = item.bulan1;
+				this.bulan2 = item.bulan2;
 				await this.$ajax
 					.post(
 						"/renja/rkaperubahan/rencanatarget",
 						{
 							mode: "bulan",
 							RKARincID: this.datauraian.RKARincID,
-							bulan1: item.bulan1,
+							bulan2: item.bulan2,
 						},
 						{
 							headers: {
@@ -842,13 +842,13 @@
 						this.formdata.targetfisik = data.target.fisik;
 						this.formdata.anggarankas = data.target.anggaran;
 						let sisapagu =
-							parseFloat(this.datauraian.PaguUraian1) -
+							parseFloat(this.datauraian.PaguUraian2) -
 							parseFloat(data.datarealisasi.jumlah_realisasi);
-						this.formdata.sisapagu = sisapagu + parseFloat(item.realisasi1);
+						this.formdata.sisapagu = sisapagu + parseFloat(item.realisasi2);
 						let sisafisik = 100 - new Number(data.datarealisasi.jumlah_fisik);
-						this.formdata.sisafisik = sisafisik + parseFloat(item.fisik1);
-						this.formdata.realisasi1 = item.realisasi1;
-						this.formdata.fisik1 = item.fisik1;
+						this.formdata.sisafisik = sisafisik + parseFloat(item.fisik2);
+						this.formdata.realisasi2 = item.realisasi2;
+						this.formdata.fisik2 = item.fisik2;
 						this.formdata.Descr = item.Descr;
 					});
 				this.dialogfrmedit = true;
@@ -891,7 +891,7 @@
 			closedialogfrm() {
 				this.btnLoading = false;
 				this.dialogfrm = false;
-				this.bulan1 = null;
+				this.bulan2 = null;
 				setTimeout(() => {
 					this.$refs.frmdata.reset();
 					this.formdata = Object.assign({}, this.formdefault);
@@ -901,7 +901,7 @@
 			closedialogfrmedit() {
 				this.btnLoading = false;
 				this.dialogfrmedit = false;
-				this.bulan1 = null;
+				this.bulan2 = null;
 				setTimeout(() => {
 					this.$refs.frmdata.reset();
 					this.formdata = Object.assign({}, this.formdefault);
@@ -920,7 +920,7 @@
 			},
 		},
 		watch: {
-			bulan1: async function(val) {
+			bulan2: async function(val) {
 				if (
 					val !== null &&
 					this.editedIndex == -1 &&
@@ -932,7 +932,7 @@
 							{
 								mode: "bulan",
 								RKARincID: this.datauraian.RKARincID,
-								bulan1: this.bulan1,
+								bulan2: this.bulan2,
 							},
 							{
 								headers: {
@@ -944,7 +944,7 @@
 							this.formdata.targetfisik = data.target.fisik;
 							this.formdata.anggarankas = data.target.anggaran;
 							this.formdata.sisapagu =
-								new Number(this.datauraian.PaguUraian1) -
+								new Number(this.datauraian.PaguUraian2) -
 								new Number(data.datarealisasi.jumlah_realisasi);
 							this.formdata.sisafisik =
 								100 - new Number(data.datarealisasi.jumlah_fisik);

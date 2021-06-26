@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 use App\Models\ReportModel;
 
-class FormBOPDMurniModel extends ReportModel
+class FormBOPDPerubahanModel extends ReportModel
 {   
     public function __construct($dataReport,$print=true)
     {
