@@ -73,7 +73,7 @@ class RKAPerubahanController extends Controller
                                             `trRKA`.`updated_at`
                                             '))
                             ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
-                            ->where('trRKA.EntryLvl',1)
+                            ->where('trRKA.EntryLvl',2)
                             ->find($id);
 
         return $rka;
@@ -367,54 +367,96 @@ class RKAPerubahanController extends Controller
         $rka = RKAModel::find($RKAID);
 
         $str_insert = '
-            INSERT INTO `trRKARinc` (
-                `RKARincID`,
-                `RKAID`,
-                `SIPDID`,
-                kode_uraian2,
-                kode_uraian2,
-                `NamaUraian2`,
-                `NamaUraian2`,
-                volume2,
-                satuan2,
-                volume2,
-                satuan2,
-                harga_satuan2,
-                harga_satuan2,
-                `PaguUraian2`,
-                `PaguUraian2`,
-                `EntryLvl`,
-                `TA`,
-                created_at,
-                updated_at
-            )
-            SELECT 
-                uuid() AS `RKARincID`,                
-                \''.$rka->RKAID.'\' AS `RKAID`,
-                A.`SIPDID`,
-                CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3,\'.\',kd_rek4,\'.\',kd_rek5,\'.\',kd_rek6) AS kode_uraian2,
-                CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3,\'.\',kd_rek4,\'.\',kd_rek5,\'.\',kd_rek6) AS kode_uraian2,
-                nm_rek6 AS `NamaUraian2`,
-                nm_rek6 AS `NamaUraian2`,
-                1 AS volume2,
-                \'Kegiatan\' AS satuan2,
-                1 AS volume2,
-                \'Kegiatan\' AS satuan2,
-                A.`PaguUraian2` AS `harga_satuan2`,
-                A.`PaguUraian2` AS `harga_satuan2`,
-                A.`PaguUraian2` AS `PaguUraian2`,
-                A.`PaguUraian2` AS `PaguUraian2`,
-                1 AS `EntryLvl`,
-                '.$rka->TA.' AS `TA`,
-                NOW() AS created_at,
-                NOW() AS updated_at
-            FROM sipd A
-            LEFT JOIN `trRKARinc` B ON B.`RKARincID`=A.`SIPDID`
-                WHERE A.kd_sub_keg_gabung=\''.$rka->kode_sub_kegiatan.'\' AND 
-                A.kode_sub_organisasi=\''.$rka->kode_sub_organisasi.'\' AND 
-                A.`EntryLevel`=2 AND 
-                A.`TA`='.$rka->TA.' AND 
-                B.`SIPDID` IS NULL
+        INSERT INTO `trRKARinc` (
+            `RKARincID`,
+            `RKAID`,
+            `SIPDID`,
+            `JenisPelaksanaanID`,
+            `SumberDanaID`,
+            `JenisPembangunanID`,            
+            `kode_uraian1`,            
+            `kode_uraian2`,            
+            `NamaUraian1`,            
+            `NamaUraian2`,            
+            `volume1`,
+            `volume2`,
+            `satuan1`,            
+            `satuan2`,            
+            `harga_satuan1`,
+            `harga_satuan2`,
+            `PaguUraian1`,
+            `PaguUraian2`,
+            `idlok`,
+            `ket_lok`,
+            `rw`,
+            `rt`,
+            `nama_perusahaan`,
+            `alamat_perusahaan`,
+            `no_telepon`,
+            `nama_direktur`,
+            `npwp`,
+            `no_kontrak`,
+            `tgl_kontrak`,
+            `tgl_mulai_pelaksanaan`,
+            `tgl_selesai_pelaksanaan`,
+            `status_lelang`,
+            `EntryLvl`,
+            `Descr`,            
+            `TA`,
+            `Locked`,
+            `RKARincID_Src`,
+            created_at,
+            updated_at
+        ) 
+        SELECT
+            uuid() AS `RKARincID`,
+            \''.$rka->RKAID.'\' AS `RKAID`,
+            `SIPDID`,
+            `JenisPelaksanaanID`,
+            `SumberDanaID`,
+            `JenisPembangunanID`,            
+            `kode_uraian1`,            
+            `kode_uraian1` AS `kode_uraian2`,            
+            `NamaUraian1`,            
+            `NamaUraian1` AS `NamaUraian2`,            
+            `volume1`,
+            `volume1` AS `volume2`,
+            `satuan1`,            
+            `satuan1` AS `satuan2`,            
+            `harga_satuan1`,
+            `harga_satuan1` AS `harga_satuan2`,
+            `PaguUraian1`,
+            `PaguUraian1` AS `PaguUraian2`,
+            `idlok`,
+            `ket_lok`,
+            `rw`,
+            `rt`,
+            `nama_perusahaan`,
+            `alamat_perusahaan`,
+            `no_telepon`,
+            `nama_direktur`,
+            `npwp`,
+            `no_kontrak`,
+            `tgl_kontrak`,
+            `tgl_mulai_pelaksanaan`,
+            `tgl_selesai_pelaksanaan`,
+            `status_lelang`,
+            2 AS `EntryLvl`,
+            \'IMPORTED FROM RKARinc murni\' AS `Descr`,            
+            `TA`,
+            `Locked`,
+            `RKARincID` AS `RKARincID_Src`,
+            NOW() AS created_at,
+            NOW() AS updated_at
+        FROM trRKARinc
+        WHERE RKAID = \''.$rka->RKAID_Src.'\'
+        AND `RKARincID` NOT IN (
+            SELECT
+                `RKARincID_Src`
+            FROM 
+                `trRKARinc`	
+            WHERE RKAID = \''.$rka->RKAID.'\'
+        )	
         ';
         \DB::statement($str_insert); 
         
@@ -432,17 +474,122 @@ class RKAPerubahanController extends Controller
                                     0 AS `fisik2`,
                                     `JenisPelaksanaanID`,
                                     `TA`,
+                                    `RKARincID_Src`,
                                     created_at,
                                     updated_at
                                 '))                                
                                 ->where('RKAID',$rka->RKAID)
                                 ->get();
         
-        $rka->PaguDana2 = $data->sum('PaguUraian2');
-        $rka->PaguDana2 = $data->sum('PaguUraian2');
-
+        $rka->PaguDana2 = $data->sum('PaguUraian2');        
         $rka->save();
+        
+        foreach ($data as $v) 
+        {
+            $sql_insert = '
+                INSERT INTO `trRKATargetRinc` (
+                    `RKATargetRincID`, 
+                    `RKAID`, 
+                    `RKARincID`, 
+                    `bulan1`, 
+                    `bulan2`, 
+                    `target1`,         
+                    `target2`,                
+                    `fisik1`,         
+                    `fisik2`,    
+                    `EntryLvl`, 
+                    `Descr`, 
+                    `TA`, 
+                    `Locked`,
+                    `RKATargetRincID_Src`,
+                    created_at,
+                    updated_at
+                )
+                SELECT 
+                    uuid() AS `RKATargetRincID`, 
+                    \''.$rka->RKAID.'\' AS `RKAID`, 
+                    \''.$v->RKARincID.'\' AS `RKARincID`, 
+                    `bulan1`, 
+                    `bulan1` AS `bulan2`, 
+                    `target1`,         
+                    `target1` AS `target2`,                
+                    `fisik1`,         
+                    `fisik1` AS `fisik2`,    
+                    2 AS `EntryLvl`, 
+                    \'imported from rka target murni\' AS `Descr`, 
+                    `TA`, 
+                    `Locked`,
+                    `RKATargetRincID` AS `RKATargetRincID_Src`,
+                    NOW() AS created_at,
+                    NOW() AS updated_at
+                FROM `trRKATargetRinc`
+                WHERE `RKARincID` = \''.$v->RKARincID_Src.'\'
+                AND `RKATargetRincID` NOT IN (
+                    SELECT
+                        `RKATargetRincID_Src`
+                    FROM 
+                        `trRKATargetRinc`	
+                    WHERE RKARincID = \''.$v->RKARincID.'\'
+                )
+            ';
+            \DB::statement($sql_insert);
 
+            $sql_insert = '
+                INSERT INTO `trRKARealisasiRinc` (
+                    `RKARealisasiRincID`, 
+                    `RKAID`, 
+                    `RKARincID`, 
+                    `bulan1`, 
+                    `bulan2`, 
+                    `target1`,         
+                    `target2`,                
+                    `realisasi1`,                
+                    `realisasi2`,                
+                    `target_fisik1`,                
+                    `target_fisik2`,                
+                    `fisik1`,         
+                    `fisik2`,    
+                    `EntryLvl`, 
+                    `Descr`, 
+                    `TA`, 
+                    `Locked`,
+                    `RKARealisasiRincID_Src`,
+                    created_at,
+                    updated_at
+                )
+                SELECT 
+                    uuid() AS `RKARealisasiRincID`, 
+                    \''.$rka->RKAID.'\' AS `RKAID`, 
+                    \''.$v->RKARincID.'\' AS `RKARincID`, 
+                    `bulan1`, 
+                    `bulan1` AS `bulan2`, 
+                    `target1`,         
+                    `target1` AS `target2`,
+                    `realisasi1`,                
+                    `realisasi1` AS `realisasi2`,  
+                    `target_fisik1`,                
+                    `target_fisik1` AS `target_fisik2`,                                              
+                    `fisik1`,         
+                    `fisik1` AS `fisik2`,    
+                    2 AS `EntryLvl`, 
+                    \'IMPORTED FROM REALISASI MURNI\'`Descr`, 
+                    `TA`, 
+                    `Locked`,
+                    `RKARealisasiRincID` AS `RKARealisasiRincID_Src`,
+                    NOW() AS created_at,
+                    NOW() AS updated_at
+                FROM `trRKARealisasiRinc`
+                WHERE `RKARincID` = \''.$v->RKARincID_Src.'\'
+                AND `RKARealisasiRincID` NOT IN (
+                    SELECT
+                        `RKARealisasiRincID_Src`
+                    FROM 
+                        `trRKARealisasiRinc`	
+                    WHERE RKARincID = \''.$v->RKARincID.'\'
+                )
+            ';
+            \DB::statement($sql_insert);
+        }
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
@@ -508,6 +655,7 @@ class RKAPerubahanController extends Controller
                             `Descr`,
                             `TA`,
                             `Locked`,
+                            `RKAID_Src`,
                             created_at,
                             updated_at
                         '))
@@ -1110,16 +1258,11 @@ class RKAPerubahanController extends Controller
             'RKARealisasiRincID' => Uuid::uuid4()->toString(),
             'RKAID' => $RKAID,
             'RKARincID' => $request->input('RKARincID'),            
-            'bulan2' => $request->input('bulan2'),
-            'bulan2' => 0,
-            'target2' => $request->input('target2'),            
-            'target2' => 0,            
-            'realisasi2' => $request->input('realisasi2'),            
-            'realisasi2' => 0,            
-            'target_fisik2' => $request->input('target_fisik2'),           
-            'target_fisik2' => 0,           
-            'fisik2' => $request->input('fisik2'),           
-            'fisik2' => 0,           
+            'bulan2' => $request->input('bulan2'),            
+            'target2' => $request->input('target2'),                        
+            'realisasi2' => $request->input('realisasi2'),                        
+            'target_fisik2' => $request->input('target_fisik2'),                       
+            'fisik2' => $request->input('fisik2'),                       
             'EntryLvl' => 2,
             'Descr' => $request->input('Descr'),            
             'TA' => $request->input('TA'),
@@ -1231,6 +1374,7 @@ class RKAPerubahanController extends Controller
                                     `trRKARinc`.`Descr`,                                    
                                     `trRKARinc`.`TA`,
                                     `trRKARinc`.`Locked`,
+                                    `trRKARinc`.`RKARincID_Src`,
                                     `trRKARinc`.created_at,
                                     `trRKARinc`.updated_at
                                 '))                                

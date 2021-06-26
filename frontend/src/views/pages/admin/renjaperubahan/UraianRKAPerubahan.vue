@@ -39,7 +39,7 @@
 										<td width="400">{{ datakegiatan.RKAID }}</td>
 										<td width="150">PAGU DANA</td>
 										<td width="400">
-											{{ datakegiatan.PaguDana1 | formatUang }}
+											{{ datakegiatan.PaguDana2 | formatUang }}
 										</td>
 									</tr>
 									<tr>
@@ -155,7 +155,7 @@
 												filled
 												outlined
 												:rules="rule_volume"
-												:value="formdata.volume1"
+												:value="formdata.volume2"
 											/>
 										</v-col>
 										<v-col cols="6" sm="6" md="6">
@@ -165,7 +165,7 @@
 												filled
 												outlined
 												:rules="rule_satuan"
-												:value="formdata.satuan1"
+												:value="formdata.satuan2"
 											/>
 										</v-col>
 										<v-col cols="6" sm="6" md="6">
@@ -175,7 +175,7 @@
 												:max="null"
 												filled
 												outlined
-												v-model="formdata.harga_satuan1"
+												v-model="formdata.harga_satuan2"
 											>
 											</v-currency-field>
 										</v-col>
@@ -671,14 +671,14 @@
 								<span>Hapus Uraian</span>
 							</v-tooltip>
 						</template>
-						<template v-slot:item.PaguUraian1="{ item }">
-							{{ item.PaguUraian1 | formatUang }}
+						<template v-slot:item.PaguUraian2="{ item }">
+							{{ item.PaguUraian2 | formatUang }}
 						</template>
-						<template v-slot:item.realisasi1="{ item }">
-							{{ item.realisasi1 | formatUang }}
+						<template v-slot:item.realisasi2="{ item }">
+							{{ item.realisasi2 | formatUang }}
 						</template>
 						<template v-slot:item.sisa="{ item }">
-							{{ (item.PaguUraian1 - item.realisasi1) | formatUang }}
+							{{ (item.PaguUraian2 - item.realisasi2) | formatUang }}
 						</template>
 						<template v-slot:body.append>
 							<tr class="amber darken-1 font-weight-black">
@@ -699,9 +699,9 @@
 							<td :colspan="headers.length" class="text-center">
 								<strong>ID:</strong>
 								{{ item.RKARincID }}
-								<strong>VOLUME:</strong>{{ item.volume1 }}
+								<strong>VOLUME:</strong>{{ item.volume2 }}
 								<strong>HARGA SATUAN:</strong>
-								{{ item.harga_satuan1 | formatUang }}
+								{{ item.harga_satuan2 | formatUang }}
 								<strong>created_at:</strong>
 								{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								<strong>updated_at:</strong>
@@ -711,7 +711,6 @@
 						<template v-slot:no-data>
 							<v-btn
 								class="ma-2"
-								
 								:disabled="showBtnLoadDataUraian || btnLoading"
 								color="primary"
 								@click.stop="loaddatauraianfirsttime"
@@ -783,19 +782,19 @@
 					{
 						text: "PAGU URAIAN",
 						align: "end",
-						value: "PaguUraian1",
+						value: "PaguUraian2",
 						width: 100,
 					},
 					{
 						text: "REALISASI FISIK (%)",
 						align: "end",
-						value: "fisik1",
+						value: "fisik2",
 						width: 100,
 					},
 					{
 						text: "REALISASI KEUANGAN",
 						align: "end",
-						value: "realisasi1",
+						value: "realisasi2",
 						width: 100,
 					},
 					{ text: "%", align: "end", value: "persen_keuangan1", width: 50 },
@@ -825,12 +824,12 @@
 					RKARincID: "",
 					kode_uraian: "",
 					nama_uraian: "",
-					volume1: "",
-					satuan1: "",
-					harga_satuan1: 0,
-					PaguUraian1: 0,
-					realisasi1: 0,
-					fisik1: 0,
+					volume2: 0,
+					satuan2: "",
+					harga_satuan2: 0,
+					PaguUraian2: 0,
+					realisasi2: 0,
+					fisik2: 0,
 					JenisPelaksanaanID: "",
 					created_at: "",
 					updated_at: "",
@@ -839,12 +838,12 @@
 					RKARincID: "",
 					kode_uraian: "",
 					nama_uraian: "",
-					volume1: "",
-					satuan1: "",
-					harga_satuan1: 0,
-					PaguUraian1: 0,
-					realisasi1: 0,
-					fisik1: 0,
+					volume2: "",
+					satuan2: "",
+					harga_satuan2: 0,
+					PaguUraian2: 0,
+					realisasi2: 0,
+					fisik2: 0,
 					JenisPelaksanaanID: "",
 					created_at: "",
 					updated_at: "",
@@ -973,11 +972,11 @@
 					var totalrealiasi = 0;
 					var totalfisik = 0;
 					for (var i = 0; i < data.length; i++) {
-						var num = new Number(data[i].PaguUraian1);
+						var num = new Number(data[i].PaguUraian2);
 						totalpaguuraian += num;
-						num = new Number(data[i].realisasi1);
+						num = new Number(data[i].realisasi2);
 						totalrealiasi += num;
-						num = new Number(data[i].fisik1);
+						num = new Number(data[i].fisik2);
 						totalfisik += num;
 					}
 					summary.paguuraian = totalpaguuraian;
@@ -1046,10 +1045,10 @@
 								{
 									_method: "PUT",
 									RKARincID: this.formdata.RKARincID,
-									volume1: this.formdata.volume1,
-									satuan1: this.formdata.satuan1,
-									harga_satuan1: this.formdata.harga_satuan1,
-									PaguUraian1: this.PaguUraian,
+									volume2: this.formdata.volume2,
+									satuan2: this.formdata.satuan2,
+									harga_satuan2: this.formdata.harga_satuan2,
+									PaguUraian2: this.PaguUraian,
 									JenisPelaksanaanID: this.formdata.JenisPelaksanaanID,
 								},
 								{
@@ -1305,7 +1304,7 @@
 				return uraian;
 			},
 			PaguUraian() {
-				return this.formdata.volume1 * this.formdata.harga_satuan1;
+				return this.formdata.volume2 * this.formdata.harga_satuan2;
 			},
 		},
 		watch: {
@@ -1329,7 +1328,7 @@
 							}
 						)
 						.then(({ data }) => {
-							this.formtarget.paguuraian1 = data.datauraian.PaguUraian1;
+							this.formtarget.paguuraian1 = data.datauraian.PaguUraian2;
 							if (data.mode == "targetfisik") {
 								if (Object.keys(data.target).length > 0) {
 									this.editedIndex = 1;
