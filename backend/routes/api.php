@@ -181,6 +181,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/renja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@show','as'=>'rkamurni.show']);
     $router->post('/renja/rkamurni/storekegiatan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@storekegiatan','as'=>'rkamurni.storekegiatan']);
     $router->put('/renja/rkamurni/updatekegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatekegiatan','as'=>'rkamurni.updatekegiatan']);
+    //reset data akan mengeset ulang data kegiata meliputi, jumlah pagu, realisasi, dan lain2
+    $router->put('/renja/rkamurni/resetdatakegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@resetdatakegiatan','as'=>'rkamurni.resetdatakegiatan']);
     $router->post('/renja/rkamurni/storeuraian',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@storeuraian','as'=>'rkamurni.storeuraian']);
     $router->put('/renja/rkamurni/updateuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updateuraian','as'=>'rkamurni.updateuraian']);
     $router->put('/renja/rkamurni/updatedetailuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAMurniController@updatedetailuraian','as'=>'rkamurni.updatedetailuraian']);
@@ -214,6 +216,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/renja/rkaperubahan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@show','as'=>'rkaperubahan.show']);
     $router->post('/renja/rkaperubahan/storekegiatan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@storekegiatan','as'=>'rkaperubahan.storekegiatan']);
     $router->put('/renja/rkaperubahan/updatekegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@updatekegiatan','as'=>'rkaperubahan.updatekegiatan']);
+    //reset data akan mengeset ulang data kegiata meliputi, jumlah pagu, realisasi, dan lain2
+    $router->put('/renja/rkaperubahan/resetdatakegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@resetdatakegiatan','as'=>'rkaperubahan.resetdatakegiatan']);
     $router->post('/renja/rkaperubahan/storeuraian',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@storeuraian','as'=>'rkaperubahan.storeuraian']);
     $router->put('/renja/rkaperubahan/updateuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@updateuraian','as'=>'rkaperubahan.updateuraian']);
     $router->put('/renja/rkaperubahan/updatedetailuraian/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Renja\RKAPerubahanController@updatedetailuraian','as'=>'rkaperubahan.updatedetailuraian']);

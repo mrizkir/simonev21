@@ -244,12 +244,22 @@
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
-								<v-col cols="12" clœass="mb1">
+								<v-col cols="12" class="mb1">
 									<strong>ID:</strong>{{ item.RKAID }}
 									<strong>created_at:</strong>
 									{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 									<strong>updated_at:</strong>
 									{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
+								</v-col>
+								<v-col cols="12" class="mb1 text-center">
+									<v-btn
+										color="blue darken-1"
+										text
+										@click.stop="resetdatakegiatan(item)"
+										:disabled="btnLoading"
+									>
+										RESET
+									</v-btn>
 								</v-col>
 							</td>
 						</template>
@@ -664,6 +674,39 @@
 									{
 										_method: "DELETE",
 										pid: "datarka",
+									},
+									{
+										headers: {
+											Authorization: this.$store.getters["auth/Token"],
+										},
+									}
+								)
+								.then(() => {
+									this.$router.go();
+								})
+								.catch(() => {
+									this.btnLoading = false;
+								});
+						}
+					});
+			},
+			resetdatakegiatan(item) {
+				this.$root.$confirm
+					.open(
+						"Delete",
+						"Apakah Anda ingin mengeset ulang jumlah pagu, jumlahrealisasi fisik dan keuangan untuk RKA dengan kode " +
+							item.kode_sub_kegiatan +
+							" ?",
+						{ color: "red", width: "600px" }
+					)
+					.then(confirm => {
+						if (confirm) {
+							this.btnLoading = true;
+							this.$ajax
+								.post(
+									"/renja/rkaperubahan/resetdatakegiatan/" + item.RKAID,
+									{
+										_method: "PUT",										
 									},
 									{
 										headers: {

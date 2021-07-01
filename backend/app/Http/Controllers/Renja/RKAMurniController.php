@@ -20,6 +20,10 @@ class RKAMurniController extends Controller
 {
     private function recalculate($RKAID)
     {
+        $paguuraian = \DB::table('trRKARinc')                            
+                    ->where('RKAID',$RKAID)
+                    ->sum('PaguUraian1');
+
         $jumlah_uraian = \DB::table('trRKARinc')                            
                             ->where('RKAID',$RKAID)
                             ->count('RKARincID');
@@ -33,6 +37,7 @@ class RKAMurniController extends Controller
                             ->get();
         
         $rka = RKAModel::find($RKAID);
+        $rka->PaguDana1 = $paguuraian;
         $rka->RealisasiKeuangan1=$data_realisasi[0]->jumlah_realisasi;
         $rka->RealisasiFisik1=Helper::formatPecahan($data_realisasi[0]->jumlah_fisik,$jumlah_uraian);
         $rka->save();  
@@ -719,6 +724,45 @@ class RKAMurniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function resetdatakegiatan(Request $request,$id)
+    {
+        $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
+
+        $kegiatan = RKAModel::find($id);
+        
+        if (is_null($kegiatan) )
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'fetchdata',                
+                                    'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+                                ],422); 
+        }
+        else if ($kegiatan->Locked)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'fetchdata',                
+                                    'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+                                ],422); 
+        }
+        else
+        {
+            $this->recalculate($kegiatan->RKAID);
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',
+                                    'message'=>'Update RKA berhasil disimpan.'
+                                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+        }
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function updateuraian(Request $request,$id)
     {
         $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
@@ -1230,7 +1274,7 @@ class RKAMurniController extends Controller
                 }
                 return $item;
             });
-
+            
             return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',

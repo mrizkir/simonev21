@@ -103,6 +103,10 @@
 			<v-row class="mb-4" no-gutters>
 				<v-col cols="12">
 					<v-bottom-navigation color="purple lighten-1">
+						<v-btn @click.stop="resetdatakegiatan">
+							<span>Reset</span>
+							<v-icon>mdi-refresh</v-icon>
+						</v-btn>
 						<v-btn :to="{ path: '/renjamurni/rka/' + RKAID + '/edit' }">
 							<span>Edit RKA</span>
 							<v-icon>mdi-pencil</v-icon>
@@ -1252,6 +1256,39 @@
 									{
 										_method: "DELETE",
 										pid: "datauraian",
+									},
+									{
+										headers: {
+											Authorization: this.$store.getters["auth/Token"],
+										},
+									}
+								)
+								.then(() => {
+									this.$router.go();
+								})
+								.catch(() => {
+									this.btnLoading = false;
+								});
+						}
+					});
+			},
+			resetdatakegiatan() {
+				this.$root.$confirm
+					.open(
+						"Delete",
+						"Apakah Anda ingin mengeset ulang jumlah pagu, jumlahrealisasi fisik dan keuangan untuk RKA dengan kode " +
+							this.datakegiatan.kode_sub_kegiatan +
+							" ?",
+						{ color: "red", width: "600px" }
+					)
+					.then(confirm => {
+						if (confirm) {
+							this.btnLoading = true;
+							this.$ajax
+								.post(
+									"/renja/rkamurni/resetdatakegiatan/" + this.RKAID,
+									{
+										_method: "PUT",										
 									},
 									{
 										headers: {
