@@ -231,6 +231,26 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/dmaster/JenisPembangunan.vue"),
 	},
+	//rpjmd murni
+	{
+		path: "/rpjmd",
+		name: "DashboardRPJMD",
+		meta: {
+			title: "RENCANA PEMBANGUNAN PEMERINTAH DAERAH",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/rpjmd/DashboardRPJMD.vue"),
+	},
+	//rkpd murni
+	{
+		path: "/rkpdmurni",
+		name: "DashboardRKPDMurni",
+		meta: {
+			title: "RENCANA KERJA PEMERINTAH DAERAH MURNI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/rkpdmurni/DashboardRKPDMurni.vue"),
+	},
 	//renja murni
 	{
 		path: "/renjamurni",
@@ -250,7 +270,7 @@ const routes = [
 		},
 		component: () =>
 			import("../views/pages/admin/renjamurni/DataMentahMurni.vue"),
-	},
+	},	
 	//renja murni - rka murni
 	{
 		path: "/renjamurni/rka",
