@@ -17,7 +17,19 @@ class Statistik1Model extends Model {
      * @var array
      */
     protected $fillable = [
-        'statistikID', 'PaguDana1', 'PaguDana2','JumlahProgram1', 'JumlahProgram2', 'JumlahKegiatan1', 'JumlahKegiatan2', 'RealisasiKeuangan1', 'RealisasiKeuangan2','RealisasiFisik1','RealisasiFisik2'
+        'statistikID',
+        'PaguDana1',
+        'PaguDana2',
+        'JumlahProgram1',
+        'JumlahProgram2',
+        'JumlahKegiatan1',
+        'JumlahKegiatan2',
+        'JumlahSubKegiatan1',
+        'JumlahSubKegiatan2',
+        'RealisasiKeuangan1',
+        'RealisasiKeuangan2',
+        'RealisasiFisik1',
+        'RealisasiFisik2'
     ];
     /**
      * primary key tabel ini.

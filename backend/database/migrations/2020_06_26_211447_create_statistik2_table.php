@@ -24,6 +24,9 @@ class CreateStatistik2Table extends Migration
             $table->integer('JumlahKegiatan1')->default(0);
             $table->integer('JumlahKegiatan2')->default(0);
             $table->integer('JumlahKegiatan3')->default(0);
+            $table->integer('JumlahSubKegiatan1')->default(0);
+            $table->integer('JumlahSubKegiatan2')->default(0);
+            $table->integer('JumlahSubKegiatan3')->default(0);
             $table->integer('JumlahUraian1')->default(0);
             $table->integer('JumlahUraian2')->default(0);
             $table->integer('JumlahUraian3')->default(0);

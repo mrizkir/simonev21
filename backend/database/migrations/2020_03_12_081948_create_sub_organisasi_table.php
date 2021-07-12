@@ -30,6 +30,8 @@ class CreateSubOrganisasiTable extends Migration
             $table->integer('JumlahProgram2')->default(0);
             $table->integer('JumlahKegiatan1')->default(0);
             $table->integer('JumlahKegiatan2')->default(0);
+            $table->integer('JumlahSubKegiatan1')->default(0);
+            $table->integer('JumlahSubKegiatan2')->default(0);
             $table->decimal('RealisasiKeuangan1',15,2)->default(0);
             $table->decimal('RealisasiKeuangan2',15,2)->default(0);
             $table->decimal('RealisasiFisik1',5,2)->default(0);

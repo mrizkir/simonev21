@@ -47,12 +47,12 @@
 							</v-icon>
 						</v-card-title>
 						<v-card-subtitle>
-							Jumlah Program dan Sub Kegiatan TA
+							Jumlah Program, Keg. dan Sub Keg. TA
 							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>
-							Prog.: {{ statistik1.JumlahProgram1 }} / Sub Keg.:
-							{{ statistik1.JumlahKegiatan1 }}
+							Prog.: {{ statistik1.JumlahProgram1 }} / Keg.: {{ statistik1.JumlahKegiatan1 }} / Sub Keg.:
+							{{ statistik1.JumlahSubKegiatan1 }}
 						</v-card-text>
 						<v-card-actions>
 							<v-progress-linear
@@ -177,6 +177,7 @@
 				PaguDana1: 0,
 				JumlahProgram1: 0,
 				JumlahKegiatan1: 0,
+				JumlahSubKegiatan1: 0,
 				RealisasiKeuangan1: 0,
 				RealisasiFisik1: 0,
 			},
