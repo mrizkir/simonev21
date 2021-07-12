@@ -47,12 +47,12 @@
 							</v-icon>
 						</v-card-title>
 						<v-card-subtitle>
-							Jumlah Program dan Sub Kegiatan TA
+							Jumlah Program, Keg. dan Sub Keg. TA
 							{{ $store.getters["auth/TahunSelected"] }}
 						</v-card-subtitle>
 						<v-card-text>
-							Prog.: {{ statistik1.JumlahProgram2 }} / Sub Keg.:
-							{{ statistik1.JumlahKegiatan2 }}
+							Prog.: {{ statistik1.JumlahProgram2 }} / Keg.: {{ statistik1.JumlahKegiatan2 }} / Sub Keg.:
+							{{ statistik1.JumlahSubKegiatan2 }}
 						</v-card-text>
 						<v-card-actions>
 							<v-progress-linear
@@ -177,6 +177,7 @@
 				PaguDana2: 0,
 				JumlahProgram2: 0,
 				JumlahKegiatan2: 0,
+				JumlahSubKegiatan2: 0,
 				RealisasiKeuangan2: 0,
 				RealisasiFisik2: 0,
 			},
@@ -214,33 +215,38 @@
 			},
 			async loadstatistik1() {
 				await this.$ajax
-					.post("/renjaperubahan/reloadstatistik1", {
-						ta: this.tahun_anggaran,
-					},
-					{
-						headers: {
-							Authorization: this.$store.getters["auth/Token"],
+					.post(
+						"/renjaperubahan/reloadstatistik1",
+						{
+							ta: this.tahun_anggaran,
 						},
-					})
-					.then(()=>{                 
-						this.$router.go();
-					});     
-        },
-        async loadstatistik2() {
-					await this.$ajax
-						.post("/renjaperubahan/reloadstatistik2",
-            {
-                ta: this.tahun_anggaran,
-            },
-            {
+						{
 							headers: {
 								Authorization: this.$store.getters["auth/Token"],
 							},
-            })
-						.then(()=>{                 
-                this.$router.go();
-            });     
-        }
+						}
+					)
+					.then(() => {
+						this.$router.go();
+					});
+			},
+			async loadstatistik2() {
+				await this.$ajax
+					.post(
+						"/renjaperubahan/reloadstatistik2",
+						{
+							ta: this.tahun_anggaran,
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(() => {
+						this.$router.go();
+					});
+			},
 		},
 		components: {
 			RenjaPerubahanLayout,

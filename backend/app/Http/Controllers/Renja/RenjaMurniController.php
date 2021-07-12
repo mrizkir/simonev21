@@ -895,16 +895,20 @@ class RenjaMurniController extends Controller
 						'Statistik2ID' => uniqid ('uid'),
 						'OrgID'=>$OrgID,
 						'kode_organisasi'=>$opd->kode_organisasi,
-						'OrgNm'=>$opd->Nm_Organisasi,                        
+						'OrgNm'=>$opd->Nm_Organisasi,   
+						                     
 						'PaguDana1'=>$totalPaguOPD,            
 						'PaguDana2'=>0,            
-						'PaguDana3'=>0,                                    
+						'PaguDana3'=>0,      
+
 						'JumlahKegiatan1'=>$total_kegiatan,
 						'JumlahKegiatan2'=>0,
 						'JumlahKegiatan3'=>0,
+
 						'JumlahSubKegiatan1'=>$total_sub_kegiatan,
 						'JumlahSubKegiatan2'=>0,
 						'JumlahSubKegiatan3'=>0,
+
 						'JumlahUraian1'=>$total_uraian,
 						'JumlahUraian2'=>0,
 						'JumlahUraian3'=>0,
@@ -920,6 +924,7 @@ class RenjaMurniController extends Controller
 						'TargetKeuangan1'=>$totalTargetKeuanganKeseluruhan,
 						'TargetKeuangan2'=>0,
 						'TargetKeuangan3'=>0,
+
 						'RealisasiKeuangan1'=>$totalRealisasiKeuanganKeseluruhan,
 						'RealisasiKeuangan2'=>0,
 						'RealisasiKeuangan3'=>0,
@@ -958,7 +963,7 @@ class RenjaMurniController extends Controller
 					$statistik2->JumlahUraian1=$total_uraian;              
 					$statistik2->TargetFisik1=$totalPersenTargetFisik;
 					$statistik2->RealisasiFisik1=$totalPersenRealisasiFisik;
-					$statistik2->TargetKeuangan2=$totalTargetKeuanganKeseluruhan;
+					$statistik2->TargetKeuangan1=$totalTargetKeuanganKeseluruhan;
 					$statistik2->RealisasiKeuangan1=$totalRealisasiKeuanganKeseluruhan;
 					$statistik2->PersenTargetKeuangan1=$totalPersenTargetKeuangan;
 					$statistik2->PersenRealisasiKeuangan1=$totalPersenRealisasiKeuangan;
