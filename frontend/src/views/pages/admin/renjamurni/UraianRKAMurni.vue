@@ -1050,10 +1050,10 @@
 								{
 									_method: "PUT",
 									RKARincID: this.formdata.RKARincID,
-									volume1: this.formdata.volume1,
+									volume1: "" + this.formdata.volume1,
 									satuan1: this.formdata.satuan1,
-									harga_satuan1: this.formdata.harga_satuan1,
-									PaguUraian1: this.PaguUraian,
+									harga_satuan1: "" + this.formdata.harga_satuan1,
+									PaguUraian1: "" + this.PaguUraian,
 									JenisPelaksanaanID: this.formdata.JenisPelaksanaanID,
 								},
 								{

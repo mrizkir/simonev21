@@ -793,7 +793,7 @@ class RKAMurniController extends Controller
                 'PaguUraian1'=>'required',
             ]);
             
-            $rka = \DB::transaction(function () use ($request,$rinciankegiatan) {
+            $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
                 $rinciankegiatan->volume1=$request->input('volume1');
                 $rinciankegiatan->satuan1=$request->input('satuan1');
                 $rinciankegiatan->harga_satuan1=$request->input('harga_satuan1');
@@ -805,25 +805,23 @@ class RKAMurniController extends Controller
                     ->where('SIPDID',$rinciankegiatan->SIPDID)
                     ->update(['PaguUraian1'=>$request->input('PaguUraian1')]);                
 
-                $paguuraian=RKARincianModel::select(\DB::raw('
-                                                SUM(`trRKARinc`.`PaguUraian1`) AS `PaguUraian1`                                               
-                                            '))
-                                            ->join('sipd','sipd.SIPDID','trRKARinc.RKARincID')
-                                            ->where('RKAID',$rinciankegiatan->RKAID)                                 
-                                            ->first();
-
-                $rka=$this->getDataRKA($rinciankegiatan->RKAID);
-                if (!is_null($paguuraian))                {
-                    $rka->PaguDana1=$paguuraian->PaguUraian1;
-                    $rka->save();
-                }
-                return $rka;
-            });
+                $paguuraian=RKARincianModel::where('RKAID',$rinciankegiatan->RKAID)                                 
+                                            ->sum('PaguUraian1');                
+                
+                \DB::table('trRKA')
+                    ->where('RKAID', $rinciankegiatan->RKAID)
+                    ->update([
+                        'PaguDana1'=>$paguuraian
+                    ]);                    
             
+                return $rinciankegiatan;
+            });
+            $rka=$this->getDataRKA($rinciankegiatan->RKAID);
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
                                     'rka'=>$rka,
+                                    'rinciankegiatan'=>$rinciankegiatan,
                                     'message'=>'Update uraian berhasil disimpan.'
                                 ],200); 
         }
