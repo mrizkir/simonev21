@@ -76,6 +76,7 @@ class Statistik2Model extends Model {
         'Bulan',
         'TA',
         'EntryLvl',
+        'Statistik2ID_Src',
     ];
     /**
      * enable auto_increment.

@@ -67,10 +67,11 @@ class CreateStatistik2Table extends Migration
             $table->tinyInteger('Bulan');
             $table->year('TA');
             $table->tinyInteger('EntryLvl')->default(0);
-
+            $table->uuid('Statistik2ID_Src')->nullable();
             $table->timestamps();
 
             $table->primary('Statistik2ID');
+            $table->index('Statistik2ID_Src');
             $table->index('OrgID');
             $table->index('kode_organisasi');
             $table->index('TA');
