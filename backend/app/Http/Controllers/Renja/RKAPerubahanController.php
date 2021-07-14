@@ -1019,12 +1019,12 @@ class RKAPerubahanController extends Controller
                     ->update(['PaguUraian2'=>$request->input('PaguUraian2')]);                
 
                 $paguuraian=RKARincianModel::where('RKAID',$rinciankegiatan->RKAID)                                 
-                                            ->sum('PaguUraian1');                
+                                            ->sum('PaguUraian2');                
                 
                 \DB::table('trRKA')
                     ->where('RKAID', $rinciankegiatan->RKAID)
                     ->update([
-                        'PaguDana1'=>$paguuraian
+                        'PaguDana2'=>$paguuraian
                     ]);                    
             
                 return $rinciankegiatan;

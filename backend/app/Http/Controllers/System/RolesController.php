@@ -17,13 +17,13 @@ class RolesController extends Controller {
      */
     public function index(Request $request)
     {   
-        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_DESTROY');
+        $this->hasPermissionTo('SYSTEM-SETTING-ROLES_BROWSE');
         $data = Role::all();
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
                                 'roles'=>$data,
-                                'message'=>'Fetch data stores berhasil diperoleh'
+                                'message'=>'Fetch data roles berhasil diperoleh'
                             ],200);    
     }    
     /**

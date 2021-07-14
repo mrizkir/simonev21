@@ -425,7 +425,7 @@
 												</v-autocomplete>
 												<span class="deep-purple--text">
 													Pagu Uraian :
-													{{ formtarget.paguuraian1 | formatUang }}
+													{{ formtarget.paguuraian2 | formatUang }}
 												</span>
 											</v-col>
 											<v-col cols="12" sm="12" md="12">
@@ -559,7 +559,7 @@
 												</v-currency-field>
 												<span class="deep-purple--text">
 													Pagu Uraian :
-													{{ formtarget.paguuraian1 | formatUang }}
+													{{ formtarget.paguuraian2 | formatUang }}
 												</span>
 											</v-col>
 										</v-row>
@@ -853,14 +853,14 @@
 					updated_at: "",
 				},
 				formtarget: {
-					paguuraian1: 0,
+					paguuraian2: 0,
 					targetfisik: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 					targetanggarankas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 					created_at: "",
 					updated_at: "",
 				},
 				formtargetdefault: {
-					paguuraian1: 0,
+					paguuraian2: 0,
 					targetfisik: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 					targetanggarankas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 					created_at: "",
@@ -893,7 +893,7 @@
 				rule_totalanggarankas: [
 					value => {
 						if (typeof value !== "undefined" && value.length > 0) {
-							let pagu_uraian = new Number(this.formtarget.paguuraian1);
+							let pagu_uraian = new Number(this.formtarget.paguuraian2);
 							let nilai_total = parseFloat(value.replace(/[^0-9.-]+/g, ""));
 							return (
 								nilai_total == pagu_uraian ||
@@ -1049,10 +1049,10 @@
 								{
 									_method: "PUT",
 									RKARincID: this.formdata.RKARincID,
-									volume1: "" + this.formdata.volume1,
-									satuan1: this.formdata.satuan1,
-									harga_satuan1: "" + this.formdata.harga_satuan1,
-									PaguUraian1: "" + this.PaguUraian,
+									volume2: "" + this.formdata.volume2,
+									satuan1: this.formdata.satuan2,
+									harga_satuan2: "" + this.formdata.harga_satuan2,
+									PaguUraian2: "" + this.PaguUraian,
 									JenisPelaksanaanID: this.formdata.JenisPelaksanaanID,
 								},
 								{
@@ -1365,7 +1365,7 @@
 							}
 						)
 						.then(({ data }) => {
-							this.formtarget.paguuraian1 = data.datauraian.PaguUraian2;
+							this.formtarget.paguuraian2 = data.datauraian.PaguUraian2;
 							if (data.mode == "targetfisik") {
 								if (Object.keys(data.target).length > 0) {
 									this.editedIndex = 1;

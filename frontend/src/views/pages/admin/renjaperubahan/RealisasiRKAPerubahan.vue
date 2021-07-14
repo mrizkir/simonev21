@@ -770,7 +770,7 @@
 								{
 									_method: "put",
 									target2: this.formdata.anggarankas,
-									realisasi2: this.formdata.realisasi2,
+									realisasi2: "" + this.formdata.realisasi2,
 									target_fisik2: this.formdata.targetfisik,
 									fisik2: this.formdata.fisik2,
 									Descr: this.formdata.Descr,
