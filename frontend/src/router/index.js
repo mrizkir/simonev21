@@ -559,6 +559,15 @@ const routes = [
 		component: () => import("../views/pages/admin/system/UsersOPD.vue"),
 	},
 	{
+		path: "/system-users/unitkerja",
+		name: "UsersUnitKerja",
+		meta: {
+			title: "USERS - UNIT KERJA",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersUnitKerja.vue"),
+	},
+	{
 		path: "/system-users/dewan",
 		name: "UsersDewan",
 		meta: {

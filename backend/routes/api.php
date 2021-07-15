@@ -300,36 +300,37 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //setting - users bapelitbang
     $router->get('/system/usersbapelitbang',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersBapelitbangController@index','as'=>'usersbapelitbang.index']);
     $router->post('/system/usersbapelitbang/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersBapelitbangController@store','as'=>'usersbapelitbang.store']);
-    $router->put('/system/usersbapelitbang/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersBapelitbangController@update','as'=>'usersbapelitbang.update']);
-    $router->put('/system/usersbapelitbang/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersBapelitbangController@update','as'=>'usersbapelitbang.update']);
+    $router->put('/system/usersbapelitbang/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersBapelitbangController@update','as'=>'usersbapelitbang.update']);    
     $router->delete('/system/usersbapelitbang/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersBapelitbangController@destroy','as'=>'usersbapelitbang.destroy']);
 
     //setting - users opd
     $router->post('/system/usersopd',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@index','as'=>'usersopd.index']);
     $router->post('/system/usersopd/store',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@store','as'=>'usersopd.store']);
-    $router->put('/system/usersopd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@update','as'=>'usersopd.update']);
-    $router->put('/system/usersopd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@update','as'=>'usersopd.update']);
+    $router->put('/system/usersopd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@update','as'=>'usersopd.update']);    
     $router->delete('/system/usersopd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@destroy','as'=>'usersopd.destroy']);
+    
+    //setting - users unit kerja
+    $router->post('/system/usersunitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@index','as'=>'usersunitkerja.index']);
+    $router->post('/system/usersunitkerja/store',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@store','as'=>'usersunitkerja.store']);
+    $router->put('/system/usersunitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@update','as'=>'usersunitkerja.update']);    
+    $router->delete('/system/usersunitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@destroy','as'=>'usersunitkerja.destroy']);
 
     //setting - users pptk
     $router->get('/system/userspptk',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPPTKController@index','as'=>'userspptk.index']);
     $router->post('/system/userspptk/store',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPPTKController@store','as'=>'userspptk.store']);
-    $router->put('/system/userspptk/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPPTKController@update','as'=>'userspptk.update']);
-    $router->put('/system/userspptk/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPPTKController@update','as'=>'userspptk.update']);
+    $router->put('/system/userspptk/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPPTKController@update','as'=>'userspptk.update']);    
     $router->delete('/system/userspptk/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersPPTKController@destroy','as'=>'userspptk.destroy']);
 
     //setting - users dewan
     $router->get('/system/usersdewan',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersDewanController@index','as'=>'usersdewan.index']);
     $router->post('/system/usersdewan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersDewanController@store','as'=>'usersdewan.store']);
-    $router->put('/system/usersdewan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersDewanController@update','as'=>'usersdewan.update']);
-    $router->put('/system/usersdewan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersDewanController@update','as'=>'usersdewan.update']);
+    $router->put('/system/usersdewan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersDewanController@update','as'=>'usersdewan.update']);    
     $router->delete('/system/usersdewan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersDewanController@destroy','as'=>'usersdewan.destroy']);
 
     //setting - users tapd
     $router->get('/system/userstapd',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersTAPDController@index','as'=>'userstapd.index']);
     $router->post('/system/userstapd/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersTAPDController@store','as'=>'userstapd.store']);
-    $router->put('/system/userstapd/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersTAPDController@update','as'=>'userstapd.update']);
-    $router->put('/system/userstapd/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersTAPDController@update','as'=>'userstapd.update']);
+    $router->put('/system/userstapd/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersTAPDController@update','as'=>'userstapd.update']);    
     $router->delete('/system/userstapd/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'System\UsersTAPDController@destroy','as'=>'userstapd.destroy']);
 
     //untuk ui admin

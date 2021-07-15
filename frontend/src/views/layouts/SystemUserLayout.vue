@@ -199,6 +199,20 @@
 					</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-list-item
+				link
+				v-if="CAN_ACCESS('SYSTEM-USERS-UNIT-KERJA_BROWSE')"
+				to="/system-users/unitkerja"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-arrow-collapse-right</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>
+						UNIT KERJA
+					</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 			<!-- <v-list-item
 				link
 				v-if="CAN_ACCESS('SYSTEM-USERS-PPTK_BROWSE')"
