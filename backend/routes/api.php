@@ -295,6 +295,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/system/users/{id}/permission',['middleware'=>['role:superadmin'],'uses'=>'System\UsersController@userpermissions','as'=>'users.permission']);
     $router->get('/system/users/{id}/mypermission',['uses'=>'System\UsersController@mypermission','as'=>'users.mypermission']);
     $router->get('/system/users/{id}/opd',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersController@usersopd','as'=>'users.opd']);
+    $router->get('/system/users/{id}/unitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersController@usersunitkerja','as'=>'users.unitkerja']);
     $router->get('/system/users/{id}/roles',['uses'=>'System\UsersController@roles','as'=>'users.roles']);
 
     //setting - users bapelitbang

@@ -642,18 +642,19 @@
 						this.btnLoading = false;
 					});
 				await this.$ajax
-					.get("/system/users/" + item.id + "/opd", {
+					.get("/system/users/" + item.id + "/unitkerja", {
 						headers: {
 							Authorization: this.TOKEN,
 						},
 					})
 					.then(({ data }) => {
-						let daftar_opd = data.daftar_opd;
-						var opd = [];
-						daftar_opd.forEach(element => {
-							opd.push(element.OrgID);
+						this.org_id = data.OrgID;
+						let daftar_unitkerja = data.daftar_unitkerja;
+						var unitkerja = [];
+						daftar_unitkerja.forEach(element => {
+							unitkerja.push(element.SOrgID);
 						});
-						this.editedItem.org_id = opd;
+						this.editedItem.sorg_id = unitkerja;
 					});
 				await this.$ajax
 					.get("/system/setting/roles", {
@@ -822,13 +823,13 @@
 		watch: {
 			dialog(val) {
 				val || this.close();
+				this.editedItem.sorg_id = [];
 			},
 			dialogEdit(val) {
 				val || this.close();
 			},
 			async org_id(val) {
 				if (val) {
-					this.editedItem.sorg_id = [];
 					await this.$ajax
 						.get("/dmaster/opd/" + val + "/unitkerja", {
 							headers: {

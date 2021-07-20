@@ -583,4 +583,34 @@ class UsersController extends Controller {
                                     ],200); 
         }
     }
+    public function usersunitkerja (Request $request,$id)
+    {
+        $user = User::find($id); 
+
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'store',                
+                                    'message'=>["Data User tidak ditemukan."]
+                                ],422);         
+        }
+        else
+        {
+            $username = $user->username;            
+            $unitkerja=$user->unitkerja;            
+            $OrgID = null;
+            if (!is_null($unitkerja)) 
+            {
+                $OrgID = $unitkerja[0]->OrgID;
+            }            
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'fetchdata',
+                                        'OrgID'=>$OrgID,
+                                        'daftar_unitkerja'=>$unitkerja,
+                                        'message'=>"Daftar Unit Kerja dari username ($username)  berhasil diperoleh"
+                                    ],200); 
+        }
+    }
 }

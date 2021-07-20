@@ -266,8 +266,10 @@ class UsersUnitKerjaController extends Controller {
 				$user->save();
 
 				$user_id=$user->id;
+				$org_id = $request->input('org_id');
 				\DB::table('usersunitkerja')->where('user_id',$user_id)->delete();
-				$daftar_unitkerja=json_decode($request->input('org_id'),true);
+				$daftar_unitkerja=json_decode($request->input('sorg_id'),true);
+				$organisasi = OrganisasiModel::find($org_id);
 				foreach($daftar_unitkerja as $v)
 				{
 					$uuid=Uuid::uuid4()->toString();
@@ -276,9 +278,16 @@ class UsersUnitKerjaController extends Controller {
 							id,  
 							user_id, 
 							`OrgID`,
+							`SOrgID`,
+
 							kode_organisasi,
 							`Nm_Organisasi`,
 							`Alias_Organisasi`,
+
+							kode_sub_organisasi,
+							`Nm_Sub_Organisasi`,
+							`Alias_Sub_Organisasi`,
+
 							ta,
 							created_at, 
 							updated_at
@@ -286,16 +295,24 @@ class UsersUnitKerjaController extends Controller {
 						SELECT
 							'$uuid',
 							'$user_id',                    
-							`OrgID`,
-							kode_organisasi,
-							`Nm_Organisasi`,
-							`Alias_Organisasi`,
-							`TA`,                        
+							`tmOrg`.`OrgID`,
+							`tmSOrg`.`SOrgID`,
+							
+							`tmOrg`.kode_organisasi,
+							`tmOrg`.`Nm_Organisasi`,
+							`tmOrg`.`Alias_Organisasi`,
+
+							`tmSOrg`.kode_sub_organisasi,
+							`tmSOrg`.`Nm_Sub_Organisasi`,
+							`tmSOrg`.`Alias_Sub_Organisasi`,
+
+							`tmSOrg`.`TA`,                        
 							NOW() AS created_at,
 							NOW() AS updated_at
-						FROM `tmOrg`
+						FROM `tmSOrg`
+						JOIN `tmOrg` ON `tmOrg`.`OrgID`=`tmSOrg`.`OrgID`
 						WHERE 
-							`OrgID`='$v' 
+							`SOrgID`='$v' 
 					";
 
 					\DB::statement($sql); 

@@ -82,4 +82,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('App\Models\UserOPD','user_id','id')->select(\DB::raw('`OrgID`,kode_organisasi,`Nm_Organisasi`,`Alias_Organisasi`,ta'));
     }
+    public function unitkerja()
+    {
+        return $this->hasMany('App\Models\UserUnitKerja','user_id','id')->select(\DB::raw('`OrgID`,`SOrgID`,kode_sub_organisasi,`Nm_Sub_Organisasi`,`Alias_Sub_Organisasi`,ta'));
+    }
 }
