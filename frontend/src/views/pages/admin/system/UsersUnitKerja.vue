@@ -16,8 +16,8 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					User dengan role Unit Kerja bertanggungjawab terhadap proses pengolahan data
-					renja.
+					User dengan role Unit Kerja bertanggungjawab terhadap proses
+					pengolahan data renja.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -95,7 +95,7 @@
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>Tambah User UNIT KERJA</span>
+									<span>Tambah User Unit Kerja</span>
 								</v-tooltip>
 								<v-dialog v-model="dialog" max-width="500px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
@@ -146,11 +146,22 @@
 												>
 												</v-text-field>
 												<v-autocomplete
-													:items="daftar_unitkerja"
-													v-model="editedItem.org_id"
-													label="UNIT KERJA"
+													:items="daftar_opd"
+													v-model="org_id"
+													label="OPD"
 													item-text="Nm_Organisasi"
 													item-value="OrgID"
+													outlined
+													:rules="rule_user_opd"
+													filled
+												>
+												</v-autocomplete>
+												<v-autocomplete
+													:items="daftar_unitkerja"
+													v-model="editedItem.sorg_id"
+													label="UNIT KERJA"
+													item-text="Nm_Sub_Organisasi"
+													item-value="SOrgID"
 													multiple
 													small-chips
 													outlined
@@ -234,11 +245,22 @@
 												>
 												</v-text-field>
 												<v-autocomplete
-													:items="daftar_unitkerja"
-													v-model="editedItem.org_id"
-													label="UNIT KERJA"
+													:items="daftar_opd"
+													v-model="org_id"
+													label="OPD"
 													item-text="Nm_Organisasi"
-													item-value="OrgID"
+													item-value="OrgID"													
+													outlined
+													:rules="rule_user_opd"
+													filled
+												>
+												</v-autocomplete>
+												<v-autocomplete
+													:items="daftar_unitkerja"
+													v-model="editedItem.sorg_id"
+													label="UNIT KERJA"
+													item-text="Nm_Sub_Organisasi"
+													item-value="SOrgID"
 													multiple
 													small-chips
 													outlined
@@ -352,8 +374,11 @@
 								</v-col>
 								<v-col cols="12">
 									<strong>Daftar UNIT KERJA yang dikelola:</strong> <br />
-									<span v-for="unitkerja in item.unitkerja" v-bind:key="unitkerja.OrgID">
-										{{ unitkerja.Nm_Organisasi }}
+									<span
+										v-for="unitkerja in item.unitkerja"
+										v-bind:key="unitkerja.SOrgID"
+									>
+										[{{ unitkerja.Nm_Sub_Organisasi }}]
 									</span>
 								</v-col>
 							</td>
@@ -417,6 +442,8 @@
 			dialogEdit: false,
 			dialogUserPermission: false,
 			editedIndex: -1,
+			org_id: "",
+			daftar_opd: [],
 			daftar_unitkerja: [],
 			editedItem: {
 				id: 0,
@@ -425,7 +452,8 @@
 				name: "",
 				email: "",
 				nomor_hp: "",
-				org_id: [],
+				org_id: "",
+				sorg_id: [],
 				role_id: ["unitkerja"],
 				created_at: "",
 				updated_at: "",
@@ -437,7 +465,8 @@
 				name: "",
 				email: "",
 				nomor_hp: "",
-				org_id: [],
+				org_id: "",
+				sorg_id: [],
 				role_id: ["unitkerja"],
 				created_at: "",
 				updated_at: "",
@@ -460,10 +489,13 @@
 					/^[A-Za-z_]*$/.test(value) ||
 					"Username hanya boleh string dan underscore",
 			],
+			rule_user_opd: [
+				value =>
+					!!value || "Mohon untuk di pilih OPD dari User ini !!!",
+			],
 			rule_user_unitkerja: [
 				value =>
-					value.length > 0 ||
-					"Mohon untuk di pilih UNIT KERJA dari User ini !!!",
+					!!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
 			],
 			rule_user_password: [
 				value => !!value || "Mohon untuk di isi password User !!!",
@@ -566,7 +598,7 @@
 					});
 				await this.$ajax
 					.post(
-						"/dmaster/unitkerja",
+						"/dmaster/opd",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 						},
@@ -577,7 +609,7 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_unitkerja = data.unitkerja;
+						this.daftar_opd = data.opd;
 						this.btnLoading = false;
 						this.dialog = true;
 					})
@@ -593,7 +625,7 @@
 
 				await this.$ajax
 					.post(
-						"/dmaster/unitkerja",
+						"/dmaster/opd",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 						},
@@ -604,24 +636,24 @@
 						}
 					)
 					.then(({ data }) => {
-						this.daftar_unitkerja = data.unitkerja;
+						this.daftar_opd = data.opd;
 					})
 					.catch(() => {
 						this.btnLoading = false;
 					});
 				await this.$ajax
-					.get("/system/users/" + item.id + "/unitkerja", {
+					.get("/system/users/" + item.id + "/opd", {
 						headers: {
 							Authorization: this.TOKEN,
 						},
 					})
 					.then(({ data }) => {
-						let daftar_unitkerja = data.daftar_unitkerja;
-						var unitkerja = [];
-						daftar_unitkerja.forEach(element => {
-							unitkerja.push(element.OrgID);
+						let daftar_opd = data.daftar_opd;
+						var opd = [];
+						daftar_opd.forEach(element => {
+							opd.push(element.OrgID);
 						});
-						this.editedItem.org_id = unitkerja;
+						this.editedItem.org_id = opd;
 					});
 				await this.$ajax
 					.get("/system/setting/roles", {
@@ -687,8 +719,9 @@
 									nomor_hp: this.editedItem.nomor_hp,
 									username: this.editedItem.username,
 									password: this.editedItem.password,
-									org_id: JSON.stringify(
-										Object.assign({}, this.editedItem.org_id)
+									org_id: this.org_id,
+									sorg_id: JSON.stringify(
+										Object.assign({}, this.editedItem.sorg_id)
 									),
 									role_id: JSON.stringify(
 										Object.assign({}, this.editedItem.role_id)
@@ -717,8 +750,9 @@
 									nomor_hp: this.editedItem.nomor_hp,
 									username: this.editedItem.username,
 									password: this.editedItem.password,
-									org_id: JSON.stringify(
-										Object.assign({}, this.editedItem.org_id)
+									org_id: this.org_id,
+									sorg_id: JSON.stringify(
+										Object.assign({}, this.editedItem.sorg_id)
 									),
 									role_id: JSON.stringify(
 										Object.assign({}, this.editedItem.role_id)
@@ -776,7 +810,9 @@
 		},
 		computed: {
 			formTitle() {
-				return this.editedIndex === -1 ? "TAMBAH USER UNIT KERJA" : "EDIT USER UNIT KERJA";
+				return this.editedIndex === -1
+					? "TAMBAH USER UNIT KERJA"
+					: "EDIT USER UNIT KERJA";
 			},
 			...mapGetters("auth", {
 				ACCESS_TOKEN: "AccessToken",
@@ -789,6 +825,20 @@
 			},
 			dialogEdit(val) {
 				val || this.close();
+			},
+			async org_id(val) {
+				if (val) {
+					this.editedItem.sorg_id = [];
+					await this.$ajax
+						.get("/dmaster/opd/" + val + "/unitkerja", {
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						})
+						.then(({ data }) => {
+							this.daftar_unitkerja = data.unitkerja;
+						});
+				}
 			},
 		},
 		components: {

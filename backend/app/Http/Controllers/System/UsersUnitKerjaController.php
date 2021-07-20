@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserUnitKerja;
+use App\Models\DMaster\OrganisasiModel;
 use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
@@ -62,9 +63,9 @@ class UsersUnitKerjaController extends Controller {
 		
 		$data->transform(function ($item, $key) use ($ta) {
 			$daftar_unitkerja = UserUnitKerja::select(\DB::raw('
-								`OrgID`,
-								kode_organisasi,
-								`Nm_Organisasi`,
+								`SOrgID`,
+								kode_sub_organisasi,
+								`Nm_Sub_Organisasi`,
 								locked
 							'))
 							->where('ta', $ta)
@@ -99,6 +100,7 @@ class UsersUnitKerjaController extends Controller {
 			'username'=>'required|string|unique:users',
 			'password'=>'required',            
 			'org_id'=>'required',
+			'sorg_id'=>'required',
 		]);
 		$user = \DB::transaction(function () use ($request){
 			$now = \Carbon\Carbon::now()->toDateTimeString();        
@@ -123,7 +125,9 @@ class UsersUnitKerjaController extends Controller {
 			$user->givePermissionTo($permissions);
 
 			$user_id=$user->id;
-			$daftar_unitkerja=json_decode($request->input('org_id'),true);
+			$org_id = $request->input('org_id');
+			$daftar_unitkerja=json_decode($request->input('sorg_id'),true);
+			$organisasi = OrganisasiModel::find($org_id);
 			foreach($daftar_unitkerja as $v)
 			{
 				$uuid=Uuid::uuid4()->toString();
@@ -132,9 +136,16 @@ class UsersUnitKerjaController extends Controller {
 						id,  
 						user_id, 
 						`OrgID`,
+						`SOrgID`,
+
 						kode_organisasi,
 						`Nm_Organisasi`,
 						`Alias_Organisasi`,
+
+						kode_sub_organisasi,
+						`Nm_Sub_Organisasi`,
+						`Alias_Sub_Organisasi`,
+
 						ta,
 						created_at, 
 						updated_at
@@ -142,16 +153,24 @@ class UsersUnitKerjaController extends Controller {
 					SELECT
 						'$uuid',
 						'$user_id',                    
-						`OrgID`,
-						kode_organisasi,
-						`Nm_Organisasi`,
-						`Alias_Organisasi`,
-						`TA`,                        
+						`tmOrg`.`OrgID`,
+						`tmSOrg`.`SOrgID`,
+						
+						`tmOrg`.kode_organisasi,
+						`tmOrg`.`Nm_Organisasi`,
+						`tmOrg`.`Alias_Organisasi`,
+
+						`tmSOrg`.kode_sub_organisasi,
+						`tmSOrg`.`Nm_Sub_Organisasi`,
+						`tmSOrg`.`Alias_Sub_Organisasi`,
+
+						`tmSOrg`.`TA`,                        
 						NOW() AS created_at,
 						NOW() AS updated_at
-					FROM `tmOrg`
+					FROM `tmSOrg`
+					JOIN `tmOrg` ON `tmOrg`.`OrgID`=`tmSOrg`.`OrgID`
 					WHERE 
-						`OrgID`='$v' 
+						`SOrgID`='$v' 
 				";
 
 				\DB::statement($sql); 
@@ -161,7 +180,7 @@ class UsersUnitKerjaController extends Controller {
 											'object' => $this->guard()->user(), 
 											'object_id' => $this->guard()->user()->id, 
 											'user_id' => $this->getUserid(), 
-											'message' => 'Menambah user OPD('.$user->username.') berhasil'
+											'message' => 'Menambah user Unit Kerja ('.$user->username.') berhasil'
 										]);
 
 			return $user;

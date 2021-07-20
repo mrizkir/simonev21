@@ -353,7 +353,7 @@
 								<v-col cols="12">
 									<strong>Daftar OPD yang dikelola:</strong> <br />
 									<span v-for="opd in item.opd" v-bind:key="opd.OrgID">
-										{{ opd.Nm_Organisasi }}
+										[{{ opd.Nm_Organisasi }}]
 									</span>
 								</v-col>
 							</td>
@@ -462,8 +462,7 @@
 			],
 			rule_user_opd: [
 				value =>
-					value.length > 0 ||
-					"Mohon untuk di pilih OPD / SKPD dari User ini !!!",
+					!!value || "Mohon untuk di pilih OPD / SKPD dari User ini !!!",
 			],
 			rule_user_password: [
 				value => !!value || "Mohon untuk di isi password User !!!",
