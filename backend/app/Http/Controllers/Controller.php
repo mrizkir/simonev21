@@ -104,8 +104,18 @@ class Controller extends BaseController
      */
     public function getUserOrgID() 
     {
-        $user=$this->guard()->user();
-        $opd=$user->opd;
+        if ($this->hasRole('opd'))
+        {
+            $user=$this->guard()->user();
+            $opd=$user->opd;
+        }
+        else if ($this->hasRole('unitkerja'))
+        {
+            $opd = \DB::table('usersunitkerja')
+                        ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
+                        ->where('user_id', $this->getUserid())
+                        ->get();
+        }
         $daftar_opd = [];
         foreach($opd as $items) 
         {

@@ -32,15 +32,14 @@ class OrganisasiController extends Controller {
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();            
         }       
-        else if ($this->hasRole('opd'))
+        else if ($this->hasRole(['opd','unitkerja']))
         {
             $daftar_opd=$this->getUserOrgID();
             $data = OrganisasiModel::where('TA',$tahun)
                                 ->whereIn('OrgID',$daftar_opd)
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();
-        }        
-
+        }
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
@@ -307,7 +306,18 @@ class OrganisasiController extends Controller {
     public function opdunitkerja ($id)
     {
         $organisasi = OrganisasiModel::find($id);
-        $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi','ASC')->get();        
+        if ($this->hasRole('unitkerja'))
+        {
+            $unitkerja = \DB::table('usersunitkerja')
+                        ->select(\DB::raw('tmSOrg.*'))
+                        ->join('tmSOrg','tmSOrg.SOrgID','usersunitkerja.SOrgID')
+                        ->where('usersunitkerja.user_id', $this->getUserid())
+                        ->get();
+        }
+        else
+        {            
+            $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi','ASC')->get();        
+        }
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',
