@@ -678,10 +678,11 @@ class RKAPerubahanController extends Controller
             $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
             return $item;
         });
-        
+        $jumlah_sub_kegiatan2 = $data->count();
         $unitkerja->RealisasiKeuangan2=$data->sum('RealisasiKeuangan2');
         $jumlah_realisasi_fisik=$data->sum('RealisasiFisik2');
-        $unitkerja->RealisasiFisik2=Helper::formatPecahan($jumlah_realisasi_fisik,$unitkerja->JumlahKegiatan1);
+        $unitkerja->RealisasiFisik2=Helper::formatPecahan($jumlah_realisasi_fisik,$jumlah_sub_kegiatan2);
+        $unitkerja->JumlahSubKegiatan2=$jumlah_sub_kegiatan2;
         $unitkerja->save();
 
         return Response()->json([

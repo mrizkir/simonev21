@@ -296,6 +296,10 @@
 						</template>
 					</v-data-table>
 				</v-col>
+				<v-col cols="12">
+					<strong>Total Realisasi Fisik</strong> : (Total Realisasi Fisik / Jumlah Kegiatan)<br />
+					<strong>Total Persen Realisasi Keuangan</strong> : (Total Realisasi Keuangan / Pagu Kegiatan) * 100<br />
+				</v-col>
 			</v-row>
 		</v-container>
 	</RenjaPerubahanLayout>
