@@ -132,7 +132,7 @@
 									:class="[colorRowFormA(item), fontWeight(item)]"
 								>
 									<td>{{ item.kode }}</td>
-									<td>{{ item.nama }}</td>
+									<td>{{ item.nama_uraian }}</td>
 									<td class="text-right">
 										{{ item.pagu_dana1 | formatUang }}
 									</td>

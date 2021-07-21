@@ -38,7 +38,7 @@ class FormBOPDMurniController extends Controller
                                     ->where('EntryLvl',1)
                                     ->sum('PaguDana1');        
         
-        $total_kegiatan=0;
+        $total_sub_kegiatan=0;
         $total_uraian=0;
         $totalPersenBobot=0;
         $totalPersenTargetFisik=0;
@@ -254,6 +254,7 @@ class FormBOPDMurniController extends Controller
                                 'iskegiatan'=>false,
                                 'issubkegiatan'=>true,
                             ];
+                            $total_sub_kegiatan += 1;
                             $row += 1;
                         }
                         $persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
@@ -347,8 +348,8 @@ class FormBOPDMurniController extends Controller
         if ($totalPersenBobot > 100) {
             $totalPersenBobot = 100.000;
         }
-        $totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
-        $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
+        $totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
+        $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
         $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
         $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
         $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
