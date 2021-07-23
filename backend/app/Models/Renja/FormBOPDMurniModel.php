@@ -162,7 +162,7 @@ class FormBOPDMurniModel extends ReportModel
 		
 		
 		$no_huruf=ord('A');
-		$total_kegiatan=0;
+		$total_sub_kegiatan=0;
 		$total_uraian=0;
 		$totalPersenBobot=0;
 		$totalPersenTargetFisik=0;
@@ -187,6 +187,19 @@ class FormBOPDMurniModel extends ReportModel
 		$row_awal=$row;        
 		foreach ($daftar_program as $data_program)
 		{
+			$styleArray = [
+				'font'=>[
+					'bold'=>true,
+				],
+				'fill'=>[
+					'fillType'=>Fill::FILL_SOLID,
+					'startColor'=>[
+						'argb'=>'FFF0F8FF',
+					],
+				],
+			];
+			$sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+
 			$kode_program = $data_program->kode_program;
 			$sheet->setCellValue("A$row",chr($no_huruf));
 			$sheet->setCellValue("B$row",$kode_program);  
@@ -217,6 +230,19 @@ class FormBOPDMurniModel extends ReportModel
 				$no_kegiatan = 1;
 				foreach ($daftar_kegiatan as $data_kegiatan)
 				{
+					$styleArray = [
+						'font'=>[
+							'italic'=>true,
+						],
+						'fill'=>[
+							'fillType'=>Fill::FILL_SOLID,
+							'startColor'=>[
+								'argb'=>'FFE6E6FA',
+							],
+						],
+					];
+					$sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+
 					$kode_kegiatan = $data_kegiatan->kode_kegiatan;
 					$sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan);
 					$sheet->setCellValue("B$row",$kode_kegiatan);  
@@ -342,7 +368,8 @@ class FormBOPDMurniModel extends ReportModel
 							$sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
 							$sheet->setCellValue("Q$row",$persen_sisa_anggaran);
 							$row += 1; 
-							$no_sub_kegiatan += 1;                           
+							$no_sub_kegiatan += 1; 
+							$total_sub_kegiatan += 1;
 						}
 						$persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
 						$target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);
@@ -427,8 +454,8 @@ class FormBOPDMurniModel extends ReportModel
 		if ($totalPersenBobot > 100) {
 			$totalPersenBobot = 100.00;
 		}
-		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
-		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
+		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
+		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
 		$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);

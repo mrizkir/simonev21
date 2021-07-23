@@ -271,6 +271,7 @@ class FormBOPDMurniController extends Controller
 							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
 						}
 
+						$persen_target_keuangan=Helper::formatPersen($target_keuangan_kegiatan,$pagu_dana_kegiatan);
 						$persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);  
 						$persen_tertimbang_keuangan=0.00;
 						if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
@@ -292,7 +293,7 @@ class FormBOPDMurniController extends Controller
 							'fisik_realisasi1'=>$persen_realisasi_fisik,
 							'fisik_ttb1'=>$persen_tertimbang_fisik,
 							'keuangan_target1'=>$target_keuangan_kegiatan,
-							'keuangan_target_persen_1'=>$kegiatan_last_row+1,
+							'keuangan_target_persen_1'=>$persen_target_keuangan,
 							'keuangan_realisasi1'=>$realisasi_keuangan_kegiatan,
 							'keuangan_realisasi_persen_1'=>$persen_realisasi_keuangan,
 							'keuangan_ttb1'=>$persen_tertimbang_keuangan,
@@ -317,6 +318,7 @@ class FormBOPDMurniController extends Controller
 				$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
 			}
 
+			$persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
 			$persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);  
 			$persen_tertimbang_keuangan=0.00;
 			if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
@@ -337,7 +339,7 @@ class FormBOPDMurniController extends Controller
 				'fisik_realisasi1'=>$persen_realisasi_fisik,
 				'fisik_ttb1'=>$persen_tertimbang_fisik,
 				'keuangan_target1'=>$target_keuangan_program,
-				'keuangan_target_persen_1'=>$program_last_row+1,
+				'keuangan_target_persen_1'=>$persen_target_keuangan,
 				'keuangan_realisasi1'=>$realisasi_keuangan_program,
 				'keuangan_realisasi_persen_1'=>$persen_realisasi_keuangan,
 				'keuangan_ttb1'=>$persen_tertimbang_keuangan,
