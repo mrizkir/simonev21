@@ -88,7 +88,7 @@ class KodefikasiKegiatanController extends Controller {
 
         $this->validate($request, [
             'Kd_Kegiatan'=> [
-                        Rule::unique('tmKegiatan')->where(function($query) use ($request){
+                        Rule::unique('tmKegiatan')->where(function($query) use ($request) {
                             return $query->where('PrgID',$request->input('PrgID'))
                                         ->where('TA',$request->input('TA'));
                         }),
@@ -241,7 +241,7 @@ class KodefikasiKegiatanController extends Controller {
                                     ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
                                     ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
                                     ->where('tmSubKegiatan.KgtID',$id)
-                                    ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID){
+                                    ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID) {
                                         $query->select('kode_sub_kegiatan')
                                             ->from('trRKA')
                                             ->where('SOrgID',$SOrgID);

@@ -66,7 +66,7 @@ class PejabatController extends Controller
 
         $this->validate($request, [  
             'ASNID'=> [
-                        Rule::unique('trRiwayatJabatanASN')->where(function($query) use ($request){
+                        Rule::unique('trRiwayatJabatanASN')->where(function($query) use ($request) {
                             return $query->where('OrgID',$request->input('OrgID'))
                                         ->where('Jenis_Jabatan',$request->input('Jenis_Jabatan'));
                         }),

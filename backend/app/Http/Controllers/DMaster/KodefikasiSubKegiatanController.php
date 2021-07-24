@@ -91,7 +91,7 @@ class KodefikasiSubKegiatanController extends Controller {
 
         $this->validate($request, [
             'Kd_SubKegiatan'=> [
-                        Rule::unique('tmSubKegiatan')->where(function($query) use ($request){
+                        Rule::unique('tmSubKegiatan')->where(function($query) use ($request) {
                             return $query->where('KgtID',$request->input('KgtID'))
                                         ->where('TA',$request->input('TA'));
                         }),

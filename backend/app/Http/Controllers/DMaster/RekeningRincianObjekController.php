@@ -69,7 +69,7 @@ class RekeningRincianObjekController extends Controller {
         $this->validate($request, [
             'ObyID'=>'required|exists:tmOby,ObyID',
             'Kd_Rek_5'=> [
-                        Rule::unique('tmROby')->where(function($query) use ($request){
+                        Rule::unique('tmROby')->where(function($query) use ($request) {
                             return $query->where('ObyID',$request->input('ObyID'))
                                         ->where('TA',$request->input('TA'));
                         }),

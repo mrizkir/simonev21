@@ -103,7 +103,7 @@ class FormAMurniController extends Controller
                             foreach ($tingkat_5 as $k5_level2=>$v5_level2) {
                                 $rek2=substr($k5_level2,0,3);
                                 if ($rek2 == $k2) {
-                                    if (!array_key_exists($k2,$rek2_tampil)){
+                                    if (!array_key_exists($k2,$rek2_tampil)) {
                                         $rek2_tampil[$rek2]=$v2;
                                     }
                                 }

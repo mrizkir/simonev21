@@ -178,7 +178,7 @@ class KodefikasiProgramController extends Controller {
                 new KodefikasiKodeProgramRule($request,'unique')
             ],
         ]);     
-        $kodefikasiprogram = \DB::transaction(function () use ($request){
+        $kodefikasiprogram = \DB::transaction(function () use ($request) {
             $ta = $request->input('TA');
             $jns = $request->input('Jns');
 

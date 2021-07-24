@@ -377,132 +377,143 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjamurni/FormBUnitKerjaMurni.vue"),
 	},
+	//renja murni - rka murni
+	{
+		path: "/renjamurni/targetkinerja",
+		name: "RenjaMurniTargetKinerja",
+		meta: {
+			title: "TARGET KINERJA MURNI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/TargetKinerjaMurni.vue"),
+	},
+
 	//renja perubahan
-{
-  path: "/renjaperubahan",
-  name: "RenjaPerubahan",
-  meta: {
-    title: "RENCANA KERJA PERUBAHAN",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/RenjaPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/datamentah",
-  name: "RenjaPerubahanDataMentah",
-  meta: {
-    title: "RENCANA KERJA PERUBAHAN - DATA MENTAH",
-    requiresAuth: true,
+	{
+		path: "/renjaperubahan",
+		name: "RenjaPerubahan",
+		meta: {
+			title: "RENCANA KERJA PERUBAHAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/RenjaPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/datamentah",
+		name: "RenjaPerubahanDataMentah",
+		meta: {
+			title: "RENCANA KERJA PERUBAHAN - DATA MENTAH",
+			requiresAuth: true,
   },
   component: () =>
     import("../views/pages/admin/renjaperubahan/DataMentahPerubahan.vue"),
-},
-//renja perubahan - rka perubahan
-{
-  path: "/renjaperubahan/rka",
-  name: "RenjaPerubahanRKA",
-  meta: {
-    title: "RENCANA KERJA DAN ANGGARAN PERUBAHAN",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/RKAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/rka/uraian/:rkaid",
-  name: "RenjaPerubahanUraianRKA",
-  meta: {
-    title: "RKA PERUBAHAN - URAIAN",
-    requiresAuth: true,
-  },
-  component: () =>
-    import("../views/pages/admin/renjaperubahan/UraianRKAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/rka/:rkaid/edit",
-  name: "BelanjaPerubahanEditRKA",
-  meta: {
-    title: "RKA PERUBAHAN - UBAH",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/EditRKAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/rka/uraian/:rkaid",
-  name: "BelanjaPerubahanUraianRKA",
-  meta: {
-    title: "RKA PERUBAHAN - URAIAN",
-    requiresAuth: true,
-  },
-  component: () =>
-    import("../views/pages/admin/renjaperubahan/UraianRKAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/rka/uraian/:rkaid/add",
-  name: "RenjaPerubahanAddUraianRKA",
-  meta: {
-    title: "RKA PERUBAHAN - URAIAN",
-    requiresAuth: true,
-  },
-  component: () =>
-    import("../views/pages/admin/renjaperubahan/AddUraianRKAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/rka/uraian/:rkarincid/edit",
-  name: "BelanjaEditUraianRKAPerubahan",
-  meta: {
-    title: "RKA PERUBAHAN - UBAH URAIAN",
-    requiresAuth: true,
-  },
-  component: () =>
-    import("../views/pages/admin/renjaperubahan/EditUraianRKAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/rka/realisasi/:rkarincid",
-  name: "BelanjaPerubahanRealisasiRKAPerubahan",
-  meta: {
-    title: "RKA PERUBAHAN - REALISASI",
-    requiresAuth: true,
-  },
-  component: () =>
-    import("../views/pages/admin/renjaperubahan/RealisasiRKAPerubahan.vue"),
-},
-//renja perubahan - report form a
-{
-  path: "/renjaperubahan/report/forma",
-  name: "ReportFormAPerubahan",
-  meta: {
-    title: "BELANJA PERUBAHAN - LAPORAN FORM A",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/FormAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/report/forma/:rkaid",
-  name: "ReportFormAPerubahanDetail",
-  meta: {
-    title: "BELANJA PERUBAHAN - LAPORAN FORM A",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/FormAPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/report/formbopd",
-  name: "ReportFormBOPDPerubahan",
-  meta: {
-    title: "BELANJA PERUBAHAN - LAPORAN FORM B OPD",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/FormBOPDPerubahan.vue"),
-},
-{
-  path: "/renjaperubahan/report/formbunitkerja",
-  name: "ReportFormBUnitKerjaPerubahan",
-  meta: {
-    title: "BELANJA PERUBAHAN - LAPORAN FORM B UNIT KERJA",
-    requiresAuth: true,
-  },
-  component: () => import("../views/pages/admin/renjaperubahan/FormBUnitKerjaPerubahan.vue"),
-},
+	},
+	//renja perubahan - rka perubahan
+	{
+		path: "/renjaperubahan/rka",
+		name: "RenjaPerubahanRKA",
+		meta: {
+			title: "RENCANA KERJA DAN ANGGARAN PERUBAHAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/RKAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/rka/uraian/:rkaid",
+		name: "RenjaPerubahanUraianRKA",
+		meta: {
+			title: "RKA PERUBAHAN - URAIAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjaperubahan/UraianRKAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/rka/:rkaid/edit",
+		name: "BelanjaPerubahanEditRKA",
+		meta: {
+			title: "RKA PERUBAHAN - UBAH",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/EditRKAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/rka/uraian/:rkaid",
+		name: "BelanjaPerubahanUraianRKA",
+		meta: {
+			title: "RKA PERUBAHAN - URAIAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjaperubahan/UraianRKAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/rka/uraian/:rkaid/add",
+		name: "RenjaPerubahanAddUraianRKA",
+		meta: {
+			title: "RKA PERUBAHAN - URAIAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjaperubahan/AddUraianRKAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/rka/uraian/:rkarincid/edit",
+		name: "BelanjaEditUraianRKAPerubahan",
+		meta: {
+			title: "RKA PERUBAHAN - UBAH URAIAN",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjaperubahan/EditUraianRKAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/rka/realisasi/:rkarincid",
+		name: "BelanjaPerubahanRealisasiRKAPerubahan",
+		meta: {
+			title: "RKA PERUBAHAN - REALISASI",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjaperubahan/RealisasiRKAPerubahan.vue"),
+	},
+	//renja perubahan - report form a
+	{
+		path: "/renjaperubahan/report/forma",
+		name: "ReportFormAPerubahan",
+		meta: {
+			title: "BELANJA PERUBAHAN - LAPORAN FORM A",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/FormAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/report/forma/:rkaid",
+		name: "ReportFormAPerubahanDetail",
+		meta: {
+			title: "BELANJA PERUBAHAN - LAPORAN FORM A",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/FormAPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/report/formbopd",
+		name: "ReportFormBOPDPerubahan",
+		meta: {
+			title: "BELANJA PERUBAHAN - LAPORAN FORM B OPD",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/FormBOPDPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/report/formbunitkerja",
+		name: "ReportFormBUnitKerjaPerubahan",
+		meta: {
+			title: "BELANJA PERUBAHAN - LAPORAN FORM B UNIT KERJA",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/FormBUnitKerjaPerubahan.vue"),
+	},
 	//system
 	{
 		path: "/system-users",

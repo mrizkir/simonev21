@@ -48,7 +48,7 @@ class UsersDewanController extends Controller {
             'username'=>'required|string|unique:users',
             'password'=>'required',
         ]);
-        $user = \DB::transaction(function () use ($request){
+        $user = \DB::transaction(function () use ($request) {
             $now = \Carbon\Carbon::now()->toDateTimeString();        
             $user=User::create([
                 'id'=>Uuid::uuid4()->toString(),
@@ -147,7 +147,7 @@ class UsersDewanController extends Controller {
                                         'email'=>'required|string|email|unique:users,email,'.$user->id,
                                         'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,                                                    
                                     ]); 
-            $user = \DB::transaction(function () use ($request,$user){
+            $user = \DB::transaction(function () use ($request,$user) {
                 $user->name = $request->input('name');
                 $user->email = $request->input('email');
                 $user->nomor_hp = $request->input('nomor_hp');

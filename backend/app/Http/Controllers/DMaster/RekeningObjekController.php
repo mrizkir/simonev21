@@ -67,7 +67,7 @@ class RekeningObjekController extends Controller {
         $this->validate($request, [
             'JnsID'=>'required|exists:tmJns,JnsID',
             'Kd_Rek_4'=> [
-                        Rule::unique('tmOby')->where(function($query) use ($request){
+                        Rule::unique('tmOby')->where(function($query) use ($request) {
                             return $query->where('JnsID',$request->input('JnsID'))
                                         ->where('TA',$request->input('TA'));
                         }),

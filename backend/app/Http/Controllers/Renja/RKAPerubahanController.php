@@ -674,7 +674,7 @@ class RKAPerubahanController extends Controller
                         ->orderBy('kode_sub_kegiatan','ASC')
                         ->get();        
                     
-        $data->transform(function ($item,$key){                            
+        $data->transform(function ($item,$key) {                            
             $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
             return $item;
         });
@@ -1425,7 +1425,7 @@ class RKAPerubahanController extends Controller
                                 ->orderBy('trRKARinc.kode_uraian2','ASC')
                                 ->get();
             
-            $data->transform(function ($item,$key){
+            $data->transform(function ($item,$key) {
                 $item->realisasi2=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi2');    
                 $item->fisik2=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik2');
                 $item->persen_keuangan1=Helper::formatPersen($item->realisasi2,$item->PaguUraian2);

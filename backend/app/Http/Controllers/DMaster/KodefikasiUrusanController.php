@@ -57,7 +57,7 @@ class KodefikasiUrusanController extends Controller {
 
         $this->validate($request, [
             'Kd_Urusan'=> [
-                        Rule::unique('tmUrusan')->where(function($query) use ($request){
+                        Rule::unique('tmUrusan')->where(function($query) use ($request) {
                             return $query->where('TA',$request->input('TA'));
                         }),
                         'required',

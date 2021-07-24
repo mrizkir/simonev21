@@ -71,7 +71,7 @@ class RekeningSubRincianObjekController extends Controller {
         $this->validate($request, [
             'RObyID'=>'required|exists:tmROby,RObyID',
             'Kd_Rek_6'=> [
-                        Rule::unique('tmSubROby')->where(function($query) use ($request){
+                        Rule::unique('tmSubROby')->where(function($query) use ($request) {
                             return $query->where('RObyID',$request->input('RObyID'))
                                         ->where('TA',$request->input('TA'));
                         }),

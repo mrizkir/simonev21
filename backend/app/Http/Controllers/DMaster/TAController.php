@@ -37,7 +37,7 @@ class TAController extends Controller {
         
         $this->validate($request, [
             'tahun'=> [
-                        Rule::unique('ta')->where(function($query){
+                        Rule::unique('ta')->where(function($query) {
                             return $query;
                         }),
                         'required',

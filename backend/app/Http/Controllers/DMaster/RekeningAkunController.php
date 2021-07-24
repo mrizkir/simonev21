@@ -55,7 +55,7 @@ class RekeningAKunController extends Controller {
 
         $this->validate($request, [
             'Kd_Rek_1'=> [
-                        Rule::unique('tmAkun')->where(function($query) use ($request){
+                        Rule::unique('tmAkun')->where(function($query) use ($request) {
                             return $query->where('TA',$request->input('TA'));
                         }),
                         'required',

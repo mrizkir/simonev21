@@ -62,7 +62,7 @@ class RekeningKelompokController extends Controller {
         $this->validate($request, [
             'AkunID'=>'required|exists:tmAkun,AkunID',
             'Kd_Rek_2'=> [
-                        Rule::unique('tmKlp')->where(function($query) use ($request){
+                        Rule::unique('tmKlp')->where(function($query) use ($request) {
                             return $query->where('AkunID',$request->input('AkunID'))
                                         ->where('TA',$request->input('TA'));
                         }),

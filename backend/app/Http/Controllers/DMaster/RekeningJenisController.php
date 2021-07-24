@@ -65,7 +65,7 @@ class RekeningJenisController extends Controller {
         $this->validate($request, [
             'KlpID'=>'required|exists:tmKlp,KlpID',
             'Kd_Rek_3'=> [
-                        Rule::unique('tmJns')->where(function($query) use ($request){
+                        Rule::unique('tmJns')->where(function($query) use ($request) {
                             return $query->where('KlpID',$request->input('KlpID'))
                                         ->where('TA',$request->input('TA'));
                         }),

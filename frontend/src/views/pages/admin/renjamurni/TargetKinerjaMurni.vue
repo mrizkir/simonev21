@@ -1,11 +1,11 @@
 <template>
-	<RenjaPerubahanLayout :showrightsidebar="false">
+	<RenjaMurniLayout :showrightsidebar="false">
 		<ModuleHeader>
 			<template v-slot:icon>
 				mdi-graph
 			</template>
 			<template v-slot:name>
-				RKA PERUBAHAN
+				TARGET KINERJA MURNI
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Rencana Kegiatan dan Anggaran (RKA) OPD / Unit Kerja APBD Perubahan
+					Halaman ini digunakan untuk memperbaiki bila Taret Kinerja FISIK atau KEUANGAN terdapat kesalahan
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -85,103 +85,10 @@
 								<v-toolbar-title>DAFTAR SUB KEGIATAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
-								<v-tooltip bottom>
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											v-bind="attrs"
-											v-on="on"
-											color="primary"
-											icon
-											outlined
-											small
-											class="ma-2"
-											@click.stop="addItem"
-											:disabled="btnLoading || !(SOrgID_Selected.length > 0)"
-										>
-											<v-icon>mdi-plus</v-icon>
-										</v-btn>
-									</template>
-									<span>TAMBAH RKA</span>
-								</v-tooltip>
-								<v-dialog v-model="dialogfrm" max-width="800px" persistent v-if="dialogfrm">
-									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
-										<v-card>
-											<v-card-title>
-												<span class="headline">
-													TAMBAH KEGIATAN
-												</span>
-											</v-card-title>
-											<v-card-subtitle>												
-												{{ DataUnitKerja.kode_sub_organisasi }} / {{ DataUnitKerja.Nm_Sub_Organisasi }}												
-											</v-card-subtitle>											
-											<v-card-text>
-												<v-autocomplete
-													:items="daftar_bidang"
-													v-model="formdata_BidangID"
-													label="BIDANG URUSAN"
-													item-text="nama_bidang"
-													item-value="BidangID"
-													filled
-													outlined
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_program"
-													v-model="formdata_PrgID"
-													label="PROGRAM"
-													item-text="nama_program"
-													item-value="PrgID"
-													filled
-													outlined
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_kegiatan"
-													v-model="formdata_KgtID"
-													label="KEGIATAN"
-													item-text="nama_kegiatan"
-													item-value="KgtID"
-													filled
-													outlined
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_sub_kegiatan"
-													v-model="formdata_SubKgtID"
-													label="SUB KEGIATAN"
-													item-text="nama_sub_kegiatan"
-													item-value="SubKgtID"
-													filled
-													outlined
-													:rules="rule_sub_kegiatan"
-												>
-												</v-autocomplete>
-											</v-card-text>
-											<v-card-actions>
-												<v-spacer></v-spacer>
-												<v-btn
-													color="blue darken-1"
-													text
-													@click.stop="closedialogfrm"
-												>
-													TUTUP
-												</v-btn>
-												<v-btn
-													color="blue darken-1"
-													text
-													@click.stop="save"
-													:disabled="!form_valid || btnLoading"
-												>
-													SIMPAN
-												</v-btn>
-											</v-card-actions>
-										</v-card>
-									</v-form>
-								</v-dialog>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-tooltip bottom>
+							<!-- <v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon
 										small
@@ -195,52 +102,16 @@
 									</v-icon>
 								</template>
 								<span>detail uraian kegiatan</span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										small
-										v-bind="attrs"
-										v-on="on"
-										class="ma-1"
-										color="warning"
-										:loading="btnLoading"
-										:disabled="item.PaguDana2 > 0 || item.Locked || btnLoading"
-										@click.stop="loaddatauraianfirsttime(item)"
-									>
-										mdi-sync-circle
-									</v-icon>
-								</template>
-								<span>load uraian</span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										small
-										v-bind="attrs"
-										v-on="on"
-										color="red"
-										:loading="btnLoading"
-										:disabled="btnLoading || item.Locked == 1"
-										@click.stop="deleteItem(item)"
-									>
-										mdi-delete
-									</v-icon>
-								</template>
-								<span>Hapus RKA</span>
-							</v-tooltip>
+							</v-tooltip>							 -->
 							<v-icon small class="mr-2" v-if="item.Locked">
 								mdi-lock
 							</v-icon>
 						</template>
-						<template v-slot:item.PaguDana2="{ item }">
-							{{ item.PaguDana2 | formatUang }}
+						<template v-slot:item.PaguDana1="{ item }">
+							{{ item.PaguDana1 | formatUang }}
 						</template>
-						<template v-slot:item.RealisasiKeuangan2="{ item }">
-							{{ item.RealisasiKeuangan2 | formatUang }}
-						</template>
-						<template v-slot:item.SisaAnggaran="{ item }">
-							{{ (item.PaguDana2 - item.RealisasiKeuangan2) | formatUang }}
+						<template v-slot:item.TargetKeuangan1="{ item }">
+							{{ item.TargetKeuangan1 | formatUang }}
 						</template>
 						<template v-slot:expanded-item="{ headers, item }">
 							<td :colspan="headers.length" class="text-center">
@@ -251,16 +122,6 @@
 									<strong>updated_at:</strong>
 									{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								</v-col>
-								<v-col cols="12" class="mb1 text-center">
-									<v-btn
-										color="blue darken-1"
-										text
-										@click.stop="resetdatakegiatan(item)"
-										:disabled="btnLoading"
-									>
-										RESET
-									</v-btn>
-								</v-col>
 							</td>
 						</template>
 						<template v-slot:body.append>
@@ -270,45 +131,24 @@
 									{{ footers.pagukegiatan | formatUang }}
 								</td>
 								<td class="text-right">{{ footers.fisik }}</td>
-								<td class="text-right">{{ footers.realisasi | formatUang }}</td>
-								<td class="text-right">
-									{{ footers.persen_keuangan.toFixed(2) }}
-								</td>
-								<td class="text-right">
-									{{ footers.sisa | formatUang }}
-								</td>
+								<td class="text-right">{{ footers.keuangan | formatUang }}</td>								
 								<td></td>
 							</tr>
 						</template>
 						<template v-slot:no-data>
-							<v-btn
-								class="ma-2"
-								:loading="btnLoading"
-								:disabled="showBtnLoadDataKegiatan || btnLoading"
-								color="primary"
-								@click.stop="loaddatakegiatanFirsttime"
-							>
-								LOAD DATA KEGIATAN
-								<template v-slot:loader>
-									<span>LOADING DATA ...</span>
-								</template>
-							</v-btn>
+							belum ada data. Silahkah pilih OPD / SKPD -> UNIT KERJA
 						</template>
 					</v-data-table>
 				</v-col>
-				<v-col cols="12">
-					<strong>Total Realisasi Fisik</strong> : (Total Realisasi Fisik / Jumlah Sub Kegiatan)<br />
-					<strong>Total Persen Realisasi Keuangan</strong> : (Total Realisasi Keuangan / Pagu Kegiatan) * 100<br />
-				</v-col>
 			</v-row>
 		</v-container>
-	</RenjaPerubahanLayout>
+	</RenjaMurniLayout>
 </template>
 <script>
-	import RenjaPerubahanLayout from "@/views/layouts/RenjaPerubahanLayout";
+	import RenjaMurniLayout from "@/views/layouts/RenjaMurniLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "RKAPerubahan",
+		name: "TargetKinerjaMurni",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -317,18 +157,18 @@
 					href: "/dashboard/" + this.$store.getters["auth/AccessToken"],
 				},
 				{
-					text: "RENCANA KERJA PERUBAHAN",
+					text: "RENCANA KERJA MURNI",
 					disabled: false,
-					href: "/renjaperubahan",
+					href: "/renjamurni",
 				},
 				{
-					text: "RKA PERUBAHAN",
+					text: "TARGET KINERJA MURNI",
 					disabled: true,
 					href: "#",
 				},
 			];
 			this.$store.dispatch("uiadmin/addToPages", {
-				name: "rkaperubahan",
+				name: "targetkinerjamurni",
 				OrgID_Selected: "",
 				SOrgID_Selected: "",
 				datakegiatan: {
@@ -343,11 +183,11 @@
 		mounted() {
 			this.fetchOPD();
 			var OrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
-				"rkaperubahan",
+				"targetkinerjamurni",
 				"OrgID_Selected"
 			);
 			var SOrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
-				"rkaperubahan",
+				"targetkinerjamurni",
 				"SOrgID_Selected"
 			);
 			if (OrgID_Selected.length > 0) {
@@ -378,37 +218,27 @@
 					},
 					{
 						text: "PAGU KEGIATAN",
-						value: "PaguDana2",
+						value: "PaguDana1",
 						align: "end",
 						width: 100,
 					},
 					{
-						text: "REALISASI FISIK",
-						value: "RealisasiFisik2",
+						text: "TARGET FISIK",
+						value: "TargetFisik1",
 						align: "end",
 						width: 100,
 					},
 					{
-						text: "REALISASI KEUANGAN",
-						value: "RealisasiKeuangan2",
+						text: "TARGET KEUANGAN",
+						value: "TargetKeuangan1",
 						align: "end",
 						width: 100,
 					},
-					{ text: "%", align: "end", value: "persen_keuangan2", width: 50 },
-					{
-						text: "SISA PAGU",
-						value: "SisaAnggaran",
-						align: "end",
-						width: 100,
-					},
-					{ text: "AKSI", value: "actions", sortable: false, width: 110 },
+					{ text: "AKSI", value: "actions", sortable: false, width: 50 },
 				],
 				footers: {
-					paguunitkerja: 0,
 					pagukegiatan: 0,
-					realisasi: 0,
-					sisa: 0,
-					persen_keuangan: 0,
+					keuangan: 0,
 					fisik: 0,
 				},
 				//filter form
@@ -444,37 +274,6 @@
 					this.expanded = [item];
 				}
 			},
-			footersummary() {
-				let data = this.datatable;
-				var summary = {
-					paguunitkerja: 0,
-					pagukegiatan: 0,
-					realisasi: 0,
-					sisa: 0,
-					persen_keuangan: 0,
-					fisik: 0,
-				};
-				if (data.length > 0) {
-					var totalpagukegiatan = 0;
-					for (var i = 0; i < data.length; i++) {
-						var num = new Number(data[i].PaguDana2);
-						totalpagukegiatan += num;
-					}
-					summary.paguunitkerja = this.DataUnitKerja.PaguDana2;
-					summary.pagukegiatan = totalpagukegiatan;
-					var totalrealisasi = parseFloat(
-						this.DataUnitKerja.RealisasiKeuangan2
-					);
-					summary.realisasi = totalrealisasi;
-					summary.sisa = totalpagukegiatan - totalrealisasi;
-					summary.persen_keuangan =
-						totalrealisasi > 0 && totalpagukegiatan > 0
-							? (totalrealisasi / totalpagukegiatan) * 100
-							: 0;
-					summary.fisik = this.DataUnitKerja.RealisasiFisik2;
-				}
-				this.footers = summary;
-			},
 			fetchOPD: async function() {
 				await this.$ajax
 					.post(
@@ -508,60 +307,11 @@
 						this.datatableLoaded = false;
 					});
 			},
-			loaddatauraianfirsttime: async function(item) {
-				if (!item.PaguDana2 > 0) {
-					this.btnLoading = true;
-					await this.$ajax
-						.post(
-							"/renja/rkaperubahan/loaddatauraianfirsttime",
-							{
-								RKAID: item.RKAID,
-							},
-							{
-								headers: {
-									Authorization: this.$store.getters["auth/Token"],
-								},
-							}
-						)
-						.then(() => {
-							this.$router.go();
-							this.btnLoading = false;
-						})
-						.catch(() => {
-							this.btnLoading = false;
-						});
-				}
-			},
-			loaddatakegiatanFirsttime: async function() {
-				this.btnLoading = true;
-				await this.$ajax
-					.post(
-						"/renja/rkaperubahan/loaddatakegiatanfirsttime",
-						{
-							tahun: this.$store.getters["auth/TahunSelected"],
-							SOrgID: this.SOrgID_Selected,
-						},
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
-					.then(({ data }) => {
-						this.DataUnitKerja = data.unitkerja;
-						this.datatable = data.rka;
-						this.footersummary();
-						this.btnLoading = false;
-					})
-					.catch(() => {
-						this.btnLoading = false;
-					});
-			},
 			loaddatakegiatan: async function() {
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/renja/rkaperubahan",
+						"/renja/targetkinerjamurni",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 							SOrgID: this.SOrgID_Selected,
@@ -577,7 +327,10 @@
 						this.datatable = data.rka;
 						this.datatableLoaded = true;
 						this.datatableLoading = false;
-						this.footersummary();
+						this.footers.pagukegiatan = data.total_pagu;
+						this.footers.keuangan = data.total_target_keuangan;
+						this.footers.fisik = data.total_target_fisik;
+
 					});
 			},
 			async addItem() {
@@ -615,7 +368,7 @@
 				if (this.$refs.frmdata.validate()) {					
 					this.$ajax
 						.post(
-							"/renja/rkaperubahan/storekegiatan",
+							"/renja/targetkinerjamurni/storekegiatan",
 							{
 								OrgID: this.DataOPD.OrgID,
 								SOrgID: this.DataUnitKerja.SOrgID,
@@ -637,12 +390,12 @@
 				}
 			},
 			viewUraian(item) {
-				var page = this.$store.getters["uiadmin/Page"]("rkaperubahan");
+				var page = this.$store.getters["uiadmin/Page"]("targetkinerjamurni");
 				if (page.datakegiatan.RKAID == "") {
 					page.datakegiatan = item;
 					this.$store.dispatch("uiadmin/updatePage", page);
 					this.$router.push(
-						"/renjaperubahan/rka/uraian/" + page.datakegiatan.RKAID
+						"/renjamurni/rka/uraian/" + page.datakegiatan.RKAID
 					);
 				} else {
 					this.$root.$confirm
@@ -654,7 +407,7 @@
 						.then(confirm => {
 							if (confirm) {
 								this.$router.push(
-									"/renjaperubahan/rka/uraian/" + page.datakegiatan.RKAID
+									"/renjamurni/rka/uraian/" + page.datakegiatan.RKAID
 								);
 							}
 						});
@@ -664,7 +417,7 @@
 				this.$root.$confirm
 					.open(
 						"Delete",
-						"Apakah Anda ingin menghapus data RKA Perubahan dengan Nama " +
+						"Apakah Anda ingin menghapus data RKA Murni dengan Nama " +
 							item.Nm_Sub_Kegiatan +
 							" ?",
 						{ color: "red", width: "600px" }
@@ -674,7 +427,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/renja/rkaperubahan/" + item.RKAID,
+									"/renja/targetkinerjamurni/" + item.RKAID,
 									{
 										_method: "DELETE",
 										pid: "datarka",
@@ -708,7 +461,7 @@
 							this.btnLoading = true;
 							this.$ajax
 								.post(
-									"/renja/rkaperubahan/resetdatakegiatan/" + item.RKAID,
+									"/renja/targetkinerjamurni/resetdatakegiatan/" + item.RKAID,
 									{
 										_method: "PUT",										
 									},
@@ -754,7 +507,7 @@
 		},
 		watch: {
 			OrgID_Selected(val) {
-				var page = this.$store.getters["uiadmin/Page"]("rkaperubahan");
+				var page = this.$store.getters["uiadmin/Page"]("targetkinerjamurni");
 				if (this.firstloading == true && val.length > 0) {
 					page.OrgID_Selected = val;
 					this.$store.dispatch("uiadmin/updatePage", page);
@@ -768,7 +521,7 @@
 				}
 			},
 			SOrgID_Selected(val) {
-				var page = this.$store.getters["uiadmin/Page"]("rkaperubahan");
+				var page = this.$store.getters["uiadmin/Page"]("targetkinerjamurni");
 				if (this.firstloading == false && val.length > 0) {
 					this.datatableLoaded = false;
 				}
@@ -845,7 +598,7 @@
 			},
 		},
 		components: {
-			RenjaPerubahanLayout,
+			RenjaMurniLayout,
 			ModuleHeader,
 		},
 	};

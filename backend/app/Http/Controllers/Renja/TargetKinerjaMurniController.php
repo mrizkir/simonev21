@@ -16,8 +16,13 @@ use App\Models\Renja\RKARealisasiModel;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 
-class RKAMurniController extends Controller 
+class TargetKinerjaMurniController extends Controller 
 {
+	protected $total_pagu = 0;
+	protected $total_target_keuangan = 0;
+	protected $total_target_fisik = 0;
+	protected $total_sub_kegiatan = 0;
+
 	private function recalculate($RKAID)
 	{
 		$paguuraian = \DB::table('trRKARinc')                            
@@ -164,233 +169,6 @@ class RKAMurniController extends Controller
 			
 		}        
 		return $data;
-	}    
-
-	
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function loaddatakegiatanFirsttime(Request $request)
-	{   
-		$tahun=$request->input('tahun');
-		$this->validate($request, [            
-			'tahun'=>'required',
-			'SOrgID'=>'required|exists:tmSOrg,SOrgID',
-		]); 
-		
-		$SOrgID=$request->input('SOrgID');
-		$unitkerja = SubOrganisasiModel::find($SOrgID);
-
-		$str_insert = '
-		INSERT INTO `trRKA` (
-			`RKAID`,
-			`OrgID`,
-			`SOrgID`,
-			kode_urusan,
-			kode_bidang,
-			kode_organisasi,
-			`Nm_Organisasi`,
-			kode_sub_organisasi,
-			`Nm_Sub_Organisasi`,
-			kode_program,
-			kode_kegiatan,
-			kode_sub_kegiatan,
-			`Nm_Urusan`,
-			`Nm_Bidang`,
-			`Nm_Program`,
-			`Nm_Kegiatan`,
-			`Nm_Sub_Kegiatan`,
-			`PaguDana1`,
-			`RealisasiKeuangan1`,
-			`RealisasiKeuangan2`,
-			`user_id`,
-			`EntryLvl`,
-			`Descr`,
-			`TA`,
-			`Locked`,
-			created_at,
-			updated_at
-		)
-		SELECT
-			uuid() AS `RKAID`,
-			`OrgID`,
-			`SOrgID`,
-			kode_urusan,
-			kode_bidang,
-			kode_organisasi,
-			`Nm_Organisasi`,
-			kode_sub_organisasi,
-			`Nm_Sub_Organisasi`,
-			kode_program,
-			kode_kegiatan,
-			kode_sub_kegiatan,
-			`Nm_Urusan`,
-			`Nm_Bidang_Urusan`,
-			`Nm_Program`,
-			`Nm_Kegiatan`,
-			`Nm_Sub_Kegiatan`,
-			`PaguDana1`,
-			`RealisasiKeuangan1`,
-			`RealisasiKeuangan2`,
-			`user_id`,
-			`EntryLevel`,
-			`Descr`,
-			`TA`,
-			`Locked`,
-			created_at,
-			updated_at
-		FROM
-		(
-			SELECT 
-				DISTINCT(kd_sub_keg_gabung) AS kode_sub_kegiatan,
-				`OrgID`,
-				`SOrgID`,
-				`kd_Urusan1` AS kode_urusan,
-				CONCAT(`kd_Urusan1`,\'.\',`kd_Bidang`) AS kode_bidang,
-				kode_organisasi,
-				`Nm_Organisasi`,
-				kode_sub_organisasi,
-				`Nm_Sub_Organisasi`,
-				kd_prog_gabungan AS kode_program,
-				kd_keg_gabung AS kode_kegiatan,		
-				`Nm_Urusan`,
-				`Nm_Bidang_Urusan`,
-				`Nm_Program`,
-				`Nm_Kegiatan`,
-				`Nm_Sub_Kegiatan`,
-				0 AS `PaguDana1`,
-				0 AS `RealisasiKeuangan1`,
-				0 AS `RealisasiKeuangan2`,
-				\''.$this->getUserid().'\' AS `user_id`,
-				1 AS `EntryLevel`,
-				\'IMPORTED FROM SIPD\' AS `Descr`,
-				'.$tahun.' AS `TA`,
-				false AS `Locked`,
-				NOW() AS created_at,
-				NOW() AS updated_at
-			FROM sipd WHERE kode_sub_organisasi=\''.$unitkerja->kode_sub_organisasi.'\' AND 
-							`TA`='.$tahun.' AND 
-							`EntryLevel`=1
-		) AS temp
-		';
-		\DB::statement($str_insert); 
-		
-		$data = RKAModel::where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)
-							->where('TA',$tahun)
-							->where('EntryLvl',1)
-							->get();
-							
-		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'unitkerja'=>$unitkerja,
-								'rka'=>$data,
-								'message'=>'Fetch data rka murni berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
-		
-	}
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function loaddatauraianFirsttime(Request $request)
-	{   
-		$tahun=$request->input('tahun');
-		$this->validate($request, [            
-			'RKAID'=>'required|exists:trRKA,RKAID',
-		]); 
-		
-		$RKAID=$request->input('RKAID');
-		$rka = RKAModel::find($RKAID);
-
-		$str_insert = '
-			INSERT INTO `trRKARinc` (
-				`RKARincID`,
-				`RKAID`,
-				`SIPDID`,
-				kode_uraian1,
-				kode_uraian2,
-				`NamaUraian1`,
-				`NamaUraian2`,
-				volume1,
-				satuan1,
-				volume2,
-				satuan2,
-				harga_satuan1,
-				harga_satuan2,
-				`PaguUraian1`,
-				`PaguUraian2`,
-				`EntryLvl`,
-				`TA`,
-				created_at,
-				updated_at
-			)
-			SELECT 
-				uuid() AS `RKARincID`,                
-				\''.$rka->RKAID.'\' AS `RKAID`,
-				A.`SIPDID`,
-				CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3,\'.\',kd_rek4,\'.\',kd_rek5,\'.\',kd_rek6) AS kode_uraian1,
-				CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3,\'.\',kd_rek4,\'.\',kd_rek5,\'.\',kd_rek6) AS kode_uraian2,
-				nm_rek6 AS `NamaUraian1`,
-				nm_rek6 AS `NamaUraian2`,
-				1 AS volume1,
-				\'Kegiatan\' AS satuan1,
-				1 AS volume2,
-				\'Kegiatan\' AS satuan2,
-				A.`PaguUraian1` AS `harga_satuan1`,
-				A.`PaguUraian2` AS `harga_satuan2`,
-				A.`PaguUraian1` AS `PaguUraian1`,
-				A.`PaguUraian2` AS `PaguUraian2`,
-				1 AS `EntryLvl`,
-				'.$rka->TA.' AS `TA`,
-				NOW() AS created_at,
-				NOW() AS updated_at
-			FROM sipd A
-			LEFT JOIN `trRKARinc` B ON B.`RKARincID`=A.`SIPDID`
-				WHERE A.kd_sub_keg_gabung=\''.$rka->kode_sub_kegiatan.'\' AND 
-				A.kode_sub_organisasi=\''.$rka->kode_sub_organisasi.'\' AND 
-				A.`EntryLevel`=1 AND 
-				A.`TA`='.$rka->TA.' AND 
-				B.`SIPDID` IS NULL
-		';
-		\DB::statement($str_insert); 
-		
-		$data = RKARincianModel::select(\DB::raw('
-									`RKARincID`,
-									`SIPDID`,
-									kode_uraian1 AS kode_uraian,
-									`NamaUraian1` AS nama_uraian,
-									CONCAT(volume1,\' \',satuan1) AS volume,
-									`volume1`,
-									`satuan1`,
-									`harga_satuan1`,
-									`PaguUraian1`,
-									0 AS `realisasi1`,
-									0 AS `fisik1`,
-									`JenisPelaksanaanID`,
-									`TA`,
-									created_at,
-									updated_at
-								'))                                
-								->where('RKAID',$rka->RKAID)
-								->get();
-		
-		$rka->PaguDana1 = $data->sum('PaguUraian1');
-		$rka->PaguDana2 = $data->sum('PaguUraian2');
-
-		$rka->save();
-
-		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'rka'=>$rka,
-								'uraian'=>$data,
-								'message'=>'Fetch data uraian rka murni berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
-		
 	}
 	/**
 	 * Show the form for creating a new resource.
@@ -438,9 +216,8 @@ class RKAMurniController extends Controller
 							waktu_pelaksanaan1,                            
 							lokasi_kegiatan1,                            
 							`PaguDana1`,                            
-							`RealisasiKeuangan1`,                            
-							`RealisasiFisik1`,   
-							0 AS persen_keuangan1,
+							0 AS `TargetKeuangan1`,                            
+							0 AS `TargetFisik1`,
 							nip_pa1,                            
 							nip_kpa1,
 							nip_ppk1,
@@ -460,22 +237,35 @@ class RKAMurniController extends Controller
 						->orderBy('kode_kegiatan','ASC')
 						->orderBy('kode_sub_kegiatan','ASC')
 						->get();        
-					
-		$data->transform(function ($item,$key) {                            
-			$item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1,$item->PaguDana1);
+		
+		$data->transform(function ($item,$key) {
+			$item->TargetKeuangan1 = \DB::table('trRKATargetRinc')
+				->where('RKAID',$item->RKAID)				
+				->sum('target1');
+			$this->total_target_keuangan += $item->TargetKeuangan1;
+
+			$jumlah_uraian = \DB::table('trRKARinc')
+				->where('RKAID',$item->RKAID)				
+				->count();
+
+			$total_fisik = \DB::table('trRKATargetRinc')
+				->where('RKAID',$item->RKAID)				
+				->sum('fisik1');
+
+			$item->TargetFisik1 = Helper::formatPecahan($total_fisik,$jumlah_uraian);
+			$this->total_target_fisik += $item->TargetFisik1;
+			$this->total_sub_kegiatan += 1;
+			$this->total_pagu += $item->PaguDana1;
 			return $item;
-		});
-		$jumlah_sub_kegiatan1 = $data->count();
-		$unitkerja->RealisasiKeuangan1=$data->sum('RealisasiKeuangan1');
-		$jumlah_realisasi_fisik=$data->sum('RealisasiFisik1');
-		$unitkerja->RealisasiFisik1=Helper::formatPecahan($jumlah_realisasi_fisik,$jumlah_sub_kegiatan1);
-		$unitkerja->JumlahSubKegiatan1=$jumlah_sub_kegiatan1;
-		$unitkerja->save();
+		});		
 
 		return Response()->json([
 								'status'=>1,
 								'pid'=>'fetchdata',
 								'unitkerja'=>$unitkerja,
+								'total_pagu'=>$this->total_pagu,
+								'total_target_keuangan'=>$this->total_target_keuangan,
+								'total_target_fisik'=>Helper::formatPecahan($this->total_target_fisik,$this->total_sub_kegiatan),
 								'rka'=>$data,
 								'message'=>'Fetch data rka murni berhasil diperoleh'
 							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);              

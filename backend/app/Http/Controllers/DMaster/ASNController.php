@@ -55,7 +55,7 @@ class ASNController extends Controller
 
         $this->validate($request, [
             'NIP_ASN'=> [
-                        Rule::unique('tmASN')->where(function($query) use ($request){
+                        Rule::unique('tmASN')->where(function($query) use ($request) {
                             return $query->where('NIP_ASN',$request->input('NIP_ASN'))
                                         ->where('TA',$request->input('TA'));
                         }),

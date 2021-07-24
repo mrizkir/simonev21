@@ -112,7 +112,7 @@ class KodefikasiBidangUrusanController extends Controller {
 
         $this->validate($request, [
             'Kd_Bidang'=> [
-                        Rule::unique('tmBidangUrusan')->where(function($query) use ($request){
+                        Rule::unique('tmBidangUrusan')->where(function($query) use ($request) {
                             return $query->where('UrsID',$request->input('UrsID'))
                                         ->where('TA',$request->input('TA'));
                         }),

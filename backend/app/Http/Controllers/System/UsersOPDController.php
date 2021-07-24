@@ -100,7 +100,7 @@ class UsersOPDController extends Controller {
 			'password'=>'required',            
 			'org_id'=>'required',
 		]);
-		$user = \DB::transaction(function () use ($request){
+		$user = \DB::transaction(function () use ($request) {
 			$now = \Carbon\Carbon::now()->toDateTimeString();        
 			$user=User::create([
 				'id'=>Uuid::uuid4()->toString(),
@@ -235,7 +235,7 @@ class UsersOPDController extends Controller {
 										'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,   
 										'org_id'=>'required',           
 									]); 
-			$user = \DB::transaction(function () use ($request,$user){
+			$user = \DB::transaction(function () use ($request,$user) {
 				$user->name = $request->input('name');
 				$user->email = $request->input('email');
 				$user->nomor_hp = $request->input('nomor_hp');

@@ -49,7 +49,7 @@ class SumberDanaController extends Controller {
         $this->validate($request,
             [
                 'Kd_SumberDana' => [                                
-                                Rule::unique('tmSumberDana')->where(function($query) use ($request){
+                                Rule::unique('tmSumberDana')->where(function($query) use ($request) {
                                     return $query->where('TA',$request->input('TA'));
                                 }),
                                 'required',
