@@ -603,6 +603,11 @@
 				this.nama_bulan = this.$store.getters["uifront/getNamaBulan"](
 					bulan_realisasi
 				);
+				if (this.formadetail) {
+					this.initializeforma();
+				} else {
+					this.loaddatakegiatan();
+				}
 			},
 			fetchOPD: async function() {
 				await this.$ajax

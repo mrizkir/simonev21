@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Halaman ini digunakan untuk memperbaiki bila Taret Kinerja FISIK atau KEUANGAN terdapat kesalahan
+					Halaman ini digunakan untuk memperbaiki bila Target Kinerja FISIK atau KEUANGAN terdapat kesalahan
 				</v-alert>
 			</template>
 		</ModuleHeader>

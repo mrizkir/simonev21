@@ -427,6 +427,7 @@
 				this.nama_bulan = this.$store.getters["uifront/getNamaBulan"](
 					bulan_realisasi
 				);
+				this.loaddatakegiatan();
 			},
 			fetchOPD: async function() {
 				await this.$ajax

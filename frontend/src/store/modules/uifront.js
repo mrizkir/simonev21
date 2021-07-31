@@ -82,7 +82,7 @@ const actions = {
 	init: async function({ commit, state }, ajax) {
 		//dipindahkan kesini karena ada beberapa kasus yang melaporkan ini membuat bermasalah.
 		commit("setLoaded", false);
-		if (!state.loaded) {
+		if (!state.loaded && typeof ajax == "undefined") {			
 			ajax.get("/system/setting/uifront").then(({ data }) => {
 				commit("setDaftarTA", data.daftar_ta);
 				commit("setTahunAnggaran", data.tahun_anggaran);
