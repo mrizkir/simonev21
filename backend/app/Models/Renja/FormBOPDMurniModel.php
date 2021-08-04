@@ -170,8 +170,7 @@ class FormBOPDMurniModel extends ReportModel
 		$total_ttb_fisik=0;
 		$totalTargetKeuanganKeseluruhan=0;
 		$totalRealisasiKeuanganKeseluruhan=0;
-		$total_ttb_keuangan=0;
-		$totalSisaAnggaran=0;
+		$total_ttb_keuangan=0;		
 
 		$daftar_program=\DB::table('trRKA')
 							->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
@@ -345,8 +344,7 @@ class FormBOPDMurniModel extends ReportModel
 							}
 							$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
-							$sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;
-							$totalSisaAnggaran+=$sisa_anggaran;
+							$sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;							
 
 							$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
 							
@@ -458,6 +456,7 @@ class FormBOPDMurniModel extends ReportModel
 		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
+		$totalSisaAnggaran = $totalPaguOPD - $totalRealisasiKeuanganKeseluruhan;
 		$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
 
 		$sheet->mergeCells("A$row:D$row");                

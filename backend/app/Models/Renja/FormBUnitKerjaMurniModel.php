@@ -164,8 +164,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 		$totalTargetKeuanganKeseluruhan=0;
 		$totalRealisasiKeuanganKeseluruhan=0;
 		$total_ttb_keuangan=0;
-		$totalSisaAnggaran=0;
-
+		
 		$daftar_program=\DB::table('trRKA')
 							->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
 							->where('SOrgID',$SOrgID)
@@ -339,8 +338,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 							$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
 							$sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;
-							$totalSisaAnggaran+=$sisa_anggaran;
-
+							
 							$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
 
 							$sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan.'.'.$no_sub_kegiatan);
@@ -448,6 +446,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);                
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
+		$totalSisaAnggaran = $totalPaguUnit - $totalRealisasiKeuanganKeseluruhan;
 		$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
 
 		$sheet->mergeCells("A$row:C$row");                

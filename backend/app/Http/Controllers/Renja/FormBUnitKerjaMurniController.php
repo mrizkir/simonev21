@@ -46,8 +46,7 @@ class FormBUnitKerjaMurniController extends Controller
 		$total_ttb_fisik=0;
 		$totalTargetKeuanganKeseluruhan=0;
 		$totalRealisasiKeuanganKeseluruhan=0;
-		$total_ttb_keuangan=0;
-		$totalSisaAnggaran=0;
+		$total_ttb_keuangan=0;		
 
 		$daftar_program=\DB::table('trRKA')
 							->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
@@ -230,8 +229,7 @@ class FormBUnitKerjaMurniController extends Controller
 							}
 							$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
-							$sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;
-							$totalSisaAnggaran+=$sisa_anggaran;
+							$sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;							
 
 							$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
 
@@ -359,6 +357,7 @@ class FormBUnitKerjaMurniController extends Controller
 		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan);
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
+		$totalSisaAnggaran = $totalPaguUnit - $totalRealisasiKeuanganKeseluruhan;
 		$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
 		$totalPersenBobot=round($totalPersenBobot,2);
 		$total_ttb_fisik=round($total_ttb_fisik,2);
