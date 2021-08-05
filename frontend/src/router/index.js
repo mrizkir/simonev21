@@ -387,7 +387,16 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjamurni/TargetKinerjaMurni.vue"),
 	},
-
+	// statistik murni
+	{
+		path: '/renjamurni/statistik/peringkatopd',
+		name: 'RenjaMurniPeringkatOPDMurni',
+		meta:{
+			title: "BELANJA MURNI - STATISTIK PERINGKAT OPD",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/renjamurni/StatistikPeringkatOPDMurni.vue'),		
+	},
 	//renja perubahan
 	{
 		path: "/renjaperubahan",
