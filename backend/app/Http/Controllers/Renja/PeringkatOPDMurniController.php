@@ -16,7 +16,9 @@ class PeringkatOPDMurniController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index(Request $request)
-	{   
+	{
+		$this->hasPermissionTo('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE');
+		
 		$this->validate($request, [            
 			'tahun'=>'required',                     
 		]);
