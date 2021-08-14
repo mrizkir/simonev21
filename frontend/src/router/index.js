@@ -377,7 +377,7 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjamurni/FormBUnitKerjaMurni.vue"),
 	},
-	//renja murni - rka murni
+	//renja murni - target kinerja murni
 	{
 		path: "/renjamurni/targetkinerja",
 		name: "RenjaMurniTargetKinerja",
@@ -386,6 +386,15 @@ const routes = [
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/renjamurni/TargetKinerjaMurni.vue"),
+	},
+	{
+		path: "/renjamurni/targetkinerja/:rkaid",
+		name: "RenjaMurniTargetKinerjaDetail",
+		meta: {
+			title: "TARGET KINERJA MURNI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/TargetKinerjaMurniDetail.vue"),
 	},
 	// statistik murni
 	{

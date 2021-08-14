@@ -88,7 +88,7 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<!-- <v-tooltip bottom>
+							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon
 										small
@@ -102,7 +102,7 @@
 									</v-icon>
 								</template>
 								<span>detail uraian kegiatan</span>
-							</v-tooltip>							 -->
+							</v-tooltip>
 							<v-icon small class="mr-2" v-if="item.Locked">
 								mdi-lock
 							</v-icon>
@@ -162,7 +162,7 @@
 					href: "/renjamurni",
 				},
 				{
-					text: "TARGET KINERJA MURNI",
+					text: "TARGET KINERJA",
 					disabled: true,
 					href: "#",
 				},
@@ -175,7 +175,7 @@
 					RKAID: "",
 				},
 				datauraian: {
-					RKARincID: "",
+					RKARincID: null,
 				},
 				datarekening: {},
 			});
@@ -395,7 +395,7 @@
 					page.datakegiatan = item;
 					this.$store.dispatch("uiadmin/updatePage", page);
 					this.$router.push(
-						"/renjamurni/rka/uraian/" + page.datakegiatan.RKAID
+						"/renjamurni/targetkinerja/" + page.datakegiatan.RKAID
 					);
 				} else {
 					this.$root.$confirm
@@ -407,78 +407,11 @@
 						.then(confirm => {
 							if (confirm) {
 								this.$router.push(
-									"/renjamurni/rka/uraian/" + page.datakegiatan.RKAID
+									"/renjamurni/targetkinerja/" + page.datakegiatan.RKAID
 								);
 							}
 						});
 				}
-			},
-			deleteItem(item) {
-				this.$root.$confirm
-					.open(
-						"Delete",
-						"Apakah Anda ingin menghapus data RKA Murni dengan Nama " +
-							item.Nm_Sub_Kegiatan +
-							" ?",
-						{ color: "red", width: "600px" }
-					)
-					.then(confirm => {
-						if (confirm) {
-							this.btnLoading = true;
-							this.$ajax
-								.post(
-									"/renja/targetkinerjamurni/" + item.RKAID,
-									{
-										_method: "DELETE",
-										pid: "datarka",
-									},
-									{
-										headers: {
-											Authorization: this.$store.getters["auth/Token"],
-										},
-									}
-								)
-								.then(() => {
-									this.$router.go();
-								})
-								.catch(() => {
-									this.btnLoading = false;
-								});
-						}
-					});
-			},
-			resetdatakegiatan(item) {
-				this.$root.$confirm
-					.open(
-						"Delete",
-						"Apakah Anda ingin mengeset ulang jumlah pagu, jumlahrealisasi fisik dan keuangan untuk RKA dengan kode " +
-							item.kode_sub_kegiatan +
-							" ?",
-						{ color: "red", width: "600px" }
-					)
-					.then(confirm => {
-						if (confirm) {
-							this.btnLoading = true;
-							this.$ajax
-								.post(
-									"/renja/targetkinerjamurni/resetdatakegiatan/" + item.RKAID,
-									{
-										_method: "PUT",										
-									},
-									{
-										headers: {
-											Authorization: this.$store.getters["auth/Token"],
-										},
-									}
-								)
-								.then(() => {
-									this.$router.go();
-								})
-								.catch(() => {
-									this.btnLoading = false;
-								});
-						}
-					});
 			},
 			closedialogfrm() {
 				this.btnLoading = false;

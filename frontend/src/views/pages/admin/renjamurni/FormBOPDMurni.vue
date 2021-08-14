@@ -252,7 +252,7 @@
 					href: "/dashboard/" + this.$store.getters["auth/AccessToken"],
 				},
 				{
-					text: "BELANJA MURNI",
+					text: "RENCANA KERJA MURNI",
 					disabled: false,
 					href: "/belanjamurni",
 				},
