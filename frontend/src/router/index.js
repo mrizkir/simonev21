@@ -231,16 +231,26 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/dmaster/JenisPembangunan.vue"),
 	},
-	//rpjmd murni
+	//rpjmd
 	{
 		path: "/rpjmd",
 		name: "DashboardRPJMD",
 		meta: {
-			title: "RENCANA PEMBANGUNAN PEMERINTAH DAERAH",
+			title: "RENCANA PEMBANGUNAN JANGKA MENENGAH DAERAH",
 			requiresAuth: true,
 		},
 		component: () => import("../views/pages/admin/rpjmd/DashboardRPJMD.vue"),
 	},
+	{
+		path: "/rpjmd/pengaturan",
+		name: "PengaturanRPJMD",
+		meta: {
+			title: "PENGATURAN RPJMD",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/rpjmd/PengaturanRPJMD.vue"),
+	},
+
 	//rkpd murni
 	{
 		path: "/rkpdmurni",
