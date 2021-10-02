@@ -134,17 +134,13 @@
 						:items="datatable"
 						:search="search"
 						item-key="RKATargetRincID"
-						sort-by="bulan1"
-						show-expand
+						sort-by="bulan1"						
 						:loading="datatableLoading"
-						loading-text="Loading... Please wait"
-						:expanded.sync="expanded"
-						:single-expand="true"
+						loading-text="Loading... Please wait"						
 						class="elevation-1"
 						:disable-pagination="true"
 						:hide-default-footer="true"
-						dense
-						@click:row="dataTableRowClicked"
+						dense						
 					>
 						<template v-slot:top>
 							<v-toolbar flat color="white">
@@ -175,7 +171,7 @@
 							<v-edit-dialog
 								:return-value.sync="props.item.target1"
 								large
-								@save="savetargetanggarankas({id: props.item.RKATargetRincID, target1: props.item.target1})"
+								@save="savetargetanggarankas(props.item)"
 							> 
 									{{ props.item.target1 | formatUang }}
 									<template v-slot:input>
@@ -196,7 +192,7 @@
 							<v-edit-dialog
 								:return-value.sync="props.item.fisik1"
 								large
-								@save="savetargetfisik({id: props.item.RKATargetRincID, fisik1: props.item.fisik1})"
+								@save="savetargetfisik(props.item)"
 							> 
 									{{ props.item.fisik1 }}
 									<template v-slot:input>
@@ -388,12 +384,53 @@
 						this.footersummary();
 					});
 			},
-			dataTableRowClicked(item) {
-				if (item === this.expanded[0]) {
-					this.expanded = [];
-				} else {
-					this.expanded = [item];
-				}
+			savetargetanggarankas(item) {				
+				this.datatableLoading = true;
+				this.$ajax
+					.post(
+						"/renja/targetkinerjamurni/updatetargetanggarankas",
+						{
+							_method: "put",
+							RKATargetRincID: item.RKATargetRincID,
+							target1: item.target1,							
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(() => {
+						this.datatableLoading = false;						
+					})
+					.catch(() => {
+						this.datatableLoading = false;						
+						this.fetchTargetKinerja(this.RKARincID_Selected);
+					});
+			},
+			savetargetfisik(item) {
+				this.datatableLoading = true;
+				this.$ajax
+					.post(
+						"/renja/targetkinerjamurni/updatetargetfisik",
+						{
+							_method: "put",
+							RKATargetRincID: item.RKATargetRincID,
+							fisik1: item.fisik1,							
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(() => {
+						this.datatableLoading = false;						
+					})
+					.catch(() => {
+						this.datatableLoading = false;						
+						this.fetchTargetKinerja(this.RKARincID_Selected);
+					});
 			},
 			footersummary() {
 				let data = this.datatable;
