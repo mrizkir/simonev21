@@ -13,6 +13,14 @@ const routes = [
 		component: () => import("../views/pages/front/DashboardFront.vue"),
 	},
 	{
+		path: "/pelaporanopd",
+		name: "FrontPelaporanOPD",
+		meta: {
+			title: "PELAPORAN OPD",
+		},
+		component: () => import("../views/pages/front/PelaporanOPDFront.vue"),
+	},
+	{
 		path: "/login",
 		name: "Login",
 		meta: {

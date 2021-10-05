@@ -11,6 +11,11 @@
 		<v-container fluid>
 			<v-row dense>
 				<v-col cols="12">
+					<v-img :src="$api.storageURL +  '/storages/images/banners/1.jpg'" />
+				</v-col>
+			</v-row>
+			<v-row dense>
+				<v-col cols="12">
 					<v-alert type="info">
 						Nilai persen realisasi keuangan tetap muncul 0% bila kurang dari
 						0.01%

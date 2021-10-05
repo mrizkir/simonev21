@@ -28,6 +28,9 @@
 				<v-btn to="/" color="white" text large>
 					DASHBOARD
 				</v-btn>
+				<!-- <v-btn to="/pelaporanopd" color="white" text large>
+					PELAPORAN OPD
+				</v-btn> -->
 				<v-btn to="/login" color="white" text large>
 					LOGIN
 				</v-btn>
