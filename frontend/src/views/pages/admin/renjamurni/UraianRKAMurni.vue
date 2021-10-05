@@ -243,6 +243,9 @@
 									<span class="headline">TARGET FISIK</span>
 								</v-card-title>
 								<v-card-text>
+									<v-alert type="info">
+										Bila mendapati masalah dalam pengisian target kinerja, alternatifnya bisa menggunakan halaman <router-link to="/renjamurni/targetkinerja">ini</router-link>
+									</v-alert>
 									<v-container fluid>
 										<v-row>
 											<v-col cols="12" sm="12" md="12">
@@ -411,8 +414,11 @@
 							<v-card>
 								<v-card-title>
 									<span class="headline">TARGET ANGGARAN KAS</span>
-								</v-card-title>
+								</v-card-title>								
 								<v-card-text>
+									<v-alert type="info">
+										Bila mendapati masalah dalam pengisian target kinerja, alternatifnya bisa menggunakan halaman <router-link to="/renjamurni/targetkinerja">ini</router-link>
+									</v-alert>
 									<v-container fluid>
 										<v-row>
 											<v-col cols="12" sm="12" md="12">

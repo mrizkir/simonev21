@@ -127,7 +127,7 @@
 					</v-card>
 				</v-col>
 			</v-row>
-			<v-row class="mb-4" no-gutters>
+			<v-row class="mb-4" no-gutters>				
 				<v-col cols="12">
 					<v-data-table
 						:headers="headers"
@@ -142,12 +142,15 @@
 						:hide-default-footer="true"
 						dense						
 					>
-						<template v-slot:top>
+						<template v-slot:top>							
 							<v-toolbar flat color="white">
 								<v-toolbar-title>DAFTAR TARGET</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
 							</v-toolbar>
+							<v-alert type="info">
+								Untuk merubah silahkan klik pada angka yang akan diubah
+							</v-alert>
 						</template>
 						<template v-slot:item.actions="{ item }">
 							<v-tooltip bottom>
@@ -158,7 +161,7 @@
 										v-on="on"
 										class="ma-1"
 										color="red"										
-										:disabled="btnLoading || item.Locked == 1"
+										:disabled="btnLoading || item.Locked == 1 || datatable.length <= 12"
 										@click.stop="deleteItem(item)"
 									>
 										mdi-delete
@@ -214,7 +217,7 @@
 						</template>
 						<template v-slot:body.append>
 							<tr class="amber darken-1 font-weight-black">
-								<td colspan="2" class="text-right">TOTAL</td>
+								<td class="text-right">TOTAL</td>
 								<td class="text-right">
 									{{ footers.target1 | formatUang }}
 								</td>								
@@ -244,8 +247,7 @@
 						</template>
 					</v-data-table>
 				</v-col>
-			</v-row>
-			<router-view></router-view>
+			</v-row>			
 		</v-container>
 	</RenjaMurniLayout>
 </template>
@@ -401,7 +403,8 @@
 						}
 					)
 					.then(() => {
-						this.datatableLoading = false;						
+						this.datatableLoading = false;
+						this.footersummary();
 					})
 					.catch(() => {
 						this.datatableLoading = false;						
@@ -426,6 +429,7 @@
 					)
 					.then(() => {
 						this.datatableLoading = false;						
+						this.footersummary();
 					})
 					.catch(() => {
 						this.datatableLoading = false;						
@@ -450,7 +454,6 @@
 					summary.target1 = totaltarget;
 					summary.fisik1 = totalfisik;
 				}
-
 				this.footers = summary;
 			},
 			exituraiantargetkinerja() {
