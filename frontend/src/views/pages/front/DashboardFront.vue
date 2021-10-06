@@ -11,7 +11,7 @@
 		<v-container fluid>
 			<v-row dense>
 				<v-col cols="12">
-					<v-img :src="$api.storageURL +  '/storages/images/banners/1.jpg'" />
+					<v-img :src="$api.storageURL +  '/images/banners/1.jpg'" />
 				</v-col>
 			</v-row>
 			<v-row dense>
