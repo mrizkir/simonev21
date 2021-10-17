@@ -358,6 +358,16 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/renjamurni/RealisasiRKAMurni.vue"),
 	},
+	//renja murni - pelaporan OPD
+	{
+		path: "/renjamurni/pelaporanopd",
+		name: "RenjaMurniPelaporanOPD",
+		meta: {
+			title: "BELANJA MURNI - PELAPORAN OPD",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjamurni/PelaporanOPDMurni.vue"),
+	},
 	//renja murni - report form a
 	{
 		path: "/renjamurni/report/forma",

@@ -7,6 +7,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 {
 	//dashboard
 	$router->post('/dashboard/front',['uses'=>'DashboardController@indexfront','as'=>'dashboard.indexfront']);
+	$router->post('/dashboard/pelaporanopd',['uses'=>'Statistik\PelaporanOPDController@front','as'=>'pelaporanopd.front']);
 
 	//dmaster - provinsi
 	$router->get('/dmaster/provinsi',['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);
@@ -170,7 +171,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/renjamurni/reloadstatistik1',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik1','as'=>'renjamurni.reloadstatistik1']);
 	$router->post('/renjamurni/reloadstatistik2',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik2','as'=>'renjamurni.reloadstatistik2']);
 
-		//renja - statistik - peringkat opd
+	//renja - statistik - peringkat opd
 	$router->post('/renjamurni/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDMurniController@index','as'=>'renjamurni-peringkatopdmurni.index']);
 
 	//renja - data mentah murni

@@ -1,14 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import VuexPersistence from "vuex-persist";
+import createPersistedState from "vuex-persistedstate";
+import SecureLS from "secure-ls";
 import Uifront from "./modules/uifront";
 import Uiadmin from "./modules/uiadmin";
 import Auth from "./modules/auth";
 
-const vuexStorage = new VuexPersistence({
-	key: "simonev21",
-	storage: localStorage,
-});
+const ls = new SecureLS({ isCompression: false });
+
 Vue.use(Vuex);
 export default new Vuex.Store({
 	modules: {
@@ -16,5 +15,14 @@ export default new Vuex.Store({
 		auth: Auth,
 		uiadmin: Uiadmin,
 	},
-	plugins: [vuexStorage.plugin],
+	plugins: [
+		createPersistedState({
+			key: "simonev-21",
+			storage: {
+				getItem: key => ls.get(key),
+				setItem: (key, value) => ls.set(key, value),
+				removeItem: key => ls.remove(key),
+			},
+		}),
+	],
 });

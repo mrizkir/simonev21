@@ -264,6 +264,38 @@
 				</v-col>
 				<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
 			</v-row>
+			<v-row class="mb-4" no-gutters>
+				<v-col cols="12">
+					<v-data-table
+						:headers="headers"
+						:items="datatable"
+						item-key="kode_organisasi"						
+						:loading="datatableLoading"
+						loading-text="Loading... Please wait"
+						class="elevation-1"
+						:disable-pagination="true"
+						:hide-default-footer="true"
+						dense
+					>
+						<template v-slot:top>
+							<v-toolbar flat color="white">
+								<v-toolbar-title>PELAPORAN PER OPD</v-toolbar-title>
+								<v-divider class="mx-4" inset vertical></v-divider>
+								<v-spacer></v-spacer>
+							</v-toolbar>
+						</template>
+						<template v-slot:item.RealisasiFisik1="{ item }">
+							{{ item.RealisasiFisik1 | makeLookPrecision }}
+						</template>
+						<template v-slot:item.PersenRealisasiKeuangan1="{ item }">
+							{{ item.PersenRealisasiKeuangan1 | makeLookPrecision }}
+						</template>
+						<template v-slot:no-data>
+							data peringkat opd tidak tersedia.
+						</template>
+					</v-data-table>
+				</v-col>
+			</v-row>
 		</v-container>
 		<template v-slot:filtersidebar>
 			<Filter1
@@ -288,6 +320,7 @@
 		},
 		mounted() {
 			this.initialize();
+			this.pelaporanOPD();
 			this.firstloading = false;
 			this.$refs.filter1.setFirstTimeLoading(this.firstloading);
 		},
@@ -315,6 +348,20 @@
 			chartrealisasikeuangan_perubahan: [[], []],
 			chartrealisasifisik_murni: [[], []],
 			chartrealisasifisik_perubahan: [[], []],
+			//pelaporan OPD
+			datatableLoading: false,
+			peringkat: [],
+			headers: [
+				{ text: "NOMOR", value: "index", width: 100 },
+				{ text: "KODE", value: "kode_organisasi", width: 160, sortable: false },
+				{ text: "NAMA OPD", value: "OrgNm", sortable: false },
+				{ text: "REALISASI FISIK", align: "end", value: "RealisasiFisik1" },
+				{
+					text: "REALISASI KEUANGAN",
+					align: "end",
+					value: "PersenRealisasiKeuangan1",
+				},
+			],
 		}),
 		methods: {
 			changeTahunAnggaran(ta) {
@@ -348,6 +395,17 @@
 						this.chartLoaded = true;
 					});
 			},
+			async pelaporanOPD() {
+				this.datatableLoading = true;
+				await this.$ajax
+					.post("/dashboard/pelaporanopd", {
+						tahun: this.tahun_anggaran,						
+					})
+					.then(({ data }) => {
+						this.peringkat = data.peringkat;
+						this.datatableLoading = false;
+					});
+			},
 		},
 		watch: {
 			tahun_anggaran() {
@@ -359,6 +417,14 @@
 				if (!this.firstloading) {
 					this.initialize();
 				}
+			},
+		},
+		computed: {
+			datatable() {
+				return this.peringkat.map((items, index) => ({
+					...items,
+					index: index + 1,
+				}));
 			},
 		},
 		components: {
