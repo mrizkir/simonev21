@@ -22,7 +22,7 @@ class FormBOPDMurniController extends Controller
 		$this->hasPermissionTo('RENJA-FORM-B-MURNI_BROWSE');
 
 		$this->validate($request, [            
-			'tahun'=>'required',         
+			'tahun'=>'required|numeric',
 			'no_bulan'=>'required',   
 			'OrgID'=>'required|exists:tmOrg,OrgID',            
 		]);

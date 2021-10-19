@@ -2,7 +2,7 @@
 	<RenjaMurniLayout :showrightsidebar="false">
 		<ModuleHeader>
 			<template v-slot:icon>
-				mdi-graph
+				mdi-file-document
 			</template>
 			<template v-slot:name>
 				PELAPORAN OPD
@@ -76,61 +76,21 @@
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
 									</template>
-									<span>TAMBAH RKA</span>
+									<span>TAMBAH PELAPORAN</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent v-if="dialogfrm">
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
 											<v-card-title>
 												<span class="headline">
-													TAMBAH KEGIATAN
+													TAMBAH PELAPORAN
 												</span>
 											</v-card-title>
 											<v-card-subtitle>												
-												{{ DataUnitKerja.kode_sub_organisasi }} / {{ DataUnitKerja.Nm_Sub_Organisasi }}												
+												{{ DataOPD.kode_organisasi }} / {{ DataOPD.Nm_Organisasi }}												
 											</v-card-subtitle>											
 											<v-card-text>
-												<v-autocomplete
-													:items="daftar_bidang"
-													v-model="formdata_BidangID"
-													label="BIDANG URUSAN"
-													item-text="nama_bidang"
-													item-value="BidangID"
-													filled
-													outlined
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_program"
-													v-model="formdata_PrgID"
-													label="PROGRAM"
-													item-text="nama_program"
-													item-value="PrgID"
-													filled
-													outlined
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_kegiatan"
-													v-model="formdata_KgtID"
-													label="KEGIATAN"
-													item-text="nama_kegiatan"
-													item-value="KgtID"
-													filled
-													outlined
-												>
-												</v-autocomplete>
-												<v-autocomplete
-													:items="daftar_sub_kegiatan"
-													v-model="formdata_SubKgtID"
-													label="SUB KEGIATAN"
-													item-text="nama_sub_kegiatan"
-													item-value="SubKgtID"
-													filled
-													outlined
-													:rules="rule_sub_kegiatan"
-												>
-												</v-autocomplete>
+												
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -362,23 +322,13 @@
 				},
 				//filter form
 				daftar_opd: [],
-				OrgID_Selected: "",
-				daftar_unitkerja: [],				
+				OrgID_Selected: "",				
 				//Organisasi
-				DataOPD: null,
-				DataUnitKerja: null,
+				DataOPD: null,				
 				//dialog
 				dialogfrm: false,
 				//form data
 				form_valid: true,
-				daftar_bidang: [],
-				daftar_program: [],
-				daftar_kegiatan: [],
-				daftar_sub_kegiatan: [],
-				formdata_BidangID: null,
-				formdata_PrgID: null,
-				formdata_KgtID: null,
-				formdata_SubKgtID: null,
 				rule_sub_kegiatan: [
 					value => !!value || "Mohon untuk di pilih sub kegiatan !!!",
 				],
@@ -442,20 +392,7 @@
 							this.datatableLoaded = false;
 						}
 					});
-			},
-			loadunitkerja: async function() {
-				await this.$ajax
-					.get("/dmaster/opd/" + this.OrgID_Selected + "/unitkerja", {
-						headers: {
-							Authorization: this.$store.getters["auth/Token"],
-						},
-					})
-					.then(({ data }) => {
-						this.DataOPD = data.organisasi;
-						this.daftar_unitkerja = data.unitkerja;
-						this.datatableLoaded = false;
-					});
-			},
+			},			
 			loaddatauraianfirsttime: async function(item) {
 				if (!item.PaguDana2 > 0) {
 					this.btnLoading = true;
@@ -484,7 +421,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post(
-						"/renja/rkamurni",
+						"/renja/pelaporanopdmurni",
 						{
 							tahun: this.$store.getters["auth/TahunSelected"],
 							OrgID: this.OrgID_Selected,
@@ -495,43 +432,16 @@
 							},
 						}
 					)
-					.then(({ data }) => {
-						this.DataUnitKerja = data.unitkerja;
-						this.datatable = data.rka;
+					.then(({ data }) => {						
+						this.DataOPD = data.data_opd;
+						this.datatable = data.laporanopd;
 						this.datatableLoaded = true;
 						this.datatableLoading = false;
-						this.footersummary();
+						// this.footersummary();
 					});
 			},
-			async addItem() {
-				this.daftar_bidang.push(
-					{
-						BidangID: "all",
-						nama_bidang: "SEMUA BIDANG URUSAN"
-					}
-				);
-				this.daftar_bidang.push(
-					{
-						BidangID: this.DataOPD.BidangID_1,
-						nama_bidang: "[" + this.DataOPD.kode_bidang_1 + "] " + this.DataOPD.Nm_Bidang_1,
-					}
-				);
-				if (this.DataOPD.BidangID_2) {
-					this.daftar_bidang.push(
-						{
-							BidangID: this.DataOPD.BidangID_2,
-							nama_bidang: "[" + this.DataOPD.kode_bidang_2 + "] " + this.DataOPD.Nm_Bidang_2,
-						}
-					);
-				}
-				if (this.DataOPD.BidangID_3) {
-					this.daftar_bidang.push(
-						{
-							BidangID: this.DataOPD.BidangID_3,
-							nama_bidang: "[" + this.DataOPD.kode_bidang_3 + "] " + this.DataOPD.Nm_Bidang_3,
-						}
-					);
-				}
+			async addItem() {				
+				console.log(this.DataOPD);
 				this.dialogfrm = true;
 			},
 			save() {
@@ -541,8 +451,7 @@
 							"/renja/rkamurni/storekegiatan",
 							{
 								OrgID: this.DataOPD.OrgID,
-								SOrgID: this.DataUnitKerja.SOrgID,
-								SubKgtID: this.formdata_SubKgtID,
+								SOrgID: this.DataUnitKerja.SOrgID,								
 							},
 							{
 								headers: {
@@ -652,16 +561,7 @@
 			},
 			closedialogfrm() {
 				this.btnLoading = false;
-				setTimeout(() => {					
-					this.daftar_program = [];
-					this.formdata_PrgID = null;
-
-					this.daftar_kegiatan = [];
-					this.formdata_KgtID = null;
-					
-					this.daftar_sub_kegiatan = [];
-					this.formdata_SubKgtID = null;
-
+				setTimeout(() => {
 					this.dialogfrm = false;
 				}, 300);
 			},
@@ -675,73 +575,6 @@
 				page.OrgID_Selected = val;
 				this.$store.dispatch("uiadmin/updatePage", page);
 				this.loaddatapelaporan();
-			},
-			formdata_BidangID(val) {
-				this.daftar_program = [];
-				this.formdata_PrgID = null;
-
-				this.daftar_kegiatan = [];
-				this.formdata_KgtID = null;
-				
-				this.daftar_sub_kegiatan = [];
-				this.formdata_SubKgtID = null;
-				
-				this.$ajax
-					.post(
-						"/dmaster/kodefikasi/bidangurusan/" + val + "/program",
-						{
-							TA: this.$store.getters["auth/TahunSelected"],
-						},
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
-					.then(({ data }) => {
-						this.daftar_program = data.program;
-						this.dialogfrm = true;
-					});
-			},
-			formdata_PrgID(val) {
-				this.daftar_kegiatan = [];
-				this.formdata_KgtID = null;
-				
-				this.daftar_sub_kegiatan = [];
-				this.formdata_SubKgtID = null;
-
-				this.$ajax
-					.get(
-						"/dmaster/kodefikasi/program/" + val + "/kegiatan",
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
-					.then(({ data }) => {
-						this.daftar_kegiatan = data.programkegiatan;
-					});
-			},
-			formdata_KgtID(val) {				
-				this.daftar_sub_kegiatan = [];
-				this.formdata_SubKgtID = null;
-				
-				this.$ajax
-					.post(
-						"/dmaster/kodefikasi/kegiatan/" + val + "/subkegiatanrka",
-						{
-							SOrgID: this.DataUnitKerja.SOrgID,
-						},
-						{
-							headers: {
-								Authorization: this.$store.getters["auth/Token"],
-							},
-						}
-					)
-					.then(({ data }) => {
-						this.daftar_sub_kegiatan = data.subkegiatanrka;
-					});						
 			},
 		},
 		components: {

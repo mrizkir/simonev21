@@ -210,6 +210,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->put('/renja/targetkinerjamurni/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@updatetargetfisik','as'=>'targetkinerja.updatetargetfisik']);
 	$router->delete('/renja/targetkinerjamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@destroy','as'=>'targetkinerja.destroy']);
 
+	//renja - pelaporan opd
+	$router->post('/renja/pelaporanopdmurni',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@index','as'=>'pelaporanopd.index']);
+
 	//renja perubahan
 	$router->post('/renjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaPerubahanController@index','as'=>'renjaperubahan.index']);
 	$router->post('/renjaperubahan/reloadstatistik1',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaPerubahanController@reloadstatistik1','as'=>'renjaperubahan.reloadstatistik1']);
