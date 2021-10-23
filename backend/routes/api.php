@@ -212,6 +212,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
 	//renja - pelaporan opd
 	$router->post('/renja/pelaporanopdmurni',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@index','as'=>'pelaporanopd.index']);
+	//id  = OrgID
+	$router->get('/renja/pelaporanopdmurni/bulanpelaporan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@bulanpelaporan','as'=>'pelaporanopd.bulanpelaporan']);
 
 	//renja perubahan
 	$router->post('/renjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaPerubahanController@index','as'=>'renjaperubahan.index']);

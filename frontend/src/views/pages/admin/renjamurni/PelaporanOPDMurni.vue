@@ -90,7 +90,69 @@
 												{{ DataOPD.kode_organisasi }} / {{ DataOPD.Nm_Organisasi }}												
 											</v-card-subtitle>											
 											<v-card-text>
-												
+												<v-select
+													label="BULAN LAPORAN"
+													v-model="formdata.BulanLaporan"
+													:items="daftar_bulan"
+													:rules="rule_bulan"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.PaguDana"
+													label="PAGU DANA:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.RealisasiKeuangan"
+													label="REALISASI KEUANGAN:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.RealisasiFisik"
+													label="REALISASI FISIK:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.Kontrak"
+													label="KONTRAK:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.PekerjaanSelesai"
+													label="PEKERJAAN SELESAI:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.PekerjaanBerjalan"
+													label="PEKERJAAN BERJALAN:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.PekerjaanTerhenti"
+													label="PEKERJAAN BERJALAN:"
+													:disabled="true"
+													outlined
+												/>
+												<v-text-field
+													v-model="formdata.PekerjaanBelumBerjalan"
+													label="PEKERJAAN BELUM BERJALAN:"
+													:disabled="true"
+													outlined
+												/>
+												<v-file-input
+													accept="application/pdf"
+													label="BUKTI CETAK LAPORAN"
+													:rules="rule_bukti_cetak"
+													show-size
+													v-model="formdata.bukti_cetak"													
+												>
+												</v-file-input>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -329,8 +391,42 @@
 				dialogfrm: false,
 				//form data
 				form_valid: true,
-				rule_sub_kegiatan: [
-					value => !!value || "Mohon untuk di pilih sub kegiatan !!!",
+				daftar_bulan: [],
+				formdata: {
+					Statistik3ID: null,
+					BulanLaporan: null,
+					PaguDana: 0,					
+					RealisasiKeuangan: 0,					
+					RealisasiFisik: 0,					
+					Kontrak: 0,					
+					PekerjaanSelesai: 0,					
+					PekerjaanBerjalan: 0,					
+					PekerjaanTerhenti: 0,					
+					PekerjaanBelumBerjalan: 0,					
+					bukti_cetak: null,					
+				},
+				formdefault: {
+					Statistik3ID: null,
+					BulanLaporan: null,
+					PaguDana: 0,					
+					RealisasiKeuangan: 0,					
+					RealisasiFisik: 0,					
+					Kontrak: 0,					
+					PekerjaanSelesai: 0,					
+					PekerjaanBerjalan: 0,					
+					PekerjaanTerhenti: 0,					
+					PekerjaanBelumBerjalan: 0,					
+					bukti_cetak: null,					
+				},
+				rule_bulan: [
+					value => !!value || "Mohon untuk di pilih bulan pelaporan !!!",
+				],
+				rule_bukti_cetak: [
+					value => !!value || "Mohon sertakan file laporan !!!",
+					value =>
+						!!value ||
+						value.size < 10000000 ||
+						"File Bukti Bayar harus kurang dari 10MB.",
 				],
 			};
 		},
@@ -440,32 +536,89 @@
 						// this.footersummary();
 					});
 			},
-			async addItem() {				
-				console.log(this.DataOPD);
+			async addItem() {
+				await this.$ajax
+					.get("/renja/pelaporanopdmurni/bulanpelaporan/" + this.OrgID_Selected, {
+						headers: {
+							Authorization: this.$store.getters["auth/Token"],
+						},
+					})
+					.then(({ data }) => {
+						let daftarbulan = data.bulan;
+						var bulan = [];
+						var index = 0;
+						for (var i in daftarbulan) {
+							bulan[index] = daftarbulan[i];
+							index += 1;
+						}
+						this.daftar_bulan = bulan;
+					});
 				this.dialogfrm = true;
 			},
 			save() {
-				if (this.$refs.frmdata.validate()) {					
-					this.$ajax
-						.post(
-							"/renja/rkamurni/storekegiatan",
-							{
-								OrgID: this.DataOPD.OrgID,
-								SOrgID: this.DataUnitKerja.SOrgID,								
-							},
-							{
-								headers: {
-									Authorization: this.$store.getters["auth/Token"],
+				if (this.$refs.frmdata.validate()) {
+					this.btnLoading = true;
+					if (this.editedIndex > -1) {
+						this.$ajax
+							.post(
+								"/renja/pelaporanopdmurni/" +
+									this.formdata.Statistik3ID,
+								{
+									_method: "put",
+									PaguDana: this.datakegiatan.PaguDana,
+									RealisasiKeuangan: this.RealisasiKeuangan,
+									RealisasiFisik: this.formdata.RealisasiFisik,
+									Kontrak: this.formdata.Kontrak,
+									PekerjaanSelesai: this.formdata.PekerjaanSelesai,
+									PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
+									PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
+									PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
+									bukti_cetak: this.datakegiatan.bukti_cetak,									
 								},
-							}
-						)
-						.then(() => {
-							this.closedialogfrm();
-							this.$router.go();
-						})
-						.catch(() => {
-							this.btnLoading = false;
-						});
+								{
+									headers: {
+										Authorization: this.$store.getters["auth/Token"],
+									},
+								}
+							)
+							.then(() => {
+								this.initialize();
+								this.closedialogfrmedit();
+							})
+							.catch(() => {
+								this.btnLoading = false;
+							});
+					} else {
+						this.$ajax
+							.post(
+								"/renja/pelaporanopdmurni/store",
+								{
+									OrgID: this.datauraian.OrgID_Selected,
+									BulanLaporan: this.datauraian.BulanLaporan,
+									PaguDana: this.datakegiatan.PaguDana,
+									RealisasiKeuangan: this.RealisasiKeuangan,
+									RealisasiFisik: this.formdata.RealisasiFisik,
+									Kontrak: this.formdata.Kontrak,
+									PekerjaanSelesai: this.formdata.PekerjaanSelesai,
+									PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
+									PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
+									PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
+									bukti_cetak: this.datakegiatan.bukti_cetak,									
+								},
+								{
+									headers: {
+										Authorization: this.$store.getters["auth/Token"],
+									},
+								}
+							)
+							.then(() => {
+								this.initialize();
+								this.closedialogfrm();
+							})
+							.catch(() => {
+								this.btnLoading = false;
+							});
+					}
 				}
 			},
 			viewUraian(item) {
