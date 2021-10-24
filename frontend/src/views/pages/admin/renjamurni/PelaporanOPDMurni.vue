@@ -771,7 +771,7 @@
 					.post(
 						"/renjamurni/report/formbopd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							no_bulan: val,
 							OrgID: this.OrgID_Selected,
 						},

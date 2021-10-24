@@ -20,7 +20,7 @@
 					s.d
 					<strong>
 						BULAN {{ nama_bulan }} T.A
-						{{ $store.getters["uifront/getTahunAnggaran"] }}
+						{{ $store.getters["auth/TahunSelected"] }}
 					</strong>
 				</v-alert>
 			</template>
@@ -66,7 +66,7 @@
 						Catatan: Nilai realisasi keuangan dan fisik dihitung akumulasi s.d
 						<strong>
 							BULAN {{ nama_bulan }} T.A
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</strong>
 					</v-alert>
 				</v-col>
@@ -434,7 +434,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -453,7 +453,7 @@
 					.post(
 						"/renjaperubahan/report/formbopd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							no_bulan: this.bulan_realisasi,
 							OrgID: this.OrgID_Selected,
 						},
@@ -502,7 +502,7 @@
 					.post(
 						"/renjaperubahan/report/formbopd/printtoexcel",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							no_bulan: this.bulan_realisasi,
 							OrgID: this.OrgID_Selected,
 						},

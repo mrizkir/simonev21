@@ -635,7 +635,7 @@
 					.post(
 						"/dmaster/jenispelaksanaan",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -653,7 +653,7 @@
 					.post(
 						"/dmaster/jenispembangunan",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -672,7 +672,7 @@
 					.post(
 						"/dmaster/sumberdana",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -691,7 +691,7 @@
 					.get(
 						"/dmaster/provinsi",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -791,7 +791,7 @@
 					.get(
 						"/dmaster/provinsi/" + PMProvID + "/kabupaten",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -822,7 +822,7 @@
 					.get(
 						"/dmaster/kabupaten/" + PmKotaID + "/kecamatan",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -851,7 +851,7 @@
 					.get(
 						"/dmaster/kecamatan/" + PmKecamatanID + "/desa",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {

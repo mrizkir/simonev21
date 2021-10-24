@@ -403,7 +403,7 @@
 					.post(
 						"/dmaster/sumberdana",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -469,7 +469,7 @@
 									Kd_SumberDana: this.formdata.Kd_SumberDana,
 									Nm_SumberDana: this.formdata.Nm_SumberDana,
 									Descr: this.formdata.Descr,
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

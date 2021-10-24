@@ -310,7 +310,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -331,7 +331,7 @@
 					.post(
 						"/renja/datamentahmurni",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							OrgID: this.OrgID_Selected,
 						},
 						{

@@ -1107,7 +1107,7 @@
 									RKARincID: this.RKARincID_Selected,
 									RKAID: this.datakegiatan.RKAID,
 									bulan_fisik: this.formtarget.targetfisik,
-									tahun: this.$store.getters["uifront/getTahunAnggaran"],
+									tahun: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {
@@ -1156,7 +1156,7 @@
 									RKARincID: this.RKARincID_Selected,
 									RKAID: this.datakegiatan.RKAID,
 									bulan_anggaran: this.formtarget.targetanggarankas,
-									tahun: this.$store.getters["uifront/getTahunAnggaran"],
+									tahun: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {

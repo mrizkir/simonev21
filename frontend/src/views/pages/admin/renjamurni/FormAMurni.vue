@@ -20,7 +20,7 @@
 					APBD Murni s.d
 					<strong>
 						BULAN {{ nama_bulan }} T.A
-						{{ $store.getters["uifront/getTahunAnggaran"] }}
+						{{ $store.getters["auth/TahunSelected"] }}
 					</strong>
 				</v-alert>
 			</template>
@@ -87,7 +87,7 @@
 						Catatan: Nilai realisasi keuangan dan fisik dihitung akumulasi s.d
 						<strong>
 							BULAN {{ nama_bulan }} T.A
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</strong>
 					</v-alert>
 					<v-data-table
@@ -232,7 +232,7 @@
 						Catatan: Nilai realisasi keuangan dan fisik dihitung akumulasi s.d
 						<strong>
 							BULAN {{ nama_bulan }} T.A
-							{{ $store.getters["uifront/getTahunAnggaran"] }}
+							{{ $store.getters["auth/TahunSelected"] }}
 						</strong>
 					</v-alert>
 					<v-data-table
@@ -614,7 +614,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -646,7 +646,7 @@
 					.post(
 						"/renjamurni/report/formbunitkerja",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 							no_bulan: this.bulan_realisasi,
 							SOrgID: this.SOrgID_Selected,
 						},
@@ -708,7 +708,7 @@
 							SOrgID: SOrgID_Selected,
 							RKAID: this.datakegiatan.RKAID,
 							no_bulan: this.bulan_realisasi,
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {

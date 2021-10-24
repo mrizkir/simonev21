@@ -247,7 +247,7 @@
 					.post(
 						"/dmaster/jenispelaksanaan",
 						{
-							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							tahun: this.$store.getters["auth/TahunSelected"],
 						},
 						{
 							headers: {
@@ -307,7 +307,7 @@
 								{
 									NamaJenis: this.formdata.NamaJenis,
 									Descr: "",
-									TA: this.$store.getters["uifront/getTahunAnggaran"],
+									TA: this.$store.getters["auth/TahunSelected"],
 								},
 								{
 									headers: {
