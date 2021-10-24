@@ -85,6 +85,7 @@ class RKAModel extends Model
         'Descr', 
         'TA', 
         'Locked',
+        'status',
         'RKAID_Src'
     ];
     /**
