@@ -88,69 +88,101 @@
 											</v-card-title>
 											<v-card-subtitle>												
 												{{ DataOPD.kode_organisasi }} / {{ DataOPD.Nm_Organisasi }}												
-											</v-card-subtitle>											
+											</v-card-subtitle>
+											<v-card-text>
+												<v-alert type="info">
+													Data pelaporan ini diperoleh dari hasil perhitungan di Form B.
+												</v-alert>
+											</v-card-text>
 											<v-card-text>
 												<v-select
 													label="BULAN LAPORAN"
-													v-model="formdata.BulanLaporan"
+													v-model="BulanLaporan"
 													:items="daftar_bulan"
 													:rules="rule_bulan"
 													outlined
+													dense
 												/>
-												<v-text-field
-													v-model="formdata.PaguDana"
+												<v-currency-field
 													label="PAGU DANA:"
-													:disabled="true"
+													:min="null"
+													:max="null"
 													outlined
-												/>
-												<v-text-field
-													v-model="formdata.RealisasiKeuangan"
+													:disabled="true"
+													v-model="formdata.PaguDana"
+													dense
+												>
+												</v-currency-field>
+												<v-currency-field
 													label="REALISASI KEUANGAN:"
-													:disabled="true"
+													:min="null"
+													:max="null"
 													outlined
-												/>
+													:disabled="true"
+													v-model="formdata.RealisasiKeuangan"
+													dense
+												>
+												</v-currency-field>
 												<v-text-field
 													v-model="formdata.RealisasiFisik"
 													label="REALISASI FISIK:"
 													:disabled="true"
 													outlined
+													dense
 												/>
-												<v-text-field
-													v-model="formdata.Kontrak"
+												<v-currency-field
 													label="KONTRAK:"
-													:disabled="true"
+													:min="null"
+													:max="null"
 													outlined
-												/>
+													:disabled="true"
+													v-model="formdata.Kontrak"
+													dense
+												>
+												</v-currency-field>
 												<v-text-field
 													v-model="formdata.PekerjaanSelesai"
 													label="PEKERJAAN SELESAI:"
 													:disabled="true"
 													outlined
+													hint="kegiatan yang nilai fisik  sudah mencapai 100"
+													persistent-hint
+													dense
 												/>
 												<v-text-field
 													v-model="formdata.PekerjaanBerjalan"
 													label="PEKERJAAN BERJALAN:"
 													:disabled="true"
 													outlined
+													hint="kegiatan yang nilai fisik  0 > n < 100"
+													persistent-hint
+													dense
 												/>
 												<v-text-field
 													v-model="formdata.PekerjaanTerhenti"
-													label="PEKERJAAN BERJALAN:"
+													label="PEKERJAAN TERHENTI:"
 													:disabled="true"
 													outlined
+													dense
+													hint="kegiatan yang dinyatakan berhenti, di data RKA"
+													persistent-hint
 												/>
 												<v-text-field
 													v-model="formdata.PekerjaanBelumBerjalan"
 													label="PEKERJAAN BELUM BERJALAN:"
 													:disabled="true"
 													outlined
+													dense
+													hint="kegiatan yang dinyatakan nilai fisik = 0"
+													persistent-hint
 												/>
 												<v-file-input
 													accept="application/pdf"
 													label="BUKTI CETAK LAPORAN"
 													:rules="rule_bukti_cetak"
 													show-size
-													v-model="formdata.bukti_cetak"													
+													v-model="formdata.bukti_cetak"
+													dense													
 												>
 												</v-file-input>
 											</v-card-text>
@@ -392,6 +424,7 @@
 				//form data
 				form_valid: true,
 				daftar_bulan: [],
+				BulanLaporan: null,
 				formdata: {
 					Statistik3ID: null,
 					BulanLaporan: null,
@@ -420,13 +453,16 @@
 				},
 				rule_bulan: [
 					value => !!value || "Mohon untuk di pilih bulan pelaporan !!!",
-				],
+				],				
 				rule_bukti_cetak: [
 					value => !!value || "Mohon sertakan file laporan !!!",
-					value =>
-						!!value ||
-						value.size < 10000000 ||
-						"File Bukti Bayar harus kurang dari 10MB.",
+					value => {
+						if (value && typeof value !== "undefined" && value.length > 0) {
+							return value.size < 10000000 || "File Bukti Bayar harus kurang dari 10MB.";
+						} else {
+							return true;
+						}
+					}
 				],
 			};
 		},
@@ -695,7 +731,7 @@
 								.post(
 									"/renja/rkamurni/resetdatakegiatan/" + item.RKAID,
 									{
-										_method: "PUT",										
+										_method: "PUT",
 									},
 									{
 										headers: {
@@ -718,7 +754,7 @@
 					this.dialogfrm = false;
 				}, 300);
 			},
-		},		
+		},
 		watch: {
 			OrgID_Selected(val) {
 				var page = this.$store.getters["uiadmin/Page"]("pelaporanopdmurni");
@@ -728,6 +764,28 @@
 				page.OrgID_Selected = val;
 				this.$store.dispatch("uiadmin/updatePage", page);
 				this.loaddatapelaporan();
+			},
+			BulanLaporan(val) {
+				this.$ajax
+					.post(
+						"/renjamurni/report/formbopd",
+						{
+							tahun: this.$store.getters["uifront/getTahunAnggaran"],
+							no_bulan: val,
+							OrgID: this.OrgID_Selected,
+						},
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
+					.then(({ data }) => {						
+						this.formdata.PaguDana = data.total_data.totalPaguOPD;
+						this.formdata.RealisasiKeuangan = data.total_data.totalRealisasiKeuanganKeseluruhan;
+						this.formdata.RealisasiFisik = data.total_data.totalPersenRealisasiFisik;
+						this.formdata.Kontrak = 0;						
+					});
 			},
 		},
 		components: {
