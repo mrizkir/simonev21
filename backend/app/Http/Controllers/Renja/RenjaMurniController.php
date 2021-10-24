@@ -58,19 +58,33 @@ class RenjaMurniController extends Controller
 											`RealisasiFisik1`,
 											0 AS `PersenRealisasiKeuangan1`
 										'))
-										->find($tahun);
-
-			$statistik1->PersenRealisasiKeuangan1=Helper::formatPersen($statistik1->RealisasiKeuangan1,$statistik1->PaguDana1);
-			$statistik1=[
-							'PaguDana1'=>$statistik1->PaguDana1,             
-							'JumlahProgram1'=>$statistik1->JumlahProgram1,             
-							'JumlahKegiatan1'=>$statistik1->JumlahKegiatan1,             
-							'JumlahSubKegiatan1'=>$statistik1->JumlahSubKegiatan1,             
-							'RealisasiKeuangan1'=>$statistik1->RealisasiKeuangan1,             
-							'RealisasiFisik1'=>$statistik1->RealisasiFisik1, 
-							'PersenRealisasiKeuangan1'=>$statistik1->PersenRealisasiKeuangan1, 
-						];       
-
+										->find($tahun);			
+			
+			if (is_null($statistik1))
+			{
+				$statistik1 = [
+					'PaguDana1'=>0,             
+					'JumlahProgram1'=>0,             
+					'JumlahKegiatan1'=>0,             
+					'JumlahSubKegiatan1'=>0,             
+					'RealisasiKeuangan1'=>0,             
+					'RealisasiFisik1'=>0, 
+					'PersenRealisasiKeuangan1'=>0, 	
+				];       
+			}
+			else
+			{
+				$statistik1->PersenRealisasiKeuangan1=Helper::formatPersen($statistik1->RealisasiKeuangan1,$statistik1->PaguDana1);
+				$statistik1=[
+								'PaguDana1'=>$statistik1->PaguDana1,             
+								'JumlahProgram1'=>$statistik1->JumlahProgram1,             
+								'JumlahKegiatan1'=>$statistik1->JumlahKegiatan1,             
+								'JumlahSubKegiatan1'=>$statistik1->JumlahSubKegiatan1,             
+								'RealisasiKeuangan1'=>$statistik1->RealisasiKeuangan1,             
+								'RealisasiFisik1'=>$statistik1->RealisasiFisik1, 
+								'PersenRealisasiKeuangan1'=>$statistik1->PersenRealisasiKeuangan1, 
+							];       
+			}
 			$statistik2=Statistik2Model::select(\DB::raw('
 												`Bulan`,
 												SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
