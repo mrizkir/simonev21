@@ -145,7 +145,7 @@
 													label="PEKERJAAN SELESAI:"
 													:disabled="true"
 													outlined
-													hint="kegiatan yang nilai fisik  sudah mencapai 100"
+													hint="sub kegiatan yang nilai fisik  sudah mencapai 100"
 													persistent-hint
 													dense
 												/>
@@ -154,7 +154,7 @@
 													label="PEKERJAAN BERJALAN:"
 													:disabled="true"
 													outlined
-													hint="kegiatan yang nilai fisik  0 > n < 100"
+													hint="sub kegiatan yang nilai fisik  0 > n < 100"
 													persistent-hint
 													dense
 												/>
@@ -164,7 +164,7 @@
 													:disabled="true"
 													outlined
 													dense
-													hint="kegiatan yang dinyatakan berhenti, di data RKA"
+													hint="sub kegiatan yang dinyatakan berhenti, di data RKA"
 													persistent-hint
 												/>
 												<v-text-field
@@ -173,7 +173,7 @@
 													:disabled="true"
 													outlined
 													dense
-													hint="kegiatan yang dinyatakan nilai fisik = 0"
+													hint="sub kegiatan yang dinyatakan nilai fisik = 0"
 													persistent-hint
 												/>
 												<v-file-input
@@ -182,7 +182,8 @@
 													:rules="rule_bukti_cetak"
 													show-size
 													v-model="formdata.bukti_cetak"
-													dense													
+													dense
+													outlined
 												>
 												</v-file-input>
 											</v-card-text>

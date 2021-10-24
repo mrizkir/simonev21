@@ -84,8 +84,7 @@ class RKAModel extends Model
         'EntryLvl', 
         'Descr', 
         'TA', 
-        'Locked',
-        'status',
+        'Locked',        
         'RKAID_Src'
     ];
     /**

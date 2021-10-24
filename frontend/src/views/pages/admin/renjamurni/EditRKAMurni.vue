@@ -203,15 +203,7 @@
 									filled
 									outlined
 									:disabled="datakegiatan.Locked == 1"
-								/>
-								<v-radio-group
-									v-model="formdata.sifat_kegiatan1"
-									row
-									:disabled="datakegiatan.Locked == 1"
-								>
-									<v-radio label="BARU" value="baru"></v-radio>
-									<v-radio label="LANJUTAN" value="lanjutan">></v-radio>
-								</v-radio-group>
+								/>								
 								<v-text-field
 									v-model="formdata.waktu_pelaksanaan1"
 									label="WAKTU PELAKSANAAN"
@@ -276,6 +268,16 @@
 									outlined
 									:disabled="datakegiatan.Locked == 1"
 								/>
+								<p>STATUS KEGIATAN:</p>
+								<v-radio-group
+									v-model="formdata.sifat_kegiatan1"
+									row									
+									:disabled="datakegiatan.Locked == 1"
+								>
+									<v-radio label="BARU" value="baru"></v-radio>
+									<v-radio label="LANJUTAN" value="lanjutan">></v-radio>
+									<v-radio label="BERHENTI" value="berhenti">></v-radio>
+								</v-radio-group>
 							</v-card-text>
 							<v-card-actions>
 								<v-spacer></v-spacer>

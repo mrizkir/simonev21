@@ -80,7 +80,6 @@ class CreateRkakegiatanTable extends Migration
             $table->string('Descr')->nullable();            
             $table->year('TA');            
             $table->boolean('Locked')->default(0);
-            $table->tinyinteger('status')->default(0); 
             $table->uuid('RKAID_Src')->nullable();
             $table->timestamps();
 
