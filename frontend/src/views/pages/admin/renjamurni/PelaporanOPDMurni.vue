@@ -35,17 +35,17 @@
 								item-text="Nm_Organisasi"
 								item-value="OrgID"
 							>
-							</v-autocomplete>							
+							</v-autocomplete>
 						</v-card-text>
 					</v-card>
 				</v-col>
-			</v-row>			
+			</v-row>
 			<v-row class="mb-4" no-gutters>
 				<v-col cols="12">
 					<v-data-table
 						:headers="headers"
-						:items="datatable"						
-						item-key="RKAID"						
+						:items="datatable"
+						item-key="RKAID"
 						show-expand
 						dense
 						:expanded.sync="expanded"
@@ -78,7 +78,12 @@
 									</template>
 									<span>TAMBAH PELAPORAN</span>
 								</v-tooltip>
-								<v-dialog v-model="dialogfrm" max-width="800px" persistent v-if="dialogfrm">
+								<v-dialog
+									v-model="dialogfrm"
+									max-width="800px"
+									persistent
+									v-if="dialogfrm"
+								>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
 											<v-card-title>
@@ -86,12 +91,14 @@
 													TAMBAH PELAPORAN
 												</span>
 											</v-card-title>
-											<v-card-subtitle>												
-												{{ DataOPD.kode_organisasi }} / {{ DataOPD.Nm_Organisasi }}												
+											<v-card-subtitle>
+												{{ DataOPD.kode_organisasi }} /
+												{{ DataOPD.Nm_Organisasi }}
 											</v-card-subtitle>
 											<v-card-text>
 												<v-alert type="info">
-													Data pelaporan ini diperoleh dari hasil perhitungan di Form B.
+													Data pelaporan ini diperoleh dari hasil perhitungan di
+													Form B.
 												</v-alert>
 											</v-card-text>
 											<v-card-text>
@@ -145,7 +152,7 @@
 													label="PEKERJAAN SELESAI:"
 													:disabled="true"
 													outlined
-													hint="sub kegiatan yang nilai fisik  sudah mencapai 100"
+													hint="sub kegiatan yang nilai persentase keuangan sudah mencapai 100"
 													persistent-hint
 													dense
 												/>
@@ -154,7 +161,7 @@
 													label="PEKERJAAN BERJALAN:"
 													:disabled="true"
 													outlined
-													hint="sub kegiatan yang nilai fisik  0 > n < 100"
+													hint="sub kegiatan yang nilai persentase keuangan 0 > n < 100"
 													persistent-hint
 													dense
 												/>
@@ -173,12 +180,12 @@
 													:disabled="true"
 													outlined
 													dense
-													hint="sub kegiatan yang dinyatakan nilai fisik = 0"
+													hint="sub kegiatan yang dinyatakan nilai persentase keuangan = 0"
 													persistent-hint
 												/>
 												<v-file-input
 													accept="application/pdf"
-													label="BUKTI CETAK LAPORAN"
+													label="BUKTI CETAK LAPORAN FORM B"
 													:rules="rule_bukti_cetak"
 													show-size
 													v-model="formdata.bukti_cetak"
@@ -314,7 +321,7 @@
 							Belum ada pelaporan bulanan OPD.
 						</template>
 					</v-data-table>
-				</v-col>				
+				</v-col>
 			</v-row>
 		</v-container>
 	</RenjaMurniLayout>
@@ -344,7 +351,7 @@
 			];
 			this.$store.dispatch("uiadmin/addToPages", {
 				name: "pelaporanopdmurni",
-				OrgID_Selected: "",				
+				OrgID_Selected: "",
 				datakegiatan: {
 					RKAID: "",
 				},
@@ -361,14 +368,14 @@
 				"OrgID_Selected"
 			);
 			if (OrgID_Selected.length > 0) {
-				this.OrgID_Selected = OrgID_Selected;				
-			}			
+				this.OrgID_Selected = OrgID_Selected;
+			}
 			this.firstloading = false;
 		},
 		data() {
 			return {
 				firstloading: true,
-				expanded: [],				
+				expanded: [],
 				btnLoading: false,
 				datatableLoading: false,
 				datatableLoaded: false,
@@ -417,9 +424,9 @@
 				},
 				//filter form
 				daftar_opd: [],
-				OrgID_Selected: "",				
+				OrgID_Selected: "",
 				//Organisasi
-				DataOPD: null,				
+				DataOPD: null,
 				//dialog
 				dialogfrm: false,
 				//form data
@@ -429,41 +436,44 @@
 				formdata: {
 					Statistik3ID: null,
 					BulanLaporan: null,
-					PaguDana: 0,					
-					RealisasiKeuangan: 0,					
-					RealisasiFisik: 0,					
-					Kontrak: 0,					
-					PekerjaanSelesai: 0,					
-					PekerjaanBerjalan: 0,					
-					PekerjaanTerhenti: 0,					
-					PekerjaanBelumBerjalan: 0,					
-					bukti_cetak: null,					
+					PaguDana: 0,
+					RealisasiKeuangan: 0,
+					RealisasiFisik: 0,
+					Kontrak: 0,
+					PekerjaanSelesai: 0,
+					PekerjaanBerjalan: 0,
+					PekerjaanTerhenti: 0,
+					PekerjaanBelumBerjalan: 0,
+					bukti_cetak: null,
 				},
 				formdefault: {
 					Statistik3ID: null,
 					BulanLaporan: null,
-					PaguDana: 0,					
-					RealisasiKeuangan: 0,					
-					RealisasiFisik: 0,					
-					Kontrak: 0,					
-					PekerjaanSelesai: 0,					
-					PekerjaanBerjalan: 0,					
-					PekerjaanTerhenti: 0,					
-					PekerjaanBelumBerjalan: 0,					
-					bukti_cetak: null,					
+					PaguDana: 0,
+					RealisasiKeuangan: 0,
+					RealisasiFisik: 0,
+					Kontrak: 0,
+					PekerjaanSelesai: 0,
+					PekerjaanBerjalan: 0,
+					PekerjaanTerhenti: 0,
+					PekerjaanBelumBerjalan: 0,
+					bukti_cetak: null,
 				},
 				rule_bulan: [
 					value => !!value || "Mohon untuk di pilih bulan pelaporan !!!",
-				],				
+				],
 				rule_bukti_cetak: [
 					value => !!value || "Mohon sertakan file laporan !!!",
 					value => {
 						if (value && typeof value !== "undefined" && value.length > 0) {
-							return value.size < 10000000 || "File Bukti Bayar harus kurang dari 10MB.";
+							return (
+								value.size < 10000000 ||
+								"File Bukti Bayar harus kurang dari 10MB."
+							);
 						} else {
 							return true;
 						}
-					}
+					},
 				],
 			};
 		},
@@ -525,7 +535,7 @@
 							this.datatableLoaded = false;
 						}
 					});
-			},			
+			},
 			loaddatauraianfirsttime: async function(item) {
 				if (!item.PaguDana2 > 0) {
 					this.btnLoading = true;
@@ -565,7 +575,7 @@
 							},
 						}
 					)
-					.then(({ data }) => {						
+					.then(({ data }) => {
 						this.DataOPD = data.data_opd;
 						this.datatable = data.laporanopd;
 						this.datatableLoaded = true;
@@ -575,11 +585,14 @@
 			},
 			async addItem() {
 				await this.$ajax
-					.get("/renja/pelaporanopdmurni/bulanpelaporan/" + this.OrgID_Selected, {
-						headers: {
-							Authorization: this.$store.getters["auth/Token"],
-						},
-					})
+					.get(
+						"/renja/pelaporanopdmurni/bulanpelaporan/" + this.OrgID_Selected,
+						{
+							headers: {
+								Authorization: this.$store.getters["auth/Token"],
+							},
+						}
+					)
 					.then(({ data }) => {
 						let daftarbulan = data.bulan;
 						var bulan = [];
@@ -598,8 +611,7 @@
 					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
-								"/renja/pelaporanopdmurni/" +
-									this.formdata.Statistik3ID,
+								"/renja/pelaporanopdmurni/" + this.formdata.Statistik3ID,
 								{
 									_method: "put",
 									PaguDana: this.datakegiatan.PaguDana,
@@ -610,7 +622,7 @@
 									PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
 									PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
 									PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
-									bukti_cetak: this.datakegiatan.bukti_cetak,									
+									bukti_cetak: this.datakegiatan.bukti_cetak,
 								},
 								{
 									headers: {
@@ -640,7 +652,7 @@
 									PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
 									PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
 									PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
-									bukti_cetak: this.datakegiatan.bukti_cetak,									
+									bukti_cetak: this.datakegiatan.bukti_cetak,
 								},
 								{
 									headers: {
@@ -781,11 +793,13 @@
 							},
 						}
 					)
-					.then(({ data }) => {						
+					.then(({ data }) => {
 						this.formdata.PaguDana = data.total_data.totalPaguOPD;
-						this.formdata.RealisasiKeuangan = data.total_data.totalRealisasiKeuanganKeseluruhan;
-						this.formdata.RealisasiFisik = data.total_data.totalPersenRealisasiFisik;
-						this.formdata.Kontrak = 0;						
+						this.formdata.RealisasiKeuangan =
+							data.total_data.totalRealisasiKeuanganKeseluruhan;
+						this.formdata.RealisasiFisik =
+							data.total_data.totalPersenRealisasiFisik;
+						this.formdata.Kontrak = 0;
 					});
 			},
 		},
