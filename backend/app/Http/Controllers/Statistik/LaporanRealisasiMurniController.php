@@ -50,6 +50,7 @@ class LaporanRealisasiMurniController extends Controller {
       ->where('OrgID', $v->OrgID)
       ->where('TA', $tahun)
       ->where('Bulan', $bulan)
+      ->where('EntryLvl', 1)
       ->first();
 
       if (!is_null($data_opd))

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\Belanja\RKAModel;
+use App\Models\Statistik2Model;
 
 use Ramsey\Uuid\Uuid;
 
@@ -38,6 +39,8 @@ class FormBOPDMurniController extends Controller
 									->where('EntryLvl',1)
 									->sum('PaguDana1');        
 		
+		$total_program=0;
+		$total_kegiatan=0;
 		$total_sub_kegiatan=0;
 		$total_uraian=0;
 		$totalPersenBobot=0;
@@ -62,6 +65,7 @@ class FormBOPDMurniController extends Controller
 		$row = 0;
 		foreach ($daftar_program as $data_program)
 		{
+			$total_program += 1;
 			$kode_program = $data_program->kode_program;
 			$daftar_kegiatan=\DB::table('trRKA')
 							->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
@@ -108,6 +112,7 @@ class FormBOPDMurniController extends Controller
 				$row += 1;
 				foreach ($daftar_kegiatan as $data_kegiatan)
 				{
+					$total_kegiatan += 1;
 					$kode_kegiatan = $data_kegiatan->kode_kegiatan;
 
 					$daftar_sub_kegiatan = \DB::table('trRKA')
@@ -377,6 +382,81 @@ class FormBOPDMurniController extends Controller
 			'totalPersenSisaAnggaran'=>$totalPersenSisaAnggaran,
 		];       
 		
+		$statistik = Statistik2Model::where('OrgID', $OrgID)
+      ->where('TA', $tahun)
+      ->where('Bulan', $no_bulan)
+			->where('EntryLvl', 1)
+      ->first();
+
+		if (is_null($statistik)) 
+		{
+			Statistik2Model::create([
+				'Statistik2ID'=>Uuid::uuid4()->toString(),
+        'OrgID'=>$opd->OrgID,
+        'kode_organisasi'=>$opd->kode_organisasi,
+        'OrgNm'=>$opd->Nm_Organisasi,
+        'PaguDana1'=>$totalPaguOPD,
+        'PaguDana2'=>0,            
+        'PaguDana3'=>0,            
+        'JumlahKegiatan1'=>$total_kegiatan,
+        'JumlahKegiatan2'=>0,
+        'JumlahKegiatan3'=>0,
+        'JumlahUraian1'=>$total_uraian,
+        'JumlahUraian2'=>0,
+        'JumlahUraian3'=>0,
+            
+        'TargetFisik1'=>$totalPersenTargetFisik,
+        'TargetFisik2'=>0,
+        'TargetFisik3'=>0,
+        'RealisasiFisik1'=>$totalPersenRealisasiFisik,
+        'RealisasiFisik2'=>0,
+        'RealisasiFisik3'=>0,
+
+        'TargetKeuangan1'=>$totalTargetKeuanganKeseluruhan,
+        'TargetKeuangan2'=>0,
+        'TargetKeuangan3'=>0,
+        'RealisasiKeuangan1'=>$totalRealisasiKeuanganKeseluruhan,
+        'RealisasiKeuangan2'=>0,
+        'RealisasiKeuangan3'=>0,
+
+        'PersenTargetKeuangan1'=>$totalPersenTargetKeuangan,
+        'PersenTargetKeuangan2'=>0,
+        'PersenTargetKeuangan3'=>0,
+        'PersenRealisasiKeuangan1'=>$totalPersenRealisasiKeuangan,
+        'PersenRealisasiKeuangan2'=>0,
+        'PersenRealisasiKeuangan3'=>0,
+            
+        'SisaPaguDana1'=>$totalSisaAnggaran,
+        'SisaPaguDana2'=>0,
+        'SisaPaguDana3'=>0,
+
+        'PersenSisaPaguDana1'=>$totalPersenSisaAnggaran,
+        'PersenSisaPaguDana2'=>0,
+        'PersenSisaPaguDana3'=>0,
+
+        'Bobot1'=>$totalPersenBobot,
+        'Bobot2'=>0,
+        'Bobot3'=>0,
+        
+        'Bulan'=>$no_bulan,
+        'TA'=>$tahun,
+        'EntryLvl'=>1,
+			]);
+		}
+		else
+		{
+			$statistik->PaguDana1 = $totalPaguOPD;
+			$statistik->JumlahKegiatan1 = $total_kegiatan;
+			$statistik->TargetFisik1 = $totalPersenTargetFisik;
+			$statistik->RealisasiFisik1 = $totalPersenRealisasiFisik;
+			$statistik->TargetKeuangan1 = $totalTargetKeuanganKeseluruhan;
+			$statistik->RealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
+			$statistik->PersenTargetKeuangan1 = $totalPersenTargetKeuangan;
+			$statistik->PersenRealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
+			$statistik->SisaPaguDana1 = $totalSisaAnggaran;
+			$statistik->PersenSisaPaguDana1 = $totalPersenSisaAnggaran;
+			$statistik->Bobot1 = $totalPersenBobot;			
+		}
 		return Response()->json([
 									'status'=>1,
 									'pid'=>'fetchdata',
