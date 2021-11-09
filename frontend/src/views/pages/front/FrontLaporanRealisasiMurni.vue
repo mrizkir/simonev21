@@ -24,7 +24,9 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Laporan realisasi per OPD Murni dengan posisi bulan dan tahun anggaran terakhir.
+					Laporan realisasi per OPD Murni datanya berasal dari FORM B OPD dengan posisi bulan {{ $store.getters["uifront/getNamaBulan"](
+					$store.getters["uifront/getBulanRealisasi"]
+				) }} Tahun Anggaran {{ tahun_anggaran }}. 				
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -114,14 +116,23 @@
 						:hide-default-footer="true"
 						dense
 					>
-            <template v-slot:item.indikator_kinerja="{ item }">							
+						<template v-slot:item.pagu_dana="{ item }">
+							{{ item.pagu_dana | formatUang }}
+						</template>
+						<template v-slot:item.target_keuangan="{ item }">
+							{{ item.target_keuangan | formatUang }}
+						</template>
+						<template v-slot:item.realisasi_keuangan="{ item }">
+							{{ item.realisasi_keuangan | formatUang }}
+						</template>
+            <template v-slot:item.indikator_kinerja="{ item }">
               <v-chip                
                 :color="item.indikator_kinerja"
                 class="ma-2"                
               >
-                SANGAT RENDAH
+                &nbsp;
               </v-chip>
-						</template>
+						</template>						
           </v-data-table>
         </v-col>
       </v-row>
@@ -162,9 +173,10 @@
       //data table
       datatable: [],
       headers: [
-        { text: "NO", value: "index", width: 100 },
+        { text: "NO", value: "index", width: 70 },
 				{ text: "KODE", value: "kode_organisasi", width: 160, sortable: false },
 				{ text: "NAMA OPD", value: "Nm_Organisasi", sortable: false },
+				{ text: "PAGU DANA", value: "pagu_dana", sortable: false, align: "right" },
 				{ text: "TARGET FISIK", value: "target_fisik", sortable: false },
 				{ text: "REALISASI FISIK", value: "realisasi_fisik", sortable: false },
 				{ text: "TARGET KEUANGAN", value: "target_keuangan", sortable: false },
@@ -180,6 +192,7 @@
 						"/dashboard/laporanrealisasimurni",
 						{
 							tahun: this.tahun_anggaran,							
+							bulan: this.bulan_realisasi,							
 						},						
 					)
 					.then(({ data }) => {						
