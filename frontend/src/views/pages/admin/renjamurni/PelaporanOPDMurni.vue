@@ -606,38 +606,38 @@
 				this.dialogfrm = true;
 			},
 			save() {
-				if (this.$refs.frmdata.validate()) {
+				if (this.$refs.frmdata.validate()) {					
 					this.btnLoading = true;
-					if (this.editedIndex > -1) {
-						this.$ajax
-							.post(
-								"/renja/pelaporanopdmurni/" + this.formdata.Statistik3ID,
-								{
-									_method: "put",
-									PaguDana: this.datakegiatan.PaguDana,
-									RealisasiKeuangan: this.RealisasiKeuangan,
-									RealisasiFisik: this.formdata.RealisasiFisik,
-									Kontrak: this.formdata.Kontrak,
-									PekerjaanSelesai: this.formdata.PekerjaanSelesai,
-									PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
-									PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
-									PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
-									bukti_cetak: this.datakegiatan.bukti_cetak,
-								},
-								{
-									headers: {
-										Authorization: this.$store.getters["auth/Token"],
-									},
-								}
-							)
-							.then(() => {
-								this.initialize();
-								this.closedialogfrmedit();
-							})
-							.catch(() => {
-								this.btnLoading = false;
-							});
-					} else {
+					// if (this.editedIndex > -1) {
+				// 		this.$ajax
+				// 			.post(
+				// 				"/renja/pelaporanopdmurni/" + this.formdata.Statistik3ID,
+				// 				{
+				// 					_method: "put",
+				// 					PaguDana: this.datakegiatan.PaguDana,
+				// 					RealisasiKeuangan: this.RealisasiKeuangan,
+				// 					RealisasiFisik: this.formdata.RealisasiFisik,
+				// 					Kontrak: this.formdata.Kontrak,
+				// 					PekerjaanSelesai: this.formdata.PekerjaanSelesai,
+				// 					PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
+				// 					PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
+				// 					PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
+				// 					bukti_cetak: this.datakegiatan.bukti_cetak,
+				// 				},
+				// 				{
+				// 					headers: {
+				// 						Authorization: this.$store.getters["auth/Token"],
+				// 					},
+				// 				}
+				// 			)
+				// 			.then(() => {
+				// 				this.initialize();
+				// 				this.closedialogfrmedit();
+				// 			})
+				// 			.catch(() => {
+				// 				this.btnLoading = false;
+				// 			});
+					// } else {
 						this.$ajax
 							.post(
 								"/renja/pelaporanopdmurni/store",
@@ -667,7 +667,7 @@
 							.catch(() => {
 								this.btnLoading = false;
 							});
-					}
+					// }
 				}
 			},
 			viewUraian(item) {

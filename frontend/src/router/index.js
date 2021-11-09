@@ -21,6 +21,14 @@ const routes = [
 		component: () => import("../views/pages/front/PelaporanOPDFront.vue"),
 	},
 	{
+		path: "/laporanrealisasimurni",
+		name: "FrontLaporanRealisasiMurni",
+		meta: {
+			title: "LAPORAN REALISASI MURNI",
+		},
+		component: () => import("../views/pages/front/FrontLaporanRealisasiMurni.vue"),
+	},
+	{
 		path: "/login",
 		name: "Login",
 		meta: {

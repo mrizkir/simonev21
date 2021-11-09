@@ -79,6 +79,37 @@
 				</v-list-item-content>
 			</v-list-item>
 			<v-divider></v-divider>
+			<v-list-item
+				to="/"
+				link
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+				"
+				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-monitor-multiple</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>DASHBOARD</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-subheader class="purple accent-5 white--text">STATISTIK MURNI</v-subheader>
+			<v-list-item
+				to="/laporanrealisasimurni"
+				link
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+				"
+				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-chart-bar</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>LAPORAN REALISASI</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"
@@ -174,7 +205,7 @@
 				NamaAPPAlias: "getNamaAPPAlias",
 			}),
 			photoUser() {
-				var photo = this.$api.url + "/storage/images/users/no_photo.png";
+				var photo = this.$api.url + "/storages/images/users/no_photo.png";
 				return photo;
 			},
 		},

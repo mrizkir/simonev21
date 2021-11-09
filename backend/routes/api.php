@@ -8,6 +8,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 	//dashboard
 	$router->post('/dashboard/front',['uses'=>'DashboardController@indexfront','as'=>'dashboard.indexfront']);
 	$router->post('/dashboard/pelaporanopd',['uses'=>'Statistik\PelaporanOPDController@front','as'=>'pelaporanopd.front']);
+	$router->post('/dashboard/laporanrealisasimurni',['uses'=>'Statistik\LaporanRealisasiMurniController@front','as'=>'laporanrealisasimurni.front']);
 
 	//dmaster - provinsi
 	$router->get('/dmaster/provinsi',['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);
