@@ -63,8 +63,6 @@ class LaporanRealisasiMurniController extends Controller {
         $persen_realisasi_keuangan = $data_opd->PersenRealisasiKeuangan1;
       }
       
-      $warna_keuangan = HelperKegiatan::getKodeWarna(0, $persen_realisasi_keuangan);
-
       $laporan_realisasi[] = [
         'index'=>$index,
         'kode_organisasi'=>$v->kode_organisasi,
@@ -74,9 +72,7 @@ class LaporanRealisasiMurniController extends Controller {
         'realisasi_fisik'=>$realisasi_fisik,        
         'target_keuangan'=>$target_keuangan,
         'realisasi_keuangan'=>$realisasi_keuangan,
-        'persen_keuangan'=>$persen_realisasi_keuangan,
-        'warna_keuangan'=>$warna_keuangan,
-        'indikator_kinerja'=>$warna_keuangan,        
+        'persen_keuangan'=>$persen_realisasi_keuangan,        
       ];
       $index = $index + 1;
     }    

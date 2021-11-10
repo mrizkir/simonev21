@@ -124,7 +124,7 @@
 								<td>{{ item.pagu_dana | formatUang }}</td>
 								<td>{{ item.target_fisik }}</td>
 								<td v-bind:class="formatKodeWarna(0, item.realisasi_fisik)">{{ item.realisasi_fisik }}</td>
-								<td>{{ item.target_keuangan }}</td>
+								<td>{{ item.target_keuangan | formatUang }}</td>
 								<td v-bind:class="formatKodeWarna(0, item.persen_keuangan)">{{ item.realisasi_keuangan | formatUang }} </td>
 								<td>
 									<v-chip                
