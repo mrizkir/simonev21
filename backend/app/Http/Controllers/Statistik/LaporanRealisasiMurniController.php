@@ -74,6 +74,7 @@ class LaporanRealisasiMurniController extends Controller {
         'realisasi_fisik'=>$realisasi_fisik,        
         'target_keuangan'=>$target_keuangan,
         'realisasi_keuangan'=>$realisasi_keuangan,
+        'persen_keuangan'=>$persen_realisasi_keuangan,
         'warna_keuangan'=>$warna_keuangan,
         'indikator_kinerja'=>$warna_keuangan,        
       ];

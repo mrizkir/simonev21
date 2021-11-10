@@ -116,23 +116,26 @@
 						:hide-default-footer="true"
 						dense
 					>
-						<template v-slot:item.pagu_dana="{ item }">
-							{{ item.pagu_dana | formatUang }}
+						<template v-slot:item="{ item }">
+							<tr>
+								<td>{{ item.index }}</td>
+								<td>{{ item.kode_organisasi }}</td>
+								<td>{{ item.Nm_Organisasi }}</td>
+								<td>{{ item.pagu_dana | formatUang }}</td>
+								<td>{{ item.target_fisik }}</td>
+								<td v-bind:class="formatKodeWarna(0, item.realisasi_fisik)">{{ item.realisasi_fisik }}</td>
+								<td>{{ item.target_keuangan }}</td>
+								<td v-bind:class="formatKodeWarna(0, item.persen_keuangan)">{{ item.realisasi_keuangan | formatUang }} </td>
+								<td>
+									<v-chip                
+										:color="formatStyleIndikatorKinerja(item.realisasi_fisik, item.persen_keuangan)"
+										class="ma-2"                
+									>
+										&nbsp;
+									</v-chip>									
+								</td>
+							</tr>
 						</template>
-						<template v-slot:item.target_keuangan="{ item }">
-							{{ item.target_keuangan | formatUang }}
-						</template>
-						<template v-slot:item.realisasi_keuangan="{ item }">
-							{{ item.realisasi_keuangan | formatUang }}
-						</template>
-            <template v-slot:item.indikator_kinerja="{ item }">
-              <v-chip                
-                :color="item.indikator_kinerja"
-                class="ma-2"                
-              >
-                &nbsp;
-              </v-chip>
-						</template>						
           </v-data-table>
         </v-col>
       </v-row>
@@ -161,7 +164,7 @@
 			this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
 			this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
 
-      this.initialize();
+      this.initialize();		
 		},
     data: () => ({
       firstloading: true,
@@ -177,8 +180,8 @@
 				{ text: "KODE", value: "kode_organisasi", width: 160, sortable: false },
 				{ text: "NAMA OPD", value: "Nm_Organisasi", sortable: false },
 				{ text: "PAGU DANA", value: "pagu_dana", sortable: false, align: "right" },
-				{ text: "TARGET FISIK", value: "target_fisik", sortable: false },
-				{ text: "REALISASI FISIK", value: "realisasi_fisik", sortable: false },
+				{ text: "TARGET FISIK (%)", value: "target_fisik", sortable: false },
+				{ text: "REALISASI FISIK (%)", value: "realisasi_fisik", sortable: false },
 				{ text: "TARGET KEUANGAN", value: "target_keuangan", sortable: false },
 				{ text: "REALISASI KEUANGAN", value: "realisasi_keuangan", sortable: false },
 				{ text: "INDIKATOR KINERJA", value: "indikator_kinerja", sortable: false },
