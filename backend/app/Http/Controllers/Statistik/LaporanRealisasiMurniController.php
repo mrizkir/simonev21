@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\HelperKegiatan;
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\Statistik2Model;
+use App\Helpers\Helper;
 
 class LaporanRealisasiMurniController extends Controller { 
   public function front(Request $request)
@@ -30,7 +31,14 @@ class LaporanRealisasiMurniController extends Controller {
     ->orderBy('kode_organisasi', 'ASC')
     ->get();
 
-    $index = 1;
+    $index = 0;
+    $TotalPaguDana = 0;
+    $TotalTargetFisik = 0;
+    $TotalRealisasiFisik = 0;
+    $TotalTargetKeuangan = 0;
+    $TotalRealisasiKeuangan = 0;
+    $TotalPersenRealisasiKeuangan = 0;
+    
     foreach ($daftar_opd as $v) {
       $pagu_dana = 0;
       $target_fisik = 0;
@@ -62,7 +70,7 @@ class LaporanRealisasiMurniController extends Controller {
         $realisasi_keuangan = $data_opd->RealisasiKeuangan1;
         $persen_realisasi_keuangan = $data_opd->PersenRealisasiKeuangan1;
       }
-      
+      $index = $index + 1;
       $laporan_realisasi[] = [
         'index'=>$index,
         'kode_organisasi'=>$v->kode_organisasi,
@@ -74,12 +82,28 @@ class LaporanRealisasiMurniController extends Controller {
         'realisasi_keuangan'=>$realisasi_keuangan,
         'persen_keuangan'=>$persen_realisasi_keuangan,        
       ];
-      $index = $index + 1;
-    }    
+      $TotalPaguDana += $pagu_dana;
+      $TotalTargetFisik += $target_fisik;
+      $TotalRealisasiFisik += $realisasi_fisik;
+      $TotalTargetKeuangan += $target_keuangan;
+      $TotalRealisasiKeuangan += $realisasi_keuangan;
+      $TotalPersenRealisasiKeuangan += $persen_realisasi_keuangan;      
+    }
+    
+    $laporan_total = [      
+      'total_pagu_dana'=>$TotalPaguDana,
+      'total_target_fisik'=>Helper::formatPecahan($TotalTargetFisik, $index),
+      'total_realisasi_fisik'=>Helper::formatPecahan($TotalRealisasiFisik,$index),
+      'total_target_keuangan'=>$TotalTargetKeuangan,
+      'total_realisasi_keuangan'=>$TotalRealisasiKeuangan,
+      'total_persen_keuangan'=>Helper::formatPecahan($TotalPersenRealisasiKeuangan, $index),      
+    ];
+
     return Response()->json([
       'status'=>1,
       'pid'=>'fetchdata',
       'laporan_realisasi'=>$laporan_realisasi,
+      'laporan_total'=>$laporan_total,
       'message'=>'Fetch data untuk laporan realisasi berhasil diperoleh'
     ],200);
   }

@@ -121,18 +121,38 @@
 								<td>{{ item.index }}</td>
 								<td>{{ item.kode_organisasi }}</td>
 								<td>{{ item.Nm_Organisasi }}</td>
-								<td>{{ item.pagu_dana | formatUang }}</td>
-								<td>{{ item.target_fisik }}</td>
-								<td v-bind:class="formatKodeWarna(0, item.realisasi_fisik)">{{ item.realisasi_fisik }}</td>
-								<td>{{ item.target_keuangan | formatUang }}</td>
-								<td v-bind:class="formatKodeWarna(0, item.persen_keuangan)">{{ item.realisasi_keuangan | formatUang }} </td>
-								<td>
+								<td class="text-right">{{ item.pagu_dana | formatUang }}</td>
+								<td class="text-center">{{ item.target_fisik }}</td>
+								<td v-bind:class="[formatKodeWarna(0, item.realisasi_fisik), 'text-center']">{{ item.realisasi_fisik }}</td>
+								<td class="text-right">{{ item.target_keuangan | formatUang }}</td>
+								<td v-bind:class="[formatKodeWarna(0, item.persen_keuangan), 'text-right']">{{ item.realisasi_keuangan | formatUang }} </td>
+								<td class="text-center">
 									<v-chip                
 										:color="formatStyleIndikatorKinerja(item.realisasi_fisik, item.persen_keuangan)"
 										class="ma-2"                
 									>
 										&nbsp;
 									</v-chip>									
+								</td>
+							</tr>
+						</template>
+						<template v-slot:body.append>
+							<tr class="amber darken-1 font-weight-black">
+								<td colspan="3" class="text-right">TOTAL</td>
+								<td class="text-right">
+									{{ footers.total_pagu_dana | formatUang }}
+								</td>
+								<td class="text-center">
+									{{ footers.total_target_fisik }}
+								</td>
+								<td v-bind:class="[formatKodeWarna(0, footers.total_realisasi_fisik), 'text-center']">
+									{{ footers.total_realisasi_fisik }}
+								</td>
+								<td class="text-right">
+									{{ footers.total_target_keuangan | formatUang }}
+								</td>
+								<td v-bind:class="[formatKodeWarna(0, footers.persen_keuangan), 'text-right']">
+									{{ footers.total_realisasi_keuangan | formatUang }}
 								</td>
 							</tr>
 						</template>
@@ -180,12 +200,20 @@
 				{ text: "KODE", value: "kode_organisasi", width: 160, sortable: false },
 				{ text: "NAMA OPD", value: "Nm_Organisasi", sortable: false },
 				{ text: "PAGU DANA", value: "pagu_dana", sortable: false, align: "right" },
-				{ text: "TARGET FISIK (%)", value: "target_fisik", sortable: false },
-				{ text: "REALISASI FISIK (%)", value: "realisasi_fisik", sortable: false },
-				{ text: "TARGET KEUANGAN", value: "target_keuangan", sortable: false },
-				{ text: "REALISASI KEUANGAN", value: "realisasi_keuangan", sortable: false },
-				{ text: "INDIKATOR KINERJA", value: "indikator_kinerja", sortable: false },
+				{ text: "TARGET FISIK (%)", value: "target_fisik", sortable: false, align: "center" },
+				{ text: "REALISASI FISIK (%)", value: "realisasi_fisik", sortable: false, align: "center" },
+				{ text: "TARGET KEUANGAN", value: "target_keuangan", sortable: false, align: "right" },
+				{ text: "REALISASI KEUANGAN", value: "realisasi_keuangan", sortable: false, align: "right" },
+				{ text: "INDIKATOR KINERJA", value: "indikator_kinerja", sortable: false, align: "center" },
       ],
+			footers: {
+				total_pagu_dana: 0,
+				total_target_fisik: 0,
+				total_realisasi_fisik: 0,
+				total_target_keuangan: 0,
+				total_realisasi_keuangan: 0,
+				total_persen_keuangan: 0,
+			},
     }),
     methods: {
       initialize() {
@@ -201,6 +229,8 @@
 					.then(({ data }) => {						
 						this.datatableLoading = false;
             this.datatable = data.laporan_realisasi;
+
+						this.footers = data.laporan_total;
 					});
 			},
     },
