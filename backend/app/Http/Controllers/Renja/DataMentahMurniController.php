@@ -38,7 +38,7 @@ class DataMentahMurniController extends Controller
                             kd_prog_gabungan AS kode_program,                                                        
                             nm_program AS `PrgNm`,
                             0 AS `PaguDana1`,
-                            \'BELUM DICOPY\' AS status,                                                                                    
+                            \'BELUM DICOPY\' AS status,
                             `TA`
                         '))
                         ->where('OrgID',$OrgID)

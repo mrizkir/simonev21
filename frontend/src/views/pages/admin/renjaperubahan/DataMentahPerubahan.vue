@@ -61,8 +61,8 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="kode_kegiatan"
-						sort-by="kode_kegiatan"
+						item-key="RKAID"
+						sort-by="kode_sub_kegiatan"
 						show-expand
 						:expanded.sync="expanded"
 						:single-expand="true"
@@ -154,8 +154,11 @@
 								mdi-lock
 							</v-icon>
 						</template>
-						<template v-slot:item.PaguDana2="{ item }">
-							{{ item.PaguDana2 | formatUang }}
+						<template v-slot:item.PaguDana1="{ item }">
+							{{ item.PaguDana1 | formatUang }}
+						</template>
+						<template v-slot:item.RealisasiKeuangan1="{ item }">
+							{{ item.RealisasiKeuangan1 | formatUang }}
 						</template>
 						<template v-slot:item.status="{ item }">
 							<v-chip label outlined :color="colorStatus(item.status)">
@@ -195,7 +198,7 @@
 						</template>
 						<template v-slot:body.append>
 							<tr class="amber darken-1 font-weight-black">
-								<td colspan="7" class="text-right">TOTAL</td>
+								<td colspan="3" class="text-right">TOTAL</td>
 								<td class="text-right">{{ footers.paguopd | formatUang }}</td>
 								<td></td>
 								<td></td>
@@ -258,14 +261,13 @@
 				datatableLoading: false,
 				datatableLoaded: false,
 				datatable: [],
-				headers: [
-					{ text: "KODE KELOMPOK", value: "Kd_Urusan", width: 50 },
-					{ text: "KODE URUSAN", value: "Kd_Bidang", width: 50 },
-					{ text: "KODE PROGRAM", value: "kode_program", width: 100 },
-					{ text: "NAMA PROGRAM", value: "PrgNm", width: 200 },
-					{ text: "KODE KEGIATAN", value: "kode_kegiatan", width: 80 },
-					{ text: "NAMA KEGIATAN", value: "KgtNm", width: 300 },
-					{ text: "PAGU DANA", value: "PaguDana2", align: "end", width: 100 },
+				headers: [					
+					{ text: "KODE SUB KEGIATAN", value: "kode_sub_kegiatan", width: 80 },
+					{ text: "NAMA SUB KEGIATAN", value: "Nm_Sub_Kegiatan", width: 300 },
+					{ text: "PAGU DANA", value: "PaguDana1", align: "end", width: 100 },					
+					{ text: "REALISASI FISIK", value: "RealisasiFisik1", align: "end", width: 100 },
+					{ text: "REALISASI KEUANGAN", value: "RealisasiKeuangan1", align: "end", width: 100 },
+					{ text: "%", value: "persen_keuangan1", align: "end", width: 100 },
 					{ text: "STATUS", value: "status", width: 100 },
 					{ text: "AKSI", value: "actions", sortable: false, width: 80 },
 				],
@@ -365,8 +367,7 @@
 						.post(
 							"/renja/datamentahperubahan/copyrka",
 							{
-								kode_kegiatan: item.kode_kegiatan,
-								OrgID: this.OrgID_Selected,
+								RKAID: item.RKAID,								
 							},
 							{
 								headers: {

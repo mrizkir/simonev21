@@ -224,8 +224,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/renjaperubahan/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDPerubahanController@index','as'=>'renjaperubahan-peringkatopdperubahan.index']);
 	
 	//renja - data mentah perubahan
-	$router->post('/renja/datamentahperubahan',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahPerubahanController@index','as'=>'v1.datamentahperubahan.index']);
-	$router->post('/renja/datamentahperubahan/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahPerubahanController@copyrka','as'=>'v1.datamentahperubahan.copyrka']);
+	$router->post('/renja/datamentahperubahan',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\DataMentahPerubahanController@index','as'=>'v1.datamentahperubahan.index']);
+	$router->post('/renja/datamentahperubahan/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\DataMentahPerubahanController@copyrka','as'=>'v1.datamentahperubahan.copyrka']);
 
 	//renja - rka perubahan
 	$router->post('/renja/rkaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\RKAPerubahanController@index','as'=>'rkaperubahan.index']);
