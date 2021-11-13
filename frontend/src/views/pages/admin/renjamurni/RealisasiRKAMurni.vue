@@ -117,6 +117,7 @@
 							:to="{
 								path: '/renjamurni/rka/uraian/' + this.RKARincID + '/edit',
 							}"
+							:disabled="datakegiatan.Locked == 1"
 						>
 							<span>Edit Uraian</span>
 							<v-icon>mdi-pencil</v-icon>
@@ -162,6 +163,7 @@
 											small
 											class="mr-2"
 											@click.stop="tambahRealisasi"
+											:disabled="datakegiatan.Locked == 1"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
@@ -435,14 +437,14 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
-							<v-icon small class="mr-2" @click.stop="editItem(item)">
+							<v-icon small class="mr-2" @click.stop="editItem(item)" :disabled="datakegiatan.Locked == 1">
 								mdi-pencil
 							</v-icon>
 							<v-icon
 								small
 								:loading="btnLoading"
-								:disabled="btnLoading"
-								@click.stop="deleteItem(item)"
+								:disabled="btnLoading || datakegiatan.Locked == 1"
+								@click.stop="deleteItem(item)"								
 							>
 								mdi-delete
 							</v-icon>
@@ -585,7 +587,7 @@
 						value: "sisa_anggaran",
 						width: 100,
 					},
-					{ text: "AKSI", value: "actions", sortable: false, width: 100 },
+					{ text: "AKSI", value: "actions", sortable: false, width: 70 },
 				],
 				footers: {
 					anggarankas: 0,

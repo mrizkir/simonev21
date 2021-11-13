@@ -84,8 +84,9 @@ class DataMentahPerubahanController extends Controller
 		->orderBy('kode_sub_kegiatan','ASC')
 		->get();        
 		
-		$data->transform(function ($item,$key) {                            
+		$data->transform(function ($item, $key) {                            
 			$item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1,$item->PaguDana1);
+			$item->status = $item->Locked == 1 ? 'SUDAH DICOPY' : 'BELUM DICOPY';
 			return $item;
 		});
 
@@ -99,23 +100,45 @@ class DataMentahPerubahanController extends Controller
 	public function copyrka(Request $request)
 	{
 		$this->validate($request, [             
-			'RKAID'=>'required|exists:trRKA,RKAID',            			
+			'RKAID'=>'required|exists:trRKA,RKAID,Locked,0',            			
 		]);		
 
 		\DB::transaction(function () use ($request) {
-			$RKAID = $request->input('OrgID');	
+			$RKAID = $request->input('RKAID');	
 			$user_id = $this->getUserid();
 
 			$rka = RKAModel::find($RKAID);
 
-			$new_rka = $RKA->replicate();
+			$new_rka = $rka->replicate();
 			$new_rka->RKAID = Uuid::uuid4()->toString();
+			$new_rka->keluaran2 = $rka->keluaran1;
+			$new_rka->tk_keluaran2 = $rka->tk_keluaran1;
+			$new_rka->hasil2 = $rka->hasil1;
+			$new_rka->tk_hasil2 = $rka->tk_hasil1;
+			$new_rka->capaian_program2 = $rka->capaian_program1;
+			$new_rka->tk_capaian2 = $rka->tk_capaian1;
+			$new_rka->masukan2 = $rka->masukan1;
+			$new_rka->ksk2 = $rka->ksk1;
+			$new_rka->sifat_kegiatan2 = $rka->sifat_kegiatan1;
+			$new_rka->waktu_pelaksanaan2 = $rka->waktu_pelaksanaan1;
+			$new_rka->lokasi_kegiatan2 = $rka->lokasi_kegiatan1;
+			$new_rka->PaguDana2 = $rka->PaguDana1;
+			$new_rka->RealisasiKeuangan2 = $rka->RealisasiKeuangan1;
+			$new_rka->RealisasiFisik2 = $rka->RealisasiFisik1;
+			$new_rka->nip_pa2 = $rka->nip_pa1;
+			$new_rka->nip_kpa2 = $rka->nip_kpa1;
+			$new_rka->nip_ppk2 = $rka->nip_kpa1;
+			$new_rka->nip_pptk2 = $rka->nip_pptk1;
+			$new_rka->nip_pptk2 = $rka->nip_pptk1;
 			$new_rka->user_id = $user_id;
 			$new_rka->EntryLvl = 2;
 			$new_rka->RKAID_Src = $rka->RKAID;
-			$new_rka->created_at = Carbon\Carbon::now();
-			$new_rka->updated_at = Carbon\Carbon::now();
+			$new_rka->created_at = \Carbon\Carbon::now();
+			$new_rka->updated_at = \Carbon\Carbon::now();
 			$new_rka->save();
+
+			$rka->Locked=true;
+			$rka->save();
 
 			$sql_uraian = "INSERT INTO trRKARinc (
 				RKARincID,
@@ -159,23 +182,23 @@ class DataMentahPerubahanController extends Controller
 				updated_at
 			) SELECT 
 				UUID() AS RKARincID,
-        {$new_rka->RKAID} AS RKAID,
+        '{$new_rka->RKAID}' AS RKAID,
         NULL AS SIPDID,
         JenisPelaksanaanID,
         SumberDanaID,
         JenisPembangunanID,            
         kode_uraian1,            
-        kode_uraian2,            
+        kode_uraian1 AS kode_uraian2,            
         NamaUraian1,            
-        NamaUraian2,            
+        NamaUraian1 AS NamaUraian2,            
         volume1,
-        volume2,
+        volume1 AS volume2,
         satuan1,            
-        satuan2,            
+        satuan1 AS satuan2,            
         harga_satuan1,
-        harga_satuan2,
+        harga_satuan1 AS harga_satuan2,
         PaguUraian1,
-        PaguUraian2,
+        PaguUraian1 AS PaguUraian2,
         idlok,
         ket_lok,
         rw,
@@ -198,10 +221,16 @@ class DataMentahPerubahanController extends Controller
 				NOW(),
 				NOW()
 			FROM trRKARinc 
-			WHERE RKAID='$RKAID'";
+			WHERE RKAID='$RKAID' AND Locked=0";
 
 			\DB::statement($sql_uraian);
 
+			\DB::table('trRKARinc')
+				->where('RKAID', $RKAID)
+				->update([
+					'Locked'=>true
+				]);
+				
 			$sql_target = "INSERT INTO trRKATargetRinc (
 					RKATargetRincID, 
 					RKAID, 
@@ -210,7 +239,7 @@ class DataMentahPerubahanController extends Controller
 					bulan2, 
 					target1,         
 					target2,                
-					fisik1,         
+					fisik1,
 					fisik2,    
 					EntryLvl, 
 					Descr, 
@@ -221,15 +250,15 @@ class DataMentahPerubahanController extends Controller
 					updated_at
 				) SELECT 
 					UUID() AS RKATargetRincID,
-					{$new_rka->RKAID} AS RKAID,
+					'{$new_rka->RKAID}' AS RKAID,
 					A.RKARincID, 
 					B.bulan1, 
-					B.bulan2, 
+					B.bulan1 AS bulan2, 
 					B.target1,         
-					B.target2,                
+					B.target1 AS target2,                
 					B.fisik1,         
-					B.fisik2,    
-					B.EntryLvl, 
+					B.fisik1 AS fisik2,    
+					2 AS EntryLvl, 
 					B.Descr, 
 					B.TA, 
 					B.Locked,
@@ -238,16 +267,42 @@ class DataMentahPerubahanController extends Controller
 					NOW()
 				FROM trRKARinc A
 				JOIN trRKATargetRinc B ON (A.RKARincID_Src=B.RKARincID)
-				WHERE A.RKAID='{$new_rka->RKAID}'
+				WHERE A.RKAID='{$new_rka->RKAID}' AND B.Locked=0
 			";
 			
-			\DB::statement($sql_target);
+			\DB::statement($sql_target);			
+			
+			\DB::table('trRKATargetRinc')
+				->where('RKAID', $RKAID)
+				->update([
+					'Locked'=>true
+				]);
 
-			$sql_realisasi = "
-				SELECT 
+			$sql_realisasi = "INSERT INTO trRKARealisasiRinc (
 					RKARealisasiRincID, 
 					RKAID, 
 					RKARincID, 
+					bulan1, 
+					bulan2, 
+					target1, 
+					target2,         
+					realisasi1,  
+					realisasi2,         
+					target_fisik1,         
+					target_fisik2,         
+					fisik1,         
+					fisik2,         
+					EntryLvl,         
+					Descr,         
+					TA,         
+					Locked,  
+					RKARealisasiRincID_Src,
+					created_at,
+					updated_at
+				) SELECT 
+					UUID() AS RKATargetRincID,
+					'{$new_rka->RKAID}' AS RKAID,
+					A.RKARincID, 
 					B.bulan1, 
 					B.bulan1 AS bulan2, 
 					B.target1, 
@@ -262,12 +317,21 @@ class DataMentahPerubahanController extends Controller
 					B.Descr,         
 					B.TA,         
 					B.Locked,  
-					B.RKARealisasiRincID AS RKARealisasiRincID_Src,       
+					B.RKARealisasiRincID AS RKARealisasiRincID_Src,
+					NOW(),
+					NOW()
 				FROM trRKARinc A
 				JOIN trRKARealisasiRinc B ON (A.RKARincID_Src=B.RKARincID)
-				WHERE A.RKAID='{$new_rka->RKAID}'
+				WHERE A.RKAID='{$new_rka->RKAID}' AND B.Locked=0
 			";
 			\DB::statement($sql_realisasi);
+
+			\DB::table('trRKARealisasiRinc')
+				->where('RKAID', $RKAID)
+				->update([
+					'Locked'=>true
+				]);
+
 		});
 
 		return Response()->json([

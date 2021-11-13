@@ -16,7 +16,7 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Halaman ini berisi data mentah hasil integrasi dari SIPD.
+					Halaman ini berisi data RKA Murni.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -200,6 +200,9 @@
 							<tr class="amber darken-1 font-weight-black">
 								<td colspan="3" class="text-right">TOTAL</td>
 								<td class="text-right">{{ footers.paguopd | formatUang }}</td>
+								<td></td>
+								<td></td>
+								<td></td>
 								<td></td>
 								<td></td>
 							</tr>

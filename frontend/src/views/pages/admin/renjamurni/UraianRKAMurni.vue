@@ -103,19 +103,19 @@
 			<v-row class="mb-4" no-gutters>
 				<v-col cols="12">
 					<v-bottom-navigation color="purple lighten-1">
-						<v-btn @click.stop="resetdatakegiatan">
+						<v-btn @click.stop="resetdatakegiatan" :disabled="datakegiatan.Locked == 1">
 							<span>Reset</span>
 							<v-icon>mdi-refresh</v-icon>
 						</v-btn>
-						<v-btn :to="{ path: '/renjamurni/rka/' + RKAID + '/edit' }">
+						<v-btn :to="{ path: '/renjamurni/rka/' + RKAID + '/edit' }" :disabled="datakegiatan.Locked == 1">
 							<span>Edit RKA</span>
 							<v-icon>mdi-pencil</v-icon>
 						</v-btn>
-						<v-btn @click.stop="showdialogtargetfisik">
+						<v-btn @click.stop="showdialogtargetfisik" :disabled="datakegiatan.Locked == 1">
 							<span>Target Fisik</span>
 							<v-icon>mdi-history</v-icon>
 						</v-btn>
-						<v-btn @click.stop="showdialogtargetanggkarankas">
+						<v-btn @click.stop="showdialogtargetanggkarankas" :disabled="datakegiatan.Locked == 1">
 							<span>Target Anggaran Kas</span>
 							<v-icon>mdi-history</v-icon>
 						</v-btn>
@@ -625,7 +625,8 @@
 											outlined
 											small
 											class="ma-2"
-											@click.stop="$router.push('/renjamurni/rka/uraian/' + RKAID + '/add')"											
+											@click.stop="$router.push('/renjamurni/rka/uraian/' + RKAID + '/add')"
+											:disabled="datakegiatan.Locked == 1"
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
@@ -658,6 +659,7 @@
 										small
 										class="ma-1"
 										@click.stop="editItem(item)"
+										:disabled="datakegiatan.Locked == 1"
 									>
 										mdi-pencil
 									</v-icon>
@@ -672,7 +674,7 @@
 										v-on="on"
 										class="ma-1"
 										color="red"										
-										:disabled="btnLoading || item.Locked == 1"
+										:disabled="btnLoading || datakegiatan.Locked == 1"
 										@click.stop="deleteItem(item)"
 									>
 										mdi-delete
@@ -680,6 +682,9 @@
 								</template>
 								<span>Hapus Uraian</span>
 							</v-tooltip>
+							<v-icon small class="mr-2" v-if="datakegiatan.Locked">
+								mdi-lock
+							</v-icon>
 						</template>
 						<template v-slot:item.PaguUraian1="{ item }">
 							{{ item.PaguUraian1 | formatUang }}

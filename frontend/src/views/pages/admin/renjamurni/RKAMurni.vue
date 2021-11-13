@@ -251,12 +251,12 @@
 									<strong>updated_at:</strong>
 									{{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
 								</v-col>
-								<v-col cols="12" class="mb1 text-center">
+								<v-col cols="12" class="mb1 text-center" v-if="item.Locked == 0">
 									<v-btn
 										color="blue darken-1"
 										text
 										@click.stop="resetdatakegiatan(item)"
-										:disabled="btnLoading"
+										:disabled="btnLoading || item.Locked == 1"
 									>
 										RESET
 									</v-btn>
