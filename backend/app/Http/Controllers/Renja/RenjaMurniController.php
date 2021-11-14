@@ -813,16 +813,23 @@ class RenjaMurniController extends Controller
 				$total_ttb_keuangan=0;
 				$totalSisaAnggaran=0;     
 
-				$daftar_kegiatan = \DB::table('trRKA')
-										->select(\DB::raw('`RKAID`,`PaguDana1`'))                                                                             
-										->where('OrgID',$opd->OrgID)                                            
-										->where('TA',$tahun)  
-										->where('EntryLvl',1)                                        
-										->get();
+				$daftar_sub_kegiatan = \DB::table('trRKA')
+					->select(\DB::raw('`RKAID`,`PaguDana1`'))                                                                             
+					->where('OrgID',$opd->OrgID)                                            
+					->where('TA',$tahun)  
+					->where('EntryLvl',1)                                        
+					->get();
 
-				if(isset($daftar_kegiatan[0]))
+				if(isset($daftar_sub_kegiatan[0]))
 				{
-					foreach ($daftar_kegiatan as $n)
+					$total_kegiatan = \DB::table('trRKA')
+						->where('OrgID',$opd->OrgID)                                            
+						->where('TA',$tahun)  
+						->where('EntryLvl',1) 
+						->distinct('kode_kegiatan')
+						->count('kode_kegiatan');
+
+					foreach ($daftar_sub_kegiatan as $n)
 					{
 						$RKAID=$n->RKAID;
 						$nilai_pagu_proyek=$n->PaguDana1;
@@ -882,14 +889,14 @@ class RenjaMurniController extends Controller
 						
 						$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
-						$total_kegiatan+=1;
+						$total_sub_kegiatan+=1;
 					}
 				}
 				if ($totalPersenBobot > 100) {
 					$totalPersenBobot = 100.000;
 				}
-				$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
-				$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
+				$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
+				$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
 				$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
 				$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
 				$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
@@ -898,10 +905,10 @@ class RenjaMurniController extends Controller
 				$total_ttb_keuangan=round($total_ttb_keuangan,2);
 
 				$statistik2 = Statistik2Model::where('Bulan',$i)
-												->where('OrgID',$OrgID)
-												->where('TA',$tahun)   
-												->where('EntryLvl',1)                                                                                   
-												->first();
+				->where('OrgID',$OrgID)
+				->where('TA',$tahun)   
+				->where('EntryLvl',1)                                                                                   
+				->first();
 
 				if (is_null($statistik2))
 				{
@@ -984,9 +991,7 @@ class RenjaMurniController extends Controller
 					$statistik2->SisaPaguDana1=$totalSisaAnggaran;
 					$statistik2->PersenSisaPaguDana1=$totalPersenSisaAnggaran;
 					$statistik2->Bobot2=$totalPersenBobot;
-
-					$statistik2->save();
-				
+					$statistik2->save();				
 				}
 			}
 		}
