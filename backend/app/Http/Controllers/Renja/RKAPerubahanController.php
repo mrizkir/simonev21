@@ -1655,7 +1655,13 @@ class RKAPerubahanController extends Controller
 		{          
 			case 'datarka' :
 				$rka = RKAModel::find($id);
+				$RKAID_Src = $rka->RKAID_Src;
 				$rka->delete();
+				\DB::table('trRKA')
+				->where('RKAID', $RKAID_Src)
+				->update([
+					'Locked'=>0
+				]);
 				$message="data rka perubahan dengan ID ($id) Berhasil di Hapus";                 
 			break;  
 			case 'datauraian' :
