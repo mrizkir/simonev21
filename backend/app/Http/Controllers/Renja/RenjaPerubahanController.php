@@ -12,75 +12,75 @@ use App\Models\Statistik2Model;
 
 class RenjaPerubahanController extends Controller 
 {
-		public function index(Request $request)
+	public function index(Request $request)
+	{
+		$this->validate($request, [            
+			'ta'=>'required',
+			'bulan_realisasi'=>'required'            
+		]);
+				
+		$tahun=$request->input('ta');
+		$bulan_realisasi=$request->input('bulan_realisasi');
+				
+		$statistik1=[
+									'PaguDana2'=>0,             
+									'JumlahProgram2'=>0,             
+									'JumlahKegiatan2'=>0,             
+									'RealisasiKeuangan2'=>0,             
+									'RealisasiFisik2'=>0, 
+								];
+				
+		$chart_keuangan=[
+			[
+				0,0,0,0,0,0,0,0,0,0,0,0
+			],
+			[
+				0,0,0,0,0,0,0,0,0,0,0,0
+			]
+		];
+		$chart_fisik=[
+			[
+				0,0,0,0,0,0,0,0,0,0,0,0
+			],
+			[
+				0,0,0,0,0,0,0,0,0,0,0,0
+			]
+		];
+		if ($this->hasRole(['superadmin','bapelitbang']))
 		{
-				$this->validate($request, [            
-					'ta'=>'required',
-					'bulan_realisasi'=>'required'            
-				]);
-				
-				$tahun=$request->input('ta');
-				$bulan_realisasi=$request->input('bulan_realisasi');
-				
+			$statistik1 = Statistik1Model::select(\DB::raw('
+				`PaguDana2`,
+				`JumlahProgram2`,
+				`JumlahKegiatan2`,
+				`RealisasiKeuangan2`,
+				`RealisasiFisik2`,
+				0 AS `PersenRealisasiKeuangan2`
+			'))
+			->find($tahun);
+			if (is_null($statistik1))
+			{
+				$statistik1 = [
+					'PaguDana2'=>0,             
+					'JumlahProgram2'=>0,             
+					'JumlahKegiatan2'=>0,             
+					'JumlahSubKegiatan2'=>0,             
+					'RealisasiKeuangan2'=>0,             
+					'RealisasiFisik2'=>0, 
+					'PersenRealisasiKeuangan2'=>0, 	
+				];       
+			}
+			else
+			{
+				$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);
 				$statistik1=[
-												'PaguDana2'=>0,             
-												'JumlahProgram2'=>0,             
-												'JumlahKegiatan2'=>0,             
-												'RealisasiKeuangan2'=>0,             
-												'RealisasiFisik2'=>0, 
-										];
-				
-				$chart_keuangan=[
-						[
-								0,0,0,0,0,0,0,0,0,0,0,0
-						],
-						[
-								0,0,0,0,0,0,0,0,0,0,0,0
-						]
-				];
-				$chart_fisik=[
-						[
-								0,0,0,0,0,0,0,0,0,0,0,0
-						],
-						[
-								0,0,0,0,0,0,0,0,0,0,0,0
-						]
-				];
-				if ($this->hasRole(['superadmin','bapelitbang']))
-				{
-						$statistik1 = Statistik1Model::select(\DB::raw('
-																						`PaguDana2`,
-																						`JumlahProgram2`,
-																						`JumlahKegiatan2`,
-																						`RealisasiKeuangan2`,
-																						`RealisasiFisik2`,
-																						0 AS `PersenRealisasiKeuangan2`
-																				'))
-																				->find($tahun);
-						if (is_null($statistik1))
-						{
-							$statistik1 = [
-								'PaguDana2'=>0,             
-								'JumlahProgram2'=>0,             
-								'JumlahKegiatan2'=>0,             
-								'JumlahSubKegiatan2'=>0,             
-								'RealisasiKeuangan2'=>0,             
-								'RealisasiFisik2'=>0, 
-								'PersenRealisasiKeuangan2'=>0, 	
-							];       
-						}
-						else
-						{
-							$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);
-							$statistik1=[
-															'PaguDana2'=>$statistik1->PaguDana2,             
-															'JumlahProgram2'=>$statistik1->JumlahProgram2,             
-															'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
-															'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
-															'RealisasiFisik2'=>$statistik1->RealisasiFisik2, 
-															'PersenRealisasiKeuangan2'=>$statistik1->PersenRealisasiKeuangan2, 
-													];       
-						}
+					'PaguDana2'=>$statistik1->PaguDana2,             
+					'JumlahProgram2'=>$statistik1->JumlahProgram2,             
+					'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
+					'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
+					'RealisasiFisik2'=>$statistik1->RealisasiFisik2, 
+					'PersenRealisasiKeuangan2'=>$statistik1->PersenRealisasiKeuangan2, 
+				];       
+			}
 
 						$statistik2=Statistik2Model::select(\DB::raw('
 																								`Bulan`,
@@ -567,177 +567,9 @@ class RenjaPerubahanController extends Controller
 			}
 		}
 	}
-		private function generateStatistikOPD ($OrgID,$tahun)
-		{
-				$str_jumlah_program_kegiatan = "
-						UPDATE 
-								tmOrg AS dest,
-								(
-										SELECT 
-												COUNT(DISTINCT(kode_program)) AS jumlah_program,
-												COUNT(DISTINCT(kode_sub_kegiatan)) AS kode_sub_kegiatan
-										FROM trRKA 
-										WHERE OrgID='$OrgID'
-										AND `EntryLvl`=2
-								) AS src
-						SET 
-								dest.JumlahProgram2 = src.jumlah_program,
-								dest.JumlahKegiatan2 = src.kode_sub_kegiatan
-						WHERE OrgID='$OrgID'
-				";
-
-				\DB::statement($str_jumlah_program_kegiatan); 
-				
-				$str_pagu = "
-						UPDATE 
-								tmOrg AS dest,
-								(
-										SELECT 
-												SUM(PaguUraian1) AS PaguUraian
-										FROM trRKARinc A
-										JOIN trRKA B ON A.RKAID=B.RKAID
-										WHERE OrgID='$OrgID'
-										AND `EntryLvl`=2
-								) AS src
-						SET 
-								dest.PaguDana2 = src.PaguUraian                
-						WHERE OrgID='$OrgID'
-				";
-				\DB::statement($str_pagu); 
-				
-				$opd = OrganisasiModel::find($OrgID); 
-				$total_data=[
-						'totalPaguOPD'=>0,
-						'totalPersenBobot'=>0,
-						'totalPersenTargetFisik'=>0,
-						'totalPersenRealisasiFisik'=>0,
-						'total_ttb_fisik'=>0,
-						'totalTargetKeuanganKeseluruhan'=>0,
-						'totalRealisasiKeuanganKeseluruhan'=>0,
-						'totalPersenTargetKeuangan'=>0,
-						'totalPersenRealisasiKeuangan'=>0,
-						'total_ttb_keuangan'=>0,
-						'totalSisaAnggaran'=>0,
-						'totalPersenSisaAnggaran'=>0,
-				];                    
-				if (!is_null($opd))
-				{
-						$totalPaguOPD = $opd->PaguDana2; 
-
-						$total_kegiatan=0;
-						$total_uraian=0;
-						$totalPersenBobot=0;
-						$totalPersenTargetFisik=0;
-						$totalPersenRealisasiFisik=0;
-						$total_ttb_fisik=0;
-						$totalTargetKeuanganKeseluruhan=0;
-						$totalRealisasiKeuanganKeseluruhan=0;
-						$total_ttb_keuangan=0;
-						$totalSisaAnggaran=0;     
-						
-						$daftar_kegiatan = \DB::table('trRKA')
-																				->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
-																				->where('OrgID',$opd->OrgID)                                            
-																				->where('TA',$tahun)  
-																				->where('EntryLvl',2)                                        
-																				->get();
-
-						
-						if(isset($daftar_kegiatan[0]))
-						{
-								foreach ($daftar_kegiatan as $n)
-								{
-										$RKAID=$n->RKAID;
-										$nilai_pagu_proyek=$n->PaguDana2;
-										$persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
-										$totalPersenBobot+=$persen_bobot;
-
-										//jumlah baris uraian
-										$jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
-										$total_uraian+=$jumlahuraian;
-
-										$data_target=\DB::table('trRKATargetRinc')
-																				->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
-																				->where('RKAID',$RKAID)                                        
-																				->get();
-
-										$data_realisasi=\DB::table('trRKARealisasiRinc')
-																		->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
-																		->where('RKAID',$RKAID)                                    
-																		->get();
-
-										//menghitung persen target fisik         
-										$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
-										$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
-										$totalPersenTargetFisik+=$persen_target_fisik;               
-
-										//menghitung persen realisasi fisik                
-										$persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
-										$totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
-										
-										$persen_tertimbang_fisik=0.00;
-										if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-										{
-												$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
-										}							
-										$total_ttb_fisik+=$persen_tertimbang_fisik;
-
-										//menghitung total target dan realisasi keuangan 
-										$totalTargetKeuangan=$data_target[0]->totaltarget;
-										$totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
-										$persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
-								
-										$totalRealisasiKeuangan=$data_realisasi[0]->realisasi2;
-										$totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
-										$persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
-										
-										$persen_tertimbang_keuangan=0.00;
-										if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-										{
-												$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
-										}	
-										$total_ttb_keuangan += $persen_tertimbang_keuangan;
-
-										$sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
-										$totalSisaAnggaran+=$sisa_anggaran; 
-										
-										$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
-
-										$total_kegiatan+=1;
-								}
-						}        
-						
-						if ($totalPersenBobot > 100) {
-								$totalPersenBobot = 100.000;
-						}
-						$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
-						$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
-						$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
-						$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
-						$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
-						$totalPersenBobot=round($totalPersenBobot,2);
-						$total_ttb_fisik=round($total_ttb_fisik,2);
-						$total_ttb_keuangan=round($total_ttb_keuangan,2);
-						$total_data=[
-								'totalPaguOPD'=>$totalPaguOPD,
-								'totalPersenBobot'=>$totalPersenBobot,
-								'totalPersenTargetFisik'=>$totalPersenTargetFisik,
-								'totalPersenRealisasiFisik'=>$totalPersenRealisasiFisik,
-								'total_ttb_fisik'=>$total_ttb_fisik,
-								'totalTargetKeuanganKeseluruhan'=>$totalTargetKeuanganKeseluruhan,
-								'totalRealisasiKeuanganKeseluruhan'=>$totalRealisasiKeuanganKeseluruhan,
-								'totalPersenTargetKeuangan'=>$totalPersenTargetKeuangan,
-								'totalPersenRealisasiKeuangan'=>$totalPersenRealisasiKeuangan,
-								'total_ttb_keuangan'=>$total_ttb_keuangan,
-								'totalSisaAnggaran'=>$totalSisaAnggaran,
-								'totalPersenSisaAnggaran'=>$totalPersenSisaAnggaran,
-						];                           
-				}
-				return $total_data;
-		}
-		private function generateStatistikOPDBulan ($OrgID,$tahun)
-		{      
-			$str_jumlah_program_kegiatan = "
+	private function generateStatistikOPD ($OrgID,$tahun)
+	{
+		$str_jumlah_program_kegiatan = "
 			UPDATE 
 				tmOrg AS dest,
 				(
@@ -756,14 +588,14 @@ class RenjaPerubahanController extends Controller
 			WHERE OrgID='$OrgID'
 		";
 
-		\DB::statement($str_jumlah_program_kegiatan); 
-				
+		\DB::statement($str_jumlah_program_kegiatan);
+
 		$str_pagu = "
 			UPDATE 
 				tmOrg AS dest,
 				(
 					SELECT 
-						SUM(PaguUraian2) AS PaguUraian
+						SUM(PaguUraian1) AS PaguUraian
 					FROM trRKARinc A
 					JOIN trRKA B ON A.RKAID=B.RKAID
 					WHERE OrgID='$OrgID'
@@ -774,11 +606,25 @@ class RenjaPerubahanController extends Controller
 			WHERE OrgID='$OrgID'
 		";
 		\DB::statement($str_pagu); 
-		
-		$opd = OrganisasiModel::find($OrgID);  
+				
+		$opd = OrganisasiModel::find($OrgID); 
+		$total_data=[
+			'totalPaguOPD'=>0,
+			'totalPersenBobot'=>0,
+			'totalPersenTargetFisik'=>0,
+			'totalPersenRealisasiFisik'=>0,
+			'total_ttb_fisik'=>0,
+			'totalTargetKeuanganKeseluruhan'=>0,
+			'totalRealisasiKeuanganKeseluruhan'=>0,
+			'totalPersenTargetKeuangan'=>0,
+			'totalPersenRealisasiKeuangan'=>0,
+			'total_ttb_keuangan'=>0,
+			'totalSisaAnggaran'=>0,
+			'totalPersenSisaAnggaran'=>0,
+		];
 		if (!is_null($opd))
 		{
-			$totalPaguOPD = $opd->PaguDana2;
+			$totalPaguOPD = $opd->PaguDana2; 
 
 			$total_kegiatan=0;
 			$total_sub_kegiatan=0;
@@ -790,118 +636,274 @@ class RenjaPerubahanController extends Controller
 			$totalTargetKeuanganKeseluruhan=0;
 			$totalRealisasiKeuanganKeseluruhan=0;
 			$total_ttb_keuangan=0;
-			$totalSisaAnggaran=0;
-				
-			for ($i=1;$i<=12;$i++)
-			{   
-				$total_kegiatan=0;
-				$total_sub_kegiatan=0;
-				$total_uraian=0;
-				$totalPersenBobot=0;
-				$totalPersenTargetFisik=0;
-				$totalPersenRealisasiFisik=0;
-				$total_ttb_fisik=0;
-				$totalTargetKeuanganKeseluruhan=0;
-				$totalRealisasiKeuanganKeseluruhan=0;
-				$total_ttb_keuangan=0;
-				$totalSisaAnggaran=0;
+			$totalSisaAnggaran=0;     
+			
+			$daftar_sub_kegiatan = \DB::table('trRKA')
+				->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
+				->where('OrgID',$opd->OrgID)                                            
+				->where('TA',$tahun)  
+				->where('EntryLvl',2)                                        
+				->get();
+						
+			if(isset($daftar_sub_kegiatan[0]))
+			{
+				foreach ($daftar_sub_kegiatan as $n)
+				{
+					$RKAID=$n->RKAID;
+					$nilai_pagu_proyek=$n->PaguDana2;
+					$persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
+					$totalPersenBobot+=$persen_bobot;
 
-				$daftar_sub_kegiatan = \DB::table('trRKA')
-					->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
+					//jumlah baris uraian
+					$jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
+					$total_uraian+=$jumlahuraian;
+
+					$data_target=\DB::table('trRKATargetRinc')
+															->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
+															->where('RKAID',$RKAID)                                        
+															->get();
+
+					$data_realisasi=\DB::table('trRKARealisasiRinc')
+													->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
+													->where('RKAID',$RKAID)                                    
+													->get();
+
+					//menghitung persen target fisik         
+					$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
+					$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+					$totalPersenTargetFisik+=$persen_target_fisik;               
+
+					//menghitung persen realisasi fisik                
+					$persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
+					$totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
+					
+					$persen_tertimbang_fisik=0.00;
+					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+					{
+							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+					}							
+					$total_ttb_fisik+=$persen_tertimbang_fisik;
+
+					//menghitung total target dan realisasi keuangan 
+					$totalTargetKeuangan=$data_target[0]->totaltarget;
+					$totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+					$persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
+			
+					$totalRealisasiKeuangan=$data_realisasi[0]->realisasi2;
+					$totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+					$persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
+					
+					$persen_tertimbang_keuangan=0.00;
+					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+					{
+							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+					}	
+					$total_ttb_keuangan += $persen_tertimbang_keuangan;
+
+					$sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
+					$totalSisaAnggaran+=$sisa_anggaran; 
+					
+					$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
+
+					$total_sub_kegiatan+=1;
+				}
+			}        
+			
+			if ($totalPersenBobot > 100) {
+				$totalPersenBobot = 100.000;
+			}
+			$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
+			$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
+			$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
+			$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
+			$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
+			$totalPersenBobot=round($totalPersenBobot,2);
+			$total_ttb_fisik=round($total_ttb_fisik,2);
+			$total_ttb_keuangan=round($total_ttb_keuangan,2);
+			$total_data=[
+				'totalPaguOPD'=>$totalPaguOPD,
+				'totalPersenBobot'=>$totalPersenBobot,
+				'totalPersenTargetFisik'=>$totalPersenTargetFisik,
+				'totalPersenRealisasiFisik'=>$totalPersenRealisasiFisik,
+				'total_ttb_fisik'=>$total_ttb_fisik,
+				'totalTargetKeuanganKeseluruhan'=>$totalTargetKeuanganKeseluruhan,
+				'totalRealisasiKeuanganKeseluruhan'=>$totalRealisasiKeuanganKeseluruhan,
+				'totalPersenTargetKeuangan'=>$totalPersenTargetKeuangan,
+				'totalPersenRealisasiKeuangan'=>$totalPersenRealisasiKeuangan,
+				'total_ttb_keuangan'=>$total_ttb_keuangan,
+				'totalSisaAnggaran'=>$totalSisaAnggaran,
+				'totalPersenSisaAnggaran'=>$totalPersenSisaAnggaran,
+			];                           
+		}
+		return $total_data;
+	}
+	private function generateStatistikOPDBulan ($OrgID,$tahun)
+	{      
+		$str_jumlah_program_kegiatan = "
+		UPDATE 
+			tmOrg AS dest,
+			(
+				SELECT 
+					COUNT(DISTINCT(kode_program)) AS jumlah_program,
+					COUNT(DISTINCT(kode_kegiatan)) AS kode_kegiatan,
+					COUNT(DISTINCT(kode_sub_kegiatan)) AS kode_sub_kegiatan
+				FROM trRKA 
+				WHERE OrgID='$OrgID'
+				AND `EntryLvl`=2
+			) AS src
+		SET 
+			dest.JumlahProgram2 = src.jumlah_program,
+			dest.JumlahKegiatan2 = src.kode_kegiatan,
+			dest.JumlahSubKegiatan2 = src.kode_sub_kegiatan
+		WHERE OrgID='$OrgID'
+	";
+
+	\DB::statement($str_jumlah_program_kegiatan); 
+			
+	$str_pagu = "
+		UPDATE 
+			tmOrg AS dest,
+			(
+				SELECT 
+					SUM(PaguUraian2) AS PaguUraian
+				FROM trRKARinc A
+				JOIN trRKA B ON A.RKAID=B.RKAID
+				WHERE OrgID='$OrgID'
+				AND A.`EntryLvl`=2
+			) AS src
+		SET 
+			dest.PaguDana2 = src.PaguUraian                
+		WHERE OrgID='$OrgID'
+	";
+	\DB::statement($str_pagu); 
+		
+	$opd = OrganisasiModel::find($OrgID);  
+	if (!is_null($opd))
+	{
+		$totalPaguOPD = $opd->PaguDana2;
+
+		$total_kegiatan=0;
+		$total_sub_kegiatan=0;
+		$total_uraian=0;
+		$totalPersenBobot=0;
+		$totalPersenTargetFisik=0;
+		$totalPersenRealisasiFisik=0;
+		$total_ttb_fisik=0;
+		$totalTargetKeuanganKeseluruhan=0;
+		$totalRealisasiKeuanganKeseluruhan=0;
+		$total_ttb_keuangan=0;
+		$totalSisaAnggaran=0;
+				
+		for ($i=1;$i<=12;$i++)
+		{   
+			$total_kegiatan=0;
+			$total_sub_kegiatan=0;
+			$total_uraian=0;
+			$totalPersenBobot=0;
+			$totalPersenTargetFisik=0;
+			$totalPersenRealisasiFisik=0;
+			$total_ttb_fisik=0;
+			$totalTargetKeuanganKeseluruhan=0;
+			$totalRealisasiKeuanganKeseluruhan=0;
+			$total_ttb_keuangan=0;
+			$totalSisaAnggaran=0;
+
+			$daftar_sub_kegiatan = \DB::table('trRKA')
+				->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
+				->where('OrgID',$opd->OrgID)                                            
+				->where('TA',$tahun)  
+				->where('EntryLvl',2)                                        
+				->get();
+
+			if(isset($daftar_sub_kegiatan[0]))
+			{
+				$total_kegiatan = \DB::table('trRKA')
 					->where('OrgID',$opd->OrgID)                                            
 					->where('TA',$tahun)  
-					->where('EntryLvl',2)                                        
-					->get();
+					->where('EntryLvl',2) 
+					->distinct('kode_kegiatan')
+					->count('kode_kegiatan');
 
-				if(isset($daftar_sub_kegiatan[0]))
+				foreach ($daftar_sub_kegiatan as $n)
 				{
-					$total_kegiatan = \DB::table('trRKA')
-						->where('OrgID',$opd->OrgID)                                            
-						->where('TA',$tahun)  
-						->where('EntryLvl',2) 
-						->distinct('kode_kegiatan')
-						->count('kode_kegiatan');
+					$RKAID=$n->RKAID;
+					$nilai_pagu_proyek=$n->PaguDana2;
+					$persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
+					$totalPersenBobot+=$persen_bobot;
 
-					foreach ($daftar_sub_kegiatan as $n)
+					//jumlah baris uraian
+					$jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
+					$total_uraian+=$jumlahuraian;
+
+					$data_target=\DB::table('trRKATargetRinc')
+													->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
+													->where('RKAID',$RKAID)                   
+													->where('bulan2','<=',$i)                     
+													->get();
+
+					$data_realisasi=\DB::table('trRKARealisasiRinc')
+													->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
+													->where('RKAID',$RKAID)      
+													->where('bulan2','<=',$i)                                   
+													->get();
+
+					//menghitung persen target fisik         
+					$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
+					$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+					$totalPersenTargetFisik+=$persen_target_fisik;               
+
+					//menghitung persen realisasi fisik                
+					$persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
+					$totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
+					
+					$persen_tertimbang_fisik=0.00;
+					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 					{
-						$RKAID=$n->RKAID;
-						$nilai_pagu_proyek=$n->PaguDana2;
-						$persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
-						$totalPersenBobot+=$persen_bobot;
+						$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+					}							
+					$total_ttb_fisik+=$persen_tertimbang_fisik;
 
-						//jumlah baris uraian
-						$jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
-						$total_uraian+=$jumlahuraian;
+					//menghitung total target dan realisasi keuangan 
+					$totalTargetKeuangan=$data_target[0]->totaltarget;
+					$totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+					$persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
+			
+					$totalRealisasiKeuangan=$data_realisasi[0]->realisasi2;
+					$totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+					$persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
+					
+					$persen_tertimbang_keuangan=0.00;
+					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+					{
+						$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+					}	
+					$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
-						$data_target=\DB::table('trRKATargetRinc')
-														->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
-														->where('RKAID',$RKAID)                   
-														->where('bulan2','<=',$i)                     
-														->get();
+					$sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
+					$totalSisaAnggaran+=$sisa_anggaran; 
+					
+					$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
-						$data_realisasi=\DB::table('trRKARealisasiRinc')
-														->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
-														->where('RKAID',$RKAID)      
-														->where('bulan2','<=',$i)                                   
-														->get();
-
-						//menghitung persen target fisik         
-						$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
-						$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
-						$totalPersenTargetFisik+=$persen_target_fisik;               
-
-						//menghitung persen realisasi fisik                
-						$persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
-						$totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
-						
-						$persen_tertimbang_fisik=0.00;
-						if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-						{
-							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
-						}							
-						$total_ttb_fisik+=$persen_tertimbang_fisik;
-
-						//menghitung total target dan realisasi keuangan 
-						$totalTargetKeuangan=$data_target[0]->totaltarget;
-						$totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
-						$persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
-				
-						$totalRealisasiKeuangan=$data_realisasi[0]->realisasi2;
-						$totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
-						$persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
-						
-						$persen_tertimbang_keuangan=0.00;
-						if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
-						{
-							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
-						}	
-						$total_ttb_keuangan += $persen_tertimbang_keuangan;
-
-						$sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
-						$totalSisaAnggaran+=$sisa_anggaran; 
-						
-						$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
-
-						$total_sub_kegiatan+=1;
-					}
+					$total_sub_kegiatan+=1;
 				}
-				if ($totalPersenBobot > 100) {
-					$totalPersenBobot = 100.000;
-				}
-				$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
-				$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
-				$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
-				$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
-				$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
-				$totalPersenBobot=round($totalPersenBobot,2);
-				$total_ttb_fisik=round($total_ttb_fisik,2);
-				$total_ttb_keuangan=round($total_ttb_keuangan,2);
+			}
+			if ($totalPersenBobot > 100) {
+				$totalPersenBobot = 100.000;
+			}
+			$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
+			$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
+			$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
+			$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
+			$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
+			$totalPersenBobot=round($totalPersenBobot,2);
+			$total_ttb_fisik=round($total_ttb_fisik,2);
+			$total_ttb_keuangan=round($total_ttb_keuangan,2);
 
-				$statistik2 = Statistik2Model::where('Bulan',$i)
-				->where('OrgID',$OrgID)
-				->where('TA',$tahun)   
-				->where('EntryLvl',2)                                                                                   
-				->first();
+			$statistik2 = Statistik2Model::where('Bulan',$i)
+			->where('OrgID',$OrgID)
+			->where('TA',$tahun)   
+			->where('EntryLvl',2)                                                                                   
+			->first();
 
 				if (is_null($statistik2))
 				{

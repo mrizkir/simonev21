@@ -632,6 +632,7 @@ class RenjaMurniController extends Controller
 			$totalPaguOPD = $opd->PaguDana1; 
 
 			$total_kegiatan=0;
+			$total_sub_kegiatan=0;
 			$total_uraian=0;
 			$totalPersenBobot=0;
 			$totalPersenTargetFisik=0;
@@ -642,7 +643,7 @@ class RenjaMurniController extends Controller
 			$total_ttb_keuangan=0;
 			$totalSisaAnggaran=0;     
 			
-			$daftar_kegiatan = \DB::table('trRKA')
+			$daftar_sub_kegiatan = \DB::table('trRKA')
 										->select(\DB::raw('`RKAID`,`PaguDana1`'))                                                                             
 										->where('OrgID',$opd->OrgID)                                            
 										->where('TA',$tahun)  
@@ -650,9 +651,9 @@ class RenjaMurniController extends Controller
 										->get();
 
 			
-			if(isset($daftar_kegiatan[0]))
+			if(isset($daftar_sub_kegiatan[0]))
 			{
-				foreach ($daftar_kegiatan as $n)
+				foreach ($daftar_sub_kegiatan as $n)
 				{
 					$RKAID=$n->RKAID;
 					$nilai_pagu_proyek=$n->PaguDana1;
@@ -710,15 +711,15 @@ class RenjaMurniController extends Controller
 					
 					$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
-					$total_kegiatan+=1;
+					$total_sub_kegiatan+=1;
 				}
 			}        
 			
 			if ($totalPersenBobot > 100) {
 				$totalPersenBobot = 100.000;
 			}
-			$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
-			$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
+			$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
+			$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
 			$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
 			$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
 			$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
