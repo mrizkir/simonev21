@@ -801,7 +801,7 @@
 						value: "realisasi2",
 						width: 100,
 					},
-					{ text: "%", align: "end", value: "persen_keuangan1", width: 50 },
+					{ text: "%", align: "end", value: "persen_keuangan2", width: 50 },
 					{ text: "SISA PAGU", align: "end", value: "sisa", width: 100 },
 					{ text: "AKSI", value: "actions", sortable: false, width: 120 },
 				],

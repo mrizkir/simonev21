@@ -682,7 +682,7 @@ class RKAPerubahanController extends Controller
 							`PaguDana2`,                            
 							`RealisasiKeuangan2`,                            
 							`RealisasiFisik2`,   
-							0 AS persen_keuangan1,
+							0 AS persen_keuangan2,
 							nip_pa2,                            
 							nip_kpa2,
 							nip_ppk2,
@@ -705,7 +705,7 @@ class RKAPerubahanController extends Controller
 						->get();        
 					
 		$data->transform(function ($item,$key) {                            
-			$item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
+			$item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
 			return $item;
 		});
 		$jumlah_sub_kegiatan2 = $data->count();
@@ -1425,7 +1425,7 @@ class RKAPerubahanController extends Controller
 									`trRKARinc`.`harga_satuan2`,
 									`trRKARinc`.`PaguUraian2`,
 									0 AS `realisasi2`,
-									0 AS `persen_keuangan1`,
+									0 AS `persen_keuangan2`,
 									0 AS `fisik2`,                                                                        
 									\'\' AS `provinsi_id`,
 									\'\' AS `kabupaten_id`,
@@ -1458,7 +1458,7 @@ class RKAPerubahanController extends Controller
 			$data->transform(function ($item,$key) {
 				$item->realisasi2=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi2');    
 				$item->fisik2=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik2');
-				$item->persen_keuangan1=Helper::formatPersen($item->realisasi2,$item->PaguUraian2);
+				$item->persen_keuangan2=Helper::formatPersen($item->realisasi2,$item->PaguUraian2);
 				switch($item->ket_lok)
 				{
 					case 'desa' :
