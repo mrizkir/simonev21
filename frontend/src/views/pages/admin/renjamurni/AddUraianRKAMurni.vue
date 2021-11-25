@@ -370,7 +370,7 @@
 								volume1: this.formdata.volume,
 								satuan1: this.formdata.satuan,
 								harga_satuan1: this.formdata.harga_satuan,
-								PaguUraian1: this.PaguUraian(),
+								PaguUraian1: this.PaguUraian,
 								Descr: this.formdata.Descr,
 							},
 							{
