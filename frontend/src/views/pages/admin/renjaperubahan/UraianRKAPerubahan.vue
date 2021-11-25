@@ -221,8 +221,7 @@
 									<v-btn
 										color="blue darken-1"
 										text
-										@click.stop="updateuraian"
-										
+										@click.stop="updateuraian"										
 										:disabled="!form_valid || btnLoading"
 									>
 										SIMPAN
@@ -386,8 +385,7 @@
 									</v-btn>
 									<v-btn
 										color="blue darken-1"
-										text
-										
+										text										
 										@click.stop="savetargetfisik"
 										:disabled="!form_valid || btnLoading"
 									>
@@ -1050,7 +1048,7 @@
 									_method: "PUT",
 									RKARincID: this.formdata.RKARincID,
 									volume2: "" + this.formdata.volume2,
-									satuan1: this.formdata.satuan2,
+									satuan2: this.formdata.satuan2,
 									harga_satuan2: "" + this.formdata.harga_satuan2,
 									PaguUraian2: "" + this.PaguUraian,
 									JenisPelaksanaanID: this.formdata.JenisPelaksanaanID,
