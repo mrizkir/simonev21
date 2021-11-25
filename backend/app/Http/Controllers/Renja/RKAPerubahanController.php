@@ -851,7 +851,7 @@ class RKAPerubahanController extends Controller
 
 		$this->validate($request, [
 			'RKAID'=>'required|exists:trRKA,RKAID',
-			'SubRObyID'=>'required|exists:tmSubRoby,SubRObyID',
+			'SubRObyID'=>'required|exists:tmSubROby,SubRObyID',
 			'kode_uraian2'=> 'required',
 			'nama_uraian2'=> 'required',
 			'volume2'=> 'required|numeric',

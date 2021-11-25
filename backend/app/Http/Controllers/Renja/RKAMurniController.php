@@ -608,7 +608,7 @@ class RKAMurniController extends Controller
 
 		$this->validate($request, [
 			'RKAID'=>'required|exists:trRKA,RKAID',
-			'SubRObyID'=>'required|exists:tmSubRoby,SubRObyID',
+			'SubRObyID'=>'required|exists:tmSubROby,SubRObyID',
 			'kode_uraian1'=> 'required',
 			'nama_uraian1'=> 'required',
 			'volume1'=> 'required|numeric',
