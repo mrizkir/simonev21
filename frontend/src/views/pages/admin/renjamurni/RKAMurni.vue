@@ -394,7 +394,7 @@
 						align: "end",
 						width: 100,
 					},
-					{ text: "%", align: "end", value: "persen_keuangan2", width: 50 },
+					{ text: "%", align: "end", value: "persen_keuangan1", width: 50 },
 					{
 						text: "SISA PAGU",
 						value: "SisaAnggaran",

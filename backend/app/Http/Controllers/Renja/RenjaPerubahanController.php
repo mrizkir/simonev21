@@ -25,7 +25,8 @@ class RenjaPerubahanController extends Controller
 		$statistik1=[
 									'PaguDana2'=>0,             
 									'JumlahProgram2'=>0,             
-									'JumlahKegiatan2'=>0,             
+									'JumlahKegiatan2'=>0, 
+									'JumlahSubKegiatan2'=>0,
 									'RealisasiKeuangan2'=>0,             
 									'RealisasiFisik2'=>0, 
 								];
@@ -52,6 +53,7 @@ class RenjaPerubahanController extends Controller
 				`PaguDana2`,
 				`JumlahProgram2`,
 				`JumlahKegiatan2`,
+				`JumlahSubKegiatan2`,
 				`RealisasiKeuangan2`,
 				`RealisasiFisik2`,
 				0 AS `PersenRealisasiKeuangan2`
@@ -75,265 +77,268 @@ class RenjaPerubahanController extends Controller
 				$statistik1=[
 					'PaguDana2'=>$statistik1->PaguDana2,             
 					'JumlahProgram2'=>$statistik1->JumlahProgram2,             
-					'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
+					'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,
+					'JumlahSubKegiatan2'=>$statistik1->JumlahSubKegiatan2, 
 					'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
 					'RealisasiFisik2'=>$statistik1->RealisasiFisik2, 
 					'PersenRealisasiKeuangan2'=>$statistik1->PersenRealisasiKeuangan2, 
 				];       
 			}
 
-						$statistik2=Statistik2Model::select(\DB::raw('
-																								`Bulan`,
-																								SUM(`PersenTargetKeuangan2`) AS `PersenTargetKeuangan2`,
-																								SUM(`PersenRealisasiKeuangan2`) AS `PersenRealisasiKeuangan2`,                                                
-																								SUM(`TargetFisik2`) AS `TargetFisik2`,
-																								SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
-																						'))
-																						->where('TA',$tahun)                                                                                       
-																						->where('EntryLvl',2)        
-																						->groupBy('Bulan')                                
-																						->get();
+			$statistik2=Statistik2Model::select(\DB::raw('
+					`Bulan`,
+					SUM(`PersenTargetKeuangan2`) AS `PersenTargetKeuangan2`,
+					SUM(`PersenRealisasiKeuangan2`) AS `PersenRealisasiKeuangan2`,                                                
+					SUM(`TargetFisik2`) AS `TargetFisik2`,
+					SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
+			'))
+			->where('TA',$tahun)                                                                                       
+			->where('EntryLvl', 2)        
+			->groupBy('Bulan')                                
+			->get();
 
-						$jumlah_opd = OrganisasiModel::select('OrgID')
-																				->where('TA',$tahun)
-																				->count();
+			$jumlah_opd = OrganisasiModel::select('OrgID')
+			->where('TA',$tahun)
+			->count();
 																				
-						foreach($statistik2 as $v)
+					foreach($statistik2 as $v)
+					{
+						switch($v->Bulan)
 						{
-								switch($v->Bulan)
-								{
-										case 1 :
-												$chart_keuangan[0][0]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][0]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+							case 1 :
+								$chart_keuangan[0][0]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][0]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-												$chart_fisik[0][0]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][0]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 2 :
-												$chart_keuangan[0][1]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][1]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								$chart_fisik[0][0]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][0]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 2 :
+								$chart_keuangan[0][1]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][1]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-												$chart_fisik[0][1]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][1]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 3 :
-												$chart_keuangan[0][2]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][2]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								$chart_fisik[0][1]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][1]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 3 :
+								$chart_keuangan[0][2]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][2]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-												$chart_fisik[0][2]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][2]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 4 :
-												$chart_keuangan[0][3]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][3]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								$chart_fisik[0][2]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][2]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 4 :
+								$chart_keuangan[0][3]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][3]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-												$chart_fisik[0][3]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][3]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 5 :
-												$chart_keuangan[0][4]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][4]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								$chart_fisik[0][3]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][3]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 5 :
+								$chart_keuangan[0][4]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][4]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-												$chart_fisik[0][4]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][4]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 6 :
-												$chart_keuangan[0][5]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][5]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								$chart_fisik[0][4]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][4]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 6 :
+								$chart_keuangan[0][5]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][5]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-												$chart_fisik[0][5]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][5]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 7 :
-												$chart_keuangan[0][6]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][6]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-												
-												$chart_fisik[0][6]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][6]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 8 :
-												$chart_keuangan[0][7]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][7]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-												
-												$chart_fisik[0][7]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][7]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 9 :
-												$chart_keuangan[0][8]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][8]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-												
-												$chart_fisik[0][8]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][8]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 10 :
-												$chart_keuangan[0][9]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][9]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-												
-												$chart_fisik[0][9]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][9]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 11 :
-												$chart_keuangan[0][10]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][10]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-												
-												$chart_fisik[0][10]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][10]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-										case 12 :
-												$chart_keuangan[0][11]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-												$chart_keuangan[1][11]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-												
-												$chart_fisik[0][11]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-												$chart_fisik[1][11]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-										break;
-								}
+								$chart_fisik[0][5]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][5]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 7 :
+								$chart_keuangan[0][6]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][6]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								
+								$chart_fisik[0][6]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][6]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 8 :
+								$chart_keuangan[0][7]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][7]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								
+								$chart_fisik[0][7]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][7]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 9 :
+								$chart_keuangan[0][8]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][8]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								
+								$chart_fisik[0][8]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][8]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 10 :
+								$chart_keuangan[0][9]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][9]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								
+								$chart_fisik[0][9]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][9]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 11 :
+								$chart_keuangan[0][10]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][10]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								
+								$chart_fisik[0][10]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][10]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
+							case 12 :
+								$chart_keuangan[0][11]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+								$chart_keuangan[1][11]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+								
+								$chart_fisik[0][11]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+								$chart_fisik[1][11]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+							break;
 						}
+					}
 				}       
 				else if ($this->hasRole('opd'))
 				{
-						$daftar_opd=$this->getUserOrgID();
-						$jumlah_opd=count($daftar_opd);
-						if ($jumlah_opd > 0)
-						{
-								$statistik1 = OrganisasiModel::where('TA',$tahun)
-																->select(\DB::raw('
-																		COALESCE(SUM(`PaguDana2`),0) AS `PaguDana2`, 
-																		COALESCE(SUM(`JumlahProgram2`),0) AS `JumlahProgram2`, 
-																		COALESCE(SUM(`JumlahKegiatan2`),0) AS `JumlahKegiatan2`,
-																		COALESCE(SUM(`RealisasiKeuangan2`),0) AS `RealisasiKeuangan2`,
-																		COALESCE(SUM(`RealisasiFisik2`),0) AS `RealisasiFisik2`,
-																		0 AS `PersenRealisasiKeuangan2`
-																'))
-																->whereIn('OrgID',$daftar_opd)                                
-																->first();
+					$daftar_opd=$this->getUserOrgID();
+					$jumlah_opd=count($daftar_opd);
+					if ($jumlah_opd > 0)
+					{
+						$statistik1 = OrganisasiModel::where('TA',$tahun)
+							->select(\DB::raw('
+									COALESCE(SUM(`PaguDana2`),0) AS `PaguDana2`, 
+									COALESCE(SUM(`JumlahProgram2`),0) AS `JumlahProgram2`, 
+									COALESCE(SUM(`JumlahKegiatan2`),0) AS `JumlahKegiatan2`,
+									COALESCE(SUM(`JumlahSubKegiatan2`),0) AS `JumlahSubKegiatan2`,
+									COALESCE(SUM(`RealisasiKeuangan2`),0) AS `RealisasiKeuangan2`,
+									COALESCE(SUM(`RealisasiFisik2`),0) AS `RealisasiFisik2`,
+									0 AS `PersenRealisasiKeuangan2`
+							'))
+							->whereIn('OrgID',$daftar_opd)                                
+							->first();
 
-								$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);                
-								$statistik1=[
-														'PaguDana2'=>$statistik1->PaguDana2,             
-														'JumlahProgram2'=>$statistik1->JumlahProgram2,             
-														'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
-														'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
-														'RealisasiFisik2'=>Helper::formatPecahan($statistik1->RealisasiFisik2,$jumlah_opd), 
-														'PersenRealisasiKeuangan2'=>Helper::formatPecahan($statistik1->PersenRealisasiKeuangan2,$jumlah_opd), 
-												];
+							$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);                
+							$statistik1=[
+								'PaguDana2'=>$statistik1->PaguDana2,             
+								'JumlahProgram2'=>$statistik1->JumlahProgram2,             
+								'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
+								'JumlahSubKegiatan2'=>$statistik1->JumlahSubKegiatan2,             
+								'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
+								'RealisasiFisik2'=>Helper::formatPecahan($statistik1->RealisasiFisik2,$jumlah_opd), 
+								'PersenRealisasiKeuangan2'=>Helper::formatPecahan($statistik1->PersenRealisasiKeuangan2,$jumlah_opd), 
+							];
 
-								$statistik2=Statistik2Model::select(\DB::raw('
-																								`Bulan`,
-																								SUM(`PersenTargetKeuangan2`) AS `PersenTargetKeuangan2`,
-																								SUM(`PersenRealisasiKeuangan2`) AS `PersenRealisasiKeuangan2`,                                                
-																								SUM(`TargetFisik2`) AS `TargetFisik2`,
-																								SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
-																						'))
-																						->where('TA',$tahun)
-																						->whereIn('OrgID',$daftar_opd)                                             
-																						->where('EntryLvl',2)        
-																						->groupBy('Bulan')                                
-																						->get();
+							$statistik2=Statistik2Model::select(\DB::raw('
+									`Bulan`,
+									SUM(`PersenTargetKeuangan2`) AS `PersenTargetKeuangan2`,
+									SUM(`PersenRealisasiKeuangan2`) AS `PersenRealisasiKeuangan2`,                                                
+									SUM(`TargetFisik2`) AS `TargetFisik2`,
+									SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
+							'))
+							->where('TA',$tahun)
+							->whereIn('OrgID',$daftar_opd)                                             
+							->where('EntryLvl',2)        
+							->groupBy('Bulan')                                
+							->get();
 																						
 								
-								foreach($statistik2 as $v)
-								{
-										switch($v->Bulan)
-										{
-												case 1 :
-														$chart_keuangan[0][0]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][0]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+						foreach($statistik2 as $v)
+						{
+							switch($v->Bulan)
+							{
+								case 1 :
+									$chart_keuangan[0][0]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][0]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-														$chart_fisik[0][0]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][0]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 2 :
-														$chart_keuangan[0][1]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][1]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									$chart_fisik[0][0]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][0]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 2 :
+									$chart_keuangan[0][1]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][1]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-														$chart_fisik[0][1]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][1]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 3 :
-														$chart_keuangan[0][2]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][2]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									$chart_fisik[0][1]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][1]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 3 :
+									$chart_keuangan[0][2]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][2]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-														$chart_fisik[0][2]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][2]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 4 :
-														$chart_keuangan[0][3]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][3]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									$chart_fisik[0][2]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][2]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 4 :
+									$chart_keuangan[0][3]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][3]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-														$chart_fisik[0][3]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][3]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 5 :
-														$chart_keuangan[0][4]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][4]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									$chart_fisik[0][3]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][3]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 5 :
+									$chart_keuangan[0][4]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][4]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-														$chart_fisik[0][4]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][4]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 6 :
-														$chart_keuangan[0][5]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][5]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									$chart_fisik[0][4]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][4]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 6 :
+									$chart_keuangan[0][5]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][5]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
 
-														$chart_fisik[0][5]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][5]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 7 :
-														$chart_keuangan[0][6]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][6]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-														
-														$chart_fisik[0][6]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][6]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 8 :
-														$chart_keuangan[0][7]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][7]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-														
-														$chart_fisik[0][7]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][7]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 9 :
-														$chart_keuangan[0][8]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][8]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-														
-														$chart_fisik[0][8]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][8]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 10 :
-														$chart_keuangan[0][9]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][9]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-														
-														$chart_fisik[0][9]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][9]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 11 :
-														$chart_keuangan[0][10]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][10]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-														
-														$chart_fisik[0][10]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][10]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-												case 12 :
-														$chart_keuangan[0][11]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
-														$chart_keuangan[1][11]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
-														
-														$chart_fisik[0][11]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
-														$chart_fisik[1][11]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
-												break;
-										}
-								}
+									$chart_fisik[0][5]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][5]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 7 :
+									$chart_keuangan[0][6]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][6]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									
+									$chart_fisik[0][6]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][6]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 8 :
+									$chart_keuangan[0][7]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][7]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									
+									$chart_fisik[0][7]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][7]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 9 :
+									$chart_keuangan[0][8]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][8]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									
+									$chart_fisik[0][8]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][8]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 10 :
+									$chart_keuangan[0][9]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][9]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									
+									$chart_fisik[0][9]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][9]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 11 :
+									$chart_keuangan[0][10]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][10]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									
+									$chart_fisik[0][10]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][10]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+								case 12 :
+									$chart_keuangan[0][11]=Helper::formatPecahan($v->PersenTargetKeuangan2,$jumlah_opd);
+									$chart_keuangan[1][11]=Helper::formatPecahan($v->PersenRealisasiKeuangan2,$jumlah_opd);
+									
+									$chart_fisik[0][11]=Helper::formatPecahan($v->TargetFisik2,$jumlah_opd);
+									$chart_fisik[1][11]=Helper::formatPecahan($v->RealisasiFisik2,$jumlah_opd);
+								break;
+							}
 						}
+					}
 						
 				}
 				
-				return Response()->json([
-																'status'=>1,
-																'pid'=>'fetchdata',
-																'statistik1'=>$statistik1,
-																'chart_keuangan'=>$chart_keuangan,
-																'chart_fisik'=>$chart_fisik,
-																'message'=>'Fetch data ringkasan perubahan berhasil diperoleh'
-														],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
-		}
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'statistik1'=>$statistik1,
+			'chart_keuangan'=>$chart_keuangan,
+			'chart_fisik'=>$chart_fisik,
+			'message'=>'Fetch data ringkasan perubahan berhasil diperoleh'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+	}
 	public function reloadstatistik1(Request $request)
 	{
 		$this->validate($request, [            
@@ -595,7 +600,7 @@ class RenjaPerubahanController extends Controller
 				tmOrg AS dest,
 				(
 					SELECT 
-						SUM(PaguUraian1) AS PaguUraian
+						SUM(PaguUraian2) AS PaguUraian
 					FROM trRKARinc A
 					JOIN trRKA B ON A.RKAID=B.RKAID
 					WHERE OrgID='$OrgID'
@@ -642,7 +647,7 @@ class RenjaPerubahanController extends Controller
 				->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
 				->where('OrgID',$opd->OrgID)                                            
 				->where('TA',$tahun)  
-				->where('EntryLvl',2)                                        
+				->where('EntryLvl', 2)                                        
 				->get();
 						
 			if(isset($daftar_sub_kegiatan[0]))
@@ -966,7 +971,7 @@ class RenjaPerubahanController extends Controller
 				{								
 					$statistik2->PaguDana2=$totalPaguOPD;            
 					$statistik2->JumlahKegiatan2=$total_kegiatan;
-					$statistik2->JumlahSubKegiatan1=$total_sub_kegiatan;
+					$statistik2->JumlahSubKegiatan2=$total_sub_kegiatan;
 					$statistik2->JumlahUraian2=$total_uraian;              
 					$statistik2->TargetFisik2=$totalPersenTargetFisik;
 					$statistik2->RealisasiFisik2=$totalPersenRealisasiFisik;

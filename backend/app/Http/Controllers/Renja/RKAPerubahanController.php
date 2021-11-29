@@ -612,7 +612,7 @@ class RKAPerubahanController extends Controller
 					SELECT
 						`RKARealisasiRincID_Src`
 					FROM 
-						`trRKARealisasiRinc`	
+						`trRKARealisasiRinc`
 					WHERE RKARincID = \''.$v->RKARincID.'\'
 				)
 			';
