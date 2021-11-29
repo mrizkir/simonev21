@@ -64,7 +64,12 @@
 					</v-card>
 				</v-col>
 			</v-row>
-			<v-row class="mb-4" no-gutters>
+			<v-row class="mb-4" no-gutters>			
+				<v-col cols="12">
+					<v-alert type="info">
+						Saat import data dari RKA Murni, Uraian tidak otomatis ter-import; Oleh karena itu untuk menjaga konsistensi data dengan yang di Dashboard silahkan load uraian per kegiatan.
+					</v-alert>
+				</v-col>			
 				<v-col cols="12">
 					<v-data-table
 						:headers="headers"
@@ -205,7 +210,7 @@
 										class="ma-1"
 										color="warning"
 										:loading="btnLoading"
-										:disabled="item.PaguDana2 > 0 || item.Locked || btnLoading"
+										:disabled="item.PaguUraian2 > 0 || item.Locked || btnLoading"
 										@click.stop="loaddatauraianfirsttime(item)"
 									>
 										mdi-sync-circle

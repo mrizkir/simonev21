@@ -680,6 +680,7 @@ class RKAPerubahanController extends Controller
 							waktu_pelaksanaan2,                            
 							lokasi_kegiatan2,                            
 							`PaguDana2`,                            
+							0 AS `PaguUraian2`,
 							`RealisasiKeuangan2`,                            
 							`RealisasiFisik2`,   
 							0 AS persen_keuangan2,
@@ -706,6 +707,11 @@ class RKAPerubahanController extends Controller
 					
 		$data->transform(function ($item,$key) {                            
 			$item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
+			$item->PaguUraian2=\DB::table('trRKARinc')
+			->where('RKAID', $item->RKAID)
+			->where('EntryLvl', 2)
+			->sum('PaguUraian2');
+			
 			return $item;
 		});
 		$jumlah_sub_kegiatan2 = $data->count();
