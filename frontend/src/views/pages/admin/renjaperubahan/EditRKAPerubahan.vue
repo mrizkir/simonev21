@@ -101,15 +101,17 @@
 										'[' + datakegiatan.kode_sub_kegiatan + '] ' + datakegiatan.Nm_Sub_Kegiatan
 									"
 									:disabled="true"
-								/>
-								<v-text-field
+								/>						
+								<v-currency-field
 									label="TARGET KINERJA MASUKAN"
-									type="text"
-									filled
+									:min="null"
+									:max="null"
 									outlined
-									:value="datakegiatan.PaguDana1 | formatUang"
-									:disabled="true"
-								/>
+									filled
+									v-model="formdata.PaguDana2"
+									:disabled="datakegiatan.Locked == 1"
+								>
+								</v-currency-field>
 								<v-select
 									v-model="formdata.SumberDanaID"
 									label="SUMBER DANA"
@@ -394,9 +396,9 @@
 					sifat_kegiatan2: "baru",
 					waktu_pelaksanaan2: "",
 					lokasi_kegiatan2: "",
-					PaguDana1: "",
-					RealisasiKeuangan1: "",
-					RealisasiFisik1: "",
+					PaguDana2: "",
+					RealisasiKeuangan2: "",
+					RealisasiFisik2: "",
 					nip_pa2: "",
 					nip_kpa2: "",
 					nip_ppk2: "",
@@ -495,6 +497,7 @@
 							"/renja/rkaperubahan/updatekegiatan/" + this.formdata.RKAID,
 							{
 								_method: "PUT",
+								PaguDana2: this.formdata.PaguDana2,
 								SumberDanaID: this.formdata.SumberDanaID,
 								keluaran2: this.formdata.keluaran2,
 								tk_keluaran2: this.formdata.tk_keluaran2,
@@ -521,6 +524,7 @@
 						)
 						.then(() => {
 							var page = this.$store.getters["uiadmin/Page"]("rkaperubahan");
+							page.datakegiatan.PaguDana2 = this.formdata.PaguDana2;
 							page.datakegiatan.SumberDanaID = this.formdata.SumberDanaID;
 							page.datakegiatan.keluaran2 = this.formdata.keluaran2;
 							page.datakegiatan.tk_keluaran2 = this.formdata.tk_keluaran2;
