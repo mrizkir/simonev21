@@ -496,7 +496,6 @@ class RKAMurniController extends Controller
 			'SubKgtID'=> [
 				'required',                
 				'exists:tmSubKegiatan,SubKgtID',
-				'unique:trRKA,SubKgtID'
 			]
 		]);     
 			

@@ -744,8 +744,7 @@ class RKAPerubahanController extends Controller
 			'SOrgID'=>'required|exists:tmSOrg,SOrgID',
 			'SubKgtID'=> [
 				'required',
-				'exists:tmSubKegiatan,SubKgtID',
-				'unique:trRKA,SubKgtID'
+				'exists:tmSubKegiatan,SubKgtID',				
 			]
 		]);     
 			

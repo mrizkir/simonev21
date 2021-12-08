@@ -311,7 +311,7 @@
 					{ text: "KODE", value: "kode", width: 80, sortable: false },
 					{
 						text: "PROGRAM/KEGIATAN/SUB KEGIATAN",
-						value: "nama",
+						value: "nama_uraian",
 						width: 300,
 						sortable: false,
 					},
