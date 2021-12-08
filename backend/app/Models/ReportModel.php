@@ -320,7 +320,7 @@ class ReportModel extends Model
 					foreach ($data_akhir as $k=>$v)
 					{
 						$RKARincID=$v->RKARincID;                      
-						$nama_uraian=$v->NamaUraian1;
+						$nama_uraian=$v->NamaUraian2;
 						$target=(float)\DB::table('trRKATargetRinc')
 											->where('RKARincID',$RKARincID)
 											->where('bulan2','<=',$no_bulan)
