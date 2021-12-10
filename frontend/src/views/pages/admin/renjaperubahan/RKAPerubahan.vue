@@ -514,7 +514,7 @@
 					});
 			},
 			loaddatauraianfirsttime: async function(item) {
-				if (!item.PaguDana2 > 0) {
+				if (!item.PaguUraian2 > 0) {
 					this.btnLoading = true;
 					await this.$ajax
 						.post(
