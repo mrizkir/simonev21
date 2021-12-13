@@ -200,9 +200,9 @@
 							<tr class="amber darken-1 font-weight-black">
 								<td colspan="3" class="text-right">TOTAL</td>
 								<td class="text-right">{{ footers.paguopd | formatUang }}</td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td class="text-right">{{ footers.fisik | makeLookPrecision }}</td>
+								<td class="text-right">{{ footers.realisasikeuangan | formatUang }}</td>
+								<td class="text-right">{{ footers.persenkeuangan | makeLookPrecision }}</td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -276,6 +276,9 @@
 				],
 				footers: {
 					paguopd: 0,
+					fisik: 0,
+					realisasikeuangan: 0,
+					persenkeuangan: 0,
 				},
 				//filter form
 				daftar_opd: [],
@@ -299,14 +302,38 @@
 				let data = this.datatable;
 				var summary = {
 					paguopd: 0,
+					fisik: 0,
+					realisasikeuangan: 0,
+					persenkeuangan: 0,
 				};
-				if (data.length > 0) {
+				if (data.length > 0) {					
 					var totalpagukegiatan = 0;
+					var fisik = 0;
+					var realisasikeuangan = 0;					
+					var num;
+					var jumlahkegiatan = 0;
 					for (var i = 0; i < data.length; i++) {
-						var num = new Number(data[i].PaguDana2);
+						num = new Number(data[i].PaguDana1);
 						totalpagukegiatan += num;
+						num = new Number(data[i].RealisasiKeuangan1);
+						realisasikeuangan += num;
+						num = new Number(data[i].RealisasiFisik1);
+						fisik += num;
+
+						jumlahkegiatan += 1;
+					}
+					var totalfisik = 0;					
+					if (jumlahkegiatan > 0) {						
+						totalfisik = fisik / jumlahkegiatan;
+					}
+					var persenkeuangan = 0;
+					if (realisasikeuangan > 0) {
+						persenkeuangan = (realisasikeuangan / totalpagukegiatan) * 100;
 					}
 					summary.paguopd = totalpagukegiatan;
+					summary.fisik = totalfisik;
+					summary.realisasikeuangan = realisasikeuangan;
+					summary.persenkeuangan = persenkeuangan;
 				}
 				this.footers = summary;
 			},
