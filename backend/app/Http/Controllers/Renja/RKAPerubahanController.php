@@ -865,8 +865,7 @@ class RKAPerubahanController extends Controller
 			'PaguUraian2'=> 'required',            
 		]);     
 
-		$rka = RKAModel::select('TA')
-						->find($request->input('RKAID'));
+		$rka = RKAModel::find($request->input('RKAID'));
 
 		$uraian = RKARincianModel::create([
 			'RKARincID' => Uuid::uuid4()->toString(),
@@ -1177,12 +1176,12 @@ class RKAPerubahanController extends Controller
 				'RKATargetRincID'=>Uuid::uuid4()->toString(),
 				'RKAID'=>$request->input('RKAID'),
 				'RKARincID'=>$request->input('RKARincID'),
+				'bulan1'=>$i+1,
 				'bulan2'=>$i+1,
-				'bulan2'=>$i+1,
+				'target1'=>0,
 				'target2'=>0,
-				'target2'=>0,
+				'fisik1'=>0,
 				'fisik2'=>$bulan_fisik[$i],
-				'fisik2'=>0,
 				'EntryLvl'=>2,
 				'Descr'=>$request->input('Descr'),
 				'TA'=>$request->input('tahun'),
@@ -1257,12 +1256,12 @@ class RKAPerubahanController extends Controller
 				'RKATargetRincID'=>Uuid::uuid4()->toString(),
 				'RKAID'=>$request->input('RKAID'),
 				'RKARincID'=>$request->input('RKARincID'),
+				'bulan1'=>$i+1,
 				'bulan2'=>$i+1,
-				'bulan2'=>$i+1,
+				'fisik1'=>0,
 				'fisik2'=>0,
-				'fisik2'=>0,
+				'target1'=>0,
 				'target2'=>$bulan_anggaran[$i],
-				'target2'=>0,
 				'EntryLvl'=>2,
 				'Descr'=>$request->input('Descr'),
 				'TA'=>$request->input('tahun'),
