@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 use Ramsey\Uuid\Uuid;
 
-class RekeningAKunController extends Controller {              
+class RekeningAkunController extends Controller {              
     /**
      * get all akun rekening
      *
