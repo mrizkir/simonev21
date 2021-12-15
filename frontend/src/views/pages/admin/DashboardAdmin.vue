@@ -108,11 +108,11 @@
 							</v-card-subtitle>
 						</v-card>
 					</v-col>
-					<v-col
+					<!-- <v-col
 						xs="12"
 						sm="4"
 						md="3"
-						v-if="$store.getters['auth/can']('RKPD-GROUP')"
+						v-if="$store.getters['auth/can']('RPJMD-GROUP')"
 					>
 						<v-card
 							elevation="0"
@@ -136,8 +136,8 @@
 								Rencana Pembangunan Jangka Menengah
 							</v-card-subtitle>
 						</v-card>
-					</v-col>
-					<v-col
+					</v-col> -->
+					<!-- <v-col
 						xs="12"
 						sm="4"
 						md="3"
@@ -165,7 +165,7 @@
 								Rencana Kerja Pemerintah Daerah Murni
 							</v-card-subtitle>
 						</v-card>
-					</v-col>
+					</v-col> -->
 					<v-col
 						xs="12"
 						sm="4"

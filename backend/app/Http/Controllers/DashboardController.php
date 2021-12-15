@@ -209,7 +209,7 @@ class DashboardController extends Controller
 												SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
 											'))
 											->where('TA',$tahun)                                                                                   
-											->where('EntryLvl',1)        
+											->where('EntryLvl', 2)        
 											->groupBy('Bulan')                                
 											->get();
 

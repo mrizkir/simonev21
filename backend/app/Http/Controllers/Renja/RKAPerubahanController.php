@@ -1565,9 +1565,9 @@ class RKAPerubahanController extends Controller
 
 		if ($mode == 'targetfisik')
 		{
-			$data = \DB::table('trRKATargetRinc')
+			$data = \DB::table('v_rencana_fisik_anggaran_kas')
 						->select(\DB::raw('
-							JSON_OBJECTAGG(CONCAT(\'fisik_\',bulan2),fisik2) AS fisik2
+							fisik2
 						'))
 						->where('RKARincID',$RKARincID)
 						->get();                    
@@ -1575,9 +1575,9 @@ class RKAPerubahanController extends Controller
 		}
 		else if ($mode == 'targetanggarankas')
 		{            
-			$data = \DB::table('trRKATargetRinc')
+			$data = \DB::table('v_rencana_fisik_anggaran_kas')
 					->select(\DB::raw('
-						JSON_OBJECTAGG(CONCAT(\'anggaran_\',bulan2),target2) AS anggaran2
+						anggaran2
 					'))
 					->where('RKARincID',$RKARincID)
 					->get();      
@@ -1588,10 +1588,10 @@ class RKAPerubahanController extends Controller
 		{
 			$bulan2 = $request->input('bulan2');
 			
-			$data = \DB::table('trRKATargetRinc')
+			$data = \DB::table('v_rencana_fisik_anggaran_kas')
 					->select(\DB::raw('
-						JSON_OBJECTAGG(CONCAT(\'fisik_\',bulan2),fisik2) AS fisik2,
-						JSON_OBJECTAGG(CONCAT(\'anggaran_\',bulan2),target2) AS anggaran2
+						fisik2,
+						anggaran2
 					'))
 					->where('RKARincID',$RKARincID)
 					->get();                  
