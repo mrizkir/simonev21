@@ -709,7 +709,9 @@ class RKAMurniController extends Controller
 			$kegiatan->Descr=$request->input('Descr'); 
 			$kegiatan->save();
 
-			
+			// $PaguDana1 = $request->input('PaguDana1');
+			// \DB::statement("UPDATE `trRKA` SET `PaguDana1`='$PaguDana1' WHERE `RKAID`='$id'");
+
 			return Response()->json([
 									'status'=>1,
 									'pid'=>'update',

@@ -938,8 +938,7 @@ class RKAPerubahanController extends Controller
 				'nip_ppk2'=>'required',
 				'nip_pptk2'=>'required', 
 			]);
-			
-			$kegiatan->PaguDana2=$request->input('PaguDana2');                
+			                
 			$kegiatan->SumberDanaID=$request->input('SumberDanaID');                
 			$kegiatan->keluaran2=$request->input('keluaran2');                
 			$kegiatan->tk_keluaran2=$request->input('tk_keluaran2');                
@@ -959,6 +958,8 @@ class RKAPerubahanController extends Controller
 			$kegiatan->Descr=$request->input('Descr'); 
 			$kegiatan->save();
 
+			$PaguDana2 = $request->input('PaguDana2');
+			\DB::statement("UPDATE `trRKA` SET `PaguDana2`='$PaguDana2' WHERE `RKAID`='$id'");
 			
 			return Response()->json([
 				'status'=>1,
