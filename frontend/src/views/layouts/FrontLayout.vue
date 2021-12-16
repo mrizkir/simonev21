@@ -110,6 +110,22 @@
 					<v-list-item-title>LAPORAN REALISASI</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-subheader class="purple accent-5 white--text">STATISTIK PERUBAHAN</v-subheader>
+			<v-list-item
+				to="/laporanrealisasiperubahan"
+				link
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+				"
+				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-chart-bar</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>LAPORAN REALISASI</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-navigation-drawer
 			v-model="drawerRight"

@@ -29,6 +29,14 @@ const routes = [
 		component: () => import("../views/pages/front/FrontLaporanRealisasiMurni.vue"),
 	},
 	{
+		path: "/laporanrealisasiperubahan",
+		name: "FrontLaporanRealisasiPerubahan",
+		meta: {
+			title: "LAPORAN REALISASI PERUBAHAN",
+		},
+		component: () => import("../views/pages/front/FrontLaporanRealisasiPerubahan.vue"),
+	},
+	{
 		path: "/login",
 		name: "Login",
 		meta: {
