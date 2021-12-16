@@ -37,49 +37,49 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td width="150">RKARincID</td>
+										<td width="150" class="font-weight-bold">RKARincID</td>
 										<td width="400">{{ datauraian.RKARincID }}</td>
-										<td width="150">KODE UNIT</td>
+										<td width="150" class="font-weight-bold">KODE UNIT</td>
 										<td width="400">{{ datakegiatan.kode_sub_organisasi }}</td>
 									</tr>
 									<tr>
-										<td width="150">KODE URAIAN</td>
+										<td width="150" class="font-weight-bold">KODE URAIAN</td>
 										<td width="400">{{ datauraian.kode_uraian }}</td>
-										<td width="150">UNIT KERJA</td>
+										<td width="150" class="font-weight-bold">UNIT KERJA</td>
 										<td width="400">{{ datakegiatan.Nm_Sub_Organisasi }}</td>
 									</tr>
 									<tr>
-										<td width="150">NAMA URAIAN</td>
+										<td width="150" class="font-weight-bold">NAMA URAIAN</td>
 										<td width="400">{{ datauraian.nama_uraian }}</td>
-										<td width="150">KODE KEGIATAN</td>
+										<td width="150" class="font-weight-bold">KODE KEGIATAN</td>
 										<td width="400">{{ datakegiatan.kode_kegiatan }}</td>
 									</tr>
 									<tr>
-										<td width="150">VOLUME</td>
+										<td width="150" class="font-weight-bold">VOLUME</td>
 										<td width="400">{{ datauraian.volume }}</td>
-										<td width="150">NAMA KEGIATAN</td>
+										<td width="150" class="font-weight-bold">NAMA KEGIATAN</td>
 										<td width="400">{{ datakegiatan.Nm_Kegiatan }}</td>
 									</tr>
 									<tr>
-										<td width="150">HARGA SATUAN</td>
+										<td width="150" class="font-weight-bold">HARGA SATUAN</td>
 										<td width="400">
 											{{ datauraian.harga_satuan1 | formatUang }}
 										</td>
-										<td width="150">KODE SUB KEGIATAN</td>
+										<td width="150" class="font-weight-bold">KODE SUB KEGIATAN</td>
 										<td width="400">{{ datakegiatan.kode_sub_kegiatan }}</td>
 									</tr>
 									<tr>
-										<td width="150">PAGU URAIAN</td>
+										<td width="150" class="font-weight-bold">PAGU URAIAN</td>
 										<td width="400">
 											{{ datauraian.PaguUraian2 | formatUang }}
 										</td>
-										<td width="150">NAMA SUB KEGIATAN</td>
+										<td width="150" class="font-weight-bold">NAMA SUB KEGIATAN</td>
 										<td width="400">{{ datakegiatan.Nm_Sub_Kegiatan }}</td>
 									</tr>
 									<tr>
-										<td width="150">PROGRAM</td>
+										<td width="150" class="font-weight-bold">PROGRAM</td>
 										<td width="400">{{ datakegiatan.Nm_Program }}</td>
-										<td width="150">DIBUAT</td>
+										<td width="150" class="font-weight-bold">DIBUAT</td>
 										<td width="400">
 											{{
 												$date(datauraian.created_at).format("DD/MM/YYYY HH:mm")
@@ -87,9 +87,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td width="150">KODE OPD / SKPD</td>
+										<td width="150" class="font-weight-bold">KODE OPD / SKPD</td>
 										<td width="400">{{ datakegiatan.kode_organisasi }}</td>
-										<td width="150">DIUBAH</td>
+										<td width="150" class="font-weight-bold">DIUBAH</td>
 										<td width="400">
 											{{
 												$date(datauraian.updated_at).format("DD/MM/YYYY HH:mm")
@@ -97,9 +97,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td width="150">OPD / SKPD</td>
+										<td width="150" class="font-weight-bold">OPD / SKPD</td>
 										<td width="400">{{ datakegiatan.Nm_Organisasi }}</td>
-										<td width="150">SISA</td>
+										<td width="150" class="font-weight-bold">SISA</td>
 										<td width="400">
 											{{ footers.sisa | formatUang }}
 										</td>
