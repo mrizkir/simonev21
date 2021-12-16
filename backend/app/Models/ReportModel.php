@@ -43,8 +43,8 @@ class ReportModel extends Model
 	public function download(string $filename)
 	{
 		$pathToFile = Helper::exported_path().'excel/'.$filename;
-		$this->spreadsheet->getProperties()->setCreator(config('simonev.nama_institusi'));
-		$this->spreadsheet->getProperties()->setLastModifiedBy(config('simonev.nama_institusi'));         
+		$this->spreadsheet->getProperties()->setCreator('simonev21');
+		$this->spreadsheet->getProperties()->setLastModifiedBy('simonev21');         
 		$writer = new Xlsx($this->spreadsheet);
 		$writer->save($pathToFile);        
 		return response()->download($pathToFile)->deleteFileAfterSend(false);
