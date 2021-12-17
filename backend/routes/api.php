@@ -205,12 +205,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->delete('/renja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAMurniController@destroy','as'=>'rkamurni.deleterka']);
 
 	//renja - target kinerja murni
-	$router->post('/renja/targetkinerjamurni',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaMurniController@index','as'=>'targetkinerja.index']);
+	$router->post('/renja/targetkinerjamurni',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaMurniController@index','as'=>'targetkinerjaM.index']);
 	//id  = RKARIncID
-	$router->get('/renja/targetkinerjamurni/{id}/uraian',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaMurniController@targetkinerjauraian','as'=>'targetkinerja.targetkinerjauraian']);
-	$router->put('/renja/targetkinerjamurni/updatetargetanggarankas',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@updatetargetanggarankas','as'=>'targetkinerja.updatetargetanggarankas']);
-	$router->put('/renja/targetkinerjamurni/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@updatetargetfisik','as'=>'targetkinerja.updatetargetfisik']);
-	$router->delete('/renja/targetkinerjamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@destroy','as'=>'targetkinerja.destroy']);
+	$router->get('/renja/targetkinerjamurni/{id}/uraian',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaMurniController@targetkinerjauraian','as'=>'targetkinerjaM.targetkinerjauraian']);
+	$router->put('/renja/targetkinerjamurni/updatetargetanggarankas',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@updatetargetanggarankas','as'=>'targetkinerjaM.updatetargetanggarankas']);
+	$router->put('/renja/targetkinerjamurni/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@updatetargetfisik','as'=>'targetkinerjaM.updatetargetfisik']);
+	$router->delete('/renja/targetkinerjamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaMurniController@destroy','as'=>'targetkinerjaM.destroy']);
 
 	//renja - pelaporan opd
 	$router->post('/renja/pelaporanopdmurni',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@index','as'=>'pelaporanopd.index']);
@@ -284,6 +284,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/renjaperubahan/report/formbunitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@index','as'=>'formbunitkerja.index']);    
 	$router->post('/renjaperubahan/report/formbunitkerja/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerja.printtoexcel']);    
 	
+	//renja - target kinerja perubahan
+	$router->post('/renja/targetkinerjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaPerubahanController@index','as'=>'targetkinerjaP.index']);
+	//id  = RKARIncID
+	$router->get('/renja/targetkinerjaperubahan/{id}/uraian',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaPerubahanController@targetkinerjauraian','as'=>'targetkinerjaP.targetkinerjauraian']);
+	$router->put('/renja/targetkinerjaperubahan/updatetargetanggarankas',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@updatetargetanggarankas','as'=>'targetkinerjaP.updatetargetanggarankas']);
+	$router->put('/renja/targetkinerjaperubahan/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@updatetargetfisik','as'=>'targetkinerjaP.updatetargetfisik']);
+	$router->delete('/renja/targetkinerjaperubahan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@destroy','as'=>'targetkinerjaP.destroy']);
+
 	//setting - permissions
 	$router->get('/system/setting/permissions',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\PermissionsController@index','as'=>'permissions.index']);
 	$router->post('/system/setting/permissions/store',['middleware'=>['role:superadmin'],'uses'=>'System\PermissionsController@store','as'=>'permissions.store']);

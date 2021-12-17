@@ -576,6 +576,25 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjaperubahan/FormBUnitKerjaPerubahan.vue"),
 	},
+	//renja perubahan - target kinerja perubahan
+	{
+		path: "/renjaperubahan/targetkinerja",
+		name: "RenjaPerubahanTargetKinerja",
+		meta: {
+			title: "TARGET KINERJA PERUBAHAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/TargetKinerjaPerubahan.vue"),
+	},
+	{
+		path: "/renjaperubahan/targetkinerja/:rkaid",
+		name: "RenjaPerubahanTargetKinerjaDetail",
+		meta: {
+			title: "TARGET KINERJA PERUBAHAN",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/renjaperubahan/TargetKinerjaPerubahanDetail.vue"),
+	},
 	//system
 	{
 		path: "/system-users",
