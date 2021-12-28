@@ -905,7 +905,7 @@
 				this.dialogfrmedit = false;
 				this.bulan1 = null;
 				setTimeout(() => {
-					this.$refs.frmdata.reset();
+					this.$refs.frmdata.resetValidation();
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
 				}, 300);

@@ -63,7 +63,7 @@
 									<tr>
 										<td width="150" class="font-weight-bold">HARGA SATUAN</td>
 										<td width="400">
-											{{ datauraian.harga_satuan1 | formatUang }}
+											{{ datauraian.harga_satuan2 | formatUang }}
 										</td>
 										<td width="150" class="font-weight-bold">KODE SUB KEGIATAN</td>
 										<td width="400">{{ datakegiatan.kode_sub_kegiatan }}</td>
@@ -662,16 +662,20 @@
 				],
 				rule_realisasiedit: [
 					value => {
-						if (value.length > 0) {
-							let PaguUraian2 = parseFloat(this.datauraian.PaguUraian2);
-							let sisapagu = parseFloat(this.formdata.sisapagu);
-							let realisasi2 = parseFloat(value.replace(/[^0-9.-]+/g, ""));
-							return (
-								realisasi2 <= sisapagu ||
-								"Jumlah realisasi keuangan telah melampaui pagu uraian (" +
-									Vue.filter("formatUang")(PaguUraian2) +
-									")"
-							);
+						if (value && typeof value !== "undefined") {
+							if (value.length > 0) {
+								let PaguUraian2 = parseFloat(this.datauraian.PaguUraian2);
+								let sisapagu = parseFloat(this.formdata.sisapagu);
+								let realisasi2 = parseFloat(value.replace(/[^0-9.-]+/g, ""));
+								return (
+									realisasi2 <= sisapagu ||
+									"Jumlah realisasi keuangan telah melampaui pagu uraian (" +
+										Vue.filter("formatUang")(PaguUraian2) +
+										")"
+								);
+							} else {
+								return true;
+							}
 						} else {
 							return true;
 						}
@@ -819,7 +823,7 @@
 					}
 				}
 			},
-			editItem: async function(item) {
+			editItem: async function(item) {				
 				this.editedIndex = this.datatable.indexOf(item);
 				this.daftar_bulan = this.$store.getters["uifront/getDaftarBulan"];
 				this.bulan2 = item.bulan2;
@@ -903,7 +907,7 @@
 				this.dialogfrmedit = false;
 				this.bulan2 = null;
 				setTimeout(() => {
-					this.$refs.frmdata.reset();
+					this.$refs.frmdata.resetValidation();
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
 				}, 300);

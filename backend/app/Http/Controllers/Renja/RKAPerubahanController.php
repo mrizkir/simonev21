@@ -1563,24 +1563,44 @@ class RKAPerubahanController extends Controller
 					->where('RKARincID',$RKARincID)
 					->get();
 
+		$target = ['fisik'=>0,'anggaran'=>0];			
 		if ($mode == 'targetfisik')
 		{
-			$data = \DB::table('v_rencana_fisik_anggaran_kas')
-						->select(\DB::raw('
-							fisik2
-						'))
-						->where('RKARincID',$RKARincID)
-						->get();                    
+			$data = \DB::table('trRKATargetRinc')
+				->select(\DB::raw("
+					CONCAT('{',
+						GROUP_CONCAT(
+							TRIM(
+								LEADING '{' FROM TRIM(
+									TRAILING '}' FROM JSON_OBJECT(CONCAT('fisik_',`trRKATargetRinc`.`bulan2`),`trRKATargetRinc`.`fisik2`)
+								)
+							)
+						),
+					'}') AS `fisik2`					
+				"))
+				->where('RKARincID',$RKARincID)
+				->groupBy('RKARincID')
+				->get();                  		
+
 			$target=isset($data[0]) ? json_decode($data[0]->fisik2, true) : [];
 		}
 		else if ($mode == 'targetanggarankas')
 		{            
-			$data = \DB::table('v_rencana_fisik_anggaran_kas')
-					->select(\DB::raw('
-						anggaran2
-					'))
-					->where('RKARincID',$RKARincID)
-					->get();      
+			$data = \DB::table('trRKATargetRinc')
+				->select(\DB::raw("					
+					CONCAT('{',
+						GROUP_CONCAT(
+							TRIM(
+								LEADING '{' FROM TRIM(
+									TRAILING '}' FROM JSON_OBJECT(CONCAT('anggaran_',`trRKATargetRinc`.`bulan2`),`trRKATargetRinc`.`target2`)
+								)
+							)
+						),
+					'}') AS `anggaran2`
+				"))
+				->where('RKARincID',$RKARincID)
+				->groupBy('RKARincID')
+				->get();                  		
 
 			$target=isset($data[0]) ? json_decode($data[0]->anggaran2, true) : [];
 		}
@@ -1588,15 +1608,31 @@ class RKAPerubahanController extends Controller
 		{
 			$bulan2 = $request->input('bulan2');
 			
-			$data = \DB::table('v_rencana_fisik_anggaran_kas')
-					->select(\DB::raw('
-						fisik2,
-						anggaran2
-					'))
-					->where('RKARincID',$RKARincID)
-					->get();                  
-
-			$target = ['fisik'=>0,'anggaran'=>0];
+			$data = \DB::table('trRKATargetRinc')
+				->select(\DB::raw("
+					CONCAT('{',
+						GROUP_CONCAT(
+							TRIM(
+								LEADING '{' FROM TRIM(
+									TRAILING '}' FROM JSON_OBJECT(CONCAT('fisik_',`trRKATargetRinc`.`bulan2`),`trRKATargetRinc`.`fisik2`)
+								)
+							)
+						),
+					'}') AS `fisik2`,
+					CONCAT('{',
+						GROUP_CONCAT(
+							TRIM(
+								LEADING '{' FROM TRIM(
+									TRAILING '}' FROM JSON_OBJECT(CONCAT('anggaran_',`trRKATargetRinc`.`bulan2`),`trRKATargetRinc`.`target2`)
+								)
+							)
+						),
+					'}') AS `anggaran2`
+				"))
+				->where('RKARincID',$RKARincID)
+				->groupBy('RKARincID')
+				->get();                  		
+			
 			if (isset($data[0]))
 			{
 				$fisik2 = json_decode($data[0]->fisik2, true);
