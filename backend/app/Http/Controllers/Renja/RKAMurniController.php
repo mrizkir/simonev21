@@ -1082,7 +1082,8 @@ class RKAMurniController extends Controller
 			'target1'=>'required',
 			'realisasi1'=>'required',
 			'target_fisik1'=>'required',
-			'fisik1'=>'required',      
+			'fisik1'=>'required', 
+			'TA'=>'required|numeric',     
 		]);
 		$RKAID=$request->input('RKAID');
 		$realisasi = RKARealisasiModel::create([
@@ -1321,7 +1322,7 @@ class RKAMurniController extends Controller
 		$target = ['fisik'=>0,'anggaran'=>0];			
 		if ($mode == 'targetfisik')
 		{
-			$data = \DB::table('v_rencana_fisik_anggaran_kas')
+			$data = \DB::table('trRKATargetRinc')
 							->select(\DB::raw("
 							CONCAT('{',
 								GROUP_CONCAT(
@@ -1339,7 +1340,7 @@ class RKAMurniController extends Controller
 		}
 		else if ($mode == 'targetanggarankas')
 		{            
-			$data = \DB::table('v_rencana_fisik_anggaran_kas')
+			$data = \DB::table('trRKATargetRinc')
 						->select(\DB::raw("						
 						CONCAT('{',
 							GROUP_CONCAT(

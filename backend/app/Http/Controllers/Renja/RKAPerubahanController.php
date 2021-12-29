@@ -1332,6 +1332,7 @@ class RKAPerubahanController extends Controller
 			'realisasi2'=>'required',
 			'target_fisik2'=>'required',
 			'fisik2'=>'required',      
+			'TA'=>'required|numeric',
 		]);
 		$RKAID=$request->input('RKAID');
 		$realisasi = RKARealisasiModel::create([
