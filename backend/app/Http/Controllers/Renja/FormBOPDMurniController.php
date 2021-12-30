@@ -455,8 +455,14 @@ class FormBOPDMurniController extends Controller
 			$statistik->PersenRealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
 			$statistik->SisaPaguDana1 = $totalSisaAnggaran;
 			$statistik->PersenSisaPaguDana1 = $totalPersenSisaAnggaran;
-			$statistik->Bobot1 = $totalPersenBobot;			
+			$statistik->Bobot1 = $totalPersenBobot;		
+
+			$statistik->save();
 		}
+
+		$opd->PaguDana1 = $totalPaguOPD;
+		$opd->save();
+
 		return Response()->json([
 									'status'=>1,
 									'pid'=>'fetchdata',

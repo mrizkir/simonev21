@@ -395,8 +395,8 @@ class FormBOPDPerubahanController extends Controller
         'OrgID'=>$opd->OrgID,
         'kode_organisasi'=>$opd->kode_organisasi,
         'OrgNm'=>$opd->Nm_Organisasi,
-        'PaguDana1'=>$totalPaguOPD,
-        'PaguDana2'=>0,            
+        'PaguDana1'=>0,
+        'PaguDana2'=>$totalPaguOPD,            
         'PaguDana3'=>0,            
         'JumlahKegiatan1'=>0,
         'JumlahKegiatan2'=>$total_kegiatan,
@@ -455,8 +455,14 @@ class FormBOPDPerubahanController extends Controller
 			$statistik->PersenRealisasiKeuangan2 = $totalRealisasiKeuanganKeseluruhan;
 			$statistik->SisaPaguDana2 = $totalSisaAnggaran;
 			$statistik->PersenSisaPaguDana2 = $totalPersenSisaAnggaran;
-			$statistik->Bobot2 = $totalPersenBobot;			
+			$statistik->Bobot2 = $totalPersenBobot;		
+			
+			$statistik->save();
 		}
+		
+		$opd->PaguDana2 = $totalPaguOPD;
+		$opd->save();
+
 		return Response()->json([
 									'status'=>1,
 									'pid'=>'fetchdata',

@@ -706,7 +706,7 @@ class RKAPerubahanController extends Controller
 						->get();        
 					
 		$data->transform(function ($item,$key) {                            
-			$item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
+			$item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2, $item->PaguDana2);
 			$item->PaguUraian2=\DB::table('trRKARinc')
 			->where('RKAID', $item->RKAID)
 			->where('EntryLvl', 2)
@@ -715,11 +715,12 @@ class RKAPerubahanController extends Controller
 			return $item;
 		});
 		$jumlah_sub_kegiatan2 = $data->count();
-		$unitkerja->RealisasiKeuangan2=$data->sum('RealisasiKeuangan2');
+		$unitkerja->PaguDana2 = $data->sum('PaguDana2');
+		$unitkerja->RealisasiKeuangan2=$data->sum('RealisasiKeuangan2');		
 		$jumlah_realisasi_fisik=$data->sum('RealisasiFisik2');
 		$unitkerja->RealisasiFisik2=Helper::formatPecahan($jumlah_realisasi_fisik,$jumlah_sub_kegiatan2);
 		$unitkerja->JumlahSubKegiatan2=$jumlah_sub_kegiatan2;
-		$unitkerja->save();
+		$unitkerja->save();		
 
 		return Response()->json([
 								'status'=>1,

@@ -465,7 +465,9 @@ class RKAMurniController extends Controller
 			$item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1,$item->PaguDana1);
 			return $item;
 		});
+		
 		$jumlah_sub_kegiatan1 = $data->count();
+		$unitkerja->PaguDana1 = $data->sum('PaguDana1');
 		$unitkerja->RealisasiKeuangan1=$data->sum('RealisasiKeuangan1');
 		$jumlah_realisasi_fisik=$data->sum('RealisasiFisik1');
 		$unitkerja->RealisasiFisik1=Helper::formatPecahan($jumlah_realisasi_fisik,$jumlah_sub_kegiatan1);
