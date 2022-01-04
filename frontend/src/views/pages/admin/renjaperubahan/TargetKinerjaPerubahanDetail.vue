@@ -39,7 +39,7 @@
 										<td width="400">{{ datakegiatan.RKAID }}</td>
 										<td width="150">PAGU DANA</td>
 										<td width="400">
-											{{ datakegiatan.PaguDana1 | formatUang }}
+											{{ datakegiatan.PaguDana2 | formatUang }}
 										</td>
 									</tr>
 									<tr>

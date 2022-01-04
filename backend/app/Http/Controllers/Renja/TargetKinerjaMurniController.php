@@ -446,12 +446,13 @@ class TargetKinerjaMurniController extends Controller
 			'RKATargetRincID'=>'required|exists:trRKATargetRinc,RKATargetRincID',            
 			'target1'=>'required|numeric',
 		]);
-		
-		$target_kinerja = RKARencanaTargetModel::find($request->input('RKATargetRincID'));
+		$RKATargetRincID = $request->input('RKATargetRincID');
+		$target1 = $request->input('target1');
+		$target_kinerja = RKARencanaTargetModel::find($RKATargetRincID);
 		$uraian = $target_kinerja->uraian;
 
 		$jumlah_target = RKARencanaTargetModel::where('RKARincID', $target_kinerja->RKARincID)->sum('target1') - $target_kinerja->target1;
-		$jumlah_target = $jumlah_target + $request->input('target1');
+		$jumlah_target = $jumlah_target + $target1;
 		if ($jumlah_target > $uraian->PaguUraian1)
 		{
 			return Response()->json([
@@ -461,9 +462,7 @@ class TargetKinerjaMurniController extends Controller
 			], 422)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}
 		
-
-		$target_kinerja->target1 = $request->input('target1');
-		$target_kinerja->save();
+		\DB::statement("UPDATE `trRKATargetRinc` SET `target1`='$target1' WHERE `RKATargetRincID`='$RKATargetRincID'");				
 
 		return Response()->json([
 								'status'=>1,

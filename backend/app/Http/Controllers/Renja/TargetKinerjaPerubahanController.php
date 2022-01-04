@@ -446,12 +446,13 @@ class TargetKinerjaPerubahanController extends Controller
 			'RKATargetRincID'=>'required|exists:trRKATargetRinc,RKATargetRincID',            
 			'target2'=>'required|numeric',
 		]);
-		
-		$target_kinerja = RKARencanaTargetModel::find($request->input('RKATargetRincID'));
+		$RKATargetRincID = $request->input('RKATargetRincID');
+		$target2 = $request->input('target2');
+		$target_kinerja = RKARencanaTargetModel::find($RKATargetRincID);
 		$uraian = $target_kinerja->uraian;
-
+		
 		$jumlah_target = RKARencanaTargetModel::where('RKARincID', $target_kinerja->RKARincID)->sum('target2') - $target_kinerja->target2;
-		$jumlah_target = $jumlah_target + $request->input('target2');
+		$jumlah_target = $jumlah_target + $target2;
 		if ($jumlah_target > $uraian->PaguUraian2)
 		{
 			return Response()->json([
@@ -459,11 +460,8 @@ class TargetKinerjaPerubahanController extends Controller
 				'pid'=>'update',				
 				'message'=>"Rencana target anggaran kas uraian gagal diubah karena jumlah anggaran kas ($jumlah_target) melampaui Pagu Uraian ({$uraian->PaguUraian2})."
 			], 422)->setEncodingOptions(JSON_NUMERIC_CHECK); 
-		}
-		
-
-		$target_kinerja->target2 = $request->input('target2');
-		$target_kinerja->save();
+		}		
+		\DB::statement("UPDATE `trRKATargetRinc` SET `target2`='$target2' WHERE `RKATargetRincID`='$RKATargetRincID'");				
 
 		return Response()->json([
 								'status'=>1,
