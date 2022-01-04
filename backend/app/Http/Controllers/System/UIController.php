@@ -48,7 +48,7 @@ class UIController extends Controller {
                                     'status'=>1,
                                     'pid'=>'fetchdata',                                    
                                     'tahun_anggaran'=>$config['DEFAULT_TA'],
-                                    'bulan_realisasi'=>date('m'),
+                                    'bulan_realisasi'=>$config['DEFAULT_BULAN_REALISASI'],
                                     'identitas'=>$identitas,       
                                     'daftar_ta'=>$daftar_ta,                             
                                     'daftar_bulan'=>$daftar_bulan,                             

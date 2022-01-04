@@ -452,7 +452,7 @@ class FormBOPDMurniController extends Controller
 			$statistik->TargetKeuangan1 = $totalTargetKeuanganKeseluruhan;
 			$statistik->RealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
 			$statistik->PersenTargetKeuangan1 = $totalPersenTargetKeuangan;
-			$statistik->PersenRealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
+			$statistik->PersenRealisasiKeuangan1 = $totalPersenRealisasiKeuangan;
 			$statistik->SisaPaguDana1 = $totalSisaAnggaran;
 			$statistik->PersenSisaPaguDana1 = $totalPersenSisaAnggaran;
 			$statistik->Bobot1 = $totalPersenBobot;		

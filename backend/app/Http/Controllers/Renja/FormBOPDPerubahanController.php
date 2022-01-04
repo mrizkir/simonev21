@@ -452,7 +452,7 @@ class FormBOPDPerubahanController extends Controller
 			$statistik->TargetKeuangan2 = $totalTargetKeuanganKeseluruhan;
 			$statistik->RealisasiKeuangan2 = $totalRealisasiKeuanganKeseluruhan;
 			$statistik->PersenTargetKeuangan2 = $totalPersenTargetKeuangan;
-			$statistik->PersenRealisasiKeuangan2 = $totalRealisasiKeuanganKeseluruhan;
+			$statistik->PersenRealisasiKeuangan2 = $totalPersenRealisasiKeuangan;
 			$statistik->SisaPaguDana2 = $totalSisaAnggaran;
 			$statistik->PersenSisaPaguDana2 = $totalPersenSisaAnggaran;
 			$statistik->Bobot2 = $totalPersenBobot;		
