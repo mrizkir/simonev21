@@ -162,7 +162,7 @@ class FormBOPDPerubahanModel extends ReportModel
         
         
         $no_huruf=ord('A');
-        $total_kegiatan=0;
+        $total_sub_kegiatan=0;
         $total_uraian=0;
         $totalPersenBobot=0;
         $totalPersenTargetFisik=0;
@@ -342,7 +342,8 @@ class FormBOPDPerubahanModel extends ReportModel
                             $sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
                             $sheet->setCellValue("Q$row",$persen_sisa_anggaran);
                             $row += 1; 
-                            $no_sub_kegiatan += 1;                           
+                            $no_sub_kegiatan += 1; 
+                            $total_sub_kegiatan += 1;
                         }
                         $persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
                         $target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);
@@ -427,8 +428,9 @@ class FormBOPDPerubahanModel extends ReportModel
         if ($totalPersenBobot > 100) {
             $totalPersenBobot = 100.00;
         }
-        $totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);        
-        $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan); 
+        
+        $totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);            
+        $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
         $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
         $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
         $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);

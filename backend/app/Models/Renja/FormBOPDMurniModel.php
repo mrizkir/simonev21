@@ -452,6 +452,7 @@ class FormBOPDMurniModel extends ReportModel
 		if ($totalPersenBobot > 100) {
 			$totalPersenBobot = 100.00;
 		}
+		
 		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_sub_kegiatan);        
 		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
