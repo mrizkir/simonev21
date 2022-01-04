@@ -44,11 +44,12 @@ class UIController extends Controller {
                 'value'=>$k,
             ];
         }
+        $tahun_anggaran = $config['DEFAULT_TA'];
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',                                    
-                                    'tahun_anggaran'=>$config['DEFAULT_TA'],
-                                    'bulan_realisasi'=>$config['DEFAULT_BULAN_REALISASI'],
+                                    'tahun_anggaran'=>$tahun_anggaran,
+                                    'bulan_realisasi'=>$tahun_anggaran < date('Y') ? 12 : date('m'),
                                     'identitas'=>$identitas,       
                                     'daftar_ta'=>$daftar_ta,                             
                                     'daftar_bulan'=>$daftar_bulan,                             
