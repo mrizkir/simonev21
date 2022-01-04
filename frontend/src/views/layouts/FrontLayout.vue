@@ -9,7 +9,14 @@
 			<strong><slot name="system-bar"/></strong>
 		</v-system-bar>
 		<v-app-bar color="blue" elevation="0" dark app>
-			<v-toolbar-title>
+			<v-toolbar-title
+				class="headline clickable"
+				@click.stop="
+					$router
+						.push('/')
+						.catch(err => {})
+				"
+			>
 				<span class="hidden-sm-and-down">
 					{{ NamaAPPAlias }}
 				</span>

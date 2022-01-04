@@ -676,7 +676,7 @@ class RenjaMurniController extends Controller
 
 					//menghitung persen target fisik         
 					$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
-					$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+					$persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 					$totalPersenTargetFisik+=$persen_target_fisik;               
 
 					//menghitung persen realisasi fisik                
@@ -855,7 +855,7 @@ class RenjaMurniController extends Controller
 
 						//menghitung persen target fisik         
 						$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
-						$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+						$persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 						$totalPersenTargetFisik+=$persen_target_fisik;               
 
 						//menghitung persen realisasi fisik                

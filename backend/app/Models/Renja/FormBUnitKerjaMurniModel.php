@@ -301,7 +301,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 							$target_fisik_program += $data_target[0]->jumlah_fisik;
 							$target_fisik_kegiatan += $data_target[0]->jumlah_fisik;
 							$target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);
-							$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+							$persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 							$totalPersenTargetFisik+=$persen_target_fisik;
 
 							//menghitung persen realisasi fisik
@@ -363,7 +363,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 						}
 						$persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguUnit);
 						$target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);
-						$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+						$persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
 						$persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_kegiatan,$jumlah_uraian_kegiatan);
 						$persen_tertimbang_fisik=0.00;
@@ -403,7 +403,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 			}
 			$persen_bobot=Helper::formatPersen($pagu_dana_program,$totalPaguUnit);
 			$target_fisik=Helper::formatPecahan($target_fisik_program,$jumlah_uraian_program);
-			$persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+			$persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
 			$persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_program,$jumlah_uraian_program);
 			$persen_tertimbang_fisik=0.00;
