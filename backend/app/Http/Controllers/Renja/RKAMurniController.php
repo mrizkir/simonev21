@@ -1127,6 +1127,8 @@ class RKAMurniController extends Controller
 	{    
 		$this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
 		
+		$realisasi = RKARealisasiModel::find($id);
+		
 		$this->validate($request, [                    
 			'target1'=>'required',
 			'realisasi1'=>'required',
@@ -1134,15 +1136,14 @@ class RKAMurniController extends Controller
 			'fisik1'=>'required',      
 		]);
 
-		$realisasi = RKARealisasiModel::find($id);    
-		$realisasi->target1 = $request->input('target1');
-		$realisasi->realisasi1 = $request->input('realisasi1');
-		$realisasi->target_fisik1 = $request->input('target_fisik1');
-		$realisasi->fisik1 = $request->input('fisik1');        
-		$realisasi->Descr = $request->input('Descr');
-		$realisasi->save();                     
+		$target1 = $request->input('target1');
+		$realisasi1 = $request->input('realisasi1');
+		$target_fisik1 = $request->input('target_fisik1');
+		$fisik1 = $request->input('fisik1');        
+		$Descr = $request->input('Descr');
 
-		$this->recalculate($realisasi->RKAID);
+		\DB::statement("UPDATE trRKARealisasiRinc SET target1='$target1', realisasi1='$realisasi1', target_fisik1='$target_fisik1', fisik1='$fisik1', `Descr`='$Descr' WHERE `RKARealisasiRincID`='$id'");		
+		$this->recalculate($realisasi->RKAID);                    
 
 		return Response()->json([
 								'status'=>1,

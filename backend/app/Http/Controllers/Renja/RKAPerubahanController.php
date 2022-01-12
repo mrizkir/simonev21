@@ -1369,6 +1369,8 @@ class RKAPerubahanController extends Controller
 	public function updaterealisasi(Request $request, $id)
 	{    
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_UPDATE');
+
+		$realisasi = RKARealisasiModel::find($id);
 		
 		$this->validate($request, [                    
 			'target2'=>'required',
@@ -1377,22 +1379,21 @@ class RKAPerubahanController extends Controller
 			'fisik2'=>'required',      
 		]);
 
-		$realisasi = RKARealisasiModel::find($id);    
-		$realisasi->target2 = $request->input('target2');
-		$realisasi->realisasi2 = $request->input('realisasi2');
-		$realisasi->target_fisik2 = $request->input('target_fisik2');
-		$realisasi->fisik2 = $request->input('fisik2');        
-		$realisasi->Descr = $request->input('Descr');
-		$realisasi->save();                     
+		$target2 = $request->input('target2');
+		$realisasi2 = $request->input('realisasi2');
+		$target_fisik2 = $request->input('target_fisik2');
+		$fisik2 = $request->input('fisik2');        
+		$Descr = $request->input('Descr');
 
+		\DB::statement("UPDATE trRKARealisasiRinc SET target2='$target2', realisasi2='$realisasi2', target_fisik2='$target_fisik2', fisik2='$fisik2', `Descr`='$Descr' WHERE `RKARealisasiRincID`='$id'");		
 		$this->recalculate($realisasi->RKAID);
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'update',
-								'realisasi'=>$realisasi,                    
-								'message'=>'Data realisasi berhasil diubah.'
-							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+			'status'=>1,
+			'pid'=>'update',
+			'realisasi'=>$realisasi,                    
+			'message'=>'Data realisasi berhasil diubah.'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 		
 
@@ -1639,6 +1640,7 @@ class RKAPerubahanController extends Controller
 			{
 				$fisik2 = json_decode($data[0]->fisik2, true);
 				$anggaran2 = json_decode($data[0]->anggaran2, true);                
+				
 				$target['fisik'] = is_null($fisik2) ? 0 : $fisik2["fisik_$bulan2"];
 				$target['anggaran'] = is_null($anggaran2) ? 0 : $anggaran2["anggaran_$bulan2"];                
 			}            
