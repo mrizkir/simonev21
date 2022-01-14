@@ -30,7 +30,7 @@ class UsersBapelitbangController extends Controller {
                                 'role'=>$role,
                                 'users'=>$data,
                                 'message'=>'Fetch data users BAPPELITBANG berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
     }    
     /**
      * Store a newly created resource in storage.
@@ -97,7 +97,7 @@ class UsersBapelitbangController extends Controller {
                                     'pid'=>'store',
                                     'user'=>$user,                                    
                                     'message'=>'Data user BAPPELITBANG berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
 
     }
     /**
@@ -124,7 +124,7 @@ class UsersBapelitbangController extends Controller {
                                     'user'=>$user,  
                                     'role_bapelitbang'=>$user->hasRole('bapelitbang'),    
                                     'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-                                ],200); 
+                                ], 200); 
         }
 
     }
@@ -184,7 +184,7 @@ class UsersBapelitbangController extends Controller {
                                     'pid'=>'update',
                                     'user'=>$user,      
                                     'message'=>'Data user BAPPELITBANG '.$user->username.' berhasil diubah.'
-                                ],200); 
+                                ], 200); 
         }
     }
     /**
@@ -224,7 +224,7 @@ class UsersBapelitbangController extends Controller {
                                         'status'=>1,
                                         'pid'=>'destroy',                
                                         'message'=>"User BAPPELITBANG ($username) berhasil dihapus"
-                                    ],200);         
+                                    ], 200);         
         }
                   
     }

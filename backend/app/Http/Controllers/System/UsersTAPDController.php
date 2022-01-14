@@ -30,7 +30,7 @@ class UsersTAPDController extends Controller {
                                 'role'=>$role,
                                 'users'=>$data,
                                 'message'=>'Fetch data users TAPD berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
     }    
     /**
      * Store a newly created resource in storage.
@@ -85,7 +85,7 @@ class UsersTAPDController extends Controller {
                                     'pid'=>'store',
                                     'user'=>$user,                                    
                                     'message'=>'Data user TAPD berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
 
     }
     /**
@@ -112,7 +112,7 @@ class UsersTAPDController extends Controller {
                                     'user'=>$user,  
                                     'role_tapd'=>$user->hasRole('tapd'),    
                                     'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-                                ],200); 
+                                ], 200); 
         }
 
     }
@@ -172,7 +172,7 @@ class UsersTAPDController extends Controller {
                                     'pid'=>'update',
                                     'user'=>$user,      
                                     'message'=>'Data user TAPD '.$user->username.' berhasil diubah.'
-                                ],200); 
+                                ], 200); 
         }
     }
     /**
@@ -212,7 +212,7 @@ class UsersTAPDController extends Controller {
                                         'status'=>1,
                                         'pid'=>'destroy',                
                                         'message'=>"User TAPD ($username) berhasil dihapus"
-                                    ],200);         
+                                    ], 200);         
         }
                   
     }

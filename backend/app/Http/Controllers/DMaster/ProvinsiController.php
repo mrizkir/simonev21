@@ -25,7 +25,7 @@ class ProvinsiController extends Controller {
                                 'pid'=>'fetchdata',
                                 'provinsi'=>$data,
                                 'message'=>'Fetch data provinsi berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
     }
     public function kabupaten (Request $request,$id)
     {
@@ -39,7 +39,7 @@ class ProvinsiController extends Controller {
                                 'pid'=>'fetchdata',                                
                                 'kota'=>$kota,
                                 'message'=>'Fetch data kabupaten/kota dari provinsi berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }
    

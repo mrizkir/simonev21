@@ -397,7 +397,7 @@
 					{ text: "NAMA JENIS", value: "JnsNm" },
 					{ text: "KET", value: "Descr" },
 					{ text: "TA", value: "TA" },
-					{ text: "AKSI", value: "actions", srotable: false, width: 100 },
+					{ text: "AKSI", value: "actions", sortable: false, width: 100 },
 				],
 				search: "",
 				//dialog

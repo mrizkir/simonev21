@@ -56,7 +56,7 @@ class TAController extends Controller {
                                 'pid'=>'store',
                                 'ta'=>$ta,                                    
                                 'message'=>'Data TA berhasil disimpan.'
-                            ],200); 
+                            ], 200); 
         
     }  
     /**
@@ -99,7 +99,7 @@ class TAController extends Controller {
                                 'pid'=>'update',
                                 'ta'=>$ta,                                    
                                 'message'=>'Data TA '.$ta->tahun_anggaran.' berhasil diubah.'
-                            ],200);
+                            ], 200);
         
     }
     /**
@@ -117,6 +117,6 @@ class TAController extends Controller {
                                 'status'=>1,
                                 'pid'=>'destroy',                
                                 'message'=>"Data TA dengan ID ($id) berhasil dihapus"
-                            ],200);
+                            ], 200);
     }
 }

@@ -517,7 +517,7 @@ class TargetKinerjaMurniController extends Controller
 															'status'=>1,
 															'pid'=>'destroy',                
 															'message'=>"Target Kinerja dengan ID ($id) berhasil dihapus"
-													],200);
+													], 200);
 		}		
 			  
 	}

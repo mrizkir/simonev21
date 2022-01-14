@@ -51,7 +51,7 @@ class PelaporanOPDController extends Controller {
 								'pid'=>'fetchdata',
 								'peringkat'=>$peringkat,
 								'message'=>'Fetch data untuk peringkat opd berhasil diperoleh'
-							],200);    
+							], 200);    
 		
 	}    
 }

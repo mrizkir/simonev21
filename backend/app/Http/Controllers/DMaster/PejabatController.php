@@ -50,7 +50,7 @@ class PejabatController extends Controller
                                 'pid'=>'fetchdata',
                                 'pejabat'=>$data,
                                 'message'=>'Fetch data Pejabat berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }
     /**
@@ -88,7 +88,7 @@ class PejabatController extends Controller
                                     'pid'=>'store',
                                     'pejabat'=>$asn,                                    
                                     'message'=>"Data ASN berhasil disimpan sebagai pejabat $Jenis_Jabatan."
-                                ],200); 
+                                ], 200); 
     
 
     }
@@ -107,7 +107,7 @@ class PejabatController extends Controller
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Jabatan ASN dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         
     }
 }

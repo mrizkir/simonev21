@@ -32,7 +32,7 @@ class JenisPembangunanController extends Controller
                                 'pid'=>'fetchdata',
                                 'jenispembangunan'=>$data,
                                 'message'=>'Fetch data jenis pembangunan berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }    
     /**
@@ -62,7 +62,7 @@ class JenisPembangunanController extends Controller
                                 'pid'=>'store',
                                 'jenispembangunan'=>$jenispembangunan,                                    
                                 'message'=>'Data Jenis Pembangunan berhasil disimpan.'
-                            ],200); 
+                            ], 200); 
                
     } 
      /**
@@ -89,7 +89,7 @@ class JenisPembangunanController extends Controller
                                 'pid'=>'store',
                                 'jenispembangunan'=>$jenispembangunan,                                    
                                 'message'=>'Data Jenis Pembangunan berhasil diubah.'
-                            ],200); 
+                            ], 200); 
                                 
     } 
     /**
@@ -107,6 +107,6 @@ class JenisPembangunanController extends Controller
                                 'status'=>1,
                                 'pid'=>'destroy',                
                                 'message'=>"Nama Jenis Pembangunan berhasil dihapus"
-                            ],200);
+                            ], 200);
     }
 }

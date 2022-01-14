@@ -60,6 +60,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                       `tmSubKegiatan`.`Nm_SubKegiatan`,
                                       `tmSubKegiatan`.`TA`,                                        
                                       `tmSubKegiatan`.`Descr`,                                        
+                                      `tmSubKegiatan`.`Locked`,                                        
                                       `tmSubKegiatan`.`created_at`,
                                       `tmSubKegiatan`.`updated_at`
                                     "))
@@ -77,7 +78,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                     'pid'=>'fetchdata',
                                     'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,
                                     'message'=>'Fetch data kodefikasi urusan berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -127,6 +128,7 @@ class KodefikasiSubKegiatanController extends Controller {
             'kode_sub_kegiatan' => $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'),
             'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
             'Descr' => $request->input('Descr'),
+            'Locked' => $request->input('Locked'),
             'TA'=>$ta,
         ]);
 
@@ -135,7 +137,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                     'pid'=>'store',
                                     'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
                                     'message'=>'Data Kodefikasi Sub Kegiatan berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -156,7 +158,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -202,6 +204,7 @@ class KodefikasiSubKegiatanController extends Controller {
             $kodefikasisubkegiatan->kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan');
             $kodefikasisubkegiatan->Nm_SubKegiatan = strtoupper($request->input('Nm_SubKegiatan'));
             $kodefikasisubkegiatan->Descr = $request->input('Descr');
+            $kodefikasisubkegiatan->Locked = $request->input('Locked');
             $kodefikasisubkegiatan->save();
 
             return Response()->json([
@@ -209,7 +212,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                     'pid'=>'update',
                                     'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
                                     'message'=>'Data Kodefikasi Sub Kegiatan '.$kodefikasisubkegiatan->Nm_SubKegiatan.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -256,7 +259,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -267,7 +270,7 @@ class KodefikasiSubKegiatanController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Kodefikasi Sub Kegiatan dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

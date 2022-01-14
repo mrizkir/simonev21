@@ -30,6 +30,7 @@ class KodefikasiProgramModel extends Model
         'Jns',
         'Descr',
         'TA',
+        'Locked',
         'PrgID_Src',
     ];
     /**

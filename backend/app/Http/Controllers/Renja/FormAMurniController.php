@@ -51,7 +51,7 @@ class FormAMurniController extends Controller
                                     'status'=>0,
                                     'pid'=>'fetchdata',
                                     'message'=>'Fetch data form a murni gagal diperoleh'
-                                ],422);
+                                ], 422);
         }
         else if (isset($tingkat[1]) )
         {
@@ -395,7 +395,7 @@ class FormAMurniController extends Controller
                                     'status'=>0,
                                     'pid'=>'fetchdata',
                                     'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
-                                ],422);
+                                ], 422);
         }
     }
 

@@ -19,7 +19,8 @@ class CreateProgramTable extends Migration
             $table->string('Nm_Program');
             $table->tinyInteger('Jns')->default(1);            
             $table->string('Descr')->nullable();
-            $table->year('TA');      
+            $table->year('TA');   
+            $table->boolean('Locked')->default(1);   
             $table->uuid('PrgID_Src')->nullable();           
             $table->timestamps();
 

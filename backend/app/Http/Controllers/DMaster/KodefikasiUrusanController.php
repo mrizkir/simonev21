@@ -43,7 +43,7 @@ class KodefikasiUrusanController extends Controller {
                                     'pid'=>'fetchdata',
                                     'kodefikasiurusan'=>$kodefikasiurusan,
                                     'message'=>'Fetch data kodefikasi urusan berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -81,7 +81,7 @@ class KodefikasiUrusanController extends Controller {
                                     'pid'=>'store',
                                     'kodefikasiurusan'=>$kodefikasiurusan,                                    
                                     'message'=>'Data Kodefikasi Urusan berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -102,7 +102,7 @@ class KodefikasiUrusanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Kodefikasi Urusan ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -137,7 +137,7 @@ class KodefikasiUrusanController extends Controller {
                                     'pid'=>'update',
                                     'kodefikasiurusan'=>$kodefikasiurusan,                                    
                                     'message'=>'Data Kodefikasi Urusan '.$kodefikasiurusan->Nm_Urusan.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -159,7 +159,7 @@ class KodefikasiUrusanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Kodefikasi Urusan ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -170,7 +170,7 @@ class KodefikasiUrusanController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Kodefikasi Urusan dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

@@ -126,6 +126,7 @@
 													outlined
 												>
 												</v-textarea>
+												<v-switch v-model="formdata.Locked" label="AKTIF" />
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -274,6 +275,11 @@
 								</v-dialog>
 							</v-toolbar>
 						</template>
+						<template v-slot:item.Locked="{ item }">
+							<v-chip class="ma-2" :color="item.Locked == 1 ? 'success' : 'red'" outlined small>
+								{{ item.Locked == 1 ? "AKTIF" : "TIDAK AKTIF" }}
+							</v-chip>
+						</template>
 						<template v-slot:item.actions="{ item }">
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
@@ -384,12 +390,13 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "KODE KEGIATAN", value: "kode_kegiatan", width: 150 },
-					{ text: "NAMA KEGIATAN", value: "Nm_Kegiatan" },
-					{ text: "PROGRAM", value: "Nm_Program" },
-					{ text: "KET", value: "Descr" },
-					{ text: "TA", value: "TA" },
-					{ text: "AKSI", value: "actions", srotable: false, width: 100 },
+					{ text: "KODE KEGIATAN", value: "kode_kegiatan", width: 100 },
+					{ text: "NAMA KEGIATAN", value: "Nm_Kegiatan", width: 250 },
+					{ text: "PROGRAM", value: "Nm_Program", width: 170 },
+					{ text: "KET", value: "Descr", width: 140 },
+					{ text: "TA", value: "TA", width: 70 },
+					{ text: "STATUS", value: "Locked", align: "center", width: 120 },
+					{ text: "AKSI", value: "actions", sortable: false, width: 100 },
 				],
 				search: "",
 				//dialog
@@ -405,6 +412,7 @@
 					Nm_Kegiatan: "",
 					Descr: "",
 					TA: "",
+					Locked: 0,
 					created_at: "",
 					updated_at: "",
 				},
@@ -415,6 +423,7 @@
 					Nm_Kegiatan: "",
 					Descr: "",
 					TA: "",
+					Locked: 0,
 					created_at: "",
 					updated_at: "",
 				},
@@ -474,6 +483,7 @@
 					.then(({ data }) => {
 						this.daftar_program = data.kodefikasiprogram;
 						this.dialogfrm = true;
+						this.Locked = 1;
 					});
 			},
 			async editItem(item) {
@@ -513,6 +523,7 @@
 									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
 									Descr: this.formdata.Descr,
+									Locked: this.formdata.Locked,
 								},
 								{
 									headers: {
@@ -537,6 +548,7 @@
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
 									Descr: this.formdata.Descr,
 									TA: this.$store.getters["auth/TahunSelected"],
+									Locked: this.formdata.Locked,
 								},
 								{
 									headers: {

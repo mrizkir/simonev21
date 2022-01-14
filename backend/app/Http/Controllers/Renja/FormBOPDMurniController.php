@@ -470,7 +470,7 @@ class FormBOPDMurniController extends Controller
 									'rka'=>$data,
 									'total_data'=>$total_data,                                    
 									'message'=>'Fetch data form b murni berhasil diperoleh'
-								],200);    
+								], 200);    
 		
 	}
 	public function printtoexcel (Request $request)
@@ -508,7 +508,7 @@ class FormBOPDMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                                                                            
 									'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
-								],422); 
+								], 422); 
 		}
 	}
 

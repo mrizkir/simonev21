@@ -26,7 +26,7 @@ class KecamatanController extends Controller {
                                 'pid'=>'fetchdata',
                                 'kecamatan'=>$data,
                                 'message'=>'Fetch data kecamatan berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
     }
     public function desa (Request $request,$id)
     {
@@ -40,7 +40,7 @@ class KecamatanController extends Controller {
                                 'pid'=>'fetchdata',                                
                                 'desa'=>$desa,
                                 'message'=>'Fetch data desa dari kecamatan berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }
    

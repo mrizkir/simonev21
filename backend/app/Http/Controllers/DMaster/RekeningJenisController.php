@@ -50,7 +50,7 @@ class RekeningJenisController extends Controller {
                                     'pid'=>'fetchdata',
                                     'jenis'=>$jenis,
                                     'message'=>'Fetch data rekening jenis berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -91,7 +91,7 @@ class RekeningJenisController extends Controller {
                                     'pid'=>'store',
                                     'jenis'=>$jenis,                                    
                                     'message'=>'Data Rekening Jenis berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -112,7 +112,7 @@ class RekeningJenisController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Rekening Jenis ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -151,7 +151,7 @@ class RekeningJenisController extends Controller {
                                     'pid'=>'update',
                                     'jenis'=>$jenis,                                    
                                     'message'=>'Data Rekening Jenis '.$jenis->JnsNm.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -178,7 +178,7 @@ class RekeningJenisController extends Controller {
                                     'pid'=>'fetchdata',
                                     'objek'=>$objek,
                                     'message'=>"Fetch data objek dari rekening jenis ($id) berhasil."
-                                ],200);
+                                ], 200);
     }
     /**
      * Remove the specified resource from storage.
@@ -198,7 +198,7 @@ class RekeningJenisController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Rekening Jenis ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -209,7 +209,7 @@ class RekeningJenisController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Rekening Jenis dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

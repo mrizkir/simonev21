@@ -105,6 +105,6 @@ class LaporanRealisasiMurniController extends Controller {
       'laporan_realisasi'=>$laporan_realisasi,
       'laporan_total'=>$laporan_total,
       'message'=>'Fetch data untuk laporan realisasi berhasil diperoleh'
-    ],200);
+    ], 200);
   }
 }

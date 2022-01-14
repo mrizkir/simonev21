@@ -595,7 +595,7 @@ class RKAMurniController extends Controller
 									'pid'=>'store',
 									'rka'=>$rka,                                    
 									'message'=>'Data RKA berhasil disimpan.'
-								],200); 
+								], 200); 
 	}               
 	/**
 	 * Store a newly created resource in storage.
@@ -640,7 +640,7 @@ class RKAMurniController extends Controller
 									'pid'=>'store',
 									'uraian'=>$uraian,                                    
 									'message'=>'Data Uraian RKA berhasil disimpan.'
-								],200); 
+								], 200); 
 	}               
 	/**
 	 * Update the specified resource in storage.
@@ -661,7 +661,7 @@ class RKAMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                
 									'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
-								],422); 
+								], 422); 
 		}
 		else if ($kegiatan->Locked)
 		{
@@ -669,7 +669,7 @@ class RKAMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                
 									'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								],422); 
+								], 422); 
 		}
 		else
 		{
@@ -740,7 +740,7 @@ class RKAMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                
 									'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
-								],422); 
+								], 422); 
 		}
 		else if ($kegiatan->Locked)
 		{
@@ -748,7 +748,7 @@ class RKAMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                
 									'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								],422); 
+								], 422); 
 		}
 		else
 		{
@@ -778,7 +778,7 @@ class RKAMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                
 									'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
-								],422); 
+								], 422); 
 		}
 		else if ($rinciankegiatan->Locked)
 		{
@@ -786,7 +786,7 @@ class RKAMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                
 									'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								],422); 
+								], 422); 
 		}
 		else
 		{
@@ -827,7 +827,7 @@ class RKAMurniController extends Controller
 									'rka'=>$rka,
 									'rinciankegiatan'=>$rinciankegiatan,
 									'message'=>'Update uraian berhasil disimpan.'
-								],200); 
+								], 200); 
 		}
 	}
 	/**
@@ -872,7 +872,7 @@ class RKAMurniController extends Controller
 								'status'=>1,
 								'pid'=>'update',
 								'message'=>'Update detail uraian berhasil disimpan.'
-							],200); 
+							], 200); 
 	}
 	/**
 	 * Show the form for creating a new resource. [menambah realisasi uraian]
@@ -1479,7 +1479,7 @@ class RKAMurniController extends Controller
 									'status'=>1,
 									'pid'=>'destroy',                
 									'message'=>$message
-								],200);  
+								], 200);  
 			  
 	}
 }

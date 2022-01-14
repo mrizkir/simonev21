@@ -31,6 +31,7 @@ class KodefikasiSubKegiatanModel extends Model
         'Nm_SubKegiatan',        
         'Descr',
         'TA',
+        'Locked',
         'SubKgtID_Src',
     ];
     /**

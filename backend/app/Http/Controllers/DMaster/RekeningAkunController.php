@@ -41,7 +41,7 @@ class RekeningAkunController extends Controller {
                                     'pid'=>'fetchdata',
                                     'akun'=>$akun,
                                     'message'=>'Fetch data rekening akun berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -79,7 +79,7 @@ class RekeningAkunController extends Controller {
                                     'pid'=>'store',
                                     'akun'=>$akun,                                    
                                     'message'=>'Data Rekening Akun berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -100,7 +100,7 @@ class RekeningAkunController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Rekening Akun ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -135,7 +135,7 @@ class RekeningAkunController extends Controller {
                                     'pid'=>'update',
                                     'akun'=>$akun,                                    
                                     'message'=>'Data Rekening Akun '.$akun->Nm_Akun.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -157,7 +157,7 @@ class RekeningAkunController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Rekening Akun ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -168,7 +168,7 @@ class RekeningAkunController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Rekening Akun dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

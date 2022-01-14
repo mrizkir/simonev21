@@ -105,7 +105,7 @@ class PelaporanOPDMurniController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',                                                                            
 									'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
-								],422); 
+								], 422); 
 		}
 	}
 

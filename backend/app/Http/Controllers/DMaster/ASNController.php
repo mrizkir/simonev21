@@ -35,7 +35,7 @@ class ASNController extends Controller
                                 'pid'=>'fetchdata',
                                 'asn'=>$data,
                                 'message'=>'Fetch data ASN berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }
     /**
@@ -78,7 +78,7 @@ class ASNController extends Controller
                                 'pid'=>'store',
                                 'asn'=>$asn,                                    
                                 'message'=>'Data ASN berhasil disimpan.'
-                            ],200); 
+                            ], 200); 
         
     }  
     /**
@@ -122,7 +122,7 @@ class ASNController extends Controller
                                 'pid'=>'update',
                                 'asn'=>$asn,                                    
                                 'message'=>'Data ASN '.$asn->Nm_ASN.' berhasil diubah.'
-                            ],200);
+                            ], 200);
         
     }
     /**
@@ -140,6 +140,6 @@ class ASNController extends Controller
                                 'status'=>1,
                                 'pid'=>'destroy',                
                                 'message'=>"Data ASN dengan ID ($id) berhasil dihapus"
-                            ],200);
+                            ], 200);
     }
 }

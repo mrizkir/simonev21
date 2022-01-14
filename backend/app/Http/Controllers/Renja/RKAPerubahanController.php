@@ -908,7 +908,7 @@ class RKAPerubahanController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',
 									'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
-								],422); 
+								], 422); 
 		}
 		else if ($kegiatan->Locked)
 		{
@@ -916,7 +916,7 @@ class RKAPerubahanController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',
 									'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								],422); 
+								], 422); 
 		}
 		else
 		{
@@ -988,7 +988,7 @@ class RKAPerubahanController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',
 									'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
-								],422); 
+								], 422); 
 		}
 		else if ($kegiatan->Locked)
 		{
@@ -996,7 +996,7 @@ class RKAPerubahanController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',
 									'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								],422); 
+								], 422); 
 		}
 		else
 		{
@@ -1026,7 +1026,7 @@ class RKAPerubahanController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',
 									'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
-								],422); 
+								], 422); 
 		}
 		else if ($rinciankegiatan->Locked)
 		{
@@ -1034,7 +1034,7 @@ class RKAPerubahanController extends Controller
 									'status'=>0,
 									'pid'=>'fetchdata',
 									'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								],422); 
+								], 422); 
 		}
 		else
 		{

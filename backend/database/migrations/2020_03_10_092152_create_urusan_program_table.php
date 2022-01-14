@@ -17,7 +17,7 @@ class CreateUrusanProgramTable extends Migration
             $table->uuid('UrsPrgID');            
             $table->uuid('BidangID');
             $table->uuid('PrgID');                        
-            $table->year('TA');                 
+            $table->year('TA');
             $table->timestamps();
 
             $table->primary('UrsPrgID');

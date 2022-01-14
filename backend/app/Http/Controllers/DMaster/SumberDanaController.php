@@ -31,7 +31,7 @@ class SumberDanaController extends Controller {
                                 'pid'=>'fetchdata',
                                 'sumberdana'=>$data,
                                 'message'=>'Fetch data Sumber Dana berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }
     
@@ -80,7 +80,7 @@ class SumberDanaController extends Controller {
                                 'pid'=>'store',
                                 'sumberdana'=>$sumberdana,                                    
                                 'message'=>'Data Sumber Dana berhasil disimpan.'
-                            ],200); 
+                            ], 200); 
 
     }
     /**
@@ -136,7 +136,7 @@ class SumberDanaController extends Controller {
                             'pid'=>'update',
                             'sumberdana'=>$sumberdana,                                    
                             'message'=>'Data Sumber Dana '.$sumberdana->Nm_SumberDana.' berhasil diubah.'
-                        ],200);
+                        ], 200);
 
     }
 
@@ -158,6 +158,6 @@ class SumberDanaController extends Controller {
                                 'status'=>1,
                                 'pid'=>'destroy',                
                                 'message'=>"Data Sumber Dana dengan ID ($id) berhasil dihapus"
-                            ],200);
+                            ], 200);
     }
 }

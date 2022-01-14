@@ -54,7 +54,7 @@ class RekeningRincianObjekController extends Controller {
                                     'pid'=>'fetchdata',
                                     'rincianobjek'=>$rincianobjek,
                                     'message'=>'Fetch data rincian objek berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -95,7 +95,7 @@ class RekeningRincianObjekController extends Controller {
                                     'pid'=>'store',
                                     'objek'=>$rincianobjek,                                    
                                     'message'=>'Data Rekening Rincian Objek berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -116,7 +116,7 @@ class RekeningRincianObjekController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Rekening Rincian Objek ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -155,7 +155,7 @@ class RekeningRincianObjekController extends Controller {
                                     'pid'=>'update',
                                     'objek'=>$rincianobjek,                                    
                                     'message'=>'Data Rekening Rincian Objek '.$rincianobjek->RObyNm.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -188,7 +188,7 @@ class RekeningRincianObjekController extends Controller {
                                     'pid'=>'fetchdata',
                                     'subrincianobjek'=>$subrincianobjek,
                                     'message'=>"Fetch data sub rincian objek dari rincian objek ($id) berhasil."
-                                ],200);
+                                ], 200);
 
     }
     /**
@@ -209,7 +209,7 @@ class RekeningRincianObjekController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Rekening Rincian Objek ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -220,7 +220,7 @@ class RekeningRincianObjekController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Rekening Rincian Objek dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

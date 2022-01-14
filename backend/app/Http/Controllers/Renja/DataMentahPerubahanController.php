@@ -338,6 +338,6 @@ class DataMentahPerubahanController extends Controller
 								'status'=>1,
 								'pid'=>'store',                                
 								'message'=>'Salin kegiatan dari RKA Murni ke RKA Perubahan berhasil'
-							],200);    
+							], 200);    
 	}
 }

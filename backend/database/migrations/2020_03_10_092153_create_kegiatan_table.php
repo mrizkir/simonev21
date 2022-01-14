@@ -19,6 +19,7 @@ class CreateKegiatanTable extends Migration
             $table->string('Nm_Kegiatan');
             $table->string('Descr')->nullable();
             $table->year('TA');          
+            $table->boolean('Locked')->default(1);
             $table->uuid('KgtID_Src')->nullable();                         
             $table->timestamps();
             

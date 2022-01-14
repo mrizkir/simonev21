@@ -47,7 +47,7 @@ class RekeningKelompokController extends Controller {
                                     'pid'=>'fetchdata',
                                     'kelompok'=>$kelompok,
                                     'message'=>'Fetch data rekening kelompok berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -88,7 +88,7 @@ class RekeningKelompokController extends Controller {
                                     'pid'=>'store',
                                     'kelompok'=>$kelompok,                                    
                                     'message'=>'Data Rekening Kelompok berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -109,7 +109,7 @@ class RekeningKelompokController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Rekening Kelompok ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -147,7 +147,7 @@ class RekeningKelompokController extends Controller {
                                     'pid'=>'update',
                                     'kelompok'=>$kelompok,                                    
                                     'message'=>'Data Rekening Kelompok '.$kelompok->KlpNm.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -169,7 +169,7 @@ class RekeningKelompokController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Rekening Kelompok ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -180,7 +180,7 @@ class RekeningKelompokController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Rekening Kelompok dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

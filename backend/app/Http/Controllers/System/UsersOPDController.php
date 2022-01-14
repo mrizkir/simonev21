@@ -81,7 +81,7 @@ class UsersOPDController extends Controller {
 								'role'=>$role,
 								'users'=>$data,
 								'message'=>'Fetch data users OPD berhasil diperoleh'
-							],200);  
+							], 200);  
 	}    
 	/**
 	 * Store a newly created resource in storage.
@@ -172,7 +172,7 @@ class UsersOPDController extends Controller {
 									'pid'=>'store',
 									'user'=>$user,                                    
 									'message'=>'Data user OPD berhasil disimpan.'
-								],200); 
+								], 200); 
 
 	}
 	/**
@@ -199,7 +199,7 @@ class UsersOPDController extends Controller {
 									'user'=>$user,  
 									'role_opd'=>$user->hasRole('opd'),    
 									'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-								],200); 
+								], 200); 
 		}
 
 	}
@@ -296,7 +296,7 @@ class UsersOPDController extends Controller {
 									'pid'=>'update',
 									'user'=>$user,      
 									'message'=>'Data user OPD '.$user->username.' berhasil diubah.'
-								],200); 
+								], 200); 
 		}
 	}
 	/**
@@ -336,7 +336,7 @@ class UsersOPDController extends Controller {
 										'status'=>1,
 										'pid'=>'destroy',                
 										'message'=>"User OPD ($username) berhasil dihapus"
-									],200);         
+									], 200);         
 		}
 				  
 	}

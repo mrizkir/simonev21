@@ -470,7 +470,7 @@ class FormBOPDPerubahanController extends Controller
 									'rka'=>$data,
 									'total_data'=>$total_data,                                    
 									'message'=>'Fetch data form b perubahan berhasil diperoleh'
-								],200);    
+								], 200);    
 		
 	}
 	public function printtoexcel (Request $request)

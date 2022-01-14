@@ -47,7 +47,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'pid'=>'fetchdata',
                                     'kodefikasibidangurusan'=>$kodefikasibidangurusan,
                                     'message'=>'Fetch data kodefikasi urusan berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * get all kodefikasi program
@@ -98,7 +98,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'pid'=>'fetchdata',
                                     'program'=>$program,
                                     'message'=>'Fetch data kodefikasi program rka berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -138,7 +138,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'pid'=>'store',
                                     'kodefikasibidangurusan'=>$kodefikasibidangurusan,                                    
                                     'message'=>'Data Kodefikasi Bidang Urusan berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -159,7 +159,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -195,7 +195,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'pid'=>'update',
                                     'kodefikasibidangurusan'=>$kodefikasibidangurusan,                                    
                                     'message'=>'Data Kodefikasi Bidang Urusan '.$kodefikasibidangurusan->Nm_Bidang.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -217,7 +217,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -228,7 +228,7 @@ class KodefikasiBidangUrusanController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Kodefikasi Bidang Urusan dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }

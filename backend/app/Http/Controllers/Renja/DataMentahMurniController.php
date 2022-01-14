@@ -188,6 +188,6 @@ class DataMentahMurniController extends Controller
                                 'status'=>1,
                                 'pid'=>'store',                                
                                 'message'=>'Salin kegiatan dari data mentar ke RKA Murni berhasil'
-                            ],200);    
+                            ], 200);    
     }
 }

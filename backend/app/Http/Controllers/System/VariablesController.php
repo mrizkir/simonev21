@@ -58,7 +58,7 @@ class VariablesController extends Controller {
                                     'pid'=>'update',       
                                     'config'=>$config,                                                               
                                     'message'=>"Data setting $pid berhasil diubah."
-                                ],200); 
+                                ], 200); 
     }
     public function clear(Request $request)
     {
@@ -68,6 +68,6 @@ class VariablesController extends Controller {
                                     'status'=>1,
                                     'pid'=>'update',                                                                    
                                     'message'=>"Cache sudah dikosongkan dan direload ulang setting berhasil."
-                                ],200); 
+                                ], 200); 
     }
 }

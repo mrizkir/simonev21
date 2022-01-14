@@ -261,7 +261,7 @@ class OrganisasiController extends Controller {
                                     'pid'=>'update',
                                     'opd'=>$organisasi,                                    
                                     'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
-                                ],200); 
+                                ], 200); 
     
     }
     /**
@@ -282,7 +282,7 @@ class OrganisasiController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data OPD ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -293,7 +293,7 @@ class OrganisasiController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data OPD dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
     /**
@@ -385,6 +385,6 @@ class OrganisasiController extends Controller {
                                         'pptk'=>$pptk,
                                     ],                                    
                                     'message'=>'Data unit kerja berdasarkan id '.$id.' berhasil diubah.'
-                                ],200); 
+                                ], 200); 
     }
 }

@@ -36,7 +36,7 @@ class PermissionsController extends Controller {
                                 'pid'=>'fetchdata',
                                 'permissions'=>$data,
                                 'message'=>'Fetch data permissions berhasil diperoleh'
-                            ],200);              
+                            ], 200);              
     }    
     /**
      * Store a newly created resource in storage.
@@ -81,7 +81,7 @@ class PermissionsController extends Controller {
                                     'pid'=>'store',
                                     // 'permission'=>$permission,                                    
                                     'message'=>'Data permission berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     
     }
      /**
@@ -101,7 +101,7 @@ class PermissionsController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Permission dengan ID ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -120,7 +120,7 @@ class PermissionsController extends Controller {
                                         'status'=>1,
                                         'pid'=>'destroy',                
                                         'message'=>"Permission ($nama_permission) berhasil dihapus"
-                                    ],200); 
+                                    ], 200); 
         }
     }
 }

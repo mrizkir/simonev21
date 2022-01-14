@@ -32,7 +32,7 @@ class JenisPelaksanaanController extends Controller
                                 'pid'=>'fetchdata',
                                 'jenispelaksanaan'=>$data,
                                 'message'=>'Fetch data jenis pelaksanaan berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
 
     }    
     /**
@@ -62,7 +62,7 @@ class JenisPelaksanaanController extends Controller
                                 'pid'=>'store',
                                 'jenispelaksanaan'=>$jenispelaksanaan,                                    
                                 'message'=>'Data Jenis Pelaksanaan berhasil disimpan.'
-                            ],200); 
+                            ], 200); 
                
     } 
     /**
@@ -89,7 +89,7 @@ class JenisPelaksanaanController extends Controller
                                 'pid'=>'store',
                                 'jenispelaksanaan'=>$jenispelaksanaan,                                    
                                 'message'=>'Data Jenis Pelaksanaan berhasil diubah.'
-                            ],200); 
+                            ], 200); 
                                 
     }
     /**
@@ -107,6 +107,6 @@ class JenisPelaksanaanController extends Controller
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Nama Jenis Pelaksanaan berhasil dihapus"
-                                ],200);
+                                ], 200);
     }
 }

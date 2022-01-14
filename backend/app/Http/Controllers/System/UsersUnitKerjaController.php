@@ -82,7 +82,7 @@ class UsersUnitKerjaController extends Controller {
 								'role'=>$role,
 								'users'=>$data,
 								'message'=>'Fetch data users UNIT KERJA berhasil diperoleh'
-							],200);  
+							], 200);  
 	}    
 	/**
 	 * Store a newly created resource in storage.
@@ -191,7 +191,7 @@ class UsersUnitKerjaController extends Controller {
 									'pid'=>'store',
 									'user'=>$user,                                    
 									'message'=>'Data user UNIT KERJA berhasil disimpan.'
-								],200); 
+								], 200); 
 
 	}
 	/**
@@ -218,7 +218,7 @@ class UsersUnitKerjaController extends Controller {
 									'user'=>$user,  
 									'role_unitkerja'=>$user->hasRole('unitkerja'),    
 									'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-								],200); 
+								], 200); 
 		}
 
 	}
@@ -332,7 +332,7 @@ class UsersUnitKerjaController extends Controller {
 									'pid'=>'update',
 									'user'=>$user,      
 									'message'=>'Data user UNIT KERJA '.$user->username.' berhasil diubah.'
-								],200); 
+								], 200); 
 		}
 	}
 	/**
@@ -372,7 +372,7 @@ class UsersUnitKerjaController extends Controller {
 										'status'=>1,
 										'pid'=>'destroy',                
 										'message'=>"User UNIT KERJA ($username) berhasil dihapus"
-									],200);         
+									], 200);         
 		}
 				  
 	}

@@ -19,6 +19,7 @@ class CreateSubKegiatanTable extends Migration
             $table->string('Nm_SubKegiatan');
             $table->string('Descr')->nullable();
             $table->year('TA');           
+            $table->boolean('Locked')->default(1);
             $table->uuid('SubKgtID_Src')->nullable();             
             $table->timestamps();
             

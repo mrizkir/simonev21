@@ -30,7 +30,7 @@ class UsersDewanController extends Controller {
                                 'role'=>$role,
                                 'users'=>$data,
                                 'message'=>'Fetch data users Dewan berhasil diperoleh'
-                            ],200);  
+                            ], 200);  
     }    
     /**
      * Store a newly created resource in storage.
@@ -85,7 +85,7 @@ class UsersDewanController extends Controller {
                                     'pid'=>'store',
                                     'user'=>$user,                                    
                                     'message'=>'Data user Dewan berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
 
     }
     /**
@@ -112,7 +112,7 @@ class UsersDewanController extends Controller {
                                     'user'=>$user,  
                                     'role_dewan'=>$user->hasRole('dewan'),    
                                     'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-                                ],200); 
+                                ], 200); 
         }
 
     }
@@ -172,7 +172,7 @@ class UsersDewanController extends Controller {
                                     'pid'=>'update',
                                     'user'=>$user,      
                                     'message'=>'Data user Dewan '.$user->username.' berhasil diubah.'
-                                ],200); 
+                                ], 200); 
         }
     }
     /**
@@ -212,7 +212,7 @@ class UsersDewanController extends Controller {
                                         'status'=>1,
                                         'pid'=>'destroy',                
                                         'message'=>"User Dewan ($username) berhasil dihapus"
-                                    ],200);         
+                                    ], 200);         
         }
                   
     }

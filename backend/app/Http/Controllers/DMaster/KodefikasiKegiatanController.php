@@ -35,28 +35,29 @@ class KodefikasiKegiatanController extends Controller {
                                       tmProgram.`Kd_Program`,
                                       tmKegiatan.`Kd_Kegiatan`,
                                       CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
-                                          ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+                                        WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                          CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
+                                        ELSE
+                                          CONCAT('X.','XX.',tmProgram.`Kd_Program`)
                                       END AS kode_program,
                                       CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
-                                          ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+                                        WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                          CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+                                        ELSE
+                                          CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
                                       END AS kode_kegiatan,
                                       CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
-                                          ELSE
-                                            CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+                                        WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                          CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+                                        ELSE
+                                          CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
                                       END AS nama_kegiatan,
                                       COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
                                       COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
                                       tmProgram.`Nm_Program`,
                                       tmKegiatan.`Nm_Kegiatan`,
-                                      tmKegiatan.`TA`,                                        
+                                      tmKegiatan.`TA`,
+                                      tmKegiatan.`Locked`,
                                       tmKegiatan.`Descr`,                                        
                                       tmKegiatan.`created_at`,
                                       tmKegiatan.`updated_at`
@@ -74,7 +75,7 @@ class KodefikasiKegiatanController extends Controller {
                                     'pid'=>'fetchdata',
                                     'kodefikasikegiatan'=>$kodefikasikegiatan,
                                     'message'=>'Fetch data kodefikasi urusan berhasil.'
-                                ],200);
+                                ], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -104,10 +105,10 @@ class KodefikasiKegiatanController extends Controller {
 
         $program = KodefikasiProgramModel::select(\DB::raw("                                      
                                       CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.')
-                                          ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.')
+                                        WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                                          CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.')
+                                        ELSE
+                                          CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.')
                                       END AS kode_program                                      
                                     "))                                    
                                     ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
@@ -123,6 +124,7 @@ class KodefikasiKegiatanController extends Controller {
             'kode_kegiatan' => $program->kode_program.$request->input('Kd_Kegiatan'),
             'Nm_Kegiatan' => strtoupper($request->input('Nm_Kegiatan')),
             'Descr' => $request->input('Descr'),
+            'Locked' => $request->input('Locked'),
             'TA'=>$ta,
         ]);
 
@@ -131,7 +133,7 @@ class KodefikasiKegiatanController extends Controller {
                                     'pid'=>'store',
                                     'kodefikasikegiatan'=>$kodefikasikegiatan,                                    
                                     'message'=>'Data Kodefikasi Kegiatan berhasil disimpan.'
-                                ],200); 
+                                ], 200); 
     }               
     
     /**
@@ -152,7 +154,7 @@ class KodefikasiKegiatanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'update',                
                                     'message'=>["Data Kodefikasi Kegiatan ($id) gagal diupdate"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -197,6 +199,7 @@ class KodefikasiKegiatanController extends Controller {
             $kodefikasikegiatan->kode_kegiatan = $program->kode_program.$request->input('Kd_Kegiatan');
             $kodefikasikegiatan->Nm_Kegiatan = strtoupper($request->input('Nm_Kegiatan'));
             $kodefikasikegiatan->Descr = $request->input('Descr');
+            $kodefikasikegiatan->Locked = $request->input('Locked');
             $kodefikasikegiatan->save();
 
             return Response()->json([
@@ -204,7 +207,7 @@ class KodefikasiKegiatanController extends Controller {
                                     'pid'=>'update',
                                     'kodefikasikegiatan'=>$kodefikasikegiatan,                                    
                                     'message'=>'Data Kodefikasi Kegiatan '.$kodefikasikegiatan->Nm_Kegiatan.' berhasil diubah.'
-                                ],200);
+                                ], 200);
         }
         
     }
@@ -221,44 +224,44 @@ class KodefikasiKegiatanController extends Controller {
         $SOrgID = $request->input('SOrgID');
 
         $kodefikasisubkegiatan=KodefikasiSubKegiatanModel::select(\DB::raw("
-                                      tmSubKegiatan.`SubKgtID`,
-                                      CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
-                                          ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
-                                      END AS kode_sub_kegiatan,
-                                      CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT('[', tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
-                                          ELSE
-                                            CONCAT('[', 'X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
-                                      END AS nama_sub_kegiatan
-                                    "))
-                                    ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
-                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
-                                    ->where('tmSubKegiatan.KgtID',$id)
-                                    ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID) {
-                                        $query->select('kode_sub_kegiatan')
-                                            ->from('trRKA')
-                                            ->where('SOrgID',$SOrgID);
-                                    })
-                                    ->orderBy('tmSubKegiatan.Kd_SubKegiatan','ASC')                                    
-                                    ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
-                                    ->orderBy('tmProgram.Kd_Program','ASC')                                    
-                                    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-                                    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
-                                    ->get();
+          tmSubKegiatan.`SubKgtID`,
+          CASE 
+            WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+              CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+            ELSE
+              CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+          END AS kode_sub_kegiatan,
+          CASE 
+            WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+              CONCAT('[', tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
+            ELSE
+              CONCAT('[', 'X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
+          END AS nama_sub_kegiatan
+        "))
+        ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
+        ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
+        ->where('tmSubKegiatan.KgtID',$id)
+        ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID) {
+            $query->select('kode_sub_kegiatan')
+                ->from('trRKA')
+                ->where('SOrgID',$SOrgID);
+        })
+        ->orderBy('tmSubKegiatan.Kd_SubKegiatan','ASC')                                    
+        ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
+        ->orderBy('tmProgram.Kd_Program','ASC')                                    
+        ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
+        ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
+        ->get();
 
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',
                                     'subkegiatanrka'=>$kodefikasisubkegiatan,
                                     'message'=>"Fetch data sub kegiatan dari kegiatan $id berhasil."
-                                ],200);   
+                                ], 200);   
     }
     public function updatekodesubkegiatan(Request $request)
     {
@@ -302,7 +305,7 @@ class KodefikasiKegiatanController extends Controller {
                                     'status'=>0,
                                     'pid'=>'destroy',                
                                     'message'=>["Data Kodefikasi Kegiatan ($id) gagal dihapus"]
-                                ],422); 
+                                ], 422); 
         }
         else
         {
@@ -313,7 +316,7 @@ class KodefikasiKegiatanController extends Controller {
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"Data Kodefikasi Kegiatan dengan ID ($id) berhasil dihapus"
-                                ],200);
+                                ], 200);
         }
     }
 }
