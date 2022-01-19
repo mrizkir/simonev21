@@ -190,7 +190,7 @@ class FormBOPDPerubahanModel extends ReportModel
             $kode_program = $data_program->kode_program;
             $sheet->setCellValue("A$row",chr($no_huruf));
             $sheet->setCellValue("B$row",$kode_program);              
-            $sheet->setCellValue("C$row",ucwords(strtoupper($data_program->Nm_Program)));  
+            $sheet->setCellValue("C$row",ucwords(strtolower($data_program->Nm_Program)));  
 
             $daftar_kegiatan=\DB::table('trRKA')
                             ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
@@ -220,7 +220,7 @@ class FormBOPDPerubahanModel extends ReportModel
                     $kode_kegiatan = $data_kegiatan->kode_kegiatan;
                     $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan);
                     $sheet->setCellValue("B$row",$kode_kegiatan);                      
-                    $sheet->setCellValue("C$row",ucwords(strtoupper($data_kegiatan->Nm_Kegiatan)));  
+                    $sheet->setCellValue("C$row",ucwords(strtolower($data_kegiatan->Nm_Kegiatan)));  
 
                     $daftar_sub_kegiatan = \DB::table('trRKA')
                                     ->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana2`,`lokasi_kegiatan2`, `Nm_Sub_Organisasi`'))
@@ -326,7 +326,7 @@ class FormBOPDPerubahanModel extends ReportModel
                             
                             $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan.'.'.$no_sub_kegiatan);
                             $sheet->setCellValue("B$row",$kode_sub_kegiatan);                              
-                            $sheet->setCellValue("C$row",ucwords(strtoupper($data_sub_kegiatan->Nm_Sub_Kegiatan)));  
+                            $sheet->setCellValue("C$row",ucwords(strtolower($data_sub_kegiatan->Nm_Sub_Kegiatan)));  
                             $sheet->setCellValue("D$row",$data_sub_kegiatan->Nm_Sub_Organisasi);  
                             $sheet->setCellValue("E$row",Helper::formatUang($data_sub_kegiatan->PaguDana2));  
                             $sheet->setCellValue("F$row",$persen_bobot);  
