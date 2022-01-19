@@ -126,7 +126,7 @@ class KodefikasiSubKegiatanController extends Controller {
             'KgtID' => $request->input('KgtID'),            
             'Kd_SubKegiatan' => $request->input('Kd_SubKegiatan'),
             'kode_sub_kegiatan' => $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'),
-            'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
+            'Nm_SubKegiatan' => ucwords(strtoupper($request->input('Nm_SubKegiatan'))),
             'Descr' => $request->input('Descr'),
             'Locked' => $request->input('Locked'),
             'TA'=>$ta,
@@ -202,7 +202,7 @@ class KodefikasiSubKegiatanController extends Controller {
 
             $kodefikasisubkegiatan->Kd_SubKegiatan = $request->input('Kd_SubKegiatan');
             $kodefikasisubkegiatan->kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan');
-            $kodefikasisubkegiatan->Nm_SubKegiatan = strtoupper($request->input('Nm_SubKegiatan'));
+            $kodefikasisubkegiatan->Nm_SubKegiatan = ucwords(strtoupper($request->input('Nm_SubKegiatan')));
             $kodefikasisubkegiatan->Descr = $request->input('Descr');
             $kodefikasisubkegiatan->Locked = $request->input('Locked');
             $kodefikasisubkegiatan->save();

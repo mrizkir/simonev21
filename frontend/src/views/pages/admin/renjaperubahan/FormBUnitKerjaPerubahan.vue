@@ -232,6 +232,23 @@
 										{{ total_data.totalPersenSisaAnggaran | makeLookPrecision }}
 									</td>
 								</tr>
+								<tr>
+									<td>KODE</td>
+									<td>NAMA URAIAN</td>
+									<td class="text-right">PAGU DANA</td>
+									<td class="text-right">BOBOT (%)</td>
+									<td class="text-right">TARGET FISIK (%)</td>
+									<td class="text-right">REALISASI FISIK (%)</td>
+									<td class="text-right">TTB FISIK (%)</td>
+									<td class="text-right">TARGET KEUANGAN (RP)</td>									
+									<td class="text-right">(%)</td>
+									<td class="text-right">REALISASI KEUANGAN (RP)</td>
+									<td class="text-right">(%)</td>
+									<td class="text-right">TTB KEUANGAN (%)</td>
+									<td>LOKASI</td>
+									<td class="text-right">SISA ANGGARAN</td>
+									<td class="text-right">(%)</td>
+								</tr>
 							</tfoot>
 						</template>
 						<template v-slot:no-data>

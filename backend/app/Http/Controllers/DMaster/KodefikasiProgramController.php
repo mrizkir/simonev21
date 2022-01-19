@@ -186,7 +186,7 @@ class KodefikasiProgramController extends Controller {
             $kodefikasiprogram = KodefikasiProgramModel::create([
                 'PrgID' => Uuid::uuid4()->toString(),                                              
                 'Kd_Program' => $request->input('Kd_Program'),
-                'Nm_Program' => strtoupper($request->input('Nm_Program')),
+                'Nm_Program' => ucwords(strtoupper($request->input('Nm_Program'))),
                 'Jns' => $request->input('Jns'),
                 'Descr' => $request->input('Descr'),
                 'Locked' => $request->input('Locked'),
@@ -246,7 +246,7 @@ class KodefikasiProgramController extends Controller {
             $kodefikasiprogram = \DB::transaction(function () use ($request, $kodefikasiprogram) {
                 $kodefikasiprogram->Jns = $request->input('Jns');
                 $kodefikasiprogram->Kd_Program = $request->input('Kd_Program');
-                $kodefikasiprogram->Nm_Program = strtoupper($request->input('Nm_Program'));
+                $kodefikasiprogram->Nm_Program = ucwords(strtoupper($request->input('Nm_Program')));
                 $kodefikasiprogram->Descr = $request->input('Descr');
                 $kodefikasiprogram->Locked = $request->input('Locked');
                 $kodefikasiprogram->save();
