@@ -210,7 +210,7 @@ class KodefikasiProgramController extends Controller {
 						ELSE
 							CONCAT('X.','XX.',tmProgram.`Kd_Program`)
 					END AS kode_program,
-					`TA`,
+					tmProgram.`TA`
 				"))
 				->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
 				->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
@@ -314,7 +314,7 @@ class KodefikasiProgramController extends Controller {
 						ELSE
 							CONCAT('X.','XX.',tmProgram.`Kd_Program`)
 					END AS kode_program,
-					`TA`
+					tmProgram.`TA`
 				"))
 				->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
 				->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
