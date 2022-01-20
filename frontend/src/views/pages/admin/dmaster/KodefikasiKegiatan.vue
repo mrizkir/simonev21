@@ -276,8 +276,8 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.Locked="{ item }">
-							<v-chip class="ma-2" :color="item.Locked == 1 ? 'success' : 'red'" outlined small>
-								{{ item.Locked == 1 ? "AKTIF" : "TIDAK AKTIF" }}
+							<v-chip class="ma-2" :color="item.Locked == 1 ? 'red' : 'success'" outlined small>
+								{{ item.Locked == 1 ? "TIDAK AKTIF" : "AKTIF" }}
 							</v-chip>
 						</template>
 						<template v-slot:item.actions="{ item }">
@@ -483,7 +483,7 @@
 					.then(({ data }) => {
 						this.daftar_program = data.kodefikasiprogram;
 						this.dialogfrm = true;
-						this.Locked = 1;
+						this.formdata.Locked = 1;
 					});
 			},
 			async editItem(item) {
@@ -503,6 +503,7 @@
 					.then(({ data }) => {
 						this.daftar_program = data.kodefikasiprogram;
 						this.formdata = Object.assign({}, item);
+						this.formdata.Locked = item.Locked == 0 ? 1 : 0;
 						this.dialogfrm = true;
 					});
 			},
@@ -513,7 +514,8 @@
 			save() {
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
-					if (this.editedIndex > -1) {
+					var locked = this.formdata.Locked == 1 ? 0 : 1;
+					if (this.editedIndex > -1) {						
 						this.$ajax
 							.post(
 								"/dmaster/kodefikasi/kegiatan/" + this.formdata.KgtID,
@@ -523,7 +525,7 @@
 									Kd_Kegiatan: this.formdata.Kd_Kegiatan,
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
 									Descr: this.formdata.Descr,
-									Locked: this.formdata.Locked,
+									Locked: locked,
 								},
 								{
 									headers: {
@@ -548,7 +550,7 @@
 									Nm_Kegiatan: this.formdata.Nm_Kegiatan,
 									Descr: this.formdata.Descr,
 									TA: this.$store.getters["auth/TahunSelected"],
-									Locked: this.formdata.Locked,
+									Locked: locked,
 								},
 								{
 									headers: {

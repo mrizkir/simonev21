@@ -60,7 +60,8 @@ class KodefikasiSubKegiatanController extends Controller {
                                       `tmSubKegiatan`.`Nm_SubKegiatan`,
                                       `tmSubKegiatan`.`TA`,                                        
                                       `tmSubKegiatan`.`Descr`,                                        
-                                      `tmSubKegiatan`.`Locked`,                                        
+                                      `tmSubKegiatan`.`Locked`,
+                                      `tmKegiatan`.Locked as `KegiatanLocked`,                                       
                                       `tmSubKegiatan`.`created_at`,
                                       `tmSubKegiatan`.`updated_at`
                                     "))
@@ -88,56 +89,68 @@ class KodefikasiSubKegiatanController extends Controller {
      */
     public function store(Request $request)
     {       
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_STORE');
+      $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_STORE');
 
-        $this->validate($request, [
-            'Kd_SubKegiatan'=> [
-                        Rule::unique('tmSubKegiatan')->where(function($query) use ($request) {
-                            return $query->where('KgtID',$request->input('KgtID'))
-                                        ->where('TA',$request->input('TA'));
-                        }),
-                        'required',
-                        'regex:/^[0-9]+$/'],
-            'Nm_SubKegiatan'=>'required',
-            'TA'=>'required'
-        ]);     
-            
-        $ta = $request->input('TA');
-        
-        $KgtID = $request->input('KgtID');
+      $this->validate($request, [
+          'Kd_SubKegiatan'=> [
+                      Rule::unique('tmSubKegiatan')->where(function($query) use ($request) {
+                          return $query->where('KgtID',$request->input('KgtID'))
+                                      ->where('TA',$request->input('TA'));
+                      }),
+                      'required',
+                      'regex:/^[0-9]+$/'],
+          'Nm_SubKegiatan'=>'required',
+          'TA'=>'required'
+      ]);     
+          
+      $ta = $request->input('TA');
+      
+      $KgtID = $request->input('KgtID');
 
-        $kegiatan = KodefikasiKegiatanModel::select(\DB::raw("                                      
-                                      CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
-                                          ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
-                                      END AS kode_kegiatan                                      
-                                    "))
-                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
-                                    ->where('tmKegiatan.KgtID',$KgtID)
-                                    ->first();
+      $kegiatan = KodefikasiKegiatanModel::select(\DB::raw("                                      
+        CASE 
+          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+          ELSE
+            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+        END AS kode_kegiatan,
+        tmKegiatan.`Locked`
+      "))
+      ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+      ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+      ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+      ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+      ->where('tmKegiatan.KgtID', $KgtID)
+      ->first();
 
+      if ($kegiatan->Locked == 1)
+      {
+        return Response()->json([
+          'status'=>0,
+          'pid'=>'store',                
+          'message'=>["Data Kodefikasi Sub Kegiatan gagal ditambah karena kegiatan ini terkunci / tidak aktif"]
+        ], 422);
+      } 
+      else
+      {
         $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::create([
-            'SubKgtID' => Uuid::uuid4()->toString(),            
-            'KgtID' => $request->input('KgtID'),            
-            'Kd_SubKegiatan' => $request->input('Kd_SubKegiatan'),
-            'kode_sub_kegiatan' => $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'),
-            'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
-            'Descr' => $request->input('Descr'),
-            'Locked' => $request->input('Locked'),
-            'TA'=>$ta,
+          'SubKgtID' => Uuid::uuid4()->toString(),            
+          'KgtID' => $request->input('KgtID'),            
+          'Kd_SubKegiatan' => $request->input('Kd_SubKegiatan'),
+          'kode_sub_kegiatan' => $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'),
+          'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
+          'Descr' => $request->input('Descr'),
+          'Locked' => $request->input('Locked'),
+          'TA'=>$ta,
         ]);
 
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'store',
-                                    'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
-                                    'message'=>'Data Kodefikasi Sub Kegiatan berhasil disimpan.'
-                                ], 200); 
+          'status'=>1,
+          'pid'=>'store',
+          'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
+          'message'=>'Data Kodefikasi Sub Kegiatan berhasil disimpan.'
+        ], 200);
+      } 
     }               
     
     /**
@@ -148,73 +161,84 @@ class KodefikasiSubKegiatanController extends Controller {
      */
     public function update(Request $request,$id)
     {        
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_UPDATE');
+      $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_UPDATE');
 
-        $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::find($id);
-        
-        if (is_null($kodefikasisubkegiatan))
+      $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::find($id);
+      
+      if (is_null($kodefikasisubkegiatan))
+      {
+        return Response()->json([
+          'status'=>0,
+          'pid'=>'update',                
+          'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal diupdate"]
+        ], 422); 
+      }
+      else
+      {
+        $this->validate($request, [    
+          'Kd_SubKegiatan'=>[
+            Rule::unique('tmSubKegiatan')->where(function($query) use ($request,$kodefikasisubkegiatan) {  
+              if ($request->input('Kd_SubKegiatan')==$kodefikasisubkegiatan->Kd_SubKegiatan) 
+              {
+                return $query->where('Kd_SubKegiatan','ignore')
+                ->where('TA',$kodefikasisubkegiatan->TA);
+              }                 
+              else
+              {
+                return $query->where('Kd_SubKegiatan',$request->input('Kd_SubKegiatan'))
+                ->where('KgtID',$kodefikasisubkegiatan->KgtID)
+                ->where('TA',$kodefikasisubkegiatan->TA);
+              }                                                                                    
+            }),
+            'required',
+            'regex:/^[0-9]+$/'
+          ],
+          'Nm_SubKegiatan'=>'required',
+        ]);
+            
+        $KgtID = $request->input('KgtID');
+
+        $kegiatan = KodefikasiKegiatanModel::select(\DB::raw("                                      
+          CASE 
+              WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+                CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+              ELSE
+                CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
+          END AS kode_kegiatan,
+          tmKegiatan.`Locked`
+        "))
+        ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+        ->where('tmKegiatan.KgtID',$KgtID)
+        ->first();
+
+        if ($kegiatan->Locked == 1)
         {
-            return Response()->json([
-                                    'status'=>0,
-                                    'pid'=>'update',                
-                                    'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal diupdate"]
-                                ], 422); 
-        }
+          return Response()->json([
+            'status'=>0,
+            'pid'=>'store',                
+            'message'=>["Data Kodefikasi Sub Kegiatan gagal ditambah karena kegiatan ini terkunci / tidak aktif"]
+          ], 422);
+        } 
         else
         {
-            $this->validate($request, [    
-                                        'Kd_SubKegiatan'=>[
-                                                    Rule::unique('tmSubKegiatan')->where(function($query) use ($request,$kodefikasisubkegiatan) {  
-                                                        if ($request->input('Kd_SubKegiatan')==$kodefikasisubkegiatan->Kd_SubKegiatan) 
-                                                        {
-                                                            return $query->where('Kd_SubKegiatan','ignore')
-                                                                        ->where('TA',$kodefikasisubkegiatan->TA);
-                                                        }                 
-                                                        else
-                                                        {
-                                                            return $query->where('Kd_SubKegiatan',$request->input('Kd_SubKegiatan'))
-                                                                    ->where('KgtID',$kodefikasisubkegiatan->KgtID)
-                                                                    ->where('TA',$kodefikasisubkegiatan->TA);
-                                                        }                                                                                    
-                                                    }),
-                                                    'required',
-                                                    'regex:/^[0-9]+$/'
-                                                ],
-                                        'Nm_SubKegiatan'=>'required',
-                                    ]);
-            
-            $KgtID = $request->input('KgtID');
+          $kodefikasisubkegiatan->Kd_SubKegiatan = $request->input('Kd_SubKegiatan');
+          $kodefikasisubkegiatan->kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan');
+          $kodefikasisubkegiatan->Nm_SubKegiatan = strtoupper($request->input('Nm_SubKegiatan'));
+          $kodefikasisubkegiatan->Descr = $request->input('Descr');
+          $kodefikasisubkegiatan->Locked = $request->input('Locked');
+          $kodefikasisubkegiatan->save();
 
-            $kegiatan = KodefikasiKegiatanModel::select(\DB::raw("                                      
-                                      CASE 
-                                          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-                                            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
-                                          ELSE
-                                            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.')
-                                      END AS kode_kegiatan                                      
-                                    "))
-                                    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-                                    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-                                    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-                                    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
-                                    ->where('tmKegiatan.KgtID',$KgtID)
-                                    ->first();
-
-            $kodefikasisubkegiatan->Kd_SubKegiatan = $request->input('Kd_SubKegiatan');
-            $kodefikasisubkegiatan->kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan');
-            $kodefikasisubkegiatan->Nm_SubKegiatan = strtoupper($request->input('Nm_SubKegiatan'));
-            $kodefikasisubkegiatan->Descr = $request->input('Descr');
-            $kodefikasisubkegiatan->Locked = $request->input('Locked');
-            $kodefikasisubkegiatan->save();
-
-            return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'update',
-                                    'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
-                                    'message'=>'Data Kodefikasi Sub Kegiatan '.$kodefikasisubkegiatan->Nm_SubKegiatan.' berhasil diubah.'
-                                ], 200);
+          return Response()->json([
+            'status'=>1,
+            'pid'=>'update',
+            'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
+            'message'=>'Data Kodefikasi Sub Kegiatan '.$kodefikasisubkegiatan->Nm_SubKegiatan.' berhasil diubah.'
+          ], 200);
         }
-        
+      }        
     }
     public function updatekodesubkegiatan(Request $request)
     {
@@ -249,28 +273,34 @@ class KodefikasiSubKegiatanController extends Controller {
      */
     public function destroy(Request $request,$id)
     {   
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_DESTROY');
+      $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_DESTROY');
 
-        $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::find($id);
+      $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::find($id);
 
-        if (is_null($kodefikasisubkegiatan))
-        {
-            return Response()->json([
-                                    'status'=>0,
-                                    'pid'=>'destroy',                
-                                    'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus"]
-                                ], 422); 
-        }
-        else
-        {
-            
-            $result=$kodefikasisubkegiatan->delete();
-
-            return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'destroy',                
-                                    'message'=>"Data Kodefikasi Sub Kegiatan dengan ID ($id) berhasil dihapus"
-                                ], 200);
-        }
+      if (is_null($kodefikasisubkegiatan))
+      {
+        return Response()->json([
+          'status'=>0,
+          'pid'=>'destroy',                
+          'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus"]
+        ], 422); 
+      }
+      else if ($kodefikasisubkegiatan->Locked == 1)
+      {
+        return Response()->json([
+          'status'=>0,
+          'pid'=>'destroy',                
+          'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus karena status terkunci / tidak aktif"]
+        ], 422); 
+      }
+      else
+      {          
+        $result=$kodefikasisubkegiatan->delete();
+        return Response()->json([
+          'status'=>1,
+          'pid'=>'destroy',                
+          'message'=>"Data Kodefikasi Sub Kegiatan dengan ID ($id) berhasil dihapus"
+        ], 200);
+      }
     }
 }
