@@ -38,7 +38,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 									->where('EntryLvl',2)
 									->sum('PaguDana2');
 
-		$total_kegiatan=0;
+		$total_sub_kegiatan=0;
 		$total_uraian=0;
 		$totalPersenBobot=0;
 		$totalPersenTargetFisik=0;
@@ -179,13 +179,13 @@ class FormBUnitKerjaPerubahanController extends Controller
 							$data_target=\DB::table('trRKATargetRinc')
 											->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
 											->where('RKAID',$RKAID)
-											->where('bulan1','<=',$no_bulan)
+											->where('bulan2','<=',$no_bulan)
 											->get();
 
 							$data_realisasi=\DB::table('trRKARealisasiRinc')
 										->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
 										->where('RKAID',$RKAID)
-										->where('bulan1','<=',$no_bulan)
+										->where('bulan2','<=',$no_bulan)
 										->get();
 
 							//menghitung persen target fisik
@@ -255,6 +255,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 								'issubkegiatan'=>true,
 							];
 							$row += 1;
+							$total_sub_kegiatan += 1;
 						}
 						$persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguUnit);
 						$target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);
@@ -347,8 +348,9 @@ class FormBUnitKerjaPerubahanController extends Controller
 		if ($totalPersenBobot > 100) {
 			$totalPersenBobot = 100.000;
 		}
-		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$total_kegiatan);
-		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_kegiatan);
+		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik, $total_sub_kegiatan);
+		// dd($totalPersenTargetFisik);
+		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan);
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
 		$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
@@ -368,16 +370,15 @@ class FormBUnitKerjaPerubahanController extends Controller
 			'total_ttb_keuangan'=>$total_ttb_keuangan,
 			'totalSisaAnggaran'=>$totalSisaAnggaran,
 			'totalPersenSisaAnggaran'=>$totalPersenSisaAnggaran,
-		];
-
+		];		
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',
-									'unitkerja'=>$unitkerja,
-									'rka'=>$data,
-									'total_data'=>$total_data,
-									'message'=>'Fetch data form b perubahan berhasil diperoleh'
-								],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'unitkerja'=>$unitkerja,
+			'rka'=>$data,
+			'total_data'=>$total_data,
+			'message'=>'Fetch data form b perubahan berhasil diperoleh'
+		],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 
 	}
 	public function printtoexcel (Request $request)
