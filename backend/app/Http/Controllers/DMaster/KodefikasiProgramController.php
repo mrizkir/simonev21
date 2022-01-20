@@ -202,6 +202,30 @@ class KodefikasiProgramController extends Controller {
 					'TA'=>$kodefikasiprogram->TA,
 				]);
 			}
+
+			$program=KodefikasiProgramModel::select(\DB::raw("					
+					CASE 
+						WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+							CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
+						ELSE
+							CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+					END AS kode_program
+				"))
+				->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+				->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+				->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')			                                
+				->where('tmProgram.PrgID', $kodefikasiprogram->PrgID)
+				->first();
+
+			if (!is_null($program))
+			{
+				\DB::table('trRKA')
+					->where('kode_program', $program->kode_program)
+					->update([
+						'Nm_Program'=>ucwords(strtolower($kodefikasiprogram->Nm_Program)),
+					]);
+			}
+
 			return $kodefikasiprogram;
 		});
 		return Response()->json([
@@ -280,7 +304,29 @@ class KodefikasiProgramController extends Controller {
 				->update([
 					'tmSubKegiatan.Locked'=>$kodefikasiprogram->Locked,
 				]);
-			
+				
+				$program=KodefikasiProgramModel::select(\DB::raw("					
+					CASE 
+						WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+							CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
+						ELSE
+							CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+					END AS kode_program
+				"))
+				->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+				->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+				->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')			                                
+				->where('tmProgram.PrgID', $kodefikasiprogram->PrgID)
+				->first();
+
+				if (!is_null($program))
+				{
+					\DB::table('trRKA')
+						->where('kode_program', $program->kode_program)
+						->update([
+							'Nm_Program'=>ucwords(strtolower($kodefikasiprogram->Nm_Program)),
+						]);
+				}	
 				return $kodefikasiprogram;
 			});
 			
