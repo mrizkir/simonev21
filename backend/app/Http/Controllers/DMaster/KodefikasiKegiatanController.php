@@ -130,16 +130,24 @@ class KodefikasiKegiatanController extends Controller {
       } 
       else
       {
+        $kode_kegiatan = $program->kode_program.$request->input('Kd_Kegiatan');
         $kodefikasikegiatan = KodefikasiKegiatanModel::create([
           'KgtID' => Uuid::uuid4()->toString(),            
           'PrgID' => $request->input('PrgID'),            
           'Kd_Kegiatan' => $request->input('Kd_Kegiatan'),
-          'kode_kegiatan' => $program->kode_program.$request->input('Kd_Kegiatan'),
+          'kode_kegiatan' => $kode_kegiatan,
           'Nm_Kegiatan' => strtoupper($request->input('Nm_Kegiatan')),
           'Descr' => $request->input('Descr'),
           'Locked' => $request->input('Locked'),
           'TA'=>$ta,
         ]);
+
+        \DB::table('trRKA')
+              ->where('kode_kegiatan', $kode_kegiatan)
+              ->where('TA', $kodefikasikegiatan->TA)
+              ->update([
+                'Nm_Kegiatan'=>ucwords(strtolower($kodefikasikegiatan->Nm_Kegiatan)),
+              ]);
 
         return Response()->json([
           'status'=>1,
@@ -218,9 +226,10 @@ class KodefikasiKegiatanController extends Controller {
         } 
         else
         {
-          $kodefikasikegiatan = \DB::transaction(function () use ($request, $kodefikasikegiatan, $program) {  
+          $kodefikasikegiatan = \DB::transaction(function () use ($request, $kodefikasikegiatan, $program) { 
+            $kode_kegiatan =  $program->kode_program.$request->input('Kd_Kegiatan');
             $kodefikasikegiatan->Kd_Kegiatan = $request->input('Kd_Kegiatan');
-            $kodefikasikegiatan->kode_kegiatan = $program->kode_program.$request->input('Kd_Kegiatan');
+            $kodefikasikegiatan->kode_kegiatan = $kode_kegiatan;
             $kodefikasikegiatan->Nm_Kegiatan = strtoupper($request->input('Nm_Kegiatan'));
             $kodefikasikegiatan->Descr = $request->input('Descr');
             $kodefikasikegiatan->Locked = $request->input('Locked');          
@@ -232,6 +241,13 @@ class KodefikasiKegiatanController extends Controller {
                 'Locked'=>$kodefikasikegiatan->Locked,
               ]);
             
+              \DB::table('trRKA')
+              ->where('kode_kegiatan', $kode_kegiatan)
+              ->where('TA', $kodefikasikegiatan->TA)
+              ->update([
+                'Nm_Kegiatan'=>ucwords(strtolower($kodefikasikegiatan->Nm_Kegiatan)),
+              ]);
+
             return $kodefikasikegiatan;
           });
 
@@ -296,36 +312,36 @@ class KodefikasiKegiatanController extends Controller {
                                     'message'=>"Fetch data sub kegiatan dari kegiatan $id berhasil."
                                 ], 200);   
     }
-    public function updatekodesubkegiatan(Request $request)
-    {
-      $sql = "
-        UPDATE tmKegiatan AS dest,
-          (
-          select 
-            tmKegiatan.`KgtID`, 
-            CASE WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN 
-              CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
-            ELSE 
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
-            END AS kode_kegiatan
-          from `tmKegiatan` 
-          inner join `tmProgram` on `tmKegiatan`.`PrgID` = `tmProgram`.`PrgID` 
-          left join `tmUrusanProgram` on `tmProgram`.`PrgID` = `tmUrusanProgram`.`PrgID` 
-          left join `tmBidangUrusan` on `tmBidangUrusan`.`BidangID` = `tmUrusanProgram`.`BidangID` 
-          left join `tmUrusan` on `tmBidangUrusan`.`UrsID` = `tmUrusan`.`UrsID`
-          ) AS src
-          SET 
-            dest.kode_kegiatan=src.kode_kegiatan
-          WHERE
-            dest.KgtID=src.KgtID    
-      ";
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
+  public function updatekodesubkegiatan(Request $request)
+  {
+    $sql = "
+      UPDATE tmKegiatan AS dest,
+        (
+        select 
+          tmKegiatan.`KgtID`, 
+          CASE WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN 
+            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
+          ELSE 
+            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
+          END AS kode_kegiatan
+        from `tmKegiatan` 
+        inner join `tmProgram` on `tmKegiatan`.`PrgID` = `tmProgram`.`PrgID` 
+        left join `tmUrusanProgram` on `tmProgram`.`PrgID` = `tmUrusanProgram`.`PrgID` 
+        left join `tmBidangUrusan` on `tmBidangUrusan`.`BidangID` = `tmUrusanProgram`.`BidangID` 
+        left join `tmUrusan` on `tmBidangUrusan`.`UrsID` = `tmUrusan`.`UrsID`
+        ) AS src
+        SET 
+          dest.kode_kegiatan=src.kode_kegiatan
+        WHERE
+          dest.KgtID=src.KgtID    
+    ";
+  }
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $uuid
+   * @return \Illuminate\Http\Response
+   */
   public function destroy(Request $request,$id)
   {   
     $this->hasPermissionTo('DMASTER-KODEFIKASI-KEGIATAN_DESTROY');

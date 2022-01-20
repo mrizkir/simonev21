@@ -209,7 +209,8 @@ class KodefikasiProgramController extends Controller {
 							CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
 						ELSE
 							CONCAT('X.','XX.',tmProgram.`Kd_Program`)
-					END AS kode_program
+					END AS kode_program,
+					`TA`,
 				"))
 				->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
 				->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
@@ -221,6 +222,7 @@ class KodefikasiProgramController extends Controller {
 			{
 				\DB::table('trRKA')
 					->where('kode_program', $program->kode_program)
+					->where('TA', $program->TA)
 					->update([
 						'Nm_Program'=>ucwords(strtolower($kodefikasiprogram->Nm_Program)),
 					]);
@@ -311,7 +313,8 @@ class KodefikasiProgramController extends Controller {
 							CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
 						ELSE
 							CONCAT('X.','XX.',tmProgram.`Kd_Program`)
-					END AS kode_program
+					END AS kode_program,
+					`TA`
 				"))
 				->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
 				->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
@@ -323,6 +326,7 @@ class KodefikasiProgramController extends Controller {
 				{
 					\DB::table('trRKA')
 						->where('kode_program', $program->kode_program)
+						->where('TA', $program->TA)
 						->update([
 							'Nm_Program'=>ucwords(strtolower($kodefikasiprogram->Nm_Program)),
 						]);

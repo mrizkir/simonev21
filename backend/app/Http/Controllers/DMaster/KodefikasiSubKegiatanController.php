@@ -133,16 +133,25 @@ class KodefikasiSubKegiatanController extends Controller {
       } 
       else
       {
+        $kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'); 
+
         $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::create([
           'SubKgtID' => Uuid::uuid4()->toString(),            
           'KgtID' => $request->input('KgtID'),            
           'Kd_SubKegiatan' => $request->input('Kd_SubKegiatan'),
-          'kode_sub_kegiatan' => $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'),
+          'kode_sub_kegiatan' => $kode_sub_kegiatan,
           'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
           'Descr' => $request->input('Descr'),
           'Locked' => $request->input('Locked'),
           'TA'=>$ta,
         ]);
+
+        \DB::table('trRKA')
+              ->where('kode_sub_kegiatan', $kode_sub_kegiatan)
+              ->where('TA', $kodefikasisubkegiatan->TA)
+              ->update([
+                'Nm_Sub_Kegiatan'=>ucwords(strtolower($kodefikasisubkegiatan->Nm_SubKegiatan)),
+              ]);
 
         return Response()->json([
           'status'=>1,
@@ -224,12 +233,21 @@ class KodefikasiSubKegiatanController extends Controller {
         } 
         else
         {
+          $kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan'); 
+
           $kodefikasisubkegiatan->Kd_SubKegiatan = $request->input('Kd_SubKegiatan');
-          $kodefikasisubkegiatan->kode_sub_kegiatan = $kegiatan->kode_kegiatan . $request->input('Kd_SubKegiatan');
+          $kodefikasisubkegiatan->kode_sub_kegiatan = $kode_sub_kegiatan;
           $kodefikasisubkegiatan->Nm_SubKegiatan = strtoupper($request->input('Nm_SubKegiatan'));
           $kodefikasisubkegiatan->Descr = $request->input('Descr');
           $kodefikasisubkegiatan->Locked = $request->input('Locked');
           $kodefikasisubkegiatan->save();
+
+          \DB::table('trRKA')
+              ->where('kode_sub_kegiatan', $kode_sub_kegiatan)
+              ->where('TA', $kodefikasisubkegiatan->TA)
+              ->update([
+                'Nm_Sub_Kegiatan'=>ucwords(strtolower($kodefikasisubkegiatan->Nm_SubKegiatan)),
+              ]);
 
           return Response()->json([
             'status'=>1,
