@@ -176,6 +176,7 @@ class FormBOPDPerubahanModel extends ReportModel
         $daftar_program=\DB::table('trRKA')
                             ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
                             ->where('OrgID',$OrgID)
+                            ->where('EntryLvl', 2)
                             ->orderByRaw('kode_urusan="X" DESC')
                             ->orderBy('kode_bidang','ASC')
                             ->orderBy('kode_program','ASC')
