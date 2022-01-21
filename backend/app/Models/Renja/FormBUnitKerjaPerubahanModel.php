@@ -169,6 +169,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         $daftar_program=\DB::table('trRKA')
                             ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
                             ->where('SOrgID',$SOrgID)
+                            ->where('EntryLvl', 2)
                             ->orderByRaw('kode_urusan="X" DESC')
                             ->orderBy('kode_bidang','ASC')
                             ->orderBy('kode_program','ASC')
@@ -189,6 +190,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
                             ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
                             ->where('kode_program',$kode_program)
                             ->where('SOrgID', $SOrgID)
+                            ->where('EntryLvl', 2)
                             ->orderBy('kode_kegiatan','ASC')
                             ->orderBy('kode_sub_kegiatan','ASC')
                             ->get();

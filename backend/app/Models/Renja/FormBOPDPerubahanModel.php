@@ -197,6 +197,7 @@ class FormBOPDPerubahanModel extends ReportModel
                             ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
                             ->where('kode_program',$kode_program)
                             ->where('OrgID', $OrgID)
+                            ->where('EntryLvl', 2)
                             ->orderBy('kode_kegiatan','ASC')
                             ->orderBy('kode_sub_kegiatan','ASC')
                             ->get();
