@@ -134,7 +134,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 		$sheet->getColumnDimension('O')->setWidth(17);
 		$sheet->getColumnDimension('P')->setWidth(10);
 		$sheet->getColumnDimension('Q')->setWidth(30);
-		$sheet->getColumnDimension('R')->setWidth(30);
+		$sheet->getColumnDimension('R')->setWidth(40);
 		$sheet->getColumnDimension('S')->setWidth(11);
 		$sheet->getColumnDimension('T')->setWidth(9);
 		
@@ -191,7 +191,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 					],
 				],
 			];
-			$sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+			$sheet->getStyle("A$row:T$row")->applyFromArray($styleArray);
 			
 			$kode_program = $data_program->kode_program;
 			$sheet->setCellValue("A$row",chr($no_huruf));
@@ -235,15 +235,23 @@ class FormBUnitKerjaMurniModel extends ReportModel
 							],
 						],
 					];
-					$sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+					$sheet->getStyle("A$row:T$row")->applyFromArray($styleArray);
 
 					$kode_kegiatan = $data_kegiatan->kode_kegiatan;
 					$sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan);
 					$sheet->setCellValue("B$row",$kode_kegiatan);  
 					$sheet->setCellValue("C$row",$data_kegiatan->Nm_Kegiatan);  
 
-					$daftar_sub_kegiatan = \DB::table('trRKA')
-									->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana1`,`lokasi_kegiatan1`'))
+					$daftar_sub_kegiatan = \DB::table('trRKA')									
+									->select(\DB::raw('
+											`RKAID`,
+											`kode_sub_kegiatan`,
+											`Nm_Sub_Kegiatan`,
+											`PaguDana1`,
+											`lokasi_kegiatan1`,									
+											keluaran1,
+											tk_keluaran1
+									'))
 									->where('kode_kegiatan',$kode_kegiatan)
 									->where('SOrgID',$SOrgID)
 									->where('TA',$tahun)
@@ -359,6 +367,7 @@ class FormBUnitKerjaMurniModel extends ReportModel
 							$sheet->setCellValue("N$row",$data_sub_kegiatan->lokasi_kegiatan1);  
 							$sheet->setCellValue("O$row",Helper::formatUang($sisa_anggaran));  
 							$sheet->setCellValue("P$row",$persen_sisa_anggaran);
+							$sheet->setCellValue("R$row",$data_sub_kegiatan->keluaran1. ' (' . $data_sub_kegiatan->tk_keluaran1.')');
 							$total_sub_kegiatan += 1;
 							$row += 1; 
 							$no_sub_kegiatan += 1;                           

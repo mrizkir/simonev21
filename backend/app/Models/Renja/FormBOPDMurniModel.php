@@ -140,7 +140,7 @@ class FormBOPDMurniModel extends ReportModel
 		$sheet->getColumnDimension('P')->setWidth(20);
 		$sheet->getColumnDimension('Q')->setWidth(10);
 		$sheet->getColumnDimension('R')->setWidth(30);
-		$sheet->getColumnDimension('S')->setWidth(11);
+		$sheet->getColumnDimension('S')->setWidth(40);
 		$sheet->getColumnDimension('T')->setWidth(9);
 		$sheet->getColumnDimension('U')->setWidth(9);
 		
@@ -248,8 +248,17 @@ class FormBOPDMurniModel extends ReportModel
 					$sheet->setCellValue("B$row",$kode_kegiatan);  
 					$sheet->setCellValue("C$row",$data_kegiatan->Nm_Kegiatan);  
 
-					$daftar_sub_kegiatan = \DB::table('trRKA')
-									->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana1`,`lokasi_kegiatan1`, `Nm_Sub_Organisasi`'))
+					$daftar_sub_kegiatan = \DB::table('trRKA')									
+									->select(\DB::raw('
+											`RKAID`,
+											`kode_sub_kegiatan`,
+											`Nm_Sub_Kegiatan`,
+											`PaguDana1`,
+											`lokasi_kegiatan1`,
+											`Nm_Sub_Organisasi`,
+											keluaran1,
+											tk_keluaran1
+									'))
 									->where('kode_kegiatan',$kode_kegiatan)
 									->where('OrgID',$OrgID)
 									->where('TA',$tahun)
@@ -366,6 +375,7 @@ class FormBOPDMurniModel extends ReportModel
 							$sheet->setCellValue("O$row",$data_sub_kegiatan->lokasi_kegiatan1);  
 							$sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
 							$sheet->setCellValue("Q$row",$persen_sisa_anggaran);
+							$sheet->setCellValue("S$row",$data_sub_kegiatan->keluaran1. ' (' . $data_sub_kegiatan->tk_keluaran1.')');
 							$row += 1; 
 							$no_sub_kegiatan += 1; 
 							$total_sub_kegiatan += 1;

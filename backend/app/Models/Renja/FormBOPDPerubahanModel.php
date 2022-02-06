@@ -140,7 +140,7 @@ class FormBOPDPerubahanModel extends ReportModel
         $sheet->getColumnDimension('P')->setWidth(20);
         $sheet->getColumnDimension('Q')->setWidth(10);
         $sheet->getColumnDimension('R')->setWidth(30);
-        $sheet->getColumnDimension('S')->setWidth(11);
+        $sheet->getColumnDimension('S')->setWidth(40);
         $sheet->getColumnDimension('T')->setWidth(9);
         $sheet->getColumnDimension('U')->setWidth(9);
         
@@ -188,6 +188,19 @@ class FormBOPDPerubahanModel extends ReportModel
         $row_awal=$row;        
         foreach ($daftar_program as $data_program)
         {
+            $styleArray = [
+				'font'=>[
+					'bold'=>true,
+				],
+				'fill'=>[
+					'fillType'=>Fill::FILL_SOLID,
+					'startColor'=>[
+						'argb'=>'FFF0F8FF',
+					],
+				],
+			];
+			$sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+            
             $kode_program = $data_program->kode_program;
             $sheet->setCellValue("A$row",chr($no_huruf));
             $sheet->setCellValue("B$row",$kode_program);              
@@ -219,13 +232,35 @@ class FormBOPDPerubahanModel extends ReportModel
                 $no_kegiatan = 1;
                 foreach ($daftar_kegiatan as $data_kegiatan)
                 {
+                    $styleArray = [
+						'font'=>[
+							'italic'=>true,
+						],
+						'fill'=>[
+							'fillType'=>Fill::FILL_SOLID,
+							'startColor'=>[
+								'argb'=>'FFE6E6FA',
+							],
+						],
+					];
+					$sheet->getStyle("A$row:U$row")->applyFromArray($styleArray);
+
                     $kode_kegiatan = $data_kegiatan->kode_kegiatan;
                     $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan);
                     $sheet->setCellValue("B$row",$kode_kegiatan);                      
                     $sheet->setCellValue("C$row",ucwords(strtolower($data_kegiatan->Nm_Kegiatan)));  
 
                     $daftar_sub_kegiatan = \DB::table('trRKA')
-                                    ->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana2`,`lokasi_kegiatan2`, `Nm_Sub_Organisasi`'))
+                                    ->select(\DB::raw('
+                                        `RKAID`,
+                                        `kode_sub_kegiatan`,
+                                        `Nm_Sub_Kegiatan`,
+                                        `PaguDana2`,
+                                        `lokasi_kegiatan2`,
+                                        `Nm_Sub_Organisasi`,
+                                        keluaran2,
+                                        tk_keluaran2
+                                    '))
                                     ->where('kode_kegiatan',$kode_kegiatan)
                                     ->where('OrgID',$OrgID)
                                     ->where('TA',$tahun)
@@ -343,6 +378,7 @@ class FormBOPDPerubahanModel extends ReportModel
                             $sheet->setCellValue("O$row",$data_sub_kegiatan->lokasi_kegiatan2);  
                             $sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
                             $sheet->setCellValue("Q$row",$persen_sisa_anggaran);
+                            $sheet->setCellValue("S$row",$data_sub_kegiatan->keluaran2. ' (' . $data_sub_kegiatan->tk_keluaran2.')');
                             $row += 1; 
                             $no_sub_kegiatan += 1; 
                             $total_sub_kegiatan += 1;

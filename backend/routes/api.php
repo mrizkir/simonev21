@@ -11,6 +11,9 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 	$router->post('/dashboard/laporanrealisasimurni',['uses'=>'Statistik\LaporanRealisasiMurniController@front','as'=>'laporanrealisasimurni.front']);
 	$router->post('/dashboard/laporanrealisasiperubahan',['uses'=>'Statistik\LaporanRealisasiPerubahanController@front','as'=>'laporanrealisasiperubahan.front']);
 
+	//dmaster
+	$router->post('/dmaster',['uses'=>'DMaster\DMasterController@index','as'=>'dmaster.index']);
+
 	//dmaster - provinsi
 	$router->get('/dmaster/provinsi',['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);
 	$router->get('/dmaster/provinsi/{id}/kabupaten',['uses'=>'DMaster\ProvinsiController@kabupaten','as'=>'provinsi.kabupaten']);
