@@ -82,6 +82,67 @@
 									</template>
 									<span>Tambah Urusan</span>
 								</v-tooltip>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="copyItem"
+											:disabled="
+												!$store.getters['auth/can'](
+													'DMASTER-KODEFIKASI-URUSAN_STORE'
+												)
+											"
+										>
+											<v-icon>mdi-reload</v-icon>
+										</v-btn>
+									</template>
+									<span>Salin Urusan ke T.A {{ $store.getters["auth/TahunSelected"] }}</span>
+								</v-tooltip>
+								<v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
+									<v-form ref="frmcopydata" v-model="form_salin_valid" lazy-validation>
+										<v-card>
+											<v-card-title>
+												<span class="headline">
+													Salin Urusan  ke T.A {{ $store.getters["auth/TahunSelected"] }}
+												</span>
+											</v-card-title>
+											<v-card-text>												
+												<v-select
+													label="DARI TAHUN ANGGARAN"
+													v-model="tahunasal"
+													:items="daftar_ta"
+													:rules="rule_tahun_asal"
+													outlined
+													dense
+												/>												
+											</v-card-text>
+											<v-card-actions>
+												<v-spacer></v-spacer>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="closedialogcopyfrm"
+												>
+													TUTUP
+												</v-btn>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="salinurusan"
+													:disabled="!form_salin_valid || btnLoading"
+												>
+													SALIN
+												</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-form>
+								</v-dialog>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<v-form ref="frmdata" v-model="form_valid" lazy-validation>
 										<v-card>
@@ -379,10 +440,12 @@
 				],
 				search: "",
 				//dialog
+				dialogcopyfrm: false,
 				dialogfrm: false,
 				dialogdetailitem: false,
 				//form data
 				form_valid: true,
+				form_salin_valid: true,
 				formdata: {
 					UrsID: "",
 					Kd_Urusan: "",
@@ -402,6 +465,9 @@
 					updated_at: "",
 				},
 				editedIndex: -1,
+				//salin urusan
+				tahunasal: null,
+				daftar_ta: [],
 				//form rules
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Urusan!!!",
@@ -412,6 +478,11 @@
 					value =>
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
 						"Nama Urusan hanya boleh string dan spasi",
+				],
+				//form rules salin urusan
+				rule_tahun_asal: [
+					value => !!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+					value => value <  this.$store.getters["auth/TahunSelected"] || "Tahun asal harus lebih kecil dari " +  this.$store.getters["auth/TahunSelected"],
 				],
 			};
 		},
@@ -445,6 +516,10 @@
 			addItem() {
 				this.dialogfrm = true;
 			},
+			copyItem() {
+				this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+				this.dialogcopyfrm = true;
+			},
 			editItem(item) {
 				this.editedIndex = this.datatable.indexOf(item);
 				this.formdata = Object.assign({}, item);
@@ -453,6 +528,30 @@
 			viewItem(item) {
 				this.formdata = item;
 				this.dialogdetailitem = true;
+			},
+			salinurusan() {
+				if (this.$refs.frmcopydata.validate()) {
+					this.$ajax
+							.post(
+								"/dmaster/kodefikasi/urusan/salin",
+								{
+									tahun_asal: this.tahunasal,
+									tahun_tujuan: this.$store.getters["auth/TahunSelected"],									
+								},
+								{
+									headers: {
+										Authorization: this.$store.getters["auth/Token"],
+									},
+								}
+							)
+							.then(() => {
+								this.$router.go();
+								this.closedialogcopyfrm();
+							})
+							.catch(() => {
+								this.btnLoading = false;
+							});
+				}
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {
@@ -543,6 +642,13 @@
 								});
 						}
 					});
+			},
+			closedialogcopyfrm() {
+				this.btnLoading = false;
+				this.dialogcopyfrm = false;
+				setTimeout(() => {					
+					this.$refs.frmcopydata.reset();
+				}, 300);
 			},
 			closedialogfrm() {
 				this.btnLoading = false;

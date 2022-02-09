@@ -63,9 +63,9 @@ class UIController extends Controller {
     public function admin ()
     {
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',                                                                           
-                                    'message'=>'Fetch data ui untuk admin berhasil diperoleh'
-                                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+            'status'=>1,
+            'pid'=>'fetchdata',                                                                           
+            'message'=>'Fetch data ui untuk admin berhasil diperoleh'
+        ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 }

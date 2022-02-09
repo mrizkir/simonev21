@@ -25,25 +25,75 @@ class KodefikasiUrusanController extends Controller {
         ]);    
         $ta = $request->input('TA');
         $kodefikasiurusan=KodefikasiUrusanModel::select(\DB::raw('
-                                        `UrsID`,                                        
-                                        `Kd_Urusan`,
-                                        `Nm_Urusan`,
-                                        CONCAT(\'[\',`Kd_Urusan`,\'] \',`Nm_Urusan`) AS `urusan`,
-                                        `Descr`,
-                                        `TA`,
-                                        created_at,
-                                        updated_at
-                                    '))
-                                    ->orderBy('Kd_Urusan','ASC')                                    
-                                    ->where('TA',$ta)
-                                    ->get();
+            `UrsID`,                                        
+            `Kd_Urusan`,
+            `Nm_Urusan`,
+            CONCAT(\'[\',`Kd_Urusan`,\'] \',`Nm_Urusan`) AS `urusan`,
+            `Descr`,
+            `TA`,
+            created_at,
+            updated_at
+        '))
+        ->orderBy('Kd_Urusan','ASC')                                    
+        ->where('TA',$ta)
+        ->get();
+        
+        return Response()->json([
+            'status'=>1,
+            'pid'=>'fetchdata',
+            'kodefikasiurusan'=>$kodefikasiurusan,
+            'message'=>'Fetch data kodefikasi urusan berhasil.'
+        ], 200);
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function salin(Request $request)
+    {       
+        $this->validate($request, [            
+            'tahun_asal'=>'required|numeric',
+            'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+        ]);
+
+        $tahun_asal = $request->input('tahun_asal');
+        $tahun_tujuan = $request->input('tahun_tujuan');
+        $str_insert = '
+		INSERT INTO `tmUrusan` (
+			`UrsID`,
+			`Kd_Urusan`,
+			`Nm_Urusan`,
+			`Descr`,
+			`TA`,
+			`UrsID_Src`,			
+			created_at,
+			updated_at
+		)		
+        SELECT
+            uuid() AS id,
+            t1.`Kd_Urusan`,
+            t1.`Nm_Urusan`,
+            "DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+            '.$tahun_tujuan.' AS `TA`,
+            `UrsID` AS `UrsID_Src`,
+            NOW() AS created_at,
+            NOW() AS updated_at
+        FROM tmUrusan AS t1
+        WHERE TA='.$tahun_asal.' AND
+        `Kd_Urusan` NOT IN (
+            SELECT `Kd_Urusan` FROM tmUrusan WHERE `TA`='. $tahun_tujuan . '
+        )
+		';
+        
+        \DB::statement($str_insert); 
 
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
-                                    'kodefikasiurusan'=>$kodefikasiurusan,
-                                    'message'=>'Fetch data kodefikasi urusan berhasil.'
-                                ], 200);
+            'status'=>1,
+            'pid'=>'store',            
+            'message'=>"Salin urusan dari tahun anggaran $tahun_asal berhasil."
+        ], 200);
     }
     /**
      * Store a newly created resource in storage.
