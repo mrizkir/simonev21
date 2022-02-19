@@ -60,7 +60,7 @@
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
-									<template v-slot:activator="{ on }">
+									<template v-slot:activator="{ on, attrs }">
 										<v-btn
 											v-bind="attrs"
 											v-on="on"

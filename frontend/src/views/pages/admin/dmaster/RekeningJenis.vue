@@ -436,7 +436,7 @@
 					value =>
 						/^[0-9]+$/.test(value) ||
 						"Kode Rekening Jenis hanya boleh angka",
-					value => value.length > 1 || "Kode Jenis minimaml 2 angka",
+					value => value.length > 1 || "Kode Jenis minimal 2 angka",
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Rekening Jenis !!!",

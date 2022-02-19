@@ -611,7 +611,7 @@
 						if (value && typeof value !== "undefined" && value.length >= 2) {
 							return true;
 						} else {
-							return "Kode Unit Kerja Kegiatan minimaml 2 angka";
+							return "Kode Unit Kerja Kegiatan minimal 2 angka";
 						}
 					},
 				],

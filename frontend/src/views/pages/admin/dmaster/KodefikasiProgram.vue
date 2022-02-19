@@ -442,7 +442,7 @@
 				rule_kode: [
 					value => !!value || "Mohon untuk di isi Kode Program!!!",
 					value => /^[0-9]+$/.test(value) || "Kode Program hanya boleh angka",
-					value => value.length > 1 || "Kode Program minimaml 2 angka",
+					value => value.length > 1 || "Kode Program minimal 2 angka",
 				],
 				rule_name: [value => !!value || "Mohon untuk di isi Nama Program !!!"],
 			};

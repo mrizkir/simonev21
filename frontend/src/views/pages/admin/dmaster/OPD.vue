@@ -646,7 +646,7 @@
 						if (value && typeof value !== "undefined" && value.length >= 2) {
 							return true;
 						} else {
-							return "Kode OPD Kegiatan minimaml 2 angka";
+							return "Kode OPD Kegiatan minimal 2 angka";
 						}
 					},
 				],

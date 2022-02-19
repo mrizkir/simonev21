@@ -436,7 +436,7 @@
 					value => !!value || "Mohon untuk di isi Kode Sub Kegiatan!!!",
 					value =>
 						/^[0-9]+$/.test(value) || "Kode Sub Kegiatan hanya boleh angka",
-					value => value.length > 1 || "Kode Sub Kegiatan minimaml 2 angka",
+					value => value.length > 1 || "Kode Sub Kegiatan minimal 2 angka",
 				],
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Sub Kegiatan !!!",

@@ -102,17 +102,25 @@
 											<v-icon>mdi-reload</v-icon>
 										</v-btn>
 									</template>
-									<span>Salin Urusan ke T.A {{ $store.getters["auth/TahunSelected"] }}</span>
+									<span>
+										Salin Urusan ke T.A
+										{{ $store.getters["auth/TahunSelected"] }}
+									</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
-									<v-form ref="frmcopydata" v-model="form_salin_valid" lazy-validation>
+									<v-form
+										ref="frmcopydata"
+										v-model="form_salin_valid"
+										lazy-validation
+									>
 										<v-card>
 											<v-card-title>
 												<span class="headline">
-													Salin Urusan  ke T.A {{ $store.getters["auth/TahunSelected"] }}
+													Salin Urusan ke T.A
+													{{ $store.getters["auth/TahunSelected"] }}
 												</span>
 											</v-card-title>
-											<v-card-text>												
+											<v-card-text>
 												<v-select
 													label="DARI TAHUN ANGGARAN"
 													v-model="tahunasal"
@@ -120,7 +128,7 @@
 													:rules="rule_tahun_asal"
 													outlined
 													dense
-												/>												
+												/>
 											</v-card-text>
 											<v-card-actions>
 												<v-spacer></v-spacer>
@@ -481,8 +489,12 @@
 				],
 				//form rules salin urusan
 				rule_tahun_asal: [
-					value => !!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
-					value => value <  this.$store.getters["auth/TahunSelected"] || "Tahun asal harus lebih kecil dari " +  this.$store.getters["auth/TahunSelected"],
+					value =>
+						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+					value =>
+						value < this.$store.getters["auth/TahunSelected"] ||
+						"Tahun asal harus lebih kecil dari " +
+							this.$store.getters["auth/TahunSelected"],
 				],
 			};
 		},
@@ -532,25 +544,25 @@
 			salinurusan() {
 				if (this.$refs.frmcopydata.validate()) {
 					this.$ajax
-							.post(
-								"/dmaster/kodefikasi/urusan/salin",
-								{
-									tahun_asal: this.tahunasal,
-									tahun_tujuan: this.$store.getters["auth/TahunSelected"],									
+						.post(
+							"/dmaster/kodefikasi/urusan/salin",
+							{
+								tahun_asal: this.tahunasal,
+								tahun_tujuan: this.$store.getters["auth/TahunSelected"],
+							},
+							{
+								headers: {
+									Authorization: this.$store.getters["auth/Token"],
 								},
-								{
-									headers: {
-										Authorization: this.$store.getters["auth/Token"],
-									},
-								}
-							)
-							.then(() => {
-								this.$router.go();
-								this.closedialogcopyfrm();
-							})
-							.catch(() => {
-								this.btnLoading = false;
-							});
+							}
+						)
+						.then(() => {
+							this.$router.go();
+							this.closedialogcopyfrm();
+						})
+						.catch(() => {
+							this.btnLoading = false;
+						});
 				}
 			},
 			save() {
@@ -646,7 +658,7 @@
 			closedialogcopyfrm() {
 				this.btnLoading = false;
 				this.dialogcopyfrm = false;
-				setTimeout(() => {					
+				setTimeout(() => {
 					this.$refs.frmcopydata.reset();
 				}, 300);
 			},
