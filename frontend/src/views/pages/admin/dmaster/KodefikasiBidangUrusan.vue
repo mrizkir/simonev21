@@ -59,29 +59,7 @@
 							<v-toolbar flat color="white">
 								<v-toolbar-title>DAFTAR BIDANG URUSAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
-								<v-spacer></v-spacer>
-								<v-tooltip bottom>
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											v-bind="attrs"
-											v-on="on"
-											color="primary"
-											icon
-											outlined
-											small
-											class="ma-2"
-											@click.stop="addItem"
-											:disabled="
-												!$store.getters['auth/can'](
-													'DMASTER-KODEFIKASI-BIDANG-URUSAN_STORE'
-												)
-											"
-										>
-											<v-icon>mdi-plus</v-icon>
-										</v-btn>
-									</template>
-									<span>Tambah Bidang Urusan</span>
-								</v-tooltip>
+								<v-spacer></v-spacer>								
 								<v-tooltip bottom>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn
@@ -106,6 +84,28 @@
 										Salin Bidang Urusan ke T.A
 										{{ $store.getters["auth/TahunSelected"] }}
 									</span>
+								</v-tooltip>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="addItem"
+											:disabled="
+												!$store.getters['auth/can'](
+													'DMASTER-KODEFIKASI-BIDANG-URUSAN_STORE'
+												)
+											"
+										>
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</template>
+									<span>Tambah Bidang Urusan</span>
 								</v-tooltip>
 								<v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
 									<v-form
@@ -501,7 +501,7 @@
 					updated_at: "",
 				},
 				editedIndex: -1,
-				//salin urusan
+				//salin bidang urusan
 				tahunasal: null,
 				daftar_ta: [],
 				//form rules

@@ -26,7 +26,7 @@ class OrganisasiController extends Controller {
     ]);             
     $tahun=$request->input('tahun');
 
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $data = OrganisasiModel::where('TA',$tahun)
                 ->orderBy('kode_organisasi','ASC')
@@ -41,13 +41,13 @@ class OrganisasiController extends Controller {
                 ->get();
     }
     return Response()->json([
-                'status'=>1,
-                'pid'=>'fetchdata',
-                'opd'=>$data,
-                'jumlah_apbd'=>$data->sum('PaguDana1'),
-                'jumlah_apbdp'=>$data->sum('PaguDana2'),
-                'message'=>'Fetch data opd berhasil diperoleh'
-              ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'opd'=>$data,
+      'jumlah_apbd'=>$data->sum('PaguDana1'),
+      'jumlah_apbdp'=>$data->sum('PaguDana2'),
+      'message'=>'Fetch data opd berhasil diperoleh'
+    ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
   }
   /**
@@ -196,12 +196,192 @@ class OrganisasiController extends Controller {
     ]);        
     
     return Response()->json([
-                'status'=>1,
-                'pid'=>'store',
-                'opd'=>$organisasi,                                    
-                'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil disimpan.'
-              ], 200); 
+      'status'=>1,
+      'pid'=>'store',
+      'opd'=>$organisasi,                                    
+      'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil disimpan.'
+    ], 200); 
   }
+  /**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function salin(Request $request)
+	{       
+		$this->validate($request, [            
+			'tahun_asal'=>'required|numeric',
+			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+		]);
+
+		$tahun_asal = $request->input('tahun_asal');
+		$tahun_tujuan = $request->input('tahun_tujuan');
+
+    \DB::beginTransaction();
+
+		\DB::table('tmOrg')
+		->where('TA', $tahun_tujuan)
+		->whereRaw('OrgID_Src IS NOT NULL')
+		->delete();
+
+		$str_insert = '
+			INSERT INTO `tmOrg` (
+				`OrgID`, 
+        
+        `BidangID_1`,         
+        `kode_bidang_1`,         
+        `Nm_Bidang_1`,         
+        
+        `BidangID_2`,         
+        `kode_bidang_2`,         
+        `Nm_Bidang_2`,         
+
+        `BidangID_3`,         
+        `kode_bidang_3`,         
+        `Nm_Bidang_3`,         
+
+        `kode_organisasi`, 
+        `Kd_Organisasi`, 
+        `Nm_Organisasi`, 
+        `Alias_Organisasi`,                
+        `Alamat`, 
+        `NamaKepalaSKPD`, 
+        `NIPKepalaSKPD`, 
+        `PaguDana1`,
+        `PaguDana2`,
+        `JumlahProgram1`,
+        `JumlahProgram2`,        
+        `JumlahKegiatan1`,
+        `JumlahKegiatan2`,        
+        `JumlahSubKegiatan1`,
+        `JumlahSubKegiatan2`,
+        `RealisasiKeuangan1`,            
+        `RealisasiKeuangan2`,        
+        `RealisasiFisik1`,        
+        `RealisasiFisik2`,        
+        `Descr`, 
+        `TA`,
+        `OrgID_Src`,
+        created_at,
+        updated_at
+			)		
+			SELECT
+				uuid() AS id,
+				
+        t2.`BidangID` AS `BidangID_1`,         
+        CONCAT(t3.Kd_Urusan,"-",t2.Kd_Bidang) AS `kode_bidang_1`,         
+        t2.`Nm_Bidang` AS `Nm_Bidang_1`,         
+        
+        t1.`BidangID_2`,         
+        t1.`kode_bidang_2`,         
+        t1.`Nm_Bidang_2`,         
+
+        t1.`BidangID_3`,         
+        t1.`kode_bidang_3`,         
+        t1.`Nm_Bidang_3`,         
+
+        t1.`kode_organisasi`, 
+        t1.`Kd_Organisasi`, 
+        t1.`Nm_Organisasi`, 
+        t1.`Alias_Organisasi`,                
+        t1.`Alamat`, 
+        t1.`NamaKepalaSKPD`, 
+        t1.`NIPKepalaSKPD`, 
+        0 AS `PaguDana1`,
+        0 AS `PaguDana2`,
+        0 AS `JumlahProgram1`,
+        0 AS `JumlahProgram2`,        
+        0 AS `JumlahKegiatan1`,
+        0 AS `JumlahKegiatan2`,        
+        0 AS `JumlahSubKegiatan1`,
+        0 AS `JumlahSubKegiatan2`,
+        0 AS `RealisasiKeuangan1`,            
+        0 AS `RealisasiKeuangan2`,        
+        0 AS `RealisasiFisik1`,        
+        0 AS `RealisasiFisik2`,        
+
+				"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+				'.$tahun_tujuan.' AS `TA`,
+				t1.OrgID AS OrgID_Src,
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM tmOrg t1
+			JOIN tmBidangUrusan t2 ON (t1.BidangID_1=t2.BidangID_Src)
+      JOIN tmUrusan t3 ON (t3.UrsID=t2.UrsID)
+			WHERE t1.`TA`='.$tahun_asal.'      
+		';    
+    
+		\DB::statement($str_insert); 
+    
+    $daftar_opd = \DB::table('tmOrg')
+    ->select(\DB::raw('
+      `OrgID`, 
+      `BidangID_1`,         
+      `BidangID_2`,         
+      `BidangID_3`
+    '))
+    ->where('TA', $tahun_tujuan)
+    ->get();
+    
+    foreach($daftar_opd as $item)
+    {
+      if (!is_null($item->BidangID_2) )
+      {
+        $bidang2 = \DB::table('tmBidangUrusan AS t1')
+        ->select(\DB::raw('
+          t1.`BidangID`,         
+          CONCAT(t2.Kd_Urusan,"-",t1.Kd_Bidang) AS `kode_bidang_2`,         
+          t1.`Nm_Bidang`
+        '))
+        ->join('tmUrusan AS t2','t2.UrsID', 't1.UrsID')
+        ->where('t1.BidangID_Src', $item->BidangID_2)
+        ->first();
+        
+        if (!is_null($bidang2))
+        {
+          \DB::table('tmOrg')
+            ->where('OrgID', $item->OrgID)
+            ->update([
+              'BidangID_2' => $bidang2->BidangID,
+              'kode_bidang_2' => $bidang2->kode_bidang_2,
+              'Nm_Bidang_2' => $bidang2->Nm_Bidang,
+            ]); 
+        }      
+      }
+
+      if (!is_null($item->BidangID_3))
+      {
+        $bidang3 = \DB::table('tmBidangUrusan AS t1')
+        ->select(\DB::raw('
+          t1.`BidangID`,         
+          CONCAT(t2.Kd_Urusan,"-",t1.Kd_Bidang) AS `kode_bidang_3`,         
+          t1.`Nm_Bidang`
+        '))
+        ->join('tmUrusan AS t2','t2.UrsID', 't1.UrsID')
+        ->where('t1.BidangID_Src', $item->BidangID_3)
+        ->first();
+
+        if (!is_null($bidang3))
+        {
+          \DB::table('tmOrg')
+            ->where('OrgID', $item->OrgID)
+            ->update([
+              'BidangID_3' => $bidang3->BidangID,
+              'kode_bidang_3' => $bidang3->kode_bidang_3,
+              'Nm_Bidang_3' => $bidang3->Nm_Bidang,
+            ]); 
+        }
+      }
+    }
+    \DB::commit();
+
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',            
+			'message'=>"Salin OPD dari tahun anggaran $tahun_asal berhasil."
+		], 200);
+	}
   /**
    * Update the specified resource in storage.
    *

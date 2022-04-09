@@ -94,68 +94,68 @@ class KodefikasiBidangUrusanController extends Controller {
 				->get();
 		}
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',
-									'program'=>$program,
-									'message'=>'Fetch data kodefikasi program rka berhasil.'
-								], 200);
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'program'=>$program,
+			'message'=>'Fetch data kodefikasi program rka berhasil.'
+		], 200);
 	}
-	 /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function salin(Request $request)
-    {       
-			$this->validate($request, [            
-				'tahun_asal'=>'required|numeric',
-				'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
-			]);
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function salin(Request $request)
+	{       
+		$this->validate($request, [            
+			'tahun_asal'=>'required|numeric',
+			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+		]);
 
-			$tahun_asal = $request->input('tahun_asal');
-			$tahun_tujuan = $request->input('tahun_tujuan');
+		$tahun_asal = $request->input('tahun_asal');
+		$tahun_tujuan = $request->input('tahun_tujuan');
 
-			\DB::table('tmBidangUrusan')
-			->where('TA', $tahun_tujuan)
-			->whereRaw('BidangID_Src IS NOT NULL')
-			->delete();
+		\DB::table('tmBidangUrusan')
+		->where('TA', $tahun_tujuan)
+		->whereRaw('BidangID_Src IS NOT NULL')
+		->delete();
 
-			$str_insert = '
-				INSERT INTO `tmBidangUrusan` (
-					`BidangID`,
-					`UrsID`,
-					`Kd_Bidang`,
-					`Nm_Bidang`,
-					`Descr`,
-					`TA`,
-					`BidangID_Src`,			
-					created_at,
-					updated_at
-				)		
-        SELECT
-					uuid() AS id,
-					t2.UrsID,
-					t1.Kd_Bidang,
-					t1.Nm_Bidang,
-					"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
-					'.$tahun_tujuan.' AS `TA`,
-					t1.BidangID AS BidangID_Src,
-					NOW() AS created_at,
-					NOW() AS updated_at
-				FROM tmBidangUrusan t1
-				JOIN tmUrusan t2 ON (t1.UrsID=t2.UrsID_Src)
-        WHERE t1.TA='.$tahun_asal.'        
-			';    
+		$str_insert = '
+			INSERT INTO `tmBidangUrusan` (
+				`BidangID`,
+				`UrsID`,
+				`Kd_Bidang`,
+				`Nm_Bidang`,
+				`Descr`,
+				`TA`,
+				`BidangID_Src`,			
+				created_at,
+				updated_at
+			)		
+			SELECT
+				uuid() AS id,
+				t2.UrsID,
+				t1.Kd_Bidang,
+				t1.Nm_Bidang,
+				"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+				'.$tahun_tujuan.' AS `TA`,
+				t1.BidangID AS BidangID_Src,
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM tmBidangUrusan t1
+			JOIN tmUrusan t2 ON (t1.UrsID=t2.UrsID_Src)
+			WHERE t1.TA='.$tahun_asal.'        
+		';    
 
-			\DB::statement($str_insert); 
+		\DB::statement($str_insert); 
 
-			return Response()->json([
-				'status'=>1,
-				'pid'=>'store',            
-				'message'=>"Salin bidang urusan dari tahun anggaran $tahun_asal berhasil."
-			], 200);
-    }
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',            
+			'message'=>"Salin bidang urusan dari tahun anggaran $tahun_asal berhasil."
+		], 200);
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *
