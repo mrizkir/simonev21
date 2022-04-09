@@ -145,7 +145,7 @@
 												<v-btn
 													color="blue darken-1"
 													text
-													@click.stop="salinurusan"
+													@click.stop="salinbidang"
 													:disabled="!form_salin_valid || btnLoading"
 												>
 													SALIN
@@ -602,7 +602,7 @@
 				this.formdata = item;
 				this.dialogdetailitem = true;
 			},
-			salinurusan() {
+			salinbidang() {
 				if (this.$refs.frmcopydata.validate()) {
 					this.$ajax
 						.post(

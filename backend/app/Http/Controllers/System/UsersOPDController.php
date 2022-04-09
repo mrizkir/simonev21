@@ -176,6 +176,68 @@ class UsersOPDController extends Controller {
 
 	}
 	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function salin(Request $request)
+	{       
+		$this->validate($request, [            
+			'tahun_asal'=>'required|numeric',
+			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+		]);
+
+		$tahun_asal = $request->input('tahun_asal');
+		$tahun_tujuan = $request->input('tahun_tujuan');
+
+    \DB::beginTransaction();
+
+		\DB::table('usersopd')
+		->where('TA', $tahun_tujuan)		
+		->delete();
+
+		$str_insert = '
+			INSERT INTO `usersopd` (
+				id, 
+        user_id, 
+        OrgID,
+        kode_organisasi,
+        Nm_Organisasi,
+        Alias_Organisasi,
+        ta,
+        locked,
+        created_at,
+        updated_at
+			)		
+			SELECT
+				uuid() AS id,
+				
+        user_id, 
+        t2.OrgID,
+        t2.kode_organisasi,
+        t2.Nm_Organisasi,
+        t2.Alias_Organisasi,
+				'.$tahun_tujuan.' AS `ta`,
+				locked,								
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM usersopd t1
+			JOIN `tmOrg` t2 ON t1.`OrgID`=t2.`OrgID_Src`
+			WHERE t1.`ta`='.$tahun_asal.'      
+		';    
+    
+		\DB::statement($str_insert);     
+    
+    \DB::commit();
+
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',            
+			'message'=>"Salin relasi user ke OPD dari tahun anggaran $tahun_asal berhasil."
+		], 200);
+	}
+	/**
 	 * digunakan untuk mendapatkan informasi detail user dengan role program studi
 	 */
 	public function show(Request $request, $id)

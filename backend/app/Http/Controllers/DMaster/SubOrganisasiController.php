@@ -54,13 +54,14 @@ class SubOrganisasiController extends Controller {
     }       
     else if ($this->hasRole('opd'))
     {
-      $daftar_unitkerja=json_decode($user->payload,true);
+      $daftar_opd=$this->getUserOrgID();
+      
       $data = SubOrganisasiModel::select($select)
-                ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
-                ->where('tmSOrg.TA',$tahun)
-                ->whereIn('OrgID',$daftar_unitkerja)
-                ->orderBy('kode_sub_organisasi','ASC')
-                ->get();
+        ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
+        ->where('tmSOrg.TA',$tahun)
+        ->whereIn('tmOrg.OrgID',$daftar_opd)
+        ->orderBy('kode_sub_organisasi','ASC')
+        ->get();
     }
     
 

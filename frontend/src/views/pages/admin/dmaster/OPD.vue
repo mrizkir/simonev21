@@ -461,7 +461,7 @@
 										<v-card>
 											<v-card-title>
 												<span class="headline">
-													Salin Bidang Urusan ke T.A
+													Salin OPD ke T.A
 													{{ $store.getters["auth/TahunSelected"] }}
 												</span>
 											</v-card-title>
@@ -490,7 +490,7 @@
 												<v-btn
 													color="blue darken-1"
 													text
-													@click.stop="salinurusan"
+													@click.stop="salinopd"
 													:disabled="!form_salin_valid || btnLoading"
 												>
 													SALIN
@@ -876,7 +876,7 @@
 						this.dialogfrm = true;
 					});
 			},
-			salinurusan() {
+			salinopd() {
 				if (this.$refs.frmcopydata.validate()) {
 					this.$ajax
 						.post(

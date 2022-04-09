@@ -58,6 +58,24 @@
 								<v-toolbar-title>DAFTAR USERS OPD</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="copyItem"
+											:disabled="!$store.getters['auth/can']('SYSTEM-USERS-OPD_BROWSE')"
+										>
+											<v-icon>mdi-database-refresh</v-icon>
+										</v-btn>
+									</template>
+									<span>SALIN DATA USER OPD</span>
+								</v-tooltip>
 								<v-tooltip
 									bottom
 									v-if="$store.getters['auth/can']('USER_STOREPERMISSIONS')"
@@ -89,7 +107,7 @@
 											outlined
 											small
 											class="ma-2"
-											:disabled="btnLoading"
+											:disabled="btnLoading ||  !$store.getters['auth/can']('SYSTEM-USERS-OPD_BROWSE')"
 											@click.stop="showDialogTambahUserOPD"
 										>
 											<v-icon>mdi-plus</v-icon>
@@ -286,6 +304,53 @@
 										role_default="opd"
 									/>
 								</v-dialog>
+								<v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
+									<v-form
+										ref="frmcopydata"
+										v-model="form_salin_valid"
+										lazy-validation
+									>
+										<v-card>
+											<v-card-title>
+												<span class="headline">
+													Salin data relasi user ke OPD ke T.A
+													{{ TAHUN_SELECTED }}
+												</span>
+											</v-card-title>
+											<v-card-text>
+												<v-alert type="warning">
+													Menghindari duplikat proses salin, akan menghapus terlebih dahulu data relasi user ke OPD T.A {{ TAHUN_SELECTED }}
+												</v-alert>
+												<v-select
+													label="DARI TAHUN ANGGARAN"
+													v-model="tahunasal"
+													:items="daftar_ta"
+													:rules="rule_tahun_asal"
+													outlined
+													dense
+												/>
+											</v-card-text>
+											<v-card-actions>
+												<v-spacer></v-spacer>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="closedialogcopyfrm"
+												>
+													TUTUP
+												</v-btn>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="salinuseropd"
+													:disabled="!form_salin_valid || btnLoading"
+												>
+													SALIN
+												</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-form>
+								</v-dialog>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
@@ -393,97 +458,112 @@
 				},
 			];
 			this.initialize();
+		},		
+		data() {
+			return {
+				role_id: 0,
+				datatableLoading: false,
+				btnLoading: false,
+				//tables
+				headers: [
+					{ text: "", value: "foto" },
+					{ text: "USERNAME", value: "username", sortable: true },
+					{ text: "NAME", value: "name", sortable: true },
+					{ text: "EMAIL", value: "email", sortable: true },
+					{ text: "NOMOR HP", value: "nomor_hp", sortable: true },
+					{ text: "AKSI", value: "actions", sortable: false, width: 120 },
+				],
+				expanded: [],
+				search: "",
+				daftar_users: [],
+				//form
+				form_valid: true,
+				form_salin_valid: true,
+				daftar_roles: [],
+				dialog: false,
+				dialogEdit: false,
+				dialogcopyfrm: false,
+				dialogUserPermission: false,
+				editedIndex: -1,
+				daftar_opd: [],
+				editedItem: {
+					id: 0,
+					username: "",
+					password: "",
+					name: "",
+					email: "",
+					nomor_hp: "",
+					org_id: [],
+					role_id: ["opd"],
+					created_at: "",
+					updated_at: "",
+				},
+				defaultItem: {
+					id: 0,
+					username: "",
+					password: "",
+					name: "",
+					email: "",
+					nomor_hp: "",
+					org_id: [],
+					role_id: ["opd"],
+					created_at: "",
+					updated_at: "",
+				},
+				//salin opd
+				tahunasal: null,
+				daftar_ta: [],
+				//form rules
+				rule_user_name: [value => !!value || "Mohon untuk di isi nama User !!!"],
+				rule_user_email: [
+					value => !!value || "Mohon untuk di isi email User !!!",
+					value => /.+@.+\..+/.test(value) || "Format E-mail harus benar",
+				],
+				rule_user_nomorhp: [
+					value => !!value || "Nomor HP mohon untuk diisi !!!",
+					value =>
+						/^\+[1-9]{1}[0-9]{1,14}$/.test(value) ||
+						"Nomor HP hanya boleh angka dan gunakan kode negara didepan seperti +6281214553388",
+				],
+				rule_user_username: [
+					value => !!value || "Mohon untuk di isi username User !!!",
+					value =>
+						/^[A-Za-z_]*$/.test(value) ||
+						"Username hanya boleh string dan underscore",
+				],
+				rule_user_opd: [
+					value =>
+						!!value || "Mohon untuk di pilih OPD / SKPD dari User ini !!!",
+				],
+				rule_user_password: [
+					value => !!value || "Mohon untuk di isi password User !!!",
+					value => {
+						if (value && typeof value !== "undefined" && value.length > 0) {
+							return value.length >= 8 || "Minimial Password 8 Karakter";
+						} else {
+							return true;
+						}
+					},
+				],
+				rule_user_passwordEdit: [
+					value => {
+						if (value && typeof value !== "undefined" && value.length > 0) {
+							return value.length >= 8 || "Minimial Password 8 Karakter";
+						} else {
+							return true;
+						}
+					},
+				],
+				//form rules salin urusan				
+				rule_tahun_asal: [
+					value =>
+						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+					value =>
+						value < this.TAHUN_SELECTED ||
+						"Tahun asal harus lebih kecil dari " + this.TAHUN_SELECTED,
+				],
+			}
 		},
-		data: () => ({
-			role_id: 0,
-			datatableLoading: false,
-			btnLoading: false,
-			//tables
-			headers: [
-				{ text: "", value: "foto" },
-				{ text: "USERNAME", value: "username", sortable: true },
-				{ text: "NAME", value: "name", sortable: true },
-				{ text: "EMAIL", value: "email", sortable: true },
-				{ text: "NOMOR HP", value: "nomor_hp", sortable: true },
-				{ text: "AKSI", value: "actions", sortable: false, width: 120 },
-			],
-			expanded: [],
-			search: "",
-			daftar_users: [],
-			//form
-			form_valid: true,
-			daftar_roles: [],
-			dialog: false,
-			dialogEdit: false,
-			dialogUserPermission: false,
-			editedIndex: -1,
-			daftar_opd: [],
-			editedItem: {
-				id: 0,
-				username: "",
-				password: "",
-				name: "",
-				email: "",
-				nomor_hp: "",
-				org_id: [],
-				role_id: ["opd"],
-				created_at: "",
-				updated_at: "",
-			},
-			defaultItem: {
-				id: 0,
-				username: "",
-				password: "",
-				name: "",
-				email: "",
-				nomor_hp: "",
-				org_id: [],
-				role_id: ["opd"],
-				created_at: "",
-				updated_at: "",
-			},
-			//form rules
-			rule_user_name: [value => !!value || "Mohon untuk di isi nama User !!!"],
-			rule_user_email: [
-				value => !!value || "Mohon untuk di isi email User !!!",
-				value => /.+@.+\..+/.test(value) || "Format E-mail harus benar",
-			],
-			rule_user_nomorhp: [
-				value => !!value || "Nomor HP mohon untuk diisi !!!",
-				value =>
-					/^\+[1-9]{1}[0-9]{1,14}$/.test(value) ||
-					"Nomor HP hanya boleh angka dan gunakan kode negara didepan seperti +6281214553388",
-			],
-			rule_user_username: [
-				value => !!value || "Mohon untuk di isi username User !!!",
-				value =>
-					/^[A-Za-z_]*$/.test(value) ||
-					"Username hanya boleh string dan underscore",
-			],
-			rule_user_opd: [
-				value =>
-					!!value || "Mohon untuk di pilih OPD / SKPD dari User ini !!!",
-			],
-			rule_user_password: [
-				value => !!value || "Mohon untuk di isi password User !!!",
-				value => {
-					if (value && typeof value !== "undefined" && value.length > 0) {
-						return value.length >= 8 || "Minimial Password 8 Karakter";
-					} else {
-						return true;
-					}
-				},
-			],
-			rule_user_passwordEdit: [
-				value => {
-					if (value && typeof value !== "undefined" && value.length > 0) {
-						return value.length >= 8 || "Minimial Password 8 Karakter";
-					} else {
-						return true;
-					}
-				},
-			],
-		}),
 		methods: {
 			initialize: async function() {
 				this.datatableLoading = true;
@@ -491,7 +571,7 @@
 					.post(
 						"/system/usersopd",
 						{
-							TA: this.$store.getters["auth/TahunSelected"],
+							TA: this.TAHUN_SELECTED,
 						},
 						{
 							headers: {
@@ -511,6 +591,10 @@
 				} else {
 					this.expanded = [item];
 				}
+			},
+			copyItem() {
+				this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+				this.dialogcopyfrm = true;
 			},
 			syncPermission() {
 				this.$root.$confirm
@@ -567,7 +651,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["auth/TahunSelected"],
+							tahun: this.TAHUN_SELECTED,
 						},
 						{
 							headers: {
@@ -594,7 +678,7 @@
 					.post(
 						"/dmaster/opd",
 						{
-							tahun: this.$store.getters["auth/TahunSelected"],
+							tahun: this.TAHUN_SELECTED,
 						},
 						{
 							headers: {
@@ -672,6 +756,30 @@
 				this.btnLoading = false;
 				this.dialogUserPermission = false;
 			},
+			salinuseropd() {
+				if (this.$refs.frmcopydata.validate()) {
+					this.$ajax
+						.post(
+							"/system/usersopd/salin",
+							{
+								tahun_asal: this.tahunasal,
+								tahun_tujuan: this.TAHUN_SELECTED,
+							},
+							{
+								headers: {
+									Authorization: this.TOKEN,
+								},
+							}
+						)
+						.then(() => {
+							this.$router.go();
+							this.closedialogcopyfrm();
+						})
+						.catch(() => {
+							this.btnLoading = false;
+						});
+				}
+			},
 			save() {
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
@@ -739,6 +847,13 @@
 					}
 				}
 			},
+			closedialogcopyfrm() {
+				this.btnLoading = false;
+				this.dialogcopyfrm = false;
+				setTimeout(() => {
+					this.$refs.frmcopydata.reset();
+				}, 300);
+			},
 			deleteItem(item) {
 				this.$root.$confirm
 					.open(
@@ -780,6 +895,7 @@
 			...mapGetters("auth", {
 				ACCESS_TOKEN: "AccessToken",
 				TOKEN: "Token",
+				TAHUN_SELECTED: 'TahunSelected',
 			}),
 		},
 		watch: {

@@ -100,9 +100,33 @@ class Controller extends BaseController
                                 ], 200); 
     }
     /**
-     * @return boolean roles of user in array
+     * @return array digunakan untuk mendapatkan OrgID dari 
      */
     public function getUserOrgID() 
+    {
+        if ($this->hasRole('opd'))
+        {
+            $user=$this->guard()->user();
+            $opd=$user->opd;
+        }
+        else if ($this->hasRole('unitkerja'))
+        {
+            $opd = \DB::table('usersunitkerja')
+                        ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
+                        ->where('user_id', $this->getUserid())
+                        ->get();
+        }
+        $daftar_opd = [];
+        foreach($opd as $items) 
+        {
+            $daftar_opd[] = $items->OrgID;
+        }
+        return $daftar_opd;
+    }
+    /**
+     * @return array digunakan untuk mendapatkan SOrgID dari 
+     */
+    public function getUserSOrgID() 
     {
         if ($this->hasRole('opd'))
         {
