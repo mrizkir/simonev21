@@ -738,7 +738,7 @@
 					value =>
 						/^[0-9]+$/.test(value) || "NIP Kepala OPD / SKPD hanya boleh angka",
 				],
-				//form rules salin urusan
+				//form rules salin opd
 				rule_tahun_asal: [
 					value =>
 						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",

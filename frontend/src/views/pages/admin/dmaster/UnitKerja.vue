@@ -703,7 +703,7 @@
 					value =>
 						/^[0-9]+$/.test(value) || "NIP Kepala Unit Kerja hanya boleh angka",
 				],
-				//form rules salin urusan
+				//form rules salin unit kerja
 				rule_tahun_asal: [
 					value =>
 						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
