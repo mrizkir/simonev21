@@ -136,6 +136,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/dmaster/unitkerja/loadunitkerja',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadunitkerja','as'=>'unitkerja.loadunitkerja']);
 	$router->post('/dmaster/unitkerja/loadpaguapbdp',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadpaguapbdp','as'=>'unitkerja.loadpaguapbdp']);
 	$router->post('/dmaster/unitkerja/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@store','as'=>'unitkerja.store']);
+	$router->post('/dmaster/unitkerja/salin',['middleware'=>['role:superadmin|bapelitbang|unitkerja'],'uses'=>'DMaster\SubOrganisasiController@salin','as'=>'unitkerja.salin']);
 	$router->put('/dmaster/unitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\SubOrganisasiController@update','as'=>'unitkerja.update']);
 	$router->delete('/dmaster/unitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SubOrganisasiController@destroy','as'=>'unitkerja.destroy']);
 
@@ -352,7 +353,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->delete('/system/usersopd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\UsersOPDController@destroy','as'=>'usersopd.destroy']);
 	
 	//setting - users unit kerja
-	$router->post('/system/usersunitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@index','as'=>'usersunitkerja.index']);
+	$router->post('/system/usersunitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@index','as'=>'usersunitkerja.index']);	
 	$router->post('/system/usersunitkerja/store',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@store','as'=>'usersunitkerja.store']);
 	$router->put('/system/usersunitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@update','as'=>'usersunitkerja.update']);    
 	$router->delete('/system/usersunitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'System\UsersUnitKerjaController@destroy','as'=>'usersunitkerja.destroy']);

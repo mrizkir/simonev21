@@ -139,6 +139,103 @@ class SubOrganisasiController extends Controller {
               ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function salin(Request $request)
+	{       
+		$this->validate($request, [            
+			'tahun_asal'=>'required|numeric',
+			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+		]);
+
+		$tahun_asal = $request->input('tahun_asal');
+		$tahun_tujuan = $request->input('tahun_tujuan');
+
+    \DB::beginTransaction();
+
+		\DB::table('tmSOrg')
+		->where('TA', $tahun_tujuan)
+		->whereRaw('SOrgID_Src IS NOT NULL')
+		->delete();
+
+		$str_insert = '
+			INSERT INTO `tmSOrg` (
+				`SOrgID`, 
+        `OrgID`, 
+        `kode_sub_organisasi`, 
+        `Kd_Sub_Organisasi`, 
+        `Nm_Sub_Organisasi`, 
+        `Alias_Sub_Organisasi`,         
+        `Alamat`, 
+        `NamaKepalaUnitKerja`, 
+        `NIPKepalaUnitKerja`, 
+        `PaguDana1`,
+        `PaguDana2`,
+        `JumlahProgram1`,
+        `JumlahProgram2`,        
+        `JumlahKegiatan1`,
+        `JumlahKegiatan2`,        
+        `JumlahSubKegiatan1`,
+        `JumlahSubKegiatan2`,        
+        `RealisasiKeuangan1`,            
+        `RealisasiKeuangan2`,        
+        `RealisasiFisik1`,        
+        `RealisasiFisik2`,
+        `Descr`, 
+        `TA`,
+        `SOrgID_Src`,
+        created_at,
+        updated_at
+			)		
+			SELECT
+				uuid() AS id,
+				
+        t2.`OrgID`, 
+        t1.`kode_sub_organisasi`, 
+        t1.`Kd_Sub_Organisasi`, 
+        t1.`Nm_Sub_Organisasi`, 
+        t1.`Alias_Sub_Organisasi`,         
+        t1.`Alamat`, 
+        t1.`NamaKepalaUnitKerja`, 
+        t1.`NIPKepalaUnitKerja`, 
+        
+        0 AS `PaguDana1`,
+        0 AS `PaguDana2`,
+        0 AS `JumlahProgram1`,
+        0 AS `JumlahProgram2`,        
+        0 AS `JumlahKegiatan1`,
+        0 AS `JumlahKegiatan2`,        
+        0 AS `JumlahSubKegiatan1`,
+        0 AS `JumlahSubKegiatan2`,
+        0 AS `RealisasiKeuangan1`,            
+        0 AS `RealisasiKeuangan2`,        
+        0 AS `RealisasiFisik1`,        
+        0 AS `RealisasiFisik2`,        
+
+				"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+				'.$tahun_tujuan.' AS `TA`,
+				t1.SOrgID AS SOrgID_Src,
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM tmSOrg t1
+			JOIN tmOrg t2 ON (t1.OrgID=t2.OrgID_Src)      
+			WHERE t1.`TA`='.$tahun_asal.'      
+		';        
+		
+    \DB::statement($str_insert);
+
+    \DB::commit();
+
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',            
+			'message'=>"Salin Unit kerja dari tahun anggaran $tahun_asal berhasil."
+		], 200);
+	}
+  /**
    * STORE the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request

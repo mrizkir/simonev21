@@ -66,6 +66,31 @@
 										<v-btn
 											v-bind="attrs"
 											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="copyItem"
+											:disabled="
+												!$store.getters['auth/can'](
+													'DMASTER-UNIT-KERJA_STORE'
+												)
+											"
+										>
+											<v-icon>mdi-reload</v-icon>
+										</v-btn>
+									</template>
+									<span>
+										Salin Unit Kerja ke T.A
+										{{ $store.getters["auth/TahunSelected"] }}
+									</span>
+								</v-tooltip>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
 											color="warning"
 											icon
 											outlined
@@ -404,6 +429,53 @@
 										</v-card-actions>
 									</v-card>
 								</v-dialog>
+								<v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
+									<v-form
+										ref="frmcopydata"
+										v-model="form_salin_valid"
+										lazy-validation
+									>
+										<v-card>
+											<v-card-title>
+												<span class="headline">
+													Salin Unit Kerja ke T.A
+													{{ $store.getters["auth/TahunSelected"] }}
+												</span>
+											</v-card-title>
+											<v-card-text>
+												<v-alert type="warning">
+													Menghindari duplikat proses salin, akan menghapus terlebih dahulu data unit kerja T.A {{ $store.getters["auth/TahunSelected"] }}
+												</v-alert>
+												<v-select
+													label="DARI TAHUN ANGGARAN"
+													v-model="tahunasal"
+													:items="daftar_ta"
+													:rules="rule_tahun_asal"
+													outlined
+													dense
+												/>
+											</v-card-text>
+											<v-card-actions>
+												<v-spacer></v-spacer>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="closedialogcopyfrm"
+												>
+													TUTUP
+												</v-btn>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="salinunitkerja"
+													:disabled="!form_salin_valid || btnLoading"
+												>
+													SALIN
+												</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-form>
+								</v-dialog>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.PaguDana1="{ item }">
@@ -559,10 +631,12 @@
 					jumlah_apbdp: 0,
 				},
 				//dialog
+				dialogcopyfrm: false,
 				dialogdetailitem: false,
 				dialogfrm: false,
 				//form data
 				form_valid: true,
+				form_salin_valid: true,
 				daftar_opd: [],
 				formdata: {
 					SOrgID: "",
@@ -599,6 +673,9 @@
 					updated_at: "",
 				},
 				editedIndex: -1,
+				//salin opd
+				tahunasal: null,
+				daftar_ta: [],
 				//form rules
 				rule_required: [
 					value => !!value || "Mohon untuk di isi karena dibutuhkan !!!",
@@ -625,6 +702,15 @@
 					value => !!value || "Mohon untuk di isi NIP Kepala Unit Kerja !!!",
 					value =>
 						/^[0-9]+$/.test(value) || "NIP Kepala Unit Kerja hanya boleh angka",
+				],
+				//form rules salin urusan
+				rule_tahun_asal: [
+					value =>
+						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+					value =>
+						value < this.$store.getters["auth/TahunSelected"] ||
+						"Tahun asal harus lebih kecil dari " +
+							this.$store.getters["auth/TahunSelected"],
 				],
 			};
 		},
@@ -711,6 +797,10 @@
 				this.formdata = item;
 				this.dialogdetailitem = true;
 			},
+			copyItem() {
+				this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+				this.dialogcopyfrm = true;
+			},
 			async editItem(item) {
 				this.editedIndex = this.datatable.indexOf(item);
 				this.formdata = Object.assign({}, item);
@@ -730,6 +820,30 @@
 						this.daftar_opd = data.opd;
 						this.dialogfrm = true;
 					});
+			},
+			salinunitkerja() {
+				if (this.$refs.frmcopydata.validate()) {
+					this.$ajax
+						.post(
+							"/dmaster/unitkerja/salin",
+							{
+								tahun_asal: this.tahunasal,
+								tahun_tujuan: this.$store.getters["auth/TahunSelected"],
+							},
+							{
+								headers: {
+									Authorization: this.$store.getters["auth/Token"],
+								},
+							}
+						)
+						.then(() => {
+							this.$router.go();
+							this.closedialogcopyfrm();
+						})
+						.catch(() => {
+							this.btnLoading = false;
+						});
+				}
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {
@@ -838,6 +952,13 @@
 				setTimeout(() => {
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
+				}, 300);
+			},
+			closedialogcopyfrm() {
+				this.btnLoading = false;
+				this.dialogcopyfrm = false;
+				setTimeout(() => {
+					this.$refs.frmcopydata.reset();
 				}, 300);
 			},
 			closedialogfrm() {
