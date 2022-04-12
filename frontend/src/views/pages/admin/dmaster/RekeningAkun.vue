@@ -666,6 +666,13 @@
 					this.$refs.frmdata.reset();
 				}, 300);
 			},
+			closedialogcopyfrm() {
+				this.btnLoading = false;
+				this.dialogcopyfrm = false;
+				setTimeout(() => {
+					this.$refs.frmcopydata.reset();
+				}, 300);
+			},
 			closedialogdetailitem() {
 				this.dialogdetailitem = false;
 				setTimeout(() => {

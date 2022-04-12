@@ -81,7 +81,7 @@
 										</v-btn>
 									</template>
 									<span>
-										Salin Rekning Akun ke T.A
+										Salin Rekning Kelompok ke T.A
 										{{ $store.getters["auth/TahunSelected"] }}
 									</span>
 								</v-tooltip>
@@ -501,7 +501,7 @@
 					updated_at: "",
 				},
 				editedIndex: -1,
-				//salin akun
+				//salin kelompok
 				tahunasal: null,
 				daftar_ta: [],
 				//form rules
@@ -722,6 +722,13 @@
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
 					this.$refs.frmdata.reset();
+				}, 300);
+			},
+			closedialogcopyfrm() {
+				this.btnLoading = false;
+				this.dialogcopyfrm = false;
+				setTimeout(() => {
+					this.$refs.frmcopydata.reset();
 				}, 300);
 			},
 			closedialogdetailitem() {

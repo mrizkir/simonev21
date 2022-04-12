@@ -12,208 +12,268 @@ use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Uuid;
 
 class RekeningObjekController extends Controller {              
-    /**
-     * get all objek
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index (Request $request)
-    {
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_BROWSE');
+  /**
+   * get all objek
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index (Request $request)
+  {
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_BROWSE');
 
-        $this->validate($request, [        
-            'TA'=>'required'
-        ]);    
-        $ta = $request->input('TA');
+    $this->validate($request, [        
+      'TA'=>'required'
+    ]);    
+    $ta = $request->input('TA');
 
-        $objek=RekeningObjekModel::select(\DB::raw('
-                                        `tmOby`.`ObyID`,                                        
-                                        `tmOby`.`JnsID`,                                        
-                                        `tmOby`.`Kd_Rek_4`,
-                                        `tmOby`.`ObyNm`,        
-                                        CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`) AS `kode_objek`,
-                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',\'] \',`ObyNm`) AS `nama_rek3`,
-                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'] \',`ObyNm`) AS `nama_rek4`,
-                                        `tmOby`.`Descr`,
-                                        `tmOby`.`TA`
-                                    '))                                    
-                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                                    ->where('tmOby.TA',$ta)
-                                    ->orderBy('Kd_Rek_1','ASC')
-                                    ->orderBy('Kd_Rek_2','ASC')
-                                    ->orderBy('Kd_Rek_3','ASC')
-                                    ->orderBy('Kd_Rek_4','ASC')                                    
-                                    ->get();
+    $objek=RekeningObjekModel::select(\DB::raw('
+                    `tmOby`.`ObyID`,                                        
+                    `tmOby`.`JnsID`,                                        
+                    `tmOby`.`Kd_Rek_4`,
+                    `tmOby`.`ObyNm`,        
+                    CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`) AS `kode_objek`,
+                    CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',\'] \',`ObyNm`) AS `nama_rek3`,
+                    CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'] \',`ObyNm`) AS `nama_rek4`,
+                    `tmOby`.`Descr`,
+                    `tmOby`.`TA`
+                  '))                                    
+                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->where('tmOby.TA',$ta)
+                  ->orderBy('Kd_Rek_1','ASC')
+                  ->orderBy('Kd_Rek_2','ASC')
+                  ->orderBy('Kd_Rek_3','ASC')
+                  ->orderBy('Kd_Rek_4','ASC')                                    
+                  ->get();
 
-        return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
-                                    'objek'=>$objek,
-                                    'message'=>'Fetch data objek berhasil.'
-                                ], 200);
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {       
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_STORE');
+    return Response()->json([
+                  'status'=>1,
+                  'pid'=>'fetchdata',
+                  'objek'=>$objek,
+                  'message'=>'Fetch data objek berhasil.'
+                ], 200);
+  }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(Request $request)
+  {       
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_STORE');
 
-        $this->validate($request, [
-            'JnsID'=>'required|exists:tmJns,JnsID',
-            'Kd_Rek_4'=> [
-                        Rule::unique('tmOby')->where(function($query) use ($request) {
-                            return $query->where('JnsID',$request->input('JnsID'))
-                                        ->where('TA',$request->input('TA'));
-                        }),
-                        'required',
-                        'regex:/^[0-9]+$/'],
-            'ObyNm'=>'required',
-            'TA'=>'required'
-        ]);     
-            
-        $ta = $request->input('TA');
-        
-        $objek = RekeningObjekModel::create([
-            'ObyID' => Uuid::uuid4()->toString(),
-            'JnsID' => $request->input('JnsID'),
-            'Kd_Rek_4' => $request->input('Kd_Rek_4'),
-            'ObyNm' => $request->input('ObyNm'),
-            'Descr' => $request->input('Descr'),
-            'TA'=>$ta,
-        ]);
-
-        return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'store',
-                                    'objek'=>$objek,                                    
-                                    'message'=>'Data Rekening Objek berhasil disimpan.'
-                                ], 200); 
-    }               
+    $this->validate($request, [
+      'JnsID'=>'required|exists:tmJns,JnsID',
+      'Kd_Rek_4'=> [
+            Rule::unique('tmOby')->where(function($query) use ($request) {
+              return $query->where('JnsID',$request->input('JnsID'))
+                    ->where('TA',$request->input('TA'));
+            }),
+            'required',
+            'regex:/^[0-9]+$/'],
+      'ObyNm'=>'required',
+      'TA'=>'required'
+    ]);     
+      
+    $ta = $request->input('TA');
     
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request,$id)
-    {        
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_UPDATE');
+    $objek = RekeningObjekModel::create([
+      'ObyID' => Uuid::uuid4()->toString(),
+      'JnsID' => $request->input('JnsID'),
+      'Kd_Rek_4' => $request->input('Kd_Rek_4'),
+      'ObyNm' => $request->input('ObyNm'),
+      'Descr' => $request->input('Descr'),
+      'TA'=>$ta,
+    ]);
 
-        $objek = RekeningObjekModel::find($id);
-        
-        if (is_null($objek))
-        {
-            return Response()->json([
-                                    'status'=>0,
-                                    'pid'=>'update',                
-                                    'message'=>["Data Rekening Objek ($id) gagal diupdate"]
-                                ], 422); 
-        }
-        else
-        {
-            $this->validate($request, [    
-                                        'JnsID'=>'required|exists:tmJns,JnsID',
-                                        'Kd_Rek_4'=>[
-                                                    Rule::unique('tmOby')->where(function($query) use ($request,$objek) {  
-                                                        if ($request->input('Kd_Rek_4')==$objek->Kd_Rek_4) 
-                                                        {
-                                                            return $query->where('JnsID',$request->input('JnsID'))
-                                                                        ->where('Kd_Rek_4','ignore')
-                                                                        ->where('TA',$objek->TA);
-                                                        }                 
-                                                        else
-                                                        {
-                                                            return $query->where('Kd_Rek_4',$request->input('Kd_Rek_4'))
-                                                                    ->where('JnsID',$request->input('JnsID'))
-                                                                    ->where('TA',$objek->TA);
-                                                        }                                                                                    
-                                                    }),
-                                                    'required',
-                                                    'regex:/^[0-9]+$/'
-                                                ],
-                                        'ObyNm'=>'required',
-                                    ]);
-            
-            
-            $objek->JnsID = $request->input('JnsID');
-            $objek->Kd_Rek_4 = $request->input('Kd_Rek_4');
-            $objek->ObyNm = $request->input('ObyNm');
-            $objek->Descr = $request->input('Descr');
-            $objek->save();
+    return Response()->json([
+                  'status'=>1,
+                  'pid'=>'store',
+                  'objek'=>$objek,                                    
+                  'message'=>'Data Rekening Objek berhasil disimpan.'
+                ], 200); 
+  }               
+  /**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function salin(Request $request)
+	{       
+		$this->validate($request, [            
+			'tahun_asal'=>'required|numeric',
+			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+		]);
 
-            return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'update',
-                                    'objek'=>$objek,                                    
-                                    'message'=>'Data Rekening Objek '.$objek->ObyNm.' berhasil diubah.'
-                                ], 200);
-        }
-        
-    }
-    public function rincianobjekrka (Request $request, $id)
+		$tahun_asal = $request->input('tahun_asal');
+		$tahun_tujuan = $request->input('tahun_tujuan');
+
+    \DB::beginTransaction();
+
+		\DB::table('tmOby')
+		->where('TA', $tahun_tujuan)
+		->whereRaw('ObyID_Src IS NOT NULL')
+		->delete();
+
+		$str_insert = '
+			INSERT INTO `tmOby` (
+				`ObyID`,
+				`JnsID`,
+        `Kd_Rek_4`,
+        `ObyNm`,
+        `Descr`, 
+        `TA`,
+        `ObyID_Src`,
+        created_at,
+        updated_at
+			)		
+			SELECT
+				uuid() AS id,
+				 
+        t2.JnsID,
+        t1.`Kd_Rek_4`, 
+        t1.`ObyNm`,         
+				"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+				'.$tahun_tujuan.' AS `TA`,
+				t1.ObyID AS ObyID_Src,
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM `tmOby` t1		
+      JOIN `tmJns` t2 ON t1.JnsID=t2.JnsID_Src	
+			WHERE t1.`TA`='.$tahun_asal.'      
+		';        
+		
+    \DB::statement($str_insert);
+
+    \DB::commit();
+
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',            
+			'message'=>"Salin rekening objek dari tahun anggaran $tahun_asal berhasil."
+		], 200);
+	}
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function update(Request $request,$id)
+  {        
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_UPDATE');
+
+    $objek = RekeningObjekModel::find($id);
+    
+    if (is_null($objek))
     {
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_BROWSE');
-
-        $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('
-                                        `tmROby`.`RObyID`,                                        
-                                        CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'] \',`RObyNm`) AS `nama_rek5`                                        
-                                    '))
-                                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-                                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                                    ->where('tmROby.ObyID',$id)
-                                    ->orderBy('Kd_Rek_1','ASC')
-                                    ->orderBy('Kd_Rek_2','ASC')
-                                    ->orderBy('Kd_Rek_3','ASC')
-                                    ->orderBy('Kd_Rek_4','ASC')
-                                    ->orderBy('Kd_Rek_5','ASC')
-                                    ->get();
-
-        return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
-                                    'rincianobjek'=>$rincianobjek,
-                                    'message'=>"Fetch data rincian objek dari objek ($id) berhasil."
-                                ], 200);
+      return Response()->json([
+                  'status'=>0,
+                  'pid'=>'update',                
+                  'message'=>["Data Rekening Objek ($id) gagal diupdate"]
+                ], 422); 
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request,$id)
-    {   
-        $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_DESTROY');
+    else
+    {
+      $this->validate($request, [    
+                    'JnsID'=>'required|exists:tmJns,JnsID',
+                    'Kd_Rek_4'=>[
+                          Rule::unique('tmOby')->where(function($query) use ($request,$objek) {  
+                            if ($request->input('Kd_Rek_4')==$objek->Kd_Rek_4) 
+                            {
+                              return $query->where('JnsID',$request->input('JnsID'))
+                                    ->where('Kd_Rek_4','ignore')
+                                    ->where('TA',$objek->TA);
+                            }                 
+                            else
+                            {
+                              return $query->where('Kd_Rek_4',$request->input('Kd_Rek_4'))
+                                  ->where('JnsID',$request->input('JnsID'))
+                                  ->where('TA',$objek->TA);
+                            }                                                                                    
+                          }),
+                          'required',
+                          'regex:/^[0-9]+$/'
+                        ],
+                    'ObyNm'=>'required',
+                  ]);
+      
+      
+      $objek->JnsID = $request->input('JnsID');
+      $objek->Kd_Rek_4 = $request->input('Kd_Rek_4');
+      $objek->ObyNm = $request->input('ObyNm');
+      $objek->Descr = $request->input('Descr');
+      $objek->save();
 
-        $objek = RekeningObjekModel::find($id);
-
-        if (is_null($objek))
-        {
-            return Response()->json([
-                                    'status'=>0,
-                                    'pid'=>'destroy',                
-                                    'message'=>["Data Rekening Objek ($id) gagal dihapus"]
-                                ], 422); 
-        }
-        else
-        {
-            
-            $result=$objek->delete();
-
-            return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'destroy',                
-                                    'message'=>"Data Rekening Objek dengan ID ($id) berhasil dihapus"
-                                ], 200);
-        }
+      return Response()->json([
+                  'status'=>1,
+                  'pid'=>'update',
+                  'objek'=>$objek,                                    
+                  'message'=>'Data Rekening Objek '.$objek->ObyNm.' berhasil diubah.'
+                ], 200);
     }
+    
+  }
+  public function rincianobjekrka (Request $request, $id)
+  {
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_BROWSE');
+
+    $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('
+                    `tmROby`.`RObyID`,                                        
+                    CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'] \',`RObyNm`) AS `nama_rek5`                                        
+                  '))
+                  ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->where('tmROby.ObyID',$id)
+                  ->orderBy('Kd_Rek_1','ASC')
+                  ->orderBy('Kd_Rek_2','ASC')
+                  ->orderBy('Kd_Rek_3','ASC')
+                  ->orderBy('Kd_Rek_4','ASC')
+                  ->orderBy('Kd_Rek_5','ASC')
+                  ->get();
+
+    return Response()->json([
+                  'status'=>1,
+                  'pid'=>'fetchdata',
+                  'rincianobjek'=>$rincianobjek,
+                  'message'=>"Fetch data rincian objek dari objek ($id) berhasil."
+                ], 200);
+  }
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $uuid
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(Request $request,$id)
+  {   
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_DESTROY');
+
+    $objek = RekeningObjekModel::find($id);
+
+    if (is_null($objek))
+    {
+      return Response()->json([
+                  'status'=>0,
+                  'pid'=>'destroy',                
+                  'message'=>["Data Rekening Objek ($id) gagal dihapus"]
+                ], 422); 
+    }
+    else
+    {
+      
+      $result=$objek->delete();
+
+      return Response()->json([
+                  'status'=>1,
+                  'pid'=>'destroy',                
+                  'message'=>"Data Rekening Objek dengan ID ($id) berhasil dihapus"
+                ], 200);
+    }
+  }
 }

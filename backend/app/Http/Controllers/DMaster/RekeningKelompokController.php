@@ -148,7 +148,7 @@ class RekeningKelompokController extends Controller {
 		return Response()->json([
 			'status'=>1,
 			'pid'=>'store',            
-			'message'=>"Salin rekening akun dari tahun anggaran $tahun_asal berhasil."
+			'message'=>"Salin rekening kelompok dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
   /**
