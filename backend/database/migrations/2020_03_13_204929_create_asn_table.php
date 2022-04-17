@@ -24,7 +24,7 @@ class CreateAsnTable extends Migration
             $table->timestamps();
 
             $table->primary('ASNID');    
-            $table->unique('NIP_ASN');    
+            $table->index('NIP_ASN');    
 
         });
     }

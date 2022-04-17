@@ -88,7 +88,48 @@ class ASNController extends Controller
 	 */
 	public function salin(Request $request)
 	{
-		
+		$this->validate($request, [            
+			'tahun_asal'=>'required|numeric',
+			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+		]);
+
+		$tahun_asal = $request->input('tahun_asal');
+		$tahun_tujuan = $request->input('tahun_tujuan');
+
+		$str_insert = '
+			INSERT INTO `tmASN` (
+				`ASNID`,
+				`NIP_ASN`,
+				`Nm_ASN`,
+				`Descr`,
+				`TA`,
+				`Active`,        
+        created_at,
+        updated_at
+			)		
+			SELECT
+				uuid() AS id,
+				
+        `NIP_ASN`,
+				`Nm_ASN`,
+				"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+				'.$tahun_tujuan.' AS `TA`,
+				`Active`,                
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM tmASN t1
+			WHERE `TA`='.$tahun_asal.'
+			AND `NIP_ASN` NOT IN (SELECT `NIP_ASN` FROM `tmASN` WHERE `TA`='.$tahun_tujuan.')      			
+		';    
+    
+		\DB::statement($str_insert); 
+    
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',            
+			'message'=>"Salin ASN dari tahun anggaran $tahun_asal berhasil.",
+			'sql_insert'=>$str_insert,
+		], 200);
 	}
 	/**
 	 * Store a newly created resource in storage.

@@ -80,7 +80,7 @@
 										</v-btn>
 									</template>
 									<span>
-										Salin OPD ke T.A
+										Salin Data ASN ke T.A
 										{{ $store.getters["auth/TahunSelected"] }}
 									</span>
 								</v-tooltip>
@@ -282,13 +282,13 @@
 										<v-card>
 											<v-card-title>
 												<span class="headline">
-													Salin OPD ke T.A
+													Salin data ASN ke T.A
 													{{ $store.getters["auth/TahunSelected"] }}
 												</span>
 											</v-card-title>
 											<v-card-text>
 												<v-alert type="warning">
-													Menghindari duplikat proses salin, akan menghapus terlebih dahulu data OPD T.A {{ $store.getters["auth/TahunSelected"] }}
+													Proses ini akan menyalin data ASN dari T.A {{ $store.getters["auth/TahunSelected"] }} namun jabatan tidak ikut tersalin.
 												</v-alert>
 												<v-select
 													label="DARI TAHUN ANGGARAN"
@@ -634,6 +634,13 @@
 					this.formdata = Object.assign({}, this.formdefault);
 					this.editedIndex = -1;
 					this.$refs.frmdata.reset();
+				}, 300);
+			},
+			closedialogcopyfrm() {
+				this.btnLoading = false;
+				this.dialogcopyfrm = false;
+				setTimeout(() => {
+					this.$refs.frmcopydata.reset();
 				}, 300);
 			},
 			closedialogdetailitem() {
