@@ -59,6 +59,31 @@
 								<v-toolbar-title>DAFTAR ASN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
 								<v-spacer></v-spacer>
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											v-on="on"
+											color="primary"
+											icon
+											outlined
+											small
+											class="ma-2"
+											@click.stop="copyItem"
+											:disabled="
+												!$store.getters['auth/can'](
+													'DMASTER-ASN_STORE'
+												)
+											"
+										>
+											<v-icon>mdi-reload</v-icon>
+										</v-btn>
+									</template>
+									<span>
+										Salin OPD ke T.A
+										{{ $store.getters["auth/TahunSelected"] }}
+									</span>
+								</v-tooltip>
 								<v-dialog v-model="dialogfrm" max-width="800px" persistent>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn
@@ -248,6 +273,53 @@
 										</v-card-actions>
 									</v-card>
 								</v-dialog>
+								<v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
+									<v-form
+										ref="frmcopydata"
+										v-model="form_salin_valid"
+										lazy-validation
+									>
+										<v-card>
+											<v-card-title>
+												<span class="headline">
+													Salin OPD ke T.A
+													{{ $store.getters["auth/TahunSelected"] }}
+												</span>
+											</v-card-title>
+											<v-card-text>
+												<v-alert type="warning">
+													Menghindari duplikat proses salin, akan menghapus terlebih dahulu data OPD T.A {{ $store.getters["auth/TahunSelected"] }}
+												</v-alert>
+												<v-select
+													label="DARI TAHUN ANGGARAN"
+													v-model="tahunasal"
+													:items="daftar_ta"
+													:rules="rule_tahun_asal"
+													outlined
+													dense
+												/>
+											</v-card-text>
+											<v-card-actions>
+												<v-spacer></v-spacer>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="closedialogcopyfrm"
+												>
+													TUTUP
+												</v-btn>
+												<v-btn
+													color="blue darken-1"
+													text
+													@click.stop="salinasn"
+													:disabled="!form_salin_valid || btnLoading"
+												>
+													SALIN
+												</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-form>
+								</v-dialog>
 							</v-toolbar>
 						</template>
 						<template v-slot:item.actions="{ item }">
@@ -359,9 +431,11 @@
 
 				//dialog
 				dialogfrm: false,
+				dialogcopyfrm: false,
 				dialogdetailitem: false,
 				//form data
 				form_valid: true,
+				form_salin_valid: true,
 				formdata: {
 					ASNID: "",
 					NIP_ASN: "",
@@ -379,7 +453,9 @@
 					updated_at: "",
 				},
 				editedIndex: -1,
-
+				//salin opd
+				tahunasal: null,
+				daftar_ta: [],
 				//form rules
 				rule_nip_asn: [
 					value => !!value || "Mohon untuk di isi NIP ASN !!!",
@@ -390,6 +466,15 @@
 					value =>
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
 						"NIP ASN hanya boleh string dan spasi",
+				],
+				//form rules salin opd
+				rule_tahun_asal: [
+					value =>
+						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+					value =>
+						value < this.$store.getters["auth/TahunSelected"] ||
+						"Tahun asal harus lebih kecil dari " +
+							this.$store.getters["auth/TahunSelected"],
 				],
 			};
 		},
@@ -428,6 +513,34 @@
 			viewItem(item) {
 				this.formdata = item;
 				this.dialogdetailitem = true;
+			},
+			copyItem() {
+				this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+				this.dialogcopyfrm = true;
+			},
+			salinasn() {
+				if (this.$refs.frmcopydata.validate()) {
+					this.$ajax
+						.post(
+							"/dmaster/asn/salin",
+							{
+								tahun_asal: this.tahunasal,
+								tahun_tujuan: this.$store.getters["auth/TahunSelected"],
+							},
+							{
+								headers: {
+									Authorization: this.$store.getters["auth/Token"],
+								},
+							}
+						)
+						.then(() => {
+							this.$router.go();
+							this.closedialogcopyfrm();
+						})
+						.catch(() => {
+							this.btnLoading = false;
+						});
+				}
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {

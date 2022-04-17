@@ -149,6 +149,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	//data master - ASN
 	$router->post('/dmaster/asn',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\ASNController@index','as'=>'ASN.index']);
 	$router->post('/dmaster/asn/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ASNController@store','as'=>'ASN.store']);
+	$router->post('/dmaster/asn/salin',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ASNController@salin','as'=>'ASN.salin']);
 	$router->put('/dmaster/asn/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ASNController@update','as'=>'ASN.update']);
 	$router->delete('/dmaster/asn/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\ASNController@destroy','as'=>'ASN.destroy']);
 
