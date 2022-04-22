@@ -285,6 +285,15 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/rkpdmurni/DashboardRKPDMurni.vue"),
 	},
+	{
+		path: "/rkpdmurni/indikatorkinerja/program",
+		name: "IndikatorKinerjaProgram",
+		meta: {
+			title: "RKPD - INDIKATOR KINERJA PROGRAM",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/rkpdmurni/IndikatorKinerjaProgramMurni.vue"),
+	},
 	//renja murni
 	{
 		path: "/renjamurni",

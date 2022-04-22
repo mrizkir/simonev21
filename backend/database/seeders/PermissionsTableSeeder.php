@@ -97,8 +97,8 @@ class PermissionsTableSeeder extends Seeder
 			'DMASTER-JENIS-PEMBANGUNAN',
 			'DMASTER-ASN',
 			'DMASTER-PEJABAT',
-			'DMASTER-TA',
-
+			'DMASTER-TA',		
+			
 			'RPJMD-VISI',
 			'RPJMD-MISI',
 			'RPJMD-TUJUAN',
@@ -112,6 +112,8 @@ class PermissionsTableSeeder extends Seeder
 			'RENSTRA-SASARAN',
 			'RENSTRA-STRATEGI',
 			'RENSTRA-ARAH-KEBIJAKAN',
+
+			'RKPD-INDIKATOR-KINERJA-PROGRAM',
 
 			'RENJA-RKA-MURNI',			
 			'RENJA-RKA-PERUBAHAN',

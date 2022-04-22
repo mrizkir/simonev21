@@ -137,7 +137,7 @@
 							</v-card-subtitle>
 						</v-card>
 					</v-col> -->
-					<!-- <v-col
+					<v-col
 						xs="12"
 						sm="4"
 						md="3"
@@ -165,7 +165,7 @@
 								Rencana Kerja Pemerintah Daerah Murni
 							</v-card-subtitle>
 						</v-card>
-					</v-col> -->
+					</v-col>
 					<v-col
 						xs="12"
 						sm="4"

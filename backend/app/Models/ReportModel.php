@@ -164,7 +164,7 @@ class ReportModel extends Model
 							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
 							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
 
-							$dataAkhir[$no_rek5]['child'][]=[
+							$dataAkhir[$no_rek6]['child'][]=[
 													'RKARincID'=>$v->RKARincID,
 													'Kd_Rek_1'=>$v->Kd_Rek_1,
 													'Nm_Akun'=>$v->Nm_Akun,
@@ -344,7 +344,7 @@ class ReportModel extends Model
 							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
 							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
 
-							$dataAkhir[$no_rek5]['child'][]=[
+							$dataAkhir[$no_rek6]['child'][]=[
 													'RKARincID'=>$v->RKARincID,
 													'Kd_Rek_1'=>$v->Kd_Rek_1,
 													'Nm_Akun'=>$v->Nm_Akun,
