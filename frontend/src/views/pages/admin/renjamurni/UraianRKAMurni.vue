@@ -1146,7 +1146,7 @@
 								{
 									_method: "PUT",
 									RKARincID: this.RKARincID_Selected,
-									bulan_anggaran: this.formtarget.targetanggarankas,
+									bulan_anggaran: JSON.stringify(this.formtarget.targetanggarankas),
 								},
 								{
 									headers: {
@@ -1155,7 +1155,7 @@
 								}
 							)
 							.then(() => {
-								this.closedialogtargetanggarankas();
+								// this.closedialogtargetanggarankas();
 							})
 							.catch(() => {
 								this.btnLoading = false;
@@ -1167,7 +1167,7 @@
 								{
 									RKARincID: this.RKARincID_Selected,
 									RKAID: this.datakegiatan.RKAID,
-									bulan_anggaran: this.formtarget.targetanggarankas,
+									bulan_anggaran: JSON.stringify(this.formtarget.targetanggarankas),
 									tahun: this.$store.getters["auth/TahunSelected"],
 								},
 								{

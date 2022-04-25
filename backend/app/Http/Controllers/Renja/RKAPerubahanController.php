@@ -1246,7 +1246,7 @@ class RKAPerubahanController extends Controller
 
 		$this->validate($request, [
 			'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
-			'bulan_fisik.*'=>'required',
+			'bulan_anggaran.*'=>'required',
 		]);
 
 		$bulan_anggaran= $request->input('bulan_anggaran');      
@@ -1293,7 +1293,7 @@ class RKAPerubahanController extends Controller
 
 		$this->validate($request, [
 			'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
-			'bulan_fisik.*'=>'required',
+			'bulan_anggaran.*'=>'required',
 		]);
 
 		$bulan_anggaran= $request->input('bulan_anggaran');      
