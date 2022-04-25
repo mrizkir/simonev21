@@ -113,8 +113,8 @@
 				</v-list-item-content>
 			</v-list-item>
 			<v-list-item
-				:to="{ path: '/system-users' }"
-				v-if="CAN_ACCESS('SYSTEM-USERS-GROUP')"
+				:to="{ path: '/system-setting' }"
+				v-if="CAN_ACCESS('SYSTEM-SETTING-GROUP')"
 				link
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
@@ -125,13 +125,14 @@
 					<v-icon>mdi-arrow-collapse-right</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
-					<v-list-item-title>BOARD USER SISTEM</v-list-item-title>
+					<v-list-item-title>BOARD KONFIG. SISTEM</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
+			<v-subheader class="purple accent-5 white--text">INSTITUSI</v-subheader>
 			<v-list-item
 				link
-				v-if="CAN_ACCESS('SYSTEM-SETTING-PERMISSIONS')"
-				to="/system-users/permissions"
+				v-if="CAN_ACCESS('SYSTEM-SETTING-VARIABLES_UPDATE')"
+				to="/system-setting/variables"
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
 				"
@@ -142,187 +143,10 @@
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>
-						PERMISSIONS
+						VARIABLES
 					</v-list-item-title>
 				</v-list-item-content>
-			</v-list-item>
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-SETTING-ROLES')"
-				to="/system-users/roles"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						ROLES
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-			<v-divider color="yellow" />
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-SUPERADMIN_BROWSE')"
-				to="/system-users/superadmin"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						SUPERADMIN
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-BAPELITBANG_BROWSE')"
-				to="/system-users/bapelitbang"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						BAPPELITBANG
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-OPD_BROWSE')"
-				to="/system-users/opd"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						OPD
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-UNIT-KERJA_BROWSE')"
-				to="/system-users/unitkerja"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						UNIT KERJA
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-			<!-- <v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-PPTK_BROWSE')"
-				to="/system-users/pptk"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						PPTK
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item> -->
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-DEWAN_BROWSE')"
-				to="/system-users/dewan"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						DEWAN
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-			<v-list-item
-				link
-				v-if="CAN_ACCESS('SYSTEM-USERS-TAPD_BROWSE')"
-				to="/system-users/tapd"
-				:active-class="
-					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
-				"
-				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-			>
-				<v-list-item-icon class="mr-2">
-					<v-icon>mdi-arrow-collapse-right</v-icon>
-				</v-list-item-icon>
-				<v-list-item-content>
-					<v-list-item-title>
-						TAPD
-					</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-		</v-navigation-drawer>
-		<v-navigation-drawer
-			v-model="drawerRight"
-			width="300"
-			app
-			fixed
-			right
-			temporary
-			v-if="showrightsidebar"
-		>
-			<v-list dense>
-				<v-list-item>
-					<v-list-item-icon class="mr-2">
-						<v-icon>mdi-menu-open</v-icon>
-					</v-list-item-icon>
-					<v-list-item-content>
-						<v-list-item-title class="title">
-							OPTIONS
-						</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
-				<v-divider></v-divider>
-				<v-list-item
-					:class="
-						$store.getters['uifront/getTheme']('V_LIST_ITEM_ACTIVE_CSS_CLASS')
-					"
-				>
-					<v-list-item-icon class="mr-2">
-						<v-icon>mdi-filter</v-icon>
-					</v-list-item-icon>
-					<v-list-item-content>
-						<v-list-item-title>FILTER</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
-				<slot name="filtersidebar" />
-			</v-list>
+			</v-list-item>			
 		</v-navigation-drawer>
 		<v-main class="mx-4 mb-4">
 			<slot />
@@ -346,7 +170,7 @@
 <script>
 	import { mapGetters } from "vuex";
 	export default {
-		name: "SystemUserLayout",
+		name: "SystemSettingLayout",
 		props: {
 			showrightsidebar: {
 				type: Boolean,

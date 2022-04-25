@@ -686,6 +686,25 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/system/UsersTAPD.vue"),
 	},
+	//system
+	{
+		path: "/system-setting",
+		name: "SystemSetting",
+		meta: {
+			title: "SETTING - SISTEM",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/SystemSetting.vue"),
+	},
+	{
+		path: "/system-setting/variables",
+		name: "Variables",
+		meta: {
+			title: "SETTING - VARIABLES",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/Variables.vue"),
+	},
 	// other page
 	{
 		path: "/404",
