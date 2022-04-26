@@ -1139,6 +1139,13 @@
 			savetargetanggarankas: async function() {
 				if (this.$refs.frmtargetanggarankas.validate()) {
 					this.btnLoading = true;
+					var data_target = [];
+					for (var i = 0; i < 12; i++) {
+						data_target.push({
+							no_bulan: i + 1,
+							target: "" + Number(this.formtarget.targetanggarankas[i]),
+						});
+					}
 					if (this.editedIndex > -1) {
 						await this.$ajax
 							.post(
@@ -1146,7 +1153,7 @@
 								{
 									_method: "PUT",
 									RKARincID: this.RKARincID_Selected,
-									bulan_anggaran: JSON.stringify(this.formtarget.targetanggarankas),
+									bulan_anggaran: JSON.stringify(data_target),
 								},
 								{
 									headers: {
@@ -1155,7 +1162,7 @@
 								}
 							)
 							.then(() => {
-								// this.closedialogtargetanggarankas();
+								this.closedialogtargetanggarankas();
 							})
 							.catch(() => {
 								this.btnLoading = false;
@@ -1167,7 +1174,7 @@
 								{
 									RKARincID: this.RKARincID_Selected,
 									RKAID: this.datakegiatan.RKAID,
-									bulan_anggaran: JSON.stringify(this.formtarget.targetanggarankas),
+									bulan_anggaran: JSON.stringify(data_target),
 									tahun: this.$store.getters["auth/TahunSelected"],
 								},
 								{

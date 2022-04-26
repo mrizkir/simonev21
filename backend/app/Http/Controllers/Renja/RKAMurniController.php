@@ -997,24 +997,26 @@ class RKAMurniController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-MURNI_STORE');
 
 		$this->validate($request, [
+			'RKAID'=>'required|exists:trRKA,RKAID',            
 			'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
-			'bulan_anggaran.*'=>'required',
-		]);
-
-		$bulan_anggaran= $request->input('bulan_anggaran');      
+			'tahun'=>'required',
+			'bulan_anggaran'=>'required',
+		]);		
+		$RKARincID = $request->input('RKARincID');
+		$bulan_anggaran = json_decode($request->input('bulan_anggaran', true));		
 		$data = [];
-		$now = \Carbon\Carbon::now('utc')->toDateTimeString();
-		for ($i=0;$i < 12; $i+=1)
+		$now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
+		foreach($bulan_anggaran as $item)
 		{
 			$data[]=[
 				'RKATargetRincID'=>Uuid::uuid4()->toString(),
 				'RKAID'=>$request->input('RKAID'),
-				'RKARincID'=>$request->input('RKARincID'),
-				'bulan1'=>$i+1,
-				'bulan2'=>$i+1,
+				'RKARincID'=>$RKARincID,
+				'bulan1'=>$item->no_bulan,
+				'bulan2'=>$item->no_bulan,
 				'fisik1'=>0,
 				'fisik2'=>0,
-				'target1'=>$bulan_anggaran[$i],
+				'target1'=>$item->target,
 				'target2'=>0,
 				'EntryLvl'=>1,
 				'Descr'=>$request->input('Descr'),
@@ -1022,13 +1024,14 @@ class RKAMurniController extends Controller
 				'created_at'=>$now,
 				'updated_at'=>$now,
 			];
-		}
+		}	
 		RKARencanaTargetModel::insert($data);
 
 		return Response()->json([
 								'status'=>1,
 								'pid'=>'store',
-								'message'=>'Rencana target anggaran kas uraian berhasil disimpan.'
+								'message'=>'Rencana target anggaran kas uraian berhasil disimpan.',
+								'bulan_anggaran'=>$bulan_anggaran,
 							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
@@ -1045,24 +1048,26 @@ class RKAMurniController extends Controller
 
 		$this->validate($request, [
 			'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
-			'bulan_anggaran.*'=>'required',
+			'bulan_anggaran'=>'required',
 		]);
 
-		$bulan_anggaran= $request->input('bulan_anggaran');      
-		$data = [];
-		$now = \Carbon\Carbon::now('utc')->toDateTimeString();
-		for ($i=0;$i < 12; $i+=1)
+		$RKARincID = $request->input('RKARincID');
+		$bulan_anggaran = json_decode($request->input('bulan_anggaran', true));		
+		foreach($bulan_anggaran as $item)
 		{
 			\DB::table('trRKATargetRinc')
-				->where('RKARincID',$request->input('RKARincID'))
-				->where('bulan1',$i+1)
-				->update(['target1'=>$bulan_anggaran[$i]]);
-		}
+			->where('RKARincID', $RKARincID)
+			->where('bulan1', $item->no_bulan)
+			->update([
+				'target1'=>$item->target,
+			]);
+		}	
 
 		return Response()->json([
 								'status'=>1,
 								'pid'=>'update',
-								'message'=>'Rencana target anggaran kas uraian berhasil diubah.'
+								'message'=>'Rencana target anggaran kas uraian berhasil diubah.',
+								'bulan_anggaran'=>$bulan_anggaran,
 							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
