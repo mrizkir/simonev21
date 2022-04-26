@@ -66,7 +66,7 @@
 						Catatan: Nilai realisasi keuangan dan fisik dihitung akumulasi s.d
 						<strong>
 							BULAN {{ nama_bulan }} T.A
-							{{ $store.getters["auth/TahunSelected
+							{{ $store.getters["auth/TahunSelected"] }}
 						</strong>
 					</v-alert>
 				</v-col>
