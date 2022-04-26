@@ -54,7 +54,7 @@ class FormBOPDMurniController extends Controller
 		$daftar_program=\DB::table('trRKA')
 							->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
 							->where('OrgID',$opd->OrgID)
-							->where('EntryLvl', 2)
+							->where('EntryLvl', 1)
 							->orderByRaw('kode_urusan="X" DESC')
 							->orderBy('kode_bidang','ASC')
 							->orderBy('kode_program','ASC')
