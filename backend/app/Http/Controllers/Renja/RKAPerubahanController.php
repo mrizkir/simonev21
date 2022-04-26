@@ -1171,7 +1171,7 @@ class RKAPerubahanController extends Controller
 		
 		$bulan_fisik= $request->input('bulan_fisik');      
 		$data = [];
-		$now = \Carbon\Carbon::now('utc')->toDateTimeString();
+		$now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
 		for ($i=0;$i < 12; $i+=1)
 		{
 			$data[]=[
@@ -1218,7 +1218,7 @@ class RKAPerubahanController extends Controller
 
 		$bulan_fisik= $request->input('bulan_fisik');      
 		$data = [];
-		$now = \Carbon\Carbon::now('utc')->toDateTimeString();
+		$now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
 		for ($i=0;$i < 12; $i+=1)
 		{
 			\DB::table('trRKATargetRinc')

@@ -57,8 +57,8 @@ class CreateRkakegiatanTable extends Migration
             $table->string('ksk2')->nullable();
             $table->string('sifat_kegiatan1',10)->nullable();
             $table->string('sifat_kegiatan2',10)->nullable();
-            $table->string('waktu_pelaksanaan1',15)->nullable();
-            $table->string('waktu_pelaksanaan2',15)->nullable();
+            $table->string('waktu_pelaksanaan1')->nullable();
+            $table->string('waktu_pelaksanaan2')->nullable();
             $table->string('lokasi_kegiatan1')->nullable();
             $table->string('lokasi_kegiatan2')->nullable();
             $table->decimal('PaguDana1',15,2)->defualt(0);
