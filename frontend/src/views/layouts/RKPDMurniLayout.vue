@@ -151,6 +151,23 @@
 				</v-list-item-content>
 			</v-list-item>			
 		</v-navigation-drawer>
+		<v-main class="mx-4 mb-4">
+			<slot />
+		</v-main>
+		<v-footer app padless fixed dark>
+			<v-card class="flex" flat tile>
+				<v-divider></v-divider>
+				<v-card-text class="py-2 white--text text-center">
+					<strong>
+						{{ $store.getters["uifront/getNamaAPP"] }} (2019-2021)
+					</strong>
+					dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
+					<v-btn dark icon href="https://github.com/mrizkir/simonev21">
+						<v-icon>mdi-github</v-icon>
+					</v-btn>
+				</v-card-text>
+			</v-card>
+		</v-footer>
   </div>
 </template>
 <script>

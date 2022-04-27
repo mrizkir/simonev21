@@ -269,7 +269,7 @@
 					<v-data-table
 						:headers="headers"
 						:items="datatable"
-						item-key="kode_organisasi"						
+						item-key="index"						
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"
 						class="elevation-1"

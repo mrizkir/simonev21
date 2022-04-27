@@ -518,7 +518,7 @@
 						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
 						"Nama Bidang Urusan hanya boleh string dan spasi",
 				],
-				//form rules salin urusan
+				//form rules salin bidang urusan
 				rule_tahun_asal: [
 					value =>
 						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
