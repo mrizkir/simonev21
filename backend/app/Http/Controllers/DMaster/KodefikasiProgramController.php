@@ -237,7 +237,93 @@ class KodefikasiProgramController extends Controller {
 									'message'=>'Data Kodefikasi Program berhasil disimpan.'
 								], 200); 
 	}               
-	
+	/* Store a newly created resource in storage.
+	*
+	* @param  \Illuminate\Http\Request  $request
+	* @return \Illuminate\Http\Response
+	*/
+ public function salin(Request $request)
+ {       
+	 $this->validate($request, [            
+		 'tahun_asal'=>'required|numeric',
+		 'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+	 ]);
+
+	 $tahun_asal = $request->input('tahun_asal');
+	 $tahun_tujuan = $request->input('tahun_tujuan');
+
+	 \DB::beginTransaction();
+
+	 \DB::table('tmProgram')
+	 ->where('TA', $tahun_tujuan)
+	 ->whereRaw('PrgID_Src IS NOT NULL')
+	 ->delete();
+
+	 $str_insert = '
+		 INSERT INTO `tmProgram` (
+			`PrgID`,
+			`Kd_Program`,
+			`Nm_Program`,
+			`Jns`,
+			`Descr`,
+			`TA`,
+			`Locked`,    
+			`PrgID_Src`,
+			created_at,
+			updated_at
+		 )		
+		 SELECT
+			uuid() AS id,
+			t1.Kd_Program,
+			t1.Nm_Program,
+			t1.Jns,
+			"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+			'.$tahun_tujuan.' AS `TA`,
+			`Locked`,
+			t1.PrgID AS PrgID_Src,
+			NOW() AS created_at,
+			NOW() AS updated_at
+		 FROM tmProgram t1		 
+		 WHERE t1.TA='.$tahun_asal.'        
+	 ';    
+
+	 	\DB::statement($str_insert); 
+		
+		\DB::table('tmUrusanProgram')
+			->where('TA', $tahun_tujuan)			
+			->delete();
+			
+	 	$str_insert = '
+			INSERT INTO `tmUrusanProgram` (
+				`UrsPrgID`,
+				`BidangID`,
+				`PrgID`,				
+				`TA`,
+				created_at,
+				updated_at
+			)
+			SELECT
+				uuid() AS id,
+				C.BidangID,
+				A.PrgID,
+				'.$tahun_tujuan.' AS `TA`,
+				NOW() AS created_at,
+				NOW() AS updated_at
+			FROM `tmProgram` A 
+			JOIN `tmUrusanProgram` B ON (A.PrgID_Src=B.PrgID)
+			JOIN `tmBidangUrusan` C ON (B.BidangID=C.BidangID_Src)
+			WHERE A.TA='.$tahun_tujuan.'
+	 ';
+	 \DB::statement($str_insert); 
+
+	 \DB::commit();
+
+	 return Response()->json([
+		 'status'=>1,
+		 'pid'=>'store',            
+		 'message'=>"Salin program dari tahun anggaran $tahun_asal berhasil."
+	 ], 200);
+ }
 	/**
 	 * Store a newly created resource in storage.
 	 *

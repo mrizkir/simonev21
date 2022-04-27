@@ -62,6 +62,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/dmaster/kodefikasi/program',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiProgramController@index','as'=>'kodefikasi-program.index']);
 	$router->post('/dmaster/kodefikasi/program/rka',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiProgramController@rka','as'=>'kodefikasi-program.rka']);
 	$router->post('/dmaster/kodefikasi/program/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@store','as'=>'kodefikasi-program.store']);
+	$router->post('/dmaster/kodefikasi/program/salin',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@salin','as'=>'kodefikasi-program.salin']);
 	$router->put('/dmaster/kodefikasi/program/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@update','as'=>'kodefikasi-program.update']);
 	$router->get('/dmaster/kodefikasi/program/{id}/kegiatan',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiProgramController@kegiatan','as'=>'kodefikasi-program.kegiatan']);
 	$router->delete('/dmaster/kodefikasi/program/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@destroy','as'=>'kodefikasi-program.destroy']);
@@ -305,6 +306,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->put('/renja/targetkinerjaperubahan/updatetargetanggarankas',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@updatetargetanggarankas','as'=>'targetkinerjaP.updatetargetanggarankas']);
 	$router->put('/renja/targetkinerjaperubahan/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@updatetargetfisik','as'=>'targetkinerjaP.updatetargetfisik']);
 	$router->delete('/renja/targetkinerjaperubahan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@destroy','as'=>'targetkinerjaP.destroy']);
+
+	//rkpd
+	$router->post('/rkpdmurni',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'RKPD\RKPDMurniController@index','as'=>'rkpdmurni.index']);
 
 	//setting - permissions
 	$router->get('/system/setting/permissions',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'System\PermissionsController@index','as'=>'permissions.index']);
