@@ -282,7 +282,7 @@
 								sistem.
 							</v-card-subtitle>
 						</v-card>
-					</v-col>					
+					</v-col>		
 					<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
 				</v-row>
 			</v-container>

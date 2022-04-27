@@ -108,7 +108,7 @@
 					<v-data-table
 						:headers="headers"
 						:items="datatable"
-						item-key="kode_organisasi"						
+						item-key="kode_organisasi"
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"
 						class="elevation-1"
@@ -130,10 +130,10 @@
 								<td class="text-center">
 									<v-chip                
 										:color="formatStyleIndikatorKinerja(item.realisasi_fisik, item.persen_keuangan)"
-										class="ma-2"                
+										class="ma-2"
 									>
 										&nbsp;
-									</v-chip>									
+									</v-chip>						
 								</td>
 							</tr>
 						</template>
@@ -178,7 +178,7 @@
 					text: "HOME",
 					disabled: false,
 					href: "/",
-				},				
+				},
 				{
 					text: "LAPORAN REALISASI MURNI",
 					disabled: true,
@@ -188,7 +188,7 @@
 			this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
 			this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
 
-      this.initialize();		
+      this.initialize();
 		},
     data: () => ({
       firstloading: true,
@@ -227,11 +227,11 @@
 					.post(
 						"/dashboard/laporanrealisasimurni",
 						{
-							tahun: this.tahun_anggaran,							
-							bulan: this.bulan_realisasi,							
-						},						
+							tahun: this.tahun_anggaran,			
+							bulan: this.bulan_realisasi,			
+						}
 					)
-					.then(({ data }) => {						
+					.then(({ data }) => {
 						this.datatableLoading = false;
             this.datatable = data.laporan_realisasi;
 

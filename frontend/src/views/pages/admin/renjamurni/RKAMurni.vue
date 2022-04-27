@@ -70,7 +70,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="RKAID"						
+						item-key="RKAID"
 						show-expand
 						dense
 						:expanded.sync="expanded"
@@ -111,9 +111,9 @@
 													TAMBAH KEGIATAN
 												</span>
 											</v-card-title>
-											<v-card-subtitle>												
+											<v-card-subtitle>									
 												{{ DataUnitKerja.kode_sub_organisasi }} / {{ DataUnitKerja.Nm_Sub_Organisasi }}												
-											</v-card-subtitle>											
+											</v-card-subtitle>								
 											<v-card-text>
 												<v-autocomplete
 													:items="daftar_bidang"
@@ -710,7 +710,7 @@
 								.post(
 									"/renja/rkamurni/resetdatakegiatan/" + item.RKAID,
 									{
-										_method: "PUT",										
+										_method: "PUT",						
 									},
 									{
 										headers: {
@@ -841,7 +841,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_sub_kegiatan = data.subkegiatanrka;
-					});						
+					});				
 			},
 		},
 		components: {

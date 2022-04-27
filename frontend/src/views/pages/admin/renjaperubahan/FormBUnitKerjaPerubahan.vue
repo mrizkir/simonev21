@@ -240,7 +240,7 @@
 									<td class="text-right">TARGET FISIK (%)</td>
 									<td class="text-right">REALISASI FISIK (%)</td>
 									<td class="text-right">TTB FISIK (%)</td>
-									<td class="text-right">TARGET KEUANGAN (RP)</td>									
+									<td class="text-right">TARGET KEUANGAN (RP)</td>						
 									<td class="text-right">(%)</td>
 									<td class="text-right">REALISASI KEUANGAN (RP)</td>
 									<td class="text-right">(%)</td>

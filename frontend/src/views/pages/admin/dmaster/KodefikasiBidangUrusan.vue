@@ -59,7 +59,7 @@
 							<v-toolbar flat color="white">
 								<v-toolbar-title>DAFTAR BIDANG URUSAN</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
-								<v-spacer></v-spacer>								
+								<v-spacer></v-spacer>					
 								<v-tooltip bottom>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn

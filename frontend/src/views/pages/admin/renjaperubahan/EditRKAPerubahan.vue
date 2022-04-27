@@ -101,7 +101,7 @@
 										'[' + datakegiatan.kode_sub_kegiatan + '] ' + datakegiatan.Nm_Sub_Kegiatan
 									"
 									:disabled="true"
-								/>						
+								/>			
 								<v-currency-field
 									label="TARGET KINERJA MASUKAN"
 									:min="null"

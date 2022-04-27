@@ -604,6 +604,16 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjaperubahan/TargetKinerjaPerubahanDetail.vue"),
 	},
+	// statistik perubahan
+	{
+		path: '/renjaperubahan/statistik/peringkatopd',
+		name: 'RenjaMurniPeringkatOPDPerubahan',
+		meta:{
+			title: "BELANJA PERUBAHAN - STATISTIK PERINGKAT OPD",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/renjaperubahan/StatistikPeringkatOPDPerubahan.vue'),		
+	},
 	//system
 	{
 		path: "/system-users",

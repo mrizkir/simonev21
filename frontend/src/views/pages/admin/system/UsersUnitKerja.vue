@@ -249,7 +249,7 @@
 													v-model="org_id"
 													label="OPD"
 													item-text="Nm_Organisasi"
-													item-value="OrgID"													
+													item-value="OrgID"							
 													outlined
 													:rules="rule_user_opd"
 													filled

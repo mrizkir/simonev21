@@ -353,7 +353,12 @@
 							</v-toolbar>
 						</template>
 						<template v-slot:item.Locked="{ item }">
-							<v-chip class="ma-2" :color="item.Locked == 1 ? 'red' : 'success'" outlined small>
+							<v-chip
+								class="ma-2"
+								:color="item.Locked == 1 ? 'red' : 'success'"
+								outlined
+								small
+							>
 								{{ item.Locked == 1 ? "TIDAK AKTIF" : "AKTIF" }}
 							</v-chip>
 						</template>

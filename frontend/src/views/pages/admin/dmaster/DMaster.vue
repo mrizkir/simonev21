@@ -71,13 +71,13 @@
 	export default {
 		name: "DMaster",
 		created() {
-			this.tahun_anggaran = this.$store.getters["auth/TahunSelected"];			
+			this.tahun_anggaran = this.$store.getters["auth/TahunSelected"];	
 			this.initialize();
 		},
 		data: () => ({
 			tahun_anggaran: null,
 			statistik1: {
-				jumlah_urusan: 0,				
+				jumlah_urusan: 0,
 				jumlah_program: 0,
       	jumlah_kegiatan: 0,
       	jumlah_sub_kegiatan: 0,
@@ -89,7 +89,7 @@
 					.post(
 						"/dmaster",
 						{
-							ta: this.$store.getters["auth/TahunSelected"],							
+							ta: this.$store.getters["auth/TahunSelected"],			
 						}
 					)
 					.then(({ data }) => {

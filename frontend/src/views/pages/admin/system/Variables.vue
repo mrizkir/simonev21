@@ -39,7 +39,7 @@
 											:rules="rule_default_ta"
 										/>
 									</v-col>
-									<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" />									
+									<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" />	
 								</v-row>
 							</v-card-text>
 							<v-card-actions>
@@ -47,7 +47,7 @@
 								<v-btn
 									color="blue darken-1"
 									text
-									@click.stop="save"									
+									@click.stop="save"			
 									:disabled="!form_valid || btnLoading"
 								>
 									SIMPAN
@@ -57,7 +57,7 @@
 					</v-form>
 				</v-col>
 			</v-row>
-		</v-container>															
+		</v-container>												
   </SystemSettingLayout>
 </template>
 <script>
@@ -98,7 +98,7 @@ export default {
 			form_valid: true, 
 			daftar_ta: [],
 			formdata: {
-				default_ta: null,				
+				default_ta: null,
 			}, 
 		}),
 		methods: {
@@ -111,7 +111,7 @@ export default {
 				})
 				.then(({ data }) => {
 					let setting = data.setting; 
-					this.formdata.default_ta = setting.DEFAULT_TA;							
+					this.formdata.default_ta = setting.DEFAULT_TA;					
 				});
 			},
 			save() {
@@ -122,7 +122,7 @@ export default {
 							_method: "PUT", 
 							pid: "Variable default sistem",
 							setting: JSON.stringify({
-								201: this.formdata.default_ta,								
+								201: this.formdata.default_ta,				
 							}),                       
 						},
 							{

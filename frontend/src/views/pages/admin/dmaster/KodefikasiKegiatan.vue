@@ -629,7 +629,7 @@
 				if (this.$refs.frmdata.validate()) {
 					this.btnLoading = true;
 					var locked = this.formdata.Locked == 1 ? 0 : 1;
-					if (this.editedIndex > -1) {						
+					if (this.editedIndex > -1) {
 						this.$ajax
 							.post(
 								"/dmaster/kodefikasi/kegiatan/" + this.formdata.KgtID,

@@ -444,7 +444,7 @@
 								small
 								:loading="btnLoading"
 								:disabled="btnLoading || datakegiatan.Locked == 1"
-								@click.stop="deleteItem(item)"								
+								@click.stop="deleteItem(item)"		
 							>
 								mdi-delete
 							</v-icon>

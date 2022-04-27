@@ -84,7 +84,7 @@
 										Salin Rekning Objek ke T.A
 										{{ $store.getters["auth/TahunSelected"] }}
 									</span>
-								</v-tooltip>								
+								</v-tooltip>					
 								<v-tooltip bottom>
 									<template v-slot:activator="{ on, attrs }">
 										<v-btn

@@ -101,7 +101,7 @@
 										'[' + datakegiatan.kode_sub_kegiatan + '] ' + datakegiatan.Nm_Sub_Kegiatan
 									"
 									:disabled="true"
-								/>								
+								/>
 								<h5>DATA REKENING</h5>
 								<v-divider class="mb-2"></v-divider>
 								<v-autocomplete
@@ -113,7 +113,7 @@
 									filled
 									outlined
 									:disabled="datakegiatan.Locked == 1 || btnLoading"
-								>								
+								>					
 								</v-autocomplete>
 								<v-autocomplete
 									:items="daftar_objek"
@@ -355,7 +355,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_jenis = data.jenis;
-					});						
+					});				
 			},
 			save() {
 				if (this.$refs.frmdata.validate()) {					
@@ -379,7 +379,7 @@
 								},
 							}
 						)
-						.then(() => {							
+						.then(() => {	
 							this.$router.push(
 								"/renjaperubahan/rka/uraian/" + this.datakegiatan.RKAID
 							);
@@ -476,7 +476,7 @@
 			},
 			rekening_SubRObyID(val) {
 				if (val) {
-					this.formdata.nama_uraian = val.SubRObyNm;					
+					this.formdata.nama_uraian = val.SubRObyNm;			
 				} else {
 					this.formdata.nama_uraian = "";
 				}

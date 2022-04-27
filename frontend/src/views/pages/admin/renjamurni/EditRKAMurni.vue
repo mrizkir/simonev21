@@ -205,7 +205,7 @@
 									filled
 									outlined
 									:disabled="datakegiatan.Locked == 1"
-								/>								
+								/>
 								<v-text-field
 									v-model="formdata.waktu_pelaksanaan1"
 									label="WAKTU PELAKSANAAN"

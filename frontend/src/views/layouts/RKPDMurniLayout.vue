@@ -130,7 +130,7 @@
 				<v-list-item-content>
 					<v-list-item-title>BOARD DATA RKPD</v-list-item-title>
 				</v-list-item-content>
-			</v-list-item>			
+			</v-list-item>
 			<v-subheader class="purple accent-5 white--text">INDIKATOR KINERJA</v-subheader>
 			<v-list-item
 				link
@@ -149,7 +149,7 @@
 						PROGRAM
 					</v-list-item-title>
 				</v-list-item-content>
-			</v-list-item>			
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-main class="mx-4 mb-4">
 			<slot />

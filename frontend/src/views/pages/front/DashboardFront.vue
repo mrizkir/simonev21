@@ -269,7 +269,7 @@
 					<v-data-table
 						:headers="headers"
 						:items="datatable"
-						item-key="index"						
+						item-key="index"
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"
 						class="elevation-1"
@@ -399,7 +399,7 @@
 				this.datatableLoading = true;
 				await this.$ajax
 					.post("/dashboard/pelaporanopd", {
-						tahun: this.tahun_anggaran,						
+						tahun: this.tahun_anggaran,		
 					})
 					.then(({ data }) => {
 						this.peringkat = data.peringkat;

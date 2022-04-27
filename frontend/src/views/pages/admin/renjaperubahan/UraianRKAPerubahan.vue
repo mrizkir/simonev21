@@ -134,7 +134,7 @@
 								<v-card-title>
 									<span class="headline">UBAH URAIAN</span>
 								</v-card-title>
-								<v-card-text>									
+								<v-card-text>						
 									<v-row>
 										<v-col cols="12" sm="12" md="12">
 											<v-text-field
@@ -207,7 +207,7 @@
 											>
 											</v-autocomplete>
 										</v-col>
-									</v-row>									
+									</v-row>						
 								</v-card-text>
 								<v-card-actions>
 									<v-spacer></v-spacer>
@@ -221,7 +221,7 @@
 									<v-btn
 										color="blue darken-1"
 										text
-										@click.stop="updateuraian"										
+										@click.stop="updateuraian"				
 										:disabled="!form_valid || btnLoading"
 									>
 										SIMPAN
@@ -617,7 +617,7 @@
 											outlined
 											small
 											class="ma-2"
-											@click.stop="$router.push('/renjaperubahan/rka/uraian/' + RKAID + '/add')"											
+											@click.stop="$router.push('/renjaperubahan/rka/uraian/' + RKAID + '/add')"					
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
@@ -626,7 +626,7 @@
 								</v-tooltip>
 							</v-toolbar>
 						</template>
-						<template v-slot:item.actions="{ item }">							
+						<template v-slot:item.actions="{ item }">				
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon
@@ -641,7 +641,7 @@
 									</v-icon>
 								</template>
 								<span>Realisasi Uraian</span>
-							</v-tooltip>							
+							</v-tooltip>				
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon
@@ -663,7 +663,7 @@
 										v-bind="attrs"
 										v-on="on"
 										class="ma-1"
-										color="red"										
+										color="red"				
 										:disabled="btnLoading || item.Locked == 1"
 										@click.stop="deleteItem(item)"
 									>
@@ -1292,7 +1292,7 @@
 								.post(
 									"/renja/rkaperubahan/resetdatakegiatan/" + this.RKAID,
 									{
-										_method: "PUT",										
+										_method: "PUT",						
 									},
 									{
 										headers: {

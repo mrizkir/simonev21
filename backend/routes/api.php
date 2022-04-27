@@ -309,6 +309,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->put('/renja/targetkinerjaperubahan/updatetargetfisik',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@updatetargetfisik','as'=>'targetkinerjaP.updatetargetfisik']);
 	$router->delete('/renja/targetkinerjaperubahan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\TargetKinerjaPerubahanController@destroy','as'=>'targetkinerjaP.destroy']);
 
+	//renja - statistik - peringkat opd
+	$router->post('/renjaperubahan/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDPerubahanController@index','as'=>'renjaperubahan-peringkatopdperubahan.index']);
+
 	//rkpd
 	$router->post('/rkpdmurni',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'RKPD\RKPDMurniController@index','as'=>'rkpdmurni.index']);
 

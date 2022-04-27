@@ -64,18 +64,18 @@
 					</v-card>
 				</v-col>
 			</v-row>
-			<v-row class="mb-4" no-gutters>			
+			<v-row class="mb-4" no-gutters>
 				<v-col cols="12">
 					<v-alert type="info">
 						Saat import data dari RKA Murni, Uraian tidak otomatis ter-import; Oleh karena itu untuk menjaga konsistensi data dengan yang di Dashboard silahkan load uraian per kegiatan.
 					</v-alert>
-				</v-col>			
+				</v-col>
 				<v-col cols="12">
 					<v-data-table
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="RKAID"						
+						item-key="RKAID"
 						show-expand
 						dense
 						:expanded.sync="expanded"
@@ -116,9 +116,9 @@
 													TAMBAH KEGIATAN
 												</span>
 											</v-card-title>
-											<v-card-subtitle>												
+											<v-card-subtitle>									
 												{{ DataUnitKerja.kode_sub_organisasi }} / {{ DataUnitKerja.Nm_Sub_Organisasi }}												
-											</v-card-subtitle>											
+											</v-card-subtitle>								
 											<v-card-text>
 												<v-autocomplete
 													:items="daftar_bidang"
@@ -715,7 +715,7 @@
 								.post(
 									"/renja/rkaperubahan/resetdatakegiatan/" + item.RKAID,
 									{
-										_method: "PUT",										
+										_method: "PUT",						
 									},
 									{
 										headers: {
@@ -846,7 +846,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_sub_kegiatan = data.subkegiatanrka;
-					});						
+					});				
 			},
 		},
 		components: {

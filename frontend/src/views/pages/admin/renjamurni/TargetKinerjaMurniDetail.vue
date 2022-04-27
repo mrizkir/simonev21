@@ -127,22 +127,22 @@
 					</v-card>
 				</v-col>
 			</v-row>
-			<v-row class="mb-4" no-gutters>				
+			<v-row class="mb-4" no-gutters>	
 				<v-col cols="12">
 					<v-data-table
 						:headers="headers"
 						:items="datatable"
 						:search="search"
 						item-key="RKATargetRincID"
-						sort-by="bulan1"						
+						sort-by="bulan1"
 						:loading="datatableLoading"
-						loading-text="Loading... Please wait"						
+						loading-text="Loading... Please wait"
 						class="elevation-1"
 						:disable-pagination="true"
 						:hide-default-footer="true"
 						dense						
 					>
-						<template v-slot:top>							
+						<template v-slot:top>				
 							<v-toolbar flat color="white">
 								<v-toolbar-title>DAFTAR TARGET</v-toolbar-title>
 								<v-divider class="mx-4" inset vertical></v-divider>
@@ -160,7 +160,7 @@
 										v-bind="attrs"
 										v-on="on"
 										class="ma-1"
-										color="red"										
+										color="red"				
 										:disabled="btnLoading || item.Locked == 1 || datatable.length <= 12"
 										@click.stop="deleteItem(item)"
 									>
@@ -220,7 +220,7 @@
 								<td class="text-right">TOTAL</td>
 								<td class="text-right">
 									{{ footers.target1 | formatUang }}
-								</td>								
+								</td>					
 								<td class="text-right">
 									{{ footers.fisik1 }}
 								</td>
@@ -247,7 +247,7 @@
 						</template>
 					</v-data-table>
 				</v-col>
-			</v-row>			
+			</v-row>
 		</v-container>
 	</RenjaMurniLayout>
 </template>
@@ -302,17 +302,17 @@
 				expanded: [],
 				datatable: [],
 				headers: [
-					{ text: "BULAN KE", value: "bulan1", sortable: false, width: 100 },					
+					{ text: "BULAN KE", value: "bulan1", sortable: false, width: 100 },	
 					{
 						text: "ANGGARAN KAS",
 						align: "end",
-						value: "target1",						
+						value: "target1",		
 					},
 					{
 						text: "FISIK",
 						align: "end",
-						value: "fisik1",						
-					},					
+						value: "fisik1",		
+					},	
 					{ text: "AKSI", value: "actions", sortable: false, width: 70 },
 				],
 				footers: {
@@ -361,10 +361,10 @@
 								text: "[" + item.kode_uraian + "] " + item.nama_uraian,
 								value: item.RKARincID,
 							});
-						});				
+						});		
 						this.daftar_uraian = uraian;
 						this.datatableLoaded = true;
-						this.datatableLoading = false;						
+						this.datatableLoading = false;				
 					})
 					.catch(() => {
 						this.datatableLoaded = true;
@@ -374,7 +374,7 @@
 			fetchTargetKinerja(RKARincID_Selected) {
 				this.$ajax
 					.get(
-						"/renja/targetkinerjamurni/" + RKARincID_Selected + "/uraian",							
+						"/renja/targetkinerjamurni/" + RKARincID_Selected + "/uraian",			
 						{
 							headers: {
 								Authorization: this.$store.getters["auth/Token"],
@@ -394,7 +394,7 @@
 						{
 							_method: "put",
 							RKATargetRincID: item.RKATargetRincID,
-							target1: item.target1,							
+							target1: item.target1,			
 						},
 						{
 							headers: {
@@ -407,7 +407,7 @@
 						this.footersummary();
 					})
 					.catch(() => {
-						this.datatableLoading = false;						
+						this.datatableLoading = false;				
 						this.fetchTargetKinerja(this.RKARincID_Selected);
 					});
 			},
@@ -419,7 +419,7 @@
 						{
 							_method: "put",
 							RKATargetRincID: item.RKATargetRincID,
-							fisik1: item.fisik1,							
+							fisik1: item.fisik1,			
 						},
 						{
 							headers: {
@@ -428,11 +428,11 @@
 						}
 					)
 					.then(() => {
-						this.datatableLoading = false;						
+						this.datatableLoading = false;				
 						this.footersummary();
 					})
 					.catch(() => {
-						this.datatableLoading = false;						
+						this.datatableLoading = false;				
 						this.fetchTargetKinerja(this.RKARincID_Selected);
 					});
 			},
@@ -447,7 +447,7 @@
 					var totalfisik = 0;
 					for (var i = 0; i < data.length; i++) {
 						var num = new Number(data[i].target1);
-						totaltarget += num;												
+						totaltarget += num;										
 						num = new Number(data[i].fisik1);
 						totalfisik += num;
 					}					

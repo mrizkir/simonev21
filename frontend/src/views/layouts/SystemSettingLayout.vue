@@ -146,7 +146,7 @@
 						VARIABLES
 					</v-list-item-title>
 				</v-list-item-content>
-			</v-list-item>			
+			</v-list-item>
 		</v-navigation-drawer>
 		<v-main class="mx-4 mb-4">
 			<slot />

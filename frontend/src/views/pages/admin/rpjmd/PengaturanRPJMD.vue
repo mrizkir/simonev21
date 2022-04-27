@@ -27,7 +27,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="ID"						
+						item-key="ID"
 						show-expand
 						dense
 						:expanded.sync="expanded"
@@ -66,7 +66,7 @@
 												<span class="headline">
 													TAMBAH PENGATURAN
 												</span>
-											</v-card-title>										
+											</v-card-title>							
 											<v-card-text>
 												<v-row>
 													<v-col cols="6">
@@ -215,7 +215,7 @@
 			],
 			rule_periode_akhir: [
 				value => !!value || "Mohon untuk di isi akhir periode RPJMD !!!",
-				value => /^[0-9]+$/.test(value) || "Akhir periode RPJMD hanya boleh angka",				
+				value => /^[0-9]+$/.test(value) || "Akhir periode RPJMD hanya boleh angka",
 			],
 			rule_nama_bupati: [value => !!value || "Mohon untuk di isi Nama Bupati !!!"],
 			rule_nama_wabup: [value => !!value || "Mohon untuk di isi Nama Wakil Bupati !!!"],

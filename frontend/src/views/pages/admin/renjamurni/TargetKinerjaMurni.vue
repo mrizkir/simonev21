@@ -70,7 +70,7 @@
 						:headers="headers"
 						:items="datatable"
 						:search="search"
-						item-key="RKAID"						
+						item-key="RKAID"
 						show-expand
 						dense
 						:expanded.sync="expanded"
@@ -131,7 +131,7 @@
 									{{ footers.pagukegiatan | formatUang }}
 								</td>
 								<td class="text-right">{{ footers.fisik }}</td>
-								<td class="text-right">{{ footers.keuangan | formatUang }}</td>								
+								<td class="text-right">{{ footers.keuangan | formatUang }}</td>					
 								<td></td>
 							</tr>
 						</template>
@@ -527,7 +527,7 @@
 					)
 					.then(({ data }) => {
 						this.daftar_sub_kegiatan = data.subkegiatanrka;
-					});						
+					});				
 			},
 		},
 		components: {

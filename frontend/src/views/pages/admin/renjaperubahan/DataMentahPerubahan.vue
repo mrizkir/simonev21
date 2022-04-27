@@ -267,7 +267,7 @@
 				headers: [					
 					{ text: "KODE SUB KEGIATAN", value: "kode_sub_kegiatan", width: 80 },
 					{ text: "NAMA SUB KEGIATAN", value: "Nm_Sub_Kegiatan", width: 300 },
-					{ text: "PAGU DANA", value: "PaguDana1", align: "end", width: 100 },					
+					{ text: "PAGU DANA", value: "PaguDana1", align: "end", width: 100 },	
 					{ text: "REALISASI FISIK", value: "RealisasiFisik1", align: "end", width: 100 },
 					{ text: "REALISASI KEUANGAN", value: "RealisasiKeuangan1", align: "end", width: 100 },
 					{ text: "%", value: "persen_keuangan1", align: "end", width: 100 },
@@ -309,7 +309,7 @@
 				if (data.length > 0) {					
 					var totalpagukegiatan = 0;
 					var fisik = 0;
-					var realisasikeuangan = 0;					
+					var realisasikeuangan = 0;			
 					var num;
 					var jumlahkegiatan = 0;
 					for (var i = 0; i < data.length; i++) {
@@ -322,8 +322,8 @@
 
 						jumlahkegiatan += 1;
 					}
-					var totalfisik = 0;					
-					if (jumlahkegiatan > 0) {						
+					var totalfisik = 0;			
+					if (jumlahkegiatan > 0) {
 						totalfisik = fisik / jumlahkegiatan;
 					}
 					var persenkeuangan = 0;
@@ -397,7 +397,7 @@
 						.post(
 							"/renja/datamentahperubahan/copyrka",
 							{
-								RKAID: item.RKAID,								
+								RKAID: item.RKAID,				
 							},
 							{
 								headers: {

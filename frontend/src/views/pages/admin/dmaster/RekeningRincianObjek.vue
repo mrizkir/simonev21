@@ -474,7 +474,7 @@
 				search: "",
 				//dialog
 				dialogfrm: false,
-				dialogcopyfrm: false,				
+				dialogcopyfrm: false,
 				dialogdetailitem: false,
 				//form data
 				form_valid: true,

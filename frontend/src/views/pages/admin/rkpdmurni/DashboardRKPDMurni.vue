@@ -25,7 +25,7 @@
 				<v-col cols="12">
 					<v-data-table
 						:headers="headers"
-						:items="datatable"						
+						:items="datatable"
 						item-key="FormBMurniID"
 						dense
 						:single-expand="true"
@@ -73,16 +73,16 @@
 					text: "RKPD MURNI",
 					disabled: true,
 					href: "#",
-				},				
+				},
 			];
-			this.tahun_anggaran = new Number(this.$store.getters["auth/TahunSelected"]);						
+			this.tahun_anggaran = new Number(this.$store.getters["auth/TahunSelected"]);				
 			this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
 		},
 		mounted() {
 			this.initialize();
 		},
 		data() {
-			var tahun_renja_lalu = new Number(this.$store.getters["auth/TahunSelected"]) - 1;				
+			var tahun_renja_lalu = new Number(this.$store.getters["auth/TahunSelected"]) - 1;		
 			var tahun_renstra_lalu = new Number(this.$store.getters["auth/TahunSelected"]) - 5;
 			return {
 				btnLoading: false,
@@ -202,7 +202,7 @@
 						"/rkpdmurni",
 						{
 							tahun: this.tahun_anggaran,
-							no_bulan: this.bulan_realisasi,							
+							no_bulan: this.bulan_realisasi,			
 						},
 						{
 							headers: {

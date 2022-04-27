@@ -134,7 +134,7 @@
 								<v-card-title>
 									<span class="headline">UBAH URAIAN</span>
 								</v-card-title>
-								<v-card-text>									
+								<v-card-text>						
 									<v-row>
 										<v-col cols="12" sm="12" md="12">
 											<v-text-field
@@ -207,7 +207,7 @@
 											>
 											</v-autocomplete>
 										</v-col>
-									</v-row>									
+									</v-row>						
 								</v-card-text>
 								<v-card-actions>
 									<v-spacer></v-spacer>
@@ -414,7 +414,7 @@
 							<v-card>
 								<v-card-title>
 									<span class="headline">TARGET ANGGARAN KAS</span>
-								</v-card-title>								
+								</v-card-title>					
 								<v-card-text>
 									<v-alert type="info">
 										Bila mendapati masalah dalam pengisian target kinerja, alternatifnya bisa menggunakan halaman <router-link to="/renjamurni/targetkinerja">ini</router-link>
@@ -635,7 +635,7 @@
 								</v-tooltip>
 							</v-toolbar>
 						</template>
-						<template v-slot:item.actions="{ item }">							
+						<template v-slot:item.actions="{ item }">				
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon
@@ -650,7 +650,7 @@
 									</v-icon>
 								</template>
 								<span>Realisasi Uraian</span>
-							</v-tooltip>							
+							</v-tooltip>				
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon
@@ -673,7 +673,7 @@
 										v-bind="attrs"
 										v-on="on"
 										class="ma-1"
-										color="red"										
+										color="red"				
 										:disabled="btnLoading || datakegiatan.Locked == 1"
 										@click.stop="deleteItem(item)"
 									>
@@ -1306,7 +1306,7 @@
 								.post(
 									"/renja/rkamurni/resetdatakegiatan/" + this.RKAID,
 									{
-										_method: "PUT",										
+										_method: "PUT",						
 									},
 									{
 										headers: {
