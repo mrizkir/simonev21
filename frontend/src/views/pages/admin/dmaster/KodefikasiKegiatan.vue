@@ -116,7 +116,7 @@
 										<v-card>
 											<v-card-title>
 												<span class="headline">
-													Salin Bidang Urusan ke T.A
+													Salin Kegiatan ke T.A
 													{{ $store.getters["auth/TahunSelected"] }}
 												</span>
 											</v-card-title>
@@ -515,7 +515,7 @@
 					value => value.length > 1 || "Kode Kegiatan minimal 2 angka",
 				],
 				rule_name: [value => !!value || "Mohon untuk di isi Nama Kegiatan !!!"],
-					//form rules salin kegaitan
+				//form rules salin kegiatan
 				rule_tahun_asal: [
 					value =>
 						!!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
