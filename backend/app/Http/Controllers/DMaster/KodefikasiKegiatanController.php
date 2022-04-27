@@ -27,57 +27,57 @@ class KodefikasiKegiatanController extends Controller {
       ]);    
       $ta = $request->input('TA');
       $kodefikasikegiatan=KodefikasiKegiatanModel::select(\DB::raw("
-          tmKegiatan.`KgtID`,
-          tmKegiatan.`PrgID`,
-          tmBidangUrusan.BidangID,
-          tmUrusan.`Kd_Urusan`,
-          tmBidangUrusan.`Kd_Bidang`,			 
-          tmProgram.`Kd_Program`,
-          tmKegiatan.`Kd_Kegiatan`,
-          CASE 
-            WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-              CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
-            ELSE
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`)
-          END AS kode_program,
-          CASE 
-            WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-              CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
-            ELSE
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
-          END AS kode_kegiatan,
-          CASE 
-            WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-              CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
-            ELSE
-              CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
-          END AS nama_kegiatan,
-          COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
-          COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
-          tmProgram.`Nm_Program`,
-          tmKegiatan.`Nm_Kegiatan`,
-          tmKegiatan.`TA`,
-          tmKegiatan.`Locked`,
-          tmProgram.`Locked` AS `ProgramLocked`,
-          tmKegiatan.`Descr`,                                        
-          tmKegiatan.`created_at`,
-          tmKegiatan.`updated_at`
-        "))
-        ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-        ->orderBy('kode_kegiatan','ASC')                                    
-        ->where('tmKegiatan.TA',$ta)
-        ->get();
+        tmKegiatan.`KgtID`,
+        tmKegiatan.`PrgID`,
+        tmBidangUrusan.BidangID,
+        tmUrusan.`Kd_Urusan`,
+        tmBidangUrusan.`Kd_Bidang`,			 
+        tmProgram.`Kd_Program`,
+        tmKegiatan.`Kd_Kegiatan`,
+        CASE 
+          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
+          ELSE
+            CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+        END AS kode_program,
+        CASE 
+          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+          ELSE
+            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+        END AS kode_kegiatan,
+        CASE 
+          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+            CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+          ELSE
+            CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+        END AS nama_kegiatan,
+        COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
+        COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
+        tmProgram.`Nm_Program`,
+        tmKegiatan.`Nm_Kegiatan`,
+        tmKegiatan.`TA`,
+        tmKegiatan.`Locked`,
+        tmProgram.`Locked` AS `ProgramLocked`,
+        tmKegiatan.`Descr`,                                        
+        tmKegiatan.`created_at`,
+        tmKegiatan.`updated_at`
+      "))
+      ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
+      ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+      ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+      ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+      ->orderBy('kode_kegiatan','ASC')                                    
+      ->where('tmKegiatan.TA',$ta)
+      ->get();
 
-      return Response()->json([
-        'status'=>1,
-        'pid'=>'fetchdata',
-        'kodefikasikegiatan'=>$kodefikasikegiatan,
-        'message'=>'Fetch data kodefikasi urusan berhasil.'
-      ], 200);
-    }
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'kodefikasikegiatan'=>$kodefikasikegiatan,
+      'message'=>'Fetch data kodefikasi urusan berhasil.'
+    ], 200);
+  }
   /**
 	 * Store a newly created resource in storage.
 	 *

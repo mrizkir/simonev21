@@ -77,6 +77,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
 	//data master - kodefikasi - sub kegiatan
 	$router->post('/dmaster/kodefikasi/subkegiatan',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiSubKegiatanController@index','as'=>'kodefikasi-subkegiatan.index']);
+	$router->post('/dmaster/kodefikasi/subkegiatan/salin',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiSubKegiatanController@salin','as'=>'kodefikasi-subkegiatan.salin']);
 	$router->post('/dmaster/kodefikasi/subkegiatan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiSubKegiatanController@store','as'=>'kodefikasi-subkegiatan.store']);
 	$router->put('/dmaster/kodefikasi/subkegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiSubKegiatanController@update','as'=>'kodefikasi-subkegiatan.update']);
 	$router->delete('/dmaster/kodefikasi/subkegiatan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiSubKegiatanController@destroy','as'=>'kodefikasi-subkegiatan.destroy']);
