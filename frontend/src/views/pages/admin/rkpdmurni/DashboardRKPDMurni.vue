@@ -36,9 +36,7 @@
 						:hide-default-footer="true"
 					>
 						<template v-slot:top>
-							<v-toolbar flat color="white">
-								<v-toolbar-title>DAFTAR SUB KEGIATAN</v-toolbar-title>
-								<v-divider class="mx-4" inset vertical></v-divider>
+							<v-toolbar flat color="white">																
 								<v-spacer></v-spacer>
 								<v-btn
 									color="primary"
@@ -50,6 +48,17 @@
 									<v-icon>mdi-printer</v-icon>
 								</v-btn>
 							</v-toolbar>
+						</template>
+						<template v-slot:body="{ items }">
+							<tbody>
+								<tr
+									v-for="item in items"
+									v-bind:key="item.RKPDID"									
+								>
+									<td>{{ item.kode }}</td>
+									<td>{{ item.nama }}</td>									
+								</tr>
+							</tbody>
 						</template>
 					</v-data-table>
 				</v-col>
