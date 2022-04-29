@@ -53,7 +53,8 @@
 							<tbody>
 								<tr
 									v-for="item in items"
-									v-bind:key="item.RKPDID"									
+									v-bind:key="item.RKPDID"
+									:class="[colorRowFormA(item), fontWeight(item)]"
 								>
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama }}</td>									
@@ -222,6 +223,38 @@
 					.then(({ data }) => {
 						this.datatable = data.rkpd;
 					});
+			},
+			colorRowFormA(item) {
+				var color = "";
+				if (item.level == 1) {
+					color = "lime lighten-1";
+				} else if (item.level == 2) {
+					color = "light-green lighten-2";
+				} else if (item.level == 3) {
+					color = "light-green accent-1";
+				} else if (item.level == 4) {
+					color = "lime lighten-3";
+				} else if (item.level == 5) {
+					color = "lime lighten-4";
+				} else if (item.level == 10) {
+					color = "red lighten-4";
+				} else {
+					color = "white";
+				}
+				return color;
+			},
+			fontWeight(item) {
+				var weight = "";
+				if (item.isprogram == 1) {
+					weight = "font-weight-bold";
+				} else if (item.level == 2) {
+					weight = "font-weight-medium";
+				} else if (item.level == 3) {
+					weight = "Normal weight text";
+				} else {
+					weight = "Normal weight text";
+				}
+				return weight;
 			},
 		},
     components: {
