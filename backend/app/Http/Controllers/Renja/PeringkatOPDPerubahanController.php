@@ -44,6 +44,7 @@ class PeringkatOPDPerubahanController extends Controller {
 							$join->on('statistik2.Bulan','=','B.Bulan');
 						})  
 						->where('EntryLvl', 2)
+						->where('statistik2.TA', $tahun)
 						->orderBy('statistik2.RealisasiFisik2','DESC')
 						->orderBy('statistik2.PersenRealisasiKeuangan2','DESC')
 						->get();

@@ -73,6 +73,15 @@ class ConfigurationTableSeeder extends Seeder
         ]);
         
         \DB::table('configuration')->insert([
+            'config_id'=>"203",
+            'config_group'=>'basic',
+            'config_key'=>'DEFAULT_MASA_PELAPORAN',
+            'config_value'=>'murni',
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+        
+        \DB::table('configuration')->insert([
             'config_id'=>"701",
             'config_group'=>'report',
             'config_key'=>'HEADER_1',

@@ -113,6 +113,116 @@ class RKPDMurniController extends Controller
               ];
               \DB::table('RKPD')->insert($data);
               $no_urut = $no_urut + 1;
+
+              //kegiatan
+              $kegiatan = \DB::table('tmKegiatan AS A')
+              ->select(\DB::raw("
+                A.`KgtID`,
+                CONCAT(D.`Kd_Urusan`,'.',C.`Kd_Bidang`,'.',A1.`Kd_Program`,'.',`A`.`Kd_Kegiatan`) AS kode_kegiatan,
+                A.`Nm_Kegiatan`        
+              "))
+              ->join('tmProgram AS A1','A.PrgID','A1.PrgID')
+              ->join('tmUrusanProgram AS B','A1.PrgID','B.PrgID')
+              ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
+              ->join('tmUrusan AS D','C.UrsID','D.UrsID')
+              ->where('A.PrgID', $item_p->PrgID)
+              ->orderBy('D.Kd_Urusan','ASC')                                    
+              ->orderBy('C.Kd_Bidang','ASC')                                    
+              ->orderBy('A1.Kd_Program','ASC')                                    
+              ->orderBy('A.Kd_Kegiatan','ASC')                                    
+              ->get();
+
+              if ($kegiatan->count() > 0)
+              {
+                foreach($kegiatan as $item_k)
+                {
+                  $data=[
+                    'RKPDID' => Uuid::uuid4()->toString(),
+                    'kode' => $item_k->kode_kegiatan,
+                    'nama' => $item_k->Nm_Kegiatan,
+                    'level' => 4,
+                    'no_urut' => $no_urut,
+                    'TA' => $tahun,
+                    'BulanLaporan' => $no_bulan,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                  ];
+                  \DB::table('RKPD')->insert($data);
+                  $no_urut = $no_urut + 1;  
+                  
+                  //sub kegiatan
+                  $sub_kegiatan = \DB::table('tmSubKegiatan AS A')
+                    ->select(\DB::raw("
+                      A.`SubKgtID`,
+                      CONCAT(F.`Kd_Urusan`,'.',E.`Kd_Bidang`,'.',C.`Kd_Program`,'.',`B`.`Kd_Kegiatan`,'.',`A`.`Kd_SubKegiatan`) AS kode_sub_kegiatan,
+                      A.`Nm_SubKegiatan`        
+                    "))
+                    ->join('tmKegiatan AS B','A.KgtID','B.KgtID')
+                    ->join('tmProgram AS C','B.PrgID','C.PrgID')
+                    ->join('tmUrusanProgram AS D','C.PrgID','D.PrgID')
+                    ->join('tmBidangUrusan AS E','D.BidangID','E.BidangID')
+                    ->join('tmUrusan AS F','F.UrsID','E.UrsID')
+                    ->where('A.KgtID', $item_k->KgtID)
+                    ->orderBy('F.Kd_Urusan','ASC')                                    
+                    ->orderBy('E.Kd_Bidang','ASC')                                    
+                    ->orderBy('C.Kd_Program','ASC')                                    
+                    ->orderBy('B.Kd_Kegiatan','ASC')                                    
+                    ->orderBy('A.Kd_SubKegiatan','ASC')                                    
+                    ->get();
+
+                  if ($sub_kegiatan->count() > 0)
+                  {
+                    foreach($sub_kegiatan as $item_s)
+                    {
+                      $data=[
+                        'RKPDID' => Uuid::uuid4()->toString(),
+                        'kode' => $item_s->kode_sub_kegiatan,
+                        'nama' => $item_s->Nm_SubKegiatan,
+                        'level' => 5,
+                        'no_urut' => $no_urut,
+                        'TA' => $tahun,
+                        'BulanLaporan' => $no_bulan,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                      ];
+                      \DB::table('RKPD')->insert($data);
+                      $no_urut = $no_urut + 1;
+                    }
+                  }
+                  else
+                  {
+                    $data=[
+                      'RKPDID' => Uuid::uuid4()->toString(),
+                      'kode' => 'N.A',
+                      'nama' => 'TIDAK MEMILIKI SUB KEGIATAN',
+                      'level' => 10,
+                      'no_urut' => $no_urut,
+                      'TA' => $tahun,
+                      'BulanLaporan' => $no_bulan,
+                      'created_at' => $now,
+                      'updated_at' => $now,
+                    ];
+                    \DB::table('RKPD')->insert($data);
+                    $no_urut = $no_urut + 1;   
+                  }
+                }                
+              }
+              else
+              {
+                $data=[
+                  'RKPDID' => Uuid::uuid4()->toString(),
+                  'kode' => 'N.A',
+                  'nama' => 'TIDAK MEMILIKI KEGIATAN',
+                  'level' => 10,
+                  'no_urut' => $no_urut,
+                  'TA' => $tahun,
+                  'BulanLaporan' => $no_bulan,
+                  'created_at' => $now,
+                  'updated_at' => $now,
+                ];
+                \DB::table('RKPD')->insert($data);
+                $no_urut = $no_urut + 1;   
+              }
             }            
           }  
           else

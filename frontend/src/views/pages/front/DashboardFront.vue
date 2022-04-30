@@ -284,11 +284,11 @@
 								<v-spacer></v-spacer>
 							</v-toolbar>
 						</template>
-						<template v-slot:item.RealisasiFisik1="{ item }">
-							{{ item.RealisasiFisik1 | makeLookPrecision }}
+						<template v-slot:item.RealisasiFisik="{ item }">
+							{{ item.RealisasiFisik | makeLookPrecision }}
 						</template>
-						<template v-slot:item.PersenRealisasiKeuangan1="{ item }">
-							{{ item.PersenRealisasiKeuangan1 | makeLookPrecision }}
+						<template v-slot:item.PersenRealisasiKeuangan="{ item }">
+							{{ item.PersenRealisasiKeuangan | makeLookPrecision }}
 						</template>
 						<template v-slot:no-data>
 							data peringkat opd tidak tersedia.
@@ -355,11 +355,11 @@
 				{ text: "NOMOR", value: "index", width: 100 },
 				{ text: "KODE", value: "kode_organisasi", width: 160, sortable: false },
 				{ text: "NAMA OPD", value: "OrgNm", sortable: false },
-				{ text: "REALISASI FISIK", align: "end", value: "RealisasiFisik1" },
+				{ text: "REALISASI FISIK", align: "end", value: "RealisasiFisik" },
 				{
 					text: "REALISASI KEUANGAN",
 					align: "end",
-					value: "PersenRealisasiKeuangan1",
+					value: "PersenRealisasiKeuangan",
 				},
 			],
 		}),

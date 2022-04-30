@@ -44,6 +44,7 @@ class PeringkatOPDMurniController extends Controller {
 							$join->on('statistik2.Bulan','=','B.Bulan');
 						})  
 						->where('EntryLvl', 1)
+						->where('statistik2.TA', $tahun)
 						->orderBy('statistik2.RealisasiFisik1','DESC')
 						->orderBy('statistik2.PersenRealisasiKeuangan1','DESC')
 						->get();

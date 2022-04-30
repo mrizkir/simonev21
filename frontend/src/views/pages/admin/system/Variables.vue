@@ -39,7 +39,24 @@
 											:rules="rule_default_ta"
 										/>
 									</v-col>
-									<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" />	
+									<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" />
+									<v-col xs="12" sm="12" md="5">
+										<p>Masa pelaporan SIMONEV</p>
+										<v-radio-group
+											v-model="formdata.default_masa_pelaporan"
+											row
+										>
+											<v-radio
+												label="APBD MURNI"
+												value="murni"
+											></v-radio>
+											<v-radio
+												label="APBD PERUBAHAN"
+												value="perubahan"
+											></v-radio>
+										</v-radio-group>
+									</v-col>
+									<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" />
 								</v-row>
 							</v-card-text>
 							<v-card-actions>
@@ -99,6 +116,7 @@ export default {
 			daftar_ta: [],
 			formdata: {
 				default_ta: null,
+				default_masa_pelaporan: null,
 			}, 
 		}),
 		methods: {
@@ -112,6 +130,7 @@ export default {
 				.then(({ data }) => {
 					let setting = data.setting; 
 					this.formdata.default_ta = setting.DEFAULT_TA;					
+					this.formdata.default_masa_pelaporan = setting.DEFAULT_MASA_PELAPORAN;					
 				});
 			},
 			save() {
@@ -122,7 +141,8 @@ export default {
 							_method: "PUT", 
 							pid: "Variable default sistem",
 							setting: JSON.stringify({
-								201: this.formdata.default_ta,				
+								201: this.formdata.default_ta,
+								203: this.formdata.default_masa_pelaporan,
 							}),                       
 						},
 							{
