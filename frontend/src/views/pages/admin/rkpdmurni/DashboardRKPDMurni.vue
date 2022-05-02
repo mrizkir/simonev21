@@ -58,6 +58,7 @@
 								>
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama }}</td>									
+									<td class="text-right">{{ item.target_renstra | formatUang }}</td>									
 								</tr>
 							</tbody>
 						</template>
@@ -112,8 +113,8 @@
 						sortable: false,
 					},
 					{
-						text: "PAGU DANA (RP)",
-						value: "pagu_dana1",
+						text: "TARGET RENSTRA",
+						value: "target_renstra",
 						align: "end",
 						width: 100,
 						sortable: false,

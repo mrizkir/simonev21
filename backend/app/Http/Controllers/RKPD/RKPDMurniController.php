@@ -36,11 +36,13 @@ class RKPDMurniController extends Controller
     $no_urut = 1;
     foreach($urusan as $item_u)
     {
+      $RKPDID_urusan = Uuid::uuid4()->toString();
       //urusan
       $data=[
-        'RKPDID' => Uuid::uuid4()->toString(),
+        'RKPDID' => $RKPDID_urusan,
         'kode' => $item_u->Kd_Urusan,
         'nama' => $item_u->Nm_Urusan,
+        'target_renstra' => 0,
         'level' => 1,
         'no_urut' => $no_urut,
         'TA' => $tahun,
@@ -66,10 +68,13 @@ class RKPDMurniController extends Controller
       {
         foreach($bidang_urusan as $item_bu)
         {
+          $RKPDID_bidang_urusan = Uuid::uuid4()->toString();
+
           $data=[
-            'RKPDID' => Uuid::uuid4()->toString(),
+            'RKPDID' => $RKPDID_bidang_urusan,
             'kode' => $item_u->Kd_Urusan .'.'.$item_bu->Kd_Bidang,
             'nama' => $item_bu->Nm_Bidang,
+            'target_renstra' => 0,
             'level' => 2,
             'no_urut' => $no_urut,
             'TA' => $tahun,
@@ -100,10 +105,12 @@ class RKPDMurniController extends Controller
           {
             foreach($program as $item_p)
             {
+              $RKPDID_program = Uuid::uuid4()->toString();
               $data=[
-                'RKPDID' => Uuid::uuid4()->toString(),
+                'RKPDID' => $RKPDID_program,
                 'kode' => $item_p->kode_program,
                 'nama' => $item_p->Nm_Program,
+                'target_renstra' => 0,
                 'level' => 3,
                 'no_urut' => $no_urut,
                 'TA' => $tahun,
@@ -136,10 +143,12 @@ class RKPDMurniController extends Controller
               {
                 foreach($kegiatan as $item_k)
                 {
+                  $RKPDID_kegiatan = Uuid::uuid4()->toString();
                   $data=[
-                    'RKPDID' => Uuid::uuid4()->toString(),
+                    'RKPDID' => $RKPDID_kegiatan,
                     'kode' => $item_k->kode_kegiatan,
                     'nama' => $item_k->Nm_Kegiatan,
+                    'target_renstra' => 0,
                     'level' => 4,
                     'no_urut' => $no_urut,
                     'TA' => $tahun,
@@ -155,7 +164,10 @@ class RKPDMurniController extends Controller
                     ->select(\DB::raw("
                       A.`SubKgtID`,
                       CONCAT(F.`Kd_Urusan`,'.',E.`Kd_Bidang`,'.',C.`Kd_Program`,'.',`B`.`Kd_Kegiatan`,'.',`A`.`Kd_SubKegiatan`) AS kode_sub_kegiatan,
-                      A.`Nm_SubKegiatan`        
+                      A.`Nm_SubKegiatan`,
+                      A.PaguDana1,
+                      A.RealisasiKeuangan1,
+                      A.RealisasiFisik1
                     "))
                     ->join('tmKegiatan AS B','A.KgtID','B.KgtID')
                     ->join('tmProgram AS C','B.PrgID','C.PrgID')
@@ -174,10 +186,13 @@ class RKPDMurniController extends Controller
                   {
                     foreach($sub_kegiatan as $item_s)
                     {
+                      $RKPDID_sub_kegiatan = Uuid::uuid4()->toString();
+                      $kode_sub_kegiatan = $item_s->kode_sub_kegiatan;                      
                       $data=[
-                        'RKPDID' => Uuid::uuid4()->toString(),
-                        'kode' => $item_s->kode_sub_kegiatan,
+                        'RKPDID' => $RKPDID_sub_kegiatan,
+                        'kode' => $kode_sub_kegiatan,
                         'nama' => $item_s->Nm_SubKegiatan,
+                        'target_renstra' => $item_s->PaguDana1,
                         'level' => 5,
                         'no_urut' => $no_urut,
                         'TA' => $tahun,
@@ -195,6 +210,7 @@ class RKPDMurniController extends Controller
                       'RKPDID' => Uuid::uuid4()->toString(),
                       'kode' => 'N.A',
                       'nama' => 'TIDAK MEMILIKI SUB KEGIATAN',
+                      'target_renstra' => 0,
                       'level' => 10,
                       'no_urut' => $no_urut,
                       'TA' => $tahun,
@@ -213,6 +229,7 @@ class RKPDMurniController extends Controller
                   'RKPDID' => Uuid::uuid4()->toString(),
                   'kode' => 'N.A',
                   'nama' => 'TIDAK MEMILIKI KEGIATAN',
+                  'target_renstra' => 0,
                   'level' => 10,
                   'no_urut' => $no_urut,
                   'TA' => $tahun,
@@ -231,6 +248,7 @@ class RKPDMurniController extends Controller
               'RKPDID' => Uuid::uuid4()->toString(),
               'kode' => 'N.A',
               'nama' => 'TIDAK MEMILIKI PROGRAM',
+              'target_renstra' => 0,
               'level' => 10,
               'no_urut' => $no_urut,
               'TA' => $tahun,
@@ -249,6 +267,7 @@ class RKPDMurniController extends Controller
           'RKPDID' => Uuid::uuid4()->toString(),
           'kode' => 'N.A',
           'nama' => 'TIDAK MEMILIKI BIDANG URUSAN',
+          'target_renstra' => 0,
           'level' => 10,
           'no_urut' => $no_urut,
           'TA' => $tahun,

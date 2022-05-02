@@ -20,6 +20,7 @@ class CreateRKPDTable extends Migration
             $table->string('OrgNm')->nullable();
             $table->string('kode')->nullable();
             $table->string('nama')->nullable();
+            $table->decimal('target_renstra',15,2)->default(0);
             $table->tinyInteger('level');
             $table->integer('no_urut');
             $table->tinyInteger('BulanLaporan');            

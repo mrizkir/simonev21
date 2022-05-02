@@ -195,7 +195,7 @@ class FormBOPDMurniController extends Controller
 										->where('RKAID',$RKAID)
 										->where('bulan1','<=',$no_bulan)
 										->get();
-
+							
 							//menghitung persen target fisik    
 							$target_fisik_program += $data_target[0]->jumlah_fisik;
 							$target_fisik_kegiatan += $data_target[0]->jumlah_fisik;
@@ -264,6 +264,16 @@ class FormBOPDMurniController extends Controller
 							];
 							$total_sub_kegiatan += 1;
 							$row += 1;
+
+							//update tmSubKegiatan
+							\DB::table('tmSubKegiatan')
+							->where('kode_sub_kegiatan', $kode_sub_kegiatan)
+							->where('TA', $tahun)
+							->update([
+								'PaguDana1' => $data_sub_kegiatan->PaguDana1,
+								'RealisasiKeuangan1' => $totalRealisasiKeuangan,
+								'RealisasiFisik1' => $persen_realisasi_fisik,
+							]);
 						}
 						$persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
 						$target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);                            

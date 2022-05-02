@@ -17,6 +17,12 @@ class CreateSubKegiatanTable extends Migration
             $table->string('Kd_SubKegiatan',5);
             $table->string('kode_sub_kegiatan');
             $table->string('Nm_SubKegiatan');
+            $table->decimal('PaguDana1',15,2)->default(0);
+            $table->decimal('PaguDana2',15,2)->default(0);
+            $table->decimal('RealisasiKeuangan1',15,2)->default(0);
+            $table->decimal('RealisasiKeuangan2',15,2)->default(0);
+            $table->decimal('RealisasiFisik1',5,2)->default(0);
+            $table->decimal('RealisasiFisik2',5,2)->default(0);
             $table->string('Descr')->nullable();
             $table->year('TA');           
             $table->boolean('Locked')->default(1);

@@ -17,7 +17,13 @@ class CreateBidangUrusanTable extends Migration
             $table->uuid('BidangID');            
             $table->uuid('UrsID');            
             $table->string('Kd_Bidang',5);
-            $table->string('Nm_Bidang');                        
+            $table->string('Nm_Bidang');        
+            $table->decimal('PaguDana1',15,2)->default(0);
+            $table->decimal('PaguDana2',15,2)->default(0);
+            $table->decimal('RealisasiKeuangan1',15,2)->default(0);
+            $table->decimal('RealisasiKeuangan2',15,2)->default(0);
+            $table->decimal('RealisasiFisik1',5,2)->default(0);
+            $table->decimal('RealisasiFisik2',5,2)->default(0);                
             $table->string('Descr');
             $table->year('TA');
             $table->uuid('BidangID_Src')->nullable();
