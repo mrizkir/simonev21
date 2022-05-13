@@ -19,6 +19,9 @@ const mutations = {
 	setUser: (state, user) => {
 		state.user = user;
 	},
+	setFoto: (state, foto) => {
+		state.user['foto'] = foto;
+	},
 	resetState(state) {
 		Object.assign(state, getDefaultState());
 	},
@@ -84,6 +87,9 @@ const actions = {
 	afterLoginSuccess({ commit }, data) {
 		commit("setToken", data.token);
 		commit("setUser", data.user);
+	},
+	updateFoto({ commit }, foto) {
+		commit("setFoto", foto);
 	},
 	logout({ commit }) {
 		commit("resetState");

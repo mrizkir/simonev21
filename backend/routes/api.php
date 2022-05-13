@@ -34,12 +34,12 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 
 	//auth login
 	$router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);
+	$router->post('/auth/logout',['uses'=>'AuthController@logout','as'=>'auth.logout']);
 });
 
 $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
 {
-	//authentication
-	$router->post('/auth/logout',['uses'=>'AuthController@logout','as'=>'auth.logout']);
+	//authentication	
 	$router->get('/auth/refresh',['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
 	$router->get('/auth/me',['uses'=>'AuthController@me','as'=>'auth.me']);
 

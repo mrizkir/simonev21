@@ -696,6 +696,15 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/system/UsersTAPD.vue"),
 	},
+	{
+		path: "/system-users/profil",
+		name: "UsersProfil",
+		meta: {
+			title: "USERS - PROFILE",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/system/UsersProfile.vue"),
+	},
 	//system
 	{
 		path: "/system-setting",
