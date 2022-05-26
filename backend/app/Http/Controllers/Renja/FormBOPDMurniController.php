@@ -463,16 +463,20 @@ class FormBOPDMurniController extends Controller
 		}
 
 		$opd->PaguDana1 = $totalPaguOPD;
+		$opd->JumlahKegiatan1 = $total_kegiatan;
+		$opd->JumlahSubKegiatan1 = $total_sub_kegiatan;
+		$opd->RealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
+		$opd->RealisasiFisik1 = $totalPersenRealisasiFisik;
 		$opd->save();
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',
-									'opd'=>$opd,
-									'rka'=>$data,
-									'total_data'=>$total_data,                                    
-									'message'=>'Fetch data form b murni berhasil diperoleh'
-								], 200);    
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'opd'=>$opd,
+			'rka'=>$data,
+			'total_data'=>$total_data,                                    
+			'message'=>'Fetch data form b murni berhasil diperoleh'
+		], 200);    
 		
 	}
 	public function printtoexcel (Request $request)

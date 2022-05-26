@@ -194,7 +194,7 @@ class RenjaPerubahanController extends Controller
 				}       
 				else if ($this->hasRole('opd'))
 				{
-					$daftar_opd=$this->getUserOrgID();
+					$daftar_opd=$this->getUserOrgID($tahun);
 					$jumlah_opd=count($daftar_opd);
 					if ($jumlah_opd > 0)
 					{
@@ -495,7 +495,7 @@ class RenjaPerubahanController extends Controller
 		}
 		else if ($this->hasRole('opd'))
 		{
-			$daftar_opd=$this->getUserOrgID();
+			$daftar_opd=$this->getUserOrgID($tahun);
 			$jumlah_opd=count($daftar_opd);
 			if ($jumlah_opd > 0)
 			{
@@ -561,7 +561,7 @@ class RenjaPerubahanController extends Controller
 		}
 		else
 		{
-			$daftar_opd=$this->getUserOrgID();
+			$daftar_opd=$this->getUserOrgID($tahun);
 			$jumlah_opd=count($daftar_opd);
 			if ($jumlah_opd > 0)
 			{

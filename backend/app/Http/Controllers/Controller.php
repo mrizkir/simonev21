@@ -9,142 +9,147 @@ use App\Models\User;
 
 class Controller extends BaseController
 {
-    /**
-     * @return object auth api
-     */
-    public function guard() 
+  /**
+   * @return object auth api
+   */
+  public function guard() 
+  {
+    return Auth::guard('api');
+  }
+  /**
+   * digunakan untuk mendapatkan userid
+   */
+  public function getUserid ()
+  {
+    return $this->guard()->user()->id;
+  }
+  /**
+   * digunakan untuk mendapatkan username
+   */
+  public function getUsername ()
+  {
+    return $this->guard()->user()->username;
+  }
+  /**
+   * @return boolean roles of user in array
+   */
+  public function getRoleNames() 
+  {
+    return $this->guard()->user()->getRoleNames()->toArray();
+  }
+  /**
+   * @return boolean has role
+   */
+  public function hasRole($name) 
+  {
+    return $this->guard()->user()->hasRole($name);        
+  }
+  /**
+   * @return object auth api
+   */
+  public function hasPermissionTo($permission) 
+  {
+    $user = Auth::guard('api')->user();
+    if ($this->guard()->guest())
     {
-        return Auth::guard('api');
+      return true;
     }
-    /**
-     * digunakan untuk mendapatkan userid
-     */
-    public function getUserid ()
+    elseif ($user->hasPermissionTo($permission) || $user->hasRole('superadmin'))
     {
-        return $this->guard()->user()->id;
+      return true;
     }
-    /**
-     * digunakan untuk mendapatkan username
-     */
-    public function getUsername ()
+    else
     {
-        return $this->guard()->user()->username;
-    }
-    /**
-     * @return boolean roles of user in array
-     */
-    public function getRoleNames() 
+      abort(403,'Forbidden: You have not a privilege to execute this process '.$permission);
+    }        
+  }
+  /**
+   * @return object auth api
+   */
+  public function hasAnyPermission($permission) 
+  {
+    $user = Auth::guard('api')->user();
+    if ($this->guard()->guest())
     {
-        return $this->guard()->user()->getRoleNames()->toArray();
+      return true;
     }
-    /**
-     * @return boolean has role
-     */
-    public function hasRole($name) 
+    elseif ($user->hasAnyPermission($permission) || $user->hasRole('superadmin'))
     {
-        return $this->guard()->user()->hasRole($name);        
+      return true;
     }
-    /**
-     * @return object auth api
-     */
-    public function hasPermissionTo($permission) 
+    else
     {
-        $user = Auth::guard('api')->user();
-        if ($this->guard()->guest())
-        {
-            return true;
-        }
-        elseif ($user->hasPermissionTo($permission) || $user->hasRole('superadmin'))
-        {
-            return true;
-        }
-        else
-        {
-            abort(403,'Forbidden: You have not a privilege to execute this process '.$permission);
-        }        
-    }
-    /**
-     * @return object auth api
-     */
-    public function hasAnyPermission($permission) 
+      abort(403,'Forbidden: You have not a privilege to execute this process '.$permission);
+    }        
+  }
+  /**
+   * Display the specified user permissions.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function userpermissions($id)
+  {
+    $user = User::find($id);
+    $permissions=is_null($user)?[]:$user->permissions;     
+    return Response()->json([
+                  'status'=>1,
+                  'pid'=>'fetchdata',
+                  'permissions'=>$permissions,                                    
+                  'message'=>'Fetch permission role '.$user->username.' berhasil diperoleh.'
+                ], 200); 
+  }
+  /**
+   * @return array digunakan untuk mendapatkan OrgID dari 
+   */
+  public function getUserOrgID($ta) 
+  {
+    $user_id = $this->getUserid();
+    if ($this->hasRole('opd'))
     {
-        $user = Auth::guard('api')->user();
-        if ($this->guard()->guest())
-        {
-            return true;
-        }
-        elseif ($user->hasAnyPermission($permission) || $user->hasRole('superadmin'))
-        {
-            return true;
-        }
-        else
-        {
-            abort(403,'Forbidden: You have not a privilege to execute this process '.$permission);
-        }        
+      $opd = \DB::table('usersopd')
+            ->select(\DB::raw('OrgID'))
+            ->where('user_id', $user_id)
+            ->where('ta', $ta)
+            ->get();
     }
-    /**
-     * Display the specified user permissions.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function userpermissions($id)
+    else if ($this->hasRole('unitkerja'))
     {
-        $user = User::find($id);
-        $permissions=is_null($user)?[]:$user->permissions;     
-        return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
-                                    'permissions'=>$permissions,                                    
-                                    'message'=>'Fetch permission role '.$user->username.' berhasil diperoleh.'
-                                ], 200); 
+      $opd = \DB::table('usersunitkerja')
+            ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
+            ->where('user_id', $user_id)
+            ->where('ta', $ta)
+            ->get();
     }
-    /**
-     * @return array digunakan untuk mendapatkan OrgID dari 
-     */
-    public function getUserOrgID() 
+    $daftar_opd = [];
+    foreach($opd as $items) 
     {
-        if ($this->hasRole('opd'))
-        {
-            $user=$this->guard()->user();
-            $opd=$user->opd;
-        }
-        else if ($this->hasRole('unitkerja'))
-        {
-            $opd = \DB::table('usersunitkerja')
-                        ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
-                        ->where('user_id', $this->getUserid())
-                        ->get();
-        }
-        $daftar_opd = [];
-        foreach($opd as $items) 
-        {
-            $daftar_opd[] = $items->OrgID;
-        }
-        return $daftar_opd;
+      $daftar_opd[] = $items->OrgID;
     }
-    /**
-     * @return array digunakan untuk mendapatkan SOrgID dari 
-     */
-    public function getUserSOrgID() 
+    return $daftar_opd;
+  }
+  /**
+   * @return array digunakan untuk mendapatkan SOrgID dari 
+   */
+  public function getUserSOrgID() 
+  {
+    if ($this->hasRole('opd'))
     {
-        if ($this->hasRole('opd'))
-        {
-            $user=$this->guard()->user();
-            $opd=$user->opd;
-        }
-        else if ($this->hasRole('unitkerja'))
-        {
-            $opd = \DB::table('usersunitkerja')
-                        ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
-                        ->where('user_id', $this->getUserid())
-                        ->get();
-        }
-        $daftar_opd = [];
-        foreach($opd as $items) 
-        {
-            $daftar_opd[] = $items->OrgID;
-        }
-        return $daftar_opd;
+      $user=$this->guard()->user();
+      $opd=$user->opd;
     }
+    else if ($this->hasRole('unitkerja'))
+    {
+      $opd = \DB::table('usersunitkerja')
+            ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
+            ->where('user_id', $this->getUserid())
+            ->get();
+    }
+    $daftar_opd = [];
+    foreach($opd as $items) 
+    {
+      $daftar_opd[] = $items->OrgID;
+    }
+    return $daftar_opd;
+  }
 }

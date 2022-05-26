@@ -34,7 +34,7 @@ class OrganisasiController extends Controller {
     }       
     else if ($this->hasRole(['opd','unitkerja']))
     {
-      $daftar_opd=$this->getUserOrgID();
+      $daftar_opd=$this->getUserOrgID($tahun);
       $data = OrganisasiModel::where('TA',$tahun)
                 ->whereIn('OrgID',$daftar_opd)
                 ->orderBy('kode_organisasi','ASC')

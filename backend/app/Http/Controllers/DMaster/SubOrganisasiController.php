@@ -20,11 +20,12 @@ class SubOrganisasiController extends Controller {
   {                
     $this->hasPermissionTo('DMASTER-UNIT-KERJA_BROWSE');
 
-    $tahun=$request->input('tahun');
     $this->validate($request, [            
       'tahun'=>'required',            
     ]);     
     
+    $tahun=$request->input('tahun');
+
     $select = \DB::raw('
       tmSOrg.SOrgID,            
       tmOrg.OrgID,          
@@ -54,7 +55,7 @@ class SubOrganisasiController extends Controller {
     }       
     else if ($this->hasRole('opd'))
     {
-      $daftar_opd=$this->getUserOrgID();
+      $daftar_opd=$this->getUserOrgID($tahun);
       
       $data = SubOrganisasiModel::select($select)
         ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')

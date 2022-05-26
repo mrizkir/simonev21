@@ -23,13 +23,13 @@ class RenjaMurniController extends Controller
 		$bulan_realisasi=$request->input('bulan_realisasi');
 		
 		$statistik1=[
-						'PaguDana1'=>0,             
-						'JumlahProgram1'=>0,             
-						'JumlahKegiatan1'=>0,             
-						'JumlahSubKegiatan1'=>0,             
-						'RealisasiKeuangan1'=>0,             
-						'RealisasiFisik1'=>0, 
-					];
+			'PaguDana1'=>0,             
+			'JumlahProgram1'=>0,             
+			'JumlahKegiatan1'=>0,             
+			'JumlahSubKegiatan1'=>0,             
+			'RealisasiKeuangan1'=>0,             
+			'RealisasiFisik1'=>0, 
+		];
 		
 		$chart_keuangan=[
 			[
@@ -194,33 +194,33 @@ class RenjaMurniController extends Controller
 		}       
 		else if ($this->hasRole('opd'))
 		{
-			$daftar_opd=$this->getUserOrgID();
+			$daftar_opd=$this->getUserOrgID($tahun);
 			$jumlah_opd=count($daftar_opd);
 			if ($jumlah_opd > 0)
 			{
 				$statistik1 = OrganisasiModel::where('TA',$tahun)
-								->select(\DB::raw('
-									COALESCE(SUM(`PaguDana1`),0) AS `PaguDana1`, 
-									COALESCE(SUM(`JumlahProgram1`),0) AS `JumlahProgram1`, 
-									COALESCE(SUM(`JumlahKegiatan1`),0) AS `JumlahKegiatan1`,
-									COALESCE(SUM(`JumlahSubKegiatan1`),0) AS `JumlahSubKegiatan1`,
-									COALESCE(SUM(`RealisasiKeuangan1`),0) AS `RealisasiKeuangan1`,
-									COALESCE(SUM(`RealisasiFisik1`),0) AS `RealisasiFisik1`,
-									0 AS `PersenRealisasiKeuangan1`
-								'))
-								->whereIn('OrgID',$daftar_opd)                                
-								->first();
+				->select(\DB::raw('
+					COALESCE(SUM(`PaguDana1`),0) AS `PaguDana1`, 
+					COALESCE(SUM(`JumlahProgram1`),0) AS `JumlahProgram1`, 
+					COALESCE(SUM(`JumlahKegiatan1`),0) AS `JumlahKegiatan1`,
+					COALESCE(SUM(`JumlahSubKegiatan1`),0) AS `JumlahSubKegiatan1`,
+					COALESCE(SUM(`RealisasiKeuangan1`),0) AS `RealisasiKeuangan1`,
+					COALESCE(SUM(`RealisasiFisik1`),0) AS `RealisasiFisik1`,
+					0 AS `PersenRealisasiKeuangan1`
+				'))
+				->whereIn('OrgID',$daftar_opd)                                
+				->first();
 
 				$statistik1->PersenRealisasiKeuangan1=Helper::formatPersen($statistik1->RealisasiKeuangan1,$statistik1->PaguDana1);                
 				$statistik1=[
-							'PaguDana1'=>$statistik1->PaguDana1,             
-							'JumlahProgram1'=>$statistik1->JumlahProgram1,             
-							'JumlahKegiatan1'=>$statistik1->JumlahKegiatan1,             
-							'JumlahSubKegiatan1'=>$statistik1->JumlahSubKegiatan1,             
-							'RealisasiKeuangan1'=>$statistik1->RealisasiKeuangan1,             
-							'RealisasiFisik1'=>Helper::formatPecahan($statistik1->RealisasiFisik1,$jumlah_opd), 
-							'PersenRealisasiKeuangan1'=>Helper::formatPecahan($statistik1->PersenRealisasiKeuangan1,$jumlah_opd), 
-						];
+					'PaguDana1'=>$statistik1->PaguDana1,             
+					'JumlahProgram1'=>$statistik1->JumlahProgram1,             
+					'JumlahKegiatan1'=>$statistik1->JumlahKegiatan1,             
+					'JumlahSubKegiatan1'=>$statistik1->JumlahSubKegiatan1,             
+					'RealisasiKeuangan1'=>$statistik1->RealisasiKeuangan1,             
+					'RealisasiFisik1'=>Helper::formatPecahan($statistik1->RealisasiFisik1,$jumlah_opd), 
+					'PersenRealisasiKeuangan1'=>Helper::formatPecahan($statistik1->PersenRealisasiKeuangan1,$jumlah_opd), 
+				];
 
 				$statistik2=Statistik2Model::select(\DB::raw('
 												`Bulan`,
@@ -331,13 +331,14 @@ class RenjaMurniController extends Controller
 		}
 		
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'statistik1'=>$statistik1,
-								'chart_keuangan'=>$chart_keuangan,
-								'chart_fisik'=>$chart_fisik,
-								'message'=>'Fetch data ringkasan perubahan berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'statistik1'=>$statistik1,
+			'daftar_opd'=>$daftar_opd,
+			'chart_keuangan'=>$chart_keuangan,
+			'chart_fisik'=>$chart_fisik,
+			'message'=>'Fetch data ringkasan perubahan berhasil diperoleh'
+		],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	public function reloadstatistik1(Request $request)
 	{
@@ -495,7 +496,7 @@ class RenjaMurniController extends Controller
 		}
 		else if ($this->hasRole('opd'))
 		{
-			$daftar_opd=$this->getUserOrgID();
+			$daftar_opd=$this->getUserOrgID($tahun);
 			$jumlah_opd=count($daftar_opd);
 			if ($jumlah_opd > 0)
 			{
@@ -561,7 +562,7 @@ class RenjaMurniController extends Controller
 		}
 		else
 		{
-			$daftar_opd=$this->getUserOrgID();
+			$daftar_opd=$this->getUserOrgID($tahun);
 			$jumlah_opd=count($daftar_opd);
 			if ($jumlah_opd > 0)
 			{
