@@ -107,7 +107,7 @@
 							<tbody>
 								<tr
 									v-for="item in items"
-									v-bind:key="item.FormBMurniID"					
+									v-bind:key="item.FormBMurniID"		
 								>
 									<td>{{ item.kode }}</td>
 									<td>{{ item.nama_uraian }}</td>

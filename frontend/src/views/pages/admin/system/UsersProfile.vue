@@ -31,12 +31,8 @@
 							<v-row>
 								<v-col xs="12" sm="6" md="3">
 									<v-card flat>
-										<v-card-text>											
-											<v-img
-												class="white--text align-end"
-												:src="photoUser"
-											>
-											</v-img>
+										<v-card-text>
+											<v-img class="white--text align-end" :src="photoUser" />
 										</v-card-text>
 									</v-card>
 								</v-col>
@@ -159,20 +155,13 @@
 								</v-col>
 								<v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
 							</v-row>
-							<v-row>
-								
-							</v-row>
 						</v-card-text>
 					</v-card>
 				</v-col>
 			</v-row>
 			<v-row>
 				<v-col xs="12" sm="6" md="6">
-					<v-form
-						ref="frmuploadfoto"
-						v-model="form_foto_valid"
-						lazy-validation
-					>
+					<v-form ref="frmuploadfoto" v-model="form_foto_valid" lazy-validation>
 						<v-card>
 							<v-card-title>
 								<span class="headline">GANTI PHOTO PROFIL</span>
@@ -180,7 +169,7 @@
 							<v-card-text>
 								<v-file-input
 									accept="image/jpeg,image/png"
-									label="FOTO PROFIL (MAKS. 2MB)"						
+									label="FOTO PROFIL (MAKS. 2MB)"
 									show-size
 									v-model="form_foto"
 									:rules="rule_foto"
@@ -262,13 +251,12 @@
 					disabled: true,
 					href: "#",
 				},
-			];			
+			];
 		},
-		data: () => ({			
+		data: () => ({
 			dashboard: null,
 			breadcrumbs: [],
 			btnLoading: false,
-			
 			avatar: null,
 			//form data
 			form_foto_valid: true,
@@ -295,7 +283,7 @@
 						return true;
 					}
 				},					
-			],      
+			],
 		}),
 		methods: {
 			previewImage(e) {
@@ -355,7 +343,7 @@
 							}
 						)
 						.then(() => {
-							this.$refs.frmdata.reset();							
+							this.$refs.frmdata.reset();
 							this.btnLoading = false;
 						})
 						.catch(() => {

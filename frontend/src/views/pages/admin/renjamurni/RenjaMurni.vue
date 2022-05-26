@@ -225,7 +225,7 @@
 					})
 					.then(()=>{                 
 						this.$router.go();
-					});     
+					});   
         },
         async loadstatistik2() {
 					await this.$ajax
@@ -240,7 +240,7 @@
             })
 						.then(()=>{                 
                 this.$router.go();
-            });     
+            });   
         }
 		},
 		components: {

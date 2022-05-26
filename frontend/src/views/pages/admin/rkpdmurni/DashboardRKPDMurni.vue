@@ -36,7 +36,7 @@
 						:hide-default-footer="true"
 					>
 						<template v-slot:top>
-							<v-toolbar flat color="white">																
+							<v-toolbar flat color="white">				
 								<v-spacer></v-spacer>
 								<v-btn
 									color="primary"

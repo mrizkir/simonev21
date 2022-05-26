@@ -673,7 +673,7 @@
 										v-bind="attrs"
 										v-on="on"
 										class="ma-1"
-										color="red"				
+										color="red"	
 										:disabled="btnLoading || datakegiatan.Locked == 1"
 										@click.stop="deleteItem(item)"
 									>

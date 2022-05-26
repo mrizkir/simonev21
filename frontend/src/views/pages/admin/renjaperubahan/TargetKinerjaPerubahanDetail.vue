@@ -160,7 +160,7 @@
 										v-bind="attrs"
 										v-on="on"
 										class="ma-1"
-										color="red"				
+										color="red"	
 										:disabled="btnLoading || item.Locked == 1 || datatable.length <= 12"
 										@click.stop="deleteItem(item)"
 									>
@@ -447,7 +447,7 @@
 					var totalfisik = 0;
 					for (var i = 0; i < data.length; i++) {
 						var num = new Number(data[i].target2);
-						totaltarget += num;										
+						totaltarget += num;					
 						num = new Number(data[i].fisik2);
 						totalfisik += num;
 					}					

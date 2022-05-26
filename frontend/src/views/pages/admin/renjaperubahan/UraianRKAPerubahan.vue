@@ -221,7 +221,7 @@
 									<v-btn
 										color="blue darken-1"
 										text
-										@click.stop="updateuraian"				
+										@click.stop="updateuraian"	
 										:disabled="!form_valid || btnLoading"
 									>
 										SIMPAN
@@ -617,7 +617,7 @@
 											outlined
 											small
 											class="ma-2"
-											@click.stop="$router.push('/renjaperubahan/rka/uraian/' + RKAID + '/add')"					
+											@click.stop="$router.push('/renjaperubahan/rka/uraian/' + RKAID + '/add')"		
 										>
 											<v-icon>mdi-plus</v-icon>
 										</v-btn>
@@ -663,7 +663,7 @@
 										v-bind="attrs"
 										v-on="on"
 										class="ma-1"
-										color="red"				
+										color="red"	
 										:disabled="btnLoading || item.Locked == 1"
 										@click.stop="deleteItem(item)"
 									>
