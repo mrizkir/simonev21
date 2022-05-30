@@ -327,8 +327,7 @@ class RenjaMurniController extends Controller
 						break;
 					}
 				}
-			}
-			
+			}			
 		}
 		
 		return Response()->json([
