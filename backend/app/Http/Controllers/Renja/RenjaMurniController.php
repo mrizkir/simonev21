@@ -49,6 +49,7 @@ class RenjaMurniController extends Controller
 		];
 		if ($this->hasRole(['superadmin','bapelitbang']))
 		{
+			$daftar_opd = [];
 			$statistik1 = Statistik1Model::select(\DB::raw('
 											`PaguDana1`,
 											`JumlahProgram1`,
