@@ -1,12 +1,10 @@
 <template>
-  <RKPDMurniLayout :showrightsidebar="false" :temporaryleftsidebar="true">
-    <ModuleHeader>
+	<RKPDMurniLayout :showrightsidebar="true" :temporaryleftsidebar="true">
+		<ModuleHeader>
 			<template v-slot:icon>
 				mdi-graph
 			</template>
-			<template v-slot:name>
-				RKPD MURNI
-			</template>
+			<template v-slot:name>RKPD MURNI {{ tahun_anggaran }}</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
 					<template v-slot:divider>
@@ -36,7 +34,7 @@
 						:hide-default-footer="true"
 					>
 						<template v-slot:top>
-							<v-toolbar flat color="white">				
+							<v-toolbar flat color="white">
 								<v-spacer></v-spacer>
 								<v-btn
 									color="primary"
@@ -57,8 +55,10 @@
 									:class="[colorRowFormA(item), fontWeight(item)]"
 								>
 									<td>{{ item.kode }}</td>
-									<td>{{ item.nama }}</td>									
-									<td class="text-right">{{ item.target_renstra | formatUang }}</td>									
+									<td>{{ item.nama }}</td>
+									<td class="text-right">
+										{{ item.target_renstra | formatUang }}
+									</td>
 								</tr>
 							</tbody>
 						</template>
@@ -66,13 +66,17 @@
 				</v-col>
 			</v-row>
 		</v-container>
-  </RKPDMurniLayout>
+		<template v-slot:filtersidebar>
+			<Filter3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter3" />
+		</template>
+	</RKPDMurniLayout>
 </template>
 <script>
-  import RKPDMurniLayout from "@/views/layouts/RKPDMurniLayout";
-  import ModuleHeader from "@/components/ModuleHeader";
-  export default {
-    name: "DashboardRKPDMurni",
+	import RKPDMurniLayout from "@/views/layouts/RKPDMurniLayout";
+	import ModuleHeader from "@/components/ModuleHeader";
+	import Filter3 from "@/components/sidebar/FilterMode3";
+	export default {
+		name: "DashboardRKPDMurni",
 		created() {
 			this.breadcrumbs = [
 				{
@@ -86,21 +90,31 @@
 					href: "#",
 				},
 			];
-			this.tahun_anggaran = new Number(this.$store.getters["auth/TahunSelected"]);				
-			this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
+			this.$store.dispatch("uiadmin/addToPages", {
+				name: "rkpdmurni",
+				tahun_anggaran: new Number(this.$store.getters["auth/TahunSelected"]),
+			});
 		},
 		mounted() {
+			this.tahun_anggaran = this.$store.getters["uiadmin/AtributeValueOfPage"](
+				"rkpdmurni",
+				"tahun_anggaran"
+			);
 			this.initialize();
+			this.firstloading = false;
+			this.$refs.filter3.setFirstTimeLoading(this.firstloading);
 		},
 		data() {
-			var tahun_renja_lalu = new Number(this.$store.getters["auth/TahunSelected"]) - 1;		
-			var tahun_renstra_lalu = new Number(this.$store.getters["auth/TahunSelected"]) - 5;
+			var tahun_renja_lalu =
+				new Number(this.$store.getters["auth/TahunSelected"]) - 1;
+			var tahun_renstra_lalu =
+				new Number(this.$store.getters["auth/TahunSelected"]) - 5;
 			return {
 				btnLoading: false,
 				tahun_anggaran: null,
 				tahun_renstra_lalu: tahun_renstra_lalu,
 				tahun_renja_lalu: tahun_renja_lalu,
-				bulan_realisasi: null,
+				bulan_realisasi: 12,
 				//data table
 				datatable: [],
 				datatableLoading: false,
@@ -207,13 +221,21 @@
 			};
 		},
 		methods: {
+			changeTahunAnggaran(ta) {
+				this.tahun_anggaran = ta;
+				var page = this.$store.getters["uiadmin/Page"]("rkpdmurni");
+				page.tahun_anggaran = ta;
+				this.$store.dispatch("uiadmin/updatePage", page);
+
+				this.initialize();
+			},
 			async initialize() {
 				await this.$ajax
 					.post(
 						"/rkpdmurni",
 						{
 							tahun: this.tahun_anggaran,
-							no_bulan: this.bulan_realisasi,			
+							no_bulan: this.bulan_realisasi,
 						},
 						{
 							headers: {
@@ -258,9 +280,10 @@
 				return weight;
 			},
 		},
-    components: {
+		components: {
 			RKPDMurniLayout,
-      ModuleHeader,
+			ModuleHeader,
+			Filter3,
 		},
-  }
+	};
 </script>

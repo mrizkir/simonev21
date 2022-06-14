@@ -92,7 +92,7 @@
 				<v-icon color="white">mdi-menu-open</v-icon>
 			</v-app-bar-nav-icon>
 		</v-app-bar>
-    <v-navigation-drawer
+		<v-navigation-drawer
 			v-model="drawer"
 			width="300"
 			dark
@@ -131,7 +131,9 @@
 					<v-list-item-title>BOARD DATA RKPD</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
-			<v-subheader class="purple accent-5 white--text">INDIKATOR KINERJA</v-subheader>
+			<v-subheader class="purple accent-5 white--text">
+				INDIKATOR KINERJA
+			</v-subheader>
 			<v-list-item
 				link
 				to="/rkpdmurni/indikatorkinerja/program"
@@ -151,6 +153,38 @@
 				</v-list-item-content>
 			</v-list-item>
 		</v-navigation-drawer>
+		<v-navigation-drawer
+			v-model="drawerRight"
+			width="300"
+			app
+			fixed
+			right
+			temporary
+			v-if="showrightsidebar"
+		>
+			<v-list dense>
+				<v-list-item>
+					<v-list-item-icon class="mr-2">
+						<v-icon>mdi-menu-open</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title class="title">
+							OPTIONS
+						</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+				<v-divider></v-divider>
+				<v-list-item class="primary" dark>
+					<v-list-item-icon class="mr-2">
+						<v-icon>mdi-filter</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title>FILTER</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+				<slot name="filtersidebar" />
+			</v-list>
+		</v-navigation-drawer>
 		<v-main class="mx-4 mb-4">
 			<slot />
 		</v-main>
@@ -168,7 +202,7 @@
 				</v-card-text>
 			</v-card>
 		</v-footer>
-  </div>
+	</div>
 </template>
 <script>
 	import { mapGetters } from "vuex";
