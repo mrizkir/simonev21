@@ -126,15 +126,7 @@
 								<td v-bind:class="[formatKodeWarna(0, item.realisasi_fisik), 'text-center']">{{ item.realisasi_fisik }}</td>
 								<td class="text-right">{{ item.target_keuangan | formatUang }}</td>
 								<td v-bind:class="[formatKodeWarna(0, item.persen_keuangan), 'text-right']">{{ item.realisasi_keuangan | formatUang }} </td>
-								<td class="text-center">{{ item.persen_keuangan }}</td>
-								<td class="text-center">
-									<v-chip                
-										:color="formatStyleIndikatorKinerja(item.realisasi_fisik, item.persen_keuangan)"
-										class="ma-2"
-									>
-										&nbsp;
-									</v-chip>						
-								</td>
+								<td class="text-center">{{ item.persen_keuangan }}</td>								
 							</tr>
 						</template>
 						<template v-slot:body.append>
@@ -180,7 +172,12 @@
 					href: "/",
 				},
 				{
-					text: "LAPORAN REALISASI PERUBAHAN",
+					text: "EVALUASI APBD PERUBAHAN",
+					disabled: false,
+					href: "#",
+				},
+				{
+					text: "REALISASI PER T.A",
 					disabled: true,
 					href: "#",
 				},
@@ -236,12 +233,6 @@
 				{
 					text: "% REALISASI KEUANGAN",
 					value: "persen_keuangan",
-					sortable: false,
-					align: "center",
-				},
-				{
-					text: "INDIKATOR KINERJA",
-					value: "indikator_kinerja",
 					sortable: false,
 					align: "center",
 				},

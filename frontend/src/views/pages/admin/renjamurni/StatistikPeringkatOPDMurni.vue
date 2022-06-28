@@ -41,7 +41,7 @@
 					<v-data-table
 						:headers="headers"
 						:items="datatable"
-						item-key="kode_organisasi"
+						item-key="OrgID"
 						:search="search"
 						:loading="datatableLoading"
 						loading-text="Loading... Please wait"

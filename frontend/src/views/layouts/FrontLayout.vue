@@ -101,7 +101,7 @@
 					<v-list-item-title>DASHBOARD</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
-			<v-subheader class="purple accent-5 white--text">STATISTIK MURNI</v-subheader>
+			<v-subheader class="purple accent-5 white--text">EVALUASI APBD MURNI</v-subheader>
 			<v-list-item
 				to="/laporanrealisasimurni"
 				link
@@ -114,10 +114,10 @@
 					<v-icon>mdi-chart-bar</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
-					<v-list-item-title>LAPORAN REALISASI</v-list-item-title>
+					<v-list-item-title>REALISASI PER T.A</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
-			<v-subheader class="purple accent-5 white--text">STATISTIK PERUBAHAN</v-subheader>
+			<v-subheader class="purple accent-5 white--text">EVALUASI APBD PERUBAHAN</v-subheader>
 			<v-list-item
 				to="/laporanrealisasiperubahan"
 				link
@@ -130,7 +130,7 @@
 					<v-icon>mdi-chart-bar</v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
-					<v-list-item-title>LAPORAN REALISASI</v-list-item-title>
+					<v-list-item-title>REALISASI PER T.A</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
 		</v-navigation-drawer>
