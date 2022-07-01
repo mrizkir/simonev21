@@ -8,8 +8,9 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 	//dashboard
 	$router->post('/dashboard/front',['uses'=>'DashboardController@indexfront','as'=>'dashboard.indexfront']);
 	$router->post('/dashboard/pelaporanopd',['uses'=>'Statistik\PelaporanOPDController@front','as'=>'pelaporanopd.front']);
-	$router->post('/dashboard/laporanrealisasimurni',['uses'=>'Statistik\LaporanRealisasiMurniController@front','as'=>'laporanrealisasimurni.front']);
-	$router->post('/dashboard/laporanrealisasiperubahan',['uses'=>'Statistik\LaporanRealisasiPerubahanController@front','as'=>'laporanrealisasiperubahan.front']);
+	$router->post('/evaluasimurni/realisasita',['uses'=>'Statistik\EvaluasiMurniRealisasiTAController@front','as'=>'evaluasimurnirealisasita.front']);
+	$router->post('/evaluasimurni/realisasitw',['uses'=>'Statistik\EvaluasiMurniRealisasiTWController@front','as'=>'evaluasimurnirealisasitw.front']);
+	$router->post('/evaluasiperubahan/realisasita',['uses'=>'Statistik\EvaluasiPerubahanRealisasiTAController@front','as'=>'evaluasiperubahanrealisasita.front']);
 
 	//dmaster
 	$router->post('/dmaster',['uses'=>'DMaster\DMasterController@index','as'=>'dmaster.index']);

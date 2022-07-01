@@ -103,7 +103,7 @@
 			</v-list-item>
 			<v-subheader class="purple accent-5 white--text">EVALUASI APBD MURNI</v-subheader>
 			<v-list-item
-				to="/laporanrealisasimurni"
+				to="/evaluasimurni/realisasita"
 				link
 				:active-class="
 					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
@@ -115,6 +115,21 @@
 				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-title>REALISASI PER T.A</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item
+				to="/evaluasimurni/realisasitw"
+				link
+				:active-class="
+					$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+				"
+				:color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+			>
+				<v-list-item-icon class="mr-2">
+					<v-icon>mdi-chart-bar</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>REALISASI PER T.W</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
 			<v-subheader class="purple accent-5 white--text">EVALUASI APBD PERUBAHAN</v-subheader>

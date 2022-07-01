@@ -9,7 +9,7 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\Statistik2Model;
 use App\Helpers\Helper;
 
-class LaporanRealisasiPerubahanController extends Controller { 
+class EvaluasiPerubahanRealisasiTAController extends Controller { 
   public function front(Request $request)
 	{
 		$this->validate($request, [            

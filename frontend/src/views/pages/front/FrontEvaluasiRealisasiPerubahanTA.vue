@@ -13,7 +13,7 @@
 				mdi-chart-bar
 			</template>
 			<template v-slot:name>
-				LAPORAN REALISASI PERUBAHAN
+				EVALUASI REALISASI PERUBAHAN PER T.A
 			</template>
 			<template v-slot:breadcrumbs>
 				<v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -24,9 +24,14 @@
 			</template>
 			<template v-slot:desc>
 				<v-alert color="cyan" border="left" colored-border type="info">
-					Laporan realisasi per OPD Perubahan datanya berasal dari FORM B OPD dengan posisi bulan {{ $store.getters["uifront/getNamaBulan"](
-					$store.getters["uifront/getBulanRealisasi"]
-				) }} Tahun Anggaran {{ tahun_anggaran }}. 				
+					Evaluasi realisasi per OPD Perubahan datanya berasal dari FORM B OPD
+					dengan posisi bulan
+					{{
+						$store.getters["uifront/getNamaBulan"](
+							$store.getters["uifront/getBulanRealisasi"]
+						)
+					}}
+					Tahun Anggaran {{ tahun_anggaran }}.
 				</v-alert>
 			</template>
 		</ModuleHeader>
@@ -41,7 +46,9 @@
 							Triwulan & Tahun
 						</v-card-subtitle>
 						<v-card-text>
-							Triwulan I (x &lt; 13%)<br />Triwulan II (x &lt;= 25%) <br />Triwulan III (x &lt;= 50%) <br />Triwulan IV (x &lt;= 88%)<br />Tahun (x &lt;=50%)
+							Triwulan I (x &lt; 13%)<br />Triwulan II (x &lt;= 25%)
+							<br />Triwulan III (x &lt;= 50%) <br />Triwulan IV (x &lt;=
+							88%)<br />Tahun (x &lt;=50%)
 						</v-card-text>
 					</v-card>
 				</v-col>
@@ -55,7 +62,9 @@
 							Triwulan & Tahun
 						</v-card-subtitle>
 						<v-card-text>
-							Triwulan I (13% >= x &lt; 17%)<br />Triwulan II (26% >= x &lt; 33%) <br />Triwulan III (51% >= x &lt; 60%) <br />Triwulan IV (88% >= x &lt; 92%)<br />Tahun (51% >= x &lt; 66%)
+							Triwulan I (13% >= x &lt; 17%)<br />Triwulan II (26% >= x &lt;
+							33%) <br />Triwulan III (51% >= x &lt; 60%) <br />Triwulan IV (88%
+							>= x &lt; 92%)<br />Tahun (51% >= x &lt; 66%)
 						</v-card-text>
 					</v-card>
 				</v-col>
@@ -69,7 +78,9 @@
 							Triwulan & Tahun
 						</v-card-subtitle>
 						<v-card-text>
-							Triwulan I (17% >= x &lt; 20%)<br />Triwulan II (33% >= x &lt; 39%) <br />Triwulan III (61% >= x &lt; 70%) <br />Triwulan IV (92% >= x &lt; 95%)<br />Tahun (66% >= x &lt; 76%)
+							Triwulan I (17% >= x &lt; 20%)<br />Triwulan II (33% >= x &lt;
+							39%) <br />Triwulan III (61% >= x &lt; 70%) <br />Triwulan IV (92%
+							>= x &lt; 95%)<br />Tahun (66% >= x &lt; 76%)
 						</v-card-text>
 					</v-card>
 				</v-col>
@@ -83,7 +94,9 @@
 							Triwulan & Tahun
 						</v-card-subtitle>
 						<v-card-text>
-							Triwulan I (20% >= x &lt; 23%)<br />Triwulan II (39% >= x &lt; 45%) <br />Triwulan III (70% >= x &lt; 79%) <br />Triwulan IV (95% >= x &lt; 98%)<br />Tahun (76% >= x &lt; 91%)
+							Triwulan I (20% >= x &lt; 23%)<br />Triwulan II (39% >= x &lt;
+							45%) <br />Triwulan III (70% >= x &lt; 79%) <br />Triwulan IV (95%
+							>= x &lt; 98%)<br />Tahun (76% >= x &lt; 91%)
 						</v-card-text>
 					</v-card>
 				</v-col>
@@ -97,7 +110,8 @@
 							Triwulan & Tahun
 						</v-card-subtitle>
 						<v-card-text>
-							Triwulan I (x >= 23%)<br />Triwulan II (x >= 45%) <br />Triwulan III (x >= 79%) <br />Triwulan IV (x >= 98%)<br />Tahun (x >= 91%)
+							Triwulan I (x >= 23%)<br />Triwulan II (x >= 45%) <br />Triwulan
+							III (x >= 79%) <br />Triwulan IV (x >= 98%)<br />Tahun (x >= 91%)
 						</v-card-text>
 					</v-card>
 				</v-col>
@@ -123,10 +137,26 @@
 								<td>{{ item.Nm_Organisasi }}</td>
 								<td class="text-right">{{ item.pagu_dana | formatUang }}</td>
 								<td class="text-center">{{ item.target_fisik }}</td>
-								<td v-bind:class="[formatKodeWarna(0, item.realisasi_fisik), 'text-center']">{{ item.realisasi_fisik }}</td>
-								<td class="text-right">{{ item.target_keuangan | formatUang }}</td>
-								<td v-bind:class="[formatKodeWarna(0, item.persen_keuangan), 'text-right']">{{ item.realisasi_keuangan | formatUang }} </td>
-								<td class="text-center">{{ item.persen_keuangan }}</td>								
+								<td
+									v-bind:class="[
+										formatKodeWarna(0, item.realisasi_fisik),
+										'text-center',
+									]"
+								>
+									{{ item.realisasi_fisik }}
+								</td>
+								<td class="text-right">
+									{{ item.target_keuangan | formatUang }}
+								</td>
+								<td
+									v-bind:class="[
+										formatKodeWarna(0, item.persen_keuangan),
+										'text-right',
+									]"
+								>
+									{{ item.realisasi_keuangan | formatUang }}
+								</td>
+								<td class="text-center">{{ item.persen_keuangan }}</td>
 							</tr>
 						</template>
 						<template v-slot:body.append>
@@ -138,13 +168,23 @@
 								<td class="text-center">
 									{{ footers.total_target_fisik }}
 								</td>
-								<td v-bind:class="[formatKodeWarna(0, footers.total_realisasi_fisik), 'text-center']">
+								<td
+									v-bind:class="[
+										formatKodeWarna(0, footers.total_realisasi_fisik),
+										'text-center',
+									]"
+								>
 									{{ footers.total_realisasi_fisik }}
 								</td>
 								<td class="text-right">
 									{{ footers.total_target_keuangan | formatUang }}
-								</td>					
-								<td v-bind:class="[formatKodeWarna(0, footers.total_persen_keuangan), 'text-right']">
+								</td>
+								<td
+									v-bind:class="[
+										formatKodeWarna(0, footers.persen_keuangan),
+										'text-right',
+									]"
+								>
 									{{ footers.total_realisasi_keuangan | formatUang }}
 								</td>
 								<td class="text-center">
@@ -162,7 +202,7 @@
 	import FrontLayout from "@/views/layouts/FrontLayout";
 	import ModuleHeader from "@/components/ModuleHeader";
 	export default {
-		name: "FrontLaporanRealisasiPerubahan",
+		name: "FrontEvaluasiRealisasiPerubahanTA",
 		created() {
 			this.$store.dispatch("uifront/init", this.$ajax);
 			this.breadcrumbs = [
@@ -172,7 +212,7 @@
 					href: "/",
 				},
 				{
-					text: "EVALUASI APBD PERUBAHAN",
+					text: "EVALUASI APBD MURNI",
 					disabled: false,
 					href: "#",
 				},
@@ -250,16 +290,14 @@
 			initialize() {
 				this.datatableLoading = true;
 				this.$ajax
-					.post(
-						"/dashboard/laporanrealisasiperubahan",
-						{
-							tahun: this.tahun_anggaran,			
-							bulan: this.bulan_realisasi,			
-						},
-					)
+					.post("/evaluasiperubahan/realisasita", {
+						tahun: this.tahun_anggaran,
+						bulan: this.bulan_realisasi,
+					})
 					.then(({ data }) => {
 						this.datatableLoading = false;
 						this.datatable = data.laporan_realisasi;
+
 						this.footers = data.laporan_total;
 					});
 			},

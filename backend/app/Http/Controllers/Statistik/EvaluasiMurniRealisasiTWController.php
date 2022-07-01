@@ -9,18 +9,33 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\Statistik2Model;
 use App\Helpers\Helper;
 
-class LaporanRealisasiMurniController extends Controller { 
+class EvaluasiMurniRealisasiTWController extends Controller { 
   public function front(Request $request)
 	{
 		$this->validate($request, [            
 			'tahun'=>'required|numeric',
-			'bulan'=>'required|numeric',
+			'tw_realisasi'=>'required|numeric',
 		]);
 
 		$tahun=$request->input('tahun');
-		$bulan=$request->input('bulan');
+		$tw_realisasi=$request->input('tw_realisasi');
 
-    $laporan_realisasi = [];
+    switch ($tw_realisasi)
+    {
+      case 1:
+        $bulan = 3;
+      break;
+      case 2:
+        $bulan = 6;
+      break;
+      case 3:
+        $bulan = 9;
+      break;
+      case 4:
+        $bulan = 12;
+      break;
+    }
+    $evaluasi_realisasi = [];
 
     $daftar_opd = OrganisasiModel::select(\DB::raw('
       `OrgID`,
@@ -71,7 +86,7 @@ class LaporanRealisasiMurniController extends Controller {
         $persen_realisasi_keuangan = $data_opd->PersenRealisasiKeuangan1;
       }
       $index = $index + 1;
-      $laporan_realisasi[] = [
+      $evaluasi_realisasi[] = [
         'index'=>$index,
         'kode_organisasi'=>$v->kode_organisasi,
         'Nm_Organisasi'=>$v->Nm_Organisasi,
@@ -90,7 +105,7 @@ class LaporanRealisasiMurniController extends Controller {
       $TotalPersenRealisasiKeuangan += $persen_realisasi_keuangan;      
     }
     
-    $laporan_total = [      
+    $evaluasi_total = [      
       'total_pagu_dana'=>$TotalPaguDana,
       'total_target_fisik'=>Helper::formatPecahan($TotalTargetFisik, $index),
       'total_realisasi_fisik'=>Helper::formatPecahan($TotalRealisasiFisik,$index),
@@ -102,8 +117,8 @@ class LaporanRealisasiMurniController extends Controller {
     return Response()->json([
       'status'=>1,
       'pid'=>'fetchdata',
-      'laporan_realisasi'=>$laporan_realisasi,
-      'laporan_total'=>$laporan_total,
+      'evaluasi_realisasi'=>$evaluasi_realisasi,
+      'laporan_total'=>$evaluasi_total,
       'message'=>'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }

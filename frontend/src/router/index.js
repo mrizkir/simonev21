@@ -21,12 +21,20 @@ const routes = [
 		component: () => import("../views/pages/front/PelaporanOPDFront.vue"),
 	},
 	{
-		path: "/laporanrealisasimurni",
-		name: "FrontLaporanRealisasiMurni",
+		path: "/evaluasimurni/realisasita",
+		name: "FrontEvaluasiRealisasiMurniTA",
 		meta: {
-			title: "LAPORAN REALISASI MURNI",
+			title: "EVALUASI REALISASI MURNI PER T.A",
 		},
-		component: () => import("../views/pages/front/FrontLaporanRealisasiMurni.vue"),
+		component: () => import("../views/pages/front/FrontEvaluasiRealisasiMurniTA.vue"),
+	},
+	{
+		path: "/evaluasimurni/realisasitw",
+		name: "FrontEvaluasiRealisasiMurniTW",
+		meta: {
+			title: "EVALUASI REALISASI MURNI PER TW",
+		},
+		component: () => import("../views/pages/front/FrontEvaluasiRealisasiMurniTW.vue"),
 	},
 	{
 		path: "/laporanrealisasiperubahan",
@@ -34,7 +42,7 @@ const routes = [
 		meta: {
 			title: "LAPORAN REALISASI PERUBAHAN",
 		},
-		component: () => import("../views/pages/front/FrontLaporanRealisasiPerubahan.vue"),
+		component: () => import("../views/pages/front/FrontEvaluasiRealisasiPerubahanTA.vue"),
 	},
 	{
 		path: "/login",
