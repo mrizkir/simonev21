@@ -1,10 +1,12 @@
 <?php
-
+/**
+ * table untuk menyimpan informasi DAK
+ */
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatistik1Table extends Migration
+class CreateStatistik4Table extends Migration
 {
   /**
    * Run the migrations.
@@ -13,7 +15,7 @@ class CreateStatistik1Table extends Migration
    */
   public function up()
   {
-    Schema::create('statistik1', function (Blueprint $table) {
+    Schema::create('statistik4', function (Blueprint $table) {
       $table->smallInteger('statistikID');
       $table->decimal('PaguDana1',15,2)->default(0);
       $table->decimal('PaguDana2',15,2)->default(0);
@@ -40,6 +42,6 @@ class CreateStatistik1Table extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('statistik1');
+    Schema::dropIfExists('statistik4');
   }
 }

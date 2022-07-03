@@ -612,6 +612,16 @@ const routes = [
 		},
 		component: () => import("../views/pages/admin/renjaperubahan/TargetKinerjaPerubahanDetail.vue"),
 	},
+	//dak murni
+	{
+		path: "/dakmurni",
+		name: "DAKMurni",
+		meta: {
+			title: "DAK MURNI",
+			requiresAuth: true,
+		},
+		component: () => import("../views/pages/admin/dakmurni/DAKMurni.vue"),
+	},
 	// statistik perubahan
 	{
 		path: '/renjaperubahan/statistik/peringkatopd',

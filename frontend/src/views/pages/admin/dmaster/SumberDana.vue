@@ -391,7 +391,7 @@
 				rule_name: [
 					value => !!value || "Mohon untuk di isi Nama Sumber Dana !!!",
 					value =>
-						/^[A-Za-z\s\\,\\.]*$/.test(value) ||
+						/^[A-Za-z\s\\,\\.\\-]*$/.test(value) ||
 						"Kode Sumber Dana hanya boleh string dan spasi",
 				],
 			};

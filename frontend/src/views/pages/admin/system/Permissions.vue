@@ -87,8 +87,9 @@
 																label="NAMA PERMISSION"
 																:rules="rule_permission_name"
 																filled
-															>
+															>															
 															</v-text-field>
+															<v-switch v-model="editedItem.group" label="GROUP" />
 														</v-col>
 													</v-row>
 												</v-container>
@@ -195,6 +196,7 @@
 				id: 0,
 				name: "",
 				guard: "",
+				group: null,
 				created_at: "",
 				updated_at: "",
 			},
@@ -202,6 +204,7 @@
 				id: 0,
 				name: "",
 				guard: "api",
+				group: null,
 				created_at: "",
 				updated_at: "",
 			},
@@ -257,6 +260,7 @@
 								"/system/setting/permissions/store",
 								{
 									name: this.editedItem.name.toLowerCase(),
+									group: this.editedItem.group,
 								},
 								{
 									headers: {

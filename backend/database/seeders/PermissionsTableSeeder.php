@@ -60,6 +60,13 @@ class PermissionsTableSeeder extends Seeder
 			'updated_at'=>Carbon::now()
 		]);
 		
+		\DB::table('permissions')->insert([
+			'name'=>"DAK-GROUP",
+			'guard_name'=>'api',
+			'created_at'=>Carbon::now(),
+			'updated_at'=>Carbon::now()
+		]);
+		
 		//system
 		\DB::table('permissions')->insert([
 			'name'=>"SYSTEM-SETTING-GROUP",
@@ -118,6 +125,10 @@ class PermissionsTableSeeder extends Seeder
 			'RENJA-RKA-MURNI',			
 			'RENJA-RKA-PERUBAHAN',
 			'RENJA-PELAPORAN-OPD',
+			
+			'DAK-RKA-MURNI',			
+			'DAK-RKA-PERUBAHAN',
+			'DAK-PELAPORAN-OPD',
 
 			'SYSTEM-SETTING-PERMISSIONS',
 			'SYSTEM-SETTING-ROLES',

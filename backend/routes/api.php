@@ -313,6 +313,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	//renja - statistik - peringkat opd
 	$router->post('/renjaperubahan/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDPerubahanController@index','as'=>'renjaperubahan-peringkatopdperubahan.index']);
 
+	//dak murni
+	$router->post('/dakmurni',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DAK\DAKMurniController@index','as'=>'renjamurni.index']);
+	$router->post('/dakmurni/reloadstatistik1',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DAK\DAKMurniController@reloadstatistik1','as'=>'dakmurni.reloadstatistik1']);
+	$router->post('/dakmurni/reloadstatistik2',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DAK\DAKMurniController@reloadstatistik2','as'=>'dakmurni.reloadstatistik2']);
+
 	//rkpd
 	$router->post('/rkpdmurni',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'RKPD\RKPDMurniController@index','as'=>'rkpdmurni.index']);
 
