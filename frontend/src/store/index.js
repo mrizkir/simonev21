@@ -10,19 +10,19 @@ const ls = new SecureLS({ isCompression: false });
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-	modules: {
-		uifront: Uifront,
-		auth: Auth,
-		uiadmin: Uiadmin,
-	},
-	plugins: [
-		createPersistedState({
-			key: "simonev-21",
-			storage: {
-				getItem: key => ls.get(key),
-				setItem: (key, value) => ls.set(key, value),
-				removeItem: key => ls.remove(key),
-			},
-		}),
-	],
+  modules: {
+    uifront: Uifront,
+    auth: Auth,
+    uiadmin: Uiadmin,
+  },
+  plugins: [
+    createPersistedState({
+      key: "simonev21-08-22",
+      storage: {
+        getItem: key => ls.get(key),
+        setItem: (key, value) => ls.set(key, value),
+        removeItem: key => ls.remove(key),
+      },
+    }),
+  ],
 });
