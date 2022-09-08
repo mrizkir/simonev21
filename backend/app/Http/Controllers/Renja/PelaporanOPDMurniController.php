@@ -32,13 +32,12 @@ class PelaporanOPDMurniController extends Controller
 			->get();    
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',									
-                  'data_opd'=>$data_opd,
-                  'laporanopd'=>$data,
-									'message'=>'Fetch data pelaporan opd murni berhasil diperoleh'
-								], 200);    
-		
+			'status'=>1,
+			'pid'=>'fetchdata',									
+			'data_opd'=>$data_opd,
+			'laporanopd'=>$data,
+			'message'=>'Fetch data pelaporan opd murni berhasil diperoleh'
+		], 200);
 	}
 	/**
 	 * Show the form for creating a new resource. [menambah realisasi uraian]
@@ -51,10 +50,10 @@ class PelaporanOPDMurniController extends Controller
 
 		$bulan=Helper::getNamaBulan();
 		$bulan_realisasi = Statistik3Model::select('BulanLaporan')
-													->where('OrgID', $id)
-													->get()
-													->pluck('BulanLaporan','BulanLaporan')
-													->toArray();
+			->where('OrgID', $id)
+			->get()
+			->pluck('BulanLaporan','BulanLaporan')
+			->toArray();
 		$data = [];
 		foreach($bulan as $k=>$v)
 		{
@@ -64,11 +63,51 @@ class PelaporanOPDMurniController extends Controller
 			}
 		}
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'bulan'=>$data,
-								'message'=>'Fetch data bulan pelaporan berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'bulan'=>$data,
+			'message'=>'Fetch data bulan pelaporan berhasil diperoleh'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+	}
+	public function store(Request $request)
+	{
+		$this->hasPermissionTo('RENJA-PELAPORAN-OPD_STORE');
+
+		$this->validate($request, [
+			'BulanLaporan' => 'required',
+			'BuktiCetak' => 'required|mimetypes:application/pdf',
+		]);
+		
+		$bukti_laporan = $request->input('BulanLaporan');
+		$bukti_cetak = $request->file('BuktiCetak');
+
+		$mime_type=$foto->getMimeType();
+		if ($mime_type=='image/png' || $mime_type=='image/jpeg')
+		{
+			Statistik3Model::create([				
+				'Statistik3ID' => Uuid::uuid4()->toString(),
+				'OrgID' => $request->input('OrgID'),
+				'kode_organisasi' => $request->input('kode_organisasi'),
+				'OrgNm' => $request->input('OrgNm'),
+				'PaguDana' => $request->input('OrgNm'),
+				'RealisasiKeuangan' => $request->input('OrgNm'),
+				'RealisasiFisik' => $request->input('OrgNm'),
+				'Kontrak' => $request->input('OrgNm'),
+				'PekerjaanSelesai' => $request->input('OrgNm'),
+				'PekerjaanBerjalan' => $request->input('OrgNm'),
+				'PekerjaanTerhenti' => $request->input('OrgNm'),
+				'PekerjaanBelumBerjalan' => $request->input('OrgNm'),
+				'BulanLaporan' => $request->input('OrgNm'),
+				'BuktiCetak' => $request->input('OrgNm'),
+				'TA' => $request->input('OrgNm'),
+				'isverified' => 0,
+			]);
+		}
+		return Response()->json([
+			'status'=>1,
+			'pid'=>'store',
+			'message'=>'Pelaporan OPD Renja Murni berhasil disimpan'
+		], 200);
 	}
 	public function printtoexcel (Request $request)
 	{

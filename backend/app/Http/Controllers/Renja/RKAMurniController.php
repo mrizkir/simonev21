@@ -21,20 +21,20 @@ class RKAMurniController extends Controller
 	private function recalculate($RKAID)
 	{
 		$paguuraian = \DB::table('trRKARinc')                            
-					->where('RKAID',$RKAID)
-					->sum('PaguUraian1');
+			->where('RKAID',$RKAID)
+			->sum('PaguUraian1');
 
 		$jumlah_uraian = \DB::table('trRKARinc')                            
-							->where('RKAID',$RKAID)
-							->count('RKARincID');
+			->where('RKAID',$RKAID)
+			->count('RKARincID');
 
 		$data_realisasi = \DB::table('trRKARealisasiRinc')
-							->select(\DB::raw('
-								COALESCE(SUM(realisasi1),0) AS jumlah_realisasi,
-								COALESCE(SUM(fisik1),0) AS jumlah_fisik
-							'))
-							->where('RKAID',$RKAID)
-							->get();
+			->select(\DB::raw('
+				COALESCE(SUM(realisasi1),0) AS jumlah_realisasi,
+				COALESCE(SUM(fisik1),0) AS jumlah_fisik
+			'))
+			->where('RKAID',$RKAID)
+			->get();
 		
 		$rka = RKAModel::find($RKAID);
 		$rka->PaguDana1 = $paguuraian;
@@ -45,41 +45,41 @@ class RKAMurniController extends Controller
 	private function getDataRKA ($id)
 	{
 		$rka = RKAModel::select(\DB::raw('`RKAID`,
-											`trRKA`.`kode_urusan`,
-											`trRKA`.`Nm_Bidang`,
-											`trRKA`.`kode_organisasi`,
-											`trRKA`.`Nm_Organisasi`,
-											`trRKA`.`kode_sub_organisasi`,
-											`trRKA`.`Nm_Sub_Organisasi`,
-											`trRKA`.`kode_program`,
-											`trRKA`.`Nm_Program`,
-											`trRKA`.`kode_kegiatan`,
-											`trRKA`.`Nm_Kegiatan`,
-											`trRKA`.`kode_sub_kegiatan`,
-											`trRKA`.`Nm_Sub_Kegiatan`,
-											`trRKA`.`lokasi_kegiatan1`,
-											`trRKA`.`SumberDanaID`,
-											`tmSumberDana`.`Nm_SumberDana`,
-											`trRKA`.`tk_capaian1`,
-											`trRKA`.`capaian_program1`,
-											`trRKA`.`masukan1`,
-											`trRKA`.`tk_keluaran1`,
-											`trRKA`.`keluaran1`,
-											`trRKA`.`tk_hasil1`,
-											`trRKA`.`hasil1`,
-											`trRKA`.`ksk1`,
-											`trRKA`.`sifat_kegiatan1`,
-											`trRKA`.`waktu_pelaksanaan1`,
-											`trRKA`.`PaguDana1`,
-											`trRKA`.`Descr`,
-											`trRKA`.`EntryLvl`,
-											`trRKA`.`Locked`,
-											`trRKA`.`created_at`,
-											`trRKA`.`updated_at`
-											'))
-							->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
-							->where('trRKA.EntryLvl',1)
-							->find($id);
+			`trRKA`.`kode_urusan`,
+			`trRKA`.`Nm_Bidang`,
+			`trRKA`.`kode_organisasi`,
+			`trRKA`.`Nm_Organisasi`,
+			`trRKA`.`kode_sub_organisasi`,
+			`trRKA`.`Nm_Sub_Organisasi`,
+			`trRKA`.`kode_program`,
+			`trRKA`.`Nm_Program`,
+			`trRKA`.`kode_kegiatan`,
+			`trRKA`.`Nm_Kegiatan`,
+			`trRKA`.`kode_sub_kegiatan`,
+			`trRKA`.`Nm_Sub_Kegiatan`,
+			`trRKA`.`lokasi_kegiatan1`,
+			`trRKA`.`SumberDanaID`,
+			`tmSumberDana`.`Nm_SumberDana`,
+			`trRKA`.`tk_capaian1`,
+			`trRKA`.`capaian_program1`,
+			`trRKA`.`masukan1`,
+			`trRKA`.`tk_keluaran1`,
+			`trRKA`.`keluaran1`,
+			`trRKA`.`tk_hasil1`,
+			`trRKA`.`hasil1`,
+			`trRKA`.`ksk1`,
+			`trRKA`.`sifat_kegiatan1`,
+			`trRKA`.`waktu_pelaksanaan1`,
+			`trRKA`.`PaguDana1`,
+			`trRKA`.`Descr`,
+			`trRKA`.`EntryLvl`,
+			`trRKA`.`Locked`,
+			`trRKA`.`created_at`,
+			`trRKA`.`updated_at`
+			'))
+		->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
+		->where('trRKA.EntryLvl',1)
+		->find($id);
 
 		return $rka;
 	}
@@ -104,21 +104,21 @@ class RKAMurniController extends Controller
 		if (!is_null($datauraian))        
 		{
 			$r = \DB::table('trRKARealisasiRinc')
-							->select(\DB::raw('
-												`RKARealisasiRincID`,
-												`bulan1`,
-												`target1`,
-												`realisasi1`,
-												target_fisik1,
-												fisik1,
-												`TA`,
-												`Descr`,
-												`created_at`,
-												`updated_at`
-											'))
-							->where('RKARincID',$RKARincID)
-							->orderBy('bulan1','ASC')
-							->get();
+				->select(\DB::raw('
+					`RKARealisasiRincID`,
+					`bulan1`,
+					`target1`,
+					`realisasi1`,
+					target_fisik1,
+					fisik1,
+					`TA`,
+					`Descr`,
+					`created_at`,
+					`updated_at`
+					'))
+				->where('RKARincID',$RKARincID)
+				->orderBy('bulan1','ASC')
+				->get();
 
 			$daftar_realisasi = [];
 			$totalanggarankas=0;
@@ -278,17 +278,17 @@ class RKAMurniController extends Controller
 		\DB::statement($str_insert); 
 		
 		$data = RKAModel::where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)
-							->where('TA',$tahun)
-							->where('EntryLvl',1)
-							->get();
+			->where('TA',$tahun)
+			->where('EntryLvl', 1)
+			->get();
 							
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'unitkerja'=>$unitkerja,
-								'rka'=>$data,
-								'message'=>'Fetch data rka murni berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'unitkerja'=>$unitkerja,
+			'rka'=>$data,
+			'message'=>'Fetch data rka murni berhasil diperoleh'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 		
 	}
 	/**

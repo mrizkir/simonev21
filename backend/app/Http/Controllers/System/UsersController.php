@@ -213,10 +213,10 @@ class UsersController extends Controller {
       break;            
     }       
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',                                                                                                     
-                  'message'=>"Permission seluruh user role ($role_name) berhasil disinkronisasi."
-                ], 200); 
+      'status'=>1,
+      'pid'=>'update',                                                                                                     
+      'message'=>"Permission seluruh user role ($role_name) berhasil disinkronisasi."
+    ], 200); 
   }    
   /**
    * Store user permissions resource in storage.
@@ -449,18 +449,18 @@ class UsersController extends Controller {
       $user->delete();
 
       \App\Models\System\ActivityLog::log($request,[
-                                'object' => $this->guard()->user(), 
-                                'object_id' => $this->guard()->user()->id, 
-                                'user_id' => $this->getUserid(), 
-                                'message' => 'Menghapus user ('.$username.') berhasil'
-                              ]);
+        'object' => $this->guard()->user(), 
+        'object_id' => $this->guard()->user()->id, 
+        'user_id' => $this->getUserid(), 
+        'message' => 'Menghapus user ('.$username.') berhasil'
+      ]);
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',  
-                  'user'=>$user,              
-                  'message'=>"User ($username) berhasil dihapus"
-                ], 200);    
+        'status'=>1,
+        'pid'=>'destroy',  
+        'user'=>$user,              
+        'message'=>"User ($username) berhasil dihapus"
+      ], 200);    
     }
        
           
@@ -472,10 +472,10 @@ class UsersController extends Controller {
     if ($user == null)
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid'=>'store',                
-                  'message'=>["Data User tidak ditemukan."]
-                ], 422);         
+        'status'=>0,
+        'pid'=>'store',                
+        'message'=>["Data User tidak ditemukan."]
+      ], 422);         
     }
     else
     {
@@ -504,21 +504,19 @@ class UsersController extends Controller {
           }
         }
         return Response()->json([
-                      'status'=>0,
-                      'pid'=>'store',
-                      'user'=>$user,                
-                      'message'=>"Foto User ($username)  berhasil diupload"
-                    ], 200);    
+          'status'=>0,
+          'pid'=>'store',
+          'user'=>$user,                
+          'message'=>"Foto User ($username)  berhasil diupload"
+        ], 200);    
       }
       else
       {
         return Response()->json([
-                    'status'=>1,
-                    'pid'=>'store',
-                    'message'=>["Extensi file yang diupload bukan jpg atau png."]
-                  ], 422); 
-        
-
+          'status'=>1,
+          'pid'=>'store',
+          'message'=>["Extensi file yang diupload bukan jpg atau png."]
+        ], 422); 
       }
     }
   }

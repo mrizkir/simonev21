@@ -234,6 +234,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/renja/pelaporanopdmurni',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@index','as'=>'pelaporanopd.index']);
 	//id  = OrgID
 	$router->get('/renja/pelaporanopdmurni/bulanpelaporan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@bulanpelaporan','as'=>'pelaporanopd.bulanpelaporan']);
+	$router->post('/renja/pelaporanopdmurni/store',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@store','as'=>'pelaporanopd.store']);
 
 	//renja - report - form a
 	$router->post('/renjamurni/report/forma',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAMurniController@index','as'=>'formamurni.index']);
