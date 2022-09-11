@@ -44,7 +44,7 @@
 							<v-row no-gutters>
 								<v-col xs="12" sm="6" md="6">
 									<v-card flat>
-										<v-card-title>KODE KEGIATAN :</v-card-title>
+										<v-card-title>KODE SUB KEGIATAN :</v-card-title>
 										<v-card-subtitle>
 											{{ datakegiatan.kode }}
 										</v-card-subtitle>
@@ -55,7 +55,7 @@
 							<v-row no-gutters>
 								<v-col xs="12" sm="6" md="6">
 									<v-card flat>
-										<v-card-title>NAMA KEGIATAN :</v-card-title>
+										<v-card-title>NAMA SUB KEGIATAN :</v-card-title>
 										<v-card-subtitle>
 											{{ datakegiatan.nama_uraian }}
 										</v-card-subtitle>

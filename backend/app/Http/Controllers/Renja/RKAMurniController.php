@@ -389,7 +389,7 @@ class RKAMurniController extends Controller
 								'rka'=>$rka,
 								'uraian'=>$data,
 								'message'=>'Fetch data uraian rka murni berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 		
 	}
 	/**
@@ -480,7 +480,7 @@ class RKAMurniController extends Controller
 								'unitkerja'=>$unitkerja,
 								'rka'=>$data,
 								'message'=>'Fetch data rka murni berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
 	}
 	/**
 	 * Store a newly created resource in storage.
@@ -718,7 +718,7 @@ class RKAMurniController extends Controller
 									'status'=>1,
 									'pid'=>'update',
 									'message'=>'Update RKA berhasil disimpan.'
-								],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}
 	}
 	/**
@@ -757,7 +757,7 @@ class RKAMurniController extends Controller
 									'status'=>1,
 									'pid'=>'update',
 									'message'=>'Update RKA berhasil disimpan.'
-								],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}
 	}
 	/**
@@ -902,7 +902,7 @@ class RKAMurniController extends Controller
 								'pid'=>'fetchdata',
 								'bulan'=>$data,
 								'message'=>'Fetch data bulan realisasi berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	
 	/**
@@ -949,7 +949,7 @@ class RKAMurniController extends Controller
 									'status'=>1,
 									'pid'=>'store',
 									'message'=>'Rencana target fisik uraian berhasil disimpan.'
-								],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
 	}   
@@ -982,7 +982,7 @@ class RKAMurniController extends Controller
 								'status'=>1,
 								'pid'=>'update',
 								'message'=>'Rencana target fisik uraian berhasil diubah.'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
 	}  
@@ -1032,7 +1032,7 @@ class RKAMurniController extends Controller
 								'pid'=>'store',
 								'message'=>'Rencana target anggaran kas uraian berhasil disimpan.',
 								'bulan_anggaran'=>$bulan_anggaran,
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
 	} 
@@ -1068,7 +1068,7 @@ class RKAMurniController extends Controller
 								'pid'=>'update',
 								'message'=>'Rencana target anggaran kas uraian berhasil diubah.',
 								'bulan_anggaran'=>$bulan_anggaran,
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
 	}      
@@ -1119,7 +1119,7 @@ class RKAMurniController extends Controller
 								'pid'=>'store',
 								'realisasi'=>$realisasi,                                    
 								'message'=>'Data realisasi berhasil disimpan.'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 	}    
 	/**
@@ -1155,7 +1155,7 @@ class RKAMurniController extends Controller
 								'pid'=>'update',
 								'realisasi'=>$realisasi,                                    
 								'message'=>'Data realisasi berhasil diubah.'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 		
 
@@ -1290,7 +1290,7 @@ class RKAMurniController extends Controller
 								'datakegiatan'=>$rka,
 								'uraian'=>$data,
 								'message'=>'Fetch data rincian kegiatan berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}            
 	}
 	/**
@@ -1411,7 +1411,7 @@ class RKAMurniController extends Controller
 								'target'=>$target,
 								'datarealisasi'=>$data_realisasi[0],
 								'message'=>"Fetch data target $mode berhasil diperoleh"
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 
 	}
 	/**
@@ -1441,7 +1441,7 @@ class RKAMurniController extends Controller
 								'totalfisik'=>$data['totalfisik'],
 								'sisa_anggaran'=>$data['sisa_anggaran'],
 								'message'=>"Fetch data realisasi berhasil diperoleh"
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 	}
 
 	/**

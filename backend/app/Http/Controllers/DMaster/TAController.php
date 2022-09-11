@@ -23,7 +23,7 @@ class TAController extends Controller {
                                     'pid'=>'fetchdata',
                                     'ta'=>$ta,
                                     'message'=>'Fetch data tahun anggaran berhasil.'
-                                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+                                ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
     /**
      * Store a newly created resource in storage.

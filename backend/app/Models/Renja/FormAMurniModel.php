@@ -497,103 +497,16 @@ class FormAMurniModel extends ReportModel
 														foreach ($tingkat_6 as $k6=>$v6)
 														{
 															if (preg_match("/^$k5/", $k6))
-															{
-																$totalUraian+=1;
-																$totalPaguDana_Rek6=$this->calculateEachLevel($rka,$k6,'Kd_Rek_6');													
-																$rp_total_pagu_dana_rek6=Helper::formatUang($totalPaguDana_Rek6['totalpagu']); 
-																$RKARincID=$rka[$k6]['RKARincID'];
-																$nama_uraian=$rka[$k6]['nama_uraian']; 
-																$no_=explode (".",$k6);    
-																$persen_bobot_rek6=$totalPaguDana_Rek6['totalpersenbobot'];
-																$rp_total_target_rek6=Helper::formatUang($totalPaguDana_Rek6['totaltarget']);
-																$persen_target_rek6=$totalPaguDana_Rek6['totalpersentarget'];
-																$rp_total_realisasi_rek6=Helper::formatUang($totalPaguDana_Rek6['totalrealisasi']);
-																$persen_realisasi_rek6=$totalPaguDana_Rek6['totalpersenrealisasi'];
-																$persen_tertimbang_realisasi_rek6=$totalPaguDana_Rek6['totalpersentertimbangrealisasi'];                                                        
-																$persen_rata2_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalfisik'],$totalPaguDana_Rek6['totalbaris']);
-																$persen_tertimbang_fisik_rek6=$totalPaguDana_Rek6['totalpersentertimbangfisik'];
-																$dalamDpa_rek6=Helper::formatUang($totalPaguDana_Rek6['totalpagu']-$totalPaguDana_Rek6['totalrealisasi']);
-
-																$sheet->setCellValueExplicit("A$row",$no_[0],DataType::TYPE_STRING);								
-																$sheet->setCellValueExplicit("B$row",$no_[1],DataType::TYPE_STRING);								
-																$sheet->setCellValueExplicit("C$row",$no_[2],DataType::TYPE_STRING);								                                            
-																$sheet->setCellValueExplicit("D$row",$no_[3],DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("E$row",$no_[4],DataType::TYPE_STRING);                                                                
-																$sheet->setCellValueExplicit("F$row",$no_[5],DataType::TYPE_STRING);  
-																
-																$sheet->mergeCells("G$row:I$row");
-																$sheet->setCellValue("G$row",$v6);                                                                
-																$sheet->setCellValueExplicit("M$row",$rp_total_pagu_dana_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("N$row",$persen_bobot_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("O$row",$persen_rata2_fisik_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("P$row",$persen_tertimbang_fisik_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("Q$row",$rp_total_target_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("R$row",$persen_target_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("S$row",$rp_total_realisasi_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("T$row",$persen_realisasi_rek6,DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("U$row",$persen_tertimbang_realisasi_rek6,DataType::TYPE_STRING);                                                                
-																$sheet->setCellValueExplicit("V$row",$dalamDpa_rek6,DataType::TYPE_STRING); 
-																
-																$nilaiuraian=$rka[$k6]['pagu_uraian']; 
-																$target=$rka[$k6]['target'];                                                         
-																$totalTargetSatuKegiatan+=$target;
-																$realisasi=$rka[$k6]['realisasi'];                                                  
-																$totalRealisasiSatuKegiatan+=$realisasi;
-																$fisik=$rka[$k6]['fisik'];                                                        
-																$volume=$rka[$k6]['volume'];                                                        
-																$satuan=$rka[$k6]['satuan'];                                                        
-																$harga_satuan=$rka[$k6]['harga_satuan'];                                                        
-																$persen_bobot=$rka[$k6]['persen_bobot'];
-																$totalPersenBobotSatuKegiatan+=$persen_bobot;
-																$persen_target=$rka[$k6]['persen_target'];   
-																$totalPersenTargetSatuKegiatan+=$persen_target;   
-																$persen_realisasi=$rka[$k6]['persen_realisasi'];
-																$totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
-																$persen_tertimbang_realisasi=$rka[$k6]['persen_tertimbang_realisasi'];                                                        
-																$persen_fisik=$rka[$k6]['persen_fisik'];
-																$totalPersenFisikSatuKegiatan+=$persen_fisik;
-																$persen_tertimbang_fisik=$rka[$k6]['persen_tertimbang_fisik'];
-																$totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
-																$dalamDpa=$nilaiuraian-$realisasi;                                                                                                                                                                   
-																
-																$rp_nilai_uraian=Helper::formatUang($nilaiuraian); 
-																$rp_target=Helper::formatUang($target);
-																$rp_realisasi=Helper::formatUang($realisasi);
-																$rp_dalam_dpa=Helper::formatUang($dalamDpa); 
-
-																$row+=1;
-																$sheet->mergeCells("A$row:F$row");
-																$sheet->mergeCells("G$row:I$row");
-																$sheet->setCellValue("G$row",$nama_uraian);                                                                                                                                        
-																$sheet->setCellValue("J$row",$volume);
-																$sheet->setCellValue("K$row",$satuan);
-																$sheet->setCellValueExplicit("L$row",Helper::formatUang($harga_satuan),DataType::TYPE_STRING);
-																$sheet->setCellValueExplicit("M$row",$rp_nilai_uraian,DataType::TYPE_STRING);
-																$sheet->setCellValue("N$row",$persen_bobot);
-																$sheet->setCellValue("O$row",$persen_fisik);
-																$sheet->setCellValue("P$row",$persen_tertimbang_fisik);
-																$sheet->setCellValueExplicit("Q$row",$rp_target,DataType::TYPE_STRING);
-																$sheet->setCellValue("R$row",$persen_target);
-																$sheet->setCellValueExplicit("S$row",$rp_realisasi,DataType::TYPE_STRING);
-																$sheet->setCellValue("T$row",$persen_realisasi);
-																$sheet->setCellValue("U$row",$persen_tertimbang_realisasi);                                                                
-																$sheet->setCellValueExplicit("V$row",$rp_dalam_dpa,DataType::TYPE_STRING);                                                                
-																// $nama_perusahaan=$rka[$k6]['nama_perusahaan'] == '' ?'':$rka[$k6]['nama_perusahaan'] . ' / '.$rka[$k6]['nama_direktur'];
-																$nama_perusahaan='';
-																$sheet->setCellValue("W$row",$nama_perusahaan);
-																// $lokasi=$rka[$k6]['lokasi'];
-																$lokasi='';
-																$sheet->setCellValue("X$row",$lokasi);
-
-																if (isset($dataproyek[$k6]['child'][0])) 
-																{                    
-																	$row+=1;                                                                             
-																	$child=$dataproyek[$k6]['child'];  
+															{																
+																if (isset($rka[$k6]['child'][0])) 
+																{                                                                     
+																	$child=$rka[$k6]['child'];  
 																	foreach ($child as $n) {
 																		$totalUraian+=1;
-																		$iduraian=$n['iduraian'];                                                                
+																		$RKARincID=$n['RKARincID'];
 																		$nama_uraian=$n['nama_uraian'];
-																		$nilaiuraian=$n['nilai']; 
+																		$no_=explode (".",$k6);  
+																		$nilaiuraian=$n['pagu_uraian']; 
 																		$target=$n['target'];                                                                 
 																		$totalTargetSatuKegiatan+=$target;
 																		$realisasi=$n['realisasi'];    
@@ -618,7 +531,13 @@ class FormAMurniModel extends ReportModel
 																		$rp_realisasi=Helper::formatUang($realisasi);
 																		$rp_dalam_dpa=Helper::formatUang($dalamDpa);                                                                        
 																		
-																		$sheet->mergeCells("A$row:F$row");
+																		$sheet->setCellValueExplicit("A$row",$no_[0],DataType::TYPE_STRING);								
+																		$sheet->setCellValueExplicit("B$row",$no_[1],DataType::TYPE_STRING);								
+																		$sheet->setCellValueExplicit("C$row",$no_[2],DataType::TYPE_STRING);								                                            
+																		$sheet->setCellValueExplicit("D$row",$no_[3],DataType::TYPE_STRING);
+																		$sheet->setCellValueExplicit("E$row",$no_[4],DataType::TYPE_STRING);                                                                
+																		$sheet->setCellValueExplicit("F$row",$no_[5],DataType::TYPE_STRING);  																		
+																		
 																		$sheet->mergeCells("G$row:I$row");
 																		$sheet->setCellValue("G$row",$nama_uraian);                                                                        
 																		$sheet->setCellValue("J$row",$volume);
@@ -644,8 +563,97 @@ class FormAMurniModel extends ReportModel
 																	}
 																	$row-=1;
 																}
+																else
+																{
+																	$totalUraian+=1;
+																	$totalPaguDana_Rek6=$this->calculateEachLevel($rka,$k6,'Kd_Rek_6');													
+																	$rp_total_pagu_dana_rek6=Helper::formatUang($totalPaguDana_Rek6['totalpagu']); 
+																	$RKARincID=$rka[$k6]['RKARincID'];
+																	$nama_uraian=$rka[$k6]['nama_uraian']; 
+																	$no_=explode (".",$k6);    
+																	$persen_bobot_rek6=$totalPaguDana_Rek6['totalpersenbobot'];
+																	$rp_total_target_rek6=Helper::formatUang($totalPaguDana_Rek6['totaltarget']);
+																	$persen_target_rek6=$totalPaguDana_Rek6['totalpersentarget'];
+																	$rp_total_realisasi_rek6=Helper::formatUang($totalPaguDana_Rek6['totalrealisasi']);
+																	$persen_realisasi_rek6=$totalPaguDana_Rek6['totalpersenrealisasi'];
+																	$persen_tertimbang_realisasi_rek6=$totalPaguDana_Rek6['totalpersentertimbangrealisasi'];                                                        
+																	$persen_rata2_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalfisik'],$totalPaguDana_Rek6['totalbaris']);
+																	$persen_tertimbang_fisik_rek6=$totalPaguDana_Rek6['totalpersentertimbangfisik'];
+																	$dalamDpa_rek6=Helper::formatUang($totalPaguDana_Rek6['totalpagu']-$totalPaguDana_Rek6['totalrealisasi']);
+
+																	$sheet->setCellValueExplicit("A$row",$no_[0],DataType::TYPE_STRING);								
+																	$sheet->setCellValueExplicit("B$row",$no_[1],DataType::TYPE_STRING);								
+																	$sheet->setCellValueExplicit("C$row",$no_[2],DataType::TYPE_STRING);								                                            
+																	$sheet->setCellValueExplicit("D$row",$no_[3],DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("E$row",$no_[4],DataType::TYPE_STRING);                                                                
+																	$sheet->setCellValueExplicit("F$row",$no_[5],DataType::TYPE_STRING);  
+																	
+																	$sheet->mergeCells("G$row:I$row");
+																	$sheet->setCellValue("G$row",$v6);                                                                
+																	$sheet->setCellValueExplicit("M$row",$rp_total_pagu_dana_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("N$row",$persen_bobot_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("O$row",$persen_rata2_fisik_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("P$row",$persen_tertimbang_fisik_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("Q$row",$rp_total_target_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("R$row",$persen_target_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("S$row",$rp_total_realisasi_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("T$row",$persen_realisasi_rek6,DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("U$row",$persen_tertimbang_realisasi_rek6,DataType::TYPE_STRING);                                                                
+																	$sheet->setCellValueExplicit("V$row",$dalamDpa_rek6,DataType::TYPE_STRING); 
+																	
+																	$nilaiuraian=$rka[$k6]['pagu_uraian']; 
+																	$target=$rka[$k6]['target'];                                                         
+																	$totalTargetSatuKegiatan+=$target;
+																	$realisasi=$rka[$k6]['realisasi'];                                                  
+																	$totalRealisasiSatuKegiatan+=$realisasi;
+																	$fisik=$rka[$k6]['fisik'];                                                        
+																	$volume=$rka[$k6]['volume'];                                                        
+																	$satuan=$rka[$k6]['satuan'];                                                        
+																	$harga_satuan=$rka[$k6]['harga_satuan'];                                                        
+																	$persen_bobot=$rka[$k6]['persen_bobot'];
+																	$totalPersenBobotSatuKegiatan+=$persen_bobot;
+																	$persen_target=$rka[$k6]['persen_target'];   
+																	$totalPersenTargetSatuKegiatan+=$persen_target;   
+																	$persen_realisasi=$rka[$k6]['persen_realisasi'];
+																	$totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
+																	$persen_tertimbang_realisasi=$rka[$k6]['persen_tertimbang_realisasi'];                                                        
+																	$persen_fisik=$rka[$k6]['persen_fisik'];
+																	$totalPersenFisikSatuKegiatan+=$persen_fisik;
+																	$persen_tertimbang_fisik=$rka[$k6]['persen_tertimbang_fisik'];
+																	$totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
+																	$dalamDpa=$nilaiuraian-$realisasi;                                                                                                                                                                   
+																	
+																	$rp_nilai_uraian=Helper::formatUang($nilaiuraian); 
+																	$rp_target=Helper::formatUang($target);
+																	$rp_realisasi=Helper::formatUang($realisasi);
+																	$rp_dalam_dpa=Helper::formatUang($dalamDpa); 
+
+																	$row+=1;
+																	$sheet->mergeCells("A$row:F$row");
+																	$sheet->mergeCells("G$row:I$row");
+																	$sheet->setCellValue("G$row",$nama_uraian);                                                                                                                                        
+																	$sheet->setCellValue("J$row",$volume);
+																	$sheet->setCellValue("K$row",$satuan);
+																	$sheet->setCellValueExplicit("L$row",Helper::formatUang($harga_satuan),DataType::TYPE_STRING);
+																	$sheet->setCellValueExplicit("M$row",$rp_nilai_uraian,DataType::TYPE_STRING);
+																	$sheet->setCellValue("N$row",$persen_bobot);
+																	$sheet->setCellValue("O$row",$persen_fisik);
+																	$sheet->setCellValue("P$row",$persen_tertimbang_fisik);
+																	$sheet->setCellValueExplicit("Q$row",$rp_target,DataType::TYPE_STRING);
+																	$sheet->setCellValue("R$row",$persen_target);
+																	$sheet->setCellValueExplicit("S$row",$rp_realisasi,DataType::TYPE_STRING);
+																	$sheet->setCellValue("T$row",$persen_realisasi);
+																	$sheet->setCellValue("U$row",$persen_tertimbang_realisasi);                                                                
+																	$sheet->setCellValueExplicit("V$row",$rp_dalam_dpa,DataType::TYPE_STRING);                                                                
+																	// $nama_perusahaan=$rka[$k6]['nama_perusahaan'] == '' ?'':$rka[$k6]['nama_perusahaan'] . ' / '.$rka[$k6]['nama_direktur'];
+																	$nama_perusahaan='';
+																	$sheet->setCellValue("W$row",$nama_perusahaan);
+																	// $lokasi=$rka[$k6]['lokasi'];
+																	$lokasi='';
+																	$sheet->setCellValue("X$row",$lokasi);
+																}																
 																$row+=1;
-															}
+															}															
 														}
 
 													}
@@ -697,14 +705,14 @@ class FormAMurniModel extends ReportModel
 		$totalPersenBobotSatuKegiatan=$totalPersenBobotSatuKegiatan > 100 ? 100:$totalPersenBobotSatuKegiatan;
 		$sheet->setCellValue("N$row",number_format($totalPersenBobotSatuKegiatan,2));
 		$sheet->setCellValue("O$row",number_format($totalPersenFisikSatuKegiatan/$totalUraian,2));                
-		$sheet->setCellValue("P$row",$totalPersenTertimbangFisikSatuKegiatan);
+		$sheet->setCellValue("P$row", number_format($totalPersenTertimbangFisikSatuKegiatan, 2));
 		$sheet->setCellValueExplicit("Q$row",$rp_total_target,DataType::TYPE_STRING);
 		$total_persen_target=Helper::formatPersen($totalTargetSatuKegiatan,$totalPaguDana);
 		$sheet->setCellValue("R$row",$total_persen_target);
 		$sheet->setCellValueExplicit("S$row",$rp_total_realisasi,DataType::TYPE_STRING);                        
 		$total_persen_rata2_realisasi=Helper::formatPersen($totalRealisasiSatuKegiatan,$totalPaguDana);
 		$sheet->setCellValue("T$row",$total_persen_rata2_realisasi);
-		$totalPersenTertimbangRealisasiSatuKegiatan=number_format(($total_persen_rata2_realisasi*$totalPersenBobotSatuKegiatan)/100,2);
+		$totalPersenTertimbangRealisasiSatuKegiatan=number_format(($total_persen_rata2_realisasi*$totalPersenBobotSatuKegiatan)/100, 2);
 		$sheet->setCellValue("U$row",$totalPersenTertimbangRealisasiSatuKegiatan);                                
 		$sheet->setCellValueExplicit("V$row",$rp_total_dalam_dpa,DataType::TYPE_STRING);                
 		$sheet->getStyle("A$row:W$row")->getFont()->setBold(true);

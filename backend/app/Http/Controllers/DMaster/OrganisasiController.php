@@ -47,7 +47,7 @@ class OrganisasiController extends Controller {
       'jumlah_apbd'=>$data->sum('PaguDana1'),
       'jumlah_apbdp'=>$data->sum('PaguDana2'),
       'message'=>'Fetch data opd berhasil diperoleh'
-    ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
   }
   /**
@@ -521,7 +521,7 @@ class OrganisasiController extends Controller {
                   'organisasi'=>$organisasi,
                   'unitkerja'=>$unitkerja,                                    
                   'message'=>'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diubah.'
-                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+                ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
    * digunakan untuk mendapat pejabat  berdasarkan OrgID

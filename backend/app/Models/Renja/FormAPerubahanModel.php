@@ -704,7 +704,7 @@ class FormAPerubahanModel extends ReportModel
 		$sheet->setCellValueExplicit("S$row",$rp_total_realisasi,DataType::TYPE_STRING);                        
 		$total_persen_rata2_realisasi=Helper::formatPersen($totalRealisasiSatuKegiatan,$totalPaguDana);
 		$sheet->setCellValue("T$row",$total_persen_rata2_realisasi);
-		$totalPersenTertimbangRealisasiSatuKegiatan=number_format(($total_persen_rata2_realisasi*$totalPersenBobotSatuKegiatan)/100,2);
+		$totalPersenTertimbangRealisasiSatuKegiatan=number_format(($total_persen_rata2_realisasi*$totalPersenBobotSatuKegiatan)/100, 2);
 		$sheet->setCellValue("U$row",$totalPersenTertimbangRealisasiSatuKegiatan);                                
 		$sheet->setCellValueExplicit("V$row",$rp_total_dalam_dpa,DataType::TYPE_STRING);                
 		$sheet->getStyle("A$row:W$row")->getFont()->setBold(true);

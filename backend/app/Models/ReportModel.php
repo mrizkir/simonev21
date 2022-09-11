@@ -161,8 +161,8 @@ class ReportModel extends Model
 							$persenbobot=Helper::formatPersen($v->PaguUraian1,$totalPaguUraian); 
 							$persen_target=Helper::formatPersen($target,$totalPaguUraian);   
 							$persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
-							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
-							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
+							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
 
 							$dataAkhir[$no_rek6]['child'][]=[
 													'RKARincID'=>$v->RKARincID,
@@ -199,8 +199,8 @@ class ReportModel extends Model
 							$persenbobot=Helper::formatPersen($v->PaguUraian1,$totalPaguUraian); 
 							$persen_target=Helper::formatPersen($target,$totalPaguUraian);   
 							$persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
-							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
-							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
+							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
 							
 							$dataAkhir[$no_rek6]=[
 													'RKARincID'=>$v->RKARincID,
@@ -341,8 +341,8 @@ class ReportModel extends Model
 							$persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
 							$persen_target=Helper::formatPersen($target,$totalPaguUraian);   
 							$persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
-							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
-							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
+							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
 
 							$dataAkhir[$no_rek6]['child'][]=[
 													'RKARincID'=>$v->RKARincID,
@@ -379,8 +379,8 @@ class ReportModel extends Model
 							$persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
 							$persen_target=Helper::formatPersen($target,$totalPaguUraian);   
 							$persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
-							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
-							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
+							$persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
+							$persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
 							
 							$dataAkhir[$no_rek6]=[
 													'RKARincID'=>$v->RKARincID,
@@ -487,7 +487,7 @@ class ReportModel extends Model
 		}         
 		$totalpersentarget=Helper::formatPersen($totaltarget,$totalpagu);                
 		$totalpersenrealisasi=Helper::formatPersen($totalrealisasi,$totalpagu);            
-		$totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100,2);
+		$totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100, 2);
 		$result=['totalpagu'=>$totalpagu,
 				'totaltarget'=>$totaltarget,
 				'totalrealisasi'=>$totalrealisasi,

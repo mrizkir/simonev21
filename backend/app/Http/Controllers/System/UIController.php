@@ -70,6 +70,6 @@ class UIController extends Controller {
 			'pid'=>'fetchdata',
 			'masa_pelaporan'=>$config['DEFAULT_MASA_PELAPORAN'],
 			'message'=>'Fetch data ui untuk admin berhasil diperoleh'
-		],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 }

@@ -212,7 +212,7 @@ class FormBOPDMurniController extends Controller
 							$persen_tertimbang_fisik=0.00;
 							if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 							{
-								$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+								$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
 							}							
 							$total_ttb_fisik+=$persen_tertimbang_fisik;
 
@@ -232,7 +232,7 @@ class FormBOPDMurniController extends Controller
 							$persen_tertimbang_keuangan=0.00;
 							if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
 							{
-								$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+								$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
 							}	
 							$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
@@ -273,7 +273,7 @@ class FormBOPDMurniController extends Controller
 						$persen_tertimbang_fisik=0.00;
 						if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 						{
-							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
 						}
 
 						$persen_target_keuangan=Helper::formatPersen($target_keuangan_kegiatan,$pagu_dana_kegiatan);
@@ -281,7 +281,7 @@ class FormBOPDMurniController extends Controller
 						$persen_tertimbang_keuangan=0.00;
 						if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
 						{
-							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
 						}	
 
 						$sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
@@ -320,7 +320,7 @@ class FormBOPDMurniController extends Controller
 			$persen_tertimbang_fisik=0.00;
 			if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 			{
-				$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+				$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
 			}
 
 			$persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
@@ -328,7 +328,7 @@ class FormBOPDMurniController extends Controller
 			$persen_tertimbang_keuangan=0.00;
 			if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
 			{
-				$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+				$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
 			}	
 
 			$sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;

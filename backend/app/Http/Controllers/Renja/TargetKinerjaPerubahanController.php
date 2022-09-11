@@ -268,7 +268,7 @@ class TargetKinerjaPerubahanController extends Controller
 								'total_target_fisik'=>Helper::formatPecahan($this->total_target_fisik,$this->total_sub_kegiatan),
 								'rka'=>$data,
 								'message'=>'Fetch data rka murni berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	/**
 	 * digunakan untuk mendapatkan daftar 
@@ -294,7 +294,7 @@ class TargetKinerjaPerubahanController extends Controller
 			'pid'=>'fetchdata',			
 			'targetkinerja'=>$data,
 			'message'=>'Fetch data rencana target berhasil diperoleh'
-		],200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	/**
 	 * Store a newly created resource in storage. [simpan rencana target fisik dan anggaran kas]
@@ -340,7 +340,7 @@ class TargetKinerjaPerubahanController extends Controller
 									'status'=>1,
 									'pid'=>'store',
 									'message'=>'Rencana target fisik uraian berhasil disimpan.'
-								],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
 	}   
@@ -428,7 +428,7 @@ class TargetKinerjaPerubahanController extends Controller
 								'status'=>1,
 								'pid'=>'store',
 								'message'=>'Rencana target anggaran kas uraian berhasil disimpan.'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
 	} 

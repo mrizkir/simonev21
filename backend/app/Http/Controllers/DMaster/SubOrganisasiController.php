@@ -73,7 +73,7 @@ class SubOrganisasiController extends Controller {
                 'jumlah_apbd'=>$data->sum('PaguDana1'),
                 'jumlah_apbdp'=>$data->sum('PaguDana2'),
                 'message'=>'Fetch data unit kerjaberhasil diperoleh'
-              ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
+              ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
   }
   /**
@@ -137,7 +137,7 @@ class SubOrganisasiController extends Controller {
                 'jumlah_apbd'=>$data->sum('PaguDana1'),
                 'jumlah_apbdp'=>$data->sum('PaguDana2'),
                 'message'=>'Fetch data unit kerja berhasil diperoleh'
-              ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+              ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
 	 * Store a newly created resource in storage.
@@ -362,7 +362,7 @@ class SubOrganisasiController extends Controller {
                   'pid'=>'update',
                   'unitkerja'=>$sub_organisasi,                                    
                   'message'=>'Data unit kerja '.$sub_organisasi->SOrgNm.' berhasil diubah.'
-                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+                ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   
   }
   /**

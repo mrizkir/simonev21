@@ -75,7 +75,7 @@ class DataMentahMurniController extends Controller
 								'organisasi'=>$organisasi,
 								'rka'=>$data,
 								'message'=>'Fetch data rka perubahan berhasil diperoleh'
-							],200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
+							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
 	}   
 	public function copyrka(Request $request)
 	{

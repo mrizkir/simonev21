@@ -686,7 +686,7 @@ class RenjaPerubahanController extends Controller
 					$persen_tertimbang_fisik=0.00;
 					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 					{
-							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+							$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
 					}							
 					$total_ttb_fisik+=$persen_tertimbang_fisik;
 
@@ -702,7 +702,7 @@ class RenjaPerubahanController extends Controller
 					$persen_tertimbang_keuangan=0.00;
 					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 					{
-							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
 					}	
 					$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
@@ -865,7 +865,7 @@ class RenjaPerubahanController extends Controller
 					$persen_tertimbang_fisik=0.00;
 					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 					{
-						$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,2);                            
+						$persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
 					}							
 					$total_ttb_fisik+=$persen_tertimbang_fisik;
 
@@ -881,7 +881,7 @@ class RenjaPerubahanController extends Controller
 					$persen_tertimbang_keuangan=0.00;
 					if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
 					{
-						$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,2);                            
+						$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
 					}	
 					$total_ttb_keuangan += $persen_tertimbang_keuangan;
 
