@@ -1,6 +1,7 @@
-module.exports = {
-	productionSourceMap: false,
-	transpileDependencies: [		
-		"vuetify"
-	],
-}
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  productionSourceMap: false,
+  transpileDependencies: [
+    'vuetify'
+  ]
+})
