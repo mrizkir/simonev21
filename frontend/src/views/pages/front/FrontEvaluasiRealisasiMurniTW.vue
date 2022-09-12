@@ -232,7 +232,7 @@
     mounted() {
       this.initialize();
       this.firstloading = false;
-			this.$refs.filter4.setFirstTimeLoading(this.firstloading);
+      this.$refs.filter4.setFirstTimeLoading(this.firstloading);
     },
     data: () => ({
       firstloading: true,
@@ -317,17 +317,17 @@
       },
     },
     watch: {
-			tahun_anggaran() {
-				if (!this.firstloading) {
-					this.initialize();
-				}
-			},
-			tw_realisasi() {
-				if (!this.firstloading) {
-					this.initialize();
-				}
-			},
-		},
+      tahun_anggaran() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+      tw_realisasi() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+    },
     components: {
       FrontLayout,
       ModuleHeader,
