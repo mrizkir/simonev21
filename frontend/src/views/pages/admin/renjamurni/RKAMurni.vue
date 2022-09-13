@@ -710,7 +710,7 @@
 								.post(
 									"/renja/rkamurni/resetdatakegiatan/" + item.RKAID,
 									{
-										_method: "PUT",						
+										_method: "PUT",				
 									},
 									{
 										headers: {

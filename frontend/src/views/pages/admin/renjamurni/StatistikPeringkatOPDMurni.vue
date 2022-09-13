@@ -107,7 +107,7 @@
 		data: () => ({
 			search: "",
 			datatableLoading: false,
-			peringkat: [],			
+			peringkat: [],	
 			headers: [
 				{ text: "NOMOR", value: "index", width: 100 },
 				{ text: "KODE", value: "kode_organisasi", width: 160, sortable: false },

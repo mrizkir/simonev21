@@ -306,12 +306,12 @@
 					{
 						text: "ANGGARAN KAS",
 						align: "end",
-						value: "target1",		
+						value: "target1",
 					},
 					{
 						text: "FISIK",
 						align: "end",
-						value: "fisik1",		
+						value: "fisik1",
 					},	
 					{ text: "AKSI", value: "actions", sortable: false, width: 70 },
 				],
@@ -374,7 +374,7 @@
 			fetchTargetKinerja(RKARincID_Selected) {
 				this.$ajax
 					.get(
-						"/renja/targetkinerjamurni/" + RKARincID_Selected + "/uraian",			
+						"/renja/targetkinerjamurni/" + RKARincID_Selected + "/uraian",	
 						{
 							headers: {
 								Authorization: this.$store.getters["auth/Token"],
@@ -394,7 +394,7 @@
 						{
 							_method: "put",
 							RKATargetRincID: item.RKATargetRincID,
-							target1: item.target1,			
+							target1: item.target1,	
 						},
 						{
 							headers: {
@@ -419,7 +419,7 @@
 						{
 							_method: "put",
 							RKATargetRincID: item.RKATargetRincID,
-							fisik1: item.fisik1,			
+							fisik1: item.fisik1,	
 						},
 						{
 							headers: {

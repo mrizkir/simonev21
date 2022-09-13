@@ -319,7 +319,9 @@
                       </v-card-title>
                       <v-card-text>
                         <v-alert type="warning">
-                          Menghindari duplikat proses salin, akan menghapus terlebih dahulu data relasi user ke OPD T.A {{ TAHUN_SELECTED }}
+                          Menghindari duplikat proses salin, akan menghapus
+                          terlebih dahulu data relasi user ke OPD T.A
+                          {{ TAHUN_SELECTED }}
                         </v-alert>
                         <v-select
                           label="DARI TAHUN ANGGARAN"
@@ -458,7 +460,7 @@
         },
       ];
       this.initialize();
-    },		
+    },
     data() {
       return {
         role_id: 0,
@@ -514,7 +516,9 @@
         tahunasal: null,
         daftar_ta: [],
         //form rules
-        rule_user_name: [value => !!value || "Mohon untuk di isi nama User !!!"],
+        rule_user_name: [
+          value => !!value || "Mohon untuk di isi nama User !!!",
+        ],
         rule_user_email: [
           value => !!value || "Mohon untuk di isi email User !!!",
           value => /.+@.+\..+/.test(value) || "Format E-mail harus benar",
@@ -554,7 +558,7 @@
             }
           },
         ],
-        //form rules salin urusan				
+        //form rules salin urusan
         rule_tahun_asal: [
           value =>
             !!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
@@ -562,7 +566,7 @@
             value < this.TAHUN_SELECTED ||
             "Tahun asal harus lebih kecil dari " + this.TAHUN_SELECTED,
         ],
-      }
+      };
     },
     methods: {
       initialize: async function() {
@@ -895,7 +899,7 @@
       ...mapGetters("auth", {
         ACCESS_TOKEN: "AccessToken",
         TOKEN: "Token",
-        TAHUN_SELECTED: 'TahunSelected',
+        TAHUN_SELECTED: "TahunSelected",
       }),
     },
     watch: {

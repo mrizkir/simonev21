@@ -8,7 +8,7 @@
 	export default {
 		name: "DashboardRPJMD",
 		components: {
-			RPJMDLayout,			
+			RPJMDLayout,	
 		},
 	};
 </script>

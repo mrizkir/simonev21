@@ -399,7 +399,7 @@
         this.datatableLoading = true;
         await this.$ajax
           .post("/dashboard/pelaporanopd", {
-            tahun: this.tahun_anggaran,		
+            tahun: this.tahun_anggaran,
           })
           .then(({ data }) => {
             this.peringkat = data.peringkat;

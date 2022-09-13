@@ -89,7 +89,7 @@
           .post(
             "/dmaster",
             {
-              ta: this.$store.getters["auth/TahunSelected"],			
+              ta: this.$store.getters["auth/TahunSelected"],	
             }
           )
           .then(({ data }) => {

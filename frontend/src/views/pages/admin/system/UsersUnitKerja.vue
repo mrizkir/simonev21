@@ -249,7 +249,7 @@
                           v-model="org_id"
                           label="OPD"
                           item-text="Nm_Organisasi"
-                          item-value="OrgID"				
+                          item-value="OrgID"
                           outlined
                           :rules="rule_user_opd"
                           filled
@@ -310,7 +310,7 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:item.actions="{ item }">
+            <template #[`item.actions`]="{ item }">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -490,12 +490,10 @@
           "Username hanya boleh string dan underscore",
       ],
       rule_user_opd: [
-        value =>
-          !!value || "Mohon untuk di pilih OPD dari User ini !!!",
+        value => !!value || "Mohon untuk di pilih OPD dari User ini !!!",
       ],
       rule_user_unitkerja: [
-        value =>
-          !!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
+        value => !!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
       ],
       rule_user_password: [
         value => !!value || "Mohon untuk di isi password User !!!",

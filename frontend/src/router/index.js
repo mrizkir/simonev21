@@ -465,7 +465,7 @@ const routes = [
 			title: "BELANJA MURNI - STATISTIK PERINGKAT OPD",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/renjamurni/StatistikPeringkatOPDMurni.vue'),		
+		component: () => import('../views/pages/admin/renjamurni/StatistikPeringkatOPDMurni.vue'),
 	},
 	//renja perubahan
 	{
@@ -630,7 +630,7 @@ const routes = [
 			title: "BELANJA PERUBAHAN - STATISTIK PERINGKAT OPD",
 			requiresAuth:true,
         },
-		component: () => import('../views/pages/admin/renjaperubahan/StatistikPeringkatOPDPerubahan.vue'),		
+		component: () => import('../views/pages/admin/renjaperubahan/StatistikPeringkatOPDPerubahan.vue'),
 	},
 	//system
 	{
