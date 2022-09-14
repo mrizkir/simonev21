@@ -322,6 +322,16 @@ const routes = [
 		component: () =>
 			import("../views/pages/admin/renjamurni/DataMentahMurni.vue"),
 	},	
+	{
+		path: "/renjamurni/progressp2d",
+		name: "RenjaMurniProgresSp2d",
+		meta: {
+			title: "RENCANA KERJA MURNI - PROGRESS SP2D",
+			requiresAuth: true,
+		},
+		component: () =>
+			import("../views/pages/admin/renjamurni/ProgresSp2dMurni.vue"),
+	},	
 	//renja murni - rka murni
 	{
 		path: "/renjamurni/rka",
