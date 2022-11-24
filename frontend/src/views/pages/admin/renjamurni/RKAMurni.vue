@@ -103,7 +103,12 @@
                   </template>
                   <span>TAMBAH RKA</span>
                 </v-tooltip>
-                <v-dialog v-model="dialogfrm" max-width="800px" persistent v-if="dialogfrm">
+                <v-dialog
+                  v-model="dialogfrm"
+                  max-width="800px"
+                  persistent
+                  v-if="dialogfrm"
+                >
                   <v-form ref="frmdata" v-model="form_valid" lazy-validation>
                     <v-card>
                       <v-card-title>
@@ -111,9 +116,10 @@
                           TAMBAH KEGIATAN
                         </span>
                       </v-card-title>
-                      <v-card-subtitle>									
-                        {{ DataUnitKerja.kode_sub_organisasi }} / {{ DataUnitKerja.Nm_Sub_Organisasi }}												
-                      </v-card-subtitle>								
+                      <v-card-subtitle>
+                        {{ DataUnitKerja.kode_sub_organisasi }} /
+                        {{ DataUnitKerja.Nm_Sub_Organisasi }}
+                      </v-card-subtitle>
                       <v-card-text>
                         <v-autocomplete
                           :items="daftar_bidang"
@@ -251,7 +257,11 @@
                   <strong>updated_at:</strong>
                   {{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
                 </v-col>
-                <v-col cols="12" class="mb1 text-center" v-if="item.Locked == 0">
+                <v-col
+                  cols="12"
+                  class="mb1 text-center"
+                  v-if="item.Locked == 0"
+                >
                   <v-btn
                     color="blue darken-1"
                     text
@@ -581,38 +591,30 @@
           });
       },
       async addItem() {
-        this.daftar_bidang.push(
-          {
-            BidangID: "all",
-            nama_bidang: "SEMUA BIDANG URUSAN"
-          }
-        );
-        this.daftar_bidang.push(
-          {
-            BidangID: this.DataOPD.BidangID_1,
-            nama_bidang: "[" + this.DataOPD.kode_bidang_1 + "] " + this.DataOPD.Nm_Bidang_1,
-          }
-        );
+        this.daftar_bidang.push({
+          BidangID: "all",
+          nama_bidang: "SEMUA BIDANG URUSAN",
+        });
+        this.daftar_bidang.push({
+          BidangID: this.DataOPD.BidangID_1,
+          nama_bidang: "[" + this.DataOPD.kode_bidang_1 + "] " + this.DataOPD.Nm_Bidang_1,
+        });
         if (this.DataOPD.BidangID_2) {
-          this.daftar_bidang.push(
-            {
-              BidangID: this.DataOPD.BidangID_2,
-              nama_bidang: "[" + this.DataOPD.kode_bidang_2 + "] " + this.DataOPD.Nm_Bidang_2,
-            }
-          );
+          this.daftar_bidang.push({
+            BidangID: this.DataOPD.BidangID_2,
+            nama_bidang: "[" + this.DataOPD.kode_bidang_2 + "] " + this.DataOPD.Nm_Bidang_2,
+          });
         }
         if (this.DataOPD.BidangID_3) {
-          this.daftar_bidang.push(
-            {
-              BidangID: this.DataOPD.BidangID_3,
-              nama_bidang: "[" + this.DataOPD.kode_bidang_3 + "] " + this.DataOPD.Nm_Bidang_3,
-            }
-          );
+          this.daftar_bidang.push({
+            BidangID: this.DataOPD.BidangID_3,
+            nama_bidang: "[" + this.DataOPD.kode_bidang_3 + "] " + this.DataOPD.Nm_Bidang_3,
+          });
         }
         this.dialogfrm = true;
       },
       save() {
-        if (this.$refs.frmdata.validate()) {					
+        if (this.$refs.frmdata.validate()) {
           this.$ajax
             .post(
               "/renja/rkamurni/storekegiatan",
@@ -710,7 +712,7 @@
                 .post(
                   "/renja/rkamurni/resetdatakegiatan/" + item.RKAID,
                   {
-                    _method: "PUT",				
+                    _method: "PUT",
                   },
                   {
                     headers: {
@@ -729,13 +731,12 @@
       },
       closedialogfrm() {
         this.btnLoading = false;
-        setTimeout(() => {					
+        setTimeout(() => {
           this.daftar_program = [];
           this.formdata_PrgID = null;
 
           this.daftar_kegiatan = [];
           this.formdata_KgtID = null;
-          
           this.daftar_sub_kegiatan = [];
           this.formdata_SubKgtID = null;
 
@@ -782,10 +783,8 @@
 
         this.daftar_kegiatan = [];
         this.formdata_KgtID = null;
-        
         this.daftar_sub_kegiatan = [];
         this.formdata_SubKgtID = null;
-        
         this.$ajax
           .post(
             "/dmaster/kodefikasi/bidangurusan/" + val + "/program",
@@ -806,27 +805,22 @@
       formdata_PrgID(val) {
         this.daftar_kegiatan = [];
         this.formdata_KgtID = null;
-        
         this.daftar_sub_kegiatan = [];
         this.formdata_SubKgtID = null;
 
         this.$ajax
-          .get(
-            "/dmaster/kodefikasi/program/" + val + "/kegiatan",
-            {
-              headers: {
-                Authorization: this.$store.getters["auth/Token"],
-              },
-            }
-          )
+          .get("/dmaster/kodefikasi/program/" + val + "/kegiatan", {
+            headers: {
+              Authorization: this.$store.getters["auth/Token"],
+            },
+          })
           .then(({ data }) => {
             this.daftar_kegiatan = data.programkegiatan;
           });
       },
-      formdata_KgtID(val) {				
+      formdata_KgtID(val) {
         this.daftar_sub_kegiatan = [];
         this.formdata_SubKgtID = null;
-        
         this.$ajax
           .post(
             "/dmaster/kodefikasi/kegiatan/" + val + "/subkegiatanrka",
@@ -841,7 +835,7 @@
           )
           .then(({ data }) => {
             this.daftar_sub_kegiatan = data.subkegiatanrka;
-          });				
+          });
       },
     },
     components: {

@@ -105,10 +105,7 @@
           >
             <template v-slot:body="{ items }">
               <tbody>
-                <tr
-                  v-for="item in items"
-                  v-bind:key="item.FormBMurniID"		
-                >
+                <tr v-for="item in items" v-bind:key="item.FormBMurniID">
                   <td>{{ item.kode }}</td>
                   <td>{{ item.nama_uraian }}</td>
                   <td class="text-right">
