@@ -21,20 +21,20 @@ class RKAPerubahanController extends Controller
 	private function recalculate($RKAID)
 	{
 		$paguuraian = \DB::table('trRKARinc')                            
-					->where('RKAID',$RKAID)
-					->sum('PaguUraian2');
+		->where('RKAID',$RKAID)
+		->sum('PaguUraian2');
 
 		$jumlah_uraian = \DB::table('trRKARinc')                            
-							->where('RKAID',$RKAID)
-							->count('RKARincID');
+		->where('RKAID',$RKAID)
+		->count('RKARincID');
 
 		$data_realisasi = \DB::table('trRKARealisasiRinc')
-							->select(\DB::raw('
-								COALESCE(SUM(realisasi2),0) AS jumlah_realisasi,
-								COALESCE(SUM(fisik2),0) AS jumlah_fisik
-							'))
-							->where('RKAID',$RKAID)
-							->get();
+		->select(\DB::raw('
+			COALESCE(SUM(realisasi2),0) AS jumlah_realisasi,
+			COALESCE(SUM(fisik2),0) AS jumlah_fisik
+		'))
+		->where('RKAID',$RKAID)
+		->get();
 		
 		$rka = RKAModel::find($RKAID);
 		$rka->PaguDana2 = $paguuraian;
@@ -652,58 +652,58 @@ class RKAPerubahanController extends Controller
 		$unitkerja = SubOrganisasiModel::find($SOrgID);
 	 
 		$data = RKAModel::select(\DB::raw('
-							`RKAID`,
-							`SumberDanaID`,
-							kode_urusan,
-							kode_bidang,
-							kode_organisasi,
-							kode_sub_organisasi,
-							kode_program,
-							kode_kegiatan,
-							kode_sub_kegiatan,
-							`Nm_Urusan`,
-							`Nm_Bidang`,
-							`Nm_Organisasi`,
-							`Nm_Sub_Organisasi`,
-							`Nm_Program`,
-							`Nm_Kegiatan`,
-							`Nm_Sub_Kegiatan`,
-							keluaran2,
-							tk_keluaran2,            
-							hasil2,            
-							tk_hasil2,            
-							capaian_program2,            
-							tk_capaian2,            
-							masukan2,            
-							ksk2,            
-							sifat_kegiatan2,            
-							waktu_pelaksanaan2,            
-							lokasi_kegiatan2,            
-							`PaguDana2`,            
-							0 AS `PaguUraian2`,
-							`RealisasiKeuangan2`,            
-							`RealisasiFisik2`,   
-							0 AS persen_keuangan2,
-							nip_pa2,            
-							nip_kpa2,
-							nip_ppk2,
-							nip_pptk2,
-							`Descr`,
-							`TA`,
-							`Locked`,
-							`RKAID_Src`,
-							created_at,
-							updated_at
-						'))
-						->where('SOrgID',$unitkerja->SOrgID)
-						->where('TA',$tahun)
-						->where('EntryLvl',2)
-						->orderByRaw('kode_urusan="X" DESC')
-						->orderBy('kode_bidang','ASC')
-						->orderBy('kode_program','ASC')
-						->orderBy('kode_kegiatan','ASC')
-						->orderBy('kode_sub_kegiatan','ASC')
-						->get();        
+				`RKAID`,
+				`SumberDanaID`,
+				kode_urusan,
+				kode_bidang,
+				kode_organisasi,
+				kode_sub_organisasi,
+				kode_program,
+				kode_kegiatan,
+				kode_sub_kegiatan,
+				`Nm_Urusan`,
+				`Nm_Bidang`,
+				`Nm_Organisasi`,
+				`Nm_Sub_Organisasi`,
+				`Nm_Program`,
+				`Nm_Kegiatan`,
+				`Nm_Sub_Kegiatan`,
+				keluaran2,
+				tk_keluaran2,            
+				hasil2,            
+				tk_hasil2,            
+				capaian_program2,            
+				tk_capaian2,            
+				masukan2,            
+				ksk2,            
+				sifat_kegiatan2,            
+				waktu_pelaksanaan2,            
+				lokasi_kegiatan2,            
+				`PaguDana2`,            
+				0 AS `PaguUraian2`,
+				`RealisasiKeuangan2`,            
+				`RealisasiFisik2`,   
+				0 AS persen_keuangan2,
+				nip_pa2,            
+				nip_kpa2,
+				nip_ppk2,
+				nip_pptk2,
+				`Descr`,
+				`TA`,
+				`Locked`,
+				`RKAID_Src`,
+				created_at,
+				updated_at
+			'))
+			->where('SOrgID',$unitkerja->SOrgID)
+			->where('TA',$tahun)
+			->where('EntryLvl',2)
+			->orderByRaw('kode_urusan="X" DESC')
+			->orderBy('kode_bidang','ASC')
+			->orderBy('kode_program','ASC')
+			->orderBy('kode_kegiatan','ASC')
+			->orderBy('kode_sub_kegiatan','ASC')
+			->get();        
 					
 		$data->transform(function ($item,$key) {                            
 			$item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2, $item->PaguDana2);
@@ -723,12 +723,12 @@ class RKAPerubahanController extends Controller
 		$unitkerja->save();		
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'unitkerja'=>$unitkerja,
-								'rka'=>$data,
-								'message'=>'Fetch data rka perubahan berhasil diperoleh'
-							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'unitkerja'=>$unitkerja,
+			'rka'=>$data,
+			'message'=>'Fetch data rka perubahan berhasil diperoleh'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
 	}
 	/**
 	 * Store a newly created resource in storage.

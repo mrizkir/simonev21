@@ -23,13 +23,13 @@ class RenjaPerubahanController extends Controller
 		$bulan_realisasi=$request->input('bulan_realisasi');
 				
 		$statistik1=[
-									'PaguDana2'=>0,             
-									'JumlahProgram2'=>0,             
-									'JumlahKegiatan2'=>0, 
-									'JumlahSubKegiatan2'=>0,
-									'RealisasiKeuangan2'=>0,             
-									'RealisasiFisik2'=>0, 
-								];
+			'PaguDana2'=>0,             
+			'JumlahProgram2'=>0,             
+			'JumlahKegiatan2'=>0, 
+			'JumlahSubKegiatan2'=>0,
+			'RealisasiKeuangan2'=>0,             
+			'RealisasiFisik2'=>0, 
+		];
 				
 		$chart_keuangan=[
 			[
@@ -75,7 +75,7 @@ class RenjaPerubahanController extends Controller
 			}
 			else
 			{
-				$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);
+				$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2, $statistik1->PaguDana2);
 				$statistik1=[
 					'PaguDana2'=>$statistik1->PaguDana2,             
 					'JumlahProgram2'=>$statistik1->JumlahProgram2,             
@@ -210,7 +210,7 @@ class RenjaPerubahanController extends Controller
 							COALESCE(SUM(`RealisasiFisik2`),0) AS `RealisasiFisik2`,
 							0 AS `PersenRealisasiKeuangan2`
 					'))
-					->whereIn('OrgID',$daftar_opd)                                
+					->whereIn('OrgID', $daftar_opd)                                
 					->first();
 
 				$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);                
@@ -485,14 +485,14 @@ class RenjaPerubahanController extends Controller
 
 			$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);
 			$statistik1=[
-							'PaguDana2'=>$statistik1->PaguDana2,             
-							'JumlahProgram2'=>$statistik1->JumlahProgram2,             
-							'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
-							'JumlahSubKegiatan2'=>$statistik1->JumlahSubKegiatan2,             
-							'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
-							'RealisasiFisik2'=>$statistik1->RealisasiFisik2, 
-							'PersenRealisasiKeuangan2'=>$statistik1->PersenRealisasiKeuangan2, 
-						];
+				'PaguDana2'=>$statistik1->PaguDana2,             
+				'JumlahProgram2'=>$statistik1->JumlahProgram2,             
+				'JumlahKegiatan2'=>$statistik1->JumlahKegiatan2,             
+				'JumlahSubKegiatan2'=>$statistik1->JumlahSubKegiatan2,             
+				'RealisasiKeuangan2'=>$statistik1->RealisasiKeuangan2,             
+				'RealisasiFisik2'=>$statistik1->RealisasiFisik2, 
+				'PersenRealisasiKeuangan2'=>$statistik1->PersenRealisasiKeuangan2, 
+			];
 		}
 		else if ($this->hasRole('opd'))
 		{

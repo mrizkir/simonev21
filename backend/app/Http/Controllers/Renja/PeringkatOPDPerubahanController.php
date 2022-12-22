@@ -50,7 +50,7 @@ class PeringkatOPDPerubahanController extends Controller {
 		->get();
 
 		$peringkat_temp = [];		
-		foreach ($data as $v)
+		foreach ($peringkat as $v)
 		{
 			if (!isset($peringkat_temp[$v->kode_organisasi]))
 			{

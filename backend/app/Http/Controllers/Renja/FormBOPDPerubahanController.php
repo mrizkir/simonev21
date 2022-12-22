@@ -89,7 +89,7 @@ class FormBOPDPerubahanController extends Controller
 				$realisasi_keuangan_program = 0;
 
 				$data[$row]=[
-					'FormBMurniID'=>Uuid::uuid4()->toString(),          
+					'FormBPerubahanID'=>Uuid::uuid4()->toString(),          
 					'RKAID'=>null,      
 					'kode'=>$kode_program,					
 					'nama_uraian'=>ucwords(strtolower($data_program->Nm_Program)),
@@ -118,24 +118,24 @@ class FormBOPDPerubahanController extends Controller
 					$kode_kegiatan = $data_kegiatan->kode_kegiatan;
 
 					$daftar_sub_kegiatan = \DB::table('trRKA')
-									->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana2`,`lokasi_kegiatan2`'))
-									->where('kode_kegiatan',$kode_kegiatan)                                   
-									->where('OrgID',$opd->OrgID)                                   
-									->where('TA',$tahun)  
-									->where('EntryLvl', 2)                                    
-									->orderBy('kode_sub_kegiatan','ASC')
-									->get();
+						->select(\DB::raw('`RKAID`,`kode_sub_kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana2`,`lokasi_kegiatan2`'))
+						->where('kode_kegiatan',$kode_kegiatan)                                   
+						->where('OrgID',$opd->OrgID)                                   
+						->where('TA',$tahun)  
+						->where('EntryLvl', 2)                                    
+						->orderBy('kode_sub_kegiatan','ASC')
+						->get();
 
 					if(isset($daftar_sub_kegiatan[0]))
 					{
 						$pagu_dana_kegiatan = (float)\DB::table('trRKA')
-									->where('OrgID',$opd->OrgID)                                   
-									->where('kode_kegiatan',$kode_kegiatan) 
-									->where('EntryLvl', 2)
-									->sum('PaguDana2'); 
+							->where('OrgID',$opd->OrgID)                                   
+							->where('kode_kegiatan',$kode_kegiatan) 
+							->where('EntryLvl', 2)
+							->sum('PaguDana2'); 
 
 						$data[$row]=[
-							'FormBMurniID'=>Uuid::uuid4()->toString(),
+							'FormBPerubahanID'=>Uuid::uuid4()->toString(),
 							'RKAID'=>null,
 							'kode'=>$kode_kegiatan,							
 							'nama_uraian'=>ucwords(strtolower($data_kegiatan->Nm_Kegiatan)),
@@ -241,7 +241,7 @@ class FormBOPDPerubahanController extends Controller
 							$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);                            
 
 							$data[$row]=[
-								'FormBMurniID'=>Uuid::uuid4()->toString(),
+								'FormBPerubahanID'=>Uuid::uuid4()->toString(),
 								'RKAID'=>$RKAID,
 								'kode'=>$kode_sub_kegiatan,
 								'nama_uraian'=>ucwords(strtolower($data_sub_kegiatan->Nm_Sub_Kegiatan)),
@@ -288,7 +288,7 @@ class FormBOPDPerubahanController extends Controller
 						$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
 						
 						$data[$kegiatan_last_row]=[
-							'FormBMurniID'=>Uuid::uuid4()->toString(),
+							'FormBPerubahanID'=>Uuid::uuid4()->toString(),
 							'RKAID'=>null,
 							'kode'=>$kode_kegiatan,							
 							'nama_uraian'=>ucwords(strtolower($data_kegiatan->Nm_Kegiatan)),
@@ -334,7 +334,7 @@ class FormBOPDPerubahanController extends Controller
 			$sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
 			$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);                            
 			$data[$program_last_row]=[
-				'FormBMurniID'=>Uuid::uuid4()->toString(),
+				'FormBPerubahanID'=>Uuid::uuid4()->toString(),
 				'RKAID'=>null,
 				'kode'=>$kode_program,				
 				'nama_uraian'=>ucwords(strtolower($data_program->Nm_Program)),
@@ -461,18 +461,18 @@ class FormBOPDPerubahanController extends Controller
 			
 			$statistik->save();
 		}
-		
+
 		$opd->PaguDana2 = $totalPaguOPD;
 		$opd->save();
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',
-									'opd'=>$opd,
-									'rka'=>$data,
-									'total_data'=>$total_data,                                    
-									'message'=>'Fetch data form b perubahan berhasil diperoleh'
-								], 200);    
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'opd'=>$opd,
+			'rka'=>$data,
+			'total_data'=>$total_data,                                    
+			'message'=>'Fetch data form b perubahan berhasil diperoleh'
+		], 200);    
 		
 	}
 	public function printtoexcel (Request $request)
