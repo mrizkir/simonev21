@@ -194,7 +194,7 @@
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
 					<strong>
-						{{ $store.getters["uifront/getNamaAPP"] }} (2019-2021)
+						{{ $store.getters["uifront/getNamaAPP"] }} (2022)
 					</strong>
 					dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
 					<v-btn dark icon href="https://github.com/mrizkir/simonev21">
