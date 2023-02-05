@@ -632,9 +632,9 @@
                 },
               }
             )
-            .then(() => {
+            .then(({ data }) => {
               this.closedialogfrm();
-              this.$router.go();
+              this.viewUraian(data.rka);
             })
             .catch(() => {
               this.btnLoading = false;
