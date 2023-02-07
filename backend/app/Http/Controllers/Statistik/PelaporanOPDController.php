@@ -22,7 +22,7 @@ class PelaporanOPDController extends Controller {
 			'tahun'=>'required',                     
 		]);
 
-		$tahun=$request->input('tahun');
+		$tahun = $request->input('tahun');
 		
 		$config = ConfigurationModel::getCache();
 		
@@ -60,18 +60,18 @@ class PelaporanOPDController extends Controller {
 				$join->on('statistik2.OrgID','=','B.OrgID');
 				$join->on('statistik2.Bulan','=','B.Bulan');
 			})  
-			->where('EntryLvl', 1)
+			->where('EntryLvl', $EntryLvl)
 			->where('statistik2.TA', $tahun)
 			->orderBy('RealisasiFisik','DESC')
 			->orderBy('PersenRealisasiKeuangan','DESC')
 			->get();
 		
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'peringkat'=>$peringkat,
-								'message'=>'Fetch data untuk peringkat opd berhasil diperoleh'
-							], 200);    
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'peringkat'=>$peringkat,
+			'message'=>'Fetch data untuk peringkat opd berhasil diperoleh'
+		], 200);    
 		
 	}    
 }
