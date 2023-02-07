@@ -95,8 +95,8 @@ class EvaluasiMurniRealisasiTAController extends Controller {
       'total_target_fisik'=>Helper::formatPecahan($TotalTargetFisik, $index),
       'total_realisasi_fisik'=>Helper::formatPecahan($TotalRealisasiFisik,$index),
       'total_target_keuangan'=>$TotalTargetKeuangan,
-      'total_realisasi_keuangan'=>$TotalRealisasiKeuangan,
-      'total_persen_keuangan'=>Helper::formatPecahan($TotalPersenRealisasiKeuangan, $index),      
+      'total_realisasi_keuangan'=>$TotalRealisasiKeuangan,      
+      'total_persen_keuangan'=>Helper::formatPersen($TotalRealisasiKeuangan,$TotalPaguDana),
     ];
 
     return Response()->json([
