@@ -190,6 +190,11 @@
             </template>
           </v-data-table>
         </v-col>
+        <v-col cols="12" class="mt-4">
+          <p>
+            (<i>Buka Halaman Form B OPD untuk mengupdate halaman ini</i>)
+          </p>
+        </v-col>
       </v-row>
     </v-container>
     <template v-slot:filtersidebar>

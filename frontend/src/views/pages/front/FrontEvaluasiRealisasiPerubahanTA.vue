@@ -117,7 +117,7 @@
         </v-col>
         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
       </v-row>
-      <v-row class="mb-4" no-gutters>
+      <v-row class="mb-2" no-gutters>
         <v-col cols="12">
           <v-data-table
             :headers="headers"
@@ -192,7 +192,12 @@
                 </td>
               </tr>
             </template>
-          </v-data-table>
+          </v-data-table>          
+        </v-col>
+        <v-col cols="12" class="mt-4">
+          <p>
+            (<i>Buka Halaman Form B OPD untuk mengupdate halaman ini</i>)
+          </p>
         </v-col>
       </v-row>
     </v-container>
