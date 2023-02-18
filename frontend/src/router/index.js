@@ -777,6 +777,15 @@ const routes = [
     },
     component: () => import("../views/pages/admin/system/Variables.vue"),
   },
+  {
+    path: "/system-setting/lockopd",
+    name: "LockOPD",
+    meta: {
+      title: "SETTING - LOCK OPD",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/system/LockOPD.vue"),
+  },
   // other page
   {
     path: "/404",

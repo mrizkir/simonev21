@@ -465,6 +465,41 @@ class OrganisasiController extends Controller {
 
   }
   /**
+   * digunakan untuk mengunci
+   */
+  public function lock(Request $request, $id)
+  {
+    $this->hasPermissionTo('SYSTEM-SETTING-LOCK-OPD_UPDATE');
+
+    $organisasi = OrganisasiModel::find($id);
+
+    if (is_null($organisasi))
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'destroy',                
+        'message'=>["Data OPD ($id) gagal dihapus"]
+      ], 422); 
+    }
+    else
+    {
+      $this->validate($request, [            
+        'status'=>'required|in:0,1',
+        'pid'=>'required|in:perrecord,all',
+      ]);
+
+      $organisasi->Locked = $request->input('status');
+      $organisasi->save();
+
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'update',
+        'opd'=>$organisasi,                                    
+        'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil dikunci.'
+      ], 200);       
+    }
+  }
+  /**
    * Remove the specified resource from storage.
    *
    * @param  int  $uuid

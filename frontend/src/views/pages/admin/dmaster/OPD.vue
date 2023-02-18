@@ -500,14 +500,14 @@
                   </v-form>
                 </v-dialog>
               </v-toolbar>
-            </template>
-            <template v-slot:item.PaguDana1="{ item }">
-              {{ item.PaguDana1 | formatUang }}
-            </template>
+            </template>            
             <template v-slot:item.Nm_Bidang_1="{ item }">
               {{ item.Nm_Bidang_1 }}
               {{ item.Nm_Bidang_2 }}
               {{ item.Nm_Bidang_3 }}
+            </template>
+            <template v-slot:item.PaguDana1="{ item }">
+              {{ item.PaguDana1 | formatUang }}
             </template>
             <template v-slot:item.PaguDana2="{ item }">
               {{ item.PaguDana2 | formatUang }}

@@ -1,5 +1,5 @@
 <template>
-  <SystemSettingLayout>
+  <SystemSettingLayout :showrightsidebar="false">
     <ModuleHeader>
       <template v-slot:icon>
         mdi-variable
@@ -125,6 +125,9 @@
         default_ta: null,
         default_masa_pelaporan: null,
       },
+      rule_default_ta: [
+        value => !!value || "Mohon untuk dipilih tahun anggaran !!!",        
+      ],
     }),
     methods: {
       async initialize() {

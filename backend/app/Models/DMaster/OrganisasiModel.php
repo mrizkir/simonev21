@@ -52,6 +52,7 @@ class OrganisasiModel extends Model {
     'RealisasiFisik2',        
     'Descr', 
     'TA',
+    'Locked',
     'OrgID_Src'
   ];
   /**
