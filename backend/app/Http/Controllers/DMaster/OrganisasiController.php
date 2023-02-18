@@ -453,13 +453,16 @@ class OrganisasiController extends Controller {
     $organisasi->Descr = $request->input('Descr');
     $organisasi->save();
 
+    $sql = "UPDATE tmSOrg SET kode_sub_organisasi=CONCAT('{$organisasi->kode_organisasi}', '.', Kd_Sub_Organisasi) WHERE OrgID='$id'";
+    \DB::statement($sql);
+
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
-                  'opd'=>$organisasi,                                    
-                  'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
-                ], 200); 
-  
+      'status'=>1,
+      'pid'=>'update',
+      'opd'=>$organisasi,                                    
+      'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
+    ], 200); 
+
   }
   /**
    * Remove the specified resource from storage.
