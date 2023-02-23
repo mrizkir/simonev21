@@ -5,7 +5,7 @@
         mdi-lock-check
       </template>
       <template v-slot:name>
-        LOCK OPD
+        LOCK OPD T.A {{ tahun_anggaran }}
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,7 +21,7 @@
       </template>
     </ModuleHeader>
     <template v-slot:filtersidebar>
-      <Filter3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter2" />
+      <Filter3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter3" />
     </template>
     <v-container fluid>
       <v-row class="mb-4" no-gutters>
@@ -63,18 +63,25 @@
                   DAFTAR OPD
                 </v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
-                <v-spacer></v-spacer>                                
+                <v-spacer></v-spacer>
               </v-toolbar>
-            </template>            
+            </template>
             <template v-slot:item.Nm_Bidang_1="{ item }">
               {{ item.Nm_Bidang_1 }}
               {{ item.Nm_Bidang_2 }}
               {{ item.Nm_Bidang_3 }}
-            </template>            
+            </template>
             <template v-slot:item.actions="{ item }">
               <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">                  
-                  <v-switch v-bind="attrs" v-on="on" v-model="item.Locked" :label="item.Locked == 1 ? 'BUKA' : 'KUNCI'" @click.stop="changeLock(item)" :disabled="btnLoading" />                
+                <template v-slot:activator="{ on, attrs }">
+                  <v-switch
+                    v-bind="attrs"
+                    v-on="on"
+                    v-model="item.Locked"
+                    :label="item.Locked == 1 ? 'BUKA' : 'KUNCI'"
+                    @click.stop="changeLock(item)"
+                    :disabled="btnLoading"
+                  />
                 </template>
                 <span>Kunci</span>
               </v-tooltip>
@@ -87,7 +94,7 @@
                 <strong>updated_at:</strong>
                 {{ $date(item.updated_at).format("DD/MM/YYYY HH:mm") }}
               </td>
-            </template>            
+            </template>
             <template v-slot:no-data>
               <v-col cols="12">
                 Belum ada data OPD
@@ -129,10 +136,16 @@
         },
       ];
       this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
-      this.initialize();
+    },
+    mounted() {
+      this.initialize();      
+      this.firstloading = false;
+      this.$refs.filter3.setFirstTimeLoading(this.firstloading);
+    
     },
     data: () => ({
       breadcrumbs: [],
+      firstloading: true,
       tahun_anggaran: null,
       datatableLoading: false,
       datatableLoaded: false,
@@ -143,7 +156,7 @@
         { text: "KODE OPD", value: "kode_organisasi", width: 150 },
         { text: "NAMA OPD", value: "Nm_Organisasi", width: 300 },
         { text: "BIDANG URUSAN", value: "Nm_Bidang_1", width: 200 },
-        { text: "KEPALA OPD", value: "NamaKepalaSKPD", width: 200 },        
+        { text: "KEPALA OPD", value: "NamaKepalaSKPD", width: 200 },
         { text: "AKSI", value: "actions", sortable: false, width: 100 },
       ],
       search: "",
@@ -151,6 +164,7 @@
     methods: {
       changeTahunAnggaran(tahun_anggaran) {
         this.tahun_anggaran = tahun_anggaran;
+        this.initialize();
       },
       initialize: async function() {
         this.datatableLoading = true;
@@ -173,7 +187,7 @@
                 opd[key].Kd_Organisasi = "0" + opd[key].Kd_Organisasi;
               }
             }
-            this.datatable = data.opd;            
+            this.datatable = data.opd;
             this.datatableLoaded = true;
             this.datatableLoading = false;
           });
@@ -217,6 +231,5 @@
       ModuleHeader,
       Filter3,
     },
-  }
+  };
 </script>
-  
