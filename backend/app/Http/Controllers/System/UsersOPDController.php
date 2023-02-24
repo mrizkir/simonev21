@@ -218,7 +218,7 @@ class UsersOPDController extends Controller {
         t2.Nm_Organisasi,
         t2.Alias_Organisasi,
         '.$tahun_tujuan.' AS `ta`,
-        t1.locked,								
+        0 AS locked,								
         NOW() AS created_at,
         NOW() AS updated_at
       FROM usersopd t1

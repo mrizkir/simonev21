@@ -485,7 +485,6 @@ class OrganisasiController extends Controller {
     {
       $this->validate($request, [            
         'status'=>'required|in:0,1',
-        'pid'=>'required|in:perrecord,all',
       ]);
 
       $organisasi->Locked = $request->input('status');
@@ -495,9 +494,30 @@ class OrganisasiController extends Controller {
         'status'=>1,
         'pid'=>'update',
         'opd'=>$organisasi,                                    
-        'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil dikunci.'
+        'message'=>'Input untuk OPD '.$organisasi->Nm_Organisasi.' berhasil dikunci.'
       ], 200);       
     }
+  }
+  public function lockall(Request $request)
+  {
+    $this->hasPermissionTo('SYSTEM-SETTING-LOCK-OPD_UPDATE');
+
+    $this->validate($request, [            
+      'tahun'=>'required',
+      'status'=>'required|in:0,1',
+    ]);
+
+    \DB::table('tmOrg')    
+    ->where('TA', $request->input('tahun'))
+    ->update([
+      'Locked' => $request->input('status'),
+    ]);
+    
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'update',                                   
+      'message'=>'Input untuk seluruh OPD berhasil dikunci.'
+    ], 200);  
   }
   /**
    * Remove the specified resource from storage.
@@ -514,10 +534,10 @@ class OrganisasiController extends Controller {
     if (is_null($organisasi))
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid'=>'destroy',                
-                  'message'=>["Data OPD ($id) gagal dihapus"]
-                ], 422); 
+        'status'=>0,
+        'pid'=>'destroy',                
+        'message'=>["Data OPD ($id) gagal dihapus"]
+      ], 422); 
     }
     else
     {
@@ -525,10 +545,10 @@ class OrganisasiController extends Controller {
       $result=$organisasi->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
-                  'message'=>"Data OPD dengan ID ($id) berhasil dihapus"
-                ], 200);
+        'status'=>1,
+        'pid'=>'destroy',                
+        'message'=>"Data OPD dengan ID ($id) berhasil dihapus"
+      ], 200);
     }
   }
   /**
@@ -544,22 +564,22 @@ class OrganisasiController extends Controller {
     if ($this->hasRole('unitkerja'))
     {
       $unitkerja = \DB::table('usersunitkerja')
-            ->select(\DB::raw('tmSOrg.*'))
-            ->join('tmSOrg','tmSOrg.SOrgID','usersunitkerja.SOrgID')
-            ->where('usersunitkerja.user_id', $this->getUserid())
-            ->get();
+        ->select(\DB::raw('tmSOrg.*'))
+        ->join('tmSOrg','tmSOrg.SOrgID','usersunitkerja.SOrgID')
+        ->where('usersunitkerja.user_id', $this->getUserid())
+        ->get();
     }
     else
     {            
       $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi','ASC')->get();        
     }
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
-                  'organisasi'=>$organisasi,
-                  'unitkerja'=>$unitkerja,                                    
-                  'message'=>'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diubah.'
-                ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'organisasi'=>$organisasi,
+      'unitkerja'=>$unitkerja,                                    
+      'message'=>'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diubah.'
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
    * digunakan untuk mendapat pejabat  berdasarkan OrgID
@@ -571,10 +591,10 @@ class OrganisasiController extends Controller {
   public function pejabatopd ($id)
   {
     $pejabat = \DB::table('tmASN')
-            ->select(\DB::raw('`trRiwayatJabatanASN`.`ASNID`,`tmASN`.`Nm_ASN`,`Jenis_Jabatan`'))
-            ->join('trRiwayatJabatanASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
-            ->where('trRiwayatJabatanASN.OrgID',$id)
-            ->get();
+      ->select(\DB::raw('`trRiwayatJabatanASN`.`ASNID`,`tmASN`.`Nm_ASN`,`Jenis_Jabatan`'))
+      ->join('trRiwayatJabatanASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+      ->where('trRiwayatJabatanASN.OrgID',$id)
+      ->get();
 
     $pa=[];
     $kpa=[];
@@ -611,15 +631,15 @@ class OrganisasiController extends Controller {
       }
     }        
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',                                    
-                  'pejabat'=>[
-                    'pa'=>$pa,
-                    'kpa'=>$kpa,
-                    'ppk'=>$ppk,
-                    'pptk'=>$pptk,
-                  ],                                    
-                  'message'=>'Data unit kerja berdasarkan id '.$id.' berhasil diubah.'
-                ], 200); 
+      'status'=>1,
+      'pid'=>'fetchdata',                                    
+      'pejabat'=>[
+        'pa'=>$pa,
+        'kpa'=>$kpa,
+        'ppk'=>$ppk,
+        'pptk'=>$pptk,
+      ],                                    
+      'message'=>'Data unit kerja berdasarkan id '.$id.' berhasil diubah.'
+    ], 200); 
   }
 }

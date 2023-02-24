@@ -64,6 +64,33 @@
                 </v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-switch
+                      v-bind="attrs"
+                      v-on="on"
+                      v-model="toggleLockOpen"
+                      @click.stop="lockAll()"
+                      label="KUNCI"
+                      :disabled="btnLoading"
+                      class="mr-2"
+                    />
+                  </template>
+                  <span>Kunci Seluru OPD</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-switch
+                      v-bind="attrs"
+                      v-on="on"
+                      v-model="toggleLockClose"
+                      @click.stop="lockAll()"
+                      label="TUTUP"
+                      :disabled="btnLoading"
+                    />
+                  </template>
+                  <span>Kunci Seluru OPD</span>
+                </v-tooltip>
               </v-toolbar>
             </template>
             <template v-slot:item.Nm_Bidang_1="{ item }">
@@ -152,6 +179,8 @@
       expanded: [],
       datatable: [],
       btnLoading: false,
+      toggleLockOpen: 0,
+      toggleLockClose: 0,
       headers: [
         { text: "KODE OPD", value: "kode_organisasi", width: 150 },
         { text: "NAMA OPD", value: "Nm_Organisasi", width: 300 },
@@ -207,8 +236,7 @@
             "/dmaster/opd/" + item.OrgID + "/lock",
             {
               _method: "PUT",
-              status: item.Locked,
-              pid: "perrecord",
+              status: item.Locked,              
             },
             {
               headers: {
@@ -225,6 +253,32 @@
             this.datatableLoading = false;
           });
       },
+      lockAll() {
+        this.btnLoading = true;        
+        this.$ajax
+          .post(
+            "/dmaster/opd/lockall",
+            {
+              _method: "PUT",
+              tahun: this.tahun_anggaran,
+              status: this.toggleLockOpen,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(() => {
+            this.initialize();
+            this.btnLoading = false;
+            this.toggleLockOpen = 0;
+            this.toggleLockClose = 0;
+          })
+          .catch(() => {
+            this.btnLoading = false;            
+          });
+      }
     },
     components: {
       SystemSettingLayout,
