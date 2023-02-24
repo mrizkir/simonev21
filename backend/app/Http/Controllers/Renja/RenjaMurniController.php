@@ -224,17 +224,17 @@ class RenjaMurniController extends Controller
 				];
 
 				$statistik2=Statistik2Model::select(\DB::raw('
-												`Bulan`,
-												SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
-												SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
-												SUM(`TargetFisik1`) AS `TargetFisik1`,
-												SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
-											'))
-											->where('TA',$tahun)
-											->whereIn('OrgID',$daftar_opd)                                             
-											->where('EntryLvl',1)        
-											->groupBy('Bulan')                                
-											->get();
+					`Bulan`,
+					SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
+					SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
+					SUM(`TargetFisik1`) AS `TargetFisik1`,
+					SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
+				'))
+				->where('TA',$tahun)
+				->whereIn('OrgID',$daftar_opd)                                             
+				->where('EntryLvl',1)        
+				->groupBy('Bulan')                                
+				->get();
 											
 				
 				foreach($statistik2 as $v)
@@ -446,11 +446,15 @@ class RenjaMurniController extends Controller
 
 			\DB::statement($str_jumlah_sub_kegiatan1);             
 			
-			$jumlahuraian = \DB::table('trRKARinc')->where('TA',$tahun)->count();
+			$jumlahuraian = \DB::table('trRKARinc')
+			->where('EntryLvl', 1)
+			->where('TA', $tahun)
+			->count();
 
 			$totalfisik=\DB::table('trRKARealisasiRinc')                                   
-									->where('TA',$tahun)                                    
-									->sum('fisik1');
+			->where('TA',$tahun)                                    
+			->where('EntryLvl', 1)
+			->sum('fisik1');
 			
 			$persen_realisasi_fisik=Helper::formatPecahan($totalfisik,$jumlahuraian);
 			

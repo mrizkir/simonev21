@@ -446,11 +446,15 @@ class RenjaPerubahanController extends Controller
 
 			\DB::statement($str_jumlah_sub_kegiatan2);             
 			
-			$jumlahuraian = \DB::table('trRKARinc')->where('TA',$tahun)->count();
+			$jumlahuraian = \DB::table('trRKARinc')
+			->where('EntryLvl', 2)
+			->where('TA', $tahun)
+			->count();
 
 			$totalfisik=\DB::table('trRKARealisasiRinc')                                   
-									->where('TA',$tahun)                                    
-									->sum('fisik2');
+			->where('TA',$tahun)
+			->where('EntryLvl', 2)
+			->sum('fisik2');
 			
 			$persen_realisasi_fisik=Helper::formatPecahan($totalfisik,$jumlahuraian);
 			
@@ -473,15 +477,15 @@ class RenjaPerubahanController extends Controller
 			\DB::statement($str_jumlah_realisasi2); 
 
 			$statistik1 = Statistik1Model::select(\DB::raw('
-											`PaguDana2`,
-											`JumlahProgram2`,
-											`JumlahKegiatan2`,
-											`JumlahSubKegiatan2`,
-											`RealisasiKeuangan2`,
-											`RealisasiFisik2`,
-											0 AS `PersenRealisasiKeuangan2`
-										'))
-										->find($tahun);
+				`PaguDana2`,
+				`JumlahProgram2`,
+				`JumlahKegiatan2`,
+				`JumlahSubKegiatan2`,
+				`RealisasiKeuangan2`,
+				`RealisasiFisik2`,
+				0 AS `PersenRealisasiKeuangan2`
+			'))
+			->find($tahun);
 
 			$statistik1->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1->RealisasiKeuangan2,$statistik1->PaguDana2);
 			$statistik1=[
@@ -537,11 +541,11 @@ class RenjaPerubahanController extends Controller
 		}
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'update',                                    
-									'statistik1'=>$statistik1,                                    
-									'message'=>'Data statistik1 berhasil di update'
-								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+			'status'=>1,
+			'pid'=>'update',                                    
+			'statistik1'=>$statistik1,                                    
+			'message'=>'Data statistik1 berhasil di update'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	public function reloadstatistik2(Request $request)
 	{
