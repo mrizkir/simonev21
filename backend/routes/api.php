@@ -137,8 +137,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/dmaster/opd/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\OrganisasiController@store','as'=>'opd.store']);
 	$router->post('/dmaster/opd/salin',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@salin','as'=>'opd.salin']);
 	$router->put('/dmaster/opd/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\OrganisasiController@update','as'=>'opd.update']);
-	$router->put('/dmaster/opd/{id}/lock',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@lock','as'=>'opd.lock']);
-	$router->put('/dmaster/opd/lockall',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@lockall','as'=>'opd.lockall']);
+	$router->post('/dmaster/opd/{id}/locked',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@locked','as'=>'opd.locked']);
+	$router->put('/dmaster/opd/{id}/lock',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@lock','as'=>'opd.lock']);	
+	$router->post('/dmaster/opd/lockedall',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@lockedall','as'=>'opd.lockedall']);
+	$router->put('/dmaster/opd/lockall',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@lockall','as'=>'opd.lockall']);	
 	$router->get('/dmaster/opd/{id}/unitkerja',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\OrganisasiController@opdunitkerja','as'=>'opd.unitkerja']);
 	$router->get('/dmaster/opd/{id}/pejabat',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\OrganisasiController@pejabatopd','as'=>'opd.pejabatopd']);
 	$router->delete('/dmaster/opd/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\OrganisasiController@destroy','as'=>'opd.destroy']);	

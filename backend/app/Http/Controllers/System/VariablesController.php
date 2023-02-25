@@ -5,6 +5,9 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
+use App\Models\System\LockedOPDMOdel;
+
+use Ramsey\Uuid\Uuid;
 
 class VariablesController extends Controller 
 {    
@@ -44,16 +47,43 @@ class VariablesController extends Controller
       'name.required'=>'Setting mohon untuk di isi',
     ]);        
     $pid = $request->input('pid');
-    $config=json_decode($request->input('setting'),true);
+    $config=json_decode($request->input('setting'), true);
     
     foreach($config as $k=>$v)
     {
-      \DB::table('configuration')->where('config_id',$k)->update(['config_value'=>$v]);
+      \DB::table('configuration')->where('config_id', $k)->update(['config_value'=>$v]);      
     }
 
     ConfigurationModel::clear();
     ConfigurationModel::toCache();
 
+    $config = ConfigurationModel::getCache(); 
+    $tahun = $config['DEFAULT_TA'];
+
+    $daftar_opd = \DB::table('tmOrg')
+    ->where('TA', $tahun)
+    ->select(\DB::raw('
+      OrgID
+    '))
+    ->orderBy('kode_organisasi','ASC')
+    ->get();   
+
+    foreach($daftar_opd as $opd)
+    {
+      \DB::table('lockedopd')
+        ->where('OrgID', $opd->OrgID)
+        ->where('TA', $tahun)
+        ->where('Bulan', 0)
+        ->delete();
+
+      LockedOPDMOdel::create([
+        'lockedid' => Uuid::uuid4()->toString(), 
+        'OrgID' => $opd->OrgID,
+        'TA' => $tahun,
+        'Bulan' => 0,
+        'Locked' => $config['DEFAULT_MASA_PELAPORAN'] == 'murni' ? 10 : 11,
+      ]);   
+    }
     return Response()->json([
       'status'=>1,
       'pid'=>'update',       

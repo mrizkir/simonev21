@@ -89,8 +89,8 @@
         </v-list>
       </v-menu>
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
-				<v-icon color="white">mdi-menu-open</v-icon>
-			</v-app-bar-nav-icon>
+        <v-icon color="white">mdi-menu-open</v-icon>
+      </v-app-bar-nav-icon>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -170,41 +170,41 @@
       </v-list-item>
     </v-navigation-drawer>
     <v-navigation-drawer
-			v-model="drawerRight"
-			width="300"
-			app
-			fixed
-			right
-			temporary
-			v-if="showrightsidebar"
-		>
-			<v-list dense>
-				<v-list-item>
-					<v-list-item-icon class="mr-2">
-						<v-icon>mdi-menu-open</v-icon>
-					</v-list-item-icon>
-					<v-list-item-content>
-						<v-list-item-title class="title">
-							OPTIONS
-						</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
-				<v-divider></v-divider>
-				<v-list-item
-					:class="
-						$store.getters['uifront/getTheme']('V_LIST_ITEM_ACTIVE_CSS_CLASS')
-					"
-				>
-					<v-list-item-icon class="mr-2">
-						<v-icon>mdi-filter</v-icon>
-					</v-list-item-icon>
-					<v-list-item-content>
-						<v-list-item-title>FILTER</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
-				<slot name="filtersidebar" />
-			</v-list>
-		</v-navigation-drawer>
+      v-model="drawerRight"
+      width="300"
+      app
+      fixed
+      right
+      temporary
+      v-if="showrightsidebar"
+    >
+      <v-list dense>
+        <v-list-item>
+          <v-list-item-icon class="mr-2">
+            <v-icon>mdi-menu-open</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="title">
+              OPTIONS
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item
+          :class="
+            $store.getters['uifront/getTheme']('V_LIST_ITEM_ACTIVE_CSS_CLASS')
+          "
+        >
+          <v-list-item-icon class="mr-2">
+            <v-icon>mdi-filter</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>FILTER</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <slot name="filtersidebar" />
+      </v-list>
+    </v-navigation-drawer>
     <v-main class="mx-4 mb-4">
       <slot />
     </v-main>
@@ -212,9 +212,7 @@
       <v-card class="flex" flat tile>
         <v-divider></v-divider>
         <v-card-text class="py-2 white--text text-center">
-          <strong>
-            {{ $store.getters["uifront/getNamaAPP"] }} (2022)
-          </strong>
+          <strong>{{ $store.getters["uifront/getNamaAPP"] }} (2022)</strong>
           dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
           <v-btn dark icon href="https://github.com/mrizkir/simonev21">
             <v-icon>mdi-github</v-icon>

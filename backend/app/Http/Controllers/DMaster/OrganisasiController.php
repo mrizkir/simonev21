@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\OrganisasiModel;
+use App\Models\System\LockedOPDMOdel;
 use App\Models\Statistik1Model;
 use App\Helpers\Helper;
 
@@ -23,22 +24,23 @@ class OrganisasiController extends Controller {
 
     $this->validate($request, [            
       'tahun'=>'required',            
-    ]);             
-    $tahun=$request->input('tahun');
+    ]);
+    
+    $tahun = $request->input('tahun');
 
     if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
-      $data = OrganisasiModel::where('TA',$tahun)
-                ->orderBy('kode_organisasi','ASC')
-                ->get();            
+      $data = OrganisasiModel::where('TA', $tahun)
+        ->orderBy('kode_organisasi','ASC')
+        ->get();            
     }       
     else if ($this->hasRole(['opd','unitkerja']))
     {
       $daftar_opd=$this->getUserOrgID($tahun);
       $data = OrganisasiModel::where('TA',$tahun)
-                ->whereIn('OrgID',$daftar_opd)
-                ->orderBy('kode_organisasi','ASC')
-                ->get();
+        ->whereIn('OrgID',$daftar_opd)
+        ->orderBy('kode_organisasi','ASC')
+        ->get();
     }
     return Response()->json([
       'status'=>1,
@@ -62,7 +64,7 @@ class OrganisasiController extends Controller {
     $this->validate($request, [            
       'tahun'=>'required',            
     ]); 
-    $tahun=$request->input('tahun');
+    $tahun = $request->input('tahun');
     
     $str_statistik_opd1 = "UPDATE 
       `tmOrg`, 	
@@ -484,11 +486,24 @@ class OrganisasiController extends Controller {
     else
     {
       $this->validate($request, [            
+        'tahun'=>'required',
+        'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
         'status'=>'required|in:0,1',
       ]);
 
-      $organisasi->Locked = $request->input('status');
-      $organisasi->save();
+      \DB::table('lockedopd')
+        ->where('OrgID', $opd->OrgID)
+        ->where('TA', $tahun)
+        ->where('Bulan', $bulan)
+        ->delete();
+
+      LockedOPDMOdel::create([
+        'lockedid' => Uuid::uuid4()->toString(), 
+        'OrgID' => $opd->OrgID,
+        'TA' => $tahun,
+        'Bulan' => $bulan,
+        'Locked' => $status,
+      ]);
 
       return Response()->json([
         'status'=>1,
@@ -498,21 +513,172 @@ class OrganisasiController extends Controller {
       ], 200);       
     }
   }
+  /**
+   * digunakan untuk memperoleh daftar opd yang telah di lock
+   */
+  public function lockedall(Request $request)
+  {
+    $this->validate($request, [            
+      'tahun'=>'required',
+      'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+    ]);
+    
+    $tahun = $request->input('tahun');
+    $bulan = $request->input('bulan');
+
+    $subquery = \DB::table('lockedopd')
+			->select(\DB::raw('`OrgID`, Locked'))
+			->where('TA', $tahun)
+			->where('Bulan', $bulan);
+
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
+    {
+      $data = \DB::table('tmOrg AS A')
+      ->select(\DB::raw('
+        A.OrgID, 
+      
+        A.BidangID_1,         
+        A.kode_bidang_1,         
+        A.Nm_Bidang_1,         
+        
+        A.BidangID_2,         
+        A.kode_bidang_2,         
+        A.Nm_Bidang_2,         
+    
+        A.BidangID_3,         
+        A.kode_bidang_3,         
+        A.Nm_Bidang_3,         
+    
+        A.kode_organisasi, 
+        A.Kd_Organisasi, 
+        A.Nm_Organisasi, 
+        A.Alias_Organisasi,                
+        A.Alamat, 
+        A.NamaKepalaSKPD, 
+        A.NIPKepalaSKPD, 
+        A.PaguDana1,
+        A.PaguDana2,
+        A.JumlahProgram1,
+        A.JumlahProgram2,        
+        A.JumlahKegiatan1,
+        A.JumlahKegiatan2,        
+        A.JumlahSubKegiatan1,
+        A.JumlahSubKegiatan2,
+        A.RealisasiKeuangan1,            
+        A.RealisasiKeuangan2,        
+        A.RealisasiFisik1,        
+        A.RealisasiFisik2,        
+        A.Descr, 
+        A.TA,
+        B.Locked,
+        A.OrgID_Src
+      '))
+      ->leftJoinSub($subquery, 'B', function($join) {
+				$join->on('A.OrgID', '=', 'B.OrgID');				
+			})
+      ->where('A.TA', $tahun)
+      ->orderBy('A.kode_organisasi', 'ASC')
+      ->get();      
+    }       
+    else if ($this->hasRole(['opd', 'unitkerja']))
+    {
+      $daftar_opd=$this->getUserOrgID($tahun);
+
+      $data = \DB::table('tmOrg AS A')
+      ->select(\DB::raw('
+        A.OrgID, 
+      
+        A.BidangID_1,         
+        A.kode_bidang_1,         
+        A.Nm_Bidang_1,         
+        
+        A.BidangID_2,         
+        A.kode_bidang_2,         
+        A.Nm_Bidang_2,         
+    
+        A.BidangID_3,         
+        A.kode_bidang_3,         
+        A.Nm_Bidang_3,         
+    
+        A.kode_organisasi, 
+        A.Kd_Organisasi, 
+        A.Nm_Organisasi, 
+        A.Alias_Organisasi,                
+        A.Alamat, 
+        A.NamaKepalaSKPD, 
+        A.NIPKepalaSKPD, 
+        A.PaguDana1,
+        A.PaguDana2,
+        A.JumlahProgram1,
+        A.JumlahProgram2,        
+        A.JumlahKegiatan1,
+        A.JumlahKegiatan2,        
+        A.JumlahSubKegiatan1,
+        A.JumlahSubKegiatan2,
+        A.RealisasiKeuangan1,            
+        A.RealisasiKeuangan2,        
+        A.RealisasiFisik1,        
+        A.RealisasiFisik2,        
+        A.Descr, 
+        A.TA,
+        B.Locked,
+        A.OrgID_Src
+      '))
+      ->join('lockedopd AS B', 'A.OrgID', 'B.OrgID')
+      ->where('A.TA', $tahun)      
+      ->whereIn('OrgID', $daftar_opd)
+      ->leftJoinSub($subquery, 'B', function($join) {
+				$join->on('A.OrgID', '=', 'B.OrgID');				
+			})
+      ->orderBy('A.kode_organisasi', 'ASC')
+      ->get();            
+    }
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'opd'=>$data,
+      'jumlah_apbd'=>$data->sum('PaguDana1'),
+      'jumlah_apbdp'=>$data->sum('PaguDana2'),
+      'message'=>'Fetch data opd berhasil diperoleh'
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);   
+  }
   public function lockall(Request $request)
   {
     $this->hasPermissionTo('SYSTEM-SETTING-LOCK-OPD_UPDATE');
 
     $this->validate($request, [            
       'tahun'=>'required',
+      'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
       'status'=>'required|in:0,1',
     ]);
 
-    \DB::table('tmOrg')    
-    ->where('TA', $request->input('tahun'))
-    ->update([
-      'Locked' => $request->input('status'),
-    ]);
+    $tahun = $request->input('tahun');
+    $bulan = $request->input('bulan');
+    $status = $request->input('status');
     
+    $daftar_opd = OrganisasiModel::where('TA', $tahun)
+      ->select(\DB::raw('
+        OrgID
+      '))
+      ->orderBy('kode_organisasi','ASC')
+      ->get();   
+
+    foreach($daftar_opd as $opd)
+    {
+      \DB::table('lockedopd')
+        ->where('OrgID', $opd->OrgID)
+        ->where('TA', $tahun)
+        ->where('Bulan', $bulan)
+        ->delete();
+
+      LockedOPDMOdel::create([
+        'lockedid' => Uuid::uuid4()->toString(), 
+        'OrgID' => $opd->OrgID,
+        'TA' => $tahun,
+        'Bulan' => $bulan,
+        'Locked' => $status,
+      ]);   
+    }
     return Response()->json([
       'status'=>1,
       'pid'=>'update',                                   

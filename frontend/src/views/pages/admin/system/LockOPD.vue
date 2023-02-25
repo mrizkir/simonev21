@@ -5,7 +5,7 @@
         mdi-lock-check
       </template>
       <template v-slot:name>
-        LOCK OPD T.A {{ tahun_anggaran }}
+        LOCK OPD T.A {{ tahun_anggaran }} Bulan Ke {{ bulan_realisasi }}
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -21,7 +21,11 @@
       </template>
     </ModuleHeader>
     <template v-slot:filtersidebar>
-      <Filter3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter3" />
+      <Filter1
+        v-on:changeTahunAnggaran="changeTahunAnggaran"
+        v-on:changeBulanRealisasi="changeBulanRealisasi"
+        ref="filter1"
+      />
     </template>
     <v-container fluid>
       <v-row class="mb-4" no-gutters>
@@ -136,7 +140,7 @@
 <script>
   import SystemSettingLayout from "@/views/layouts/SystemSettingLayout";
   import ModuleHeader from "@/components/ModuleHeader";
-  import Filter3 from "@/components/sidebar/FilterMode3";
+  import Filter1 from "@/components/sidebar/FilterMode1";
   export default {
     name: "LockOPD",
     created() {
@@ -163,17 +167,18 @@
         },
       ];
       this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
+      this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
     },
     mounted() {
-      this.initialize();      
+      this.initialize();
       this.firstloading = false;
-      this.$refs.filter3.setFirstTimeLoading(this.firstloading);
-    
+      this.$refs.filter1.setFirstTimeLoading(this.firstloading);
     },
     data: () => ({
       breadcrumbs: [],
       firstloading: true,
       tahun_anggaran: null,
+      bulan_realisasi: null,
       datatableLoading: false,
       datatableLoaded: false,
       expanded: [],
@@ -195,13 +200,17 @@
         this.tahun_anggaran = tahun_anggaran;
         this.initialize();
       },
+      changeBulanRealisasi(bulan) {
+        this.bulan_realisasi = bulan;
+      },
       initialize: async function() {
         this.datatableLoading = true;
         await this.$ajax
           .post(
-            "/dmaster/opd",
+            "/dmaster/opd/lockedall",
             {
               tahun: this.tahun_anggaran,
+              bulan: this.bulan_realisasi,
             },
             {
               headers: {
@@ -236,7 +245,9 @@
             "/dmaster/opd/" + item.OrgID + "/lock",
             {
               _method: "PUT",
-              status: item.Locked,              
+              tahun: this.tahun_anggaran,
+              bulan: this.bulan_realisasi,
+              status: item.Locked,
             },
             {
               headers: {
@@ -254,13 +265,14 @@
           });
       },
       lockAll() {
-        this.btnLoading = true;        
+        this.btnLoading = true;
         this.$ajax
           .post(
             "/dmaster/opd/lockall",
             {
               _method: "PUT",
               tahun: this.tahun_anggaran,
+              bulan: this.bulan_realisasi,
               status: this.toggleLockOpen,
             },
             {
@@ -276,14 +288,26 @@
             this.toggleLockClose = 0;
           })
           .catch(() => {
-            this.btnLoading = false;            
+            this.btnLoading = false;
           });
-      }
+      },
+    },
+    watch: {
+      tahun_anggaran() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+      bulan_realisasi() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
     },
     components: {
       SystemSettingLayout,
       ModuleHeader,
-      Filter3,
+      Filter1,
     },
   };
 </script>
