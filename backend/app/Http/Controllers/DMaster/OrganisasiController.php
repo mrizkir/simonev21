@@ -491,15 +491,19 @@ class OrganisasiController extends Controller {
         'status'=>'required|in:0,1',
       ]);
 
+      $tahun = $request->input('tahun');
+      $bulan = $request->input('bulan');
+      $status = $request->input('status');
+
       \DB::table('lockedopd')
-        ->where('OrgID', $opd->OrgID)
+        ->where('OrgID', $organisasi->OrgID)
         ->where('TA', $tahun)
         ->where('Bulan', $bulan)
         ->delete();
 
       LockedOPDMOdel::create([
         'lockedid' => Uuid::uuid4()->toString(), 
-        'OrgID' => $opd->OrgID,
+        'OrgID' => $organisasi->OrgID,
         'TA' => $tahun,
         'Bulan' => $bulan,
         'Locked' => $status,
@@ -509,7 +513,7 @@ class OrganisasiController extends Controller {
         'status'=>1,
         'pid'=>'update',
         'opd'=>$organisasi,                                    
-        'message'=>'Input untuk OPD '.$organisasi->Nm_Organisasi.' berhasil dikunci.'
+        'message'=>'Status input untuk OPD '.$organisasi->Nm_Organisasi.' berhasil diubah.'
       ], 200);       
     }
   }
@@ -682,7 +686,7 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status'=>1,
       'pid'=>'update',                                   
-      'message'=>'Input untuk seluruh OPD berhasil dikunci.'
+      'message'=>'Status input seluruh OPD berhasil diubah.'
     ], 200);  
   }
   /**

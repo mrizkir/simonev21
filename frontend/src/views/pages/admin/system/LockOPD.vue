@@ -89,7 +89,7 @@
                       v-on="on"
                       v-model="toggleLockClose"
                       @click.stop="lockAll()"
-                      label="TUTUP"
+                      label="BUKA"
                       :disabled="btnLoading"
                     />
                   </template>
@@ -247,7 +247,7 @@
               _method: "PUT",
               tahun: this.tahun_anggaran,
               bulan: this.bulan_realisasi,
-              status: item.Locked,
+              status: item.Locked == true ? 1 : 0,
             },
             {
               headers: {
