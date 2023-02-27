@@ -28,54 +28,58 @@ class DataMentahMurniController extends Controller
 		$organisasi = OrganisasiModel::find($OrgID);
 	 
 		$data = \DB::table('sipd')
-						->select(\DB::raw('                            
-							DISTINCT(kd_keg_gabung) AS kode_kegiatan,                            
-							`Kd_Urusan1` AS `Kd_Urusan`,
-							`Nm_Urusan`,
-							`Kd_Bidang`,
-							`Nm_Bidang_Urusan` AS `Nm_Bidang`,
-							nm_kegiatan AS `KgtNm`,
-							kd_prog_gabungan AS kode_program,                                                        
-							nm_program AS `PrgNm`,
-							0 AS `PaguDana1`,
-							\'BELUM DICOPY\' AS status,
-							`TA`
-						'))
-						->where('OrgID',$OrgID)
-						->where('TA',$tahun)
-						->where('EntryLevel',1)
-						->orderBy('kode_program','ASC')
-						->orderBy('kode_kegiatan','ASC')
-						->get();        
+			->select(\DB::raw('                            
+				DISTINCT(kd_keg_gabung) AS kode_kegiatan,                            
+				`Kd_Urusan1` AS `Kd_Urusan`,
+				`Nm_Urusan`,
+				`Kd_Bidang`,
+				`Nm_Bidang_Urusan` AS `Nm_Bidang`,
+				nm_kegiatan AS `KgtNm`,
+				kd_prog_gabungan AS kode_program,                                                        
+				nm_program AS `PrgNm`,
+				0 AS `PaguDana1`,
+				\'BELUM DICOPY\' AS status,
+				`TA`
+			'))
+			->where('OrgID',$OrgID)
+			->where('TA',$tahun)
+			->where('EntryLevel', 1)
+			->orderBy('kode_program','ASC')
+			->orderBy('kode_kegiatan','ASC')
+			->get();        
 		
-		$data->transform(function($item,$key) use ($organisasi) {
+		$data->transform(function($item,$key) use ($organisasi) 
+		{
 			$rka = \DB::table('trRKA')
-						->where('OrgID',$organisasi->OrgID)
-						->where('TA',$organisasi->TA)
-						->where('EntryLvl',1)
-						->where('kode_kegiatan',$item->kode_kegiatan)
-						->get();
+			->where('OrgID',$organisasi->OrgID)
+			->where('TA',$organisasi->TA)
+			->where('EntryLvl',1)
+			->where('kode_kegiatan',$item->kode_kegiatan)
+			->get();
+
 			$item->Kd_Urusan=$item->Kd_Urusan;
 			$item->Kd_Bidang=$item->Kd_Urusan.'.'.$item->Kd_Bidang;
+
 			if (isset($rka[0]))
 			{
 				$item->status='SUDAH DICOPY';
 			}
 			$item->PaguDana1=\DB::table('sipd')
-								->where('EntryLevel',1)
-								->where('TA',$organisasi->TA)
-								->where('kd_keg_gabung',$item->kode_kegiatan)
-								->sum('PaguUraian1');
+				->where('EntryLevel',1)
+				->where('TA',$organisasi->TA)
+				->where('kd_keg_gabung',$item->kode_kegiatan)
+				->sum('PaguUraian1');
 							
 			return $item;
 		});
+		
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'organisasi'=>$organisasi,
-								'rka'=>$data,
-								'message'=>'Fetch data rka perubahan berhasil diperoleh'
-							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'organisasi'=>$organisasi,
+			'rka'=>$data,
+			'message'=>'Fetch data rka perubahan berhasil diperoleh'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
 	}   
 	public function copyrka(Request $request)
 	{
@@ -185,9 +189,9 @@ class DataMentahMurniController extends Controller
 		';
 		\DB::statement($str_insert); 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'store',                                
-								'message'=>'Salin kegiatan dari data mentar ke RKA Murni berhasil'
-							], 200);    
+			'status'=>1,
+			'pid'=>'store',                                
+			'message'=>'Salin kegiatan dari data mentar ke RKA Murni berhasil'
+		], 200);    
 	}
 }
