@@ -59,14 +59,21 @@ const actions = {
   init: async function({ commit, state, rootGetters }, ajax) {
     //dipindahkan kesini karena ada beberapa kasus yang melaporkan ini membuat bermasalah.
     commit("setLoaded", false);
+    
     if (!state.loaded && rootGetters["auth/Authenticated"]) {
       let token = rootGetters["auth/Token"];
       await ajax
-        .get("/system/setting/uiadmin", {
-          headers: {
-            Authorization: token,
+        .post(
+          "/system/setting/uiadmin",
+          {
+            tahun: rootGetters["auth/TahunSelected"],
           },
-        })
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
         .then(({ data }) => {
           commit("setMasaPelaporan", data.masa_pelaporan);
           commit("setLoaded", true);

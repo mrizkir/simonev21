@@ -5,7 +5,7 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
-use App\Models\System\LockedOPDMOdel;
+use App\Models\System\LockedOPDModel;
 
 use Ramsey\Uuid\Uuid;
 
@@ -25,7 +25,50 @@ class VariablesController extends Controller
       'setting'=>ConfigurationModel::getCache(),
       'message'=>'Fetch data seluruh setting variabel'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
-  }       
+  }
+  public function show(Request $request, $id)
+  {
+    $code = 422;
+    $status = 0;
+    $data = null;
+
+    $message = "Isi variables ($id) gagal diperoleh";
+    switch($id)
+    {
+      case 203:
+        $this->validate($request, [            
+          'tahun'=>'required',          
+        ]);
+
+        $tahun = $request->input('tahun');
+
+        $data = \DB::table('lockedopd')
+          ->select(\DB::raw('`OrgID`, Locked'))
+          ->where('TA', $tahun)
+          ->where('Bulan', 0)
+          ->first();
+        
+        $masa_pelaporan = 'murni';
+        if (!is_null($data))
+        {
+          $masa_pelaporan = ($data->Locked == 10 || $data->Locked = 0) ? 'murni' : 'perubahan';
+        }
+
+        $status = 1;
+        $data = [
+          'masa_pelaporan' => $masa_pelaporan,
+        ];
+        $code = 200;
+        $message = "Isi variables ($id) berhasil diperoleh";
+      break;
+    }
+    return Response()->json([
+      'status'=>$status,
+      'pid'=>'fetch',  
+      'result' => $data,              
+      'message'=> $message,
+    ], $code); 
+  }
   /**
    * Update the specified resource in storage.
    *
@@ -76,7 +119,7 @@ class VariablesController extends Controller
         ->where('Bulan', 0)
         ->delete();
 
-      LockedOPDMOdel::create([
+      LockedOPDModel::create([
         'lockedid' => Uuid::uuid4()->toString(), 
         'OrgID' => $opd->OrgID,
         'TA' => $tahun,

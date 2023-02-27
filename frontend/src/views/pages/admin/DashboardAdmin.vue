@@ -336,7 +336,7 @@
 <script>
   import { mapGetters } from "vuex";
   export default {
-    name: "Dashboard",
+    name: "DashboardAdmin",
     created() {
       this.TOKEN = this.$route.params.token;
       this.tahun_anggaran = this.$store.getters["auth/TahunSelected"];

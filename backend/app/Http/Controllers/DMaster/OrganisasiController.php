@@ -5,7 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\OrganisasiModel;
-use App\Models\System\LockedOPDMOdel;
+use App\Models\System\LockedOPDModel;
 use App\Models\Statistik1Model;
 use App\Helpers\Helper;
 
@@ -501,7 +501,7 @@ class OrganisasiController extends Controller {
         ->where('Bulan', $bulan)
         ->delete();
 
-      LockedOPDMOdel::create([
+        LockedOPDModel::create([
         'lockedid' => Uuid::uuid4()->toString(), 
         'OrgID' => $organisasi->OrgID,
         'TA' => $tahun,
@@ -675,7 +675,7 @@ class OrganisasiController extends Controller {
         ->where('Bulan', $bulan)
         ->delete();
 
-      LockedOPDMOdel::create([
+      LockedOPDModel::create([
         'lockedid' => Uuid::uuid4()->toString(), 
         'OrgID' => $opd->OrgID,
         'TA' => $tahun,

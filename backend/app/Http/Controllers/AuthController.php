@@ -33,17 +33,17 @@ class AuthController extends Controller
 		
 		if (! $token = $this->guard()->attempt($credentials, ['exp' => \Carbon\Carbon::now()->addMinutes($ttl_expire)->timestamp])) {
 			return response()->json([
-									'page' => 'login',
-									'error' => 'Unauthorized',                                    
-								], 401);
+				'page' => 'login',
+				'error' => 'Unauthorized',                                    
+			], 401);
 		}
 		//log user loggin
 		\App\Models\System\ActivityLog::log($request,[
-														'object' => $this->guard()->user(), 
-														'object_id'=>$this->getUserid(), 
-														'user_id' => $this->getUserid(), 
-														'message' => 'user '.$credentials['username'].' berhasil login'
-													]);
+			'object' => $this->guard()->user(), 
+			'object_id'=>$this->getUserid(), 
+			'user_id' => $this->getUserid(), 
+			'message' => 'user '.$credentials['username'].' berhasil login'
+		]);
 
 		ConfigurationModel::toCache();
 		return $this->respondWithToken($token);

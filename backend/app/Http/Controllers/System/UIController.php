@@ -13,7 +13,7 @@ class UIController extends Controller {
 	/**
 	 * digunakan untuk mendapatkan setting variabel ui frontend
 	 */
-	public function frontend ()
+	public function frontend()
 	{
 		$config = ConfigurationModel::getCache();        
 		$identitas['nama_app']=$config['NAMA_APP'];
@@ -61,14 +61,32 @@ class UIController extends Controller {
 	/**
 	 * digunakan untuk mendapatkan setting variabel ui admin
 	 */
-	public function admin ()
+	public function admin(Request $request)
 	{
-		$config = ConfigurationModel::getCache();        
+		$config = ConfigurationModel::getCache();
+		$masa_pelaporan = $config['DEFAULT_MASA_PELAPORAN'];
+		
+		$this->validate($request, [            
+      'tahun'=>'required',      
+    ]);
+
+		$tahun = $request->input('tahun');
+		
+		$data = \DB::table('lockedopd')
+			->select(\DB::raw('`OrgID`, Locked'))
+			->where('TA', $tahun)
+			->where('Bulan', 0)
+			->first();		
+
+		if (!is_null($data))
+		{
+			$masa_pelaporan = ($data->Locked == 10 || $data->Locked = 0) ? 'murni' : 'perubahan';
+		}
 		
 		return Response()->json([
 			'status'=>1,
 			'pid'=>'fetchdata',
-			'masa_pelaporan'=>$config['DEFAULT_MASA_PELAPORAN'],
+			'masa_pelaporan' => $masa_pelaporan,
 			'message'=>'Fetch data ui untuk admin berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}

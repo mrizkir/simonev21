@@ -32,11 +32,12 @@
                 <v-row>
                   <v-col xs="12" sm="12" md="4">
                     <v-select
-                      v-model="formdata.default_ta"
+                      v-model="default_ta"
                       :items="daftar_ta"
                       label="TAHUN ANGGARAN"
                       outlined
                       :rules="rule_default_ta"
+                      :disabled="btnLoading"
                     />
                   </v-col>
                   <v-responsive
@@ -121,8 +122,8 @@
       //form
       form_valid: true,
       daftar_ta: [],
+      default_ta: null,
       formdata: {
-        default_ta: null,
         default_masa_pelaporan: null,
       },
       rule_default_ta: [
@@ -139,7 +140,7 @@
           })
           .then(({ data }) => {
             let setting = data.setting;
-            this.formdata.default_ta = setting.DEFAULT_TA;
+            this.default_ta = setting.DEFAULT_TA;
             this.formdata.default_masa_pelaporan =
               setting.DEFAULT_MASA_PELAPORAN;
           });
@@ -154,7 +155,7 @@
                 _method: "PUT",
                 pid: "Variable default sistem",
                 setting: JSON.stringify({
-                  201: this.formdata.default_ta,
+                  201: this.default_ta,
                   203: this.formdata.default_masa_pelaporan,
                 }),
               },
@@ -172,6 +173,30 @@
             });
         }
       },
+    },
+    watch: {
+      default_ta(val) {
+        this.btnLoading = true;
+        this.$ajax
+          .post(
+            "/system/setting/variables/203",
+            {
+              tahun: val,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {            
+            this.formdata.default_masa_pelaporan = data.result.masa_pelaporan;
+            this.btnLoading = false;
+          })
+          .catch(() => {
+            this.this.btnLoading = false;
+          });;
+        },
     },
     components: {
       SystemSettingLayout,
