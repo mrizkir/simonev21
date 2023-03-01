@@ -68,6 +68,7 @@ class DataMentahMurniController extends Controller
 				->where('EntryLevel',1)
 				->where('TA',$organisasi->TA)
 				->where('kd_keg_gabung',$item->kode_kegiatan)
+				->where('OrgID',$organisasi->OrgID)
 				->sum('PaguUraian1');
 							
 			return $item;
