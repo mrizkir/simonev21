@@ -30,59 +30,61 @@ class UsersUnitKerjaController extends Controller {
 		if ($this->hasRole('unitkerja')) 
 		{
 			$daftar_unitkerja = UserUnitKerja::select(\DB::raw('
-									`OrgID`									
-								'))
-								->where('ta', $ta)
-								->where('user_id',$this->getUserid())
-								->where('locked', 0)
-								->get()
-								->pluck('OrgID');
+				`SOrgID`									
+			'))
+			->where('ta', $ta)
+			->where('user_id',$this->getUserid())
+			->where('locked', 0)
+			->get()
+			->pluck('SOrgID');
 
 			$data = User::where('default_role','unitkerja')
-					->select(\DB::raw('
-						users.*,
-						"" AS unitkerja
-					'))
-					->join('usersunitkerja', 'usersunitkerja.user_id', 'users.id')
-					->whereIn('OrgID',$daftar_unitkerja)
-					->orderBy('username','ASC')
-					->get(); 
+				->select(\DB::raw('
+					users.*,
+					"" AS unitkerja
+				'))
+				->join('usersunitkerja', 'usersunitkerja.user_id', 'users.id')
+				->whereIn('SOrgID',$daftar_unitkerja)
+				->orderBy('username','ASC')
+				->get(); 
 
 		}
 		else
 		{
 			$data = User::where('default_role','unitkerja')
-					->select(\DB::raw('
-						users.*,
-						"" AS unitkerja
-					'))
-					->orderBy('username','ASC')
-					->get();       			
+				->select(\DB::raw('
+					users.*,
+					"" AS unitkerja
+				'))
+				->join('usersunitkerja', 'usersunitkerja.user_id', 'users.id')
+				->where('usersunitkerja.ta', $ta)
+				->orderBy('username','ASC')
+				->get();       			
 		}           
 		$role = Role::findByName('unitkerja');
 		
 		$data->transform(function ($item, $key) use ($ta) {
 			$daftar_unitkerja = UserUnitKerja::select(\DB::raw('
-								`SOrgID`,
-								kode_sub_organisasi,
-								`Nm_Sub_Organisasi`,
-								locked
-							'))
-							->where('ta', $ta)
-							->where('user_id',$item->id)
-							->get();
+				`SOrgID`,
+				kode_sub_organisasi,
+				`Nm_Sub_Organisasi`,
+				locked
+			'))
+			->where('ta', $ta)
+			->where('user_id',$item->id)
+			->get();
 							
 			$item->unitkerja = $daftar_unitkerja;
 			return $item;
 		});
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'role'=>$role,
-								'users'=>$data,
-								'message'=>'Fetch data users UNIT KERJA berhasil diperoleh'
-							], 200);  
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'role'=>$role,
+			'users'=>$data,
+			'message'=>'Fetch data users UNIT KERJA berhasil diperoleh'
+		], 200);  
 	}    
 	/**
 	 * Store a newly created resource in storage.
@@ -177,21 +179,21 @@ class UsersUnitKerjaController extends Controller {
 			}
 
 			\App\Models\System\ActivityLog::log($request,[
-											'object' => $this->guard()->user(), 
-											'object_id' => $this->guard()->user()->id, 
-											'user_id' => $this->getUserid(), 
-											'message' => 'Menambah user Unit Kerja ('.$user->username.') berhasil'
-										]);
+				'object' => $this->guard()->user(), 
+				'object_id' => $this->guard()->user()->id, 
+				'user_id' => $this->getUserid(), 
+				'message' => 'Menambah user Unit Kerja ('.$user->username.') berhasil'
+			]);
 
 			return $user;
 		});
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'store',
-									'user'=>$user,                                    
-									'message'=>'Data user UNIT KERJA berhasil disimpan.'
-								], 200); 
+			'status'=>1,
+			'pid'=>'store',
+			'user'=>$user,                                    
+			'message'=>'Data user UNIT KERJA berhasil disimpan.'
+		], 200); 
 
 	}
 	/**
@@ -205,20 +207,20 @@ class UsersUnitKerjaController extends Controller {
 		if (is_null($user))
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'update',                
-									'message'=>["User ID ($id) gagal diperoleh"]
-								], 422); 
+				'status'=>0,
+				'pid'=>'update',                
+				'message'=>["User ID ($id) gagal diperoleh"]
+			], 422); 
 		}
 		else
 		{
 			return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',
-									'user'=>$user,  
-									'role_unitkerja'=>$user->hasRole('unitkerja'),    
-									'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-								], 200); 
+				'status'=>1,
+				'pid'=>'fetchdata',
+				'user'=>$user,  
+				'role_unitkerja'=>$user->hasRole('unitkerja'),    
+				'message'=>'Data user '.$user->username.' berhasil diperoleh.'
+			], 200); 
 		}
 
 	}

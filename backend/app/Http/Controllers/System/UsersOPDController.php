@@ -29,34 +29,35 @@ class UsersOPDController extends Controller {
     if ($this->hasRole('opd')) 
     {
       $daftar_opd = UserOPD::select(\DB::raw('
-                  `OrgID`									
-                '))
-                ->where('ta', $ta)
-                ->where('user_id',$this->getUserid())
-                ->where('locked', 0)
-                ->get()
-                ->pluck('OrgID');
+          `OrgID`									
+        '))
+        ->where('ta', $ta)
+        ->where('user_id',$this->getUserid())
+        ->where('locked', 0)
+        ->get()
+        ->pluck('OrgID');
 
       $data = User::where('default_role','opd')
-          ->select(\DB::raw('
-            users.*,
-            "" AS opd
-          '))
-          ->join('usersopd', 'usersopd.user_id', 'users.id')
-          ->whereIn('OrgID',$daftar_opd)
-          ->orderBy('username','ASC')
-          ->get(); 
-
+        ->select(\DB::raw('
+          users.*,
+          "" AS opd
+        '))
+        ->join('usersopd', 'usersopd.user_id', 'users.id')
+        ->whereIn('OrgID',$daftar_opd)
+        ->orderBy('username','ASC')
+        ->get(); 
     }
     else
     {
       $data = User::where('default_role','opd')
-          ->select(\DB::raw('
-            users.*,
-            "" AS opd
-          '))
-          ->orderBy('username','ASC')
-          ->get();       			
+        ->select(\DB::raw('
+          users.*,
+          "" AS opd
+        '))
+        ->join('usersopd', 'usersopd.user_id', 'users.id')
+        ->where('usersopd.ta', $ta)
+        ->orderBy('username','ASC')
+        ->get();       			
     }           
     $role = Role::findByName('opd');
     
@@ -191,50 +192,62 @@ class UsersOPDController extends Controller {
     $tahun_asal = $request->input('tahun_asal');
     $tahun_tujuan = $request->input('tahun_tujuan');
 
-    \DB::beginTransaction();
+    if (($tahun_tujuan - $tahun_asal) > 1)
+    {
+      $tahun_dif = $tahun_tujuan - 1;
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'store',
+        'message'=>"Salin relasi user ke OPD dari tahun anggaran $tahun_asal gagal. Harus dari tahun $tahun_dif."
+      ], 422);
+    }
+    else
+    {
+      \DB::beginTransaction();
 
-    \DB::table('usersopd')
-    ->where('TA', $tahun_tujuan)		
-    ->delete();
+      \DB::table('usersopd')
+      ->where('TA', $tahun_tujuan)		
+      ->delete();
 
-    $str_insert = '
-      INSERT INTO `usersopd` (
-        id, 
-        user_id, 
-        OrgID,
-        kode_organisasi,
-        Nm_Organisasi,
-        Alias_Organisasi,
-        ta,
-        locked,
-        created_at,
-        updated_at
-      )		
-      SELECT
-        uuid() AS id,        
-        user_id, 
-        t2.OrgID,
-        t2.kode_organisasi,
-        t2.Nm_Organisasi,
-        t2.Alias_Organisasi,
-        '.$tahun_tujuan.' AS `ta`,
-        0 AS locked,								
-        NOW() AS created_at,
-        NOW() AS updated_at
-      FROM usersopd t1
-      JOIN `tmOrg` t2 ON t1.`OrgID`=t2.`OrgID_Src`
-      WHERE t1.`ta`='.$tahun_asal.'      
-    ';    
-  
-    \DB::statement($str_insert);     
-  
-    \DB::commit();
+      $str_insert = '
+        INSERT INTO `usersopd` (
+          id, 
+          user_id, 
+          OrgID,
+          kode_organisasi,
+          Nm_Organisasi,
+          Alias_Organisasi,
+          ta,
+          locked,
+          created_at,
+          updated_at
+        )		
+        SELECT
+          uuid() AS id,        
+          user_id, 
+          t2.OrgID,
+          t2.kode_organisasi,
+          t2.Nm_Organisasi,
+          t2.Alias_Organisasi,
+          '.$tahun_tujuan.' AS `ta`,
+          0 AS locked,								
+          NOW() AS created_at,
+          NOW() AS updated_at
+        FROM usersopd t1
+        JOIN `tmOrg` t2 ON t1.`OrgID`=t2.`OrgID_Src`
+        WHERE t1.`ta`='.$tahun_asal.'      
+      ';    
+    
+      \DB::statement($str_insert);     
+    
+      \DB::commit();
 
-    return Response()->json([
-      'status'=>1,
-      'pid'=>'store',            
-      'message'=>"Salin relasi user ke OPD dari tahun anggaran $tahun_asal berhasil."
-    ], 200);
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'store',            
+        'message'=>"Salin relasi user ke OPD dari tahun anggaran $tahun_asal berhasil."
+      ], 200);
+    }
   }
   /**
    * digunakan untuk mendapatkan informasi detail user dengan role program studi

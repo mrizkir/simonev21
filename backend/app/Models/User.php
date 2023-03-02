@@ -12,78 +12,78 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
-    use Authenticatable, Authorizable,HasRoles;
-    
-    protected $guard_name = 'api';
+  use Authenticatable, Authorizable,HasRoles;
+  
+  protected $guard_name = 'api';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'id', 
-        'username', 
-        'password', 
-        'name', 
-        'nomor_hp', 
-        'email', 
-        'ta', 
-        'code', 
-        'theme', 
-        'foto', 
-        'active', 
-        'isdeleted', 
-        'default_role',
-        'locked',
-    ];
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+    'id', 
+    'username', 
+    'password', 
+    'name', 
+    'nomor_hp', 
+    'email', 
+    'ta', 
+    'code', 
+    'theme', 
+    'foto', 
+    'active', 
+    'isdeleted', 
+    'default_role',
+    'locked',
+  ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
-    /**
-     * enable auto_increment.
-     *
-     * @var string
-     */
-    public $incrementing = false;
-    /**
-     * activated timestamps.
-     *
-     * @var string
-     */
-    public $timestamps = true;
+  /**
+   * The attributes excluded from the model's JSON form.
+   *
+   * @var array
+   */
+  protected $hidden = [
+    'password',
+  ];
+  /**
+   * enable auto_increment.
+   *
+   * @var string
+   */
+  public $incrementing = false;
+  /**
+   * activated timestamps.
+   *
+   * @var string
+   */
+  public $timestamps = true;
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
+  /**
+   * Get the identifier that will be stored in the subject claim of the JWT.
+   *
+   * @return mixed
+   */
+  public function getJWTIdentifier()
+  {
+    return $this->getKey();
+  }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-    public function opd()
-    {
-        return $this->hasMany('App\Models\UserOPD','user_id','id')->select(\DB::raw('`OrgID`,kode_organisasi,`Nm_Organisasi`,`Alias_Organisasi`,ta'));
-    }
-    public function unitkerja()
-    {
-        return $this->hasMany('App\Models\UserUnitKerja','user_id','id')->select(\DB::raw('`OrgID`,`SOrgID`,kode_sub_organisasi,`Nm_Sub_Organisasi`,`Alias_Sub_Organisasi`,ta'));
-    }
+  /**
+   * Return a key value array, containing any custom claims to be added to the JWT.
+   *
+   * @return array
+   */
+  public function getJWTCustomClaims()
+  {
+    return [];
+  }
+  public function opd()
+  {
+    return $this->hasMany('App\Models\UserOPD','user_id','id')->select(\DB::raw('`OrgID`,kode_organisasi,`Nm_Organisasi`,`Alias_Organisasi`,ta'));
+  }
+  public function unitkerja()
+  {
+    return $this->hasMany('App\Models\UserUnitKerja','user_id','id')->select(\DB::raw('`OrgID`,`SOrgID`,kode_sub_organisasi,`Nm_Sub_Organisasi`,`Alias_Sub_Organisasi`,ta'));
+  }
 }

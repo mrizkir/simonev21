@@ -4,29 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Statistik2Model extends Model {    
+class Statistik5Model extends Model {    
    /**
    * nama tabel model ini.
    *
    * @var string
    */
-  protected $table = 'statistik2';
+  protected $table = 'statistik5';
   /**
    * primary key tabel ini.
    *
    * @var string
    */
-  protected $primaryKey = 'Statistik2ID';
+  protected $primaryKey = 'Statistik5ID';
   /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
   protected $fillable = [
-    'Statistik2ID',
-    'OrgID',
-    'kode_organisasi',
-    'OrgNm',
+    'Statistik5ID',
+    'SOrgID',
+    'kode_sub_organisasi',
+    'SOrgNm',
     'PaguDana1',
     'PaguDana2',            
     'PaguDana3',            
@@ -76,7 +76,7 @@ class Statistik2Model extends Model {
     'Bulan',
     'TA',
     'EntryLvl',
-    'Statistik2ID_Src',
+    'Statistik5ID_Src',
   ];
   /**
    * enable auto_increment.

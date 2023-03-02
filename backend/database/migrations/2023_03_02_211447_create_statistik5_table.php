@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatistik2Table extends Migration
+class CreateStatistik5Table extends Migration
 {
   /**
    * Run the migrations.
@@ -13,11 +13,11 @@ class CreateStatistik2Table extends Migration
    */
   public function up()
   {
-    Schema::create('statistik2', function (Blueprint $table) {
-      $table->uuid('Statistik2ID');
-      $table->uuid('OrgID');
-      $table->string('kode_organisasi');
-      $table->string('OrgNm');
+    Schema::create('statistik5', function (Blueprint $table) {
+      $table->uuid('Statistik5ID');
+      $table->uuid('SOrgID');
+      $table->string('kode_sub_organisasi');
+      $table->string('SOrgNm');
       $table->decimal('PaguDana1',15,2)->default(0);
       $table->decimal('PaguDana2',15,2)->default(0);
       $table->decimal('PaguDana3',15,2)->default(0);
@@ -67,13 +67,13 @@ class CreateStatistik2Table extends Migration
       $table->tinyInteger('Bulan');
       $table->year('TA');
       $table->tinyInteger('EntryLvl')->default(0);
-      $table->uuid('Statistik2ID_Src')->nullable();
+      $table->uuid('Statistik5ID_Src')->nullable();
       $table->timestamps();
 
-      $table->primary('Statistik2ID');
-      $table->index('Statistik2ID_Src');
-      $table->index('OrgID');
-      $table->index('kode_organisasi');
+      $table->primary('Statistik5ID');
+      $table->index('Statistik5ID_Src');
+      $table->index('SOrgID');
+      $table->index('kode_sub_organisasi');
       $table->index('TA');
       $table->index('Bulan');
       $table->index('EntryLvl');
@@ -89,6 +89,6 @@ class CreateStatistik2Table extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('statistik2');
+    Schema::dropIfExists('statistik5');
   }
 }

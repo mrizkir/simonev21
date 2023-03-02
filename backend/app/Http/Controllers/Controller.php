@@ -108,18 +108,18 @@ class Controller extends BaseController
     if ($this->hasRole('opd'))
     {
       $opd = \DB::table('usersopd')
-            ->select(\DB::raw('OrgID'))
-            ->where('user_id', $user_id)
-            ->where('ta', $ta)
-            ->get();
+        ->select(\DB::raw('OrgID'))
+        ->where('user_id', $user_id)
+        ->where('ta', $ta)
+        ->get();
     }
     else if ($this->hasRole('unitkerja'))
     {
       $opd = \DB::table('usersunitkerja')
-            ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
-            ->where('user_id', $user_id)
-            ->where('ta', $ta)
-            ->get();
+        ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
+        ->where('user_id', $user_id)
+        ->where('ta', $ta)
+        ->get();      
     }
     $daftar_opd = [];
     foreach($opd as $items) 
@@ -133,23 +133,16 @@ class Controller extends BaseController
    */
   public function getUserSOrgID() 
   {
-    if ($this->hasRole('opd'))
+    $sub_opd = \DB::table('usersunitkerja')
+      ->select(\DB::raw('DISTINCT(SOrgID) AS `SOrgID`'))
+      ->where('user_id', $this->getUserid())
+      ->get();
+    
+    $daftar_sub_opd = [];
+    foreach($sub_opd as $items) 
     {
-      $user=$this->guard()->user();
-      $opd=$user->opd;
+      $daftar_sub_opd[] = $items->SOrgID;
     }
-    else if ($this->hasRole('unitkerja'))
-    {
-      $opd = \DB::table('usersunitkerja')
-            ->select(\DB::raw('DISTINCT(OrgID) AS `OrgID`'))
-            ->where('user_id', $this->getUserid())
-            ->get();
-    }
-    $daftar_opd = [];
-    foreach($opd as $items) 
-    {
-      $daftar_opd[] = $items->OrgID;
-    }
-    return $daftar_opd;
+    return $daftar_sub_opd;
   }
 }

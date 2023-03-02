@@ -69,7 +69,7 @@
                       small
                       class="ma-2"
                       @click.stop="copyItem"
-                      :disabled="!$store.getters['auth/can']('SYSTEM-USERS-OPD_BROWSE')"
+                      :disabled="!$store.getters['auth/can']('SYSTEM-USERS-OPD_STORE')"
                     >
                       <v-icon>mdi-database-refresh</v-icon>
                     </v-btn>
@@ -107,7 +107,7 @@
                       outlined
                       small
                       class="ma-2"
-                      :disabled="btnLoading ||  !$store.getters['auth/can']('SYSTEM-USERS-OPD_BROWSE')"
+                      :disabled="btnLoading ||  !$store.getters['auth/can']('SYSTEM-USERS-OPD_STORE')"
                       @click.stop="showDialogTambahUserOPD"
                     >
                       <v-icon>mdi-plus</v-icon>
