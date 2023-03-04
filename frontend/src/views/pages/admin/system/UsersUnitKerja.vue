@@ -366,7 +366,7 @@
                         <v-btn
                           color="blue darken-1"
                           text
-                          @click.stop="salinuseropd"
+                          @click.stop="salinuserunitkerja"
                           :disabled="!form_salin_valid || btnLoading"
                         >
                           SALIN
@@ -540,7 +540,7 @@
         created_at: "",
         updated_at: "",
       },
-      //salin opd
+      //salin unit kerja
       tahunasal: null,
       daftar_ta: [],
       //form rules
