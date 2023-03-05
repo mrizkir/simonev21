@@ -737,6 +737,7 @@ class OrganisasiController extends Controller {
         ->select(\DB::raw('tmSOrg.*'))
         ->join('tmSOrg','tmSOrg.SOrgID','usersunitkerja.SOrgID')
         ->where('usersunitkerja.user_id', $this->getUserid())
+        ->where('tmSOrg.TA', $organisasi->TA)
         ->get();
     }
     else
@@ -748,7 +749,7 @@ class OrganisasiController extends Controller {
       'pid'=>'fetchdata',
       'organisasi'=>$organisasi,
       'unitkerja'=>$unitkerja,                                    
-      'message'=>'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diubah.'
+      'message'=>'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diperoleh.'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
@@ -809,7 +810,7 @@ class OrganisasiController extends Controller {
         'ppk'=>$ppk,
         'pptk'=>$pptk,
       ],                                    
-      'message'=>'Data unit kerja berdasarkan id '.$id.' berhasil diubah.'
+      'message'=>'Data unit kerja berdasarkan id '.$id.' berhasil diperoleh.'
     ], 200); 
   }
 }
