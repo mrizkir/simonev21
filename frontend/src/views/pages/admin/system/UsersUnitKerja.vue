@@ -107,7 +107,7 @@
                       outlined
                       small
                       class="ma-2"
-                      :disabled="btnLoading"
+                      :disabled="btnLoading || !$store.getters['auth/can']('SYSTEM-USERS-UNIT-KERJA_STORE')"
                       @click.stop="showDialogTambahUserUnitKerja"
                     >
                       <v-icon>mdi-plus</v-icon>
@@ -377,7 +377,7 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template #[`item.actions`]="{ item }">
+            <template v-slot:item.actions="{ item }">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -440,12 +440,9 @@
                   {{ $date(item.updated_at).format("DD/MM/YYYY HH:mm") }}
                 </v-col>
                 <v-col cols="12">
-                  <strong>Daftar UNIT KERJA yang dikelola:</strong> <br />
-                  <span
-                    v-for="unitkerja in item.unitkerja"
-                    v-bind:key="unitkerja.SOrgID"
-                  >
-                    [{{ unitkerja.Nm_Sub_Organisasi }}]
+                  <strong>Daftar OPD yang dikelola:</strong> <br />
+                  <span v-for="opd in item.opd" v-bind:key="opd.OrgID">
+                    [{{ opd.Nm_Organisasi }}]
                   </span>
                 </v-col>
               </td>
@@ -486,115 +483,120 @@
       ];
       this.initialize();
     },
-    data: () => ({
-      role_id: 0,
-      datatableLoading: false,
-      btnLoading: false,
-      //tables
-      headers: [
-        { text: "", value: "foto" },
-        { text: "USERNAME", value: "username", sortable: true },
-        { text: "NAME", value: "name", sortable: true },
-        { text: "EMAIL", value: "email", sortable: true },
-        { text: "NOMOR HP", value: "nomor_hp", sortable: true },
-        { text: "AKSI", value: "actions", sortable: false, width: 120 },
-      ],
-      expanded: [],
-      search: "",
-      daftar_users: [],
-      //form
-      form_valid: true,
-      form_salin_valid: true,
-      daftar_roles: [],
-      dialog: false,
-      dialogEdit: false,
-      dialogcopyfrm: false,
-      dialogUserPermission: false,
-      editedIndex: -1,
-      org_id: "",
-      daftar_opd: [],
-      daftar_unitkerja: [],
-      editedItem: {
-        id: 0,
-        username: "",
-        password: "",
-        name: "",
-        email: "",
-        nomor_hp: "",
+    data() {
+      return {
+        role_id: 0,
+        datatableLoading: false,
+        btnLoading: false,
+        //tables
+        headers: [
+          { text: "", value: "foto" },
+          { text: "USERNAME", value: "username", sortable: true },
+          { text: "NAME", value: "name", sortable: true },
+          { text: "EMAIL", value: "email", sortable: true },
+          { text: "NOMOR HP", value: "nomor_hp", sortable: true },
+          { text: "AKSI", value: "actions", sortable: false, width: 120 },
+        ],
+        expanded: [],
+        search: "",
+        daftar_users: [],
+        //form
+        form_valid: true,
+        form_salin_valid: true,
+        daftar_roles: [],
+        dialog: false,
+        dialogEdit: false,
+        dialogcopyfrm: false,
+        dialogUserPermission: false,
+        editedIndex: -1,
         org_id: "",
-        sorg_id: [],
-        role_id: ["unitkerja"],
-        created_at: "",
-        updated_at: "",
-      },
-      defaultItem: {
-        id: 0,
-        username: "",
-        password: "",
-        name: "",
-        email: "",
-        nomor_hp: "",
-        org_id: "",
-        sorg_id: [],
-        role_id: ["unitkerja"],
-        created_at: "",
-        updated_at: "",
-      },
-      //salin unit kerja
-      tahunasal: null,
-      daftar_ta: [],
-      //form rules
-      rule_user_name: [value => !!value || "Mohon untuk di isi nama User !!!"],
-      rule_user_email: [
-        value => !!value || "Mohon untuk di isi email User !!!",
-        value => /.+@.+\..+/.test(value) || "Format E-mail harus benar",
-      ],
-      rule_user_nomorhp: [
-        value => !!value || "Nomor HP mohon untuk diisi !!!",
-        value =>
-          /^\+[1-9]{1}[0-9]{1,14}$/.test(value) ||
-          "Nomor HP hanya boleh angka dan gunakan kode negara didepan seperti +6281214553388",
-      ],
-      rule_user_username: [
-        value => !!value || "Mohon untuk di isi username User !!!",
-        value =>
-          /^[A-Za-z_]*$/.test(value) ||
-          "Username hanya boleh string dan underscore",
-      ],
-      rule_user_opd: [
-        value => !!value || "Mohon untuk di pilih OPD dari User ini !!!",
-      ],
-      rule_user_unitkerja: [
-        value => !!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
-      ],
-      rule_user_password: [
-        value => !!value || "Mohon untuk di isi password User !!!",
-        value => {
-          if (value && typeof value !== "undefined" && value.length > 0) {
-            return value.length >= 8 || "Minimial Password 8 Karakter";
-          } else {
-            return true;
-          }
+        daftar_opd: [],
+        daftar_unitkerja: [],
+        editedItem: {
+          id: 0,
+          username: "",
+          password: "",
+          name: "",
+          email: "",
+          nomor_hp: "",
+          org_id: "",
+          sorg_id: [],
+          role_id: ["unitkerja"],
+          created_at: "",
+          updated_at: "",
         },
-      ],
-      rule_user_passwordEdit: [
-        value => {
-          if (value && typeof value !== "undefined" && value.length > 0) {
-            return value.length >= 8 || "Minimial Password 8 Karakter";
-          } else {
-            return true;
-          }
+        defaultItem: {
+          id: 0,
+          username: "",
+          password: "",
+          name: "",
+          email: "",
+          nomor_hp: "",
+          org_id: "",
+          sorg_id: [],
+          role_id: ["unitkerja"],
+          created_at: "",
+          updated_at: "",
         },
-      ],
-      //form rules salin urusan
-      rule_tahun_asal: [
-        value =>
-          !!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
-        value =>
-          value < this.TAHUN_SELECTED ||
-          "Tahun asal harus lebih kecil dari " + this.TAHUN_SELECTED,
-      ],
-    }),
+        //salin opd
+        tahunasal: null,
+        daftar_ta: [],
+        //form rules
+        rule_user_name: [
+          value => !!value || "Mohon untuk di isi nama User !!!",
+        ],
+        rule_user_email: [
+          value => !!value || "Mohon untuk di isi email User !!!",
+          value => /.+@.+\..+/.test(value) || "Format E-mail harus benar",
+        ],
+        rule_user_nomorhp: [
+          value => !!value || "Nomor HP mohon untuk diisi !!!",
+          value =>
+            /^\+[1-9]{1}[0-9]{1,14}$/.test(value) ||
+            "Nomor HP hanya boleh angka dan gunakan kode negara didepan seperti +6281214553388",
+        ],
+        rule_user_username: [
+          value => !!value || "Mohon untuk di isi username User !!!",
+          value =>
+            /^[A-Za-z_]*$/.test(value) ||
+            "Username hanya boleh string dan underscore",
+        ],
+        rule_user_opd: [
+          value =>
+            !!value || "Mohon untuk di pilih OPD / SKPD dari User ini !!!",
+        ],
+        rule_user_unitkerja: [
+          value => !!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
+        ],
+        rule_user_password: [
+          value => !!value || "Mohon untuk di isi password User !!!",
+          value => {
+            if (value && typeof value !== "undefined" && value.length > 0) {
+              return value.length >= 8 || "Minimial Password 8 Karakter";
+            } else {
+              return true;
+            }
+          },
+        ],
+        rule_user_passwordEdit: [
+          value => {
+            if (value && typeof value !== "undefined" && value.length > 0) {
+              return value.length >= 8 || "Minimial Password 8 Karakter";
+            } else {
+              return true;
+            }
+          },
+        ],
+        //form rules salin urusan
+        rule_tahun_asal: [
+          value =>
+            !!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+          value =>
+            value < this.TAHUN_SELECTED ||
+            "Tahun asal harus lebih kecil dari " + this.TAHUN_SELECTED,
+        ],
+      };
+    },
     methods: {
       initialize: async function() {
         this.datatableLoading = true;
@@ -704,7 +706,6 @@
         item.password = "";
         this.editedItem = Object.assign({}, item);
         this.btnLoading = true;
-
         await this.$ajax
           .post(
             "/dmaster/opd",
@@ -757,7 +758,6 @@
             });
             this.daftar_roles = daftar_roles;
           });
-
         await this.$ajax
           .get("/system/users/" + item.id + "/roles", {
             headers: {
@@ -920,7 +920,7 @@
                 });
             }
           });
-      },
+      },    
     },
     computed: {
       formTitle() {

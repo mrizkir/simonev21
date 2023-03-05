@@ -95,6 +95,7 @@ class UsersUnitKerjaController extends Controller {
 	public function store(Request $request)
 	{
 		$this->hasPermissionTo('SYSTEM-USERS-UNIT-KERJA_STORE');
+
 		$this->validate($request, [
 			'name'=>'required',
 			'email'=>'required|string|email|unique:users',
@@ -196,6 +197,90 @@ class UsersUnitKerjaController extends Controller {
 		], 200); 
 
 	}
+	/**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function salin(Request $request)
+  {       
+    $this->hasPermissionTo('SYSTEM-USERS-UNIT-KERJA_STORE');
+    
+    $this->validate($request, [            
+      'tahun_asal'=>'required|numeric',
+      'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+    ]);
+
+    $tahun_asal = $request->input('tahun_asal');
+    $tahun_tujuan = $request->input('tahun_tujuan');
+
+    if (($tahun_tujuan - $tahun_asal) > 1)
+    {
+      $tahun_dif = $tahun_tujuan - 1;
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'store',
+        'message'=>"Salin relasi user ke UNIT KERJA dari tahun anggaran $tahun_asal gagal. Harus dari tahun $tahun_dif."
+      ], 422);
+    }
+    else
+    {
+      \DB::beginTransaction();
+
+      \DB::table('usersunitkerja')
+      ->where('TA', $tahun_tujuan)		
+      ->delete();
+
+      $str_insert = '
+        INSERT INTO `usersunitkerja` (
+          id, 
+          user_id, 
+          OrgID,
+          SOrgID,
+          kode_organisasi,
+          Nm_Organisasi,
+          Alias_Organisasi,
+          kode_sub_organisasi,
+          Nm_Sub_Organisasi,
+          Alias_Sub_Organisasi,
+          ta,
+          locked,
+          created_at,
+          updated_at
+        )		
+        SELECT
+          uuid() AS id,        
+          user_id, 
+          t2.OrgID,
+          t2.SOrgID,
+          t3.kode_organisasi,
+          t3.Nm_Organisasi,
+          t3.Alias_Organisasi,
+          t2.kode_sub_organisasi,
+          t2.Nm_Sub_Organisasi,
+          t2.Alias_Sub_Organisasi,
+          '.$tahun_tujuan.' AS `ta`,
+          0 AS locked,								
+          NOW() AS created_at,
+          NOW() AS updated_at
+        FROM usersunitkerja t1
+        JOIN `tmSOrg` t2 ON t1.`SOrgID`=t2.`SOrgID_Src`
+        JOIN `tmOrg` t3 ON t2.`OrgID`=t3.`OrgID`
+        WHERE t1.`ta`='.$tahun_asal.'      
+      ';    
+    
+      \DB::statement($str_insert);     
+    
+      \DB::commit();
+
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'store',            
+        'message'=>"Salin relasi user ke UNIT KERJA dari tahun anggaran $tahun_asal berhasil."
+      ], 200);
+    }
+  }
 	/**
 	 * digunakan untuk mendapatkan informasi detail user dengan role program studi
 	 */

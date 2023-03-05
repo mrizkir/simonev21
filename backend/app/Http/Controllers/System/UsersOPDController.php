@@ -184,6 +184,8 @@ class UsersOPDController extends Controller {
    */
   public function salin(Request $request)
   {       
+    $this->hasPermissionTo('SYSTEM-USERS-OPD_STORE');
+    
     $this->validate($request, [            
       'tahun_asal'=>'required|numeric',
       'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
