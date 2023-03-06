@@ -93,20 +93,20 @@ class RenjaMurniController extends Controller
 				];       
 			}
 			$statistik2=Statistik2Model::select(\DB::raw('
-												`Bulan`,
-												SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
-												SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
-												SUM(`TargetFisik1`) AS `TargetFisik1`,
-												SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
-											'))
-											->where('TA',$tahun)                                                                                       
-											->where('EntryLvl',1)        
-											->groupBy('Bulan')                                
-											->get();
+				`Bulan`,
+				SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
+				SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
+				SUM(`TargetFisik1`) AS `TargetFisik1`,
+				SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
+			'))
+			->where('TA',$tahun)                                                                                       
+			->where('EntryLvl',1)        
+			->groupBy('Bulan')                                
+			->get();
 
 			$jumlah_opd = OrganisasiModel::select('OrgID')
-										->where('TA',$tahun)
-										->count();
+			->where('TA',$tahun)
+			->count();
 										
 			foreach($statistik2 as $v)
 			{
@@ -479,7 +479,7 @@ class RenjaMurniController extends Controller
 			'daftar_sub_opd'=>$daftar_sub_opd,
 			'chart_keuangan'=>$chart_keuangan,
 			'chart_fisik'=>$chart_fisik,
-			'message'=>'Fetch data ringkasan perubahan berhasil diperoleh'
+			'message'=>'Fetch data ringkasan murni berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	public function reloadstatistik1(Request $request)
