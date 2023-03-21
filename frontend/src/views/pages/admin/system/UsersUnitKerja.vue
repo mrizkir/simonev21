@@ -207,7 +207,7 @@
                           color="blue darken-1"
                           text
                           @click.stop="save"
-                          :disabled="!form_valid || btnLoading"
+                          :disabled="!form_valid || btnLoading || !editedItem.sorg_id.length > 0"
                         >
                           SIMPAN
                         </v-btn>
@@ -306,7 +306,7 @@
                           color="blue darken-1"
                           text
                           @click.stop="save"
-                          :disabled="!form_valid || btnLoading"
+                          :disabled="!form_valid || btnLoading || !editedItem.sorg_id.length > 0"
                         >
                           SIMPAN
                         </v-btn>
