@@ -854,6 +854,7 @@
                 {
                   name: this.editedItem.name,
                   email: this.editedItem.email,
+                  ta: this.TAHUN_SELECTED,
                   nomor_hp: this.editedItem.nomor_hp,
                   username: this.editedItem.username,
                   password: this.editedItem.password,

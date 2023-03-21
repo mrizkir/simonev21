@@ -196,7 +196,7 @@
                           color="blue darken-1"
                           text
                           @click.stop="save"
-                          :disabled="!form_valid || btnLoading"
+                          :disabled="!form_valid || btnLoading || !editedItem.org_id.length > 0"
                         >
                           SIMPAN
                         </v-btn>
@@ -284,7 +284,7 @@
                           color="blue darken-1"
                           text
                           @click.stop="save"
-                          :disabled="!form_valid || btnLoading"
+                          :disabled="!form_valid || btnLoading || !editedItem.org_id.length > 0"
                         >
                           SIMPAN
                         </v-btn>
@@ -825,6 +825,7 @@
                 {
                   name: this.editedItem.name,
                   email: this.editedItem.email,
+                  ta: this.TAHUN_SELECTED,
                   nomor_hp: this.editedItem.nomor_hp,
                   username: this.editedItem.username,
                   password: this.editedItem.password,

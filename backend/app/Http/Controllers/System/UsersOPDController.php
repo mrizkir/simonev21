@@ -100,81 +100,94 @@ class UsersOPDController extends Controller {
       'username'=>'required|string|unique:users',
       'password'=>'required',            
       'org_id'=>'required',
+      'ta'=>'required'
     ]);
-    $user = \DB::transaction(function () use ($request) {
-      $now = \Carbon\Carbon::now()->toDateTimeString();        
-      $user=User::create([
-        'id'=>Uuid::uuid4()->toString(),
-        'name'=>$request->input('name'),
-        'email'=>$request->input('email'),
-        'nomor_hp'=>$request->input('nomor_hp'),
-        'username'=> $request->input('username'),
-        'password'=>Hash::make($request->input('password')),                        
-        'theme'=>'default',
-        'default_role'=>'opd',            
-        'foto'=> 'storages/images/users/no_photo.png',
-        'created_at'=>$now, 
-        'updated_at'=>$now
-      ]);            
-      $role='opd';   
-      $user->assignRole($role);               
-      
-      $permission=Role::findByName('opd')->permissions;
-      $permissions=$permission->pluck('name');
-      $user->givePermissionTo($permissions);
-
-      $user_id=$user->id;
-      $daftar_opd=json_decode($request->input('org_id'),true);
-      foreach($daftar_opd as $v)
-      {
-        $uuid=Uuid::uuid4()->toString();
-        $sql = "
-          INSERT INTO usersopd ( 
-            id,  
-            user_id, 
-            `OrgID`,
-            kode_organisasi,
-            `Nm_Organisasi`,
-            `Alias_Organisasi`,
-            ta,
-            created_at, 
-            updated_at
-          ) 
-          SELECT
-            '$uuid',
-            '$user_id',                    
-            `OrgID`,
-            kode_organisasi,
-            `Nm_Organisasi`,
-            `Alias_Organisasi`,
-            `TA`,                        
-            NOW() AS created_at,
-            NOW() AS updated_at
-          FROM `tmOrg`
-          WHERE 
-            `OrgID`='$v' 
-        ";
-
-        \DB::statement($sql); 
-      }
-
-      \App\Models\System\ActivityLog::log($request,[
-        'object' => $this->guard()->user(), 
-        'object_id' => $this->guard()->user()->id, 
-        'user_id' => $this->getUserid(), 
-        'message' => 'Menambah user OPD('.$user->username.') berhasil'
-      ]);
-
-      return $user;
-    });
-
-    return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
-      'user'=>$user,                                    
-      'message'=>'Data user OPD berhasil disimpan.'
-    ], 200); 
-
+    $daftar_opd=json_decode($request->input('org_id'), true);
+    if (count($daftar_opd) > 0)
+    {
+      $user = \DB::transaction(function () use ($request) {
+        $now = \Carbon\Carbon::now()->toDateTimeString();        
+        $user=User::create([
+          'id'=>Uuid::uuid4()->toString(),
+          'name'=>$request->input('name'),
+          'email'=>$request->input('email'),
+          'ta'=>$request->input('ta'),
+          'nomor_hp'=>$request->input('nomor_hp'),
+          'username'=> $request->input('username'),
+          'password'=>Hash::make($request->input('password')),                        
+          'theme'=>'default',
+          'default_role'=>'opd',                    
+          'foto'=> 'storages/images/users/no_photo.png',
+          'created_at'=>$now, 
+          'updated_at'=>$now
+        ]);            
+        $role='opd';   
+        $user->assignRole($role);               
+        
+        $permission=Role::findByName('opd')->permissions;
+        $permissions=$permission->pluck('name');
+        $user->givePermissionTo($permissions);
+  
+        $user_id=$user->id;
+        $daftar_opd=json_decode($request->input('org_id'), true);
+        foreach($daftar_opd as $v)
+        {
+          $uuid=Uuid::uuid4()->toString();
+          $sql = "
+            INSERT INTO usersopd ( 
+              id,  
+              user_id, 
+              `OrgID`,
+              kode_organisasi,
+              `Nm_Organisasi`,
+              `Alias_Organisasi`,
+              ta,
+              created_at, 
+              updated_at
+            ) 
+            SELECT
+              '$uuid',
+              '$user_id',                    
+              `OrgID`,
+              kode_organisasi,
+              `Nm_Organisasi`,
+              `Alias_Organisasi`,
+              `TA`,                        
+              NOW() AS created_at,
+              NOW() AS updated_at
+            FROM `tmOrg`
+            WHERE 
+              `OrgID`='$v' 
+          ";
+  
+          \DB::statement($sql); 
+        }
+  
+        \App\Models\System\ActivityLog::log($request,[
+          'object' => $this->guard()->user(), 
+          'object_id' => $this->guard()->user()->id, 
+          'user_id' => $this->getUserid(), 
+          'message' => 'Menambah user OPD('.$user->username.') berhasil'
+        ]);
+  
+        return $user;
+      });
+  
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'store',
+        'user'=>$user,                                    
+        'message'=>'Data user OPD berhasil disimpan.'
+      ], 200); 
+    }
+    else
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'store',                                           
+        'message'=>'Data user OPD gagal disimpan karena Jumlah OPD 0.'
+      ], 422);
+    }
   }
   /**
    * Store a newly created resource in storage.
@@ -262,20 +275,20 @@ class UsersOPDController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid'=>'update',                
-                  'message'=>["User ID ($id) gagal diperoleh"]
-                ], 422); 
+        'status'=>0,
+        'pid'=>'update',                
+        'message'=>["User ID ($id) gagal diperoleh"]
+      ], 422); 
     }
     else
     {
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
-                  'user'=>$user,  
-                  'role_opd'=>$user->hasRole('opd'),    
-                  'message'=>'Data user '.$user->username.' berhasil diperoleh.'
-                ], 200); 
+        'status'=>1,
+        'pid'=>'fetchdata',
+        'user'=>$user,  
+        'role_opd'=>$user->hasRole('opd'),    
+        'message'=>'Data user '.$user->username.' berhasil diperoleh.'
+      ], 200); 
     }
 
   }
@@ -294,85 +307,97 @@ class UsersOPDController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid'=>'update',                
-                  'message'=>["User ID ($id) gagal diupdate"]
-                ], 422); 
+        'status'=>0,
+        'pid'=>'update',                
+        'message'=>["User ID ($id) gagal diupdate"]
+      ], 422); 
     }
     else
     {
       $this->validate($request, [
-                    'username'=>[
-                            'required',
-                            'unique:users,username,'.$user->id
-                          ],           
-                    'name'=>'required',            
-                    'email'=>'required|string|email|unique:users,email,'.$user->id,
-                    'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,   
-                    'org_id'=>'required',           
-                  ]); 
-      $user = \DB::transaction(function () use ($request,$user) {
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->nomor_hp = $request->input('nomor_hp');
-        $user->username = $request->input('username');        
-        if (!empty(trim($request->input('password')))) {
-          $user->password = Hash::make($request->input('password'));
-        }    
-        $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        $user->save();
+        'username'=>[
+                'required',
+                'unique:users,username,'.$user->id
+              ],           
+        'name'=>'required',            
+        'email'=>'required|string|email|unique:users,email,'.$user->id,
+        'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,   
+        'org_id'=>'required',           
+      ]); 
+      $daftar_opd=json_decode($request->input('org_id'), true);
+      if (count($daftar_opd) > 0)
+      {
+        $user = \DB::transaction(function () use ($request,$user) {
+          $user->name = $request->input('name');
+          $user->email = $request->input('email');
+          $user->nomor_hp = $request->input('nomor_hp');
+          $user->username = $request->input('username');        
+          if (!empty(trim($request->input('password')))) {
+            $user->password = Hash::make($request->input('password'));
+          }    
+          $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
+          $user->save();
 
-        $user_id=$user->id;
-        \DB::table('usersopd')->where('user_id',$user_id)->delete();
-        $daftar_opd=json_decode($request->input('org_id'),true);
-        foreach($daftar_opd as $v)
-        {
-          $uuid=Uuid::uuid4()->toString();
-          $sql = "
-            INSERT INTO usersopd ( 
-              id,  
-              user_id, 
-              `OrgID`,
-              kode_organisasi,
-              `Nm_Organisasi`,
-              `Alias_Organisasi`,
-              ta,
-              created_at, 
-              updated_at
-            ) 
-            SELECT
-              '$uuid',
-              '$user_id',                    
-              `OrgID`,
-              kode_organisasi,
-              `Nm_Organisasi`,
-              `Alias_Organisasi`,
-              `TA`,                        
-              NOW() AS created_at,
-              NOW() AS updated_at
-            FROM `tmOrg`
-            WHERE 
-              `OrgID`='$v' 
-          ";
+          $user_id=$user->id;
+          \DB::table('usersopd')->where('user_id',$user_id)->delete();
+          $daftar_opd=json_decode($request->input('org_id'),true);
+          foreach($daftar_opd as $v)
+          {
+            $uuid=Uuid::uuid4()->toString();
+            $sql = "
+              INSERT INTO usersopd ( 
+                id,  
+                user_id, 
+                `OrgID`,
+                kode_organisasi,
+                `Nm_Organisasi`,
+                `Alias_Organisasi`,
+                ta,
+                created_at, 
+                updated_at
+              ) 
+              SELECT
+                '$uuid',
+                '$user_id',                    
+                `OrgID`,
+                kode_organisasi,
+                `Nm_Organisasi`,
+                `Alias_Organisasi`,
+                `TA`,                        
+                NOW() AS created_at,
+                NOW() AS updated_at
+              FROM `tmOrg`
+              WHERE 
+                `OrgID`='$v' 
+            ";
 
-          \DB::statement($sql); 
-        }
+            \DB::statement($sql); 
+          }
 
-        \App\Models\System\ActivityLog::log($request,[
-          'object' => $this->guard()->user(), 
-          'object_id' => $this->guard()->user()->id, 
-          'user_id' => $this->getUserid(), 
-          'message' => 'Mengubah data user OPD ('.$user->username.') berhasil'
-        ]);
-        return $user;
-      });
+          \App\Models\System\ActivityLog::log($request,[
+            'object' => $this->guard()->user(), 
+            'object_id' => $this->guard()->user()->id, 
+            'user_id' => $this->getUserid(), 
+            'message' => 'Mengubah data user OPD ('.$user->username.') berhasil'
+          ]);
+          return $user;
+        });
 
-      return Response()->json([
-        'status'=>1,
-        'pid'=>'update',
-        'user'=>$user,      
-        'message'=>'Data user OPD '.$user->username.' berhasil diubah.'
-      ], 200); 
+        return Response()->json([
+          'status'=>1,
+          'pid'=>'update',
+          'user'=>$user,      
+          'message'=>'Data user OPD '.$user->username.' berhasil diubah.'
+        ], 200); 
+      }
+      else
+      {
+        return Response()->json([
+          'status'=>0,
+          'pid'=>'update',                                           
+          'message'=>'Data user OPD gagal diubah karena Jumlah OPD 0.'
+        ], 422);
+      }
     }
   }
   /**
