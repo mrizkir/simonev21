@@ -146,7 +146,8 @@ class FormAMurniModel extends ReportModel
 		$sheet->setCellValue("I$row",$datakegiatan['Nm_Sub_Kegiatan']);
 		$row+=1;                                
 		$sheet->mergeCells("B$row:G$row");
-		$sheet->setCellValue("B$row",'LOKASI KEGIATAN');        
+		$sheet->setCellValue("B$row",'LOKASI KEGIATAN');      
+		$sheet->mergeCells("H$row:Z$row");
 		$sheet->setCellValue("H$row",': ' .$datakegiatan['lokasi_kegiatan1']);                
 		$row+=1;  
 		$sheet->mergeCells("B$row:G$row");
