@@ -104,21 +104,21 @@ class RKAPerubahanController extends Controller
     if (!is_null($datauraian))        
     {
       $r = \DB::table('trRKARealisasiRinc')
-              ->select(\DB::raw('
-                        `RKARealisasiRincID`,
-                        `bulan2`,
-                        `target2`,
-                        `realisasi2`,
-                        target_fisik2,
-                        fisik2,
-                        `TA`,
-                        `Descr`,
-                        `created_at`,
-                        `updated_at`
-                      '))
-              ->where('RKARincID',$RKARincID)
-              ->orderBy('bulan2','ASC')
-              ->get();
+      ->select(\DB::raw('
+        `RKARealisasiRincID`,
+        `bulan2`,
+        `target2`,
+        `realisasi2`,
+        target_fisik2,
+        fisik2,
+        `TA`,
+        `Descr`,
+        `created_at`,
+        `updated_at`
+      '))
+      ->where('RKARincID',$RKARincID)
+      ->orderBy('bulan2','ASC')
+      ->get();
 
       $daftar_realisasi = [];
       $totalanggarankas=0;
@@ -839,11 +839,11 @@ class RKAPerubahanController extends Controller
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
-                  'rka'=>$rka,                    
-                  'message'=>'Data RKA berhasil disimpan.'
-                ], 200); 
+      'status'=>1,
+      'pid'=>'store',
+      'rka'=>$rka,                    
+      'message'=>'Data RKA berhasil disimpan.'
+    ], 200); 
   }               
   /**
    * Store a newly created resource in storage.

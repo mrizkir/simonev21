@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="left" colored-border type="info">
-          Mengatur perizinan OPD menginput data per tahun anggaran.
+          Mengatur perizinan OPD menginput data per tahun anggaran pada masa pelaporan <strong>{{ $store.getters["uiadmin/getMasaPelaporan"].toUpperCase() }}</strong>.
         </v-alert>
       </template>
     </ModuleHeader>
@@ -211,6 +211,7 @@
             {
               tahun: this.tahun_anggaran,
               bulan: this.bulan_realisasi,
+              masapelaporan: this.$store.getters["uiadmin/getMasaPelaporan"],
             },
             {
               headers: {
@@ -248,6 +249,7 @@
               tahun: this.tahun_anggaran,
               bulan: this.bulan_realisasi,
               status: item.Locked == true ? 1 : 0,
+              masapelaporan: this.$store.getters["uiadmin/getMasaPelaporan"],
             },
             {
               headers: {

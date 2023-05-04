@@ -24,7 +24,7 @@ class LockedOPDModel extends Model {
    * @var array
    */
   protected $fillable = [
-    'lockedid', 'OrgID', 'Bulan', 'TA', 'Locked'
+    'lockedid', 'OrgID', 'Bulan', 'TA', 'Locked', 'masa'
   ];
   /**
    * enable auto_increment.

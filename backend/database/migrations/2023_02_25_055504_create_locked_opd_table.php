@@ -21,12 +21,14 @@ class CreateLockedOPDTable extends Migration
       $table->tinyInteger('Bulan');
       $table->year('TA');
       $table->tinyInteger('Locked');
+      $table->enum('masa', ['murni', 'perubahan'])->nullable();
       $table->timestamps();
 
       $table->primary('lockedid'); 
       $table->index('OrgID'); 
       $table->index('Bulan'); 
       $table->index('TA'); 
+      $table->index('masa'); 
 
       $table->foreign('OrgID')
         ->references('OrgID')

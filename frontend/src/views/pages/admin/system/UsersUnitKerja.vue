@@ -69,7 +69,11 @@
                       small
                       class="ma-2"
                       @click.stop="copyItem"
-                      :disabled="!$store.getters['auth/can']('SYSTEM-USERS-UNIT-KERJA_STORE')"
+                      :disabled="
+                        !$store.getters['auth/can'](
+                          'SYSTEM-USERS-UNIT-KERJA_STORE'
+                        )
+                      "
                     >
                       <v-icon>mdi-database-refresh</v-icon>
                     </v-btn>
@@ -921,7 +925,7 @@
                 });
             }
           });
-      },    
+      },
     },
     computed: {
       formTitle() {

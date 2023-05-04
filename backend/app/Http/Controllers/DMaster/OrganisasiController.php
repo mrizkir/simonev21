@@ -489,12 +489,14 @@ class OrganisasiController extends Controller {
         'tahun'=>'required',
         'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
         'status'=>'required|in:0,1',
+        'masapelaporan'=>'required|in:murni,perubahan'
       ]);
 
       $tahun = $request->input('tahun');
       $bulan = $request->input('bulan');
       $status = $request->input('status');
-
+      $masapelaporan = $request->input('masapelaporan');
+      
       \DB::table('lockedopd')
         ->where('OrgID', $organisasi->OrgID)
         ->where('TA', $tahun)
@@ -507,6 +509,7 @@ class OrganisasiController extends Controller {
         'TA' => $tahun,
         'Bulan' => $bulan,
         'Locked' => $status,
+        'masa' => $masapelaporan,
       ]);
 
       return Response()->json([
@@ -529,11 +532,13 @@ class OrganisasiController extends Controller {
     
     $tahun = $request->input('tahun');
     $bulan = $request->input('bulan');
+    $masa = $request->input('masapelaporan');
 
     $subquery = \DB::table('lockedopd')
 			->select(\DB::raw('`OrgID`, Locked'))
 			->where('TA', $tahun)
-			->where('Bulan', $bulan);
+			->where('Bulan', $bulan)
+      ->where('masa', $masa);
 
     if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
