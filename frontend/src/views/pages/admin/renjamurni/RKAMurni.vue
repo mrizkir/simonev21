@@ -96,7 +96,7 @@
                       small
                       class="ma-2"
                       @click.stop="addItem"
-                      :disabled="btnLoading || !(SOrgID_Selected.length > 0)"
+                      :disabled="btnLoading || !(SOrgID_Selected.length > 0) || !locked"
                     >
                       <v-icon>mdi-plus</v-icon>
                     </v-btn>
@@ -431,6 +431,7 @@
         DataUnitKerja: null,
         //dialog
         dialogfrm: false,
+        locked: false,
         //form data
         form_valid: true,
         daftar_bidang: [],
@@ -574,6 +575,7 @@
             "/renja/rkamurni",
             {
               tahun: this.$store.getters["auth/TahunSelected"],
+              bulan: this.$store.getters["uifront/getBulanRealisasi"],
               SOrgID: this.SOrgID_Selected,
             },
             {
@@ -588,6 +590,9 @@
             this.datatableLoaded = true;
             this.datatableLoading = false;
             this.footersummary();
+          })
+          .catch(() => {
+            this.btnLoading = false;
           });
       },
       async addItem() {

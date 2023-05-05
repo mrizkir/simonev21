@@ -4,6 +4,7 @@ namespace App\Helpers;
 use \Codedge\Fpdf\Fpdf\Fpdf;
 
 use App\Models\System\ConfigurationModel;
+use App\Models\System\LockedOPDModel;
 
 class HelperKegiatan 
 {
@@ -82,5 +83,19 @@ class HelperKegiatan
         }
     }
     return $color;
+  }
+  /**
+   * digunakan untuk mengecek apakah sudah dikunci atau belum kegiatannya
+   */
+  public static function isLocked($OrgID, $bulan, $tahun, $masa)
+  {
+    $locked = LockedOPDModel::where('OrgID', $OrgID)
+    ->select('Locked')
+    ->where('Bulan', $bulan)
+    ->where('TA', $tahun)
+    ->where('masa', $masa)
+    ->first();
+			
+    return is_null($locked) ? 0 : $locked->Locked;    
   }
 }

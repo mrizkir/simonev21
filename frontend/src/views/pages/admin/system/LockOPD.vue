@@ -5,7 +5,7 @@
         mdi-lock-check
       </template>
       <template v-slot:name>
-        LOCK OPD T.A {{ $store.getters["auth/TahunSelected"] }} Bulan Ke {{ $store.getters["uifront/getNamaBulan"](bulan_realisasi) }}
+        LOCK OPD
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,15 +16,13 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="left" colored-border type="info">
-          Mengatur perizinan OPD menginput data per tahun anggaran pada masa pelaporan <strong>{{ $store.getters["uiadmin/getMasaPelaporan"].toUpperCase() }}</strong>.
+          Mengatur perizinan OPD menginput data per tahun anggaran pada masa pelaporan <strong>{{ $store.getters["uiadmin/getMasaPelaporan"].toUpperCase() }}</strong>. 
+          Tahun Anggaran {{ $store.getters["uifront/getNamaBulan"](bulan_realisasi) }} {{ $store.getters["auth/TahunSelected"] }} 
         </v-alert>
       </template>
     </ModuleHeader>
     <template v-slot:filtersidebar>
-      <Filter2        
-        v-on:changeBulanRealisasi="changeBulanRealisasi"
-        ref="filter2"
-      />
+      <Filter2 v-on:changeBulanRealisasi="changeBulanRealisasi" ref="filter2" />
     </template>
     <v-container fluid>
       <v-row class="mb-4" no-gutters>
@@ -164,7 +162,7 @@
           disabled: true,
           href: "#",
         },
-      ];      
+      ];
       this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
     },
     mounted() {
@@ -192,7 +190,7 @@
       ],
       search: "",
     }),
-    methods: {      
+    methods: {
       changeBulanRealisasi(bulan) {
         this.bulan_realisasi = bulan;
       },
