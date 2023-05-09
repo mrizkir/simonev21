@@ -29,7 +29,7 @@ class FormAMurniController extends Controller
     $RKAID = $request->input('RKAID');
     $no_bulan = $request->input('no_bulan');
 
-    $forma=new FormAMurniModel([], false);
+    $forma = new FormAMurniModel([], false);
     $rka = $forma->getDataRKA($RKAID,$no_bulan,1);
     $tingkat = $forma->getRekeningProyek();
     $data=[];

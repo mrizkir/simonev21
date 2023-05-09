@@ -138,6 +138,7 @@ class ReportModel extends Model
             ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
             ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
             ->where('RKAID',$rka->RKAID)
+            ->orderBy('kode_uraian1', 'ASC')
             ->get();   
           
           foreach ($data_akhir as $k=>$v)
@@ -285,7 +286,7 @@ class ReportModel extends Model
           ->leftJoin('tmASN AS A','A.ASNID','trRKA.nip_pa2')     
           ->leftJoin('tmASN AS B','B.ASNID','trRKA.nip_pptk2')     
           ->leftJoin('tmSumberDana AS C','C.SumberDanaID','trRKA.SumberDanaID')                                 
-          ->where('trRKA.EntryLvl',$entryLvl)
+          ->where('trRKA.EntryLvl', $entryLvl)
           ->find($id);
 
         if (!is_null($rka))
@@ -321,6 +322,7 @@ class ReportModel extends Model
             ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
             ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
             ->where('RKAID',$rka->RKAID)
+            ->orderBy('kode_uraian2', 'ASC')
             ->get();   
           
           foreach ($data_akhir as $k=>$v)
@@ -416,10 +418,8 @@ class ReportModel extends Model
                 'volume'=>$v->volume2,
                 'harga_satuan'=>(float)$v->harga_satuan2,
                 'satuan'=>$v->satuan2
-              ];
-              
+              ];              
             }
-
           }       	
         }
       break;
