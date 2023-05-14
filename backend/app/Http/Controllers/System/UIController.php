@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\System\ConfigurationModel;
+use App\Helpers\HelperKegiatan;
 use App\Models\DMaster\TAModel;
 
 use App\Helpers\Helper;
@@ -32,8 +33,8 @@ class UIController extends Controller {
 			'V-LIST-ITEM-ACTIVE-CSS-CLASS'=>$config['V-LIST-ITEM-ACTIVE-CSS-CLASS'],            
 		];
 		$daftar_ta=TAModel::select(\DB::raw('tahun AS value,tahun AS text'))
-								->orderBy('tahun','asc')
-								->get();
+			->orderBy('tahun','asc')
+			->get();
 
 		$bulan=Helper::getNamaBulan();
 		$daftar_bulan = [];
@@ -63,30 +64,16 @@ class UIController extends Controller {
 	 */
 	public function admin(Request $request)
 	{
-		$config = ConfigurationModel::getCache();
-		$masa_pelaporan = $config['DEFAULT_MASA_PELAPORAN'];
-		
 		$this->validate($request, [            
       'tahun'=>'required',      
     ]);
 
 		$tahun = $request->input('tahun');
-		
-		$data = \DB::table('lockedopd')
-			->select(\DB::raw('`OrgID`, Locked'))
-			->where('TA', $tahun)
-			->where('Bulan', 0)
-			->first();		
 
-		if (!is_null($data))
-		{
-			$masa_pelaporan = ($data->Locked == 10 || $data->Locked = 0) ? 'murni' : 'perubahan';
-		}
-		
 		return Response()->json([
 			'status'=>1,
 			'pid'=>'fetchdata',
-			'masa_pelaporan' => $masa_pelaporan,
+			'masa_pelaporan' => HelperKegiatan::getMasaPelaporan($tahun),
 			'message'=>'Fetch data ui untuk admin berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}

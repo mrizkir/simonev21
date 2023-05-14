@@ -550,6 +550,7 @@
             "/renja/rkamurni/loaddatakegiatanfirsttime",
             {
               tahun: this.$store.getters["auth/TahunSelected"],
+              bulan: this.$store.getters["uifront/getBulanRealisasi"],
               SOrgID: this.SOrgID_Selected,
             },
             {

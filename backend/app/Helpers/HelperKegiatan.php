@@ -85,17 +85,43 @@ class HelperKegiatan
     return $color;
   }
   /**
+   * digunakan untuk mendapatkan masa pelaporan saat ini
+   */
+  public static function getMasaPelaporan($tahun)
+  {
+    $config = ConfigurationModel::getCache();
+		$masa_pelaporan = $config['DEFAULT_MASA_PELAPORAN'];
+    
+    $data = \DB::table('lockedopd')
+			->select(\DB::raw('`OrgID`, Locked'))
+			->where('TA', $tahun)
+			->where('Bulan', 0)
+			->first();		
+		
+		if (!is_null($data))
+		{
+			$masa_pelaporan = ($data->Locked == 10 || $data->Locked = 0) ? 'murni' : 'perubahan';
+		}
+
+    return $masa_pelaporan;
+  }
+  /**
    * digunakan untuk mengecek apakah sudah dikunci atau belum kegiatannya
    */
-  public static function isLocked($OrgID, $bulan, $tahun, $masa)
+  public static function isLocked($OrgID, $bulan, $tahun, $masa = NULL)
   {
+    if ($masa === NULL || $masa != 'murni' || $masa != 'perubahan')
+    {
+      $masa = HelperKegiatan::getMasaPelaporan($tahun);
+    }      
+    
     $locked = LockedOPDModel::where('OrgID', $OrgID)
     ->select('Locked')
     ->where('Bulan', $bulan)
     ->where('TA', $tahun)
     ->where('masa', $masa)
     ->first();
-			
+    
     return is_null($locked) ? 0 : $locked->Locked;    
   }
 }

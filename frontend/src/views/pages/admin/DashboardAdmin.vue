@@ -14,7 +14,8 @@
         $store.getters["uifront/getNamaBulan"](
           $store.getters["uifront/getBulanRealisasi"]
         )
-      }}
+      }} | 
+      APBD: {{ $store.getters['uiadmin/getMasaPelaporan'] }}
     </v-system-bar>
     <v-app-bar app color="#E6E9ED" elevation="0">
       <v-toolbar-title

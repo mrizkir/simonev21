@@ -544,6 +544,7 @@
             "/renja/rkaperubahan/loaddatakegiatanfirsttime",
             {
               tahun: this.$store.getters["auth/TahunSelected"],
+              bulan: this.$store.getters["uifront/getBulanRealisasi"],
               SOrgID: this.SOrgID_Selected,
             },
             {
@@ -569,6 +570,7 @@
             "/renja/rkaperubahan",
             {
               tahun: this.$store.getters["auth/TahunSelected"],
+              bulan: this.$store.getters["uifront/getBulanRealisasi"],
               SOrgID: this.SOrgID_Selected,
             },
             {

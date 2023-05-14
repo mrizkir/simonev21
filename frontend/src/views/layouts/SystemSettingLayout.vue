@@ -15,6 +15,8 @@
           $store.getters["uifront/getBulanRealisasi"]
         )
       }}
+      }} | 
+      APBD: {{ $store.getters['uiadmin/getMasaPelaporan'] }}
       <strong><slot name="system-bar"/></strong>
     </v-system-bar>
     <v-app-bar

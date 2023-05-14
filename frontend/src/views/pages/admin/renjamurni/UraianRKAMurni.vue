@@ -45,13 +45,17 @@
                   <tr>
                     <td width="150" class="font-weight-bold">KODE PROGRAM</td>
                     <td width="400">{{ datakegiatan.kode_program }}</td>
-                    <td width="150" class="font-weight-bold">NAMA BIDANG URUSAN</td>
+                    <td width="150" class="font-weight-bold">
+                      NAMA BIDANG URUSAN
+                    </td>
                     <td width="400">{{ datakegiatan.Nm_Bidang }}</td>
                   </tr>
                   <tr>
                     <td width="150" class="font-weight-bold">PROGRAM</td>
                     <td width="400">{{ datakegiatan.Nm_Program }}</td>
-                    <td width="150" class="font-weight-bold">KODE OPD / SKPD</td>
+                    <td width="150" class="font-weight-bold">
+                      KODE OPD / SKPD
+                    </td>
                     <td width="400">{{ datakegiatan.kode_organisasi }}</td>
                   </tr>
                   <tr>
@@ -63,11 +67,15 @@
                   <tr>
                     <td width="150" class="font-weight-bold">NAMA KEGIATAN</td>
                     <td width="400">{{ datakegiatan.Nm_Kegiatan }}</td>
-                    <td width="150" class="font-weight-bold">KODE UNIT KERJA</td>
+                    <td width="150" class="font-weight-bold">
+                      KODE UNIT KERJA
+                    </td>
                     <td width="400">{{ datakegiatan.kode_sub_organisasi }}</td>
                   </tr>
                   <tr>
-                    <td width="150" class="font-weight-bold">KODE SUB KEGIATAN</td>
+                    <td width="150" class="font-weight-bold">
+                      KODE SUB KEGIATAN
+                    </td>
                     <td width="400">
                       {{ datakegiatan.kode_sub_kegiatan }}
                     </td>
@@ -75,7 +83,9 @@
                     <td width="400">{{ datakegiatan.Nm_Sub_Organisasi }}</td>
                   </tr>
                   <tr>
-                    <td width="150" class="font-weight-bold">NAMA SUB KEGIATAN</td>
+                    <td width="150" class="font-weight-bold">
+                      NAMA SUB KEGIATAN
+                    </td>
                     <td width="400">
                       {{ datakegiatan.Nm_Sub_Kegiatan }}
                     </td>
@@ -103,19 +113,31 @@
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
           <v-bottom-navigation color="purple lighten-1">
-            <v-btn @click.stop="resetdatakegiatan" :disabled="datakegiatan.Locked == 1">
+            <v-btn
+              @click.stop="resetdatakegiatan"
+              :disabled="datakegiatan.Locked == 1"
+            >
               <span>Reset</span>
               <v-icon>mdi-refresh</v-icon>
             </v-btn>
-            <v-btn :to="{ path: '/renjamurni/rka/' + RKAID + '/edit' }" :disabled="datakegiatan.Locked == 1">
+            <v-btn
+              :to="{ path: '/renjamurni/rka/' + RKAID + '/edit' }"
+              :disabled="datakegiatan.Locked == 1"
+            >
               <span>Edit RKA</span>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
-            <v-btn @click.stop="showdialogtargetfisik" :disabled="datakegiatan.Locked == 1">
+            <v-btn
+              @click.stop="showdialogtargetfisik"
+              :disabled="datakegiatan.Locked == 1"
+            >
               <span>Target Fisik</span>
               <v-icon>mdi-history</v-icon>
             </v-btn>
-            <v-btn @click.stop="showdialogtargetanggkarankas" :disabled="datakegiatan.Locked == 1">
+            <v-btn
+              @click.stop="showdialogtargetanggkarankas"
+              :disabled="datakegiatan.Locked == 1"
+            >
               <span>Target Anggaran Kas</span>
               <v-icon>mdi-history</v-icon>
             </v-btn>
@@ -134,7 +156,7 @@
                 <v-card-title>
                   <span class="headline">UBAH URAIAN</span>
                 </v-card-title>
-                <v-card-text>						
+                <v-card-text>
                   <v-row>
                     <v-col cols="12" sm="12" md="12">
                       <v-text-field
@@ -207,7 +229,7 @@
                       >
                       </v-autocomplete>
                     </v-col>
-                  </v-row>						
+                  </v-row>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -222,7 +244,6 @@
                     color="blue darken-1"
                     text
                     @click.stop="updateuraian"
-                    
                     :disabled="!form_valid || btnLoading"
                   >
                     SIMPAN
@@ -390,7 +411,6 @@
                   <v-btn
                     color="blue darken-1"
                     text
-                    
                     @click.stop="savetargetfisik"
                     :disabled="!form_valid || btnLoading"
                   >
@@ -414,7 +434,7 @@
               <v-card>
                 <v-card-title>
                   <span class="headline">TARGET ANGGARAN KAS</span>
-                </v-card-title>					
+                </v-card-title>
                 <v-card-text>
                   <v-alert type="info">
                     Bila mendapati masalah dalam pengisian target kinerja, alternatifnya bisa menggunakan halaman <router-link to="/renjamurni/targetkinerja">ini</router-link>
@@ -583,7 +603,6 @@
                   <v-btn
                     color="blue darken-1"
                     text
-                    
                     @click.stop="savetargetanggarankas"
                     :disabled="!form_valid || btnLoading"
                   >
@@ -625,7 +644,9 @@
                       outlined
                       small
                       class="ma-2"
-                      @click.stop="$router.push('/renjamurni/rka/uraian/' + RKAID + '/add')"
+                      @click.stop="
+                        $router.push('/renjamurni/rka/uraian/' + RKAID + '/add')
+                      "
                       :disabled="datakegiatan.Locked == 1"
                     >
                       <v-icon>mdi-plus</v-icon>
@@ -635,7 +656,7 @@
                 </v-tooltip>
               </v-toolbar>
             </template>
-            <template v-slot:item.actions="{ item }">				
+            <template v-slot:item.actions="{ item }">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -650,7 +671,7 @@
                   </v-icon>
                 </template>
                 <span>Realisasi Uraian</span>
-              </v-tooltip>				
+              </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -673,7 +694,7 @@
                     v-bind="attrs"
                     v-on="on"
                     class="ma-1"
-                    color="red"	
+                    color="red"
                     :disabled="btnLoading || datakegiatan.Locked == 1"
                     @click.stop="deleteItem(item)"
                   >
@@ -726,8 +747,11 @@
             <template v-slot:no-data>
               <v-btn
                 class="ma-2"
-                
-                :disabled="showBtnLoadDataUraian || btnLoading"
+                :disabled="
+                  showBtnLoadDataUraian ||
+                    btnLoading ||
+                    datakegiatan.Locked == 1
+                "
                 color="primary"
                 @click.stop="loaddatauraianfirsttime"
               >
@@ -1306,7 +1330,7 @@
                 .post(
                   "/renja/rkamurni/resetdatakegiatan/" + this.RKAID,
                   {
-                    _method: "PUT",				
+                    _method: "PUT",
                   },
                   {
                     headers: {
