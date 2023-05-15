@@ -703,38 +703,38 @@ class RKAMurniController extends Controller
 		if (is_null($kegiatan) )
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'fetchdata',                
-									'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
-								], 422); 
+				'status'=>0,
+				'pid'=>'fetchdata',                
+				'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+			], 422); 
 		}
 		else if ($kegiatan->Locked)
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'fetchdata',                
-									'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								], 422); 
+				'status'=>0,
+				'pid'=>'fetchdata',                
+				'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+			], 422); 
 		}
 		else
 		{
 			$this->validate($request, [
-					'SumberDanaID'=>'required',                
-					'keluaran1'=>'required',                
-					'tk_keluaran1'=>'required',                
-					'hasil1'=>'required',                
-					'tk_hasil1'=>'required',                
-					'capaian_program1'=>'required',                
-					'tk_capaian1'=>'required',                
-					'masukan1'=>'required',                
-					'ksk1'=>'required',                
-					'sifat_kegiatan1'=>'required',                
-					'waktu_pelaksanaan1'=>'required',                
-					'lokasi_kegiatan1'=>'required',                                
-					'nip_pa1'=>'required',                
-					'nip_kpa1'=>'required',                
-					'nip_ppk1'=>'required',                
-					'nip_pptk1'=>'required', 
+				'SumberDanaID'=>'required',                
+				'keluaran1'=>'required',                
+				'tk_keluaran1'=>'required',                
+				'hasil1'=>'required',                
+				'tk_hasil1'=>'required',                
+				'capaian_program1'=>'required',                
+				'tk_capaian1'=>'required',                
+				'masukan1'=>'required',                
+				'ksk1'=>'required',                
+				'sifat_kegiatan1'=>'required',                
+				'waktu_pelaksanaan1'=>'required',                
+				'lokasi_kegiatan1'=>'required',                                
+				'nip_pa1'=>'required',                
+				'nip_kpa1'=>'required',                
+				'nip_ppk1'=>'required',                
+				'nip_pptk1'=>'required', 
 			]);
 			
 			$kegiatan->SumberDanaID=$request->input('SumberDanaID');                
@@ -760,10 +760,10 @@ class RKAMurniController extends Controller
 			\DB::statement("UPDATE `trRKA` SET `PaguDana1`='$PaguDana1' WHERE `RKAID`='$id'");
 
 			return Response()->json([
-									'status'=>1,
-									'pid'=>'update',
-									'message'=>'Update RKA berhasil disimpan.'
-								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+				'status'=>1,
+				'pid'=>'update',
+				'message'=>'Update RKA berhasil disimpan.'
+			], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}
 	}
 	/**
@@ -782,27 +782,27 @@ class RKAMurniController extends Controller
 		if (is_null($kegiatan) )
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'fetchdata',                
-									'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
-								], 422); 
+				'status'=>0,
+				'pid'=>'fetchdata',                
+				'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+			], 422); 
 		}
 		else if ($kegiatan->Locked)
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'fetchdata',                
-									'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								], 422); 
+				'status'=>0,
+				'pid'=>'fetchdata',                
+				'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+			], 422); 
 		}
 		else
 		{
 			$this->recalculate($kegiatan->RKAID);
 			return Response()->json([
-									'status'=>1,
-									'pid'=>'update',
-									'message'=>'Update RKA berhasil disimpan.'
-								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+				'status'=>1,
+				'pid'=>'update',
+				'message'=>'Update RKA berhasil disimpan.'
+			], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}
 	}
 	/**
@@ -820,18 +820,18 @@ class RKAMurniController extends Controller
 		if (is_null($rinciankegiatan) )
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'fetchdata',                
-									'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
-								], 422); 
+				'status'=>0,
+				'pid'=>'fetchdata',                
+				'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
+			], 422); 
 		}
 		else if ($rinciankegiatan->Locked)
 		{
 			return Response()->json([
-									'status'=>0,
-									'pid'=>'fetchdata',                
-									'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-								], 422); 
+				'status'=>0,
+				'pid'=>'fetchdata',                
+				'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+			], 422); 
 		}
 		else
 		{

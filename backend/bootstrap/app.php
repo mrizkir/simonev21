@@ -48,6 +48,7 @@ $app->configure('cors');
 $app->configure('permission');
 $app->configure('jwt');
 $app->configure('mail');
+$app->configure('media-library');
 
 /*
 |--------------------------------------------------------------------------

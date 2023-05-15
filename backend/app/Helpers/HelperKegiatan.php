@@ -5,6 +5,7 @@ use \Codedge\Fpdf\Fpdf\Fpdf;
 
 use App\Models\System\ConfigurationModel;
 use App\Models\System\LockedOPDModel;
+use App\Models\Media\MediaLibraryModel;
 
 class HelperKegiatan 
 {
@@ -123,5 +124,41 @@ class HelperKegiatan
     ->first();
     
     return is_null($locked) ? 0 : $locked->Locked;    
+  }
+  /**
+   * digunakan untuk mengupload gambar
+   * @param $RKARealisasiRincID
+   * @param $media berisi $request->file
+   */
+  public static function createMediaRealisasiRincian($RKARealisasiRincID, $media, $collection='kegiatan', $name=null)
+  {
+    $rinciankegiatan = MediaLibraryModel::where('uuid', $RKARealisasiRincID)
+    ->first();
+
+    if (is_null(MediaLibraryModel::find($rinciankegiatan)))
+		{
+      $id = \DB::table('media')->max('id') + 1;
+
+			$rinciankegiatan = MediaLibraryModel::create([
+				'id' => $id,
+        'uuid' => $RKARealisasiRincID
+			]);
+		}   
+
+    if (is_null($name))
+    {
+      $name = $media->getClientOriginalName();
+    }
+
+    $custom_properties = \App\Models\Renja\RKARealisasiModel::find($RKARealisasiRincID)
+    ->toArray();
+
+    $result = MediaLibraryModel::find($rinciankegiatan->id)
+			->addMedia($media)
+			->usingName($name)
+      ->withCustomProperties($custom_properties)
+			->toMediaCollection($collection);
+
+    return $result;
   }
 }
