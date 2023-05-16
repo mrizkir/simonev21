@@ -37,9 +37,8 @@ class GalleryController extends Controller
 				foreach ($errors->all() as $k=>$message) {					
 					throw new Exception($message);
 				}				
-			}
-
-			switch($request->input('realisasirincian'))
+			}			
+			switch($request->input('pid'))
 			{
 				case 'realisasirincian':
 					$result = HelperKegiatan::createMediaRealisasiRincian($request->input('RKARealisasiRincID'), $request->file('foto'));

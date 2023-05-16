@@ -132,29 +132,16 @@ class HelperKegiatan
    */
   public static function createMediaRealisasiRincian($RKARealisasiRincID, $media, $collection='kegiatan', $name=null)
   {
-    $rinciankegiatan = MediaLibraryModel::where('uuid', $RKARealisasiRincID)
-    ->first();
-
-    if (is_null(MediaLibraryModel::find($rinciankegiatan)))
-		{
-      $id = \DB::table('media')->max('id') + 1;
-
-			$rinciankegiatan = MediaLibraryModel::create([
-				'id' => $id,
-        'uuid' => $RKARealisasiRincID
-			]);
-		}   
+    $rincian_realisasi = \App\Models\Renja\RKARealisasiModel::find($RKARealisasiRincID);
 
     if (is_null($name))
     {
       $name = $media->getClientOriginalName();
     }
 
-    $custom_properties = \App\Models\Renja\RKARealisasiModel::find($RKARealisasiRincID)
-    ->toArray();
+    $custom_properties = $rincian_realisasi->toArray();
 
-    $result = MediaLibraryModel::find($rinciankegiatan->id)
-			->addMedia($media)
+    $result = $rincian_realisasi->addMedia($media)
 			->usingName($name)
       ->withCustomProperties($custom_properties)
 			->toMediaCollection($collection);
