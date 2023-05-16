@@ -57,7 +57,7 @@ class GalleryController extends Controller
 			return Response()->json([
 				'status'=>0,
 				'pid'=>'store',
-				'rka'=>[],                                    
+				'media'=>[],                                    
 				'message'=>$e->getMessage()
 			], 422); 			
 		}

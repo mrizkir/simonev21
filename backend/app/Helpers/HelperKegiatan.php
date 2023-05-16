@@ -136,13 +136,14 @@ class HelperKegiatan
 
     if (is_null($name))
     {
-      $name = $media->getClientOriginalName();
+      $name = $media->getClientOriginalName();    
     }
-
+    
     $custom_properties = $rincian_realisasi->toArray();
 
     $result = $rincian_realisasi->addMedia($media)
 			->usingName($name)
+      ->usingFileName($media->hashName())
       ->withCustomProperties($custom_properties)
 			->toMediaCollection($collection);
 
