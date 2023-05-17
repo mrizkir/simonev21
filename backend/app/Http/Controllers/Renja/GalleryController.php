@@ -18,6 +18,7 @@ use App\Models\Renja\RKAModel;
 use App\Models\Renja\RKARincianModel;
 use App\Models\Renja\RKARencanaTargetModel;
 use App\Models\Renja\RKARealisasiModel;
+use App\Models\Media\MediaLibraryModel;
 
 class GalleryController extends Controller 
 {
@@ -77,20 +78,28 @@ class GalleryController extends Controller
 					}	
 					$result = RKARealisasiModel::select(\DB::raw('
 						RKARealisasiRincID
-					'))
-					->with(['media'])
+					'))										
 					->where('RKARincID', $request->input('RKARincID'))
-					->get();
+					->get();					
 					
-					$daftar_media = [];
+					$daftar_media = [];					
 					foreach ($result as $item)
 					{
-						$media = $item->getMedia('kegiatan');
-						dd($media);
-						$daftar_media[] = [
-							'' => ''
-						];
-					}
+						$list_media = $item->getMedia('kegiatan');	
+						if (count($list_media) > 0)					
+						{
+							foreach($list_media as $media)
+							// dd($media);
+							$daftar_media[] = [
+								'id' => $media->id,
+								'publicFullUrl' => $media->getFullUrl(),
+							];
+						}
+						else
+						{
+							continue;
+						}						
+					}					
 				break;
 			} 				
 			return Response()->json([

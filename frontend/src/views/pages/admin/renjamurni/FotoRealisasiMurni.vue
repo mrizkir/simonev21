@@ -1,4 +1,3 @@
-
 <template>
   <RenjaMurniLayout :showrightsidebar="false">
     <ModuleHeader>
@@ -65,7 +64,9 @@
                     <td width="400">
                       {{ datauraian.harga_satuan1 | formatUang }}
                     </td>
-                    <td width="150" class="font-weight-bold">KODE SUB KEGIATAN</td>
+                    <td width="150" class="font-weight-bold">
+                      KODE SUB KEGIATAN
+                    </td>
                     <td width="400">{{ datakegiatan.kode_sub_kegiatan }}</td>
                   </tr>
                   <tr>
@@ -73,7 +74,9 @@
                     <td width="400">
                       {{ datauraian.PaguUraian1 | formatUang }}
                     </td>
-                    <td width="150" class="font-weight-bold">NAMA SUB KEGIATAN</td>
+                    <td width="150" class="font-weight-bold">
+                      NAMA SUB KEGIATAN
+                    </td>
                     <td width="400">{{ datakegiatan.Nm_Sub_Kegiatan }}</td>
                   </tr>
                   <tr>
@@ -87,7 +90,9 @@
                     </td>
                   </tr>
                   <tr>
-                    <td width="150" class="font-weight-bold">KODE OPD / SKPD</td>
+                    <td width="150" class="font-weight-bold">
+                      KODE OPD / SKPD
+                    </td>
                     <td width="400">{{ datakegiatan.kode_organisasi }}</td>
                     <td width="150" class="font-weight-bold">DIUBAH</td>
                     <td width="400">
@@ -113,13 +118,30 @@
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
           <v-bottom-navigation color="purple lighten-1">
-            <v-btn
-              :to="{ path: '/renjamurni/rka/realisasi/' + RKARincID }"
-            >
+            <v-btn :to="{ path: '/renjamurni/rka/realisasi/' + RKARincID }">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-bottom-navigation>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col v-for="media in datatable" :key="media.id" class="d-flex child-flex" cols="4">
+          <v-img
+            :src="media.publicFullUrl"
+            :lazy-src="`https://picsum.photos/10/6?image=${media.id * 5 + 10}`"
+            aspect-ratio="1"
+            class="grey lighten-2"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-col>
       </v-row>
     </v-container>
@@ -219,17 +241,17 @@
             }
           )
           .then(({ data }) => {
-            this.datatable = data.media;            
+            this.datatable = data.media;
             this.datatableLoading = false;
           })
           .catch(() => {
             this.datatableLoading = false;
           });
-      },      
+      },
     },
     components: {
       RenjaMurniLayout,
       ModuleHeader,
     },
-  }
+  };
 </script>
