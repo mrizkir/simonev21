@@ -124,29 +124,5 @@ class HelperKegiatan
     ->first();
     
     return is_null($locked) ? 0 : $locked->Locked;    
-  }
-  /**
-   * digunakan untuk mengupload gambar
-   * @param $RKARealisasiRincID
-   * @param $media berisi $request->file
-   */
-  public static function createMediaRealisasiRincian($RKARealisasiRincID, $media, $collection='kegiatan', $name=null)
-  {
-    $rincian_realisasi = \App\Models\Renja\RKARealisasiModel::find($RKARealisasiRincID);
-
-    if (is_null($name))
-    {
-      $name = $media->getClientOriginalName();    
-    }
-    
-    $custom_properties = $rincian_realisasi->toArray();
-
-    $result = $rincian_realisasi->addMedia($media)
-			->usingName($name)
-      ->usingFileName($media->hashName())
-      ->withCustomProperties($custom_properties)
-			->toMediaCollection($collection);
-
-    return $result;
-  }
+  } 
 }

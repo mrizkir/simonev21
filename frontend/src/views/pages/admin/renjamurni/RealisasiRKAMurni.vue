@@ -122,6 +122,14 @@
               <span>Edit Uraian</span>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
+            <v-btn
+              :to="{
+                path: '/renjamurni/fotorealisasi/' + this.RKARincID,
+              }"
+            >
+              <span>Foto Realisasi</span>
+              <v-icon>mdi-image-album</v-icon>
+            </v-btn>
             <v-btn @click.stop="exitrealisasi">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>

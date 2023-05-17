@@ -210,7 +210,7 @@
                     class="ma-1"
                     color="warning"
                     :loading="btnLoading"
-                    :disabled="item.PaguUraian2 > 0 || item.Locked || btnLoading"
+                    :disabled="item.PaguUraian2 > 0 || item.Locked == 1 || btnLoading"
                     @click.stop="loaddatauraianfirsttime(item)"
                   >
                     mdi-sync-circle
@@ -234,7 +234,7 @@
                 </template>
                 <span>Hapus RKA</span>
               </v-tooltip>
-              <v-icon small class="mr-2" v-if="item.Locked">
+              <v-icon small class="mr-2" v-if="item.Locked == 1">
                 mdi-lock
               </v-icon>
             </template>

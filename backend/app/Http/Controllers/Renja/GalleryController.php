@@ -21,6 +21,95 @@ use App\Models\Renja\RKARealisasiModel;
 
 class GalleryController extends Controller 
 {
+	/**
+   * digunakan untuk mengupload gambar realisasi rincian
+   * @param $RKARealisasiRincID
+   * @param $media berisi $request->file
+   */
+  public function storeMediaRealisasiRincian($RKARealisasiRincID, $media, $collection='kegiatan', $name=null)
+  {
+    $rincian_realisasi = \App\Models\Renja\RKARealisasiModel::find($RKARealisasiRincID);
+
+    if (is_null($name))
+    {
+      $name = $media->getClientOriginalName();    
+    }
+    
+    $custom_properties = $rincian_realisasi->toArray();
+
+    $result = $rincian_realisasi->addMedia($media)
+			->usingName($name)
+      ->usingFileName($media->hashName())
+      ->withCustomProperties($custom_properties)
+			->toMediaCollection($collection);
+
+    return $result;
+  }
+	public function index(Request $request)
+	{
+		try
+		{
+			$validator = Validator::make($request->all(), [        
+				'pid'=>'required|in:realisasirincian'
+			]);     
+
+			if ($validator->stopOnFirstFailure()->fails())
+			{				
+				$errors = $validator->errors();				
+				foreach ($errors->all() as $k=>$message) {					
+					throw new Exception($message);
+				}				
+			}	
+
+			switch($request->input('pid'))
+			{
+				case 'realisasirincian':
+					$validator = Validator::make($request->all(), [
+						'RKARincID' => 'required|exists:trRKARinc,RKARincID',
+					]);
+
+					if ($validator->stopOnFirstFailure()->fails())
+					{				
+						$errors = $validator->errors();				
+						foreach ($errors->all() as $k=>$message) {					
+							throw new Exception($message);
+						}				
+					}	
+					$result = RKARealisasiModel::select(\DB::raw('
+						RKARealisasiRincID
+					'))
+					->with(['media'])
+					->where('RKARincID', $request->input('RKARincID'))
+					->get();
+					
+					$daftar_media = [];
+					foreach ($result as $item)
+					{
+						$media = $item->getMedia('kegiatan');
+						dd($media);
+						$daftar_media[] = [
+							'' => ''
+						];
+					}
+				break;
+			} 				
+			return Response()->json([
+				'status'=>1,
+				'pid'=>'fetchdata',
+				'media'=>$daftar_media,                                    
+				'message'=>'Daftar media realisasi rincian berhasil diperoleh'
+			], 200); 
+		}
+		catch(Exception $e)
+		{
+			return Response()->json([
+				'status'=>0,
+				'pid'=>'fetchdata',
+				'media'=>[],                                    
+				'message'=>$e->getMessage()
+			], 422); 			
+		}
+	}
   public function store(Request $request)
   {
     try
@@ -41,7 +130,7 @@ class GalleryController extends Controller
 			switch($request->input('pid'))
 			{
 				case 'realisasirincian':
-					$result = HelperKegiatan::createMediaRealisasiRincian($request->input('RKARealisasiRincID'), $request->file('foto'));
+					$result = $this->storeMediaRealisasiRincian($request->input('RKARealisasiRincID'), $request->file('foto'));
 				break;
 			}      
 

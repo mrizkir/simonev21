@@ -406,6 +406,16 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjamurni/RealisasiRKAMurni.vue"),
   },
+  {
+    path: "/renjamurni/fotorealisasi/:rkarincid",
+    name: "RenjaMurniFotoRealisasi",
+    meta: {
+      title: "RKA MURNI - FOTO REALISASI",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/FotoRealisasiMurni.vue"),
+  },
   //renja murni - pelaporan OPD
   {
     path: "/renjamurni/pelaporanopd",

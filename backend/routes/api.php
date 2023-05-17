@@ -241,6 +241,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/renja/pelaporanopdmurni/store', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@store','as'=>'pelaporanopd.store']);
 
 	//renja - gallery pembangunan
+	$router->post('/renja/gallery', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@index','as'=>'gallery.index']);
 	$router->post('/renja/gallery/store', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@store','as'=>'gallery.store']);
 
 	//renja - report - form a
