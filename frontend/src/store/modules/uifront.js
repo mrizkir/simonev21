@@ -3,6 +3,7 @@ const getDefaultState = () => {
     loaded: false,
     daftar_ta: [],
     tahun_anggaran: null,
+    masa_pelaporan: "murni",
     daftar_bulan: [],
     bulan_realisasi: null,
     daftar_tw: [
@@ -48,6 +49,9 @@ const mutations = {
   setDaftarBulan(state, daftar) {
     state.daftar_bulan = daftar;
   },
+  setMasaPelaporan(state, masa_pelaporan) {
+    state.masa_pelaporan = masa_pelaporan;
+  },
   setBulanRealisasi(state, bulan) {
     state.bulan_realisasi = bulan;
   },
@@ -89,6 +93,9 @@ const getters = {
       return typeof daftar_bulan === "undefined" ? "N.A" : daftar_bulan.text;
     }
   },
+  getMasaPelaporan: state => {
+    return state.masa_pelaporan;
+  },
   getBulanRealisasi: state => {
     var bulan = state.bulan_realisasi == null ? 1 : state.bulan_realisasi;
     return bulan;
@@ -119,6 +126,7 @@ const actions = {
         commit("setDaftarTA", data.daftar_ta);
         commit("setTahunAnggaran", data.tahun_anggaran);
         commit("setDaftarBulan", data.daftar_bulan);
+        commit("setMasaPelaporan", data.masa_pelaporan);
         commit("setBulanRealisasi", data.bulan_realisasi);        
         commit("setIdentitas", data.identitas);
         commit("setTheme", data.theme);

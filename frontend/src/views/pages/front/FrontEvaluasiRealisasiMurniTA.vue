@@ -6,7 +6,8 @@
         $store.getters["uifront/getNamaBulan"](
           $store.getters["uifront/getBulanRealisasi"]
         )
-      }}
+      }} | 
+      APBD: {{ $store.getters['uifront/getMasaPelaporan'] }}
     </template>
     <ModuleHeader>
       <template v-slot:icon>
