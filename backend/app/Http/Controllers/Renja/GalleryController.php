@@ -225,11 +225,16 @@ class GalleryController extends Controller
 						{	
 							if ($media->id == $id)
 							{
-								$fullPathOnDisk = dirname(preg_replace('#/+#','/',$media->getPath()));								
+
+								$fullPathOnDisk = preg_replace('#/+#','/', $media->getPath());								
 								$list_media[$k]->delete();
-								if (is_dir($fullPathOnDisk))
+								if (is_file($fullPathOnDisk))
 								{
-									Storage::deleteDirectory($fullPathOnDisk);
+									unlink($fullPathOnDisk);
+								}								
+								if (is_dir(dirname($fullPathOnDisk)))
+								{
+									rmdir(dirname($fullPathOnDisk));
 								}								
 								break;
 							}
