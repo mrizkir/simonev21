@@ -644,15 +644,6 @@
         rule_bulan: [
           value => !!value || "Mohon untuk di pilih bulan realisasi !!!",
         ],
-        rule_user_password: [
-          value => {
-            if (value && typeof value !== "undefined" && value.length > 0) {
-              return !!value || "Mohon untuk di isi password User !!!";
-            } else {
-              return true;
-            }
-          },
-        ],
         rule_realisasi: [
           value => {
             if (value.length > 0) {

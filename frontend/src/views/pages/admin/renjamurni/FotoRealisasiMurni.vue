@@ -118,6 +118,19 @@
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
           <v-bottom-navigation color="purple lighten-1">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"                  
+                  @click.stop="tambahFoto"
+                >
+                  <span>Tambah Foto</span>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </template>
+              <span>Tambah Foto</span>
+            </v-tooltip>
             <v-btn :to="{ path: '/renjamurni/rka/realisasi/' + RKARincID }">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>
@@ -125,25 +138,120 @@
           </v-bottom-navigation>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col v-for="media in datatable" :key="media.id" class="d-flex child-flex" cols="4">
-          <v-img
-            :src="media.publicFullUrl"
-            :lazy-src="`https://picsum.photos/10/6?image=${media.id * 5 + 10}`"
-            aspect-ratio="1"
-            class="grey lighten-2"
-          >
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
+      <v-row v-if="!(datatable.length > 0)">       
+        <v-col
+          v-for="media in datatable"
+          :key="media.id"
+          class="d-flex child-flex"
+          cols="4"
+        >
+          <v-card class="mx-auto">
+            <v-img
+              :src="media.publicFullUrl"
+              :lazy-src="
+                `https://picsum.photos/10/6?image=${media.id * 5 + 10}`
+              "
+              aspect-ratio="1"
+              class="grey lighten-2"
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon>mdi-bookmark</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon>mdi-share-variant</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-col>
       </v-row>
+      <v-row v-else>
+        <v-col>
+          <v-alert dense type="info">
+            Belum ada foto realisasi untuk uraian ini.
+          </v-alert>
+        </v-col>
+      </v-row>
+      <v-dialog v-model="dialogfrm" max-width="800px" persistent>
+        <v-form ref="frmdata" v-model="form_valid" lazy-validation>
+          <v-card>
+            <v-card-title>
+              <span class="headline">TAMBAH FOTO</span>
+            </v-card-title>
+            <v-card-text>
+              <v-simple-table dense dark>
+                <template v-slot:default>
+                  <tbody>
+                    <tr>
+                      <td width="150">ID :</td>
+                      <td>{{ datauraian.RKARincID }}</td>
+                    </tr>
+                    <tr>
+                      <td width="150">NAMA URAIAN :</td>
+                      <td>{{ datauraian.nama_uraian }}</td>
+                    </tr>
+                    <tr>
+                      <td width="150">PAGU URAIAN :</td>
+                      <td>
+                        {{ datauraian.PaguUraian1 | formatUang }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+              <v-container fluid>
+                <v-row>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-select
+                      :items="daftar_bulan"
+                      v-model="bulan1"
+                      label="BULAN"
+                      :rules="rule_bulan"
+                      outlined
+                      dense
+                      class="mb-1"
+                    >
+                    </v-select>
+                    <v-file-input label="Foto Realisasi" outlined dense v-model="formdata.foto" prepend-icon=""></v-file-input>
+                  </v-col>                  
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="closedialogfrm"
+              >
+                TUTUP
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="save"
+                :loading="btnLoading"
+                :disabled="!form_valid || btnLoading"
+              >
+                SIMPAN
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </v-dialog>
     </v-container>
   </RenjaMurniLayout>
 </template>
@@ -223,6 +331,24 @@
           targetfisik: 0,
           fisik: 0,
         },
+
+        //dialog
+        dialogfrm: false,
+
+        //form data
+        form_valid: true,
+        daftar_bulan: [],
+        bulan1: null,
+        formdata: {
+          foto: null,          
+        },
+        formdefault: {
+          foto: null,
+        },
+        //form rules
+        rule_bulan: [
+          value => !!value || "Mohon untuk di pilih bulan realisasi !!!",
+        ],
       };
     },
     methods: {
@@ -242,11 +368,27 @@
           )
           .then(({ data }) => {
             this.datatable = data.media;
+            this.daftar_bulan = data.daftar_bulan;
             this.datatableLoading = false;
           })
           .catch(() => {
             this.datatableLoading = false;
           });
+      },
+      tambahFoto() {
+        this.dialogfrm = true;
+      },
+      save() {
+
+      },
+      closedialogfrm() {
+        this.btnLoading = false;
+        this.dialogfrm = false;
+        this.bulan1 = null;
+        setTimeout(() => {
+          this.$refs.frmdata.reset();
+          this.formdata = Object.assign({}, this.formdefault);
+        }, 300);
       },
     },
     components: {

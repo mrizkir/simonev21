@@ -924,30 +924,31 @@ class RKAMurniController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function bulanrealisasi(Request $request,$id)
+	public function bulanrealisasi(Request $request, $id)
 	{ 
 		$this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
 
 		$bulan=Helper::getNamaBulan();
 		$bulan_realisasi=RKARealisasiModel::select('bulan1')
-													->where('RKARincID',$id)
-													->get()
-													->pluck('bulan1','bulan1')
-													->toArray();
+			->where('RKARincID',$id)
+			->get()
+			->pluck('bulan1','bulan1')
+			->toArray();
+			
 		$data = [];
 		foreach($bulan as $k=>$v)
 		{
-			if (!array_key_exists($k,$bulan_realisasi))
+			if (!array_key_exists($k, $bulan_realisasi))
 			{
 				$data[$k]=['value'=>$k,'text'=>$v];
 			}
 		}
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
-								'bulan'=>$data,
-								'message'=>'Fetch data bulan realisasi berhasil diperoleh'
-							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+			'status'=>1,
+			'pid'=>'fetchdata',
+			'bulan'=>$data,
+			'message'=>'Fetch data bulan realisasi berhasil diperoleh'
+		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	
 	/**

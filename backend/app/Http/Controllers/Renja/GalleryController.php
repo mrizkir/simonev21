@@ -27,7 +27,7 @@ class GalleryController extends Controller
    * @param $RKARealisasiRincID
    * @param $media berisi $request->file
    */
-  public function storeMediaRealisasiRincian($RKARealisasiRincID, $media, $collection='kegiatan', $name=null)
+  private function storeMediaRealisasiRincian($RKARealisasiRincID, $media, $collection='kegiatan', $name=null)
   {
     $rincian_realisasi = \App\Models\Renja\RKARealisasiModel::find($RKARealisasiRincID);
 
@@ -46,6 +46,26 @@ class GalleryController extends Controller
 
     return $result;
   }
+	private function getDaftarBulan($RKARincID)
+	{
+		$bulan=Helper::getNamaBulan();
+		$bulan_realisasi=RKARealisasiModel::select(\DB::raw('
+			RKARealisasiRincID,
+			bulan1
+		'))
+		->where('RKARincID', $RKARincID)
+		->get()
+		->pluck('bulan1', 'RKARealisasiRincID')
+		->toArray();
+		
+		$daftar_bulan = [];
+		foreach($bulan_realisasi as $k=>$v)
+		{
+			$daftar_bulan[]=['value'=>$k,'text'=>$bulan[$v]];			
+		}
+		
+		return $daftar_bulan;
+	}
 	public function index(Request $request)
 	{
 		try
@@ -61,6 +81,8 @@ class GalleryController extends Controller
 					throw new Exception($message);
 				}				
 			}	
+			
+			$daftar_bulan = [];
 
 			switch($request->input('pid'))
 			{
@@ -89,23 +111,29 @@ class GalleryController extends Controller
 						if (count($list_media) > 0)					
 						{
 							foreach($list_media as $media)
-							// dd($media);
-							$daftar_media[] = [
-								'id' => $media->id,
-								'publicFullUrl' => $media->getFullUrl(),
-							];
+							{							
+								$daftar_media[] = [
+									'id' => $media->id,
+									'publicFullUrl' => $media->getFullUrl(),
+								];
+							}
 						}
 						else
 						{
 							continue;
 						}						
-					}					
+					}
+
+					$daftar_bulan = $this->getDaftarBulan($request->input('RKARincID'));
 				break;
-			} 				
+			}
+			
+
 			return Response()->json([
 				'status'=>1,
 				'pid'=>'fetchdata',
-				'media'=>$daftar_media,                                    
+				'daftar_bulan'=>$daftar_bulan,
+				'media'=>$daftar_media,
 				'message'=>'Daftar media realisasi rincian berhasil diperoleh'
 			], 200); 
 		}
@@ -115,6 +143,7 @@ class GalleryController extends Controller
 				'status'=>0,
 				'pid'=>'fetchdata',
 				'media'=>[],                                    
+				'daftar_bulan'=>[],                                    
 				'message'=>$e->getMessage()
 			], 422); 			
 		}
