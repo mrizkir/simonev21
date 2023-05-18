@@ -243,6 +243,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	//renja - gallery pembangunan
 	$router->post('/renja/gallery', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@index','as'=>'gallery.index']);
 	$router->post('/renja/gallery/store', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@store','as'=>'gallery.store']);
+	$router->delete('/renja/gallery/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@destroy','as'=>'gallery.destroy']);
 
 	//renja - report - form a
 	$router->post('/renjamurni/report/forma', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAMurniController@index','as'=>'formamurni.index']);

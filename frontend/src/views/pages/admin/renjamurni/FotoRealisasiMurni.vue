@@ -120,11 +120,7 @@
           <v-bottom-navigation color="purple lighten-1">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  v-bind="attrs"
-                  v-on="on"                  
-                  @click.stop="tambahFoto"
-                >
+                <v-btn v-bind="attrs" v-on="on" @click.stop="tambahFoto">
                   <span>Tambah Foto</span>
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
@@ -138,7 +134,7 @@
           </v-bottom-navigation>
         </v-col>
       </v-row>
-      <v-row v-if="!(datatable.length > 0)">       
+      <v-row v-if="datatable.length > 0">
         <v-col
           v-for="media in datatable"
           :key="media.id"
@@ -165,14 +161,8 @@
             </v-img>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-bookmark</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-share-variant</v-icon>
+              <v-btn icon @click.stop="deleteItem(media)">
+                <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -223,20 +213,24 @@
                       outlined
                       dense
                       class="mb-1"
-                    >
-                    </v-select>
-                    <v-file-input label="Foto Realisasi" outlined dense v-model="formdata.foto" prepend-icon=""></v-file-input>
-                  </v-col>                  
+                    />
+                    <v-file-input
+                      accept="image/jpeg,image/png"
+                      label="Foto Realisasi (MAKS. 2MB)"
+                      outlined
+                      dense
+                      v-model="formdata.foto"
+                      prepend-icon=""
+                      chips
+                      show-size
+                    />
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="closedialogfrm"
-              >
+              <v-btn color="blue darken-1" text @click="closedialogfrm">
                 TUTUP
               </v-btn>
               <v-btn
@@ -340,14 +334,17 @@
         daftar_bulan: [],
         bulan1: null,
         formdata: {
-          foto: null,          
+          foto: null,
         },
         formdefault: {
           foto: null,
         },
         //form rules
         rule_bulan: [
-          value => !!value || "Mohon untuk di pilih bulan realisasi !!!",
+          value =>
+            !!value ||
+            value.size < 2000000 ||
+            "Mohon untuk di pilih bulan realisasi !!!",
         ],
       };
     },
@@ -379,7 +376,30 @@
         this.dialogfrm = true;
       },
       save() {
+        if (this.$refs.frmdata.validate()) {
+          this.btnLoading = true;
 
+          var data = new FormData();
+          data.append("RKARealisasiRincID", this.bulan1);          
+          data.append("foto", this.formdata.foto);
+          data.append("pid", "realisasirincian");
+          this.$ajax
+            .post(
+              "/renja/gallery/store", data, {
+                headers: {
+                  Authorization: this.$store.getters["auth/Token"],
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            )
+            .then(() => {
+              this.initialize();
+              this.closedialogfrm();
+            })
+            .catch(() => {
+              this.btnLoading = false;
+            });
+        }
       },
       closedialogfrm() {
         this.btnLoading = false;
@@ -389,6 +409,42 @@
           this.$refs.frmdata.reset();
           this.formdata = Object.assign({}, this.formdefault);
         }, 300);
+      },
+      deleteItem(item) {
+        this.$root.$confirm
+          .open(
+            "Delete",
+            "Apakah Anda ingin menghapus foto realisasi dengan ID " +
+              item.id +
+              " ?",
+            { color: "red" }
+          )
+          .then(confirm => {
+            if (confirm) {
+              this.btnLoading = true;
+              this.$ajax
+                .post(
+                  "/renja/gallery/" + item.id,
+                  {
+                    _method: "DELETE",
+                    RKARealisasiRincID: item.RKARealisasiRincID,
+                    pid: "realisasirincian",
+                  },
+                  {
+                    headers: {
+                      Authorization: this.$store.getters["auth/Token"],
+                    },
+                  }
+                )
+                .then(() => {
+                  this.initialize();
+                  this.btnLoading = false;
+                })
+                .catch(() => {
+                  this.btnLoading = false;
+                });
+            }
+          });
       },
     },
     components: {
