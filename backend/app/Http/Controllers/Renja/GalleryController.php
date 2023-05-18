@@ -74,7 +74,7 @@ class GalleryController extends Controller
 			$this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
 
 			$validator = Validator::make($request->all(), [        
-				'pid'=>'required|in:realisasirincian'
+				'pid'=>'required|in:rincian'
 			]);     
 
 			if ($validator->stopOnFirstFailure()->fails())
@@ -89,7 +89,7 @@ class GalleryController extends Controller
 
 			switch($request->input('pid'))
 			{
-				case 'realisasirincian':
+				case 'rincian':
 					$validator = Validator::make($request->all(), [
 						'RKARincID' => 'required|exists:trRKARinc,RKARincID',
 					]);

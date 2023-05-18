@@ -590,6 +590,16 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjaperubahan/RealisasiRKAPerubahan.vue"),
   },
+  {
+    path: "/renjaperubahan/fotorealisasi/:rkarincid",
+    name: "RenjaMurniFotoRealisasi",
+    meta: {
+      title: "RKA PERUBAHAN - FOTO REALISASI",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjaperubahan/FotoRealisasiPerubahan.vue"),
+  },
   //renja perubahan - report form a
   {
     path: "/renjaperubahan/report/forma",

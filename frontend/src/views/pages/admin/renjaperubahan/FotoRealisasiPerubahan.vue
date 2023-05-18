@@ -1,5 +1,5 @@
 <template>
-  <RenjaMurniLayout :showrightsidebar="false">
+  <RenjaPerubahanLayout :showrightsidebar="false">
     <ModuleHeader>
       <template v-slot:icon>
         mdi-image-album
@@ -62,7 +62,7 @@
                   <tr>
                     <td width="150" class="font-weight-bold">HARGA SATUAN</td>
                     <td width="400">
-                      {{ datauraian.harga_satuan1 | formatUang }}
+                      {{ datauraian.harga_satuan2 | formatUang }}
                     </td>
                     <td width="150" class="font-weight-bold">NAMA KEGIATAN</td>
                     <td width="400">{{ datakegiatan.Nm_Kegiatan }}</td>
@@ -70,7 +70,7 @@
                   <tr>
                     <td width="150" class="font-weight-bold">PAGU URAIAN</td>
                     <td width="400">
-                      {{ datauraian.PaguUraian1 | formatUang }}
+                      {{ datauraian.PaguUraian2 | formatUang }}
                     </td>
                     <td width="150" class="font-weight-bold">
                       KODE SUB KEGIATAN
@@ -119,7 +119,7 @@
               </template>
               <span>Tambah Foto</span>
             </v-tooltip>
-            <v-btn :to="{ path: '/renjamurni/rka/realisasi/' + RKARincID }">
+            <v-btn :to="{ path: '/renjaperubahan/rka/realisasi/' + RKARincID }">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -246,16 +246,16 @@
         </v-form>
       </v-dialog>
     </v-container>
-  </RenjaMurniLayout>
+  </RenjaPerubahanLayout>
 </template>
 <script>
-  import RenjaMurniLayout from "@/views/layouts/RenjaMurniLayout";
+  import RenjaPerubahanLayout from "@/views/layouts/RenjaPerubahanLayout";
   import ModuleHeader from "@/components/ModuleHeader";
   export default {
-    name: "RealisasiRKAMurni",
+    name: "RealisasiRKAPerubahan",
     created() {
       this.RKARincID = this.$route.params.rkarincid;
-      var page = this.$store.getters["uiadmin/Page"]("rkamurni");
+      var page = this.$store.getters["uiadmin/Page"]("rkaperubahan");
       this.datakegiatan = page.datakegiatan;
       this.datauraian = page.datauraian;
 
@@ -268,17 +268,17 @@
         {
           text: "RENCANA KERJA MURNI",
           disabled: false,
-          href: "/renjamurni",
+          href: "/renjaperubahan",
         },
         {
           text: "RKA (RENCANA KEGIATAN DAN ANGGARAN)",
           disabled: false,
-          href: "/renjamurni/rka",
+          href: "/renjaperubahan/rka",
         },
         {
           text: "URAIAN",
           disabled: false,
-          href: "/renjamurni/rka/uraian/" + page.datakegiatan.RKAID,
+          href: "/renjaperubahan/rka/uraian/" + page.datakegiatan.RKAID,
         },
         {
           text: "FOTO REALISASI",
@@ -302,7 +302,7 @@
         page.datarekening = {};
 
         this.$store.dispatch("uiadmin/updatePage", page);
-        this.$router.push("/renjamurni/rka");
+        this.$router.push("/renjaperubahan/rka");
       }
     },
     data() {
@@ -465,7 +465,7 @@
       },
     },
     components: {
-      RenjaMurniLayout,
+      RenjaPerubahanLayout,
       ModuleHeader,
     },
   };
