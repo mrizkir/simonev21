@@ -313,8 +313,6 @@
         datakegiatan: [],
         datauraian: [],
         datatableLoading: false,
-        datatableLoaded: false,
-        expanded: [],
         datatable: [],
         percentCompleted: 0,
         fileSize: "0 KB",

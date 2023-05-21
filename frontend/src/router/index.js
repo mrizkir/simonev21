@@ -65,6 +65,14 @@ const routes = [
     },
     component: () => import("../views/pages/admin/DashboardAdmin.vue"),
   },
+  {
+    path: "/gallerypembangunan1/",
+    name: "GalleryPembangunanAdmin",
+    meta: {
+      title: "GALLERY PEMBANGUNAN",
+    },
+    component: () => import("../views/pages/admin/GalleryPembangunanAdmin.vue"),
+  },
   //dmaster
   {
     path: "/dmaster",
@@ -592,7 +600,7 @@ const routes = [
   },
   {
     path: "/renjaperubahan/fotorealisasi/:rkarincid",
-    name: "RenjaMurniFotoRealisasi",
+    name: "RenjaPerubahanFotoRealisasi",
     meta: {
       title: "RKA PERUBAHAN - FOTO REALISASI",
       requiresAuth: true,

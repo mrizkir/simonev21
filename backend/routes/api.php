@@ -12,6 +12,9 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 	$router->post('/evaluasimurni/realisasitw', ['uses'=>'Statistik\EvaluasiMurniRealisasiTWController@front','as'=>'evaluasimurnirealisasitw.front']);
 	$router->post('/evaluasiperubahan/realisasita', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTAController@front','as'=>'evaluasiperubahanrealisasita.front']);
 
+	//gallery pembanguna
+	$router->post('/gallerypembangunan', ['uses'=>'Renja\GalleryController@index','as'=>'gallerypembangunan.index']);
+
 	//dmaster
 	$router->post('/dmaster', ['uses'=>'DMaster\DMasterController@index','as'=>'dmaster.index']);
 
@@ -241,9 +244,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 	$router->post('/renja/pelaporanopdmurni/store', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\PelaporanOPDMurniController@store','as'=>'pelaporanopd.store']);
 
 	//renja - gallery pembangunan
-	$router->post('/renja/gallery', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@index','as'=>'gallery.index']);
-	$router->post('/renja/gallery/store', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@store','as'=>'gallery.store']);
-	$router->delete('/renja/gallery/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@destroy','as'=>'gallery.destroy']);
+	$router->post('/renja/gallery', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@index','as'=>'renja-gallery.index']);
+	$router->post('/renja/gallery/store', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@store','as'=>'renja-gallery.store']);
+	$router->delete('/renja/gallery/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\GalleryController@destroy','as'=>'renja-gallery.destroy']);
 
 	//renja - report - form a
 	$router->post('/renjamurni/report/forma', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAMurniController@index','as'=>'formamurni.index']);

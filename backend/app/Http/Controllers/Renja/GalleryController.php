@@ -24,6 +24,19 @@ use App\Models\Media\MediaLibraryModel;
 class GalleryController extends Controller 
 {
 	/**
+	 * digunakan untuk mentrigger fungsi validator exception
+	*/
+	public function validatorException($validator)
+	{
+		if ($validator->stopOnFirstFailure()->fails())
+		{				
+			$errors = $validator->errors();				
+			foreach ($errors->all() as $k=>$message) {					
+				throw new Exception($message);
+			}				
+		}	
+	}
+	/**
    * digunakan untuk mengupload gambar realisasi rincian
    * @param $RKARealisasiRincID
    * @param $media berisi $request->file
@@ -50,6 +63,7 @@ class GalleryController extends Controller
 	private function getDaftarBulan($RKARincID)
 	{
 		$bulan=Helper::getNamaBulan();
+		
 		$bulan_realisasi=RKARealisasiModel::select(\DB::raw('
 			RKARealisasiRincID,
 			bulan1
@@ -66,41 +80,63 @@ class GalleryController extends Controller
 		}
 		
 		return $daftar_bulan;
-	}
+	}	
 	public function index(Request $request)
 	{
 		try
 		{
-			$this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
-
 			$validator = Validator::make($request->all(), [        
-				'pid'=>'required|in:rincian'
+				'pid'=>'required|in:gallery,rincian'
 			]);     
-
-			if ($validator->stopOnFirstFailure()->fails())
-			{				
-				$errors = $validator->errors();				
-				foreach ($errors->all() as $k=>$message) {					
-					throw new Exception($message);
-				}				
-			}	
+			$this->validatorException($validator);
 			
 			$daftar_bulan = [];
-
+			$paginate = [];
+			
 			switch($request->input('pid'))
 			{
+				case 'gallery':
+					$validator = Validator::make($request->all(), [        
+						'TA'=>'required|digits:4|integer|min:2020|max:'. (date('Y')),
+					]);     
+					$this->validatorException($validator);
+
+
+					$result = RKARealisasiModel::select(\DB::raw('
+						RKARealisasiRincID
+					'))
+					->where('TA', $request->TA)
+					->paginate(10);
+
+					$daftar_media = [];
+					foreach ($result as $item)
+					{
+						$list_media = $item->getMedia('kegiatan');	
+						if (count($list_media) > 0)					
+						{
+							foreach($list_media as $media)
+							{							
+								$daftar_media[] = [
+									'id' => $media->id,
+									'RKARealisasiRincID' => $media->model_id,
+									'publicFullUrl' => $media->getFullUrl(),
+								];
+							}
+						}
+						else
+						{
+							continue;
+						}						
+					}					
+				break;
 				case 'rincian':
+					$this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
+					
 					$validator = Validator::make($request->all(), [
 						'RKARincID' => 'required|exists:trRKARinc,RKARincID',
 					]);
+					$this->validatorException($validator);
 
-					if ($validator->stopOnFirstFailure()->fails())
-					{				
-						$errors = $validator->errors();				
-						foreach ($errors->all() as $k=>$message) {					
-							throw new Exception($message);
-						}				
-					}	
 					$result = RKARealisasiModel::select(\DB::raw('
 						RKARealisasiRincID
 					'))										
@@ -137,6 +173,7 @@ class GalleryController extends Controller
 				'pid'=>'fetchdata',
 				'daftar_bulan'=>$daftar_bulan,
 				'media'=>$daftar_media,
+				'paginate'=>$paginate,
 				'message'=>'Daftar media realisasi rincian berhasil diperoleh'
 			], 200); 
 		}
@@ -162,14 +199,8 @@ class GalleryController extends Controller
 				'foto'=>'required|image',	
 				'pid'=>'required|in:realisasirincian'
 			]);     
+			$this->validatorException($validator);
 
-			if ($validator->stopOnFirstFailure()->fails())
-			{				
-				$errors = $validator->errors();				
-				foreach ($errors->all() as $k=>$message) {					
-					throw new Exception($message);
-				}				
-			}			
 			switch($request->input('pid'))
 			{
 				case 'realisasirincian':
@@ -204,14 +235,8 @@ class GalleryController extends Controller
         'RKARealisasiRincID' => 'required|exists:trRKARealisasiRinc,RKARealisasiRincID',					
 				'pid'=>'required|in:realisasirincian'
 			]);     
+			$this->validatorException($validator);
 
-			if ($validator->stopOnFirstFailure()->fails())
-			{				
-				$errors = $validator->errors();				
-				foreach ($errors->all() as $k=>$message) {					
-					throw new Exception($message);
-				}				
-			}			
 			switch($request->input('pid'))
 			{
 				case 'realisasirincian':
