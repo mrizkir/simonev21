@@ -20,7 +20,7 @@
         </v-alert>
       </template>
     </ModuleHeader>
-    <v-container>
+    <v-container fluid>
       <v-row v-if="datatable.length > 0">
         <v-col
           v-for="media in datatable"

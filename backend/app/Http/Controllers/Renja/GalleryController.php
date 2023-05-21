@@ -101,13 +101,13 @@ class GalleryController extends Controller
 					]);     
 					$this->validatorException($validator);
 
-
 					$result = RKARealisasiModel::select(\DB::raw('
-						RKARealisasiRincID
+						trRKARealisasiRinc.RKARealisasiRincID
 					'))
-					->where('TA', $request->TA)
+					->join('media', 'media.model_id', 'trRKARealisasiRinc.RKARealisasiRincID')
+					->where('trRKARealisasiRinc.TA', $request->input('TA'))
 					->paginate(10);
-
+					
 					$daftar_media = [];
 					foreach ($result as $item)
 					{
@@ -128,6 +128,7 @@ class GalleryController extends Controller
 							continue;
 						}						
 					}					
+					$message = 'Daftar media foto / video realisasi berhasil diperoleh';
 				break;
 				case 'rincian':
 					$this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
@@ -165,6 +166,7 @@ class GalleryController extends Controller
 					}
 
 					$daftar_bulan = $this->getDaftarBulan($request->input('RKARincID'));
+					$message = 'Daftar media realisasi rincian berhasil diperoleh';
 				break;
 			}			
 
@@ -174,7 +176,7 @@ class GalleryController extends Controller
 				'daftar_bulan'=>$daftar_bulan,
 				'media'=>$daftar_media,
 				'paginate'=>$paginate,
-				'message'=>'Daftar media realisasi rincian berhasil diperoleh'
+				'message'=>$message,
 			], 200); 
 		}
 		catch(Exception $e)

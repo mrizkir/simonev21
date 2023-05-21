@@ -218,7 +218,7 @@
                       :rules="rule_foto"
                       @change="handleFileSelect"
                     />
-                    <v-progress-linear v-model="percentCompleted" height="25">
+                    <v-progress-linear v-model="percentCompleted" height="25" :color="colorProgress">
                       <strong>
                         {{ fileSize }} ({{ Math.ceil(percentCompleted) }}%)
                       </strong>
@@ -316,6 +316,7 @@
         datatable: [],
         percentCompleted: 0,
         fileSize: "0 KB",
+        colorProgress: "blue",
         //dialog
         dialogfrm: false,
 
@@ -379,6 +380,7 @@
       handleFileSelect() {
         this.percentCompleted = 0;
         this.fileSize = "0 KB";
+        this.colorProgress = "blue";
       },
       save() {
         if (this.$refs.frmdata.validate()) {
@@ -406,6 +408,7 @@
               }.bind(this),
             })
             .then(() => {
+              this.colorProgress = "success";
               this.initialize();
               this.btnLoading = false;
             })
@@ -419,6 +422,7 @@
         this.bulan1 = null;
         this.percentCompleted = 0;
         this.fileSize = "0 KB";
+        this.colorProgress = "blue";
         setTimeout(() => {
           this.$refs.frmdata.reset();
           this.formdata = Object.assign({}, this.formdefault);
