@@ -64,6 +64,6 @@ class RKARealisasiModel extends Model implements HasMedia
   {
     $this->addMediaConversion('thumb')
       ->width(350)
-      ->height(250);
+      ->height(350);
   }
 }

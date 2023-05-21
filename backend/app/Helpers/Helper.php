@@ -133,24 +133,24 @@ class Helper {
 			$tanggal = Carbon::parse($date)->format($format);
 		}
 		$result = str_replace([
-								'Sunday',
-								'Monday',
-								'Tuesday',
-								'Wednesday',
-								'Thursday',
-								'Friday',
-								'Saturday'
-							],
-							[
-								'Minggu',
-								'Senin',
-								'Selasa',
-								'Rabu',
-								'Kamis',
-								'Jumat',
-								'Sabtu'
-							],
-							$tanggal);
+			'Sunday',
+			'Monday',
+			'Tuesday',
+			'Wednesday',
+			'Thursday',
+			'Friday',
+			'Saturday'
+		],
+		[
+			'Minggu',
+			'Senin',
+			'Selasa',
+			'Rabu',
+			'Kamis',
+			'Jumat',
+			'Sabtu'
+		],
+		$tanggal);
 
 		return str_replace([
 							'January',
@@ -239,8 +239,8 @@ class Helper {
 	/**
 	 * digunakan untuk mengecek format tanggal valid
 	 */
-	public static function checkformattanggal ($tanggal) {
-		
+	public static function checkformattanggal ($tanggal) 
+	{		
 		$data = explode('-',$tanggal);            
 		return checkdate($data[1],$data[2],$data[0]);
 	}
@@ -452,5 +452,29 @@ class Helper {
 				}
 		}
 		return $keterangan;
+	}
+	/**
+	 * digunakan untuk menghapus direktori 
+	*/
+	public static function deleteDirectory($folder) {
+    if (!file_exists($folder)) {			
+			return true;
+    }
+
+    if (!is_dir($folder)) {
+			return unlink($folder);
+    }
+
+    foreach (scandir($folder) as $item) {			
+			if ($item == '.' || $item == '..') {
+				continue;
+			}
+
+			if (!Helper::deleteDirectory($folder . DIRECTORY_SEPARATOR . $item)) {
+				return false;
+			}
+    }
+
+    return rmdir($folder);
 	}
 }

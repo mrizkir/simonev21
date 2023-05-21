@@ -28,7 +28,7 @@
           class="d-flex child-flex"
           cols="4"
         >
-          <CardFotoInfo :media="media" />
+          <CardFotoInfo :media="media" :showbuttondelete="true" v-on:callbackafterdelete="initialize" />
         </v-col>
       </v-row>
       <v-row v-else>
@@ -44,7 +44,7 @@
 <script>
   import AdminGalleryLayout from "@/views/layouts/AdminGalleryLayout";
   import ModuleHeader from "@/components/ModuleHeader";
-  import CardFotoInfo from "@/components/gallery/CardFotoInfo";
+  import CardFotoInfo from "@/components/gallery/CardFotoInfoRealisasi";
   export default {
     name: "GalleryPembangunanAdmin",
     created() {

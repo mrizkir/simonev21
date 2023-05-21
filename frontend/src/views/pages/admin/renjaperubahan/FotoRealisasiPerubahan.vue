@@ -133,31 +133,7 @@
           class="d-flex child-flex"
           cols="4"
         >
-          <v-card class="mx-auto">
-            <v-img
-              :src="media.publicFullUrl"
-              :lazy-src="
-                `https://picsum.photos/10/6?image=${media.id * 5 + 10}`
-              "
-              aspect-ratio="1"
-              class="grey lighten-2"
-            >
-              <template v-slot:placeholder>
-                <v-row class="fill-height ma-0" align="center" justify="center">
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn icon @click.stop="deleteItem(media)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+         <CardFotoInfo :media="media" :showbuttondelete="true" v-on:callbackafterdelete="initialize" />
         </v-col>
       </v-row>
       <v-row v-else>
@@ -251,6 +227,7 @@
 <script>
   import RenjaPerubahanLayout from "@/views/layouts/RenjaPerubahanLayout";
   import ModuleHeader from "@/components/ModuleHeader";
+  import CardFotoInfo from "@/components/gallery/CardFotoInfoRealisasi";
   export default {
     name: "RealisasiRKAPerubahan",
     created() {
@@ -427,46 +404,11 @@
           this.dialogfrm = false;
         }, 300);
       },
-      deleteItem(item) {
-        this.$root.$confirm
-          .open(
-            "Delete",
-            "Apakah Anda ingin menghapus foto realisasi dengan ID " +
-              item.id +
-              " ?",
-            { color: "red" }
-          )
-          .then(confirm => {
-            if (confirm) {
-              this.btnLoading = true;
-              this.$ajax
-                .post(
-                  "/renja/gallery/" + item.id,
-                  {
-                    _method: "DELETE",
-                    RKARealisasiRincID: item.RKARealisasiRincID,
-                    pid: "realisasirincian",
-                  },
-                  {
-                    headers: {
-                      Authorization: this.$store.getters["auth/Token"],
-                    },
-                  }
-                )
-                .then(() => {
-                  this.initialize();
-                  this.btnLoading = false;
-                })
-                .catch(() => {
-                  this.btnLoading = false;
-                });
-            }
-          });
-      },
     },
     components: {
       RenjaPerubahanLayout,
       ModuleHeader,
+      CardFotoInfo,
     },
   };
 </script>

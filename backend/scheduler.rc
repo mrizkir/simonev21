@@ -1,0 +1,5 @@
+while :
+do
+  php artisan schedule:run
+  sleep 10
+done
