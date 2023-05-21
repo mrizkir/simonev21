@@ -6,6 +6,7 @@ use \Codedge\Fpdf\Fpdf\Fpdf;
 use App\Models\System\ConfigurationModel;
 use App\Models\System\LockedOPDModel;
 use App\Models\Media\MediaLibraryModel;
+use App\Models\Renja\RKARealisasiModel;
 
 class HelperKegiatan 
 {
@@ -124,5 +125,46 @@ class HelperKegiatan
     ->first();
     
     return is_null($locked) ? 0 : $locked->Locked;    
-  } 
+  }
+  /**
+   * digunakan untuk menghapus foto realisasi 
+   * @id = NULL maknanya semuanya dihapus
+   *  
+  */ 
+  public static function destroyMediaRealisasiRincian($RKARealisasiRincID, $id = NULL)
+  {
+    $realisasi_ = RKARealisasiModel::find($RKARealisasiRincID);
+    $list_media = $realisasi_->getMedia('kegiatan');
+    
+    $jumlah_terhapus = 0;
+    if (count($list_media) > 0)
+    {
+      if ($id === NULL)
+      {
+        foreach($list_media as $k=>$media)
+        {	
+          $fullPathOnDisk = preg_replace('#/+#','/', $media->getPath());		                  						
+          $list_media[$k]->delete();								
+          Helper::deleteDirectory(dirname($fullPathOnDisk));     
+          $jumlah_terhapus += 1;                 
+        }
+      }
+      else
+      {
+        foreach($list_media as $k=>$media)
+        {	
+          $fullPathOnDisk = preg_replace('#/+#','/', $media->getPath());		
+          if ($media->id == $id)
+          {          						
+            $list_media[$k]->delete();								
+            Helper::deleteDirectory(dirname($fullPathOnDisk));
+            $jumlah_terhapus += 1;
+            break;
+          }
+        }
+      }      
+    }
+    
+    return $jumlah_terhapus;
+  }
 }

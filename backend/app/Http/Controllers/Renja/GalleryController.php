@@ -243,34 +243,13 @@ class GalleryController extends Controller
 			{
 				case 'realisasirincian':
 					$RKARealisasiRincID = $request->input('RKARealisasiRincID');
-					$realisasi_ = RKARealisasiModel::find($RKARealisasiRincID);
-					$list_media = $realisasi_->getMedia('kegiatan');
-					
-					if (count($list_media) > 0)
-					{
-						foreach($list_media as $k=>$media)
-						{	
-							if ($media->id == $id)
-							{
-
-								$fullPathOnDisk = preg_replace('#/+#','/', $media->getPath());								
-								$list_media[$k]->delete();								
-								Helper::deleteDirectory(dirname($fullPathOnDisk));
-								break;
-							}
-						}
-					}
-					else
-					{
-						throw new Exception("ID Realisasi ($RKARealisasiRincID) belum memiliki media");
-					}					
+					$jumlah_terhapus = HelperKegiatan::destroyMediaRealisasiRincian($RKARealisasiRincID, $id);					
 				break;
 			}      
 
       return Response()->json([
 				'status'=>1,
-				'pid'=>'store',
-				'media'=>$media,                                    
+				'pid'=>'destroy',				                               
 				'message'=>'Media realisasi rincian berhasil dihapus'
 			], 200); 			
     }
@@ -278,8 +257,7 @@ class GalleryController extends Controller
 		{
 			return Response()->json([
 				'status'=>0,
-				'pid'=>'store',
-				'media'=>[],                                    
+				'pid'=>'destroy',				                               
 				'message'=>$e->getMessage()
 			], 422); 			
 		}
