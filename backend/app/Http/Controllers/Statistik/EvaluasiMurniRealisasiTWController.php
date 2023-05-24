@@ -12,14 +12,16 @@ use App\Helpers\Helper;
 class EvaluasiMurniRealisasiTWController extends Controller { 
   public function front(Request $request)
 	{
-		$this->validate($request, [            
-			'tahun'=>'required|numeric',
-			'tw_realisasi'=>'required|numeric',
-		]);
-
+    $rule = [            
+			'tahun'=>'required|digits:4|integer|min:2020|max:'. (date('Y')),
+			'tw_realisasi'=>'required|in:1,2,3,4',
+		];
+        
+    $this->validate($request, $rule);
+    
 		$tahun=$request->input('tahun');
 		$tw_realisasi=$request->input('tw_realisasi');
-
+    
     switch ($tw_realisasi)
     {
       case 1:

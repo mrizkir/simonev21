@@ -13,6 +13,13 @@
 				label="BULAN REALISASI"
 				outlined
 			/>
+			<v-select
+				v-model="tw_rumus"
+				:items="daftar_tw"
+				label="RUMUS TW"
+				outlined
+				v-if="showrumustw"
+			/>
 		</v-list-item-content>
 	</v-list-item>
 </template>
@@ -24,13 +31,23 @@
 			this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
 			this.daftar_bulan = this.$store.getters["uifront/getDaftarBulan"];
 			this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
+			this.daftar_tw = this.$store.getters["uifront/getDaftarTW"];
+			this.tw_rumus = this.$store.getters["uifront/getTWRumus"];
 		},
+		props: {
+      showrumustw: {
+        type: Boolean,
+        default: false,
+      },
+    },
 		data: () => ({
 			firstloading: true,
 			daftar_bulan: [],
 			bulan_realisasi: null,
+			tw_rumus: null,
 
 			daftar_ta: [],
+			daftar_tw: [],
 			tahun_anggaran: null,
 		}),
 		methods: {
@@ -49,6 +66,12 @@
 				if (!this.firstloading) {
 					this.$store.dispatch("uifront/updateBulanRealisasi", val);
 					this.$emit("changeBulanRealisasi", val);
+				}
+			},
+			tw_rumus(val) {
+				if (!this.firstloading) {
+					this.$store.dispatch("uifront/updateTWRumus", val);
+					this.$emit("changeTWRumus", val);
 				}
 			},
 		},

@@ -17,7 +17,7 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      key: "simonev21-08-22",
+      key: "simonev21-05-23",
       storage: {
         getItem: key => ls.get(key),
         setItem: (key, value) => ls.set(key, value),

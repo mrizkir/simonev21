@@ -7,7 +7,7 @@
           $store.getters["uifront/getBulanRealisasi"]
         )
       }} | 
-      APBD: {{ $store.getters['uifront/getMasaPelaporan'] }}
+      APBD: {{ $store.getters["uifront/getMasaPelaporan"] }}
     </template>
     <v-parallax
       dark

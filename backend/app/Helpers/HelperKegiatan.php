@@ -153,9 +153,9 @@ class HelperKegiatan
       {
         foreach($list_media as $k=>$media)
         {	
-          $fullPathOnDisk = preg_replace('#/+#','/', $media->getPath());		
           if ($media->id == $id)
-          {          						
+          {
+            $fullPathOnDisk = preg_replace('#/+#','/', $media->getPath());		          						
             $list_media[$k]->delete();								
             Helper::deleteDirectory(dirname($fullPathOnDisk));
             $jumlah_terhapus += 1;

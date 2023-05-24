@@ -1,5 +1,5 @@
 <template>
-  <FrontLayout>
+  <FrontLayout :showresetcache="true">
     <template v-slot:system-bar>
       Tahun Anggaran: {{ tahun_anggaran }} | Bulan Realisasi:
       {{
@@ -7,7 +7,7 @@
           $store.getters["uifront/getBulanRealisasi"]
         )
       }} | 
-      APBD: {{ $store.getters['uifront/getMasaPelaporan'] }}
+      APBD: {{ $store.getters["uifront/getMasaPelaporan"] }}
     </template>
     <v-container fluid>
       <v-row dense>

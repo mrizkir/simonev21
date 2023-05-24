@@ -25,6 +25,7 @@ const getDefaultState = () => {
       },
     ],
     tw_realisasi: null,
+    tw_rumus: null,
     identitas: {
       nama_app: "",
       nama_app_alias: "",
@@ -60,6 +61,9 @@ const mutations = {
   },
   setTWRealisasi(state, tw) {
     state.tw_realisasi = tw;
+  },
+  setTWRumus(state, tw) {
+    state.tw_rumus = tw;
   },
   setIdentitas(state, identitas) {
     state.identitas = identitas;
@@ -107,6 +111,10 @@ const getters = {
     var tw_realisasi = state.tw_realisasi == null ? 1 : state.tw_realisasi;
     return tw_realisasi;
   },
+  getTWRumus: state => {
+    var tw_rumus = state.tw_rumus == null ? 1 : state.tw_rumus;
+    return tw_rumus;
+  },
   getNamaAPP: state => {
     return state.identitas.nama_app;
   },
@@ -142,6 +150,9 @@ const actions = {
   },
   updateTWRealisasi({ commit }, tw) {
     commit("setTWRealisasi", tw);
+  },
+  updateTWRumus({ commit }, tw) {
+    commit("setTWRumus", tw);
   },
   reinit({ commit, dispatch }, ajax) {
     commit("resetState");

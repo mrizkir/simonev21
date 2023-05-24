@@ -179,7 +179,7 @@
           </v-list-item-content>
         </v-list-item>
         <slot name="filtersidebar" />
-        <v-list-item class="primary" dark>
+        <v-list-item class="primary" dark v-if="showresetcache">
           <v-list-item-icon class="mr-2">
             <v-icon>mdi-filter</v-icon>
           </v-list-item-icon>
@@ -187,7 +187,7 @@
             <v-list-item-title>OTHER</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item v-if="showresetcache">
           <v-list-item-content>
             <v-btn color="danger" @click.stop="resetCache">
               RESET CACHE
@@ -221,6 +221,10 @@
       showrightsidebar: {
         type: Boolean,
         default: true,
+      },
+      showresetcache: {
+        type: Boolean,
+        default: false,
       },
       temporaryleftsidebar: {
         type: Boolean,

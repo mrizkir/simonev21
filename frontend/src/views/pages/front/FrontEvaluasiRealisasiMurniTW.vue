@@ -7,7 +7,7 @@
           $store.getters["uifront/getBulanRealisasi"]
         )
       }} | 
-      APBD: {{ $store.getters['uifront/getMasaPelaporan'] }}
+      APBD: {{ $store.getters["uifront/getMasaPelaporan"] }}
     </template>
     <ModuleHeader>
       <template v-slot:icon>
@@ -136,7 +136,7 @@
                 <td class="text-center">{{ item.target_fisik }}</td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(tw_realisasi, item.realisasi_fisik),
+                    formatKodeWarna(tw_rumus, item.realisasi_fisik),
                     'text-center',
                   ]"
                 >
@@ -147,7 +147,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(tw_realisasi, item.persen_keuangan),
+                    formatKodeWarna(tw_rumus, item.persen_keuangan),
                     'text-right',
                   ]"
                 >
@@ -167,7 +167,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(tw_realisasi, footers.total_realisasi_fisik),
+                    formatKodeWarna(tw_rumus, footers.total_realisasi_fisik),
                     'text-center',
                   ]"
                 >
@@ -178,7 +178,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(tw_realisasi, footers.persen_keuangan),
+                    formatKodeWarna(tw_rumus, footers.persen_keuangan),
                     'text-right',
                   ]"
                 >
@@ -192,16 +192,16 @@
           </v-data-table>
         </v-col>
         <v-col cols="12" class="mt-4">
-          <p>
-            (<i>Buka Halaman Form B OPD untuk mengupdate halaman ini</i>)
-          </p>
+          <p>(<i>Buka Halaman Form B OPD untuk mengupdate halaman ini</i>)</p>
         </v-col>
       </v-row>
     </v-container>
     <template v-slot:filtersidebar>
       <Filter4
+        :showrumustw="true"
         v-on:changeTahunAnggaran="changeTahunAnggaran"
         v-on:changeTWRealisasi="changeTWRealisasi"
+        v-on:changeTWRumus="changeTWRumus"
         ref="filter4"
       />
     </template>
@@ -234,6 +234,7 @@
       ];
       this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
       this.tw_realisasi = this.$store.getters["uifront/getTWRealisasi"];
+      this.tw_rumus = this.$store.getters["uifront/getTWRumus"];
     },
     mounted() {
       this.initialize();
@@ -245,6 +246,7 @@
       breadcrumbs: [],
       tahun_anggaran: null,
       tw_realisasi: null,
+      tw_rumus: null,
 
       datatableLoading: false,
 
@@ -307,6 +309,9 @@
       changeTWRealisasi(tw_realisasi) {
         this.tw_realisasi = tw_realisasi;
       },
+      changeTWRumus(tw_rumus) {
+        this.tw_rumus = tw_rumus;
+      },
       initialize() {
         this.datatableLoading = true;
         this.$ajax
@@ -317,7 +322,6 @@
           .then(({ data }) => {
             this.datatableLoading = false;
             this.datatable = data.evaluasi_realisasi;
-
             this.footers = data.laporan_total;
           });
       },
@@ -329,6 +333,11 @@
         }
       },
       tw_realisasi() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+      tw_rumus() {
         if (!this.firstloading) {
           this.initialize();
         }

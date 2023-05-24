@@ -7,7 +7,7 @@
           $store.getters["uifront/getBulanRealisasi"]
         )
       }} | 
-      APBD: {{ $store.getters['uifront/getMasaPelaporan'] }}
+      APBD: {{ $store.getters["uifront/getMasaPelaporan"] }}
     </template>
     <ModuleHeader>
       <template v-slot:icon>
@@ -140,7 +140,7 @@
                 <td class="text-center">{{ item.target_fisik }}</td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(0, item.realisasi_fisik),
+                    formatKodeWarna(tw_rumus, item.realisasi_fisik),
                     'text-center',
                   ]"
                 >
@@ -151,7 +151,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(0, item.persen_keuangan),
+                    formatKodeWarna(tw_rumus, item.persen_keuangan),
                     'text-right',
                   ]"
                 >
@@ -171,7 +171,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(0, footers.total_realisasi_fisik),
+                    formatKodeWarna(tw_rumus, footers.total_realisasi_fisik),
                     'text-center',
                   ]"
                 >
@@ -182,7 +182,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(0, footers.persen_keuangan),
+                    formatKodeWarna(tw_rumus, footers.persen_keuangan),
                     'text-right',
                   ]"
                 >
@@ -202,11 +202,21 @@
         </v-col>
       </v-row>
     </v-container>
+    <template v-slot:filtersidebar>
+      <Filter1
+        :showrumustw="true"
+        v-on:changeTahunAnggaran="changeTahunAnggaran"
+        v-on:changeBulanRealisasi="changeBulanRealisasi"
+        v-on:changeTWRumus="changeTWRumus"
+        ref="filter1"
+      />
+    </template>
   </FrontLayout>
 </template>
 <script>
   import FrontLayout from "@/views/layouts/FrontLayout";
   import ModuleHeader from "@/components/ModuleHeader";
+  import Filter1 from "@/components/sidebar/FilterMode1";
   export default {
     name: "FrontEvaluasiRealisasiMurniTA",
     created() {
@@ -230,14 +240,18 @@
       ];
       this.tahun_anggaran = this.$store.getters["uifront/getTahunAnggaran"];
       this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
-
+      this.tw_rumus = this.$store.getters["uifront/getTWRumus"];
+    },
+    mounted() {
       this.initialize();
+      this.firstloading = false;
+      this.$refs.filter1.setFirstTimeLoading(this.firstloading);
     },
     data: () => ({
       firstloading: true,
       breadcrumbs: [],
       tahun_anggaran: null,
-
+      tw_rumus: null,
       datatableLoading: false,
 
       //data table
@@ -293,6 +307,15 @@
       },
     }),
     methods: {
+      changeTahunAnggaran(ta) {
+        this.tahun_anggaran = ta;
+      },
+      changeBulanRealisasi(bulan) {
+        this.bulan_realisasi = bulan;
+      },
+      changeTWRumus(tw_rumus) {
+        this.tw_rumus = tw_rumus;
+      },
       initialize() {
         this.datatableLoading = true;
         this.$ajax
@@ -308,9 +331,27 @@
           });
       },
     },
+    watch: {
+      tahun_anggaran() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+      bulan_realisasi() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+      tw_rumus() {
+        if (!this.firstloading) {
+          this.initialize();
+        }
+      },
+    },
     components: {
       FrontLayout,
       ModuleHeader,
+      Filter1,
     },
   };
 </script>
