@@ -45,6 +45,7 @@ class EvaluasiMurniRealisasiTAController extends Controller {
       $target_fisik = 0;
       $realisasi_fisik = 0;
       $target_keuangan = 0;
+      $persen_target_keuangan = 0;
       $realisasi_keuangan = 0;
       $persen_realisasi_keuangan = 0;
 
@@ -53,6 +54,7 @@ class EvaluasiMurniRealisasiTAController extends Controller {
         TargetFisik1,
         RealisasiFisik1,
         TargetKeuangan1,
+        PersenTargetKeuangan1,
         RealisasiKeuangan1,
         PersenRealisasiKeuangan1
       '))
@@ -68,6 +70,7 @@ class EvaluasiMurniRealisasiTAController extends Controller {
         $target_fisik = $data_opd->TargetFisik1;
         $realisasi_fisik = $data_opd->RealisasiFisik1;
         $target_keuangan = $data_opd->TargetKeuangan1;
+        $persen_target_keuangan = $data_opd->PersenTargetKeuangan1;
         $realisasi_keuangan = $data_opd->RealisasiKeuangan1;
         $persen_realisasi_keuangan = $data_opd->PersenRealisasiKeuangan1;
       }
@@ -81,6 +84,7 @@ class EvaluasiMurniRealisasiTAController extends Controller {
         'target_fisik'=>$target_fisik,
         'realisasi_fisik'=>$realisasi_fisik,        
         'target_keuangan'=>$target_keuangan,
+        'persen_target_keuangan'=>$persen_target_keuangan,
         'realisasi_keuangan'=>$realisasi_keuangan,
         'persen_keuangan'=>$persen_realisasi_keuangan,        
       ];

@@ -208,10 +208,25 @@
               Progres Realisasi Fisik OPD
             </v-card-title>
             <v-card-text>
-              <chart-realisasi-keuangan
+              <chart-realisasi-fisik
                 :labels="chart_daftar_opd"
                 :target="chart_target_fisik"
                 :realisasi="chart_realisasi_fisik"
+                v-if="chartLoaded"
+              />
+            </v-card-text>
+          </v-card>          
+        </v-col>
+        <v-col xs="12" sm="12" md="12">
+          <v-card>
+            <v-card-title class="headline">
+              Progres Realisasi Keuangan OPD
+            </v-card-title>
+            <v-card-text>
+              <chart-realisasi-keuangan
+                :labels="chart_daftar_opd"
+                :target="chart_target_keuangan"
+                :realisasi="chart_realisasi_keuangan"
                 v-if="chartLoaded"
               />
             </v-card-text>
@@ -330,6 +345,8 @@
       chart_daftar_opd: [],
       chart_target_fisik: [],
       chart_realisasi_fisik: [],
+      chart_target_keuangan: [],
+      chart_realisasi_keuangan: [],
     }),
     methods: {
       changeTahunAnggaran(ta) {
@@ -359,14 +376,20 @@
             var daftar_opd = [];
             var target_fisik = [];
             var realisasi_fisik = [];
+            var target_keuangan = [];
+            var realisasi_kuangan = [];
             laporan_realisasi.forEach(item => {
               daftar_opd.push(item.Alias_Organisasi);
               target_fisik.push(item.target_fisik);
               realisasi_fisik.push(item.realisasi_fisik);
+              target_keuangan.push(item.persen_target_keuangan);
+              realisasi_kuangan.push(item.persen_keuangan);
             });
             this.chart_daftar_opd = daftar_opd;
             this.chart_target_fisik = target_fisik;
             this.chart_realisasi_fisik = realisasi_fisik;
+            this.chart_target_keuangan = target_keuangan;
+            this.chart_realisasi_keuangan = realisasi_kuangan;
             this.chartLoaded = true;
           });
       },
@@ -392,6 +415,7 @@
       FrontLayout,
       ModuleHeader,
       Filter1,
+      "chart-realisasi-fisik": ChartTargetRealisasi,
       "chart-realisasi-keuangan": ChartTargetRealisasi,
     },
   };
