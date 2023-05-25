@@ -201,6 +201,11 @@
           </p>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col>
+          <chart-realisasi-keuangan />
+        </v-col>
+      </v-row>
     </v-container>
     <template v-slot:filtersidebar>
       <Filter1
@@ -217,6 +222,8 @@
   import FrontLayout from "@/views/layouts/FrontLayout";
   import ModuleHeader from "@/components/ModuleHeader";
   import Filter1 from "@/components/sidebar/FilterMode1";
+  import ChartTargetRealisasi from "@/components/chart/ChartBarOPDTargetRealisasi";
+
   export default {
     name: "FrontEvaluasiRealisasiMurniTA",
     created() {
@@ -352,6 +359,7 @@
       FrontLayout,
       ModuleHeader,
       Filter1,
+      "chart-realisasi-keuangan": ChartTargetRealisasi,
     },
   };
 </script>

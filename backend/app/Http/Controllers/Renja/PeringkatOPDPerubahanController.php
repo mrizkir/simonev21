@@ -31,22 +31,24 @@ class PeringkatOPDPerubahanController extends Controller {
 			->where('EntryLvl', 2)
 			->groupBy('OrgID');
 
-		$peringkat=\DB::table('statistik2')
+		$peringkat=\DB::table('statistik2 AS A')
 		->select(\DB::raw('                            
-			statistik2.`OrgID`,
-			statistik2.kode_organisasi,
-			statistik2.`OrgNm`,
-			statistik2.`RealisasiFisik2`,
-			statistik2.`PersenRealisasiKeuangan2`
+			A.`OrgID`,
+			A.kode_organisasi,
+			A.`OrgNm`,
+			A.`RealisasiFisik2`,
+			A.`PersenRealisasiKeuangan2`,
+			C.`TA`
 		'))
 		->joinSub($subquery,'B',function($join){
-			$join->on('statistik2.OrgID','=','B.OrgID');
-			$join->on('statistik2.Bulan','=','B.Bulan');
+			$join->on('A.OrgID','=','B.OrgID');
+			$join->on('A.Bulan','=','B.Bulan');
 		})  
-		->where('EntryLvl', 2)
-		->where('statistik2.TA', $tahun)
-		->orderBy('statistik2.RealisasiFisik2','DESC')
-		->orderBy('statistik2.PersenRealisasiKeuangan2','DESC')
+		->join('tmOrg AS C', 'A.OrgID', 'C.OrgID')
+		->where('A.EntryLvl', 2)
+		->where('A.TA', $tahun)
+		->orderBy('A.RealisasiFisik2','DESC')
+		->orderBy('A.PersenRealisasiKeuangan2','DESC')
 		->get();
 
 		$peringkat_temp = [];		

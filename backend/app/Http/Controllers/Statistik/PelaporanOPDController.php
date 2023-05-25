@@ -30,22 +30,24 @@ class PelaporanOPDController extends Controller {
 		{
 			$EntryLvl = 1;
 			$sql = '                            
-				statistik2.`OrgID`,
-				statistik2.kode_organisasi,
-				statistik2.`OrgNm`,
-				statistik2.`RealisasiFisik1` AS RealisasiFisik,
-				statistik2.`PersenRealisasiKeuangan1` AS PersenRealisasiKeuangan
+				A.`OrgID`,
+				A.kode_organisasi,
+				A.`OrgNm`,
+				A.`RealisasiFisik1` AS RealisasiFisik,
+				A.`PersenRealisasiKeuangan1` AS PersenRealisasiKeuangan,
+				C.`TA`
 			';
 		}
 		else
 		{
 			$EntryLvl = 2;
 			$sql = '                            
-				statistik2.`OrgID`,
-				statistik2.kode_organisasi,
-				statistik2.`OrgNm`,
-				statistik2.`RealisasiFisik2` AS RealisasiFisik,
-				statistik2.`PersenRealisasiKeuangan2` AS PersenRealisasiKeuangan
+				A.`OrgID`,
+				A.kode_organisasi,
+				A.`OrgNm`,
+				A.`RealisasiFisik2` AS RealisasiFisik,
+				A.`PersenRealisasiKeuangan2` AS PersenRealisasiKeuangan,
+				C.`TA`
 			';
 		}
 		$subquery = \DB::table('statistik2')
@@ -54,14 +56,15 @@ class PelaporanOPDController extends Controller {
 		->where('EntryLvl', $EntryLvl)
 		->groupBy('OrgID');
 
-		$peringkat=\DB::table('statistik2')
+		$peringkat=\DB::table('statistik2 AS A')
 			->select(\DB::raw($sql))
 			->joinSub($subquery,'B',function($join){
-				$join->on('statistik2.OrgID','=','B.OrgID');
-				$join->on('statistik2.Bulan','=','B.Bulan');
+				$join->on('A.OrgID','=','B.OrgID');
+				$join->on('A.Bulan','=','B.Bulan');
 			})  
-			->where('EntryLvl', $EntryLvl)
-			->where('statistik2.TA', $tahun)
+			->join('tmOrg AS C', 'A.OrgID', 'C.OrgID')
+			->where('A.EntryLvl', $EntryLvl)
+			->where('A.TA', $tahun)
 			->orderBy('RealisasiFisik','DESC')
 			->orderBy('PersenRealisasiKeuangan','DESC')
 			->get();

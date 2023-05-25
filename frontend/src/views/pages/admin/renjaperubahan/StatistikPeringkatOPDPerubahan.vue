@@ -118,6 +118,11 @@
           align: "end",
           value: "PersenRealisasiKeuangan2",
         },
+        {
+          text: "TA OPD",
+          sortable: false,
+          value: "TA",
+        },
       ],
     }),
     methods: {
