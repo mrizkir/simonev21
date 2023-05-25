@@ -201,9 +201,21 @@
           </p>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
-          <chart-realisasi-keuangan />
+      <v-row dense class="mb-2">
+        <v-col xs="12" sm="12" md="12">
+          <v-card>
+            <v-card-title class="headline">
+              Progres Realisasi Fisik OPD
+            </v-card-title>
+            <v-card-text>
+              <chart-realisasi-keuangan
+                :labels="chart_daftar_opd"
+                :target="chart_target_fisik"
+                :realisasi="chart_realisasi_fisik"
+                v-if="chartLoaded"
+              />
+            </v-card-text>
+          </v-card>          
         </v-col>
       </v-row>
     </v-container>
@@ -312,6 +324,12 @@
         total_realisasi_keuangan: 0,
         total_persen_keuangan: 0,
       },
+
+      //chart
+      chartLoaded: false,
+      chart_daftar_opd: [],
+      chart_target_fisik: [],
+      chart_realisasi_fisik: [],
     }),
     methods: {
       changeTahunAnggaran(ta) {
@@ -331,10 +349,25 @@
             bulan: this.bulan_realisasi,
           })
           .then(({ data }) => {
+            let laporan_realisasi = data.laporan_realisasi;
             this.datatableLoading = false;
-            this.datatable = data.laporan_realisasi;
-
+            
+            this.datatable = laporan_realisasi;
             this.footers = data.laporan_total;
+
+            //chart
+            var daftar_opd = [];
+            var target_fisik = [];
+            var realisasi_fisik = [];
+            laporan_realisasi.forEach(item => {
+              daftar_opd.push(item.Alias_Organisasi);
+              target_fisik.push(item.target_fisik);
+              realisasi_fisik.push(item.realisasi_fisik);
+            });
+            this.chart_daftar_opd = daftar_opd;
+            this.chart_target_fisik = target_fisik;
+            this.chart_realisasi_fisik = realisasi_fisik;
+            this.chartLoaded = true;
           });
       },
     },

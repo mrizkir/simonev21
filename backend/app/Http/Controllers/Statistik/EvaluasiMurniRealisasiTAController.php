@@ -25,7 +25,8 @@ class EvaluasiMurniRealisasiTAController extends Controller {
     $daftar_opd = OrganisasiModel::select(\DB::raw('
       `OrgID`,
       kode_organisasi,
-      `Nm_Organisasi`
+      `Nm_Organisasi`,
+      `Alias_Organisasi`
     '))
     ->where('TA', $tahun)
     ->orderBy('kode_organisasi', 'ASC')
@@ -75,6 +76,7 @@ class EvaluasiMurniRealisasiTAController extends Controller {
         'index'=>$index,
         'kode_organisasi'=>$v->kode_organisasi,
         'Nm_Organisasi'=>$v->Nm_Organisasi,
+        'Alias_Organisasi'=>$v->Alias_Organisasi,
         'pagu_dana'=>$pagu_dana,
         'target_fisik'=>$target_fisik,
         'realisasi_fisik'=>$realisasi_fisik,        
