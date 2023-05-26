@@ -39,9 +39,7 @@
           scales['y-axis-1']._gridLineItems[12].color = "red";
           scales['y-axis-1']._gridLineItems[12].width = 4;
           scales['y-axis-1']._gridLineItems[16].color = "red";
-          scales['y-axis-1']._gridLineItems[16].width = 4;
-          scales['y-axis-1']._gridLineItems[20].color = "red";
-          scales['y-axis-1']._gridLineItems[20].width = 4;
+          scales['y-axis-1']._gridLineItems[16].width = 4;          
           ctx.stroke();
           ctx.closePath();          
         },  
