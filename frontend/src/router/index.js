@@ -48,6 +48,15 @@ const routes = [
       import("../views/pages/front/FrontEvaluasiRealisasiPerubahanTA.vue"),
   },
   {
+    path: "/evaluasiperubahan/realisasitw",
+    name: "FrontEvaluasiRealisasiPerubahanTW",
+    meta: {
+      title: "EVALUASI REALISASI PERUBAHAN PER TW",
+    },
+    component: () =>
+      import("../views/pages/front/FrontEvaluasiRealisasiPerubahanTW.vue"),
+  },
+  {
     path: "/login",
     name: "Login",
     meta: {

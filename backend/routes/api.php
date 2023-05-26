@@ -11,6 +11,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 	$router->post('/evaluasimurni/realisasita', ['uses'=>'Statistik\EvaluasiMurniRealisasiTAController@front','as'=>'evaluasimurnirealisasita.front']);
 	$router->post('/evaluasimurni/realisasitw', ['uses'=>'Statistik\EvaluasiMurniRealisasiTWController@front','as'=>'evaluasimurnirealisasitw.front']);
 	$router->post('/evaluasiperubahan/realisasita', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTAController@front','as'=>'evaluasiperubahanrealisasita.front']);
+	$router->post('/evaluasiperubahan/realisasitw', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTWController@front','as'=>'evaluasiperubahanrealisasitw.front']);
 
 	//gallery pembanguna
 	$router->post('/gallerypembangunan', ['uses'=>'Renja\GalleryController@index','as'=>'gallerypembangunan.index']);

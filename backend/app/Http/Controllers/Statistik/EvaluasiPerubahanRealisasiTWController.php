@@ -9,24 +9,40 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\Statistik2Model;
 use App\Helpers\Helper;
 
-class EvaluasiPerubahanRealisasiTAController extends Controller { 
+class EvaluasiPerubahanRealisasiTWController extends Controller { 
   public function front(Request $request)
 	{
-		$this->validate($request, [            
-			'tahun'=>'required|numeric',
-			'bulan'=>'required|numeric',
-		]);
-
+    $rule = [            
+			'tahun'=>'required|digits:4|integer|min:2020|max:'. (date('Y')),
+			'tw_realisasi'=>'required|in:1,2,3,4',
+		];
+        
+    $this->validate($request, $rule);
+    
 		$tahun=$request->input('tahun');
-		$bulan=$request->input('bulan');
-
-    $laporan_realisasi = [];
+		$tw_realisasi=$request->input('tw_realisasi');
+    
+    switch ($tw_realisasi)
+    {
+      case 1:
+        $bulan = 3;
+      break;
+      case 2:
+        $bulan = 6;
+      break;
+      case 3:
+        $bulan = 9;
+      break;
+      case 4:
+        $bulan = 12;
+      break;
+    }
+    $evaluasi_realisasi = [];
 
     $daftar_opd = OrganisasiModel::select(\DB::raw('
       `OrgID`,
       kode_organisasi,
-      `Nm_Organisasi`,
-      `Alias_Organisasi`
+      `Nm_Organisasi`
     '))
     ->where('TA', $tahun)
     ->orderBy('kode_organisasi', 'ASC')
@@ -45,7 +61,6 @@ class EvaluasiPerubahanRealisasiTAController extends Controller {
       $target_fisik = 0;
       $realisasi_fisik = 0;
       $target_keuangan = 0;
-      $persen_target_keuangan = 0;
       $realisasi_keuangan = 0;
       $persen_realisasi_keuangan = 0;
 
@@ -54,7 +69,6 @@ class EvaluasiPerubahanRealisasiTAController extends Controller {
         TargetFisik2,
         RealisasiFisik2,
         TargetKeuangan2,
-        PersenTargetKeuangan2,
         RealisasiKeuangan2,
         PersenRealisasiKeuangan2
       '))
@@ -70,21 +84,18 @@ class EvaluasiPerubahanRealisasiTAController extends Controller {
         $target_fisik = $data_opd->TargetFisik2;
         $realisasi_fisik = $data_opd->RealisasiFisik2;
         $target_keuangan = $data_opd->TargetKeuangan2;
-        $persen_target_keuangan = $data_opd->PersenTargetKeuangan2;
         $realisasi_keuangan = $data_opd->RealisasiKeuangan2;
         $persen_realisasi_keuangan = $data_opd->PersenRealisasiKeuangan2;
       }
       $index = $index + 1;
-      $laporan_realisasi[] = [
+      $evaluasi_realisasi[] = [
         'index'=>$index,
         'kode_organisasi'=>$v->kode_organisasi,
         'Nm_Organisasi'=>$v->Nm_Organisasi,
-        'Alias_Organisasi'=>$v->Alias_Organisasi,
         'pagu_dana'=>$pagu_dana,
         'target_fisik'=>$target_fisik,
         'realisasi_fisik'=>$realisasi_fisik,        
         'target_keuangan'=>$target_keuangan,
-        'persen_target_keuangan'=>$persen_target_keuangan,
         'realisasi_keuangan'=>$realisasi_keuangan,
         'persen_keuangan'=>$persen_realisasi_keuangan,        
       ];
@@ -96,20 +107,20 @@ class EvaluasiPerubahanRealisasiTAController extends Controller {
       $TotalPersenRealisasiKeuangan += $persen_realisasi_keuangan;      
     }
     
-    $laporan_total = [      
+    $evaluasi_total = [      
       'total_pagu_dana'=>$TotalPaguDana,
       'total_target_fisik'=>Helper::formatPecahan($TotalTargetFisik, $index),
       'total_realisasi_fisik'=>Helper::formatPecahan($TotalRealisasiFisik,$index),
       'total_target_keuangan'=>$TotalTargetKeuangan,
       'total_realisasi_keuangan'=>$TotalRealisasiKeuangan,
-      'total_persen_keuangan'=>Helper::formatPersen($TotalRealisasiKeuangan,$TotalPaguDana),      
+      'total_persen_keuangan'=>Helper::formatPecahan($TotalPersenRealisasiKeuangan, $index),      
     ];
 
     return Response()->json([
       'status'=>1,
       'pid'=>'fetchdata',
-      'laporan_realisasi'=>$laporan_realisasi,
-      'laporan_total'=>$laporan_total,
+      'evaluasi_realisasi'=>$evaluasi_realisasi,
+      'laporan_total'=>$evaluasi_total,
       'message'=>'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }
