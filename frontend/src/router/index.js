@@ -823,6 +823,43 @@ const routes = [
     },
     component: () => import("../views/pages/admin/system/LockOPD.vue"),
   },
+  // mobile - chart 
+  {
+    path: "/mobile/chartmurni/keuangan/:ta/:bulan",
+    name: "MobileChartMurniKeuangan",
+    meta: {
+      title: "REALISASI KEUANGAN MURNI",      
+    },
+    component: () =>
+      import("../views/pages/mobile/MobileChartMurniKeuangan.vue"),
+  },
+  {
+    path: "/mobile/chartmurni/fisik/:ta/:bulan",
+    name: "MobileChartMurniFisik",
+    meta: {
+      title: "REALISASI FISIK MURNI",      
+    },
+    component: () =>
+      import("../views/pages/mobile/MobileChartMurniFisik.vue"),
+  },
+  {
+    path: "/mobile/chartperubahan/keuangan/:ta/:bulan",
+    name: "MobileChartPerubahanKeuangan",
+    meta: {
+      title: "REALISASI KEUANGAN PERUBAHAN",      
+    },
+    component: () =>
+      import("../views/pages/mobile/MobileChartPerubahanKeuangan.vue"),
+  },
+  {
+    path: "/mobile/chartperubahan/fisik/:ta/:bulan",
+    name: "MobileChartPerubahanFisik",
+    meta: {
+      title: "REALISASI FISIK PERUBAHAN",      
+    },
+    component: () =>
+      import("../views/pages/mobile/MobileChartPerubahanFisik.vue"),
+  },
   // other page
   {
     path: "/404",
