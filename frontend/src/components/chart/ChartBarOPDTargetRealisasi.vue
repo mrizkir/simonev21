@@ -32,14 +32,14 @@
           ctx.beginPath();
           ctx.lineWidth = 1;
           ctx.strokeStyle = "yellow";          
-          scales['y-axis-1']._gridLineItems[4].color = "red";
-          scales['y-axis-1']._gridLineItems[4].width = 4;
-          scales['y-axis-1']._gridLineItems[8].color = "red";
-          scales['y-axis-1']._gridLineItems[8].width = 4;
-          scales['y-axis-1']._gridLineItems[12].color = "red";
-          scales['y-axis-1']._gridLineItems[12].width = 4;
-          scales['y-axis-1']._gridLineItems[16].color = "red";
-          scales['y-axis-1']._gridLineItems[16].width = 4;          
+          scales['y-axis-1']._gridLineItems[5].color = "red";
+          scales['y-axis-1']._gridLineItems[5].width = 4;
+          scales['y-axis-1']._gridLineItems[10].color = "red";
+          scales['y-axis-1']._gridLineItems[10].width = 4;
+          scales['y-axis-1']._gridLineItems[15].color = "red";
+          scales['y-axis-1']._gridLineItems[15].width = 4;          
+          scales['y-axis-1']._gridLineItems[20].color = "red";
+          scales['y-axis-1']._gridLineItems[20].width = 4;          
           ctx.stroke();
           ctx.closePath();          
         },  
