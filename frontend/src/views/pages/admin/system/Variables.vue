@@ -127,7 +127,7 @@
         default_masa_pelaporan: null,
       },
       rule_default_ta: [
-        value => !!value || "Mohon untuk dipilih tahun anggaran !!!",        
+        value => !!value || "Mohon untuk dipilih tahun anggaran !!!",
       ],
     }),
     methods: {
@@ -189,14 +189,14 @@
               },
             }
           )
-          .then(({ data }) => {            
+          .then(({ data }) => {
             this.formdata.default_masa_pelaporan = data.result.masa_pelaporan;
             this.btnLoading = false;
           })
           .catch(() => {
             this.this.btnLoading = false;
-          });;
-        },
+          });
+      },
     },
     components: {
       SystemSettingLayout,

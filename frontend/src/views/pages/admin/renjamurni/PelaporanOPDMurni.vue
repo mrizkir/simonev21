@@ -193,7 +193,7 @@
                           outlined
                           hint="File yang diupload format PDF"
                         >
-                        </v-file-input>                        
+                        </v-file-input>
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -609,67 +609,36 @@
       save() {
         if (this.$refs.frmdata.validate()) {
           this.btnLoading = true;
-          // if (this.editedIndex > -1) {
-        // 		this.$ajax
-        // 			.post(
-        // 				"/renja/pelaporanopdmurni/" + this.formdata.Statistik3ID,
-        // 				{
-        // 					_method: "put",
-        // 					PaguDana: this.datakegiatan.PaguDana,
-        // 					RealisasiKeuangan: this.RealisasiKeuangan,
-        // 					RealisasiFisik: this.formdata.RealisasiFisik,
-        // 					Kontrak: this.formdata.Kontrak,
-        // 					PekerjaanSelesai: this.formdata.PekerjaanSelesai,
-        // 					PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
-        // 					PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
-        // 					PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
-        // 					bukti_cetak: this.datakegiatan.bukti_cetak,
-        // 				},
-        // 				{
-        // 					headers: {
-        // 						Authorization: this.$store.getters["auth/Token"],
-        // 					},
-        // 				}
-        // 			)
-        // 			.then(() => {
-        // 				this.initialize();
-        // 				this.closedialogfrmedit();
-        // 			})
-        // 			.catch(() => {
-        // 				this.btnLoading = false;
-        // 			});
-          // } else {
-            this.$ajax
-              .post(
-                "/renja/pelaporanopdmurni/store",
-                {
-                  OrgID: this.OrgID_Selected,
-                  BulanLaporan: this.formdata.BulanLaporan,
-                  PaguDana: this.formdata.PaguDana,
-                  RealisasiKeuangan: this.formdata.RealisasiKeuangan,
-                  RealisasiFisik: this.formdata.RealisasiFisik,
-                  Kontrak: this.formdata.Kontrak,
-                  PekerjaanSelesai: this.formdata.PekerjaanSelesai,
-                  PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
-                  PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
-                  PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
-                  bukti_cetak: this.formdata.bukti_cetak,
+          this.$ajax
+            .post(
+              "/renja/pelaporanopdmurni/store",
+              {
+                OrgID: this.OrgID_Selected,
+                BulanLaporan: this.formdata.BulanLaporan,
+                PaguDana: this.formdata.PaguDana,
+                RealisasiKeuangan: this.formdata.RealisasiKeuangan,
+                RealisasiFisik: this.formdata.RealisasiFisik,
+                Kontrak: this.formdata.Kontrak,
+                PekerjaanSelesai: this.formdata.PekerjaanSelesai,
+                PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
+                PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
+                PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
+                bukti_cetak: this.formdata.bukti_cetak,
+              },
+              {
+                headers: {
+                  Authorization: this.$store.getters["auth/Token"],
+                  "Content-Type": "multipart/form-data; boundary=---------------------------974767299852498929531610575",
                 },
-                {
-                  headers: {
-                    Authorization: this.$store.getters["auth/Token"],
-                    "Content-Type": "multipart/form-data; boundary=---------------------------974767299852498929531610575",
-                  },
-                }
-              )
-              .then(() => {
-                this.initialize();
-                this.closedialogfrm();
-              })
-              .catch(() => {
-                this.btnLoading = false;
-              });
-          // }
+              }
+            )
+            .then(() => {
+              this.initialize();
+              this.closedialogfrm();
+            })
+            .catch(() => {
+              this.btnLoading = false;
+            });
         }
       },
       viewUraian(item) {

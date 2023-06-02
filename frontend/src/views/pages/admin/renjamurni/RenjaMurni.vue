@@ -215,33 +215,38 @@
       },
       async loadstatistik1() {
         await this.$ajax
-          .post("/renjamurni/reloadstatistik1", {
-            ta: this.tahun_anggaran,
-          },
-          {
-            headers: {
-              Authorization: this.$store.getters["auth/Token"],
-            },
-          })
-          .then(()=>{                 
-            this.$router.go();
-          });   
-        },
-        async loadstatistik2() {
-          await this.$ajax
-            .post("/renjamurni/reloadstatistik2",
+          .post(
+            "/renjamurni/reloadstatistik1",
             {
-                ta: this.tahun_anggaran,
+              ta: this.tahun_anggaran,
             },
             {
               headers: {
                 Authorization: this.$store.getters["auth/Token"],
               },
-            })
-            .then(()=>{                 
-                this.$router.go();
-            });   
-        }
+            }
+          )
+          .then(() => {
+            this.$router.go();
+          });
+      },
+      async loadstatistik2() {
+        await this.$ajax
+          .post(
+            "/renjamurni/reloadstatistik2",
+            {
+              ta: this.tahun_anggaran,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(() => {
+            this.$router.go();
+          });
+      },
     },
     components: {
       RenjaMurniLayout,

@@ -17,14 +17,14 @@
 						<template v-slot:desc>
 								<v-alert                                        
 										color="cyan"
-										border="left"                    
+										border="left"
 										colored-border
 										type="info"
 										>
 										Text
 								</v-alert>
 						</template>
-				</ModuleHeader>   
+				</ModuleHeader>
 				<v-container> 
 						<v-row class="mb-4" no-gutters>
 								<v-col cols="12">

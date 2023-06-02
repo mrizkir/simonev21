@@ -5,8 +5,8 @@
       :lazy-src="
         `https://picsum.photos/10/6?image=${media.id * 5 + 10}`
       "
-      aspect-ratio="1"
-      class="grey lighten-2"
+      class="grey lighten-2 white--text align-end"
+      max-height="300"
     >
       <template v-slot:placeholder>
         <v-row class="fill-height ma-0" align="center" justify="center">
@@ -16,17 +16,20 @@
           ></v-progress-circular>
         </v-row>
       </template>
-    </v-img>   
+      <v-card-title class="text-size-14">
+        Bulan {{ media.bulan }} {{ media.TA }}
+      </v-card-title>
+    </v-img>
     <v-card-actions v-if="showbuttondelete">
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="deleteItem(media)" :disabled="btnLoading">
-        <v-icon>mdi-delete</v-icon>
+        <v-icon style="color: red;">mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
-	export default {
+  export default {
     name: "CardFotoInfoRealisasi",
     props: {
       media: {
@@ -39,8 +42,8 @@
       },
     },
     data: () => ({
-			btnLoading: false,
-		}),
+      btnLoading: false,
+    }),
     methods: {
       async deleteItem(media) {
         this.$root.$confirm

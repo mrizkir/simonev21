@@ -120,6 +120,8 @@ class GalleryController extends Controller
 									'id' => $media->id,
 									'RKARealisasiRincID' => $media->model_id,
 									'publicFullUrl' => $media->getFullUrl(),
+									'bulan' => Helper::getNamaBulan($media->getCustomProperty('bulan1')),
+									'TA' => $media->getCustomProperty('TA'),
 								];
 							}
 						}
@@ -156,6 +158,8 @@ class GalleryController extends Controller
 									'id' => $media->id,
 									'RKARealisasiRincID' => $media->model_id,
 									'publicFullUrl' => $media->getFullUrl(),
+									'bulan' => Helper::getNamaBulan($media->getCustomProperty('bulan1')),
+									'TA' => $media->getCustomProperty('TA'),
 								];
 							}
 						}

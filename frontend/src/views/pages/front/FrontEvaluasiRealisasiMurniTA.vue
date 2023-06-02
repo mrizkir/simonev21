@@ -196,9 +196,7 @@
           </v-data-table>
         </v-col>
         <v-col cols="12" class="mt-4">
-          <p>
-            (<i>Buka Halaman Form B OPD untuk mengupdate halaman ini</i>)
-          </p>
+          <p>(<i>Buka Halaman Form B OPD untuk mengupdate halaman ini</i>)</p>
         </v-col>
       </v-row>
       <v-row dense class="mb-2">
@@ -215,7 +213,7 @@
                 v-if="chartLoaded"
               />
             </v-card-text>
-          </v-card>          
+          </v-card>
         </v-col>
         <v-col xs="12" sm="12" md="12">
           <v-card>
@@ -230,7 +228,7 @@
                 v-if="chartLoaded"
               />
             </v-card-text>
-          </v-card>          
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -368,7 +366,7 @@
           .then(({ data }) => {
             let laporan_realisasi = data.laporan_realisasi;
             this.datatableLoading = false;
-            
+
             this.datatable = laporan_realisasi;
             this.footers = data.laporan_total;
 

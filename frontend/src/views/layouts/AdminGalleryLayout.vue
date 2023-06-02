@@ -118,7 +118,7 @@
         </v-list-item-content>
       </v-list-item>
       <v-list-item
-        to="/gallerypembangunan1"        
+        to="/gallerypembangunan1"
         link
         :active-class="
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
@@ -131,7 +131,7 @@
         <v-list-item-content>
           <v-list-item-title>BOARD GALLERY</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>      
+      </v-list-item>
     </v-navigation-drawer>
     <v-navigation-drawer
       v-model="drawerRight"

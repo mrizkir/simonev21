@@ -500,7 +500,7 @@
                   </v-form>
                 </v-dialog>
               </v-toolbar>
-            </template>            
+            </template>
             <template v-slot:item.Nm_Bidang_1="{ item }">
               {{ item.Nm_Bidang_1 }}
               {{ item.Nm_Bidang_2 }}

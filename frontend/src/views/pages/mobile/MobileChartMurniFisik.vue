@@ -18,7 +18,7 @@
         bulan: null,
         chartLoaded: false,
         chartData: [[], []],
-      }
+      };
     },
     methods: {
       async initialize() {
@@ -27,15 +27,15 @@
             ta: this.ta,
             bulan_realisasi: this.bulan,
           })
-          .then(({ data }) => {            
+          .then(({ data }) => {
             this.chartData[0] = data.chart_fisik_murni[0];
-            this.chartData[1] = data.chart_fisik_murni[1];            
+            this.chartData[1] = data.chart_fisik_murni[1];
             this.chartLoaded = true;
           });
       },
     },
     components: {
-      chart: ChartTargetRealisasi,      
+      chart: ChartTargetRealisasi,
     },
   };
 </script>

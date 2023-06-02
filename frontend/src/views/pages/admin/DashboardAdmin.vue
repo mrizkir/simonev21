@@ -258,7 +258,7 @@
           <v-col
             xs="12"
             sm="4"
-            md="3"            
+            md="3"
           >
             <v-card
               elevation="0"
