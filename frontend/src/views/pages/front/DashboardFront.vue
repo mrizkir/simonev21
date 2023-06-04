@@ -1,5 +1,5 @@
 <template>
-  <FrontLayout :showresetcache="true">
+  <FrontLayout :showresetcache="true" :classmain="'mx-0 mb-0'">
     <template v-slot:system-bar>
       Tahun Anggaran: {{ tahun_anggaran }} | Bulan Realisasi:
       {{
@@ -9,12 +9,8 @@
       }} | 
       APBD: {{ $store.getters["uifront/getMasaPelaporan"] }}
     </template>
-    <v-container fluid>
-      <v-row dense>
-        <v-col cols="12">
-          <v-img :src="$api.storageURL +  '/images/banners/1.jpg'" />
-        </v-col>
-      </v-row>
+    <v-img :src="$api.storageURL +  '/images/banners/1.jpg'" />
+    <v-container fluid>      
       <v-row dense>
         <v-col cols="12">
           <v-alert type="info">
