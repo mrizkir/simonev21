@@ -135,7 +135,7 @@ const actions = {
         commit("setTahunAnggaran", data.tahun_anggaran);
         commit("setDaftarBulan", data.daftar_bulan);
         commit("setMasaPelaporan", data.masa_pelaporan);
-        commit("setBulanRealisasi", data.bulan_realisasi);        
+        commit("setBulanRealisasi", data.bulan_realisasi);      
         commit("setIdentitas", data.identitas);
         commit("setTheme", data.theme);
         commit("setLoaded", true);

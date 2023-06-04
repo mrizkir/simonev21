@@ -10,7 +10,7 @@
       APBD: {{ $store.getters["uifront/getMasaPelaporan"] }}
     </template>
     <v-img :src="$api.storageURL +  '/images/banners/1.jpg'" />
-    <v-container fluid>      
+    <v-container fluid>
       <v-row dense>
         <v-col cols="12">
           <v-alert type="info">
