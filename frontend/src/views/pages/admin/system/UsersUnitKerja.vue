@@ -444,7 +444,7 @@
                   {{ $date(item.updated_at).format("DD/MM/YYYY HH:mm") }}
                 </v-col>
                 <v-col cols="12">
-                  <strong>Daftar OPD yang dikelola:</strong> <br />
+                  <strong>Daftar Unit Kerja yang dikelola:</strong> <br />
                   <span v-for="opd in item.opd" v-bind:key="opd.OrgID">
                     [{{ opd.Nm_Organisasi }}]
                   </span>

@@ -20,7 +20,7 @@
         </v-alert>
       </template>
     </ModuleHeader>
-    <v-container fluid>
+    <v-container fluid v-if="datatableLoaded">
       <v-row v-if="datatable.length > 0">
         <v-col
           v-for="media in datatable"
@@ -60,12 +60,14 @@
           href: "#",
         },
       ];
+    },
+    mounted() {
       this.initialize();
     },
     data: () => ({
       //modul
       breadcrumbs: [],
-      datatableLoading: false,
+      datatableLoaded: false,
       datatable: [],
        //form data
       form_valid: true,
@@ -89,10 +91,10 @@
           .then(({ data }) => {
             this.datatable = data.media;
             this.daftar_bulan = data.daftar_bulan;
-            this.datatableLoading = false;
+            this.datatableLoaded = true;
           })
           .catch(() => {
-            this.datatableLoading = false;
+            this.datatableLoaded = false;
           });
       }
     },

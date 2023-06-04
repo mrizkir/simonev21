@@ -16,13 +16,30 @@
           ></v-progress-circular>
         </v-row>
       </template>
-      <v-card-title class="text-size-14">
-        Bulan {{ media.bulan }} {{ media.TA }}
-      </v-card-title>
     </v-img>
-    <v-card-actions v-if="showbuttondelete">
+    <v-card-title class="text-size-14">
+      Rp. {{ media.pagu_uraian|formatUang }}
       <v-spacer></v-spacer>
-      <v-btn icon @click.stop="deleteItem(media)" :disabled="btnLoading">
+      {{ media.bulan }} {{ media.TA }}
+    </v-card-title>
+    <v-card-subtitle>
+      {{ media.kode_uraian }} - {{ media.nama_uraian }}
+    </v-card-subtitle>
+    <v-card-text class="text-size-12">
+      <div>
+        <span class="font-weight-medium">target keuangan: </span> {{ media.target_keuangan|formatUang }}                      
+      </div>
+      <div>
+        <span class="font-weight-medium">realisasi keuangan: </span> {{ media.realisasi_keuangan|formatUang }}      
+      </div>
+      <div>
+        <span class="font-weight-medium">target fisik: </span> {{ media.target_fisik }}              
+        <span class="font-weight-medium">realisasi fisik: </span> {{ media.realisasi_fisik }}      
+      </div>
+    </v-card-text>
+    <v-card-actions>  
+      <v-spacer></v-spacer>
+      <v-btn icon @click.stop="deleteItem(media)" :disabled="btnLoading" v-if="showbuttondelete">
         <v-icon style="color: red;">mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
@@ -43,6 +60,7 @@
     },
     data: () => ({
       btnLoading: false,
+      show: false,
     }),
     methods: {
       async deleteItem(media) {

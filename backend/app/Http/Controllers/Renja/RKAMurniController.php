@@ -867,12 +867,12 @@ class RKAMurniController extends Controller
 			});
 			$rka=$this->getDataRKA($rinciankegiatan->RKAID);
 			return Response()->json([
-									'status'=>1,
-									'pid'=>'update',
-									'rka'=>$rka,
-									'rinciankegiatan'=>$rinciankegiatan,
-									'message'=>'Update uraian berhasil disimpan.'
-								], 200); 
+				'status'=>1,
+				'pid'=>'update',
+				'rka'=>$rka,
+				'rinciankegiatan'=>$rinciankegiatan,
+				'message'=>'Update uraian berhasil disimpan.'
+			], 200); 
 		}
 	}
 	/**
@@ -1356,22 +1356,22 @@ class RKAMurniController extends Controller
 		$RKARincID = $request->input('RKARincID');
 		
 		$data_uraian = RKARincianModel::select(\DB::raw('
-										`SIPDID`,
-										kode_uraian1 AS kode_uraian,
-										NamaUraian1 AS nama_uraian,
-										`PaguUraian1`
-									'))
-									->find($RKARincID);
+			`SIPDID`,
+			kode_uraian1 AS kode_uraian,
+			NamaUraian1 AS nama_uraian,
+			`PaguUraian1`
+		'))
+		->find($RKARincID);
 		
 		$data_realisasi = \DB::table('trRKARealisasiRinc')
-					->select(\DB::raw('
-						COALESCE(SUM(target1),0) AS jumlah_targetanggarankas,
-						COALESCE(SUM(realisasi1),0) AS jumlah_realisasi,
-						COALESCE(SUM(target_fisik1),0) AS jumlah_targetfisik,
-						COALESCE(SUM(fisik1),0) AS jumlah_fisik
-					'))
-					->where('RKARincID',$RKARincID)
-					->get();
+			->select(\DB::raw('
+				COALESCE(SUM(target1),0) AS jumlah_targetanggarankas,
+				COALESCE(SUM(realisasi1),0) AS jumlah_realisasi,
+				COALESCE(SUM(target_fisik1),0) AS jumlah_targetfisik,
+				COALESCE(SUM(fisik1),0) AS jumlah_fisik
+			'))
+			->where('RKARincID',$RKARincID)
+			->get();
 
 		$target = ['fisik'=>0,'anggaran'=>0];			
 		if ($mode == 'targetfisik')

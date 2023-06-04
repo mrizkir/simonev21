@@ -188,7 +188,7 @@
         <slot name="filtersidebar" />
       </v-list>
     </v-navigation-drawer>
-    <v-main class="mx-4 mb-4">
+    <v-main :class="classmain">
       <slot />
     </v-main>
     <v-footer app padless fixed dark>
@@ -219,6 +219,10 @@
       temporaryleftsidebar: {
         type: Boolean,
         default: false,
+      },
+      classmain: {
+        type: String,
+        default: "mx-4 mb-4",
       },
     },
     data: () => ({

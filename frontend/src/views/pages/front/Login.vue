@@ -1,5 +1,5 @@
 <template>
-  <FrontLayout :showrightsidebar="false">
+  <FrontLayout :showrightsidebar="false" :classmain="'mx-0 mb-0'">
     <template v-slot:system-bar>
       Tahun Anggaran: {{ formlogin.tahun_anggaran }} | Bulan Realisasi:
       {{
@@ -11,7 +11,7 @@
     </template>
     <v-parallax
       dark
-      src="/back.png"
+      src="https://bih.yacanet.com/depan/images/1.jpg"
       height="700"
     >
       <v-container class="fill-height" fluid>
