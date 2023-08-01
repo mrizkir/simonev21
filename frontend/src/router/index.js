@@ -345,6 +345,16 @@ const routes = [
       import("../views/pages/admin/renjamurni/DataMentahMurni.vue"),
   },
   {
+    path: "/renjamurni/milestone",
+    name: "RenjaMurniMilestone",
+    meta: {
+      title: "RENCANA KERJA MURNI - MILESTONE",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/MilestoneMurni.vue"),
+  },
+  {
     path: "/renjamurni/progressp2d",
     name: "RenjaMurniProgresSp2d",
     meta: {
@@ -823,12 +833,12 @@ const routes = [
     },
     component: () => import("../views/pages/admin/system/LockOPD.vue"),
   },
-  // mobile - chart 
+  // mobile - chart
   {
     path: "/mobile/chartmurni/keuangan/:ta/:bulan",
     name: "MobileChartMurniKeuangan",
     meta: {
-      title: "REALISASI KEUANGAN MURNI",      
+      title: "REALISASI KEUANGAN MURNI",
     },
     component: () =>
       import("../views/pages/mobile/MobileChartMurniKeuangan.vue"),
@@ -837,16 +847,15 @@ const routes = [
     path: "/mobile/chartmurni/fisik/:ta/:bulan",
     name: "MobileChartMurniFisik",
     meta: {
-      title: "REALISASI FISIK MURNI",      
+      title: "REALISASI FISIK MURNI",
     },
-    component: () =>
-      import("../views/pages/mobile/MobileChartMurniFisik.vue"),
+    component: () => import("../views/pages/mobile/MobileChartMurniFisik.vue"),
   },
   {
     path: "/mobile/chartperubahan/keuangan/:ta/:bulan",
     name: "MobileChartPerubahanKeuangan",
     meta: {
-      title: "REALISASI KEUANGAN PERUBAHAN",      
+      title: "REALISASI KEUANGAN PERUBAHAN",
     },
     component: () =>
       import("../views/pages/mobile/MobileChartPerubahanKeuangan.vue"),
@@ -855,7 +864,7 @@ const routes = [
     path: "/mobile/chartperubahan/fisik/:ta/:bulan",
     name: "MobileChartPerubahanFisik",
     meta: {
-      title: "REALISASI FISIK PERUBAHAN",      
+      title: "REALISASI FISIK PERUBAHAN",
     },
     component: () =>
       import("../views/pages/mobile/MobileChartPerubahanFisik.vue"),
