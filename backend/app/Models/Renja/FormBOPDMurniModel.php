@@ -141,7 +141,7 @@ class FormBOPDMurniModel extends ReportModel
     $sheet->getColumnDimension('Q')->setWidth(10);
     $sheet->getColumnDimension('R')->setWidth(40);
     $sheet->getColumnDimension('S')->setWidth(15);
-    $sheet->getColumnDimension('T')->setWidth(9);
+    $sheet->getColumnDimension('T')->setWidth(13);
     $sheet->getColumnDimension('U')->setWidth(9);
     
     $styleArray=array(
