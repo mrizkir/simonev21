@@ -345,14 +345,14 @@ const routes = [
       import("../views/pages/admin/renjamurni/DataMentahMurni.vue"),
   },
   {
-    path: "/renjamurni/milestone",
-    name: "RenjaMurniMilestone",
+    path: "/renjamurni/snapshot",
+    name: "RenjaMurniSnapshot",
     meta: {
       title: "RENCANA KERJA MURNI - MILESTONE",
       requiresAuth: true,
     },
     component: () =>
-      import("../views/pages/admin/renjamurni/MilestoneMurni.vue"),
+      import("../views/pages/admin/renjamurni/SnapshotMurni.vue"),
   },
   {
     path: "/renjamurni/progressp2d",

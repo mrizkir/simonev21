@@ -152,7 +152,7 @@
       </v-list-item>
       <v-list-item
         link
-        to="/renjamurni/milestone"
+        to="/renjamurni/snapshot"
         :active-class="
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
         "
@@ -164,7 +164,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>
-            MILESTONE
+            SNAPSHOT
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
