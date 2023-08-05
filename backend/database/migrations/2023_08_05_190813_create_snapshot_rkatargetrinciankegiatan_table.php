@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRkatargetrinciankegiatanTable extends Migration
+class CreateSnapshotRkatargetrinciankegiatanTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRkatargetrinciankegiatanTable extends Migration
    */
   public function up()
   {
-    Schema::create('trRKATargetRinc', function (Blueprint $table) {
+    Schema::create('trSnapshotRKATargetRinc', function (Blueprint $table) {
       $table->uuid('RKATargetRincID');
       $table->uuid('RKAID');
       $table->uuid('RKARincID');
@@ -26,26 +26,16 @@ class CreateRkatargetrinciankegiatanTable extends Migration
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
       $table->year('TA'); 
+      $table->tinyInteger('TABULAN');
       $table->boolean('Locked')->default(0);
       $table->uuid('RKATargetRincID_Src')->nullable();
       $table->timestamps();
 
-      $table->primary('RKATargetRincID');
+      $table->index('RKATargetRincID');
       $table->index('RKAID');
       $table->index('RKARincID');
       $table->index('RKATargetRincID_Src');
-
-      $table->foreign('RKARincID')
-          ->references('RKARincID')
-          ->on('trRKARinc')
-          ->onDelete('cascade')
-          ->onUpdate('cascade');    
-
-      $table->foreign('RKAID')
-          ->references('RKAID')
-          ->on('trRKA')
-          ->onDelete('cascade')
-          ->onUpdate('cascade');
+      $table->index('TABULAN');
     });
   }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRkakegiatanTable extends Migration
+class CreateSnapshotRkakegiatanTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRkakegiatanTable extends Migration
    */
   public function up()
   {
-    Schema::create('trRKA', function (Blueprint $table) {
+    Schema::create('trSnapshotRKA', function (Blueprint $table) {
       $table->uuid('RKAID');
       $table->uuid('OrgID');
       $table->uuid('SOrgID');
@@ -78,12 +78,13 @@ class CreateRkakegiatanTable extends Migration
       $table->uuid('user_id'); 
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
-      $table->year('TA');            
+      $table->year('TA');
+      $table->tinyInteger('TABULAN');
       $table->boolean('Locked')->default(0);
       $table->uuid('RKAID_Src')->nullable();
       $table->timestamps();
 
-      $table->primary('RKAID');
+      $table->index('RKAID');
       $table->index('OrgID');
       $table->index('SOrgID');
       $table->index('PrgID');
@@ -109,12 +110,7 @@ class CreateRkakegiatanTable extends Migration
       $table->index('nip_pptk1');
       $table->index('nip_pptk2');
       $table->index('RKAID_Src');
-
-      $table->foreign('SubKgtID')
-          ->references('SubKgtID')
-          ->on('tmSubKegiatan')
-          ->onDelete('cascade')
-          ->onUpdate('cascade'); 
+      $table->index('TABULAN');
     });       
   }
 
@@ -125,6 +121,6 @@ class CreateRkakegiatanTable extends Migration
    */
   public function down()
   {        
-    Schema::dropIfExists('trRKA');
+    Schema::dropIfExists('trSnapshotRKA');
   }
 }

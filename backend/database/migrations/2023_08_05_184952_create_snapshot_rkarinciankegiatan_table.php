@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRkarinciankegiatanTable extends Migration
+class CreateSnapshotRkarinciankegiatanTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRkarinciankegiatanTable extends Migration
    */
   public function up()
   {
-    Schema::create('trRKARinc', function (Blueprint $table) {
+    Schema::create('trSnapshotRKARinc', function (Blueprint $table) {
       $table->uuid('RKARincID');
       $table->uuid('RKAID');
       $table->uuid('SIPDID')->nullable();
@@ -50,11 +50,12 @@ class CreateRkarinciankegiatanTable extends Migration
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
       $table->year('TA'); 
+      $table->tinyInteger('TABULAN');
       $table->boolean('Locked')->default(0);
       $table->uuid('RKARincID_Src')->nullable();
       $table->timestamps();
 
-      $table->primary('RKARincID');
+      $table->index('RKARincID');
       $table->index('SIPDID');
       $table->index('RKAID');
       $table->index('JenisPelaksanaanID');
@@ -63,19 +64,8 @@ class CreateRkarinciankegiatanTable extends Migration
       $table->index('SubRObyID');
       $table->index('kode_uraian1');
       $table->index('kode_uraian2');
-      $table->index('RKARincID_Src');
-      
-      $table->foreign('SIPDID')
-          ->references('SIPDID')
-          ->on('sipd')
-          ->onDelete('set null')
-          ->onUpdate('cascade');
-
-      $table->foreign('RKAID')
-          ->references('RKAID')
-          ->on('trRKA')
-          ->onDelete('cascade')
-          ->onUpdate('cascade');           
+      $table->index('RKARincID_Src');   
+      $table->index('TABULAN');          
 
     });
   }
@@ -87,6 +77,6 @@ class CreateRkarinciankegiatanTable extends Migration
    */
   public function down()
   {        
-    Schema::dropIfExists('trRKARinc');
+    Schema::dropIfExists('trSnapshotRKARinc');
   }
 }
