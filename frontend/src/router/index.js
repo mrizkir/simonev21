@@ -352,7 +352,7 @@ const routes = [
       requiresAuth: true,
     },
     component: () =>
-      import("../views/pages/admin/renjamurni/SnapshotMurni.vue"),
+      import("../views/pages/admin/renjamurni/SnapshotRKAMurni.vue"),
   },
   {
     path: "/renjamurni/progressp2d",

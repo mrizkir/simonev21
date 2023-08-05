@@ -76,7 +76,7 @@
   import ModuleHeader from "@/components/ModuleHeader";
   import Filter2 from "@/components/sidebar/FilterMode2";
   export default {
-    name: "SnapshotMurni",
+    name: "SnapshotRKAMurni",
     created() {
       this.breadcrumbs = [
         {
