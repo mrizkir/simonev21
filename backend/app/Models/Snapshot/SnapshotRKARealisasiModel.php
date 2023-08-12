@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Renja;
+namespace App\Models\Snapshot;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class RKARealisasiModel extends Model implements HasMedia
+class SnapshotRKARealisasiModel extends Model implements HasMedia
 {
   use InteractsWithMedia;
   /**
@@ -15,7 +15,7 @@ class RKARealisasiModel extends Model implements HasMedia
    *
    * @var string
   */
-  protected $table = 'trRKARealisasiRinc';
+  protected $table = 'trSnapshotRKARealisasiRinc';
   /**
    * The attributes that are mass assignable.
    *
@@ -37,7 +37,8 @@ class RKARealisasiModel extends Model implements HasMedia
     'fisik2',         
     'EntryLvl',         
     'Descr',         
-    'TA',         
+    'TA',        
+    'TABULAN', 
     'Locked',  
     'RKARealisasiRincID_Src',                       
   ];

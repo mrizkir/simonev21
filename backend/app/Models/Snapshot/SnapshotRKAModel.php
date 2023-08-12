@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Renja;
+namespace App\Models\Snapshot;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RKAModel extends Model 
+class SnapshotRKAModel extends Model 
 {
 
    /**
@@ -12,7 +12,7 @@ class RKAModel extends Model
    *
    * @var string
    */
-  protected $table = 'trRKA';
+  protected $table = 'trSnapshotRKA';
   /**
    * The attributes that are mass assignable.
    *
@@ -84,6 +84,7 @@ class RKAModel extends Model
     'EntryLvl', 
     'Descr', 
     'TA', 
+    'TABULAN',
     'Locked',        
     'RKAID_Src'
   ];

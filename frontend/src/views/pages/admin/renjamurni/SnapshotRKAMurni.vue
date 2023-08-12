@@ -65,6 +65,154 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row class="mb-4" no-gutters>
+        <v-col cols="12">
+          <v-data-table
+            :headers="headers"
+            :items="datatable"
+            :search="search"
+            item-key="RKAID"
+            show-expand
+            dense
+            :expanded.sync="expanded"
+            :single-expand="true"
+            class="elevation-1"
+            :loading="datatableLoading"
+            loading-text="Loading... Please wait"
+            @click:row="dataTableRowClicked"
+          >
+            <template v-slot:top>
+              <v-toolbar flat color="white">
+                <v-toolbar-title>DAFTAR SUB KEGIATAN</v-toolbar-title>
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-spacer></v-spacer>                     
+              </v-toolbar>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                    color="primary"
+                    class="ma-1"
+                    @click.stop="viewUraian(item)"
+                  >
+                    mdi-eye
+                  </v-icon>
+                </template>
+                <span>detail uraian kegiatan</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                    class="ma-1"
+                    color="warning"
+                    :loading="btnLoading"
+                    :disabled="item.PaguDana1 > 0 || item.Locked == 1 || btnLoading"
+                    @click.stop="loaddatauraianfirsttime(item)"
+                  >
+                    mdi-sync-circle
+                  </v-icon>
+                </template>
+                <span>load uraian</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                    color="red"
+                    :loading="btnLoading"
+                    :disabled="btnLoading || item.Locked == 1"
+                    @click.stop="deleteItem(item)"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </template>
+                <span>Hapus RKA</span>
+              </v-tooltip>
+              <v-icon small class="mr-2" v-if="item.Locked == 1">
+                mdi-lock
+              </v-icon>
+            </template>
+            <template v-slot:item.PaguDana1="{ item }">
+              {{ item.PaguDana1 | formatUang }}
+            </template>
+            <template v-slot:item.RealisasiKeuangan1="{ item }">
+              {{ item.RealisasiKeuangan1 | formatUang }}
+            </template>
+            <template v-slot:item.SisaAnggaran="{ item }">
+              {{ (item.PaguDana1 - item.RealisasiKeuangan1) | formatUang }}
+            </template>
+            <template v-slot:expanded-item="{ headers, item }">
+              <td :colspan="headers.length" class="text-center">
+                <v-col cols="12" class="mb1">
+                  <strong>ID:</strong>{{ item.RKAID }}
+                  <strong>created_at:</strong>
+                  {{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
+                  <strong>updated_at:</strong>
+                  {{ $date(item.created_at).format("DD/MM/YYYY HH:mm") }}
+                </v-col>
+                <v-col
+                  cols="12"
+                  class="mb1 text-center"
+                  v-if="item.Locked == 0"
+                >
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click.stop="resetdatakegiatan(item)"
+                    :disabled="btnLoading || item.Locked == 1"
+                  >
+                    RESET
+                  </v-btn>
+                </v-col>
+              </td>
+            </template>
+            <template v-slot:body.append>
+              <tr class="amber darken-1 font-weight-black">
+                <td colspan="3" class="text-right">TOTAL</td>
+                <td class="text-right">
+                  {{ footers.pagukegiatan | formatUang }}
+                </td>
+                <td class="text-right">{{ footers.fisik }}</td>
+                <td class="text-right">{{ footers.realisasi | formatUang }}</td>
+                <td class="text-right">
+                  {{ footers.persen_keuangan.toFixed(2) }}
+                </td>
+                <td class="text-right">
+                  {{ footers.sisa | formatUang }}
+                </td>
+                <td></td>
+              </tr>
+            </template>
+            <template v-slot:no-data>
+              <v-btn
+                class="ma-2"
+                :loading="btnLoading"
+                :disabled="showBtnLoadDataKegiatan || btnLoading"
+                color="primary"
+                @click.stop="loaddatakegiatanFirsttime"
+              >
+                BUAT SNAPSHOT
+                <template v-slot:loader>
+                  <span>BUAT SNAPSHOT ...</span>
+                </template>
+              </v-btn>
+            </template>
+          </v-data-table>
+        </v-col>
+        <v-col cols="12">
+          <strong>Total Realisasi Fisik</strong> : (Total Realisasi Fisik / Jumlah Sub Kegiatan)<br />
+          <strong>Total Persen Realisasi Keuangan</strong> : (Total Realisasi Keuangan / Pagu Kegiatan) * 100<br />
+        </v-col>
+      </v-row>
     </v-container>
     <template v-slot:filtersidebar>
 			<Filter2 v-on:changeBulanRealisasi="changeBulanRealisasi" ref="filter2" />
@@ -142,6 +290,48 @@
         datatableLoading: false,
         datatableLoaded: false,
         datatable: [],
+        headers: [
+          { text: "KODE", value: "kode_sub_kegiatan", width: 80 },
+          {
+            text: "NAMA SUB KEGIATAN",
+            value: "Nm_Sub_Kegiatan",
+            width: 300,
+          },
+          {
+            text: "PAGU KEGIATAN",
+            value: "PaguDana1",
+            align: "end",
+            width: 100,
+          },
+          {
+            text: "REALISASI FISIK",
+            value: "RealisasiFisik1",
+            align: "end",
+            width: 100,
+          },
+          {
+            text: "REALISASI KEUANGAN",
+            value: "RealisasiKeuangan1",
+            align: "end",
+            width: 100,
+          },
+          { text: "%", align: "end", value: "persen_keuangan1", width: 50 },
+          {
+            text: "SISA PAGU",
+            value: "SisaAnggaran",
+            align: "end",
+            width: 100,
+          },
+          { text: "AKSI", value: "actions", sortable: false, width: 110 },
+        ],
+        footers: {
+          paguunitkerja: 0,
+          pagukegiatan: 0,
+          realisasi: 0,
+          sisa: 0,
+          persen_keuangan: 0,
+          fisik: 0,
+        },
         //filter form
         daftar_opd: [],
         OrgID_Selected: "",
@@ -198,6 +388,68 @@
             this.datatableLoaded = false;
           });
       },
+      loaddatakegiatanFirsttime: async function() {
+        this.btnLoading = true;
+        await this.$ajax
+          .post(
+            "/snapshot/rkamurni/loaddatakegiatanfirsttime",
+            {
+              tahun: this.$store.getters["auth/TahunSelected"],
+              bulan: this.$store.getters["uifront/getBulanRealisasi"],
+              SOrgID: this.SOrgID_Selected,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.DataUnitKerja = data.unitkerja;
+            this.datatable = data.rka;
+            this.footersummary();
+            this.btnLoading = false;
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });
+      },
+      loaddatakegiatan: async function() {
+        this.datatableLoading = true;
+        await this.$ajax
+          .post(
+            "/snapshot/rkamurni",
+            {
+              tahun: this.$store.getters["auth/TahunSelected"],
+              bulan: this.$store.getters["uifront/getBulanRealisasi"],
+              SOrgID: this.SOrgID_Selected,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.DataUnitKerja = data.unitkerja;
+            this.datatable = data.rka;
+            this.datatableLoaded = true;
+            this.datatableLoading = false;
+            this.footersummary();
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });
+      },
+    },
+    computed: {
+      showBtnLoadDataKegiatan() {
+        var bool = true;
+        if (this.SOrgID_Selected.length > 0 && this.datatableLoaded == true) {
+          bool = this.datatable.length > 0;
+        }
+        return bool;
+      },
     },
     watch: {
       OrgID_Selected(val) {
@@ -221,7 +473,7 @@
         }
         page.SOrgID_Selected = val;
         this.$store.dispatch("uiadmin/updatePage", page);
-        // this.loaddatakegiatan();
+        this.loaddatakegiatan();
       },
     },
     components: {
