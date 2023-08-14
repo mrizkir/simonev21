@@ -157,7 +157,7 @@
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
         "
         :color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-        v-if="CAN_ACCESS('RENJA-RKA-MURNI_BROWSE')"
+        v-if="CAN_ACCESS('RENJA-SNAPSHOT-RKA-MURNI_BROWSE')"
       >
         <v-list-item-icon class="mr-2">
           <v-icon>mdi-source-fork</v-icon>

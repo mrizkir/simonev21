@@ -266,8 +266,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjamurni/report/formbunitkerjamurni/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);    
   
   //renja - snapshot murni
-  $router->post('/snapshot/rkamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Snapshot\SnapshotRKAMurniController@index','as'=>'snapshotrkamurni.index']);
-  $router->post('/snapshot/rkamurni/loaddatakegiatanfirsttime', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|'],'uses'=>'Snapshot\SnapshotRKAMurniController@loaddatakegiatanFirsttime','as'=>'snapshotrkamurni.loaddatakegiatanfirsttime']);
+  $router->post('/snapshot/rkamurni', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@index','as'=>'snapshotrkamurni.index']);
+  $router->post('/snapshot/rkamurni/loaddatakegiatanfirsttime', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@loaddatakegiatanFirsttime','as'=>'snapshotrkamurni.loaddatakegiatanfirsttime']);
 
   //renja perubahan
   $router->post('/renjaperubahan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaPerubahanController@index','as'=>'renjaperubahan.index']);
