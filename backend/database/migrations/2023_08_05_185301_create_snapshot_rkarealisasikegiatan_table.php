@@ -13,7 +13,7 @@ class CreateSnapshotRkarealisasikegiatanTable extends Migration
    */
   public function up()
   {
-    Schema::create('trSnaphsotRKARealisasiRinc', function (Blueprint $table) {
+    Schema::create('trSnapshotRKARealisasiRinc', function (Blueprint $table) {
       $table->uuid('RKARealisasiRincID');
       $table->uuid('RKAID');
       $table->uuid('RKARincID');
@@ -30,7 +30,7 @@ class CreateSnapshotRkarealisasikegiatanTable extends Migration
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
       $table->year('TA'); 
-      $table->tinyInteger('TABULAN');
+      $table->smallInteger('TABULAN');
       $table->boolean('Locked')->default(0);
       $table->uuid('RKARealisasiRincID_Src')->nullable();
       $table->timestamps();
@@ -51,6 +51,6 @@ class CreateSnapshotRkarealisasikegiatanTable extends Migration
    */
   public function down()
   {        
-    Schema::dropIfExists('trSnaphsotRKARealisasiRinc');
+    Schema::dropIfExists('trSnapshotRKARealisasiRinc');
   }
 }

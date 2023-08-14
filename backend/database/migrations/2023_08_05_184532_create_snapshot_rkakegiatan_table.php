@@ -79,7 +79,7 @@ class CreateSnapshotRkakegiatanTable extends Migration
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
       $table->year('TA');
-      $table->tinyInteger('TABULAN');
+      $table->smallInteger('TABULAN');
       $table->boolean('Locked')->default(0);
       $table->uuid('RKAID_Src')->nullable();
       $table->timestamps();

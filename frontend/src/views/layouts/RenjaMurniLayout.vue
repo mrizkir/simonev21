@@ -152,7 +152,7 @@
       </v-list-item>
       <v-list-item
         link
-        to="/renjamurni/snapshot"
+        to="/renjamurni/snapshot/rka"
         :active-class="
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
         "

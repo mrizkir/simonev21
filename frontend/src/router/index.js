@@ -334,6 +334,7 @@ const routes = [
     },
     component: () => import("../views/pages/admin/renjamurni/RenjaMurni.vue"),
   },
+  //renja murni - data mentah
   {
     path: "/renjamurni/datamentah",
     name: "RenjaMurniDataMentah",
@@ -344,16 +345,28 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjamurni/DataMentahMurni.vue"),
   },
+  //renja murni - snapshot - rka
   {
-    path: "/renjamurni/snapshot",
-    name: "RenjaMurniSnapshot",
+    path: "/renjamurni/snapshot/rka",
+    name: "RenjaMurniSnapshotRKA",
     meta: {
-      title: "RENCANA KERJA MURNI - MILESTONE",
+      title: "RENCANA KERJA MURNI - SNAPSHOT",
       requiresAuth: true,
     },
     component: () =>
       import("../views/pages/admin/renjamurni/SnapshotRKAMurni.vue"),
   },
+  {
+    path: "/renjamurni/snapshot/rka/uraian/:rkaid",
+    name: "RenjaMurniSnapshotUraianRKA",
+    meta: {
+      title: "RKA MURNI - URAIAN",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/SnapshotUraianRKAMurni.vue"),
+  },
+  //renja murni - progres sp2d
   {
     path: "/renjamurni/progressp2d",
     name: "RenjaMurniProgresSp2d",

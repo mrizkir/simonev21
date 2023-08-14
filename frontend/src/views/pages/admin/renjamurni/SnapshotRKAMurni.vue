@@ -103,43 +103,7 @@
                   </v-icon>
                 </template>
                 <span>detail uraian kegiatan</span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                    class="ma-1"
-                    color="warning"
-                    :loading="btnLoading"
-                    :disabled="item.PaguDana1 > 0 || item.Locked == 1 || btnLoading"
-                    @click.stop="loaddatauraianfirsttime(item)"
-                  >
-                    mdi-sync-circle
-                  </v-icon>
-                </template>
-                <span>load uraian</span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                    color="red"
-                    :loading="btnLoading"
-                    :disabled="btnLoading || item.Locked == 1"
-                    @click.stop="deleteItem(item)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-                <span>Hapus RKA</span>
-              </v-tooltip>
-              <v-icon small class="mr-2" v-if="item.Locked == 1">
-                mdi-lock
-              </v-icon>
+              </v-tooltip>                           
             </template>
             <template v-slot:item.PaguDana1="{ item }">
               {{ item.PaguDana1 | formatUang }}
@@ -249,7 +213,7 @@
       );
 
       this.$store.dispatch("uiadmin/addToPages", {
-        name: "snapshotmurni",
+        name: "snapshotrkamurni",
         OrgID_Selected: "",
         SOrgID_Selected: "",
         datakegiatan: {
@@ -264,11 +228,11 @@
     mounted() {
       this.fetchOPD();
       var OrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
-        "snapshotmurni",
+        "snapshotrkamurni",
         "OrgID_Selected"
       );
       var SOrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
-        "snapshotmurni",
+        "snapshotrkamurni",
         "SOrgID_Selected"
       );
       if (OrgID_Selected.length > 0) {
@@ -441,6 +405,30 @@
             this.btnLoading = false;
           });
       },
+      viewUraian(item) {
+        var page = this.$store.getters["uiadmin/Page"]("snapshotrkamurni");
+        if (page.datakegiatan.RKAID == "") {
+          page.datakegiatan = item;
+          this.$store.dispatch("uiadmin/updatePage", page);
+          this.$router.push(
+            "/renjamurni/snapshot/rka/uraian/" + page.datakegiatan.RKAID
+          );
+        } else {
+          this.$root.$confirm
+            .open(
+              "INFO",
+              "Kegiatan lain sedang dibuka, jadi tidak bisa membuka kegiatan ini",
+              { color: "warning" }
+            )
+            .then(confirm => {
+              if (confirm) {
+                this.$router.push(
+                  "/renjamurni/snapshot/rka/uraian/" + page.datakegiatan.RKAID
+                );
+              }
+            });
+        }
+      },
     },
     computed: {
       showBtnLoadDataKegiatan() {
@@ -453,7 +441,7 @@
     },
     watch: {
       OrgID_Selected(val) {
-        var page = this.$store.getters["uiadmin/Page"]("snapshotmurni");
+        var page = this.$store.getters["uiadmin/Page"]("snapshotrkamurni");
         if (this.firstloading == true && val.length > 0) {
           page.OrgID_Selected = val;
           this.$store.dispatch("uiadmin/updatePage", page);
@@ -467,7 +455,7 @@
         }
       },
       SOrgID_Selected(val) {
-        var page = this.$store.getters["uiadmin/Page"]("snapshotmurni");
+        var page = this.$store.getters["uiadmin/Page"]("snapshotrkamurni");
         if (this.firstloading == false && val.length > 0) {
           this.datatableLoaded = false;
         }
