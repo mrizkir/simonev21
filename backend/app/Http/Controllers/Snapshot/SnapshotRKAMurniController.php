@@ -396,7 +396,7 @@ class SnapshotRKAMurniController extends Controller
   }
 	public function index(Request $request)
   {
-    $this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
+    $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_BROWSE');
 
     $this->validate($request, [            
       'tahun'=>'required',            
@@ -475,5 +475,55 @@ class SnapshotRKAMurniController extends Controller
       'locked'=>$is_locked == 1,
       'message'=>'Fetch data rka murni berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+  }
+  public function destroy(Request $request, $id)
+  {
+    $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_BROWSE');
+
+    $this->validate($request, [            
+			'pid'=>'required|in:all',
+			'SOrgID'=>'required|exists:tmSOrg,SOrgID',
+		]); 
+
+    $SOrgID=$request->input('SOrgID');
+    $pid=$request->input('pid');
+
+    \DB::beginTransaction();
+		switch ($pid)
+		{ 
+      case 'all':
+        \DB::table('trSnapshotRKARealisasiRinc AS A')
+        ->join('trSnapshotRKA AS B', 'B.RKAID', 'A.RKAID')
+        ->where('B.TABULAN', $id)
+        ->where('B.SOrgID', $SOrgID)
+        ->delete();
+
+        \DB::table('trSnapshotRKATargetRinc AS A')
+        ->join('trSnapshotRKA AS B', 'B.RKAID', 'A.RKAID')
+        ->where('B.TABULAN', $id)
+        ->where('B.SOrgID', $SOrgID)
+        ->delete();
+
+        \DB::table('trSnapshotRKARinc AS A')
+        ->join('trSnapshotRKA AS B', 'B.RKAID', 'A.RKAID')
+        ->where('B.TABULAN', $id)
+        ->where('B.SOrgID', $SOrgID)
+        ->delete();
+
+        \DB::table('trSnapshotRKA')
+        ->where('TABULAN', $id)
+        ->where('SOrgID', $SOrgID)
+        ->delete();       
+        
+        $message = 'Hapus snapshot berhasil';
+      break;
+    }
+    \DB::commit();
+    
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'destroy',                
+      'message'=>$message,
+    ], 200);
   }
 }

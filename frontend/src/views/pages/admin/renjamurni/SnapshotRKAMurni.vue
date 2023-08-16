@@ -85,7 +85,24 @@
               <v-toolbar flat color="white">
                 <v-toolbar-title>DAFTAR SUB KEGIATAN</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
-                <v-spacer></v-spacer>                     
+                <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="red"
+                      icon                      
+                      small
+                      class="ma-2"
+                      @click.stop="deleteSnapshot()"
+                      :disabled="btnLoading || !(SOrgID_Selected.length > 0) || !(datatable.length > 0)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>HAPUS SNAPSHOT BULAN INI</span>
+                </v-tooltip>
               </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -403,6 +420,42 @@
           })
           .catch(() => {
             this.btnLoading = false;
+          });
+      },
+      deleteSnapshot() {
+        let tahun = this.$store.getters["auth/TahunSelected"];
+        this.$root.$confirm
+          .open(
+            "Delete",
+            "Apakah Anda ingin menghapus data snapshot bulan " +
+            this.nama_bulan + ' T.A ' + tahun +
+              " ?",
+            { color: "red", width: "600px" }
+          )
+          .then(confirm => {
+            if (confirm) {
+              this.btnLoading = true;
+              this.$ajax
+                .post(
+                  "/snapshot/rkamurni/" + tahun + this.$store.getters["uifront/getBulanRealisasi"],
+                  {
+                    _method: "DELETE",
+                    pid: "all",                    
+                    SOrgID: this.SOrgID_Selected,
+                  },
+                  {
+                    headers: {
+                      Authorization: this.$store.getters["auth/Token"],
+                    },
+                  }
+                )
+                .then(() => {
+                  this.$router.go();
+                })
+                .catch(() => {
+                  this.btnLoading = false;
+                });
+            }
           });
       },
       viewUraian(item) {
