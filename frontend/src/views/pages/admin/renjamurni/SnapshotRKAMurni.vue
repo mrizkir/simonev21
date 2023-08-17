@@ -261,6 +261,7 @@
         this.SOrgID_Selected = SOrgID_Selected;
       }
       this.firstloading = false;
+      this.$refs.filter2.setFirstTimeLoading(this.firstloading);
     },
     data() {
       return {
@@ -493,6 +494,12 @@
       },
     },
     watch: {
+      bulan_realisasi() {
+        var page = this.$store.getters["uiadmin/Page"]("snapshotrkamurni");
+        if (this.firstloading == false && page.SOrgID_Selected.length > 0) {
+          this.loaddatakegiatan();
+        }
+      },
       OrgID_Selected(val) {
         var page = this.$store.getters["uiadmin/Page"]("snapshotrkamurni");
         if (this.firstloading == true && val.length > 0) {

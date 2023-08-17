@@ -29,7 +29,6 @@ class SnapshotRKAMurniController extends Controller
     $tahun = $request->input('tahun');
     $bulan = $request->input('bulan');
 
-    \DB::beginTransaction();
     $str_insert = '
     INSERT INTO `trSnapshotRKA` (
       `RKAID`, 
@@ -177,7 +176,7 @@ class SnapshotRKAMurniController extends Controller
     FROM
       trRKA
     WHERE
-      kode_sub_organisasi="'.$unitkerja->kode_sub_organisasi.'"
+      SOrgID="'.$SOrgID.'"
       AND EntryLvl=1
       AND TA='.$tahun;
     \DB::statement($str_insert);
@@ -268,9 +267,9 @@ class SnapshotRKAMurniController extends Controller
       NOW(),
       NOW()
     FROM trRKARinc AS A 
-    JOIN trRKA AS B ON A.RKAID=A.RKAID 
+    JOIN trRKA AS B ON A.RKAID=B.RKAID 
     WHERE
-      B.kode_sub_organisasi="'.$unitkerja->kode_sub_organisasi.'"
+      B.SOrgID="'.$SOrgID.'"
       AND A.EntryLvl=1
       AND A.TA='.$tahun;
     \DB::statement($str_insert);
@@ -315,9 +314,9 @@ class SnapshotRKAMurniController extends Controller
       NOW(),
       NOW()
     FROM trRKATargetRinc AS A     
-    JOIN trRKA AS B ON A.RKAID=A.RKAID 
+    JOIN trRKA AS B ON A.RKAID=B.RKAID 
     WHERE
-      B.kode_sub_organisasi="'.$unitkerja->kode_sub_organisasi.'"
+      B.SOrgID="'.$SOrgID.'"
       AND A.EntryLvl=1
       AND A.TA='.$tahun;
     \DB::statement($str_insert);
@@ -370,16 +369,14 @@ class SnapshotRKAMurniController extends Controller
       NOW(),
       NOW()
     FROM trRKARealisasiRinc AS A     
-    JOIN trRKA AS B ON A.RKAID=A.RKAID 
+    JOIN trRKA AS B ON A.RKAID=B.RKAID 
     WHERE
-      B.kode_sub_organisasi="'.$unitkerja->kode_sub_organisasi.'"
+      B.SOrgID="'.$SOrgID.'"
       AND A.EntryLvl=1
       AND A.TA='.$tahun;
-    \DB::statement($str_insert);
+    \DB::statement($str_insert);    
 
-    \DB::commit();
-
-    $data = SnapshotRKAModel::where('kode_sub_organisasi', $unitkerja->kode_sub_organisasi)
+    $data = SnapshotRKAModel::where('SOrgID', $SOrgID)
       ->where('TA',$tahun)
       ->where('TABULAN', $tahun.$bulan)
       ->where('EntryLvl', 1)
@@ -488,7 +485,6 @@ class SnapshotRKAMurniController extends Controller
     $SOrgID=$request->input('SOrgID');
     $pid=$request->input('pid');
 
-    \DB::beginTransaction();
 		switch ($pid)
 		{ 
       case 'all':
@@ -510,16 +506,13 @@ class SnapshotRKAMurniController extends Controller
         ->where('B.SOrgID', $SOrgID)
         ->delete();
 
-        \DB::table('trSnapshotRKA')
-        ->where('TABULAN', $id)
-        ->where('SOrgID', $SOrgID)
-        ->delete();       
+        $str = "DELETE FROM trSnapshotRKA WHERE TABULAN='$id' AND SOrgID='$SOrgID'";
+        \DB::statement($str);        
         
         $message = 'Hapus snapshot berhasil';
       break;
     }
-    \DB::commit();
-    
+        
     return Response()->json([
       'status'=>1,
       'pid'=>'destroy',                
