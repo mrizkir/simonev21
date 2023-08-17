@@ -6,7 +6,6 @@
       </template>
       <template v-slot:name>
         SNAPSHOT RENJA MURNI
-        
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">

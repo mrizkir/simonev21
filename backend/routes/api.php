@@ -267,7 +267,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   
   //renja - snapshot murni
   $router->post('/snapshot/rkamurni', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@index','as'=>'snapshotrkamurni.index']);
+  $router->get('/snapshot/rkamurni/{id}', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@show','as'=>'snapshotrkamurni.show']);
   $router->post('/snapshot/rkamurni/loaddatakegiatanfirsttime', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@loaddatakegiatanFirsttime','as'=>'snapshotrkamurni.loaddatakegiatanfirsttime']);
+  $router->post('/snapshot/rkamurni/rencanatarget', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@rencanatarget','as'=>'snapshotrkamurni.rencanatarget']);
   $router->delete('/snapshot/rkamurni/{id}', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@destroy','as'=>'snapshotrkamurni.destroys']);
 
   //renja perubahan

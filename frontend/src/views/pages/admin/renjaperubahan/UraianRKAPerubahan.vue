@@ -1371,7 +1371,7 @@
             )
             .then(({ data }) => {
               this.formtarget.paguuraian2 = data.datauraian.PaguUraian2;
-              if (data.mode == "targetfisik") {
+              if (data.mode == "targetfisik" && data.target !== null) {
                 if (Object.keys(data.target).length > 0) {
                   this.editedIndex = 1;
                   this.formtarget.targetfisik = [
@@ -1405,7 +1405,7 @@
                   ];
                   this.editedIndex = -1;
                 }
-              } else if (mode == "targetanggarankas") {
+              } else if (data.mode == "targetanggarankas" && data.target !== null) {
                 if (Object.keys(data.target).length > 0) {
                   this.editedIndex = 1;
                   this.formtarget.targetanggarankas = [
