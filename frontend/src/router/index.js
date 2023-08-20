@@ -366,6 +366,16 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjamurni/SnapshotUraianRKAMurni.vue"),
   },
+  {
+    path: "/renjamurni/snapshot/rka/realisasi/:rkarincid",
+    name: "RenjaMurniSnapshotRealisasiRKAMurni",
+    meta: {
+      title: "RKA MURNI - REALISASI",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/SnapshotRealisasiRKAMurni.vue"),
+  },
   //renja murni - progres sp2d
   {
     path: "/renjamurni/progressp2d",

@@ -113,7 +113,7 @@
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
           <v-bottom-navigation color="purple lighten-1">
-            <v-btn :to="{ path: '/renjamurni/rka/' + RKAID + '/edit' }">
+            <v-btn :to="{ path: '/renjamurni/snapshot/rka/' + RKAID + '/edit' }">
               <span>Edit RKA</span>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -918,7 +918,7 @@
           page.datauraian = item;
           this.$store.dispatch("uiadmin/updatePage", page);
           this.$router.push(
-            "/renjamurni/rka/realisasi/" + page.datauraian.RKARincID
+            "/renjamurni/snapshot/rka/realisasi/" + page.datauraian.RKARincID
           );
         } else {
           this.$root.$confirm
@@ -930,7 +930,7 @@
             .then(confirm => {
               if (confirm) {
                 this.$router.push(
-                  "/renjamurni/rka/realisasi/" + page.datauraian.RKARincID
+                  "/renjamurni/snapshot/rka/realisasi/" + page.datauraian.RKARincID
                 );
               }
             });

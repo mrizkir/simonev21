@@ -432,6 +432,81 @@ class SnapshotRKAMurniController extends Controller
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
     
   }
+  public function populateDataRealisasi ($RKARincID)
+  {
+    $datauraian = SnapshotRKARincianModel::find($RKARincID);
+
+    $data=[
+      'datarealisasi'=>[],
+      'totalanggarankas'=>0,
+      'totalrealisasi'=>0,
+      'totaltargetfisik'=>0,
+      'totalfisik'=>0,
+      'sisa_anggaran'=>0,
+    ];
+    if (!is_null($datauraian))        
+    {
+      $r = \DB::table('trSnapshotRKARealisasiRinc')
+        ->select(\DB::raw('
+          `RKARealisasiRincID`,
+          `bulan1`,
+          `target1`,
+          `realisasi1`,
+          target_fisik1,
+          fisik1,
+          `TA`,
+          `Descr`,
+          `created_at`,
+          `updated_at`
+          '))
+        ->where('RKARincID',$RKARincID)
+        ->orderBy('bulan1','ASC')
+        ->get();
+
+      $daftar_realisasi = [];
+      $totalanggarankas=0;
+      $totalrealisasi=0;
+      $totaltargetfisik=0;
+      $totalfisik=0;
+
+      foreach ($r as $item)
+      {
+        $sum_realisasi = \DB::table('trSnapshotRKARealisasiRinc')
+          ->where('RKARincID',$RKARincID)
+          ->where('bulan1','<=',$item->bulan1)
+          ->sum('realisasi1');
+
+        $sisa_anggaran=$datauraian->PaguUraian1-$sum_realisasi;            
+        $daftar_realisasi[]=[
+          'RKARealisasiRincID'=>$item->RKARealisasiRincID,
+          'bulan1'=>$item->bulan1,
+          'NamaBulan'=>Helper::getNamaBulan($item->bulan1),
+          'target1'=>$item->target1,
+          'realisasi1'=>$item->realisasi1,
+          'target_fisik1'=>$item->target_fisik1,
+          'fisik1'=>$item->fisik1,
+          'sisa_anggaran'=>$sisa_anggaran,
+          'Descr'=>$item->Descr,
+          'TA'=>$item->TA,
+          'created_at'=>$item->created_at,
+          'updated_at'=>$item->updated_at,
+        ];
+        
+        $totalanggarankas+=$item->target1;
+        $totalrealisasi+=$item->realisasi1;
+        $totaltargetfisik+=$item->target_fisik1;
+        $totalfisik+=$item->fisik1;
+      }
+      
+      $data['datarealisasi']=$daftar_realisasi;
+      $data['totalanggarankas']=$totalanggarankas;
+      $data['totalrealisasi']=$totalrealisasi;
+      $data['totaltargetfisik']=round($totaltargetfisik,2);
+      $data['totalfisik']=round($totalfisik,2);
+      $data['sisa_anggaran']=$datauraian->PaguUraian1-$totalrealisasi;			
+    }        
+    return $data;
+  } 
 	public function index(Request $request)
   {
     $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_BROWSE');
@@ -767,6 +842,35 @@ class SnapshotRKAMurniController extends Controller
       'message'=>"Fetch data target $mode berhasil diperoleh"
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 
+  }
+  /**
+   * Display the specified resource. [daftar realisasi]
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function realisasi(Request $request)
+  {  
+    $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_SHOW');
+
+    $this->validate($request, [            
+      'RKARincID'=>'required|exists:trSnapshotRKARinc,RKARincID',            
+    ]);
+    
+    $RKARincID=$request->input('RKARincID');
+    $data=$this->populateDataRealisasi($RKARincID); 
+
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'realisasi'=>$data['datarealisasi'],
+      'totalanggarankas'=>$data['totalanggarankas'],
+      'totalrealisasi'=>$data['totalrealisasi'],
+      'totaltargetfisik'=>$data['totaltargetfisik'],
+      'totalfisik'=>$data['totalfisik'],
+      'sisa_anggaran'=>$data['sisa_anggaran'],
+      'message'=>"Fetch data realisasi berhasil diperoleh"
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   public function destroy(Request $request, $id)
   {

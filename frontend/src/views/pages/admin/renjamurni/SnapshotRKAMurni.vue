@@ -336,6 +336,37 @@
           bulan_realisasi
         );
       },
+      footersummary() {
+        let data = this.datatable;
+        var summary = {
+          paguunitkerja: 0,
+          pagukegiatan: 0,
+          realisasi: 0,
+          sisa: 0,
+          persen_keuangan: 0,
+          fisik: 0,
+        };
+        if (data.length > 0) {
+          var totalpagukegiatan = 0;
+          for (var i = 0; i < data.length; i++) {
+            var num = new Number(data[i].PaguDana1);
+            totalpagukegiatan += num;
+          }
+          summary.paguunitkerja = this.DataUnitKerja.PaguDana1;
+          summary.pagukegiatan = totalpagukegiatan;
+          var totalrealisasi = parseFloat(
+            this.DataUnitKerja.RealisasiKeuangan1
+          );
+          summary.realisasi = totalrealisasi;
+          summary.sisa = totalpagukegiatan - totalrealisasi;
+          summary.persen_keuangan =
+            totalrealisasi > 0 && totalpagukegiatan > 0
+              ? (totalrealisasi / totalpagukegiatan) * 100
+              : 0;
+          summary.fisik = this.DataUnitKerja.RealisasiFisik1;
+        }
+        this.footers = summary;
+      },
       fetchOPD: async function() {
         await this.$ajax
           .post(
