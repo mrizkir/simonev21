@@ -378,8 +378,8 @@ class FormBOPDPerubahanModel extends ReportModel
               $sheet->setCellValue("O$row",$data_sub_kegiatan->lokasi_kegiatan2);  
               $sheet->setCellValue("P$row",Helper::formatUang($sisa_anggaran));  
               $sheet->setCellValue("Q$row",$persen_sisa_anggaran);
-              $sheet->setCellValue("R$row",$data_sub_kegiatan->keluaran1);
-              $sheet->setCellValue("S$row",$data_sub_kegiatan->tk_keluaran1);
+              $sheet->setCellValue("R$row",$data_sub_kegiatan->keluaran2);
+              $sheet->setCellValue("S$row",$data_sub_kegiatan->tk_keluaran2);
               $row += 1; 
               $no_sub_kegiatan += 1; 
               $total_sub_kegiatan += 1;
