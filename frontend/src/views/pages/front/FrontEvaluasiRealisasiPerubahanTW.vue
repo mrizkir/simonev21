@@ -39,76 +39,63 @@
             <v-card-title class="headline">
               SANGAT RENDAH
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (x &lt; 13%)<br />Triwulan II (x &lt;= 25%)
-              <br />Triwulan III (x &lt;= 50%) <br />Triwulan IV (x &lt;=
-              88%)<br />Tahun (x &lt;=50%)
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
-        <v-col xs="12" sm="6" md="2">
-          <v-card color="#d49dc5" dark>
-            <v-card-title class="headline">
-              RENDAH
-            </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
-            <v-card-text>
-              Triwulan I (13% >= x &lt; 17%)<br />Triwulan II (26% >= x &lt;
-              33%) <br />Triwulan III (51% >= x &lt; 60%) <br />Triwulan IV (88%
-              >= x &lt; 92%)<br />Tahun (51% >= x &lt; 66%)
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
-        <v-col xs="12" sm="6" md="2">
-          <v-card color="#e1c027" dark>
-            <v-card-title class="headline">
-              SEDANG
-            </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
-            <v-card-text>
-              Triwulan I (17% >= x &lt; 20%)<br />Triwulan II (33% >= x &lt;
-              39%) <br />Triwulan III (61% >= x &lt; 70%) <br />Triwulan IV (92%
-              >= x &lt; 95%)<br />Tahun (66% >= x &lt; 76%)
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
-        <v-col xs="12" sm="6" md="2">
-          <v-card color="#8ec189" dark>
-            <v-card-title class="headline">
-              TINGGI
-            </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
-            <v-card-text>
-              Triwulan I (20% >= x &lt; 23%)<br />Triwulan II (39% >= x &lt;
-              45%) <br />Triwulan III (70% >= x &lt; 79%) <br />Triwulan IV (95%
-              >= x &lt; 98%)<br />Tahun (76% >= x &lt; 91%)
+              Triwulan I (x &lt;= 13%)<br />Triwulan II (x &lt;= 22.50%)
+              <br />Triwulan III (x &lt;= 37%) <br />Triwulan IV (x &lt;=
+              50%)
             </v-card-text>
           </v-card>
         </v-col>
         <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
         <v-col xs="12" sm="6" md="3">
+          <v-card color="#d49dc5" dark>
+            <v-card-title class="headline">
+              RENDAH
+            </v-card-title>
+            <v-card-text>
+              Triwulan I (13.01% >= x &lt;= 17.99%)<br />Triwulan II (22.51% >= x &lt;=
+              31.25%) <br />Triwulan III (38% >= x &lt;= 49%) <br />Triwulan IV (51%
+              >= x &lt;= 65%)
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+        <v-col xs="12" sm="6" md="3">
+          <v-card color="#e1c027" dark>
+            <v-card-title class="headline">
+              SEDANG
+            </v-card-title>
+            <v-card-text>
+              Triwulan I (18% >= x &lt;= 31.26%)<br />Triwulan II (31.26% >= x &lt;=
+              38.75%) <br />Triwulan III (50% >= x &lt;= 56%) <br />Triwulan IV (66%
+              >= x &lt;= 75%)
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+        <v-col xs="12" sm="6" md="3">
+          <v-card color="#8ec189" dark>
+            <v-card-title class="headline">
+              TINGGI
+            </v-card-title>
+            <v-card-text>
+              Triwulan I (31.27% >= x &lt;= 38.76%)<br />Triwulan II (38.76% >= x &lt;=
+              47.50%) <br />Triwulan III (57% >= x &lt;= 68%) <br />Triwulan IV (76%
+              >= x &lt;= 90%)
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />       
+      </v-row>
+      <v-row class="mb-2">
+        <v-col xs="12" sm="6" md="3" offset="4">
           <v-card color="#29af28" dark>
             <v-card-title class="headline">
               SANGAT TINGGI
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (x >= 23%)<br />Triwulan II (x >= 45%) <br />Triwulan
-              III (x >= 79%) <br />Triwulan IV (x >= 98%)<br />Tahun (x >= 91%)
+              Triwulan I (x >= 38.77%)<br />Triwulan II (x >= 47.51%) <br />Triwulan
+              III (69% >= x &lt;= 75%) <br />Triwulan IV (x >= 91% &lt;= 100%)
             </v-card-text>
           </v-card>
         </v-col>

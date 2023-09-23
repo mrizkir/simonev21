@@ -43,13 +43,8 @@
             <v-card-title class="headline">
               SANGAT RENDAH
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (x &lt; 13%)<br />Triwulan II (x &lt;= 25%)
-              <br />Triwulan III (x &lt;= 50%) <br />Triwulan IV (x &lt;=
-              88%)<br />Tahun (x &lt;=50%)
+              Tahun (x &lt;=50%)
             </v-card-text>
           </v-card>
         </v-col>
@@ -59,13 +54,8 @@
             <v-card-title class="headline">
               RENDAH
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (13% >= x &lt; 17%)<br />Triwulan II (26% >= x &lt;
-              33%) <br />Triwulan III (51% >= x &lt; 60%) <br />Triwulan IV (88%
-              >= x &lt; 92%)<br />Tahun (51% >= x &lt; 66%)
+              Tahun (51% >= x &lt; 66%)
             </v-card-text>
           </v-card>
         </v-col>
@@ -75,13 +65,8 @@
             <v-card-title class="headline">
               SEDANG
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (17% >= x &lt; 20%)<br />Triwulan II (33% >= x &lt;
-              39%) <br />Triwulan III (61% >= x &lt; 70%) <br />Triwulan IV (92%
-              >= x &lt; 95%)<br />Tahun (66% >= x &lt; 76%)
+              Tahun (66% >= x &lt; 76%)
             </v-card-text>
           </v-card>
         </v-col>
@@ -91,13 +76,8 @@
             <v-card-title class="headline">
               TINGGI
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (20% >= x &lt; 23%)<br />Triwulan II (39% >= x &lt;
-              45%) <br />Triwulan III (70% >= x &lt; 79%) <br />Triwulan IV (95%
-              >= x &lt; 98%)<br />Tahun (76% >= x &lt; 91%)
+              Tahun (76% >= x &lt; 91%)
             </v-card-text>
           </v-card>
         </v-col>
@@ -107,12 +87,8 @@
             <v-card-title class="headline">
               SANGAT TINGGI
             </v-card-title>
-            <v-card-subtitle>
-              Triwulan & Tahun
-            </v-card-subtitle>
             <v-card-text>
-              Triwulan I (x >= 23%)<br />Triwulan II (x >= 45%) <br />Triwulan
-              III (x >= 79%) <br />Triwulan IV (x >= 98%)<br />Tahun (x >= 91%)
+              Tahun (x >= 91%)
             </v-card-text>
           </v-card>
         </v-col>

@@ -431,7 +431,7 @@
         DataUnitKerja: null,
         //dialog
         dialogfrm: false,
-        locked: false,
+        locked: true,
         //form data
         form_valid: true,
         daftar_bidang: [],
