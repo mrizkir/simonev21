@@ -33,11 +33,11 @@ Vue.mixin({
         case 1:
           if (value >= 38.77) {
             style = "sangattinggi";
-          } else if (value >= 31.27 && value <= 38.76) {
+          } else if (value >= 31.27 && value < 38.77) {
             style = "tinggi";
-          } else if (value >= 18 && value <= 31.26) {
+          } else if (value >= 18 && value < 31.27) {
             style = "sedang";
-          } else if (value >= 13.01 && value < 17.99) {
+          } else if (value >= 13.01 && value < 18) {
             style = "rendah";
           } else {
             style = "sangatrendah";
@@ -46,11 +46,11 @@ Vue.mixin({
         case 2:
           if (value >= 47.51) {
             style = "sangattinggi";
-          } else if (value >= 38.76 && value <= 47.5) {
+          } else if (value >= 38.76 && value < 47.6) {
             style = "tinggi";
-          } else if (value >= 31.26 && value <= 38.76) {
+          } else if (value >= 31.26 && value < 38.77) {
             style = "sedang";
-          } else if (value >= 22.51 && value <= 31.25) {
+          } else if (value >= 22.51 && value < 31.26) {
             style = "rendah";
           } else {
             style = "sangatrendah";
@@ -59,11 +59,11 @@ Vue.mixin({
         case 3:
           if (value >= 69) {
             style = "sangattinggi";
-          } else if (value >= 57 && value <= 68) {
+          } else if (value >= 57 && value < 69) {
             style = "tinggi";
-          } else if (value >= 50 && value <= 56) {
+          } else if (value >= 50 && value < 57) {
             style = "sedang";
-          } else if (value >= 38 && value <= 49) {
+          } else if (value >= 38 && value < 50) {
             style = "rendah";
           } else {
             style = "sangatrendah";
@@ -72,11 +72,11 @@ Vue.mixin({
         case 4:
           if (value >= 91) {
             style = "sangattinggi";
-          } else if (value >= 76 && value <= 90) {
+          } else if (value >= 76 && value < 91) {
             style = "tinggi";
-          } else if (value >= 66 && value <= 75) {
+          } else if (value >= 66 && value < 76) {
             style = "sedang";
-          } else if (value >= 51 && value <= 65) {
+          } else if (value >= 51 && value < 66) {
             style = "rendah";
           } else {
             style = "sangatrendah";
