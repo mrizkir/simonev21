@@ -158,7 +158,7 @@
                 </td>
                 <td
                   v-bind:class="[
-                    formatKodeWarna(0, footers.persen_keuangan),
+                    formatKodeWarna(0, footers.total_persen_keuangan),
                     'text-right',
                   ]"
                 >
