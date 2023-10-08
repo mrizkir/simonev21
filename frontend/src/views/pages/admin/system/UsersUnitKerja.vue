@@ -323,9 +323,9 @@
                   v-model="dialogUserPermission"
                   max-width="800px"
                   persistent
-                >
+                >                
                   <UserPermissions
-                    :user="editedItem"
+                    :user="dataUser"
                     v-on:closeUserPermissions="closeUserPermissions"
                     role_default="unitkerja"
                   />
@@ -516,6 +516,7 @@
         org_id: "",
         daftar_opd: [],
         daftar_unitkerja: [],
+        dataUser: {},
         editedItem: {
           id: 0,
           username: "",
@@ -776,7 +777,7 @@
       },
       setPermission: async function(item) {
         this.dialogUserPermission = true;
-        this.editedItem = item;
+        this.dataUser = item;
       },
       close() {
         this.btnLoading = false;
@@ -791,6 +792,7 @@
       closeUserPermissions() {
         this.btnLoading = false;
         this.dialogUserPermission = false;
+        this.dataUser = {};
       },
       salinuserunitkerja() {
         if (this.$refs.frmcopydata.validate()) {

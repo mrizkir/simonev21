@@ -299,7 +299,7 @@
                   persistent
                 >
                   <UserPermissions
-                    :user="editedItem"
+                    :user="dataUser"
                     v-on:closeUserPermissions="closeUserPermissions"
                     role_default="opd"
                   />
@@ -488,6 +488,7 @@
         dialogUserPermission: false,
         editedIndex: -1,
         daftar_opd: [],
+        dataUser: {},
         editedItem: {
           id: 0,
           username: "",
@@ -744,7 +745,7 @@
       },
       setPermission: async function(item) {
         this.dialogUserPermission = true;
-        this.editedItem = item;
+        this.dataUser = item;
       },
       close() {
         this.btnLoading = false;
@@ -759,6 +760,7 @@
       closeUserPermissions() {
         this.btnLoading = false;
         this.dialogUserPermission = false;
+        this.dataUser = {};
       },
       salinuseropd() {
         if (this.$refs.frmcopydata.validate()) {
