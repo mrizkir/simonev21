@@ -112,11 +112,7 @@
       </v-row>
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
-          <v-bottom-navigation color="purple lighten-1">
-            <v-btn :to="{ path: '/renjamurni/snapshot/rka/' + RKAID + '/edit' }">
-              <span>Edit RKA</span>
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
+          <v-bottom-navigation color="purple lighten-1">            
             <v-btn @click.stop="showdialogtargetfisik">
               <span>Target Fisik</span>
               <v-icon>mdi-history</v-icon>
@@ -378,6 +374,7 @@
                           :readonly="true"
                           v-model="totalTargetFisik"
                           filled
+                          :disabled="true"
                         />
                       </v-col>
                     </v-row>
@@ -566,6 +563,7 @@
                           :readonly="true"
                           filled
                           v-model="totalTargetAnggaranKas"
+                          :disabled="true"
                         >
                         </v-currency-field>
                         <span class="deep-purple--text">

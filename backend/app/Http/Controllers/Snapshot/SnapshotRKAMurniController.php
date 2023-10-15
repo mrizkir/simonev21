@@ -47,6 +47,7 @@ class SnapshotRKAMurniController extends Controller
       `trSnapshotRKA`.`Descr`,
       `trSnapshotRKA`.`EntryLvl`,
       `trSnapshotRKA`.`Locked`,
+      `trSnapshotRKA`.`TABULAN`,
       `trSnapshotRKA`.`created_at`,
       `trSnapshotRKA`.`updated_at`
       '))
@@ -72,6 +73,7 @@ class SnapshotRKAMurniController extends Controller
 
     $str_insert = '
     INSERT INTO `trSnapshotRKA` (
+      `SnapshotID`,
       `RKAID`, 
       `OrgID`, 
       `SOrgID`, 
@@ -144,6 +146,7 @@ class SnapshotRKAMurniController extends Controller
       `updated_at`
     )
     SELECT
+      UUID(),
       `RKAID`, 
       `OrgID`, 
       `SOrgID`, 
@@ -225,6 +228,7 @@ class SnapshotRKAMurniController extends Controller
     //copy rincian
     $str_insert = '
     INSERT INTO `trSnapshotRKARinc` (
+      `SnapshotID`,
       `RKARincID`,
       `RKAID`,
       `SIPDID`,
@@ -267,6 +271,7 @@ class SnapshotRKAMurniController extends Controller
       `updated_at`
     )
     SELECT
+      UUID(),
       A.`RKARincID`,
       A.`RKAID`,
       A.`SIPDID`,
@@ -318,6 +323,7 @@ class SnapshotRKAMurniController extends Controller
     //copy target    
     $str_insert = '
     INSERT INTO `trSnapshotRKATargetRinc` (
+      `SnapshotID`,
       `RKATargetRincID`, 
       `RKAID`, 
       `RKARincID`, 
@@ -337,6 +343,7 @@ class SnapshotRKAMurniController extends Controller
       `updated_at`
     )
     SELECT
+      UUID(),
       A.`RKATargetRincID`, 
       A.`RKAID`, 
       A.`RKARincID`, 
@@ -365,6 +372,7 @@ class SnapshotRKAMurniController extends Controller
     //copy realisasi    
     $str_insert = '
     INSERT INTO `trSnapshotRKARealisasiRinc` (
+      `SnapshotID`,
       `RKARealisasiRincID`, 
       `RKAID`, 
       `RKARincID`, 
@@ -388,6 +396,7 @@ class SnapshotRKAMurniController extends Controller
       `updated_at`
     )
     SELECT
+      UUID(),
       A.`RKARealisasiRincID`, 
       A.`RKAID`, 
       A.`RKARincID`, 
@@ -455,11 +464,13 @@ class SnapshotRKAMurniController extends Controller
           target_fisik1,
           fisik1,
           `TA`,
+          `TABULAN`,
           `Descr`,
           `created_at`,
           `updated_at`
           '))
         ->where('RKARincID',$RKARincID)
+        ->where('TABULAN', $datauraian->TABULAN)
         ->orderBy('bulan1','ASC')
         ->get();
 
@@ -474,6 +485,7 @@ class SnapshotRKAMurniController extends Controller
         $sum_realisasi = \DB::table('trSnapshotRKARealisasiRinc')
           ->where('RKARincID',$RKARincID)
           ->where('bulan1','<=',$item->bulan1)
+          ->where('TABULAN', $item->TABULAN)
           ->sum('realisasi1');
 
         $sisa_anggaran=$datauraian->PaguUraian1-$sum_realisasi;            
@@ -647,17 +659,25 @@ class SnapshotRKAMurniController extends Controller
         `trSnapshotRKARinc`.`status_lelang`,
         `trSnapshotRKARinc`.`Descr`,                                    
         `trSnapshotRKARinc`.`TA`,
+        `trSnapshotRKARinc`.`TABULAN`,
         `trSnapshotRKARinc`.`Locked`,
         `trSnapshotRKARinc`.created_at,
         `trSnapshotRKARinc`.updated_at
       '))                                
       ->where('RKAID',$rka->RKAID)
+      ->where('TABULAN', $rka->TABULAN)
       ->orderBy('trSnapshotRKARinc.kode_uraian1', 'ASC')
       ->get();
       
-      $data->transform(function ($item,$key) {
-        $item->realisasi1=\DB::table('trSnapshotRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi1');    
-        $item->fisik1=\DB::table('trSnapshotRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik1');
+      $data->transform(function ($item, $key) {
+        $item->realisasi1=\DB::table('trSnapshotRKARealisasiRinc')
+        ->where('RKARincID', $item->RKARincID)
+        ->where('TABULAN', $item->TABULAN)
+        ->sum('realisasi1');    
+        $item->fisik1=\DB::table('trSnapshotRKARealisasiRinc')
+        ->where('RKARincID', $item->RKARincID)
+        ->where('TABULAN', $item->TABULAN)
+        ->sum('fisik1');
         $item->persen_keuangan1=Helper::formatPersen($item->realisasi1,$item->PaguUraian1);
         switch($item->ket_lok)
         {
@@ -746,7 +766,7 @@ class SnapshotRKAMurniController extends Controller
     '))
     ->find($RKARincID);
     
-    $data_realisasi = \DB::table('trRKARealisasiRinc')
+    $data_realisasi = \DB::table('trSnapshotRKARealisasiRinc')
       ->select(\DB::raw('
         COALESCE(SUM(target1),0) AS jumlah_targetanggarankas,
         COALESCE(SUM(realisasi1),0) AS jumlah_realisasi,
@@ -754,43 +774,46 @@ class SnapshotRKAMurniController extends Controller
         COALESCE(SUM(fisik1),0) AS jumlah_fisik
       '))
       ->where('RKARincID',$RKARincID)
+      ->where('TABULAN',$data_uraian->TABULAN)
       ->get();
 
     $target = ['fisik'=>0,'anggaran'=>0];			
     if ($mode == 'targetfisik')
     {
-      $data = \DB::table('trRKATargetRinc')
-              ->select(\DB::raw("
-              CONCAT('{',
-                GROUP_CONCAT(
-                  TRIM(
-                    LEADING '{' FROM TRIM(
-                      TRAILING '}' FROM JSON_OBJECT(CONCAT('fisik_',`trRKATargetRinc`.`bulan1`),`trRKATargetRinc`.`fisik1`)
-                    )
-                  )
-                ),
-              '}') AS `fisik1`							
-            "))
-            ->where('RKARincID',$RKARincID)
-            ->get();                    
+      $data = \DB::table('trSnapshotRKATargetRinc')
+        ->select(\DB::raw("
+        CONCAT('{',
+          GROUP_CONCAT(
+            TRIM(
+              LEADING '{' FROM TRIM(
+                TRAILING '}' FROM JSON_OBJECT(CONCAT('fisik_',`trSnapshotRKATargetRinc`.`bulan1`),`trSnapshotRKATargetRinc`.`fisik1`)
+              )
+            )
+          ),
+        '}') AS `fisik1`							
+      "))
+      ->where('RKARincID',$RKARincID)
+      ->where('TABULAN',$data_uraian->TABULAN)
+      ->get();                    
       $target=isset($data[0]) ? json_decode($data[0]->fisik1, true) : [];
     }
     else if ($mode == 'targetanggarankas')
     {            
-      $data = \DB::table('trRKATargetRinc')
-            ->select(\DB::raw("						
-            CONCAT('{',
-              GROUP_CONCAT(
-                TRIM(
-                  LEADING '{' FROM TRIM(
-                    TRAILING '}' FROM JSON_OBJECT(CONCAT('anggaran_',`trRKATargetRinc`.`bulan1`),`trRKATargetRinc`.`target1`)
-                  )
-                )
-              ),
-            '}') AS `anggaran1`
-          "))
-          ->where('RKARincID',$RKARincID)
-          ->get();      
+      $data = \DB::table('trSnapshotRKATargetRinc')
+        ->select(\DB::raw("						
+        CONCAT('{',
+          GROUP_CONCAT(
+            TRIM(
+              LEADING '{' FROM TRIM(
+                TRAILING '}' FROM JSON_OBJECT(CONCAT('anggaran_',`trSnapshotRKATargetRinc`.`bulan1`),`trSnapshotRKATargetRinc`.`target1`)
+              )
+            )
+          ),
+        '}') AS `anggaran1`
+      "))
+      ->where('RKARincID',$RKARincID)
+      ->where('TABULAN',$data_uraian->TABULAN)
+      ->get();      
 
       $target=isset($data[0]) ? json_decode($data[0]->anggaran1, true) : [];
     }
@@ -798,13 +821,13 @@ class SnapshotRKAMurniController extends Controller
     {
       $bulan1 = $request->input('bulan1');
       
-      $data = \DB::table('trRKATargetRinc')
+      $data = \DB::table('trSnapshotRKATargetRinc')
         ->select(\DB::raw("
           CONCAT('{',
             GROUP_CONCAT(
               TRIM(
                 LEADING '{' FROM TRIM(
-                  TRAILING '}' FROM JSON_OBJECT(CONCAT('fisik_',`trRKATargetRinc`.`bulan1`),`trRKATargetRinc`.`fisik1`)
+                  TRAILING '}' FROM JSON_OBJECT(CONCAT('fisik_',`trSnapshotRKATargetRinc`.`bulan1`),`trSnapshotRKATargetRinc`.`fisik1`)
                 )
               )
             ),
@@ -813,13 +836,14 @@ class SnapshotRKAMurniController extends Controller
             GROUP_CONCAT(
               TRIM(
                 LEADING '{' FROM TRIM(
-                  TRAILING '}' FROM JSON_OBJECT(CONCAT('anggaran_',`trRKATargetRinc`.`bulan1`),`trRKATargetRinc`.`target1`)
+                  TRAILING '}' FROM JSON_OBJECT(CONCAT('anggaran_',`trSnapshotRKATargetRinc`.`bulan1`),`trSnapshotRKATargetRinc`.`target1`)
                 )
               )
             ),
           '}') AS `anggaran1`
         "))
         ->where('RKARincID',$RKARincID)
+        ->where('TABULAN',$data_uraian->TABULAN)
         ->groupBy('RKARincID')
         ->get();                  		
       

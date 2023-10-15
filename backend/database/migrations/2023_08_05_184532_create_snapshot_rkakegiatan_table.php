@@ -14,6 +14,7 @@ class CreateSnapshotRkakegiatanTable extends Migration
   public function up()
   {
     Schema::create('trSnapshotRKA', function (Blueprint $table) {
+      $table->uuid('SnapshotID');
       $table->uuid('RKAID');
       $table->uuid('OrgID');
       $table->uuid('SOrgID');
@@ -79,11 +80,12 @@ class CreateSnapshotRkakegiatanTable extends Migration
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
       $table->year('TA');
-      $table->smallInteger('TABULAN');
+      $table->integer('TABULAN', 6);
       $table->boolean('Locked')->default(0);
       $table->uuid('RKAID_Src')->nullable();
       $table->timestamps();
 
+      $table->primary('SnapshotID');
       $table->index('RKAID');
       $table->index('OrgID');
       $table->index('SOrgID');

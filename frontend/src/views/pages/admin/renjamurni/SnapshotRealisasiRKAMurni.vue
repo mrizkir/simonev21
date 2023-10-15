@@ -112,15 +112,7 @@
       </v-row>
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
-          <v-bottom-navigation color="purple lighten-1">
-            <v-btn
-              :to="{
-                path: '/renjamurni/snapshot/rka/uraian/' + this.RKARincID + '/edit',
-              }"              
-            >
-              <span>Edit Uraian</span>
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>            
+          <v-bottom-navigation color="purple lighten-1">            
             <v-btn @click.stop="exitrealisasi">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>
