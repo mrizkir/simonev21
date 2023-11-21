@@ -121,14 +121,14 @@
                 <span>detail uraian kegiatan</span>
               </v-tooltip>                           
             </template>
-            <template v-slot:item.PaguDana1="{ item }">
-              {{ item.PaguDana1 | formatUang }}
+            <template v-slot:item.PaguDana2="{ item }">
+              {{ item.PaguDana2 | formatUang }}
             </template>
-            <template v-slot:item.RealisasiKeuangan1="{ item }">
-              {{ item.RealisasiKeuangan1 | formatUang }}
+            <template v-slot:item.RealisasiKeuangan2="{ item }">
+              {{ item.RealisasiKeuangan2 | formatUang }}
             </template>
             <template v-slot:item.SisaAnggaran="{ item }">
-              {{ (item.PaguDana1 - item.RealisasiKeuangan1) | formatUang }}
+              {{ (item.PaguDana2 - item.RealisasiKeuangan2) | formatUang }}
             </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" class="text-center">
@@ -280,19 +280,19 @@
           },
           {
             text: "PAGU KEGIATAN",
-            value: "PaguDana1",
+            value: "PaguDana2",
             align: "end",
             width: 100,
           },
           {
             text: "REALISASI FISIK",
-            value: "RealisasiFisik1",
+            value: "RealisasiFisik2",
             align: "end",
             width: 100,
           },
           {
             text: "REALISASI KEUANGAN",
-            value: "RealisasiKeuangan1",
+            value: "RealisasiKeuangan2",
             align: "end",
             width: 100,
           },
@@ -349,13 +349,13 @@
         if (data.length > 0) {
           var totalpagukegiatan = 0;
           for (var i = 0; i < data.length; i++) {
-            var num = new Number(data[i].PaguDana1);
+            var num = new Number(data[i].PaguDana2);
             totalpagukegiatan += num;
           }
-          summary.paguunitkerja = this.DataUnitKerja.PaguDana1;
+          summary.paguunitkerja = this.DataUnitKerja.PaguDana2;
           summary.pagukegiatan = totalpagukegiatan;
           var totalrealisasi = parseFloat(
-            this.DataUnitKerja.RealisasiKeuangan1
+            this.DataUnitKerja.RealisasiKeuangan2
           );
           summary.realisasi = totalrealisasi;
           summary.sisa = totalpagukegiatan - totalrealisasi;
@@ -363,7 +363,7 @@
             totalrealisasi > 0 && totalpagukegiatan > 0
               ? (totalrealisasi / totalpagukegiatan) * 100
               : 0;
-          summary.fisik = this.DataUnitKerja.RealisasiFisik1;
+          summary.fisik = this.DataUnitKerja.RealisasiFisik2;
         }
         this.footers = summary;
       },

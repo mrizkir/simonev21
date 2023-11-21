@@ -71,6 +71,13 @@ class SnapshotRKAPerubahanController extends Controller
     $tahun = $request->input('tahun');
     $bulan = $request->input('bulan');
 
+    \DB::table('trSnapshotRKA')
+    ->where('TABULAN', $tahun.$bulan)
+    ->where('SOrgID', $SOrgID)
+    ->where('EntryLvl', 2)
+    ->where('TA', $tahun)
+    ->delete();
+
     $str_insert = '
     INSERT INTO `trSnapshotRKA` (
       `SnapshotID`,
@@ -218,13 +225,21 @@ class SnapshotRKAPerubahanController extends Controller
       NOW(),
       NOW()
     FROM
-      trSnapshotRKA
+      trRKA
     WHERE
       SOrgID="'.$SOrgID.'"
       AND EntryLvl=2
       AND TA='.$tahun;
     \DB::statement($str_insert);
     
+    \DB::table('trSnapshotRKARinc AS A')
+    ->join('trRKA AS B', 'A.RKAID', 'B.RKAID')
+    ->where('TABULAN', $tahun.$bulan)
+    ->where('B.SOrgID', $SOrgID)
+    ->where('A.EntryLvl', 2)
+    ->where('A.TA', $tahun)
+    ->delete();
+
     //copy rincian
     $str_insert = '
     INSERT INTO `trSnapshotRKARinc` (
@@ -312,14 +327,22 @@ class SnapshotRKAPerubahanController extends Controller
       A.`RKARincID_Src`,                          
       NOW(),
       NOW()
-    FROM trSnapshotRKARinc AS A 
-    JOIN trSnapshotRKA AS B ON A.RKAID=B.RKAID 
+    FROM trRKARinc AS A 
+    JOIN trRKA AS B ON A.RKAID=B.RKAID 
     WHERE
       B.SOrgID="'.$SOrgID.'"
       AND A.EntryLvl=2
       AND A.TA='.$tahun;
     \DB::statement($str_insert);
     
+    \DB::table('trSnapshotRKATargetRinc AS A')
+    ->join('trRKA AS B', 'A.RKAID', 'B.RKAID')
+    ->where('TABULAN', $tahun.$bulan)
+    ->where('B.SOrgID', $SOrgID)
+    ->where('A.EntryLvl', 2)
+    ->where('A.TA', $tahun)
+    ->delete();
+
     //copy target    
     $str_insert = '
     INSERT INTO `trSnapshotRKATargetRinc` (
@@ -361,13 +384,21 @@ class SnapshotRKAPerubahanController extends Controller
       A.`RKATargetRincID_Src`,
       NOW(),
       NOW()
-    FROM trSnapshotRKATargetRinc AS A     
-    JOIN trSnapshotRKA AS B ON A.RKAID=B.RKAID 
+    FROM trRKATargetRinc AS A     
+    JOIN trRKA AS B ON A.RKAID=B.RKAID 
     WHERE
       B.SOrgID="'.$SOrgID.'"
       AND A.EntryLvl=2
       AND A.TA='.$tahun;
     \DB::statement($str_insert);
+    
+    \DB::table('trSnapshotRKARealisasiRinc AS A')
+    ->join('trRKA AS B', 'A.RKAID', 'B.RKAID')
+    ->where('TABULAN', $tahun.$bulan)
+    ->where('B.SOrgID', $SOrgID)
+    ->where('A.EntryLvl', 2)
+    ->where('A.TA', $tahun)
+    ->delete();
 
     //copy realisasi    
     $str_insert = '
@@ -418,8 +449,8 @@ class SnapshotRKAPerubahanController extends Controller
       A.`RKARealisasiRincID_Src`,                                   
       NOW(),
       NOW()
-    FROM trSnapshotRKARealisasiRinc AS A     
-    JOIN trSnapshotRKA AS B ON A.RKAID=B.RKAID 
+    FROM trRKARealisasiRinc AS A     
+    JOIN trRKA AS B ON A.RKAID=B.RKAID 
     WHERE
       B.SOrgID="'.$SOrgID.'"
       AND A.EntryLvl=2

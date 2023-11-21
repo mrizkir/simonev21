@@ -324,9 +324,7 @@
       <v-card class="flex" flat tile>
         <v-divider></v-divider>
         <v-card-text class="py-2 white--text text-center">
-          <strong>
-            {{ $store.getters["uifront/getNamaAPP"] }} (2022)
-          </strong>
+          <strong>{{ $store.getters["uifront/getNamaAPP"] }} (2022)</strong>
           dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
           <v-btn dark icon href="https://github.com/mrizkir/simonev21">
             <v-icon>mdi-github</v-icon>
