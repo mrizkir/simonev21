@@ -324,6 +324,15 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjaperubahan/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@index','as'=>'formbunitkerja.index']);    
   $router->post('/renjaperubahan/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerja.printtoexcel']);    
   
+  //renja - snapshot perubahan
+  $router->post('/snapshot/rkaperubahan', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@index','as'=>'snapshotrkaperubahan.index']);
+  $router->get('/snapshot/rkaperubahan/{id}', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@show','as'=>'snapshotrkaperubahan.show']);
+  $router->post('/snapshot/rkaperubahan/loaddatakegiatanfirsttime', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@loaddatakegiatanFirsttime','as'=>'snapshotrkaperubahan.loaddatakegiatanfirsttime']);
+  $router->post('/snapshot/rkaperubahan/rencanatarget', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@rencanatarget','as'=>'snapshotrkaperubahan.rencanatarget']);
+  $router->post('/snapshot/rkaperubahan/realisasi', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@realisasi','as'=>'snapshotrkaperubahan.realisasi']);
+  $router->delete('/snapshot/rkaperubahan/{id}', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@destroy','as'=>'snapshotrkaperubahan.destroys']);
+
+
   //renja - target kinerja perubahan
   $router->post('/renja/targetkinerjaperubahan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaPerubahanController@index','as'=>'targetkinerjaP.index']);
   //id  = RKARIncID

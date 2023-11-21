@@ -714,6 +714,41 @@ const routes = [
         "../views/pages/admin/renjaperubahan/TargetKinerjaPerubahanDetail.vue"
       ),
   },
+  //renja perubahan - snapshot - rka
+  {
+    path: "/renjaperubahan/snapshot/rka",
+    name: "RenjaPerubahanSnapshotRKA",
+    meta: {
+      title: "RENCANA KERJA MURNI - SNAPSHOT",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjaperubahan/SnapshotRKAPerubahan.vue"),
+  },
+  {
+    path: "/renjaperubahan/snapshot/rka/uraian/:rkaid",
+    name: "RenjaPerubahanSnapshotUraianRKA",
+    meta: {
+      title: "RKA MURNI - URAIAN",
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        "../views/pages/admin/renjaperubahan/SnapshotUraianRKAPerubahan.vue"
+      ),
+  },
+  {
+    path: "/renjaperubahan/snapshot/rka/realisasi/:rkarincid",
+    name: "RenjaPerubahanSnapshotRealisasiRKAPerubahan",
+    meta: {
+      title: "RKA MURNI - REALISASI",
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        "../views/pages/admin/renjaperubahan/SnapshotRealisasiRKAPerubahan.vue"
+      ),
+  },
   //dak murni
   {
     path: "/dakmurni",
