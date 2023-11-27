@@ -83,6 +83,7 @@ class SnapshotRKAModel extends Model
     'user_id', 
     'EntryLvl', 
     'Descr', 
+    'RealisasiKinerja', 
     'TA', 
     'TABULAN',
     'Locked',        

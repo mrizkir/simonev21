@@ -78,6 +78,7 @@ class CreateRkakegiatanTable extends Migration
       $table->uuid('user_id'); 
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
+      $table->text('RealisasiKinerja')->nullable();            
       $table->year('TA');            
       $table->boolean('Locked')->default(0);
       $table->uuid('RKAID_Src')->nullable();

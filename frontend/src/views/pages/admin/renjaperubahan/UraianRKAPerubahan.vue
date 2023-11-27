@@ -119,6 +119,10 @@
               <span>Target Anggaran Kas</span>
               <v-icon>mdi-history</v-icon>
             </v-btn>
+            <v-btn @click.stop="showdialogrealisasikinerja">
+              <span>Realisasi Kinerja</span>
+              <v-icon>mdi-history</v-icon>
+            </v-btn>
             <v-btn @click.stop="exituraianrka">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>
@@ -585,6 +589,57 @@
               </v-card>
             </v-form>
           </v-dialog>
+          <v-dialog
+            v-model="dialogrealisasikinerja"
+            max-width="800px"
+            v-if="dialogrealisasikinerja"
+            persistent
+          >
+            <v-form
+              ref="frmrealisasikinerja"
+              v-model="form_valid"
+              lazy-validation
+            >
+              <v-card>
+                <v-card-title>
+                  <span class="headline">REALISASI KINERJA</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container fluid>
+                    <v-row>
+                      <v-col cols="12" sm="12" md="12">
+                        <v-textarea
+                          v-model="formrealisasikinerja.realisasi"
+                          label="REALISASI KINERJA"                          
+                          outlined
+                        >
+                        </v-textarea>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click.stop="closedialogrealisasikinerja"
+                  >
+                    TUTUP
+                  </v-btn>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    
+                    @click.stop="saverealisasikinerja"
+                    :disabled="!form_valid || btnLoading"
+                  >
+                    SIMPAN
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-form>
+          </v-dialog>
           <v-data-table
             :headers="headers"
             :items="datatable"
@@ -816,6 +871,7 @@
         dialogedituraian: false,
         dialogtargetfisik: false,
         dialogtargetanggarankas: false,
+        dialogrealisasikinerja: false,
         dialogdetailitem: false,
 
         //form data
@@ -863,6 +919,12 @@
           targetanggarankas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           created_at: "",
           updated_at: "",
+        },
+        formrealisasikinerja: {
+          realisasi: "",
+        },
+        formrealisasikinerjadefault: {
+          realisasi: "",
         },
         editedIndex: -1,
 
@@ -1178,6 +1240,27 @@
           }
         }
       },
+      async saverealisasikinerja() {
+        await this.$ajax
+          .post(
+            "/renja/rkaperubahan/updaterealisasikinerja/" + this.datakegiatan.RKAID,
+            {
+              _method: "PUT",              
+              realisasi: this.formrealisasikinerja.realisasi,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(() => {
+            this.closedialogrealisasikinerja();
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });
+      },
       closedialogdetailitem() {
         setTimeout(() => {}, 300);
         this.dialogdetailitem = false;
@@ -1209,6 +1292,22 @@
         ];
         this.dialogtargetanggarankas = true;
       },
+      async showdialogrealisasikinerja() {
+        await this.$ajax
+          .get(
+            "/renja/rkaperubahan/realisasikinerja/" + this.datakegiatan.RKAID,            
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.form_valid = true;            
+            this.formrealisasikinerja.realisasi = data.realisasikinerja;
+            this.dialogrealisasikinerja = true;
+          });        
+      },
       closedialogedituraian() {
         this.btnLoading = false;
         setTimeout(() => {
@@ -1227,6 +1326,14 @@
         this.btnLoading = false;
         setTimeout(() => {
           this.$router.go();
+        }, 300);
+      },
+      closedialogrealisasikinerja() {
+        this.btnLoading = false;
+        setTimeout(() => {
+          this.editedIndex = -1;
+          this.$refs.frmrealisasikinerja.resetValidation();
+          this.dialogrealisasikinerja = false;
         }, 300);
       },
       exituraianrka() {

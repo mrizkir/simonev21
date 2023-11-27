@@ -259,7 +259,8 @@ class FormBOPDPerubahanModel extends ReportModel
                     `lokasi_kegiatan2`,
                     `Nm_Sub_Organisasi`,
                     keluaran2,
-                    tk_keluaran2
+                    tk_keluaran2,
+                    RealisasiKinerja
                   '))
                   ->where('kode_kegiatan',$kode_kegiatan)
                   ->where('OrgID',$OrgID)
@@ -380,6 +381,7 @@ class FormBOPDPerubahanModel extends ReportModel
               $sheet->setCellValue("Q$row",$persen_sisa_anggaran);
               $sheet->setCellValue("R$row",$data_sub_kegiatan->keluaran2);
               $sheet->setCellValue("S$row",$data_sub_kegiatan->tk_keluaran2);
+              $sheet->setCellValue("T$row",$data_sub_kegiatan->RealisasiKinerja);
               $row += 1; 
               $no_sub_kegiatan += 1; 
               $total_sub_kegiatan += 1;

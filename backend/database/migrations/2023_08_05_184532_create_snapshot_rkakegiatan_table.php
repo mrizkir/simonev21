@@ -79,6 +79,7 @@ class CreateSnapshotRkakegiatanTable extends Migration
       $table->uuid('user_id'); 
       $table->tinyInteger('EntryLvl')->default(0);
       $table->string('Descr')->nullable();            
+      $table->text('RealisasiKinerja')->nullable();            
       $table->year('TA');
       $table->integer('TABULAN', 6);
       $table->boolean('Locked')->default(0);

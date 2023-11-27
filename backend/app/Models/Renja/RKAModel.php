@@ -83,6 +83,7 @@ class RKAModel extends Model
     'user_id', 
     'EntryLvl', 
     'Descr', 
+    'RealisasiKinerja', 
     'TA', 
     'Locked',        
     'RKAID_Src'

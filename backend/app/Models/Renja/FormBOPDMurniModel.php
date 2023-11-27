@@ -173,15 +173,15 @@ class FormBOPDMurniModel extends ReportModel
     $total_ttb_keuangan=0;		
 
     $daftar_program=\DB::table('trRKA')
-              ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
-              ->where('OrgID',$OrgID)
-              ->where('EntryLvl', 1)
-              ->orderByRaw('kode_urusan="X" DESC')
-              ->orderBy('kode_bidang','ASC')
-              ->orderBy('kode_program','ASC')
-              ->orderBy('kode_kegiatan','ASC')
-              ->orderBy('kode_sub_kegiatan','ASC')
-              ->get();
+    ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
+    ->where('OrgID',$OrgID)
+    ->where('EntryLvl', 1)
+    ->orderByRaw('kode_urusan="X" DESC')
+    ->orderBy('kode_bidang','ASC')
+    ->orderBy('kode_program','ASC')
+    ->orderBy('kode_kegiatan','ASC')
+    ->orderBy('kode_sub_kegiatan','ASC')
+    ->get();
     
     $row=$row_akhir+1;
     $row_awal=$row;        
@@ -206,12 +206,12 @@ class FormBOPDMurniModel extends ReportModel
       $sheet->setCellValue("C$row",$data_program->Nm_Program);  
 
       $daftar_kegiatan=\DB::table('trRKA')
-              ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
-              ->where('kode_program',$kode_program)
-              ->where('OrgID', $OrgID)
-              ->orderBy('kode_kegiatan','ASC')
-              ->orderBy('kode_sub_kegiatan','ASC')
-              ->get();
+      ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
+      ->where('kode_program',$kode_program)
+      ->where('OrgID', $OrgID)
+      ->orderBy('kode_kegiatan','ASC')
+      ->orderBy('kode_sub_kegiatan','ASC')
+      ->get();
 
       
       if(isset($daftar_kegiatan[0]))
@@ -249,22 +249,23 @@ class FormBOPDMurniModel extends ReportModel
           $sheet->setCellValue("C$row",$data_kegiatan->Nm_Kegiatan);  
 
           $daftar_sub_kegiatan = \DB::table('trRKA')									
-                  ->select(\DB::raw('
-                      `RKAID`,
-                      `kode_sub_kegiatan`,
-                      `Nm_Sub_Kegiatan`,
-                      `PaguDana1`,
-                      `lokasi_kegiatan1`,
-                      `Nm_Sub_Organisasi`,
-                      keluaran1,
-                      tk_keluaran1
-                  '))
-                  ->where('kode_kegiatan',$kode_kegiatan)
-                  ->where('OrgID',$OrgID)
-                  ->where('TA',$tahun)
-                  ->where('EntryLvl',1)
-                  ->orderBy('kode_sub_kegiatan','ASC')
-                  ->get();
+          ->select(\DB::raw('
+              `RKAID`,
+              `kode_sub_kegiatan`,
+              `Nm_Sub_Kegiatan`,
+              `PaguDana1`,
+              `lokasi_kegiatan1`,
+              `Nm_Sub_Organisasi`,
+              keluaran1,
+              tk_keluaran1,
+              RealisasiKinerja
+          '))
+          ->where('kode_kegiatan',$kode_kegiatan)
+          ->where('OrgID',$OrgID)
+          ->where('TA',$tahun)
+          ->where('EntryLvl',1)
+          ->orderBy('kode_sub_kegiatan','ASC')
+          ->get();
           
           if(isset($daftar_sub_kegiatan[0]))
           {
@@ -377,6 +378,7 @@ class FormBOPDMurniModel extends ReportModel
               $sheet->setCellValue("Q$row",$persen_sisa_anggaran);
               $sheet->setCellValue("R$row",$data_sub_kegiatan->keluaran1);
               $sheet->setCellValue("S$row",$data_sub_kegiatan->tk_keluaran1);
+              $sheet->setCellValue("T$row",$data_sub_kegiatan->RealisasiKinerja);
               $row += 1; 
               $no_sub_kegiatan += 1; 
               $total_sub_kegiatan += 1;

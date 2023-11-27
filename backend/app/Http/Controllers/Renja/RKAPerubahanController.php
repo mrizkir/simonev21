@@ -45,41 +45,41 @@ class RKAPerubahanController extends Controller
   private function getDataRKA ($id)
   {
     $rka = RKAModel::select(\DB::raw('`RKAID`,
-                      `trRKA`.`kode_urusan`,
-                      `trRKA`.`Nm_Bidang`,
-                      `trRKA`.`kode_organisasi`,
-                      `trRKA`.`Nm_Organisasi`,
-                      `trRKA`.`kode_sub_organisasi`,
-                      `trRKA`.`Nm_Sub_Organisasi`,
-                      `trRKA`.`kode_program`,
-                      `trRKA`.`Nm_Program`,
-                      `trRKA`.`kode_kegiatan`,
-                      `trRKA`.`Nm_Kegiatan`,
-                      `trRKA`.`kode_sub_kegiatan`,
-                      `trRKA`.`Nm_Sub_Kegiatan`,
-                      `trRKA`.`lokasi_kegiatan2`,
-                      `trRKA`.`SumberDanaID`,
-                      `tmSumberDana`.`Nm_SumberDana`,
-                      `trRKA`.`tk_capaian2`,
-                      `trRKA`.`capaian_program2`,
-                      `trRKA`.`masukan2`,
-                      `trRKA`.`tk_keluaran2`,
-                      `trRKA`.`keluaran2`,
-                      `trRKA`.`tk_hasil2`,
-                      `trRKA`.`hasil2`,
-                      `trRKA`.`ksk2`,
-                      `trRKA`.`sifat_kegiatan2`,
-                      `trRKA`.`waktu_pelaksanaan2`,
-                      `trRKA`.`PaguDana2`,
-                      `trRKA`.`Descr`,
-                      `trRKA`.`EntryLvl`,
-                      `trRKA`.`Locked`,
-                      `trRKA`.`created_at`,
-                      `trRKA`.`updated_at`
-                      '))
-              ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
-              ->where('trRKA.EntryLvl',2)
-              ->find($id);
+      `trRKA`.`kode_urusan`,
+      `trRKA`.`Nm_Bidang`,
+      `trRKA`.`kode_organisasi`,
+      `trRKA`.`Nm_Organisasi`,
+      `trRKA`.`kode_sub_organisasi`,
+      `trRKA`.`Nm_Sub_Organisasi`,
+      `trRKA`.`kode_program`,
+      `trRKA`.`Nm_Program`,
+      `trRKA`.`kode_kegiatan`,
+      `trRKA`.`Nm_Kegiatan`,
+      `trRKA`.`kode_sub_kegiatan`,
+      `trRKA`.`Nm_Sub_Kegiatan`,
+      `trRKA`.`lokasi_kegiatan2`,
+      `trRKA`.`SumberDanaID`,
+      `tmSumberDana`.`Nm_SumberDana`,
+      `trRKA`.`tk_capaian2`,
+      `trRKA`.`capaian_program2`,
+      `trRKA`.`masukan2`,
+      `trRKA`.`tk_keluaran2`,
+      `trRKA`.`keluaran2`,
+      `trRKA`.`tk_hasil2`,
+      `trRKA`.`hasil2`,
+      `trRKA`.`ksk2`,
+      `trRKA`.`sifat_kegiatan2`,
+      `trRKA`.`waktu_pelaksanaan2`,
+      `trRKA`.`PaguDana2`,
+      `trRKA`.`Descr`,
+      `trRKA`.`EntryLvl`,
+      `trRKA`.`Locked`,
+      `trRKA`.`created_at`,
+      `trRKA`.`updated_at`
+      '))
+    ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
+    ->where('trRKA.EntryLvl',2)
+    ->find($id);
 
     return $rka;
   }
@@ -1031,10 +1031,10 @@ class RKAPerubahanController extends Controller
     else if ($rinciankegiatan->Locked)
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid'=>'fetchdata',
-                  'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
-                ], 422); 
+        'status'=>0,
+        'pid'=>'fetchdata',
+        'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+      ], 422); 
     }
     else
     {
@@ -1070,12 +1070,12 @@ class RKAPerubahanController extends Controller
       });
       $rka=$this->getDataRKA($rinciankegiatan->RKAID);
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
-                  'rka'=>$rka,
-                  'rinciankegiatan'=>$rinciankegiatan,
-                  'message'=>'Update uraian berhasil disimpan.'
-                ], 200); 
+        'status'=>1,
+        'pid'=>'update',
+        'rka'=>$rka,
+        'rinciankegiatan'=>$rinciankegiatan,
+        'message'=>'Update uraian berhasil disimpan.'
+      ], 200); 
     }
   }
   /**
@@ -1117,10 +1117,65 @@ class RKAPerubahanController extends Controller
 
     
     return Response()->json([
-                'status'=>1,
-                'pid'=>'update',
-                'message'=>'Update detail uraian berhasil disimpan.'
-              ], 200); 
+      'status'=>1,
+      'pid'=>'update',
+      'message'=>'Update detail uraian berhasil disimpan.'
+    ], 200); 
+  }
+  public function realisasikinerja(Request $request, $id)
+  {
+    $this->hasPermissionTo('RENJA-RKA-PERUBAHAN_SHOW');   
+
+    $kegiatan = RKAModel::find($id);
+
+    if (is_null($kegiatan) )
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'fetchdata',
+        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'fetchdata',
+        'realisasikinerja' => $kegiatan->RealisasiKinerja,
+        'message'=>'Realisasi kinerja berhasil diperoleh.'
+      ], 200); 
+    }
+  }
+  public function updaterealisasikinerja(Request $request, $id)
+  {
+    $this->hasPermissionTo('RENJA-RKA-PERUBAHAN_UPDATE');   
+
+    $kegiatan = RKAModel::find($id);
+
+    if (is_null($kegiatan) )
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'fetchdata',
+        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {      
+      $this->validate($request, [
+        'realisasi'=>'required',            
+      ]);
+      
+      $kegiatan->RealisasiKinerja = $request->input('realisasi');
+  
+      $kegiatan->save();
+  
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'update',
+        'message'=>'Update realisasi kinerja berhasil disimpan.'
+      ], 200); 
+    }
   }
   /**
    * Show the form for creating a new resource. [menambah realisasi uraian]

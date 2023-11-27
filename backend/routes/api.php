@@ -307,7 +307,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renja/rkaperubahan/loaddatakegiatanfirsttime', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|'],'uses'=>'Renja\RKAPerubahanController@loaddatakegiatanFirsttime','as'=>'rkaperubahan.loaddatakegiatanfirsttime']);
   $router->post('/renja/rkaperubahan/loaddatauraianfirsttime', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|'],'uses'=>'Renja\RKAPerubahanController@loaddatauraianFirsttime','as'=>'rkaperubahan.loaddatauraianfirsttime']);
   $router->delete('/renja/rkaperubahan/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAPerubahanController@destroy','as'=>'rkaperubahan.deleterka']);
-
+  $router->get('/renja/rkaperubahan/realisasikinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAPerubahanController@realisasikinerja','as'=>'rkaperubahan.realisasikinerja']);
+  $router->put('/renja/rkaperubahan/updaterealisasikinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAPerubahanController@updaterealisasikinerja','as'=>'rkaperubahan.updaterealisasikinerja']);
+  
   //renja perubahan - report - form a
   $router->post('/renjaperubahan/report/forma', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAPerubahanController@index','as'=>'formaperubahan.index']);
   $router->post('/renjaperubahan/report/forma/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAPerubahanController@printtoexcel','as'=>'formaperubahan.printtoexcel']);    
