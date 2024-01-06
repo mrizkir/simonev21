@@ -132,6 +132,14 @@
                           outlined
                           dense
                         />
+                        <v-text-field
+                          v-model="lpad"
+                          label="LEFT PAD"
+                          filled
+                          :rules="rule_lpad"
+                          outlined
+                        >
+                        </v-text-field>
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -429,7 +437,7 @@
   import DataMasterLayout from "@/views/layouts/DataMasterLayout";
   import ModuleHeader from "@/components/ModuleHeader";
   export default {
-    name: "KodefikasiKegiatan",
+    name: "KodefikasiSubKegiatan",
     created() {
       this.breadcrumbs = [
         {
@@ -505,6 +513,7 @@
         //salin sub kegiatan
         tahunasal: null,
         daftar_ta: [],
+        lpad: 2,
         //form rules
         rule_kegiatan: [
           value => !!value || "Mohon untuk di pilih Kegiatan !!!",
@@ -526,6 +535,12 @@
             value < this.$store.getters["auth/TahunSelected"] ||
             "Tahun asal harus lebih kecil dari " +
               this.$store.getters["auth/TahunSelected"],
+        ],
+        rule_lpad: [
+          value => !!value || "Mohon untuk di isi left pad!!!",
+          value =>
+            /^[0-9]+$/.test(value) || "Left pad hanya boleh angka",
+          value => parseInt(value) >= 2 || "Left pad minimal 2 angka",
         ],
       };
     },
@@ -612,6 +627,7 @@
               {
                 tahun_asal: this.tahunasal,
                 tahun_tujuan: this.$store.getters["auth/TahunSelected"],
+                lpad: this.lpad,
               },
               {
                 headers: {
@@ -727,6 +743,13 @@
           this.formdata = Object.assign({}, this.formdefault);
           this.editedIndex = -1;
           this.$refs.frmdata.reset();
+        }, 300);
+      },
+      closedialogcopyfrm() {
+        this.btnLoading = false;
+        this.dialogcopyfrm = false;
+        setTimeout(() => {
+          this.$refs.frmcopydata.reset();
         }, 300);
       },
       closedialogdetailitem() {

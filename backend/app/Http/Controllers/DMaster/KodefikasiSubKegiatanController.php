@@ -92,10 +92,12 @@ class KodefikasiSubKegiatanController extends Controller {
 		$this->validate($request, [            
 			'tahun_asal'=>'required|numeric',
 			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'lpad'=>'required|numeric|gte:2',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
 		$tahun_tujuan = $request->input('tahun_tujuan');
+		$lpad = $request->input('lpad');
 
 		\DB::table('tmSubKegiatan')
 		->where('TA', $tahun_tujuan)
@@ -118,9 +120,9 @@ class KodefikasiSubKegiatanController extends Controller {
 			)		
 			SELECT
 				uuid() AS id,
-				t2.KgtID,
-				t1.Kd_SubKegiatan,
-				t1.kode_sub_kegiatan,
+				t2.KgtID,				
+        LPAD(CONVERT(t1.Kd_SubKegiatan, UNSIGNED INTEGER), '.$lpad.', "0") AS Kd_SubKegiatan,
+        CONCAT(t2.kode_kegiatan,".",LPAD(CONVERT(t1.Kd_SubKegiatan, UNSIGNED INTEGER), '.$lpad.', "0")) AS kode_sub_kegiatan,				
 				t1.Nm_SubKegiatan,
 				"DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
 				'.$tahun_tujuan.' AS `TA`,
