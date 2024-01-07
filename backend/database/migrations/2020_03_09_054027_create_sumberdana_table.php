@@ -16,7 +16,7 @@ class CreateSumberdanaTable extends Migration
         Schema::create('tmSumberDana', function (Blueprint $table) {
             $table->uuid('SumberDanaID');
             $table->tinyInteger('Kd_SumberDana');
-            $table->string('Nm_SumberDana',40);
+            $table->string('Nm_SumberDana');
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->uuid('SumberDanaID_Src')->nullable();
