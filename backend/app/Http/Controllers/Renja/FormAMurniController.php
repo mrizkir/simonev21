@@ -8,6 +8,7 @@ use App\Helpers\Helper;
 use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\Renja\RKAModel;
 use App\Models\Renja\FormAMurniModel;
+use App\Models\Statistik6Model;;
 
 use Ramsey\Uuid\Uuid;
 
@@ -344,11 +345,136 @@ class FormAMurniController extends Controller
         'totalPersenTertimbangRealisasiSatuKegiatan'=>Helper::formatPecahan($total_persen_rata2_realisasi,$totalPersenBobotSatuKegiatan),
         'sisa_anggaran'=>$totalPaguDana-$totalRealisasiSatuKegiatan
       ];
+
+      $chart_keuangan_murni=[
+        [
+          0,0,0,0,0,0,0,0,0,0,0,0
+        ],
+        [
+          0,0,0,0,0,0,0,0,0,0,0,0
+        ]
+      ];
+      $chart_fisik_murni=[
+        [
+          0,0,0,0,0,0,0,0,0,0,0,0
+        ],
+        [
+          0,0,0,0,0,0,0,0,0,0,0,0
+        ]
+      ];
+
+      $this->generateStatistik6($RKAID);
+      
+      $statistik6=Statistik6Model::select(\DB::raw('
+        `Bulan`,
+        SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
+        SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
+        SUM(`TargetFisik1`) AS `TargetFisik1`,
+        SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
+      '))
+      ->where('RKAID',$RKAID)                                                                                       
+      ->where('EntryLvl', 1)        
+      ->groupBy('Bulan')                                
+      ->get();
+
+      foreach($statistik6 as $v)
+      {
+        switch($v->Bulan)
+        {
+          case 1 :
+            $chart_keuangan_murni[0][0] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][0] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+
+            $chart_fisik_murni[0][0] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][0] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 2 :
+            $chart_keuangan_murni[0][1] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][1] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+
+            $chart_fisik_murni[0][1] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][1] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 3 :
+            $chart_keuangan_murni[0][2] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][2] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+
+            $chart_fisik_murni[0][2] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][2] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 4 :
+            $chart_keuangan_murni[0][3] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][3] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+
+            $chart_fisik_murni[0][3] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][3] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 5 :
+            $chart_keuangan_murni[0][4] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][4] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+
+            $chart_fisik_murni[0][4] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][4] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 6 :
+            $chart_keuangan_murni[0][5] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][5] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+
+            $chart_fisik_murni[0][5] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][5] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 7 :
+            $chart_keuangan_murni[0][6] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][6] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            
+            $chart_fisik_murni[0][6] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][6] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 8 :
+            $chart_keuangan_murni[0][7] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][7] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            
+            $chart_fisik_murni[0][7] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][7] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 9 :
+            $chart_keuangan_murni[0][8] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][8] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            
+            $chart_fisik_murni[0][8] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][8] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 10 :
+            $chart_keuangan_murni[0][9] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][9] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            
+            $chart_fisik_murni[0][9] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][9] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 11 :
+            $chart_keuangan_murni[0][10] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][10] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            
+            $chart_fisik_murni[0][10] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][10] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+          case 12 :
+            $chart_keuangan_murni[0][11] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan_murni[1][11] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            
+            $chart_fisik_murni[0][11] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik_murni[1][11] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+          break;
+        }
+      }
+
       return Response()->json([
         'status'=>1,
         'pid'=>'fetchdata',
         'rka'=>$data,
         'total_data'=>$total_data,
+        'chart_keuangan_murni'=>$chart_keuangan_murni,
+        'chart_fisik_murni'=>$chart_fisik_murni,
         'message'=>'Fetch data form a murni berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
@@ -378,7 +504,7 @@ class FormAMurniController extends Controller
     $no_bulan = $request->input('no_bulan');
     $RKAID = $request->input('RKAID');
 
-    if (\DB::table('trRKARinc')->where('RKAID',$RKAID)->count()>0)
+    if (\DB::table('trRKARinc')->where('RKAID',$RKAID)->count() > 0)
     {
       $unitkerja = SubOrganisasiModel::find($SOrgID);
       $data_report=[
@@ -403,5 +529,125 @@ class FormAMurniController extends Controller
       ], 422);
     }
   }
+  /**
+   * digunakan untuk mendapatkan rangkuman masing-masing kegiatan 
+  */
+  public function generateStatistik6($RKAID)
+  {
+    $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();	
+    $data_sub_kegiatan = RKAModel::select(\DB::raw('`RKAID`,`kode_kegiatan`,`kode_sub_kegiatan`,`Nm_Kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana1`,`lokasi_kegiatan1`, `TA`'))    
+    ->where('RKAID',$RKAID)                                       
+    ->first();
 
+    for($no_bulan = 1; $no_bulan <= 12; $no_bulan += 1)
+    {
+      $data_target=\DB::table('trRKATargetRinc')
+        ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+        ->where('RKAID',$RKAID)
+        ->where('bulan1','<=',$no_bulan)
+        ->get();
+
+      $data_realisasi=\DB::table('trRKARealisasiRinc')
+        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+        ->where('RKAID',$RKAID)
+        ->where('bulan1','<=',$no_bulan)
+        ->get();
+
+      $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);
+      $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
+      $totalTargetKeuangan=$data_target[0]->totaltarget;
+      $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
+
+      $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan, $data_sub_kegiatan->PaguDana1);
+      $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana1); 
+      
+      $sisa_anggaran=$data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;							
+              
+      $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana1);                            
+
+      $statistik = Statistik6Model::where('RKAID', $RKAID)      
+      ->where('Bulan', $no_bulan)
+      ->first();
+
+      if (is_null($statistik)) 
+      {
+        Statistik6Model::create([
+          'Statistik6ID'=>Uuid::uuid4()->toString(),
+          'RKAID'=>$RKAID,
+          'kode_kegiatan'=>$data_sub_kegiatan->kode_kegiatan,
+          'kode_sub_kegiatan'=>$data_sub_kegiatan->kode_sub_kegiatan,
+          'Nm_Kegiatan'=>$data_sub_kegiatan->Nm_Kegiatan,
+          'Nm_Sub_Kegiatan'=>$data_sub_kegiatan->Nm_Sub_Kegiatan,
+          
+          'PaguDana1'=>$data_sub_kegiatan->PaguDana1,
+          'PaguDana2'=>0,            
+          'PaguDana3'=>0,            
+          'JumlahKegiatan1'=>1,
+          'JumlahKegiatan2'=>0,
+          'JumlahKegiatan3'=>0,
+
+          'JumlahSubKegiatan1'=>1,
+          'JumlahSubKegiatan2'=>0,
+          'JumlahSubKegiatan1'=>0,
+
+          'JumlahUraian1'=>$jumlahuraian,
+          'JumlahUraian2'=>0,
+          'JumlahUraian3'=>0,
+              
+          'TargetFisik1'=>$target_fisik,
+          'TargetFisik2'=>0,
+          'TargetFisik3'=>0,
+          'RealisasiFisik1'=>$persen_realisasi_fisik,
+          'RealisasiFisik2'=>0,
+          'RealisasiFisik3'=>0,
+
+          'TargetKeuangan1'=>$totalTargetKeuangan,
+          'TargetKeuangan2'=>0,
+          'TargetKeuangan3'=>0,
+          'RealisasiKeuangan1'=>$totalRealisasiKeuangan,
+          'RealisasiKeuangan2'=>0,
+          'RealisasiKeuangan3'=>0,
+
+          'PersenTargetKeuangan1'=>$persen_target_keuangan,
+          'PersenTargetKeuangan2'=>0,
+          'PersenTargetKeuangan3'=>0,
+          'PersenRealisasiKeuangan1'=>$persen_realisasi_keuangan,
+          'PersenRealisasiKeuangan2'=>0,
+          'PersenRealisasiKeuangan3'=>0,
+              
+          'SisaPaguDana1'=>$sisa_anggaran,
+          'SisaPaguDana2'=>0,
+          'SisaPaguDana3'=>0,
+
+          'PersenSisaPaguDana1'=>$persen_sisa_anggaran,
+          'PersenSisaPaguDana2'=>0,
+          'PersenSisaPaguDana3'=>0,
+
+          'Bobot1'=>100,
+          'Bobot2'=>0,
+          'Bobot3'=>0,
+          
+          'Bulan'=>$no_bulan,
+          'TA'=>$data_sub_kegiatan->TA,
+          'EntryLvl'=>1,
+        ]);
+      }
+      else
+      {
+        $statistik->PaguDana1 = $data_sub_kegiatan->PaguDana1;
+        $statistik->JumlahKegiatan1 = 1;
+        $statistik->TargetFisik1 = $target_fisik;
+        $statistik->RealisasiFisik1 = $persen_realisasi_fisik;
+        $statistik->TargetKeuangan1 = $totalTargetKeuangan;
+        $statistik->RealisasiKeuangan1 = $totalRealisasiKeuangan;
+        $statistik->PersenTargetKeuangan1 = $persen_target_keuangan;
+        $statistik->PersenRealisasiKeuangan1 = $persen_realisasi_keuangan;
+        $statistik->SisaPaguDana1 = $sisa_anggaran;
+        $statistik->PersenSisaPaguDana1 = $persen_sisa_anggaran;
+        $statistik->Bobot1 = 100;		
+
+        $statistik->save();
+      }
+    }
+  }
 }

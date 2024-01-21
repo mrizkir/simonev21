@@ -401,7 +401,7 @@ class FormBUnitKerjaMurniController extends Controller
 		$SOrgID = $request->input('SOrgID');
 
 		$unitkerja = SubOrganisasiModel::find($SOrgID);
-		if (\DB::table('trRKA')->where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)->where('EntryLvl',1)->where('TA',$tahun)->count()>0)
+		if (\DB::table('trRKA')->where('kode_sub_organisasi',$unitkerja->kode_sub_organisasi)->where('EntryLvl',1)->where('TA',$tahun)->count() > 0)
 		{
 			$data_report=[
 							'kode_sub_organisasi'=>$unitkerja->kode_sub_organisasi,

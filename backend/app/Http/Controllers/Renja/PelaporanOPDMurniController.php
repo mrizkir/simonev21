@@ -123,7 +123,7 @@ class PelaporanOPDMurniController extends Controller
 		$OrgID = $request->input('OrgID');
 		
 		$opd = OrganisasiModel::find($OrgID);
-		if (\DB::table('trRKA')->where('OrgID',$opd->OrgID)->where('EntryLvl',1)->where('TA',$tahun)->count()>0)
+		if (\DB::table('trRKA')->where('OrgID',$opd->OrgID)->where('EntryLvl',1)->where('TA',$tahun)->count() > 0)
 		{
 			$data_report=[
 							'OrgID'=>$opd->OrgID,

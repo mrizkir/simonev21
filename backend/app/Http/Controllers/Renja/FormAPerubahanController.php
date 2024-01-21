@@ -372,7 +372,7 @@ class FormAPerubahanController extends Controller
 		$no_bulan = $request->input('no_bulan');
 		$RKAID = $request->input('RKAID');
 
-		if (\DB::table('trRKARinc')->where('RKAID',$RKAID)->count()>0)
+		if (\DB::table('trRKARinc')->where('RKAID',$RKAID)->count() > 0)
 		{
 			$unitkerja = SubOrganisasiModel::find($SOrgID);
 			$data_report=[
