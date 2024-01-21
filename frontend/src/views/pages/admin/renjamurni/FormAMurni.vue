@@ -187,7 +187,7 @@
             </v-card-title>
             <v-card-text>
               <chart-realisasi-keuangan
-                :datagrafik="chartrealisasifisik_murni"
+                :datagrafik="chartrealisasikeuangan_murni"
                 v-if="chartLoaded"
               />
             </v-card-text>
