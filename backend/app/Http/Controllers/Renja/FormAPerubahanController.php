@@ -535,6 +535,9 @@ class FormAPerubahanController extends Controller
     ->where('RKAID',$RKAID)                                       
     ->first();
 
+    Statistik6Model::where('RKAID', $RKAID)
+    ->delete();
+    
     for($no_bulan = 1; $no_bulan <= 12; $no_bulan += 1)
     {
       $data_target=\DB::table('trRKATargetRinc')
@@ -561,89 +564,67 @@ class FormAPerubahanController extends Controller
               
       $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana2);                            
 
-      $statistik = Statistik6Model::where('RKAID', $RKAID)      
-      ->where('Bulan', $no_bulan)
-      ->first();
+    
+      Statistik6Model::create([
+        'Statistik6ID'=>Uuid::uuid4()->toString(),
+        'RKAID'=>$RKAID,
+        'kode_kegiatan'=>$data_sub_kegiatan->kode_kegiatan,
+        'kode_sub_kegiatan'=>$data_sub_kegiatan->kode_sub_kegiatan,
+        'Nm_Kegiatan'=>$data_sub_kegiatan->Nm_Kegiatan,
+        'Nm_Sub_Kegiatan'=>$data_sub_kegiatan->Nm_Sub_Kegiatan,
+        
+        'PaguDana1'=>0,
+        'PaguDana2'=>$data_sub_kegiatan->PaguDana2,            
+        'PaguDana3'=>0,            
+        'JumlahKegiatan1'=>0,
+        'JumlahKegiatan2'=>1,
+        'JumlahKegiatan3'=>0,
 
-      if (is_null($statistik)) 
-      {
-        Statistik6Model::create([
-          'Statistik6ID'=>Uuid::uuid4()->toString(),
-          'RKAID'=>$RKAID,
-          'kode_kegiatan'=>$data_sub_kegiatan->kode_kegiatan,
-          'kode_sub_kegiatan'=>$data_sub_kegiatan->kode_sub_kegiatan,
-          'Nm_Kegiatan'=>$data_sub_kegiatan->Nm_Kegiatan,
-          'Nm_Sub_Kegiatan'=>$data_sub_kegiatan->Nm_Sub_Kegiatan,
-          
-          'PaguDana1'=>0,
-          'PaguDana2'=>$data_sub_kegiatan->PaguDana2,            
-          'PaguDana3'=>0,            
-          'JumlahKegiatan1'=>0,
-          'JumlahKegiatan2'=>1,
-          'JumlahKegiatan3'=>0,
+        'JumlahSubKegiatan1'=>0,
+        'JumlahSubKegiatan2'=>1,
+        'JumlahSubKegiatan1'=>0,
 
-          'JumlahSubKegiatan1'=>0,
-          'JumlahSubKegiatan2'=>1,
-          'JumlahSubKegiatan1'=>0,
+        'JumlahUraian1'=>0,
+        'JumlahUraian2'=>$jumlahuraian,
+        'JumlahUraian3'=>0,
+            
+        'TargetFisik1'=>0,
+        'TargetFisik2'=>$target_fisik,
+        'TargetFisik3'=>0,
+        'RealisasiFisik1'=>0,
+        'RealisasiFisik2'=>$persen_realisasi_fisik,
+        'RealisasiFisik3'=>0,
 
-          'JumlahUraian1'=>0,
-          'JumlahUraian2'=>$jumlahuraian,
-          'JumlahUraian3'=>0,
-              
-          'TargetFisik1'=>0,
-          'TargetFisik2'=>$target_fisik,
-          'TargetFisik3'=>0,
-          'RealisasiFisik1'=>0,
-          'RealisasiFisik2'=>$persen_realisasi_fisik,
-          'RealisasiFisik3'=>0,
+        'TargetKeuangan1'=>0,
+        'TargetKeuangan2'=>$totalTargetKeuangan,
+        'TargetKeuangan3'=>0,
+        'RealisasiKeuangan1'=>0,
+        'RealisasiKeuangan2'=>$totalRealisasiKeuangan,
+        'RealisasiKeuangan3'=>0,
 
-          'TargetKeuangan1'=>0,
-          'TargetKeuangan2'=>$totalTargetKeuangan,
-          'TargetKeuangan3'=>0,
-          'RealisasiKeuangan1'=>0,
-          'RealisasiKeuangan2'=>$totalRealisasiKeuangan,
-          'RealisasiKeuangan3'=>0,
+        'PersenTargetKeuangan1'=>0,
+        'PersenTargetKeuangan2'=>$persen_target_keuangan,
+        'PersenTargetKeuangan3'=>0,
+        'PersenRealisasiKeuangan1'=>0,
+        'PersenRealisasiKeuangan2'=>$persen_realisasi_keuangan,
+        'PersenRealisasiKeuangan3'=>0,
+            
+        'SisaPaguDana1'=>0,
+        'SisaPaguDana2'=>$sisa_anggaran,
+        'SisaPaguDana3'=>0,
 
-          'PersenTargetKeuangan1'=>0,
-          'PersenTargetKeuangan2'=>$persen_target_keuangan,
-          'PersenTargetKeuangan3'=>0,
-          'PersenRealisasiKeuangan1'=>0,
-          'PersenRealisasiKeuangan2'=>$persen_realisasi_keuangan,
-          'PersenRealisasiKeuangan3'=>0,
-              
-          'SisaPaguDana1'=>0,
-          'SisaPaguDana2'=>$sisa_anggaran,
-          'SisaPaguDana3'=>0,
+        'PersenSisaPaguDana1'=>0,
+        'PersenSisaPaguDana2'=>$persen_sisa_anggaran,
+        'PersenSisaPaguDana3'=>0,
 
-          'PersenSisaPaguDana1'=>0,
-          'PersenSisaPaguDana2'=>$persen_sisa_anggaran,
-          'PersenSisaPaguDana3'=>0,
-
-          'Bobot1'=>0,
-          'Bobot2'=>100,
-          'Bobot3'=>0,
-          
-          'Bulan'=>$no_bulan,
-          'TA'=>$data_sub_kegiatan->TA,
-          'EntryLvl'=>2,
-        ]);
-      }
-      else
-      {
-        $statistik->PaguDana2 = $data_sub_kegiatan->PaguDana2;
-        $statistik->JumlahKegiatan2 = 1;
-        $statistik->TargetFisik2 = $target_fisik;
-        $statistik->RealisasiFisik2 = $persen_realisasi_fisik;
-        $statistik->TargetKeuangan2 = $totalTargetKeuangan;
-        $statistik->RealisasiKeuangan2 = $totalRealisasiKeuangan;
-        $statistik->PersenTargetKeuangan2 = $persen_target_keuangan;
-        $statistik->PersenRealisasiKeuangan2 = $persen_realisasi_keuangan;
-        $statistik->SisaPaguDana2 = $sisa_anggaran;
-        $statistik->PersenSisaPaguDana2 = $persen_sisa_anggaran;
-        $statistik->Bobot2 = 100;		
-
-        $statistik->save();
-      }
+        'Bobot1'=>0,
+        'Bobot2'=>100,
+        'Bobot3'=>0,
+        
+        'Bulan'=>$no_bulan,
+        'TA'=>$data_sub_kegiatan->TA,
+        'EntryLvl'=>2,
+      ]);
     }
   }
 }
