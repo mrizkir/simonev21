@@ -46,6 +46,23 @@ class FormAMurniController extends Controller
       'sisa_anggaran'=>0
     ];
 
+    $chart_keuangan=[
+      [
+        0,0,0,0,0,0,0,0,0,0,0,0
+      ],
+      [
+        0,0,0,0,0,0,0,0,0,0,0,0
+      ]
+    ];
+    $chart_fisik=[
+      [
+        0,0,0,0,0,0,0,0,0,0,0,0
+      ],
+      [
+        0,0,0,0,0,0,0,0,0,0,0,0
+      ]
+    ];
+    
     if (is_null($rka))
     {
       return Response()->json([
@@ -346,23 +363,6 @@ class FormAMurniController extends Controller
         'sisa_anggaran'=>$totalPaguDana-$totalRealisasiSatuKegiatan
       ];
 
-      $chart_keuangan_murni=[
-        [
-          0,0,0,0,0,0,0,0,0,0,0,0
-        ],
-        [
-          0,0,0,0,0,0,0,0,0,0,0,0
-        ]
-      ];
-      $chart_fisik_murni=[
-        [
-          0,0,0,0,0,0,0,0,0,0,0,0
-        ],
-        [
-          0,0,0,0,0,0,0,0,0,0,0,0
-        ]
-      ];
-
       $this->generateStatistik6($RKAID);
       
       $statistik6=Statistik6Model::select(\DB::raw('
@@ -382,88 +382,88 @@ class FormAMurniController extends Controller
         switch($v->Bulan)
         {
           case 1 :
-            $chart_keuangan_murni[0][0] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][0] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][0] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][0] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
 
-            $chart_fisik_murni[0][0] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][0] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][0] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][0] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 2 :
-            $chart_keuangan_murni[0][1] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][1] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][1] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][1] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
 
-            $chart_fisik_murni[0][1] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][1] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][1] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][1] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 3 :
-            $chart_keuangan_murni[0][2] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][2] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][2] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][2] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
 
-            $chart_fisik_murni[0][2] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][2] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][2] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][2] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 4 :
-            $chart_keuangan_murni[0][3] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][3] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][3] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][3] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
 
-            $chart_fisik_murni[0][3] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][3] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][3] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][3] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 5 :
-            $chart_keuangan_murni[0][4] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][4] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][4] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][4] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
 
-            $chart_fisik_murni[0][4] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][4] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][4] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][4] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 6 :
-            $chart_keuangan_murni[0][5] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][5] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][5] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][5] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
 
-            $chart_fisik_murni[0][5] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][5] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][5] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][5] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 7 :
-            $chart_keuangan_murni[0][6] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][6] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][6] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][6] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
             
-            $chart_fisik_murni[0][6] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][6] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][6] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][6] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 8 :
-            $chart_keuangan_murni[0][7] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][7] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][7] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][7] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
             
-            $chart_fisik_murni[0][7] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][7] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][7] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][7] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 9 :
-            $chart_keuangan_murni[0][8] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][8] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][8] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][8] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
             
-            $chart_fisik_murni[0][8] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][8] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][8] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][8] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 10 :
-            $chart_keuangan_murni[0][9] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][9] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][9] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][9] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
             
-            $chart_fisik_murni[0][9] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][9] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][9] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][9] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 11 :
-            $chart_keuangan_murni[0][10] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][10] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][10] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][10] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
             
-            $chart_fisik_murni[0][10] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][10] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][10] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][10] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
           case 12 :
-            $chart_keuangan_murni[0][11] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
-            $chart_keuangan_murni[1][11] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
+            $chart_keuangan[0][11] = Helper::formatPecahan($v->PersenTargetKeuangan1, 1);
+            $chart_keuangan[1][11] = Helper::formatPecahan($v->PersenRealisasiKeuangan1, 1);
             
-            $chart_fisik_murni[0][11] = Helper::formatPecahan($v->TargetFisik1, 1);
-            $chart_fisik_murni[1][11] = Helper::formatPecahan($v->RealisasiFisik1, 1);
+            $chart_fisik[0][11] = Helper::formatPecahan($v->TargetFisik1, 1);
+            $chart_fisik[1][11] = Helper::formatPecahan($v->RealisasiFisik1, 1);
           break;
         }
       }
@@ -473,8 +473,8 @@ class FormAMurniController extends Controller
         'pid'=>'fetchdata',
         'rka'=>$data,
         'total_data'=>$total_data,
-        'chart_keuangan_murni'=>$chart_keuangan_murni,
-        'chart_fisik_murni'=>$chart_fisik_murni,
+        'chart_keuangan'=>$chart_keuangan,
+        'chart_fisik'=>$chart_fisik,
         'message'=>'Fetch data form a murni berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
@@ -485,7 +485,9 @@ class FormAMurniController extends Controller
         'pid'=>'fetchdata',
         'rka'=>$data,
         'total_data'=>$total_data,
-        'message'=>'Fetch data form a perubahan berhasil diperoleh'
+        'chart_keuangan'=>$chart_keuangan,
+        'chart_fisik'=>$chart_fisik,
+        'message'=>'Fetch data form a murni berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 

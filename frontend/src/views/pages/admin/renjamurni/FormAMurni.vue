@@ -187,7 +187,7 @@
             </v-card-title>
             <v-card-text>
               <chart-realisasi-keuangan
-                :datagrafik="chartrealisasikeuangan_murni"
+                :datagrafik="chartrealisasikeuangan"
                 v-if="chartLoaded"
               />
             </v-card-text>
@@ -201,7 +201,7 @@
             </v-card-title>
             <v-card-text>
               <chart-realisasi-fisik
-                :datagrafik="chartrealisasifisik_murni"
+                :datagrafik="chartrealisasifisik"
                 v-if="chartLoaded"
               />
             </v-card-text>
@@ -556,8 +556,8 @@
 
         //chart
         chartLoaded: false,
-        chartrealisasikeuangan_murni: [[], []],        
-        chartrealisasifisik_murni: [[], []],
+        chartrealisasikeuangan: [[], []],        
+        chartrealisasifisik: [[], []],
 
         //headers detail form
         datatabledetail: [],
@@ -727,10 +727,10 @@
           .then(({ data }) => {
             this.total_forma = data.total_data;
             this.datatabledetail = data.rka;
-            this.chartrealisasikeuangan_murni[0] = data.chart_keuangan_murni[0];
-            this.chartrealisasikeuangan_murni[1] = data.chart_keuangan_murni[1];
-            this.chartrealisasifisik_murni[0] = data.chart_fisik_murni[0];
-            this.chartrealisasifisik_murni[1] = data.chart_fisik_murni[1];
+            this.chartrealisasikeuangan[0] = data.chart_keuangan[0];
+            this.chartrealisasikeuangan[1] = data.chart_keuangan[1];
+            this.chartrealisasifisik[0] = data.chart_fisik[0];
+            this.chartrealisasifisik[1] = data.chart_fisik[1];
             this.chartLoaded = true;
           });
       },

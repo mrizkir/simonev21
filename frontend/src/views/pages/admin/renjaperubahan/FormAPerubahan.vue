@@ -182,6 +182,36 @@
           </v-data-table>
         </v-col>
       </v-row>
+      <v-row class="mb-4" dense>
+        <v-col xs="12" sm="12" md="6">
+          <v-card class="mb-2">
+            <v-card-title class="headline">
+              Progres Realisasi Keuangan Murni
+            </v-card-title>
+            <v-card-text>
+              <chart-realisasi-keuangan
+                :datagrafik="chartrealisasikeuangan"
+                v-if="chartLoaded"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+         <v-col xs="12" sm="12" md="6">
+          <v-card class="mb-2">
+            <v-card-title class="headline">
+              Progres Realisasi Fisik Murni
+            </v-card-title>
+            <v-card-text>
+              <chart-realisasi-fisik
+                :datagrafik="chartrealisasifisik"
+                v-if="chartLoaded"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
+      </v-row>
     </v-container>
     <v-container fluid v-else>
       <v-row class="mb-4" no-gutters>
@@ -347,7 +377,8 @@
   import RenjaPerubahanLayout from "@/views/layouts/RenjaPerubahanLayout";
   import ModuleHeader from "@/components/ModuleHeader";
   import Filter2 from "@/components/sidebar/FilterMode2";
-
+  //chart
+  import ChartTargetRealisasi from "@/components/chart/ChartTargetRealisasi";
   export default {
     name: "FormAPerubahan",
     created() {
@@ -526,6 +557,11 @@
         datakegiatan: [],
         formadetail: false,
 
+        //chart
+        chartLoaded: false,
+        chartrealisasikeuangan: [[], []],        
+        chartrealisasifisik: [[], []],
+
         //headers detail form
         datatabledetail: [],
         headersdetail: [
@@ -694,6 +730,11 @@
           .then(({ data }) => {
             this.total_forma = data.total_data;
             this.datatabledetail = data.rka;
+            this.chartrealisasikeuangan[0] = data.chart_keuangan[0];
+            this.chartrealisasikeuangan[1] = data.chart_keuangan[1];
+            this.chartrealisasifisik[0] = data.chart_fisik[0];
+            this.chartrealisasifisik[1] = data.chart_fisik[1];
+            this.chartLoaded = true;
           });
       },
       async printtoexcel() {
@@ -794,6 +835,8 @@
       RenjaPerubahanLayout,
       ModuleHeader,
       Filter2,
+      "chart-realisasi-keuangan": ChartTargetRealisasi,
+      "chart-realisasi-fisik": ChartTargetRealisasi,
     },
   };
 </script>
