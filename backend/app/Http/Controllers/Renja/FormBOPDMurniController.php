@@ -34,10 +34,10 @@ class FormBOPDMurniController extends Controller
     $opd = OrganisasiModel::find($OrgID);
     
     $totalPaguOPD = (float)\DB::table('trRKA')
-                  ->where('OrgID',$opd->OrgID)                                            
-                  ->where('TA',$tahun)  
-                  ->where('EntryLvl',1)
-                  ->sum('PaguDana1');        
+      ->where('OrgID',$opd->OrgID)                                            
+      ->where('TA',$tahun)  
+      ->where('EntryLvl',1)
+      ->sum('PaguDana1');        
     
     $total_program=0;
     $total_kegiatan=0;
