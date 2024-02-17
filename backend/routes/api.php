@@ -167,9 +167,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //data master - Pejabat
   $router->post('/dmaster/pejabat', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\PejabatController@index','as'=>'pejabat.index']);
-  $router->post('/dmaster/pejabat/store', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\PejabatController@store','as'=>'pejabat.store']);
-  $router->put('/dmaster/pejabat/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\PejabatController@update','as'=>'pejabat.update']);
-  $router->delete('/dmaster/pejabat/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\PejabatController@destroy','as'=>'pejabat.destroy']);
+  $router->post('/dmaster/pejabat/store', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\PejabatController@store','as'=>'pejabat.store']);
+  $router->put('/dmaster/pejabat/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\PejabatController@update','as'=>'pejabat.update']);
+  $router->delete('/dmaster/pejabat/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\PejabatController@destroy','as'=>'pejabat.destroy']);
 
   //data master - Sumber Dana
   $router->post('/dmaster/sumberdana', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\SumberDanaController@index','as'=>'sumberdana.index']);
