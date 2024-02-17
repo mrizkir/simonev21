@@ -200,18 +200,13 @@
                   {{ props.item.fisik1 }}
                   <template v-slot:input>
                     <div class="mt-4 title">Update Target</div>
-                    <v-currency-field
+                    <v-text-field
                       label="FISIK"
-                      :min="0"
-                      :max="100"
-                      outlined
-                      autofocus
-                      :auto-decimal-mode="false"
-                      :allow-negative="false"
-                      :value-as-integer="true"
+                      type="text"
+                      :rules="rule_angka"
                       v-model="props.item.fisik1"
-                    >
-                    </v-currency-field>
+                      filled
+                    />
                   </template>
               </v-edit-dialog>
             </template>
