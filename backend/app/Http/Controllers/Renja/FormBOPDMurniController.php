@@ -479,6 +479,19 @@ class FormBOPDMurniController extends Controller
     ], 200);    
     
   }
+  public function chart(Request $request)
+  {
+    $this->validate($request, [            
+      'tahun'=>'required|numeric',
+      'no_bulan'=>'required',   
+      'OrgID'=>'required|exists:tmOrg,OrgID',            
+    ]);
+    $tahun = $request->input('tahun');
+    $no_bulan = $request->input('no_bulan');
+    $OrgID = $request->input('OrgID');
+
+    
+  }
   public function printtoexcel (Request $request)
   {
     $this->hasPermissionTo('RENJA-FORM-B-MURNI_BROWSE');

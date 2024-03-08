@@ -507,6 +507,16 @@ const routes = [
       import("../views/pages/admin/renjamurni/FormBOPDMurni.vue"),
   },
   {
+    path: "/renjamurni/report/formbopd/chart",
+    name: "ReportFormBOPDChartMurni",
+    meta: {
+      title: "BELANJA MURNI - LAPORAN FORM B OPD",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/FormBOPDChartMurni.vue"),
+  },
+  {
     path: "/renjamurni/report/formbunitkerja",
     name: "ReportFormBUnitkerjaMurni",
     meta: {

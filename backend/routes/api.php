@@ -259,6 +259,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //report - form b opd murni
   $router->post('/renjamurni/report/formbopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDMurniController@index','as'=>'formbopdmurni.index']);    
+  $router->post('/renjamurni/report/formbopd/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDMurniController@chart','as'=>'formbopdmurni.chart']);    
   $router->post('/renjamurni/report/formbopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDMurniController@printtoexcel','as'=>'formbopdmurni.printtoexcel']);    
   
   //report - form b unit kerja murni
