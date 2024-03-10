@@ -321,6 +321,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //renja perubahan - form b opd perubahan
   $router->post('/renjaperubahan/report/formbopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDPerubahanController@index','as'=>'formbopdperubahan.index']);    
+  $router->post('/renjaperubahan/report/formbopd/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDPerubahanController@chart','as'=>'formbopdperubahan.chart']);    
   $router->post('/renjaperubahan/report/formbopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDPerubahanController@printtoexcel','as'=>'formbopdperubahan.printtoexcel']);    
   
   //renja perubahan - form b unit kerja perubahan
