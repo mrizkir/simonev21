@@ -501,6 +501,7 @@ class FormBOPDMurniController extends Controller
       0 AS realisasi_keuangan
     '))
     ->where('OrgID', $OrgID)
+    ->where('EntryLvl', 1)
     ->orderByRaw("CASE WHEN kode_bidang = 'x.xx' THEN 1 ELSE 2 END")
     ->orderBy('kode_bidang', 'asc')
     ->orderBy('kode_sub_kegiatan', 'asc')

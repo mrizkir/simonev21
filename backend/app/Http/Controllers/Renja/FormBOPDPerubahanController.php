@@ -475,6 +475,71 @@ class FormBOPDPerubahanController extends Controller
     ], 200);    
     
   }
+  public function chart(Request $request)
+  {
+    $this->validate($request, [            
+      'tahun'=>'required|numeric',
+      'no_bulan'=>'required',   
+      'OrgID'=>'required|exists:tmOrg,OrgID',            
+    ]);
+    $tahun = $request->input('tahun');
+    $no_bulan = $request->input('no_bulan');
+    $OrgID = $request->input('OrgID');
+
+    $data = \DB::table('trRKA')
+    ->select(\DB::raw('
+      RKAID,
+      kode_sub_kegiatan,
+      PaguDana2,
+      0 AS target_fisik,
+      0 AS realisasi_fisik,
+      0 AS target_keuangan,
+      0 AS realisasi_keuangan
+    '))
+    ->where('OrgID', $OrgID)
+    ->where('EntryLvl', 2)
+    ->orderByRaw("CASE WHEN kode_bidang = 'x.xx' THEN 1 ELSE 2 END")
+    ->orderBy('kode_bidang', 'asc')
+    ->orderBy('kode_sub_kegiatan', 'asc')
+    ->get();
+
+    $data->transform(function ($item, $key) use ($no_bulan) {
+      //jumlah baris uraian
+      $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $item->RKAID)->count();	
+
+      $data_target=\DB::table('trRKATargetRinc')
+        ->select(\DB::raw('COALESCE(SUM(target2), 0) AS totaltarget, COALESCE(SUM(fisik2), 0) AS jumlah_fisik'))
+        ->where('RKAID',$item->RKAID)
+        ->where('bulan2','<=',$no_bulan)
+        ->get();
+
+      $target_fisik = Helper::formatPecahan($data_target[0]->jumlah_fisik, $jumlahuraian);                            
+      $item->target_fisik = $target_fisik > 100 ? 100.00 : $target_fisik;
+
+      $data_realisasi=\DB::table('trRKARealisasiRinc')
+      ->select(\DB::raw('COALESCE(SUM(realisasi2), 0) AS realisasi2, COALESCE(SUM(fisik2), 0) AS fisik2'))
+      ->where('RKAID', $item->RKAID)
+      ->where('bulan2', '<=', $no_bulan)
+      ->get();
+
+      $item->realisasi_fisik = Helper::formatPecahan($data_realisasi[0]->fisik2, $jumlahuraian);
+
+      $totalTargetKeuangan = $data_target[0]->totaltarget;
+      $item->target_keuangan = Helper::formatPersen($totalTargetKeuangan, $item->PaguDana2);                            							                                 
+
+      $totalRealisasiKeuangan = $data_realisasi[0]->realisasi2;
+      $item->realisasi_keuangan = Helper::formatPersen($totalRealisasiKeuangan, $item->PaguDana2);  
+
+      return $item;
+    });
+
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'chart'=>$data,      
+      'message'=>'Fetch data chart form b murni berhasil diperoleh'
+    ], 200);
+  }
   public function printtoexcel (Request $request)
   {
     $this->hasPermissionTo('RENJA-FORM-B-PERUBAHAN_BROWSE');

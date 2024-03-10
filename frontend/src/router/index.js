@@ -692,6 +692,16 @@ const routes = [
       import("../views/pages/admin/renjaperubahan/FormBOPDPerubahan.vue"),
   },
   {
+    path: "/renjaperubahan/report/formbopd/chart",
+    name: "ReportFormBOPDChartPerubahan",
+    meta: {
+      title: "BELANJA PERUBAHAN - LAPORAN FORM B OPD",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjaperubahan/FormBOPDChartPerubahan.vue"),
+  },
+  {
     path: "/renjaperubahan/report/formbunitkerja",
     name: "ReportFormBUnitKerjaPerubahan",
     meta: {
