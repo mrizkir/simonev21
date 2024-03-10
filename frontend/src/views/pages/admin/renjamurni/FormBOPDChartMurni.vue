@@ -34,7 +34,7 @@
             </v-card-title>
             <v-card-text>
               <chart-realisasi-fisik
-                :labels="chart_daftar_sumber_dana"
+                :labels="chart_daftar_sub_kegiatan"
                 :target="chart_target_fisik"
                 :realisasi="chart_realisasi_fisik"
                 v-if="chartLoaded"
@@ -51,7 +51,7 @@
             </v-card-title>
             <v-card-text>
               <chart-realisasi-keuangan
-                :labels="chart_daftar_sumber_dana"
+                :labels="chart_daftar_sub_kegiatan"
                 :target="chart_target_keuangan"
                 :realisasi="chart_realisasi_keuangan"
                 v-if="chartLoaded"
@@ -133,7 +133,7 @@
         
         //chart
         chartLoaded: false,
-        chart_daftar_sumber_dana: [],
+        chart_daftar_sub_kegiatan: [],
         chart_target_fisik: [],
         chart_realisasi_fisik: [],
         chart_target_keuangan: [],
@@ -163,7 +163,26 @@
             }
           )
           .then(({ data }) => {
-            console.log(data);
+            let chart = data.chart;
+            //chart
+            var chart_daftar_sub_kegiatan = [];
+            var target_fisik = [];
+            var realisasi_fisik = [];
+            var target_keuangan = [];
+            var realisasi_kuangan = [];
+
+            chart.forEach(item => {
+              chart_daftar_sub_kegiatan.push(item.kode_sub_kegiatan);
+              target_fisik.push(item.target_fisik);
+              realisasi_fisik.push(item.realisasi_fisik);
+              target_keuangan.push(item.target_keuangan);
+              realisasi_kuangan.push(item.realisasi_keuangan);
+            });
+            this.chart_daftar_sub_kegiatan = chart_daftar_sub_kegiatan;
+            this.chart_target_fisik = target_fisik;
+            this.chart_realisasi_fisik = realisasi_fisik;
+            this.chart_target_keuangan = target_keuangan;
+            this.chart_realisasi_keuangan = realisasi_kuangan;
             this.chartLoaded = true;
           });
       },

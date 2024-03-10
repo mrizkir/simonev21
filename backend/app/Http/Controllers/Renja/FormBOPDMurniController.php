@@ -490,7 +490,58 @@ class FormBOPDMurniController extends Controller
     $no_bulan = $request->input('no_bulan');
     $OrgID = $request->input('OrgID');
 
-    
+    $data = \DB::table('trRKA')
+    ->select(\DB::raw('
+      RKAID,
+      kode_sub_kegiatan,
+      PaguDana1,
+      0 AS target_fisik,
+      0 AS realisasi_fisik,
+      0 AS target_keuangan,
+      0 AS realisasi_keuangan
+    '))
+    ->where('OrgID', $OrgID)
+    ->orderByRaw("CASE WHEN kode_bidang = 'x.xx' THEN 1 ELSE 2 END")
+    ->orderBy('kode_bidang', 'asc')
+    ->orderBy('kode_sub_kegiatan', 'asc')
+    ->get();
+
+    $data->transform(function ($item, $key) use ($no_bulan) {
+      //jumlah baris uraian
+      $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $item->RKAID)->count();	
+
+      $data_target=\DB::table('trRKATargetRinc')
+        ->select(\DB::raw('COALESCE(SUM(target1), 0) AS totaltarget, COALESCE(SUM(fisik1), 0) AS jumlah_fisik'))
+        ->where('RKAID',$item->RKAID)
+        ->where('bulan1','<=',$no_bulan)
+        ->get();
+
+      $target_fisik = Helper::formatPecahan($data_target[0]->jumlah_fisik, $jumlahuraian);                            
+      $item->target_fisik = $target_fisik > 100 ? 100.00 : $target_fisik;
+
+      $data_realisasi=\DB::table('trRKARealisasiRinc')
+      ->select(\DB::raw('COALESCE(SUM(realisasi1), 0) AS realisasi1, COALESCE(SUM(fisik1), 0) AS fisik1'))
+      ->where('RKAID', $item->RKAID)
+      ->where('bulan1', '<=', $no_bulan)
+      ->get();
+
+      $item->realisasi_fisik = Helper::formatPecahan($data_realisasi[0]->fisik1, $jumlahuraian);
+
+      $totalTargetKeuangan = $data_target[0]->totaltarget;
+      $item->target_keuangan = Helper::formatPersen($totalTargetKeuangan, $item->PaguDana1);                            							                                 
+
+      $totalRealisasiKeuangan = $data_realisasi[0]->realisasi1;
+      $item->realisasi_keuangan = Helper::formatPersen($totalRealisasiKeuangan, $item->PaguDana1);  
+
+      return $item;
+    });
+
+    return Response()->json([
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'chart'=>$data,      
+      'message'=>'Fetch data chart form b murni berhasil diperoleh'
+    ], 200);
   }
   public function printtoexcel (Request $request)
   {
