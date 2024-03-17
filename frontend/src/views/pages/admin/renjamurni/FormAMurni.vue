@@ -88,7 +88,8 @@
             <strong>
               BULAN {{ nama_bulan }} T.A
               {{ $store.getters["auth/TahunSelected"] }}
-            </strong>
+            </strong>.
+            Bila menemukan kode rekening muncul dua kali atau lebih, itu disebabkan oleh Sumber Dana yang berbeda.
           </v-alert>
           <v-data-table
             :headers="headersdetail"
@@ -260,7 +261,8 @@
             <strong>
               BULAN {{ nama_bulan }} T.A
               {{ $store.getters["auth/TahunSelected"] }}
-            </strong>
+            </strong>.
+            Bila menemukan kode rekening muncul dua kali atau lebih, itu disebabkan oleh Sumber Dana yang berbeda.
           </v-alert>
           <v-data-table
             :headers="headers"

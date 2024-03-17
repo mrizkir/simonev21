@@ -505,6 +505,7 @@ class FormAPerubahanModel extends ReportModel
 																$RKARincID=$rka[$k6]['RKARincID'];
 																$nama_uraian=$rka[$k6]['nama_uraian']; 
 																$no_=explode (".",$k6);    
+																$no_6 = explode('_', $no_[5]);
 																$persen_bobot_rek6=$totalPaguDana_Rek6['totalpersenbobot'];
 																$rp_total_target_rek6=Helper::formatUang($totalPaguDana_Rek6['totaltarget']);
 																$persen_target_rek6=$totalPaguDana_Rek6['totalpersentarget'];
@@ -520,7 +521,7 @@ class FormAPerubahanModel extends ReportModel
 																$sheet->setCellValueExplicit("C$row",$no_[2],DataType::TYPE_STRING);								                                            
 																$sheet->setCellValueExplicit("D$row",$no_[3],DataType::TYPE_STRING);
 																$sheet->setCellValueExplicit("E$row",$no_[4],DataType::TYPE_STRING);                                                                
-																$sheet->setCellValueExplicit("F$row",$no_[5],DataType::TYPE_STRING);  
+																$sheet->setCellValueExplicit("F$row",$no_6[0],DataType::TYPE_STRING);  
 																
 																$sheet->mergeCells("G$row:I$row");
 																$sheet->setCellValue("G$row",$v6);                                                                

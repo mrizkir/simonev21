@@ -246,7 +246,8 @@ class FormAMurniController extends Controller
                                     $totalUraian+=1;
                                     $RKARincID=$n['RKARincID'];
                                     $nama_uraian=$n['nama_uraian'];
-                                    $no_=explode (".",$k6);
+                                    $no_ = explode (".",$k6);
+                                    $no_6 = explode('_', $no_[5]);
                                     $nilaiuraian=$n['pagu_uraian'];
                                     $target=$n['target'];
                                     $totalTargetSatuKegiatan+=$target;
@@ -270,7 +271,7 @@ class FormAMurniController extends Controller
                                     $data[]=[
                                       'FormAMurniDetailID'=>Uuid::uuid4()->toString(),
                                       'tingkat'=>7,
-                                      'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_[5],
+                                      'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_6[0],
                                       'nama_uraian'=>$nama_uraian,
                                       'totalPaguDana'=>$nilaiuraian,
                                       'persen_bobot'=>$persen_bobot,
@@ -290,7 +291,8 @@ class FormAMurniController extends Controller
                                   $totalPaguDana_Rek6=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k6, 'Kd_Rek_6');
                                   $RKARincID=$rka[$k6]['RKARincID'];
                                   $nama_uraian=$rka[$k6]['nama_uraian'];
-                                  $no_=explode (".",$k6);
+                                  $no_ = explode (".",$k6);
+                                  $no_6 = explode('_', $no_[5]);
                                   $persen_bobot_rek6=Helper::formatPersen($totalPaguDana_Rek6['totalpersenbobot'],100);
                                   $persen_target_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentarget'],1);
                                   $persen_realisasi_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersenrealisasi'],1);
@@ -298,10 +300,11 @@ class FormAMurniController extends Controller
                                   $persen_rata2_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalfisik'],$totalPaguDana_Rek6['totalbaris']);
                                   $persen_tertimbang_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentertimbangfisik'],1);
 
-                                  $data[]=[
+                                  
+                                  $data[] = [
                                     'FormAMurniDetailID'=>Uuid::uuid4()->toString(),
                                     'tingkat'=>6,
-                                    'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_[5],
+                                    'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_6[0],
                                     'nama_uraian'=>$v6,
                                     'totalPaguDana'=>$totalPaguDana_Rek6['totalpagu'],
                                     'persen_bobot'=>$persen_bobot_rek6,

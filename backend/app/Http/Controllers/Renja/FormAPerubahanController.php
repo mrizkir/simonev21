@@ -241,6 +241,7 @@ class FormAPerubahanController extends Controller
                                 $RKARincID=$rka[$k6]['RKARincID'];
                                 $nama_uraian=$rka[$k6]['nama_uraian'];
                                 $no_=explode (".",$k6);
+                                $no_6 = explode('_', $no_[5]);
                                 $persen_bobot_rek6=Helper::formatPersen($totalPaguDana_Rek6['totalpersenbobot'],100);
                                 $persen_target_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentarget'],1);
                                 $persen_realisasi_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersenrealisasi'],1);
@@ -251,7 +252,7 @@ class FormAPerubahanController extends Controller
                                 $data[]=[
                                   'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                                   'tingkat'=>6,
-                                  'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_[5],
+                                  'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_6[0],
                                   'nama_uraian'=>$v6,
                                   'totalPaguDana'=>$totalPaguDana_Rek6['totalpagu'],
                                   'persen_bobot'=>$persen_bobot_rek6,

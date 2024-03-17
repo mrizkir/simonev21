@@ -75,6 +75,7 @@ class ReportModel extends Model
           `trRKA`.`Nm_Sub_Kegiatan`,
           `trRKA`.`lokasi_kegiatan1`,
           `trRKA`.`SumberDanaID`,
+          `C`.`Kd_SumberDana`,
           `C`.`Nm_SumberDana`,
           `trRKA`.`tk_capaian1`,
           `trRKA`.`capaian_program1`,
@@ -99,11 +100,11 @@ class ReportModel extends Model
         ');
 
         $rka = \App\Models\Renja\RKAModel::select($sql)                              
-              ->leftJoin('tmASN AS A','A.ASNID','trRKA.nip_pa1')     
-              ->leftJoin('tmASN AS B','B.ASNID','trRKA.nip_pptk1')     
-              ->leftJoin('tmSumberDana AS C','C.SumberDanaID','trRKA.SumberDanaID')                                 
-              ->where('trRKA.EntryLvl', $entryLvl)
-              ->find($id);
+        ->leftJoin('tmASN AS A','A.ASNID','trRKA.nip_pa1')     
+        ->leftJoin('tmASN AS B','B.ASNID','trRKA.nip_pptk1')     
+        ->leftJoin('tmSumberDana AS C','C.SumberDanaID','trRKA.SumberDanaID')                                 
+        ->where('trRKA.EntryLvl', $entryLvl)
+        ->find($id);
 
         if (!is_null($rka))
         {
@@ -120,7 +121,7 @@ class ReportModel extends Model
               CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
               CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
               CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`) AS `Kd_Rek_6`, 
+              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`, '_', tmSumberDana.`Kd_SumberDana`) AS `Kd_Rek_6`, 
               `tmSubROby`.`SubRObyNm`, 
               `trRKARinc`.`NamaUraian1`, 
               `trRKARinc`.`PaguUraian1`, 
@@ -137,6 +138,7 @@ class ReportModel extends Model
             ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
             ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
             ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+            ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKARinc.SumberDanaID')
             ->where('RKAID',$rka->RKAID)
             ->orderBy('kode_uraian1', 'ASC')
             ->get();   
@@ -427,7 +429,7 @@ class ReportModel extends Model
     }          
     $this->dataRKA=$dataAkhir;
     return $dataAkhir;
-  }
+  }  
   /**
    * digunakan untuk mendapatkan data kegiatan
   */  
@@ -454,7 +456,7 @@ class ReportModel extends Model
   /**
   * digunakan untuk menghitung jumlah setiap level rekening Form A 
   */
-  public static function calculateEachLevel ($dataproyek,$k,$no_rek) {        
+  public static function calculateEachLevel ($dataproyek, $k, $no_rek) {        
     $totalpagu=0;
     $totaltarget=0;
     $totalrealisasi=0;        
