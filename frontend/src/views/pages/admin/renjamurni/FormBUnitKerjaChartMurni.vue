@@ -2,10 +2,10 @@
   <RenjaMurniLayout :temporaryleftsidebar="true">
     <ModuleHeader>
       <template v-slot:icon>
-        mdi-chart-bar
+        mdi-graph
       </template>
       <template v-slot:name>
-        CHART FORM B OPD MURNI
+        CHART FORM B UNIT KERJA MURNI
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,8 +16,8 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="left" colored-border type="info">
-          Laporan Chart Form B OPD Rencana Kegiatan dan Anggaran (RKA) OPD APBD Murni
-          s.d
+          Laporan Chart Form B Unit Kerja Rencana Kegiatan dan Anggaran (RKA) OPD APBD
+          Murni s.d
           <strong>
             BULAN {{ nama_bulan }} T.A
             {{ $store.getters["auth/TahunSelected"] }}
@@ -72,7 +72,7 @@
   import Filter2 from "@/components/sidebar/FilterMode2";
   import ChartTargetRealisasi from "@/components/chart/ChartBarOPDTargetRealisasi";
   export default {
-    name: "FormBOPDChartMurni",
+    name: "FormBUnitKerjaChartMurni",
     created() {
       this.breadcrumbs = [
         {
@@ -83,7 +83,7 @@
         {
           text: "RENCANA KERJA MURNI",
           disabled: false,
-          href: "/belanjamurni",
+          href: "/renjamurni",
         },
         {
           text: "LAPORAN",
@@ -91,9 +91,9 @@
           href: "#",
         },
         {
-          text: "FORM B OPD",
-          disabled: false,
-          href: "/renjamurni/report/formbopd",
+          text: "FORM B UNIT KERJA",
+          disabled: true,
+          href: "/renjamurni/report/formbunitkerja",
         },
         {
           text: "CHART",
@@ -105,15 +105,24 @@
       this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
       this.nama_bulan = this.$store.getters["uifront/getNamaBulan"](
         this.bulan_realisasi
-      );
+      );      
     },
     mounted() {      
       var OrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
-        "formbopdmurni",
+        "formbunitkerjamurni",
         "OrgID_Selected"
+      );
+      var SOrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
+        "formbunitkerjamurni",
+        "SOrgID_Selected"
       );
       if (OrgID_Selected.length > 0) {
         this.OrgID_Selected = OrgID_Selected;
+        this.SOrgID_Selected = SOrgID_Selected;
+      }
+      if (SOrgID_Selected.length > 0) {
+        this.OrgID_Selected = OrgID_Selected;
+        this.SOrgID_Selected = SOrgID_Selected;
         this.firstloading = false;
         this.$refs.filter2.setFirstTimeLoading(this.firstloading);
 
@@ -127,10 +136,16 @@
         tahun_anggaran: null,
         bulan_realisasi: null,
         nama_bulan: null,
-        
+
         //filter form
+        daftar_opd: [],
         OrgID_Selected: "",
-        
+        daftar_unitkerja: [],
+        SOrgID_Selected: "",
+        //Organisasi
+        DataOPD: null,
+        DataUnitKerja: null,
+
         //chart
         chartLoaded: false,
         chart_daftar_sub_kegiatan: [],
@@ -147,15 +162,15 @@
           bulan_realisasi
         );
         this.initialize();
-      },
+      },      
       async initialize() {
         await this.$ajax
           .post(
-            "/renjamurni/report/formbopd/chart",
+            "/renjamurni/report/formbunitkerjamurni/chart",
             {
               tahun: this.tahun_anggaran,
               no_bulan: this.bulan_realisasi,
-              OrgID: this.OrgID_Selected,
+              SOrgID: this.SOrgID_Selected,
             },
             {
               headers: {

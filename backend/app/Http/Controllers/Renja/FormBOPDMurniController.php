@@ -69,13 +69,13 @@ class FormBOPDMurniController extends Controller
       $total_program += 1;
       $kode_program = $data_program->kode_program;
       $daftar_kegiatan=\DB::table('trRKA')
-              ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
-              ->where('kode_program',$kode_program)
-              ->where('OrgID', $opd->OrgID)
-              ->where('EntryLvl', 1)
-              ->orderBy('kode_kegiatan','ASC')
-              ->orderBy('kode_sub_kegiatan','ASC')                            
-              ->get();
+        ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
+        ->where('kode_program',$kode_program)
+        ->where('OrgID', $opd->OrgID)
+        ->where('EntryLvl', 1)
+        ->orderBy('kode_kegiatan','ASC')
+        ->orderBy('kode_sub_kegiatan','ASC')                            
+        ->get();
 
       if(isset($daftar_kegiatan[0]))
       {
@@ -541,7 +541,7 @@ class FormBOPDMurniController extends Controller
       'status'=>1,
       'pid'=>'fetchdata',
       'chart'=>$data,      
-      'message'=>'Fetch data chart form b murni berhasil diperoleh'
+      'message'=>'Fetch data chart form b unit kerja murni berhasil diperoleh'
     ], 200);
   }
   public function printtoexcel (Request $request)

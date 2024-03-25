@@ -526,6 +526,16 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjamurni/FormBUnitKerjaMurni.vue"),
   },
+  {
+    path: "/renjamurni/report/formbunitkerja/chart",
+    name: "ReportFormBUnitkerjaChartMurni",
+    meta: {
+      title: "BELANJA MURNI - LAPORAN FORM B UNIT KERJA",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/FormBUnitKerjaChartMurni.vue"),
+  },
   //renja murni - target kinerja murni
   {
     path: "/renjamurni/targetkinerja",
