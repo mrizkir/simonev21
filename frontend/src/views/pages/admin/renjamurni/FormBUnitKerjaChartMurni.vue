@@ -92,7 +92,7 @@
         },
         {
           text: "FORM B UNIT KERJA",
-          disabled: true,
+          disabled: false,
           href: "/renjamurni/report/formbunitkerja",
         },
         {
