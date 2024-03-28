@@ -107,7 +107,7 @@
         this.bulan_realisasi
       );
     },
-    mounted() {      
+    mounted() {
       var OrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
         "formbopdmurni",
         "OrgID_Selected"
@@ -127,10 +127,8 @@
         tahun_anggaran: null,
         bulan_realisasi: null,
         nama_bulan: null,
-        
         //filter form
         OrgID_Selected: "",
-        
         //chart
         chartLoaded: false,
         chart_daftar_sub_kegiatan: [],

@@ -105,9 +105,9 @@
       this.bulan_realisasi = this.$store.getters["uifront/getBulanRealisasi"];
       this.nama_bulan = this.$store.getters["uifront/getNamaBulan"](
         this.bulan_realisasi
-      );      
+      );
     },
-    mounted() {      
+    mounted() {
       var OrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
         "formbunitkerjamurni",
         "OrgID_Selected"
@@ -162,7 +162,7 @@
           bulan_realisasi
         );
         this.initialize();
-      },      
+      },
       async initialize() {
         await this.$ajax
           .post(
