@@ -198,9 +198,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);
   $router->post('/renjamurni/reloadstatistik1', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik1','as'=>'renjamurni.reloadstatistik1']);
   $router->post('/renjamurni/reloadstatistik2', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik2','as'=>'renjamurni.reloadstatistik2']);
-
+  
   //renja - statistik - peringkat opd
   $router->post('/renjamurni/statistik/peringkatopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDMurniController@index','as'=>'renjamurni-peringkatopdmurni.index']);
+  //renja - statistik - capaian rekening murnis
+  $router->post('/renjamurni/statistik/capaianrek', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\CapaianRekeningController@index','as'=>'renjamurni-capaian-rekening.index']);
 
   //renja - data mentah murni
   $router->post('/renja/datamentahmurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\DataMentahMurniController@index','as'=>'v1.datamentahmurni.index']);
@@ -348,7 +350,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //renja - statistik - peringkat opd
   $router->post('/renjaperubahan/statistik/peringkatopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDPerubahanController@index','as'=>'renjaperubahan-peringkatopdperubahan.index']);
-
+  
   //dak murni
   $router->post('/dakmurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DAK\DAKMurniController@index','as'=>'renjamurni.index']);
   $router->post('/dakmurni/reloadstatistik1', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DAK\DAKMurniController@reloadstatistik1','as'=>'dakmurni.reloadstatistik1']);

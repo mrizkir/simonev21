@@ -156,25 +156,13 @@
             </v-card-text>
           </v-card>
         </v-col>
-      </v-row>
-      <v-row dense>
-        <v-col cols="12">
-          <v-card class="mb-2">
-            <v-card-title class="headline">
-              Kelompok Rekening
-            </v-card-title>
-            <v-card-text>
-              asd
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
+      </v-row>      
     </v-container>
   </RenjaMurniLayout>
 </template>
 <script>
   import RenjaMurniLayout from "@/views/layouts/RenjaMurniLayout";
-  import ChartTargetRealisasi from "@/components/chart/ChartTargetRealisasi";
+  import ChartTargetRealisasi from "@/components/chart/ChartTargetRealisasi";  
   export default {
     name: "RenjaMurni",
     created() {

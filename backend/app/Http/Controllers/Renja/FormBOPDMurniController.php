@@ -191,10 +191,10 @@ class FormBOPDMurniController extends Controller
                 ->get();
 
               $data_realisasi=\DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-                    ->where('RKAID',$RKAID)
-                    ->where('bulan1','<=',$no_bulan)
-                    ->get();
+              ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+              ->where('RKAID',$RKAID)
+              ->where('bulan1','<=',$no_bulan)
+              ->get();
               
               //menghitung persen target fisik    
               $target_fisik_program += $data_target[0]->jumlah_fisik;

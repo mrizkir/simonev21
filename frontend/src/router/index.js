@@ -560,13 +560,25 @@ const routes = [
   // statistik murni
   {
     path: "/renjamurni/statistik/peringkatopd",
-    name: "RenjaMurniPeringkatOPDMurni",
+    name: "RenjaMurniPeringkatOPD",
     meta: {
       title: "BELANJA MURNI - STATISTIK PERINGKAT OPD",
       requiresAuth: true,
     },
     component: () =>
       import("../views/pages/admin/renjamurni/StatistikPeringkatOPDMurni.vue"),
+  },
+  {
+    path: "/renjamurni/statistik/capaianrek",
+    name: "RenjaMurniCapaianRekening",
+    meta: {
+      title: "BELANJA MURNI - STATISTIK CAPAIAN PER REKENING",
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        "../views/pages/admin/renjamurni/StatistikCapaianRekeningMurni.vue"
+      ),
   },
   //renja perubahan
   {

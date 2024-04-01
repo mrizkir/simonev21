@@ -297,6 +297,24 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item
+        link
+        to="/renjamurni/statistik/capaianrek"
+        :active-class="
+          $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+        "
+        :color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+        v-if="CAN_ACCESS('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE')"
+      >
+        <v-list-item-icon class="mr-2">
+          <v-icon>mdi-arrow-collapse-right</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            CAPAIAN PER REKENING
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-subheader class="purple accent-5 white--text">SNAPSHOT</v-subheader>
       <v-list-item
         link
