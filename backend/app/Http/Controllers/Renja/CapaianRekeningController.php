@@ -94,8 +94,16 @@ class CapaianRekeningController extends Controller
   private function getJumlahUraianByRekening($tahun, $kode_rekening)
   {
     //jumlah baris uraian        
-    $jumlahuraian = \DB::table('trRKARinc AS A')
-    ->where('A.TA', $tahun)
+    $jumlahuraian = \DB::table('trRKARinc AS A');
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $daftar_opd = $this->getUserOrgID($tahun);
+      $jumlahuraian = $jumlahuraian->join('trRKA AS B', 'A.RKAID', 'B.RKAID')
+      ->whereIn('B.OrgID', $daftar_opd);
+    }
+
+    $jumlahuraian = $jumlahuraian->where('A.TA', $tahun)
     ->where(function($query) use ($kode_rekening) {
       $jumlah_kode_rek = count($kode_rekening);
       for($i = 0; $i < $jumlah_kode_rek; $i++)
@@ -118,10 +126,18 @@ class CapaianRekeningController extends Controller
   {
     $select = $mode == 'fisik' ? 'A.fisik1' : 'A.target1';
 
-    $jumlah=\DB::table('trRKATargetRinc AS A')
+    $jumlah = \DB::table('trRKATargetRinc AS A')
     ->select(\DB::raw($select))
-    ->join('trRKARinc AS B', 'A.RKARincID', 'B.RKARincID')
-    ->where('A.TA', $tahun)
+    ->join('trRKARinc AS B', 'A.RKARincID', 'B.RKARincID');
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $daftar_opd = $this->getUserOrgID($tahun);
+      $jumlah = $jumlah->join('trRKA AS C', 'B.RKAID', 'C.RKAID')
+      ->whereIn('C.OrgID', $daftar_opd);
+    }
+
+    $jumlah = $jumlah->where('A.TA', $tahun)
     ->where('A.bulan1', '<=', $no_bulan)
     ->where(function($query) use ($kode_rekening) {
       $jumlah_kode_rek = count($kode_rekening);
@@ -147,8 +163,16 @@ class CapaianRekeningController extends Controller
 
     $jumlah = \DB::table('trRKARealisasiRinc AS A')
     ->select(\DB::raw($select))
-    ->join('trRKARinc AS B', 'A.RKARincID', 'B.RKARincID')
-    ->where('A.TA', $tahun)
+    ->join('trRKARinc AS B', 'A.RKARincID', 'B.RKARincID');
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $daftar_opd = $this->getUserOrgID($tahun);
+      $jumlah = $jumlah->join('trRKA AS C', 'B.RKAID', 'C.RKAID')
+      ->whereIn('C.OrgID', $daftar_opd);
+    }
+
+    $jumlah = $jumlah->where('A.TA', $tahun)
     ->where('A.bulan1', '<=', $no_bulan)
     ->where(function($query) use ($kode_rekening) {
       $jumlah_kode_rek = count($kode_rekening);
@@ -168,8 +192,16 @@ class CapaianRekeningController extends Controller
   */
   private function getJumlahPaguByRekening($tahun, $kode_rekening)
   {
-    $jumlahpagu = \DB::table('trRKARinc AS A')
-    ->where('A.TA', $tahun)
+    $jumlahpagu = \DB::table('trRKARinc AS A');
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $daftar_opd = $this->getUserOrgID($tahun);
+      $jumlahpagu = $jumlahpagu->join('trRKA AS B', 'B.RKAID', 'A.RKAID')
+      ->whereIn('B.OrgID', $daftar_opd);
+    }
+
+    $jumlahpagu = $jumlahpagu->where('A.TA', $tahun)
     ->where(function($query) use ($kode_rekening) {
       $jumlah_kode_rek = count($kode_rekening);
       for($i = 0; $i < $jumlah_kode_rek; $i++)

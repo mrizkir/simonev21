@@ -93,14 +93,14 @@ class Controller extends BaseController
     $user = User::find($id);
     $permissions=is_null($user)?[]:$user->permissions;     
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
-                  'permissions'=>$permissions,                                    
-                  'message'=>'Fetch permission role '.$user->username.' berhasil diperoleh.'
-                ], 200); 
+      'status'=>1,
+      'pid'=>'fetchdata',
+      'permissions'=>$permissions,                                    
+      'message'=>'Fetch permission role '.$user->username.' berhasil diperoleh.'
+    ], 200); 
   }
   /**
-   * @return array digunakan untuk mendapatkan OrgID dari 
+   * @return array digunakan untuk mendapatkan OrgID dari user opd yang login
    */
   public function getUserOrgID($ta) 
   {
