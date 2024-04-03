@@ -103,14 +103,8 @@ class CapaianRekeningController extends Controller
       ->whereIn('B.OrgID', $daftar_opd);
     }
 
-    $jumlahuraian = $jumlahuraian->where('A.TA', $tahun)
-    ->where(function($query) use ($kode_rekening) {
-      $jumlah_kode_rek = count($kode_rekening);
-      for($i = 0; $i < $jumlah_kode_rek; $i++)
-      {
-        $query->orWhere('A.kode_uraian1', 'LIKE', "{$kode_rekening[$i]}%");
-      }
-    })
+    $jumlahuraian = $jumlahuraian->where('A.TA', $tahun)    
+    ->whereIn('kode_rek_3', $kode_rekening)
     ->count();	
 
     return $jumlahuraian;
@@ -138,14 +132,8 @@ class CapaianRekeningController extends Controller
     }
 
     $jumlah = $jumlah->where('A.TA', $tahun)
-    ->where('A.bulan1', '<=', $no_bulan)
-    ->where(function($query) use ($kode_rekening) {
-      $jumlah_kode_rek = count($kode_rekening);
-      for($i = 0; $i < $jumlah_kode_rek; $i++)
-      {
-        $query->orWhere('B.kode_uraian1', 'LIKE', "{$kode_rekening[$i]}%");      
-      }
-    })        
+    ->where('A.bulan1', '<=', $no_bulan)           
+    ->whereIn('kode_rek_3', $kode_rekening)
     ->sum($select);
 
     return $jumlah;
@@ -173,14 +161,8 @@ class CapaianRekeningController extends Controller
     }
 
     $jumlah = $jumlah->where('A.TA', $tahun)
-    ->where('A.bulan1', '<=', $no_bulan)
-    ->where(function($query) use ($kode_rekening) {
-      $jumlah_kode_rek = count($kode_rekening);
-      for($i = 0; $i < $jumlah_kode_rek; $i++)
-      {
-        $query->orWhere('B.kode_uraian1', 'LIKE', "{$kode_rekening[$i]}%");      
-      }
-    })        
+    ->where('A.bulan1', '<=', $no_bulan)     
+    ->whereIn('kode_rek_3', $kode_rekening)   
     ->sum($select);
     
     return $jumlah;
@@ -201,14 +183,8 @@ class CapaianRekeningController extends Controller
       ->whereIn('B.OrgID', $daftar_opd);
     }
 
-    $jumlahpagu = $jumlahpagu->where('A.TA', $tahun)
-    ->where(function($query) use ($kode_rekening) {
-      $jumlah_kode_rek = count($kode_rekening);
-      for($i = 0; $i < $jumlah_kode_rek; $i++)
-      {
-        $query->orWhere('A.kode_uraian1', 'LIKE', "{$kode_rekening[$i]}%");
-      }
-    })
+    $jumlahpagu = $jumlahpagu->where('A.TA', $tahun)    
+    ->whereIn('kode_rek_3', $kode_rekening)
     ->sum('PaguUraian1');
 
     return $jumlahpagu;
