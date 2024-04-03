@@ -24,6 +24,7 @@ class RKARincianModel extends Model
     'JenisPelaksanaanID',
     'SumberDanaID',
     'JenisPembangunanID',            
+    'kode_rek_3',            
     'kode_uraian1',            
     'kode_uraian2',            
     'NamaUraian1',            

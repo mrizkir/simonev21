@@ -21,6 +21,7 @@ class CreateRkarinciankegiatanTable extends Migration
       $table->uuid('JenisPelaksanaanID')->nullable();
       $table->uuid('SumberDanaID')->nullable();
       $table->uuid('SubRObyID')->nullable();
+      $table->string('kode_rek_3', 10)->nullable();
       $table->string('kode_uraian1')->nullable();
       $table->string('kode_uraian2')->nullable();
       $table->string('NamaUraian1')->nullable();
@@ -61,6 +62,7 @@ class CreateRkarinciankegiatanTable extends Migration
       $table->index('SumberDanaID');
       $table->index('JenisPembangunanID');            
       $table->index('SubRObyID');
+      $table->index('kode_rek_3');
       $table->index('kode_uraian1');
       $table->index('kode_uraian2');
       $table->index('RKARincID_Src');

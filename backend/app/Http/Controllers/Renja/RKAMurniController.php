@@ -313,6 +313,7 @@ class RKAMurniController extends Controller
         `RKARincID`,
         `RKAID`,
         `SIPDID`,
+        kode_rek_3,
         kode_uraian1,
         kode_uraian2,
         `NamaUraian1`,
@@ -335,6 +336,7 @@ class RKAMurniController extends Controller
         uuid() AS `RKARincID`,                
         \''.$rka->RKAID.'\' AS `RKAID`,
         A.`SIPDID`,
+        CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3) AS kode_rek_3,
         CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3,\'.\',kd_rek4,\'.\',kd_rek5,\'.\',kd_rek6) AS kode_uraian1,
         CONCAT(kd_rek1,\'.\',kd_rek2,\'.\',kd_rek3,\'.\',kd_rek4,\'.\',kd_rek5,\'.\',kd_rek6) AS kode_uraian2,
         nm_rek6 AS `NamaUraian1`,
@@ -668,10 +670,12 @@ class RKAMurniController extends Controller
     $rka = RKAModel::select('TA')
       ->find($request->input('RKAID'));
 
+    $kode_uraian_1 = $request->input('kode_uraian_1');
     $uraian = RKARincianModel::create([
       'RKARincID' => Uuid::uuid4()->toString(),
       'RKAID' => $request->input('RKAID'),
-      'kode_uraian1' => $request->input('kode_uraian1'),
+      'kode_rek_3' => substr($kode_uraian_1, 0, 6),
+      'kode_uraian1' => $kode_uraian_1,
       'NamaUraian1' => $request->input('nama_uraian1'),
       'volume1' => $request->input('volume1'),
       'satuan1' => $request->input('satuan1'),
