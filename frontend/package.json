@@ -3,8 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"serve": "vue-cli-service serve --host localhost",
-		"build": "vue-cli-service build",
+		"serve": "vue-cli-service serve --host localhost --openssl-legacy-provider",
+		"build": "vue-cli-service build --openssl-legacy-provider",
 		"lint": "vue-cli-service lint"
 	},
 	"dependencies": {
