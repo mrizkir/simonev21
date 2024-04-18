@@ -4,7 +4,7 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RekeningAkunModel extends Model
+class RekeningAKunModel extends Model
 {
     /**
      * nama tabel model ini.

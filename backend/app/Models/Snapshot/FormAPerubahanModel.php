@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Renja;
+namespace App\Models\Snapshot;
 
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;

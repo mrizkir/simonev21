@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\DMaster\RekeningAkunModel;
+use App\Models\DMaster\RekeningAKunModel;
 
 use Illuminate\Validation\Rule;
 
@@ -24,7 +24,7 @@ class RekeningAkunController extends Controller {
       'TA'=>'required'
     ]);    
     $ta = $request->input('TA');
-    $akun=RekeningAkunModel::select(\DB::raw('
+    $akun=RekeningAKunModel::select(\DB::raw('
                     `AkunID`,                                        
                     `Kd_Rek_1`,
                     `Nm_Akun`,
@@ -66,7 +66,7 @@ class RekeningAkunController extends Controller {
       
     $ta = $request->input('TA');
     
-    $akun = RekeningAkunModel::create([
+    $akun = RekeningAKunModel::create([
       'AkunID' => Uuid::uuid4()->toString(),
       'Kd_Rek_1' => $request->input('Kd_Rek_1'),
       'Nm_Akun' => $request->input('Nm_Akun'),
@@ -149,7 +149,7 @@ class RekeningAkunController extends Controller {
   {        
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-AKUN_UPDATE');
 
-    $akun = RekeningAkunModel::find($id);
+    $akun = RekeningAKunModel::find($id);
     
     if (is_null($akun))
     {
@@ -206,7 +206,7 @@ class RekeningAkunController extends Controller {
   {   
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-AKUN_DESTROY');
 
-    $akun = RekeningAkunModel::find($id);
+    $akun = RekeningAKunModel::find($id);
 
     if (is_null($akun))
     {
