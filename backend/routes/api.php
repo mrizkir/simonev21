@@ -201,7 +201,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   
   //renja - statistik - peringkat opd
   $router->post('/renjamurni/statistik/peringkatopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDMurniController@index','as'=>'renjamurni-peringkatopdmurni.index']);
-  //renja - statistik - capaian rekening murnis
+  //renja - statistik - capaian rekening murni
   $router->post('/renjamurni/statistik/capaianrek', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\CapaianRekeningController@index','as'=>'renjamurni-capaian-rekening.index']);
 
   //renja - data mentah murni
