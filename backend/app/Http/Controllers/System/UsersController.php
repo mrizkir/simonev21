@@ -488,7 +488,7 @@ class UsersController extends Controller {
       if ($mime_type=='image/png' || $mime_type=='image/jpeg')
       {
         $folder=Helper::public_path('images/users/');
-        $file_name=uniqid('img').".".$foto->getClientOriginalExtension();
+        $file_name=uniqid('img').".".$foto->exension();
         $foto->move($folder,$file_name);
 
         $old_file=$user->foto;
