@@ -664,7 +664,8 @@ class RKAMurniController extends Controller
       'volume1'=> 'required|numeric',
       'satuan1'=> 'required',
       'harga_satuan1'=> 'required|numeric',
-      'PaguUraian1'=> 'required',            
+      'PaguUraian1'=> 'required',
+      'SumberDanaID'=>'required',
     ]);     
 
     $rka = RKAModel::select('TA')
@@ -676,11 +677,18 @@ class RKAMurniController extends Controller
       'RKAID' => $request->input('RKAID'),
       'kode_rek_3' => substr($kode_uraian_1, 0, 6),
       'kode_uraian1' => $kode_uraian_1,
+      'kode_uraian2' => $kode_uraian_1,
       'NamaUraian1' => $request->input('nama_uraian1'),
+      'NamaUraian2' => $request->input('nama_uraian1'),
       'volume1' => $request->input('volume1'),
+      'volume2' => $request->input('volume1'),
       'satuan1' => $request->input('satuan1'),
+      'satuan2' => $request->input('satuan1'),
       'harga_satuan1' => $request->input('harga_satuan1'),
+      'harga_satuan2' => $request->input('harga_satuan1'),
       'PaguUraian1' => $request->input('PaguUraian1'),
+      'PaguUraian2' => $request->input('PaguUraian1'),
+      'SumberDanaID' => $request->input('SumberDanaID'),
       'Descr' => $request->input('Descr'),
       'EntryLvl' => 1,
       'TA' => $rka->TA,
@@ -846,14 +854,20 @@ class RKAMurniController extends Controller
         'satuan1'=>'required',
         'harga_satuan1'=>'required',
         'PaguUraian1'=>'required',
+        'SumberDanaID'=>'required',
       ]);
       
       $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
         $rinciankegiatan->volume1=$request->input('volume1');
+        $rinciankegiatan->volume2=$request->input('volume1');
         $rinciankegiatan->satuan1=$request->input('satuan1');
+        $rinciankegiatan->satuan2=$request->input('satuan1');
         $rinciankegiatan->harga_satuan1=$request->input('harga_satuan1');
+        $rinciankegiatan->harga_satuan2=$request->input('harga_satuan1');
         $rinciankegiatan->PaguUraian1=$request->input('PaguUraian1');
+        $rinciankegiatan->PaguUraian2=$request->input('PaguUraian1');
         $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');                   
+        $rinciankegiatan->SumberDanaID = $request->input('SumberDanaID');                           
         $rinciankegiatan->save();
 
         \DB::table('sipd')

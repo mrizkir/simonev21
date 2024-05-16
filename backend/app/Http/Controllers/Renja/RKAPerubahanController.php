@@ -865,7 +865,8 @@ class RKAPerubahanController extends Controller
       'volume2'=> 'required|numeric',
       'satuan2'=> 'required',
       'harga_satuan2'=> 'required|numeric',
-      'PaguUraian2'=> 'required',            
+      'PaguUraian2'=> 'required',      
+      'SumberDanaID'=>'required',      
     ]);     
 
     $rka = RKAModel::find($request->input('RKAID'));
@@ -881,17 +882,18 @@ class RKAPerubahanController extends Controller
       'satuan2' => $request->input('satuan2'),
       'harga_satuan2' => $request->input('harga_satuan2'),
       'PaguUraian2' => $request->input('PaguUraian2'),
+      'SumberDanaID' => $request->input('SumberDanaID'),
       'Descr' => $request->input('Descr'),
       'EntryLvl' => 2,
       'TA' => $rka->TA,
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
-                  'uraian'=>$uraian,                    
-                  'message'=>'Data Uraian RKA berhasil disimpan.'
-                ], 200); 
+      'status'=>1,
+      'pid'=>'store',
+      'uraian'=>$uraian,                    
+      'message'=>'Data Uraian RKA berhasil disimpan.'
+    ], 200); 
   }               
   /**
    * Update the specified resource in storage.
@@ -1047,6 +1049,7 @@ class RKAPerubahanController extends Controller
         'satuan2'=>'required',
         'harga_satuan2'=>'required',
         'PaguUraian2'=>'required',
+        'SumberDanaID'=>'required',
       ]);
       
       $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
@@ -1054,7 +1057,8 @@ class RKAPerubahanController extends Controller
         $rinciankegiatan->satuan2=$request->input('satuan2');
         $rinciankegiatan->harga_satuan2=$request->input('harga_satuan2');
         $rinciankegiatan->PaguUraian2=$request->input('PaguUraian2');
-        $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');                   
+        $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');    
+        $rinciankegiatan->SumberDanaID = $request->input('SumberDanaID');               
         $rinciankegiatan->save();
 
         \DB::table('sipd')

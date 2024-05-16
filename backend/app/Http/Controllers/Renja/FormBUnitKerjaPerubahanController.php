@@ -348,8 +348,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 		if ($totalPersenBobot > 100) {
 			$totalPersenBobot = 100.000;
 		}
-		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik, $total_sub_kegiatan);
-		// dd($totalPersenTargetFisik);
+		$totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik, $total_sub_kegiatan);		
 		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan);
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);

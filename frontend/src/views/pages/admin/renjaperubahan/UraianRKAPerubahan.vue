@@ -200,6 +200,17 @@
                       </v-currency-field>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
+                      <v-select
+                        v-model="formdata.SumberDanaID"
+                        label="SUMBER DANA"
+                        :items="daftar_sumberdana"
+                        item-text="Nm_SumberDana"
+                        item-value="SumberDanaID"
+                        outlined
+                        filled
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="12" md="12">
                       <v-autocomplete
                         :items="daftar_jenispelaksanaan"
                         v-model="formdata.JenisPelaksanaanID"
@@ -878,6 +889,7 @@
         form_valid: true,
         RKARincID_Selected: null,
         daftar_jenispelaksanaan: [],
+        daftar_sumberdana: [],
         formdata: {
           RKARincID: "",
           kode_uraian: "",
@@ -888,6 +900,7 @@
           PaguUraian2: 0,
           realisasi2: 0,
           fisik2: 0,
+          SumberDanaID: null,
           JenisPelaksanaanID: "",
           created_at: "",
           updated_at: "",
@@ -902,6 +915,7 @@
           PaguUraian2: 0,
           realisasi2: 0,
           fisik2: 0,
+          SumberDanaID: null,
           JenisPelaksanaanID: "",
           created_at: "",
           updated_at: "",
@@ -1094,6 +1108,21 @@
           .then(({ data }) => {
             this.daftar_jenispelaksanaan = data.jenispelaksanaan;
           });
+        await this.$ajax
+          .post(
+            "/dmaster/sumberdana",
+            {
+              tahun: item.TA,
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.daftar_sumberdana = data.sumberdana;
+          });
         this.form_valid = true;
         this.editedIndex = this.datatable.indexOf(item);
         this.formdata = Object.assign({}, item);
@@ -1113,6 +1142,7 @@
                   satuan2: this.formdata.satuan2,
                   harga_satuan2: "" + this.formdata.harga_satuan2,
                   PaguUraian2: "" + this.PaguUraian,
+                  SumberDanaID: this.formdata.SumberDanaID,
                   JenisPelaksanaanID: this.formdata.JenisPelaksanaanID,
                 },
                 {

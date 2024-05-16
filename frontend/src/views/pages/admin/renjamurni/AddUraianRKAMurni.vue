@@ -197,6 +197,15 @@
                   v-model="PaguUraian"
                   :disabled="true"
                 />
+                <v-select
+                  v-model="formdata.SumberDanaID"
+                  label="SUMBER DANA"
+                  :rules="rule_sumberdana"
+                  :items="daftar_sumberdana"
+                  item-text="Nm_SumberDana"
+                  item-value="SumberDanaID"
+                  filled
+                />
                 <h5>LAIN-LAIN</h5>
                 <v-divider class="mb-2"></v-divider>
                 <v-textarea
@@ -297,6 +306,7 @@
         datakegiatan: [],
         //form data
         form_valid: true,
+        daftar_sumberdana: [],
         daftar_jenis: [],
         rekening_JnsID: null,
 
@@ -317,6 +327,7 @@
           volume: 1,
           satuan: "",
           harga_satuan: 0,
+          SumberDanaID: null,
           Descr: "",
         },
         rule_sub_rincian_objek: [
@@ -337,6 +348,9 @@
         rule_satuan: [
           value => !!value || "Mohon untuk di isi satuan uraian !!!",
         ],
+        rule_sumberdana: [
+          value => !!value || "Mohon untuk di pilih sumber dana !!!",
+        ],
       };
     },
     methods: {
@@ -355,7 +369,26 @@
           )
           .then(({ data }) => {
             this.daftar_jenis = data.jenis;
-          });				
+          });
+
+        await this.$ajax
+          .post(
+            "/dmaster/sumberdana",
+            {
+              tahun: this.$store.getters["auth/TahunSelected"],
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.daftar_sumberdana = data.sumberdana;
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });
       },
       save() {
         if (this.$refs.frmdata.validate()) {					
@@ -371,6 +404,7 @@
                 satuan1: this.formdata.satuan,
                 harga_satuan1: this.formdata.harga_satuan,
                 PaguUraian1: this.PaguUraian,
+                SumberDanaID: this.formdata.SumberDanaID,
                 Descr: this.formdata.Descr,
               },
               {
@@ -453,7 +487,6 @@
       },
       rekening_RObyID(val) {
         this.btnLoading = true;
-        
         this.daftar_sub_rincian_objek = [];
         this.rekening_SubRObyID = null;
 
@@ -476,11 +509,11 @@
       },
       rekening_SubRObyID(val) {
         if (val) {
-          this.formdata.nama_uraian = val.SubRObyNm;			
+          this.formdata.nama_uraian = val.SubRObyNm;
         } else {
           this.formdata.nama_uraian = "";
         }
-      }
+      },
     },
     computed: {
       PaguUraian() {
