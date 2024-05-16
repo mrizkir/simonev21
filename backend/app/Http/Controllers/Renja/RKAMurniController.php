@@ -670,7 +670,7 @@ class RKAMurniController extends Controller
     $rka = RKAModel::select('TA')
       ->find($request->input('RKAID'));
 
-    $kode_uraian_1 = $request->input('kode_uraian_1');
+    $kode_uraian_1 = $request->input('kode_uraian1');
     $uraian = RKARincianModel::create([
       'RKARincID' => Uuid::uuid4()->toString(),
       'RKAID' => $request->input('RKAID'),

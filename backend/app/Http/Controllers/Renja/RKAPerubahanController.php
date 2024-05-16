@@ -869,11 +869,13 @@ class RKAPerubahanController extends Controller
     ]);     
 
     $rka = RKAModel::find($request->input('RKAID'));
-
+    
+    $kode_uraian_2 = $request->input('kode_uraian2');
     $uraian = RKARincianModel::create([
       'RKARincID' => Uuid::uuid4()->toString(),
       'RKAID' => $request->input('RKAID'),
-      'kode_uraian2' => $request->input('kode_uraian2'),
+      'kode_rek_3' => substr($kode_uraian_2, 0, 6),
+      'kode_uraian2' => $kode_uraian_2,
       'NamaUraian2' => $request->input('nama_uraian2'),
       'volume2' => $request->input('volume2'),
       'satuan2' => $request->input('satuan2'),
