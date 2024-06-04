@@ -38,7 +38,7 @@ class ReportModel extends Model
   public function setObjReport($dataReport)
   {   
     $this->dataReport = $dataReport;
-    $this->spreadsheet = new Spreadsheet();         
+    $this->spreadsheet = new Spreadsheet();
   }
   public function download(string $filename)
   {

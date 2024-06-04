@@ -201,8 +201,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   
   //renja - statistik - peringkat opd
   $router->post('/renjamurni/statistik/peringkatopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDMurniController@index','as'=>'renjamurni-peringkatopdmurni.index']);
+  
   //renja - statistik - capaian rekening murni
   $router->post('/renjamurni/statistik/capaianrek', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\CapaianRekeningController@index','as'=>'renjamurni-capaian-rekening.index']);
+  $router->post('/renjamurni/statistik/reloadcapaianrek', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\CapaianRekeningController@reloadcapaianrek','as'=>'renjamurni-capaian-rekening.reloadcapaianrek']);
 
   //renja - data mentah murni
   $router->post('/renja/datamentahmurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\DataMentahMurniController@index','as'=>'v1.datamentahmurni.index']);

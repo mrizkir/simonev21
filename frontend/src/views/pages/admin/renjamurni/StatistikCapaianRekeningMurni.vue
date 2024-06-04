@@ -23,10 +23,34 @@
     <v-container fluid>
       <v-row dense>
         <v-col xs="12" sm="6" md="6">        
-          <card-capaian-rekening :tw="tw_realisasi" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" />
+          <card-capaian-rekening :tw="1" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" />
         </v-col>
         <v-col xs="12" sm="6" md="6">        
-          <card-capaian-rekening :tw="tw_realisasi" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" />               
+          <card-capaian-rekening :tw="1" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" />               
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col xs="12" sm="6" md="6">        
+          <card-capaian-rekening :tw="2" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" />
+        </v-col>
+        <v-col xs="12" sm="6" md="6">        
+          <card-capaian-rekening :tw="2" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" />               
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col xs="12" sm="6" md="6">        
+          <card-capaian-rekening :tw="3" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" />
+        </v-col>
+        <v-col xs="12" sm="6" md="6">        
+          <card-capaian-rekening :tw="3" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" />               
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col xs="12" sm="6" md="6">        
+          <card-capaian-rekening :tw="4" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" />
+        </v-col>
+        <v-col xs="12" sm="6" md="6">        
+          <card-capaian-rekening :tw="4" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" />               
         </v-col>
       </v-row>
     </v-container>

@@ -8,6 +8,8 @@ use Ramsey\Uuid\Uuid;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 
+use App\Models\Statistik7Model;
+
 class CapaianRekeningController extends Controller 
 {
   public function index(Request $request)
@@ -18,9 +20,124 @@ class CapaianRekeningController extends Controller
       'mode'=>'required|in:fisik,keuangan',
     ]);
     
-    $tahun=$request->input('ta');
-    $tw=$request->input('tw');
-    $mode=$request->input('mode');
+    $tahun = $request->input('ta');
+    $tw = $request->input('tw');
+    $mode = $request->input('mode');
+
+    switch($tw)
+    {
+      case 1:
+        $bulan = [1,2,3];
+        $target = [
+          1 => 0,
+          2 => 0,
+          3 => 0,
+        ];
+        $realisasi = [
+          1 => 0,
+          2 => 0,
+          3 => 0,
+        ];
+      break;
+      case 2:
+        $bulan = [4,5,6];
+        $target = [
+          4 => 0,
+          5 => 0,
+          6 => 0,
+        ];
+        $realisasi = [
+          4 => 0,
+          5 => 0,
+          6 => 0,
+        ];
+      break;
+      case 3:
+        $bulan = [7,8,9];
+        $target = [
+          7 => 0,
+          8 => 0,
+          9 => 0,
+        ];
+        $realisasi = [
+          7 => 0,
+          8 => 0,
+          9 => 0,
+        ];
+      break;
+      case 4:
+        $bulan = [10,11,12];
+        $target = [
+          10 => 0,
+          11 => 0,
+          12 => 0,
+        ];
+        $realisasi = [
+          10 => 0,
+          11 => 0,
+          12 => 0,
+        ];
+      break;
+    }
+
+    $dr = Statistik7Model::where('TA', $tahun)
+      ->select(\DB::raw("
+        DISTINCT nama_rekening
+      "))
+      ->where('EntryLvl', 1)
+      ->where('jenis', $mode)
+      ->whereIn('Bulan', $bulan)
+      ->orderBy('nama_rekening', 'ASC')
+      ->orderBy('Bulan', 'ASC')
+      ->get();
+      
+    $data_rekening = [];
+
+    if(count($dr) > 0)
+    {
+      foreach($dr as $k => $v)
+      {
+        $dr2 = Statistik7Model::where('TA', $tahun)        
+        ->where('EntryLvl', 1)
+        ->where('jenis', $mode)
+        ->whereIn('Bulan', $bulan)
+        ->where('nama_rekening', $v->nama_rekening)
+        ->orderBy('nama_rekening', 'ASC')
+        ->orderBy('Bulan', 'ASC')
+        ->get();
+        
+        foreach($dr2 as $v2)
+        {
+          $target[$v2->Bulan] = $v2->target;
+          $realisasi[$v2->Bulan] = $v2->realisasi;
+        }
+        $data_rekening[$k] = [
+          'rekening_id' => Uuid::uuid4()->toString(),
+          'nama_rekening' => $v->nama_rekening,
+          'target' => $target,
+          'realisasi' => $realisasi,
+        ];
+      }
+    }
+    
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata', 
+      'result' => $data_rekening,   
+      'message' => "Fetch data target realisasi rekening TW ke $tw berhasil diperoleh"
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+  }
+  public function reloadcapaianrek(Request $request)
+  {
+    $this->validate($request, [            
+      'ta'=>'required',
+      'tw'=>'required|in:1,2,3,4',
+      'mode'=>'required|in:fisik,keuangan',
+    ]);
+    
+    $tahun = $request->input('ta');
+    $tw = $request->input('tw');
+    $mode = $request->input('mode');
 
     $data_rekening = [
       [
@@ -40,6 +157,28 @@ class CapaianRekeningController extends Controller
       ],
     ];
 
+    switch($tw)
+    {
+      case 1:
+        $bulan = [1,2,3];
+      break;
+      case 2:
+        $bulan = [4,5,6];
+      break;
+      case 3:
+        $bulan = [7,8,9];
+      break;
+      case 4:
+        $bulan = [10,11,12];     
+      break;
+    }
+    
+    Statistik7Model::where('TA', $tahun)
+    ->where('EntryLvl', 1)
+    ->where('jenis', $mode)
+    ->whereIn('Bulan', $bulan)
+    ->delete();
+
     $dr = $data_rekening;
     foreach ($dr as $k => $v)
     { 
@@ -54,36 +193,82 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['target'][$i] = $mode == 'fisik' ? Helper::formatPecahan($target, $jumlah_total) : Helper::formatPersen($target, $jumlah_total);
             $realisasi = $this->getDataRealisasiByRekening($tahun, $i, $v['kode_rekening'], $mode);
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
+            Statistik7Model::create([
+              'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'nama_rekening' => $v['nama_rekening'],
+              'target' => $data_rekening[$k]['target'][$i],
+              'realisasi' => $data_rekening[$k]['realisasi'][$i],
+              'jenis' => $mode,
+              'Bulan' => $i,
+              'TA' => $tahun,
+              'EntryLvl' => 1,
+            ]);
           }          
         break;
         case 2:          
           for($i = 4; $i <= 6; $i++)
           {
-            $data_rekening[$k]['target'][$i] = 0;
-            $data_rekening[$k]['realisasi'][$i] = 0;
+            $target = $this->getDataTargetByRekening($tahun, $i, $v['kode_rekening'], $mode);
+            $data_rekening[$k]['target'][$i] = $mode == 'fisik' ? Helper::formatPecahan($target, $jumlah_total) : Helper::formatPersen($target, $jumlah_total);
+            $realisasi = $this->getDataRealisasiByRekening($tahun, $i, $v['kode_rekening'], $mode);
+            $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
+            Statistik7Model::create([
+              'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'nama_rekening' => $v['nama_rekening'],
+              'target' => $data_rekening[$k]['target'][$i],
+              'realisasi' => $data_rekening[$k]['realisasi'][$i],
+              'jenis' => $mode,
+              'Bulan' => $i,
+              'TA' => $tahun,
+              'EntryLvl' => 1,
+            ]);
           }          
         break;
         case 3:
           for($i = 7; $i <= 9; $i++)
           {
-            $data_rekening[$k]['target'][$i] = 0;
-            $data_rekening[$k]['realisasi'][$i] = 0;
+            $target = $this->getDataTargetByRekening($tahun, $i, $v['kode_rekening'], $mode);
+            $data_rekening[$k]['target'][$i] = $mode == 'fisik' ? Helper::formatPecahan($target, $jumlah_total) : Helper::formatPersen($target, $jumlah_total);
+            $realisasi = $this->getDataRealisasiByRekening($tahun, $i, $v['kode_rekening'], $mode);
+            $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
+            Statistik7Model::create([
+              'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'nama_rekening' => $v['nama_rekening'],
+              'target' => $data_rekening[$k]['target'][$i],
+              'realisasi' => $data_rekening[$k]['realisasi'][$i],
+              'jenis' => $mode,
+              'Bulan' => $i,
+              'TA' => $tahun,
+              'EntryLvl' => 1,
+            ]);
           }          
         break;
         case 4:
           for($i = 10; $i <= 12; $i++)
           {
-            $data_rekening[$k]['target'][$i] = 0;
-            $data_rekening[$k]['realisasi'][$i] = 0;
+            $target = $this->getDataTargetByRekening($tahun, $i, $v['kode_rekening'], $mode);
+            $data_rekening[$k]['target'][$i] = $mode == 'fisik' ? Helper::formatPecahan($target, $jumlah_total) : Helper::formatPersen($target, $jumlah_total);
+            $realisasi = $this->getDataRealisasiByRekening($tahun, $i, $v['kode_rekening'], $mode);
+            $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
+            Statistik7Model::create([
+              'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'nama_rekening' => $v['nama_rekening'],
+              'target' => $data_rekening[$k]['target'][$i],
+              'realisasi' => $data_rekening[$k]['realisasi'][$i],
+              'jenis' => $mode,
+              'Bulan' => $i,
+              'TA' => $tahun,
+              'EntryLvl' => 1,
+            ]);
           }          
         break;
       }
-    }
+    }    
     return Response()->json([
       'status' => 1,
-      'pid' => 'fetchdata', 
+      'pid' => 'update', 
       'result' => $data_rekening,   
-      'message' => "Fetch data target realisasi rekening TW ke $tw berhasil diperoleh"
+      'message' => "Update data target realisasi rekening TW ke $tw berhasil diproses"
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   /**
