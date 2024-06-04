@@ -14,7 +14,8 @@ class CreateStatistik7Table extends Migration
   public function up()
   {
     Schema::create('statistik7', function (Blueprint $table) {
-      $table->uuid('Statistik7ID');      
+      $table->uuid('Statistik7ID');   
+      $table->uuid('user_id')->nullable();   
       $table->string('nama_rekening');
       $table->decimal('target',5,2)->default(0);
       $table->decimal('realisasi',5,2)->default(0);      
@@ -25,6 +26,7 @@ class CreateStatistik7Table extends Migration
       $table->timestamps();
 
       $table->primary('Statistik7ID');
+      $table->index('user_id');
       $table->index('TA');
       $table->index('Bulan');
       $table->index('EntryLvl');

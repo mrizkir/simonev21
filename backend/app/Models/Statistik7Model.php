@@ -24,6 +24,7 @@ class Statistik7Model extends Model {
    */
   protected $fillable = [
     'Statistik7ID',
+    'user_id',
     'nama_rekening',
     'target',
     'realisasi',

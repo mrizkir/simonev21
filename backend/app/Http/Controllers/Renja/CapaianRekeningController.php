@@ -88,8 +88,17 @@ class CapaianRekeningController extends Controller
       ->where('jenis', $mode)
       ->whereIn('Bulan', $bulan)
       ->orderBy('nama_rekening', 'ASC')
-      ->orderBy('Bulan', 'ASC')
-      ->get();
+      ->orderBy('Bulan', 'ASC');
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $dr = $dr->where('user_id', $this->getUserid());
+    }
+    else
+    {
+      $dr = $dr->whereNull('user_id');
+    }
+    $dr = $dr->get();
       
     $data_rekening = [];
 
@@ -139,6 +148,13 @@ class CapaianRekeningController extends Controller
     $tw = $request->input('tw');
     $mode = $request->input('mode');
 
+    $user_id = null;
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $user_id = $this->getUserid();
+    }
+
     $data_rekening = [
       [
         'rekening_id' => Uuid::uuid4()->toString(),
@@ -173,11 +189,21 @@ class CapaianRekeningController extends Controller
       break;
     }
     
-    Statistik7Model::where('TA', $tahun)
+    $statistik7_delete = Statistik7Model::where('TA', $tahun)
     ->where('EntryLvl', 1)
     ->where('jenis', $mode)
-    ->whereIn('Bulan', $bulan)
-    ->delete();
+    ->whereIn('Bulan', $bulan);
+
+    if($this->hasRole(['opd', 'unitkerja']))
+    {
+      $statistik7_delete = $statistik7_delete->where('user_id', $this->getUserid());
+    }
+    else
+    {
+      $statistik7_delete = $statistik7_delete->whereNull('user_id');
+    }
+
+    $statistik7_delete->delete();
 
     $dr = $data_rekening;
     foreach ($dr as $k => $v)
@@ -195,6 +221,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'user_id'=>$user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
@@ -214,6 +241,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'user_id'=>$user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
@@ -233,6 +261,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'user_id'=>$user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
@@ -252,6 +281,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
+              'user_id'=>$user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
