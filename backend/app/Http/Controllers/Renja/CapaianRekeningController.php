@@ -196,7 +196,7 @@ class CapaianRekeningController extends Controller
 
     if($this->hasRole(['opd', 'unitkerja']))
     {
-      $statistik7_delete = $statistik7_delete->where('user_id', $this->getUserid());
+      $statistik7_delete = $statistik7_delete->where('user_id', $user_id);
     }
     else
     {

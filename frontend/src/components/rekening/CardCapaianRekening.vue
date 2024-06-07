@@ -1,5 +1,5 @@
 <template>
-   <v-data-table
+  <v-data-table
     :headers="headers"
     :items="datatable"
     item-key="rekening_id"
@@ -66,96 +66,96 @@
           header = [            
             {
               text: "REKENING",
-              value: "nama_rekening",              
+              value: "nama_rekening",  
               sortable: false,
             },
             {
               text: "JAN",
-              value: "data_1",            
+              value: "data_1",
               sortable: false,
-            },            
+            },
             {
               text: "FEB",
-              value: "data_2",            
+              value: "data_2",
               sortable: false,
-            },            
+            },
             {
               text: "MAR",
-              value: "data_3",            
+              value: "data_3",
               sortable: false,
-            },            
+            },
           ];
         break;
         case 2:
           header = [            
             {
               text: "REKENING",
-              value: "nama_rekening",              
+              value: "nama_rekening",  
               sortable: false,
             },
             {
               text: "APR",
-              value: "data_4",            
+              value: "data_4",
               sortable: false,
-            },            
+            },
             {
               text: "MEI",
-              value: "data_5",            
+              value: "data_5",
               sortable: false,
-            },            
+            },
             {
               text: "JUN",
-              value: "data_6",            
+              value: "data_6",
               sortable: false,
-            },            
+            },
           ];
         break;
         case 3:
           header = [            
             {
               text: "REKENING",
-              value: "nama_rekening",              
+              value: "nama_rekening",  
               sortable: false,
             },
             {
               text: "JUL",
-              value: "data_7",            
+              value: "data_7",
               sortable: false,
-            },            
+            },
             {
               text: "AGUS",
-              value: "data_8",            
+              value: "data_8",
               sortable: false,
-            },            
+            },
             {
               text: "SEPT",
-              value: "data_9",            
+              value: "data_9",
               sortable: false,
-            },            
+            },
           ];
         break;
         case 4:
           header = [            
             {
               text: "REKENING",
-              value: "nama_rekening",              
+              value: "nama_rekening",  
               sortable: false,
             },
             {
               text: "OKT",
-              value: "data_10",            
+              value: "data_10",
               sortable: false,
-            },            
+            },
             {
               text: "NOV",
-              value: "data_11",            
+              value: "data_11",
               sortable: false,
-            },            
+            },
             {
               text: "DES",
-              value: "data_12",            
+              value: "data_12",
               sortable: false,
-            },            
+            },
           ];
         break;
       }
@@ -192,7 +192,7 @@
                 
                 var data_;
                 switch(this.tw) {
-                  case 1:                    
+                  case 1:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
@@ -236,6 +236,7 @@
           });
       },
       async loadstatistik7() {
+        this.datatable = [];
         this.btnLoading = true;
         await this.$ajax
           .post(
@@ -255,10 +256,9 @@
             if(data.status == 1) {
               let data_rekening = data.result;
               data_rekening.forEach(element => {
-                
                 var data_;
                 switch(this.tw) {
-                  case 1:                    
+                  case 1:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
@@ -302,5 +302,5 @@
           });
       },
     },
-  }
+  };
 </script>
