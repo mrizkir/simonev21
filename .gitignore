@@ -24,3 +24,12 @@ Homestead.json
 /simonev-21-gui/target
 
 sftp.sh
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
