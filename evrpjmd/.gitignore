@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+package-lock.json
+yarn.lock
+
 # production env files
 .env.production
 .env.*.production
