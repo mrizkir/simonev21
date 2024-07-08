@@ -10,6 +10,14 @@ const routes = [
     },
     component: () => import('@/pages/DashboardFront.vue'),
   },
+  {
+    path: '/login',
+    name: 'FrontLogin',
+    meta: {
+      title: 'LOGIN',
+    },
+    component: () => import('@/pages/Login.vue'),
+  },
   // other page
   {
     path: '/404',

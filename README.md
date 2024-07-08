@@ -2,6 +2,11 @@
 SIMONEV sesuai dengan permendagri no 98 tahun 2020
 
 # Build
+## instalasi
+abaikan jenis mesin
+```
+yarn install --ignore-engines
+```
 ## Node versi 20.12.2
 Saat build di node versi ini, terkendala dengan versi openssl baru. Solusinya adalah menggunakan openssl versi lama.
 
