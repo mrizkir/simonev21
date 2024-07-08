@@ -61,12 +61,12 @@
     },
     data() {
       var header = [];
-      switch(this.tw) {
+      switch (this.tw) {
         case 1:
-          header = [            
+          header = [
             {
               text: "REKENING",
-              value: "nama_rekening",  
+              value: "nama_rekening",
               sortable: false,
             },
             {
@@ -85,12 +85,12 @@
               sortable: false,
             },
           ];
-        break;
+          break;
         case 2:
-          header = [            
+          header = [
             {
               text: "REKENING",
-              value: "nama_rekening",  
+              value: "nama_rekening",
               sortable: false,
             },
             {
@@ -109,12 +109,12 @@
               sortable: false,
             },
           ];
-        break;
+          break;
         case 3:
-          header = [            
+          header = [
             {
               text: "REKENING",
-              value: "nama_rekening",  
+              value: "nama_rekening",
               sortable: false,
             },
             {
@@ -133,12 +133,12 @@
               sortable: false,
             },
           ];
-        break;
+          break;
         case 4:
-          header = [            
+          header = [
             {
               text: "REKENING",
-              value: "nama_rekening",  
+              value: "nama_rekening",
               sortable: false,
             },
             {
@@ -157,10 +157,10 @@
               sortable: false,
             },
           ];
-        break;
+          break;
       }
       return {
-        btnLoading: false,  
+        btnLoading: false,
         //data table
         datatableLoading: false,
         expanded: [],
@@ -186,48 +186,95 @@
             }
           )
           .then(({ data }) => {
-            if(data.status == 1) {
+            if (data.status == 1) {
               let data_rekening = data.result;
               data_rekening.forEach(element => {
-                
                 var data_;
-                switch(this.tw) {
+                switch (this.tw) {
                   case 1:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_1: "target: " + element.target[1] + ", realisasi: " + element.realisasi[1],
-                      data_2: "target: " + element.target[2] + ", realisasi: " + element.realisasi[2],
-                      data_3: "target: " + element.target[3] + ", realisasi: " + element.realisasi[3],
+                      data_1:
+                        "target: " +
+                        element.target[1] +
+                        ", realisasi: " +
+                        element.realisasi[1],
+                      data_2:
+                        "target: " +
+                        element.target[2] +
+                        ", realisasi: " +
+                        element.realisasi[2],
+                      data_3:
+                        "target: " +
+                        element.target[3] +
+                        ", realisasi: " +
+                        element.realisasi[3],
                     };
-                  break;
+                    break;
                   case 2:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_4: "target: " + element.target[4] + ", realisasi: " + element.realisasi[4],
-                      data_5: "target: " + element.target[5] + ", realisasi: " + element.realisasi[5],
-                      data_6: "target: " + element.target[6] + ", realisasi: " + element.realisasi[6],
+                      data_4:
+                        "target: " +
+                        element.target[4] +
+                        ", realisasi: " +
+                        element.realisasi[4],
+                      data_5:
+                        "target: " +
+                        element.target[5] +
+                        ", realisasi: " +
+                        element.realisasi[5],
+                      data_6:
+                        "target: " +
+                        element.target[6] +
+                        ", realisasi: " +
+                        element.realisasi[6],
                     };
-                  break;
+                    break;
                   case 3:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_7: "target: " + element.target[7] + ", realisasi: " + element.realisasi[7],
-                      data_8: "target: " + element.target[8] + ", realisasi: " + element.realisasi[8],
-                      data_9: "target: " + element.target[9] + ", realisasi: " + element.realisasi[9],
+                      data_7:
+                        "target: " +
+                        element.target[7] +
+                        ", realisasi: " +
+                        element.realisasi[7],
+                      data_8:
+                        "target: " +
+                        element.target[8] +
+                        ", realisasi: " +
+                        element.realisasi[8],
+                      data_9:
+                        "target: " +
+                        element.target[9] +
+                        ", realisasi: " +
+                        element.realisasi[9],
                     };
-                  break;
+                    break;
                   case 4:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_10: "target: " + element.target[10] + ", realisasi: " + element.realisasi[10],
-                      data_11: "target: " + element.target[11] + ", realisasi: " + element.realisasi[11],
-                      data_12: "target: " + element.target[12] + ", realisasi: " + element.realisasi[12],
+                      data_10:
+                        "target: " +
+                        element.target[10] +
+                        ", realisasi: " +
+                        element.realisasi[10],
+                      data_11:
+                        "target: " +
+                        element.target[11] +
+                        ", realisasi: " +
+                        element.realisasi[11],
+                      data_12:
+                        "target: " +
+                        element.target[12] +
+                        ", realisasi: " +
+                        element.realisasi[12],
                     };
-                  break;
+                    break;
                 }
                 this.datatable.push(data_);
               });
@@ -253,47 +300,95 @@
             }
           )
           .then(({ data }) => {
-            if(data.status == 1) {
+            if (data.status == 1) {
               let data_rekening = data.result;
               data_rekening.forEach(element => {
                 var data_;
-                switch(this.tw) {
+                switch (this.tw) {
                   case 1:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_1: "target: " + element.target[1] + ", realisasi: " + element.realisasi[1],
-                      data_2: "target: " + element.target[2] + ", realisasi: " + element.realisasi[2],
-                      data_3: "target: " + element.target[3] + ", realisasi: " + element.realisasi[3],
+                      data_1:
+                        "target: " +
+                        element.target[1] +
+                        ", realisasi: " +
+                        element.realisasi[1],
+                      data_2:
+                        "target: " +
+                        element.target[2] +
+                        ", realisasi: " +
+                        element.realisasi[2],
+                      data_3:
+                        "target: " +
+                        element.target[3] +
+                        ", realisasi: " +
+                        element.realisasi[3],
                     };
-                  break;
+                    break;
                   case 2:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_4: "target: " + element.target[4] + ", realisasi: " + element.realisasi[4],
-                      data_5: "target: " + element.target[5] + ", realisasi: " + element.realisasi[5],
-                      data_6: "target: " + element.target[6] + ", realisasi: " + element.realisasi[6],
+                      data_4:
+                        "target: " +
+                        element.target[4] +
+                        ", realisasi: " +
+                        element.realisasi[4],
+                      data_5:
+                        "target: " +
+                        element.target[5] +
+                        ", realisasi: " +
+                        element.realisasi[5],
+                      data_6:
+                        "target: " +
+                        element.target[6] +
+                        ", realisasi: " +
+                        element.realisasi[6],
                     };
-                  break;
+                    break;
                   case 3:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_7: "target: " + element.target[7] + ", realisasi: " + element.realisasi[7],
-                      data_8: "target: " + element.target[8] + ", realisasi: " + element.realisasi[8],
-                      data_9: "target: " + element.target[9] + ", realisasi: " + element.realisasi[9],
+                      data_7:
+                        "target: " +
+                        element.target[7] +
+                        ", realisasi: " +
+                        element.realisasi[7],
+                      data_8:
+                        "target: " +
+                        element.target[8] +
+                        ", realisasi: " +
+                        element.realisasi[8],
+                      data_9:
+                        "target: " +
+                        element.target[9] +
+                        ", realisasi: " +
+                        element.realisasi[9],
                     };
-                  break;
+                    break;
                   case 4:
                     data_ = {
                       rekening_id: element.rekening_id,
                       nama_rekening: element.nama_rekening,
-                      data_10: "target: " + element.target[10] + ", realisasi: " + element.realisasi[10],
-                      data_11: "target: " + element.target[11] + ", realisasi: " + element.realisasi[11],
-                      data_12: "target: " + element.target[12] + ", realisasi: " + element.realisasi[12],
+                      data_10:
+                        "target: " +
+                        element.target[10] +
+                        ", realisasi: " +
+                        element.realisasi[10],
+                      data_11:
+                        "target: " +
+                        element.target[11] +
+                        ", realisasi: " +
+                        element.realisasi[11],
+                      data_12:
+                        "target: " +
+                        element.target[12] +
+                        ", realisasi: " +
+                        element.realisasi[12],
                     };
-                  break;
+                    break;
                 }
                 this.datatable.push(data_);
               });

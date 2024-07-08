@@ -1293,9 +1293,9 @@ class RKAMurniController extends Controller
       ->get();
       
       $data->transform(function ($item,$key) {
-        $item->realisasi1=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi1');    
-        $item->fisik1=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik1');
-        $item->persen_keuangan1=Helper::formatPersen($item->realisasi1,$item->PaguUraian1);
+        $item->realisasi1 = \DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi1');    
+        $item->fisik1 = \DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik1');
+        $item->persen_keuangan1 = Helper::formatPersen($item->realisasi1, $item->PaguUraian1);
         switch($item->ket_lok)
         {
           case 'desa' :

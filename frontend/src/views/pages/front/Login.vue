@@ -11,7 +11,7 @@
     </template>
     <v-parallax
       dark
-      src="https://bih.yacanet.com/depan/images/1.jpg"
+      :src="$api.storageURL +  '/images/banners/back_1.jpg'"
       height="700"
     >
       <v-container class="fill-height" fluid>
