@@ -818,7 +818,7 @@
             /^[0-9]+$/.test(value) || "Volume kegiatan hanya boleh angka",
         ],
         rule_satuan: [
-          value => !!value || "Mohon untuk di isi Satuab Uraian !!!",
+          value => !!value || "Mohon untuk di isi Satuan Uraian !!!",
         ],
         rule_rkarinc: [
           value => !!value || "Mohon untuk dipilih Uraian Kegiatan !!!",

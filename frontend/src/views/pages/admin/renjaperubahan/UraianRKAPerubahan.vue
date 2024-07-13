@@ -121,7 +121,7 @@
             </v-btn>
             <v-btn @click.stop="showdialogrealisasikinerja">
               <span>Realisasi Kinerja</span>
-              <v-icon>mdi-history</v-icon>
+              <v-icon>mdi-note-outline</v-icon>
             </v-btn>
             <v-btn @click.stop="exituraianrka">
               <span>Keluar</span>
@@ -949,7 +949,7 @@
             /^[0-9]+$/.test(value) || "Volume kegiatan hanya boleh angka",
         ],
         rule_satuan: [
-          value => !!value || "Mohon untuk di isi Satuab Uraian !!!",
+          value => !!value || "Mohon untuk di isi Satuan Uraian !!!",
         ],
         rule_rkarinc: [
           value => !!value || "Mohon untuk dipilih Uraian Kegiatan !!!",

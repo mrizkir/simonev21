@@ -233,6 +233,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renja/rkamurni/loaddatakegiatanfirsttime', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|'],'uses'=>'Renja\RKAMurniController@loaddatakegiatanFirsttime','as'=>'rkamurni.loaddatakegiatanfirsttime']);
   $router->post('/renja/rkamurni/loaddatauraianfirsttime', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|'],'uses'=>'Renja\RKAMurniController@loaddatauraianFirsttime','as'=>'rkamurni.loaddatauraianfirsttime']);
   $router->delete('/renja/rkamurni/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAMurniController@destroy','as'=>'rkamurni.deleterka']);
+  $router->get('/renja/rkamurni/realisasikinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAMurniController@realisasikinerja','as'=>'rkamurni.realisasikinerja']);
+  $router->put('/renja/rkamurni/updaterealisasikinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RKAMurniController@updaterealisasikinerja','as'=>'rkamurni.updaterealisasikinerja']);
 
   //renja - target kinerja murni
   $router->post('/renja/targetkinerjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\TargetKinerjaMurniController@index','as'=>'targetkinerjaM.index']);

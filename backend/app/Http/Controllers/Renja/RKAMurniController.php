@@ -934,10 +934,65 @@ class RKAMurniController extends Controller
 
     
     return Response()->json([
-                'status'=>1,
-                'pid'=>'update',
-                'message'=>'Update detail uraian berhasil disimpan.'
-              ], 200); 
+      'status'=>1,
+      'pid'=>'update',
+      'message'=>'Update detail uraian berhasil disimpan.'
+    ], 200); 
+  }
+  public function realisasikinerja(Request $request, $id)
+  {
+    $this->hasPermissionTo('RENJA-RKA-MURNI_SHOW');   
+
+    $kegiatan = RKAModel::find($id);
+
+    if (is_null($kegiatan) )
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'fetchdata',
+        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'fetchdata',
+        'realisasikinerja' => $kegiatan->RealisasiKinerja,
+        'message'=>'Realisasi kinerja berhasil diperoleh.'
+      ], 200); 
+    }
+  }
+  public function updaterealisasikinerja(Request $request, $id)
+  {
+    $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');   
+
+    $kegiatan = RKAModel::find($id);
+
+    if (is_null($kegiatan) )
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid'=>'fetchdata',
+        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {      
+      $this->validate($request, [
+        'realisasi'=>'required',            
+      ]);
+      
+      $kegiatan->RealisasiKinerja = $request->input('realisasi');
+  
+      $kegiatan->save();
+  
+      return Response()->json([
+        'status'=>1,
+        'pid'=>'update',
+        'message'=>'Update realisasi kinerja berhasil disimpan.'
+      ], 200); 
+    }
   }
   /**
    * Show the form for creating a new resource. [menambah realisasi uraian]
