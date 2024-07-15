@@ -18,6 +18,15 @@ const routes = [
     },
     component: () => import('@/pages/Login.vue'),
   },
+  // admin
+  {
+    path: '/admin',
+    name: 'AdminDashboard',
+    meta: {
+      title: 'DASHBOARD EVALUASI RPJMD',
+    },
+    component: () => import('@/pages/admin/DashboardAdmin.vue'),
+  },
   // other page
   {
     path: '/404',
