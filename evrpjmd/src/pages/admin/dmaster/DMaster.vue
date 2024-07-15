@@ -1,12 +1,12 @@
 <template>
   <v-main-layout>
-    Indikator Kinerja
+    dmaster
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   export default {
-    name: 'DMasterIndikatorKinerja',
+    name: 'DMaster',
     components: {
       'v-main-layout': mainLayout,
     }

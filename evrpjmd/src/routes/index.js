@@ -18,7 +18,7 @@ const routes = [
     },
     component: () => import('@/pages/Login.vue'),
   },
-  // admin
+  // admin dashboard
   {
     path: '/admin',
     name: 'AdminDashboard',
@@ -26,6 +26,23 @@ const routes = [
       title: 'DASHBOARD EVALUASI RPJMD',
     },
     component: () => import('@/pages/admin/DashboardAdmin.vue'),
+  },
+  // admin - dmaster
+  {
+    path: '/admin/dmaster',
+    name: 'DMasterDashboard',
+    meta: {
+      title: 'DATA MASTER',
+    },
+    component: () => import('@/pages/admin/dmaster/DMaster.vue'),
+  },
+  {
+    path: '/admin/dmaster/indikatorkinerja',
+    name: 'DMasterIndikatorKinerja',
+    meta: {
+      title: 'DATA MASTER - INDIKATOR KINERJA',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterIndikatorKinerja.vue'),
   },
   // other page
   {
