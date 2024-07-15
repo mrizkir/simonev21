@@ -10,6 +10,7 @@ import * as directives from 'vuetify/directives'
 import '@/style.css'
 
 //js
+import api from "@/plugins/api";
 import router from '@/routes'
 import store from '@/stores'
 
@@ -57,6 +58,7 @@ const vuetify = createVuetify({
 })
 
 createApp(App)
+  .use(api)
   .use(store)
   .use(router)
   .use(vuetify)

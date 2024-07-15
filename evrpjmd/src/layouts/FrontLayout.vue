@@ -51,7 +51,7 @@
       </v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-main>
+    <v-main :class="classmain">
       <slot />
     </v-main>
   </v-app>
@@ -67,6 +67,10 @@
       temporaryleftsidebar: {
         type: Boolean,
         default: true,
+      },
+      classmain: {
+        type: String,
+        default: "mx-4 mb-4",
       },
     },
     data: () => ({
