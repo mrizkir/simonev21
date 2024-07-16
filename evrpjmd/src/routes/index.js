@@ -20,7 +20,7 @@ const routes = [
   },
   // admin dashboard
   {
-    path: '/admin',
+    path: '/admin/:token',
     name: 'AdminDashboard',
     meta: {
       title: 'DASHBOARD EVALUASI RPJMD',

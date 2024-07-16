@@ -66,19 +66,19 @@
   import frontLayout from '@/layouts/FrontLayout.vue'
   export default {
     name: 'Login',
-    setup() {
-      const userStore = usesUserStore()
-
-      return { userStore }
+    created() {
+      this.userStore = usesUserStore()
     },
-    data: () => ({
+    data: () => ({      
       btnLoading: false,
       form_error: false,
+      //pinia
+      userStore: null,
       //form
       formlogin: {
         username: null,
         password: null,
-        tahun_evaluasi: null,
+        tahun_evaluasi: 2021,
       },
       rule_username: [
         value => !!value || "Kolom Username mohon untuk diisi !!!",
@@ -100,9 +100,26 @@
               password: this.formlogin.password,
             })
             .then(({ data }) => {
-              console.log(data)
+              this.$ajax
+                .get("/auth/me", {
+                  headers: {
+                    Authorization: data.token_type + " " + data.access_token,
+                  },
+                })
+                .then(response => {
+                  let user = response.data;
+                  Object.assign(user, {
+                    tahun_evaluasi: this.formlogin.tahun_evaluasi,
+                  });
+                  var data_user = {
+                    token: data,
+                    user: user,
+                  };
+                  this.userStore.afterLoginSuccess(data_user)
+                });
               this.btnLoading = false;
               this.form_error = false;
+              this.$router.push("/admin/" + data.access_token);
             })
             .catch(() => {              
               this.form_error = true;
