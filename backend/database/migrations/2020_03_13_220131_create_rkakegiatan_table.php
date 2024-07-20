@@ -42,7 +42,11 @@ class CreateRkakegiatanTable extends Migration
       $table->text('keluaran1')->nullable();
       $table->text('keluaran2')->nullable();
       $table->string('tk_keluaran1')->nullable();
+      $table->integer('vol_keluaran1')->nullable();
+      $table->string('sat_keluaran1', 50)->nullable();
       $table->string('tk_keluaran2')->nullable();
+      $table->integer('vol_keluaran2')->nullable();
+      $table->string('sat_keluaran2', 50)->nullable();
       $table->text('hasil1')->nullable();
       $table->text('hasil2')->nullable();
       $table->string('tk_hasil1')->nullable();

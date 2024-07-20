@@ -97,6 +97,8 @@ class PermissionsTableSeeder extends Seeder
       'DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK',
 
       'DMASTER-SUMBER-DANA',
+      
+      'DMASTER-INDIKATOR-KINERJA',
 
       'DMASTER-OPD',
       'DMASTER-UNIT-KERJA',
