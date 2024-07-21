@@ -13,11 +13,7 @@
         >
         </v-list-item>
         <v-divider></v-divider>
-        <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-home-city" title="Home" value="home" to="/admin"></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
-        </v-list>
+        <slot name="leftsidebar" />
       </template>
     </v-navigation-drawer>
     <v-navigation-drawer
@@ -36,7 +32,7 @@
       <v-app-bar-title>Evaluasi RPJMD</v-app-bar-title>
       <v-spacer />      
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/admin" class="mr-2" color="indigo darken-4" text large>
+        <v-btn :to="'/admin/' + token" class="mr-2" color="indigo darken-4" text large>
           DASHBOARD
         </v-btn>
         <v-btn to="/admin/dmaster" class="mr-2" color="indigo darken-4" text large>
@@ -59,6 +55,20 @@
         </v-list>
       </v-menu>
       <v-divider class="mx-4" inset vertical></v-divider>
+      <v-menu
+        :close-on-content-click="true"
+        origin="center center"
+        transition="scale-transition"
+        :offset-y="true"
+        bottom
+        left
+      >
+        <template v-slot:activator="{ on }">
+          <v-avatar size="30">
+            <v-img :src="photoUser" v-on="on" />
+          </v-avatar>
+        </template>
+      </v-menu>
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
         <v-icon>mdi-menu-open</v-icon>
       </v-app-bar-nav-icon>
@@ -67,11 +77,21 @@
     <v-main :class="classmain">
       <slot />
     </v-main>
+    <v-footer app padless fixed dark>
+      <div class="px-4 py-2 bg-black text-center w-100">
+        Evaluasi RPJMD
+      </div>
+    </v-footer>
   </v-app>
 </template>
 <script>
+  import { usesUserStore } from '@/stores/UsersStore'
   export default {
     name: 'MainLayout',
+    created() {
+      this.userStore = usesUserStore()
+      this.initialize()
+    },
     props: {
       showrightsidebar: {
         type: Boolean,
@@ -85,10 +105,49 @@
         type: String,
         default: "mx-4 mb-4",
       },
+      token: {
+        type: String,
+        default: null,
+      },
     },
     data: () => ({
       drawer: null,
       drawerRight: null,
+      //pinia
+      userStore: null,
     }),
+    methods: {
+      async initialize() {        
+        await this.$ajax
+          .get("/auth/me", {
+            headers: {
+              Authorization: 'Bearer ' + this.token,
+            },
+          })
+          .then(({ data }) => {
+            console.log(data);
+            // this.dashboard = data.role[0];
+            // this.$store.dispatch("uiadmin/changeDashboard", this.dashboard);
+          })
+          .catch(error => {
+            if (error.response.status == 401) {
+              this.$router.push("/login");
+            }
+          });
+      }
+    },
+    computed: {     
+      photoUser() {
+        let photo = '';
+        // let img = this.userStore.AttributeUser("foto");
+        // var photo;
+        // if (img == "") {
+        //   photo = this.$api.storageURL + "/images/users/no_photo.png";
+        // } else {
+        //   photo = this.$api.storageURL + "/" + img;
+        // }
+        return photo;
+      },
+    },
   }
 </script>

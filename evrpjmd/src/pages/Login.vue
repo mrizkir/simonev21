@@ -81,13 +81,13 @@
         tahun_evaluasi: 2021,
       },
       rule_username: [
-        value => !!value || "Kolom Username mohon untuk diisi !!!",
+        value => !!value || 'Kolom Username mohon untuk diisi !!!',
       ],
       rule_password: [
-        value => !!value || "Kolom Password mohon untuk diisi !!!",
+        value => !!value || 'Kolom Password mohon untuk diisi !!!',
       ],
       rule_tahun_evaluasi: [
-        value => !!value || "Tahun Evaluasi RPJMD mohon untuk dipilih !!!",
+        value => !!value || 'Tahun Evaluasi RPJMD mohon untuk dipilih !!!',
       ],
     }),
     methods: {
@@ -95,36 +95,36 @@
         if (this.$refs.frmlogin.validate()) {
           this.btnLoading = true
           await this.$ajax
-            .post("/auth/login", {
+            .post('/auth/login', {
               username: this.formlogin.username,
               password: this.formlogin.password,
             })
             .then(({ data }) => {
               this.$ajax
-                .get("/auth/me", {
+                .get('/auth/me', {
                   headers: {
-                    Authorization: data.token_type + " " + data.access_token,
+                    Authorization: data.token_type + ' ' + data.access_token,
                   },
                 })
                 .then(response => {
-                  let user = response.data;
+                  let user = response.data
                   Object.assign(user, {
                     tahun_evaluasi: this.formlogin.tahun_evaluasi,
-                  });
+                  })
                   var data_user = {
                     token: data,
                     user: user,
-                  };
+                  }
                   this.userStore.afterLoginSuccess(data_user)
-                });
-              this.btnLoading = false;
-              this.form_error = false;
-              this.$router.push("/admin/" + data.access_token);
+                })
+              this.btnLoading = false
+              this.form_error = false
+              this.$router.push('/admin/' + data.access_token)
             })
             .catch(() => {              
-              this.form_error = true;
-              this.btnLoading = false;
-            });          
+              this.form_error = true
+              this.btnLoading = false
+            })          
         }
       },
     },
