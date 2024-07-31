@@ -67,17 +67,18 @@
                   <v-spacer></v-spacer>
                   <v-divider class="mx-4" inset vertical></v-divider>
                   <v-dialog
-                    v-model="dialog"
-                    max-width="500px"
+                    v-model="dialogfrm"
+                    max-width="800px"
+                    persistent
                   >
                     <template v-slot:activator="{ props }">
                       <v-btn
-                        class="mb-2"
-                        color="primary"
-                        dark
                         v-bind="props"
+                        color="primary"
+                        rounded="sm"
+                        prepend-icon="mdi-plus"
                       >
-                        New Item
+                        Tambah
                       </v-btn>
                     </template>
                     <v-card>
@@ -323,6 +324,9 @@
       name: '',
       calories: '',
       search: '',
+      //dialog
+      dialogfrm: false,
+      editedIndex: -1,
     }),
     methods: {
       initialize({ page, itemsPerPage, sortBy }) {
@@ -332,6 +336,11 @@
           this.totalRecords = total
           this.datatableLoading = false
         })
+      },
+    },
+    computed: {
+      formTitle() {
+        return this.editedIndex === -1 ? "TAMBAH INDIKATOR" : "UBAH INDIKATOR";
       },
     },
     watch: {
