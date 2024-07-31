@@ -83,6 +83,8 @@ class PermissionsTableSeeder extends Seeder
     ]);
 
     $modules = [            
+      'DMASTER-KODEFIKASI-INDIKATOR-KINERJA',
+
       'DMASTER-KODEFIKASI-URUSAN',
       'DMASTER-KODEFIKASI-BIDANG-URUSAN',
       'DMASTER-KODEFIKASI-PROGRAM',
@@ -96,9 +98,7 @@ class PermissionsTableSeeder extends Seeder
       'DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK',
       'DMASTER-KODEFIKASI-REKENING-SUB-RINCIAN-OBJEK',
 
-      'DMASTER-SUMBER-DANA',
-      
-      'DMASTER-INDIKATOR-KINERJA',
+      'DMASTER-SUMBER-DANA',      
 
       'DMASTER-OPD',
       'DMASTER-UNIT-KERJA',

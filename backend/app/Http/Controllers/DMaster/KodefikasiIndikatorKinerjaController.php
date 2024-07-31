@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use Ramsey\Uuid\Uuid;
 
-class ASNController extends Controller
+class KodefikasiIndikatorKinerjaController extends Controller
 {    
   /**
    * mendapatkan daftar seluruh ASN
@@ -17,23 +17,22 @@ class ASNController extends Controller
    */
   public function index(Request $request)
   {
-    $this->hasPermissionTo('DMASTER-ASN_BROWSE');
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_BROWSE');
     
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun'=>'required',
     ]);     
     
     $tahun=$request->input('tahun');
     
-    $data = ASNModel::where('TA',$tahun)
-      ->orderBy('Nm_ASN', 'ASC')
+    $data = IndikatorKinerjaModel::orderBy('NamaIndikator', 'ASC')
       ->get();
     
     return Response()->json([
       'status'=>1,
       'pid'=>'fetchdata',
       'asn'=>$data,
-      'message'=>'Fetch data ASN berhasil diperoleh'
+      'message'=>'Fetch data indikator kinerja berhasil diperoleh'
     ], 200);  
 
   }

@@ -48,6 +48,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->get('/auth/refresh', ['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
   $router->get('/auth/me', ['uses'=>'AuthController@me','as'=>'auth.me']);
 
+  //datamaster - kodefikasi - indikator kinerja  
+  $router->post('/dmaster/kodefikasi/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@index','as'=>'kodefikasi-indikator-kinerja.index']);
   //data master - kodefikasi - urusan
   $router->post('/dmaster/kodefikasi/urusan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiUrusanController@index','as'=>'kodefikasi-urusan.index']);
   $router->post('/dmaster/kodefikasi/urusan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiUrusanController@store','as'=>'kodefikasi-urusan.store']);
