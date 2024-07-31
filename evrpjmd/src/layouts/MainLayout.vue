@@ -130,9 +130,9 @@
             // this.$store.dispatch("uiadmin/changeDashboard", this.dashboard);
           })
           .catch(error => {
-            // if (error.response.status == 401) {
-            //   this.$router.push("/login");
-            // }
+            if (error.response.status == 401) {
+              this.$router.push("/login");
+            }
           });
       }
     },

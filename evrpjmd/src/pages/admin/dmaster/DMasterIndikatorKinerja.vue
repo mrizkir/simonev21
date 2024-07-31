@@ -1,5 +1,5 @@
 <template>
-  <v-main-layout>
+  <v-main-layout :token="userStore.Token">
     <template v-slot:leftsidebar>
       <v-sidebar-left />
     </template>
@@ -68,7 +68,7 @@
                   <v-divider class="mx-4" inset vertical></v-divider>
                   <v-dialog
                     v-model="dialogfrm"
-                    max-width="800px"
+                    max-width="600px"
                     persistent
                   >
                     <template v-slot:activator="{ props }">
@@ -83,10 +83,40 @@
                     </template>
                     <v-card>
                       <v-card-title>
+                        <v-icon icon="mdi-pencil"></v-icon> &nbsp;
                         <span class="text-h5">{{ formTitle }}</span>
                       </v-card-title>
-
-                      <v-card-text></v-card-text>
+                      <v-card-text>
+                        <v-textarea
+                          v-model="formdata.NamaIndikator"
+                          rows="1"
+                          density="compact"        
+                          label="NAMA INDIKATOR"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          hint="Masukan indikator kinerja rpjmd"
+                          auto-grow
+                        />
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="orange-darken-1"
+                          @click.stop="closedialogfrm"
+                          prepend-icon="mdi-close"
+                          rounded="sm"
+                        >
+                          TUTUP
+                        </v-btn>
+                        <v-btn
+                          color="primary"
+                          @click.stop="save"
+                          rounded="sm"
+                          prepend-icon="mdi-content-save"
+                        >
+                          SIMPAN
+                        </v-btn>
+                      </v-card-actions>
                     </v-card>
                   </v-dialog>
                 </v-toolbar>
@@ -125,23 +155,6 @@
                     More info about {{ item.name }}
                   </td>
                 </tr>
-              </template>            
-              <template v-slot:tfoot>
-                <tr>
-                  <td>
-                    <v-text-field v-model="name" class="ma-2" density="compact" placeholder="Search name..." hide-details></v-text-field>
-                  </td>
-                  <td>
-                    <v-text-field
-                      v-model="calories"
-                      class="ma-2"
-                      density="compact"
-                      placeholder="Minimum calories"
-                      type="number"
-                      hide-details
-                    ></v-text-field>
-                  </td>
-                </tr>
               </template>
               <template v-slot:no-data>
                 Data belum tersedia
@@ -157,7 +170,7 @@
   import mainLayout from '@/layouts/MainLayout.vue'
   import sidebarLeft from '@/layouts/SidebarLeftDMasterAdmin.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
-
+  import { usesUserStore } from '@/stores/UsersStore'
   const desserts = [
     {
       name: 'Frozen Yogurt',
@@ -281,12 +294,11 @@
   export default {
     name: 'DMasterIndikatorKinerja',
     created() {
+      this.userStore = usesUserStore()
       this.breadcrumbs = [
         {
           title: 'HOME',
-          disabled: false,
-          // href: '/dashboard/' + this.$store.getters['auth/AccessToken'],
-          href: '#',
+          href: '/admin/' + this.userStore.AccessToken,
         },
         {
           title: 'DATA MASTER',
@@ -298,7 +310,7 @@
           disabled: true,
           href: '#',
         },        
-      ]
+      ]      
     },
     data: () => ({
       breadcrumbs: [],
@@ -314,28 +326,114 @@
           align: 'start',
           sortable: false,
           key: 'name',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
         },
-        { title: 'NAMA INDIKATOR', key: 'calories', align: 'start' },
-        { title: 'IKU', key: 'fat', align: 'start' },
-        { title: 'IKK', key: 'carbs', align: 'start' },        
-        { title: "AKSI", key: "actions", sortable: false, width: 110 },
+        {
+          title: 'NAMA INDIKATOR',
+          key: 'calories',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
+        {
+          title: 'IKU',
+          key: 'fat',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
+        {
+          title: 'IKK',
+          key: 'carbs',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },        
+        {
+          title: "AKSI",
+          key: "actions",
+          sortable: false,
+          width: 110,
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
       ],
       totalRecords: 0,
       name: '',
       calories: '',
       search: '',
+      //form data
+      form_valid: true,
+      form_salin_valid: true,
+      daftar_bidang_urusan: [],
+      formdata: {
+        IndikatorKinerjaID: null,
+        NamaIndikator: null,
+        is_iku: false,
+        is_ikk: false,        
+        created_at: null,
+        updated_at: null,
+      },
+      formdefault: {
+        IndikatorKinerjaID: null,
+        NamaIndikator: null,
+        is_iku: false,
+        is_ikk: false,        
+        created_at: null,
+        updated_at: null,
+      },
       //dialog
       dialogfrm: false,
       editedIndex: -1,
+      //pinia
+      userStore: null,
     }),
     methods: {
-      initialize({ page, itemsPerPage, sortBy }) {
+      async initialize({ page, itemsPerPage, sortBy }) {
         this.datatableLoading = true
-        FakeAPI.fetch({ page, itemsPerPage, sortBy, search: { name: this.name, calories: this.calories } }).then(({ items, total }) => {
-          this.datatable = items
-          this.totalRecords = total
+
+        await this.$ajax
+          .post(
+            "/dmaster/kodefikasi/indikatorkinerja",
+            {
+              sortBy: sortBy,
+              page: page,
+              itemsPerPage: itemsPerPage,
+            },
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.datatable = data.payload;
+            this.datatableLoading = false;
+          });
+        // FakeAPI.fetch({ page, itemsPerPage, sortBy, search: { name: this.name, calories: this.calories } }).then(({ items, total }) => {
+        //   this.datatable = items
+        //   this.totalRecords = total
           this.datatableLoading = false
-        })
+        // })
+        
+      },
+      async save() {
+        
+      },
+      closedialogfrm() {
+        this.btnLoading = false;
+        this.dialogfrm = false;
+        setTimeout(() => {
+          this.formdata = Object.assign({}, this.formdefault);
+          this.editedIndex = -1;
+          this.$refs.frmdata.reset();
+        }, 300);
       },
     },
     computed: {

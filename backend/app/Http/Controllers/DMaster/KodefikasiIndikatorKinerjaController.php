@@ -19,19 +19,13 @@ class KodefikasiIndikatorKinerjaController extends Controller
   {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_BROWSE');
     
-    $this->validate($request, [            
-      'tahun'=>'required',
-    ]);     
-    
-    $tahun=$request->input('tahun');
-    
     $data = IndikatorKinerjaModel::orderBy('NamaIndikator', 'ASC')
       ->get();
     
     return Response()->json([
       'status'=>1,
       'pid'=>'fetchdata',
-      'asn'=>$data,
+      'payload'=>$data,
       'message'=>'Fetch data indikator kinerja berhasil diperoleh'
     ], 200);  
 
