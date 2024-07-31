@@ -1,15 +1,11 @@
 <template>
   <v-main-layout :token="token">
-    dashboard
-    <template v-slot:leftsidebar>
-      <v-sidebar-left />
-    </template>
+    dashboard    
   </v-main-layout>  
 </template>
 <script>
   import { usesUserStore } from '@/stores/UsersStore'
-  import mainLayout from '@/layouts/MainLayout.vue'
-  import sidebarLeft from '@/layouts/SidebarLeftDashboardAdmin.vue'
+  import mainLayout from '@/layouts/MainLayout.vue'  
   export default {
     name: 'DashboardAdmin',
     created() {
@@ -23,7 +19,6 @@
     }),
     components: {
       'v-main-layout': mainLayout,
-      'v-sidebar-left': sidebarLeft,
     }
   }
 </script>

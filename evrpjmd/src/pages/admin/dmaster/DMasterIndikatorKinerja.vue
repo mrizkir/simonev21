@@ -1,8 +1,5 @@
 <template>
   <v-main-layout :token="userStore.Token">
-    <template v-slot:leftsidebar>
-      <v-sidebar-left />
-    </template>
     <v-page-header>
       <template v-slot:icon>
         mdi-graph
@@ -81,43 +78,63 @@
                         Tambah
                       </v-btn>
                     </template>
-                    <v-card>
-                      <v-card-title>
-                        <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                        <span class="text-h5">{{ formTitle }}</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-textarea
-                          v-model="formdata.NamaIndikator"
-                          rows="1"
-                          density="compact"        
-                          label="NAMA INDIKATOR"
-                          variant="outlined"
-                          prepend-inner-icon="mdi-graph"
-                          hint="Masukan indikator kinerja rpjmd"
-                          auto-grow
-                        />
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="orange-darken-1"
-                          @click.stop="closedialogfrm"
-                          prepend-icon="mdi-close"
-                          rounded="sm"
-                        >
-                          TUTUP
-                        </v-btn>
-                        <v-btn
-                          color="primary"
-                          @click.stop="save"
-                          rounded="sm"
-                          prepend-icon="mdi-content-save"
-                        >
-                          SIMPAN
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
+                    <v-form ref="frmdata" v-model="form_valid">
+                      <v-card>
+                        <v-card-title>
+                          <v-icon icon="mdi-pencil"></v-icon> &nbsp;
+                          <span class="text-h5">{{ formTitle }}</span>
+                        </v-card-title>
+                        <v-card-text>
+                          <v-textarea
+                            v-model="formdata.NamaIndikator"
+                            rows="1"
+                            density="compact"        
+                            label="NAMA INDIKATOR"
+                            variant="outlined"
+                            prepend-inner-icon="mdi-graph"
+                            hint="Masukan indikator kinerja rpjmd"
+                            :rules="rule_nama_indikator"
+                            auto-grow
+                          />
+                          <v-row no-gutters>
+                            <v-col cols="auto" md="6" lg="6">
+                              <v-switch
+                                v-model="formdata.is_iku"
+                                color="primary"
+                                label="Indikator Kinerja Umum (IKU)"
+                              />
+                            </v-col>
+                            <v-col cols="auto" md="6" lg="6">
+                              <v-switch
+                                v-model="formdata.is_ikk"
+                                color="primary"
+                                label="Indikator Kinerja Khusus (IKK) Milik Bupati"
+                              />
+                            </v-col>
+                          </v-row>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="orange-darken-1"
+                            @click.stop="closedialogfrm"
+                            prepend-icon="mdi-close"
+                            rounded="sm"
+                          >
+                            TUTUP
+                          </v-btn>
+                          <v-btn
+                            color="primary"
+                            @click.stop="save"
+                            rounded="sm"
+                            prepend-icon="mdi-content-save"
+                            :disabled="!form_valid || btnLoading"
+                          >
+                            SIMPAN
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-form>
                   </v-dialog>
                 </v-toolbar>
               </template>
@@ -168,7 +185,6 @@
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
-  import sidebarLeft from '@/layouts/SidebarLeftDMasterAdmin.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
   import { usesUserStore } from '@/stores/UsersStore'
   const desserts = [
@@ -310,11 +326,11 @@
           disabled: true,
           href: '#',
         },        
-      ]      
+      ]
     },
     data: () => ({
       breadcrumbs: [],
-      btnLoading: true,
+      btnLoading: false,
       datatableLoading: false,
       //data table
       expanded: [],
@@ -368,10 +384,10 @@
       name: '',
       calories: '',
       search: '',
+      //dialog
+      dialogfrm: false,
       //form data
-      form_valid: true,
-      form_salin_valid: true,
-      daftar_bidang_urusan: [],
+      form_valid: true,      
       formdata: {
         IndikatorKinerjaID: null,
         NamaIndikator: null,
@@ -388,8 +404,10 @@
         created_at: null,
         updated_at: null,
       },
-      //dialog
-      dialogfrm: false,
+      //form rules
+      rule_nama_indikator: [
+        value => !!value || "Mohon untuk di isi nama indikator dari RPJMD !!!",
+      ],      
       editedIndex: -1,
       //pinia
       userStore: null,
@@ -413,9 +431,9 @@
             }
           )
           .then(({ data }) => {
-            this.datatable = data.payload;
-            this.datatableLoading = false;
-          });
+            this.datatable = data.payload
+            this.datatableLoading = false
+          })
         // FakeAPI.fetch({ page, itemsPerPage, sortBy, search: { name: this.name, calories: this.calories } }).then(({ items, total }) => {
         //   this.datatable = items
         //   this.totalRecords = total
@@ -424,21 +442,51 @@
         
       },
       async save() {
-        
+        const { valid } = await this.$refs.frmdata.validate()
+
+        if(valid) {
+          this.btnLoading = true;
+          if (this.editedIndex > -1) {
+
+          } else {
+            this.$ajax
+              .post(
+                "/dmaster/kodefikasi/indikatorkinerja/store",
+                {
+                  NamaIndikator: this.formdata.NamaIndikator,
+                  is_iku: this.formdata.is_iku,
+                  is_ikk: this.formdata.is_ikk,
+                },
+                {
+                  headers: {
+                    Authorization: this.userStore.Token,
+                  },
+                }
+              )
+              .then(() => {
+                this.closedialogfrm();
+                this.$router.go();
+              })
+              .catch(() => {
+                this.btnLoading = false;
+              });
+          }
+          this.closedialogfrm()
+        }        
       },
       closedialogfrm() {
-        this.btnLoading = false;
-        this.dialogfrm = false;
+        this.btnLoading = false
         setTimeout(() => {
-          this.formdata = Object.assign({}, this.formdefault);
-          this.editedIndex = -1;
-          this.$refs.frmdata.reset();
-        }, 300);
+          this.formdata = Object.assign({}, this.formdefault)
+          this.editedIndex = -1
+          this.$refs.frmdata.reset()
+          this.dialogfrm = false
+        }, 300)
       },
     },
     computed: {
       formTitle() {
-        return this.editedIndex === -1 ? "TAMBAH INDIKATOR" : "UBAH INDIKATOR";
+        return this.editedIndex === -1 ? "TAMBAH INDIKATOR" : "UBAH INDIKATOR"
       },
     },
     watch: {
@@ -451,7 +499,6 @@
     },
     components: {
       'v-main-layout': mainLayout,
-      'v-sidebar-left': sidebarLeft,
       'v-page-header': pageHeader,
     }
   }

@@ -12,9 +12,13 @@
           title="Jane Smith"
         >
         </v-list-item>
-        <v-divider></v-divider>
-        <slot name="leftsidebar" />
+        <v-divider></v-divider>        
       </template>
+      <v-list density="compact" nav>
+        <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token"></v-list-item>
+        <v-list-subheader title="DATA MASTER" />
+        <v-list-item prepend-icon="mdi-graph" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja"></v-list-item>    
+      </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer
       v-model="drawerRight"
@@ -30,15 +34,7 @@
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
       <v-app-bar-title>Evaluasi RPJMD</v-app-bar-title>
-      <v-spacer />      
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn :to="'/admin/' + token" class="mr-2" color="indigo darken-4" text large>
-          DASHBOARD
-        </v-btn>
-        <v-btn to="/admin/dmaster" class="mr-2" color="indigo darken-4" text large>
-          DATA MASTER
-        </v-btn>
-      </v-toolbar-items>
+      <v-spacer />
       <v-menu class="hidden-md-and-up" v-if="$vuetify.display.mobile">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
@@ -46,12 +42,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item to="/admin">
-            <v-list-item-title>DASHBOARD</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/dmaster">
-            <v-list-item-title>DATA MASTER</v-list-item-title>
-          </v-list-item>
+          
         </v-list>
       </v-menu>
       <v-divider class="mx-4" inset vertical></v-divider>

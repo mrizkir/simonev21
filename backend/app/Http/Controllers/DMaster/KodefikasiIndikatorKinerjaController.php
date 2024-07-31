@@ -19,6 +19,12 @@ class KodefikasiIndikatorKinerjaController extends Controller
   {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_BROWSE');
     
+    $this->validate($request, [           
+      'TA'=>'required'
+    ]);
+
+    $ta = $request->input('TA');
+    
     $data = IndikatorKinerjaModel::orderBy('NamaIndikator', 'ASC')
       ->get();
     
@@ -38,7 +44,8 @@ class KodefikasiIndikatorKinerjaController extends Controller
    */
   public function store(Request $request)
   {        
-    $this->hasPermissionTo('DMASTER-ASN_STORE');
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_STORE');
+
     $this->validate($request, [           
       'TA'=>'required'
     ]);
