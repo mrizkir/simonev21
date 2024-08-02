@@ -51,7 +51,7 @@
               :items-length="totalRecords"
               :loading="datatableLoading"
               :search="search"
-              item-value="name"
+              item-value="IndikatorKinerjaID"
               @update:options="initialize"
               :expand-on-click="true"
               items-per-page-text="Jumlah record per halaman"
@@ -137,6 +137,9 @@
                     </v-form>
                   </v-dialog>
                 </v-toolbar>
+              </template>
+              <template v-slot:item.no="{ index }">
+                {{ (indexOffset + index) + 1 }}
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-icon                                
@@ -333,22 +336,23 @@
       btnLoading: false,
       datatableLoading: false,
       //data table
-      expanded: [],
       datatable: [],
-      itemsPerPage: 5,
+      itemsPerPage: 10,
+      totalRecords: 0,
+      indexOffset: 0,
       headers: [
         {
           title: 'NO',
           align: 'start',
           sortable: false,
-          key: 'name',
+          key: 'no',
           headerProps: {
             class: 'font-weight-bold',
           },
         },
         {
           title: 'NAMA INDIKATOR',
-          key: 'calories',
+          key: 'NamaIndikator',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -356,7 +360,7 @@
         },
         {
           title: 'IKU',
-          key: 'fat',
+          key: 'is_iku',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -364,7 +368,7 @@
         },
         {
           title: 'IKK',
-          key: 'carbs',
+          key: 'is_ikk',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -380,7 +384,6 @@
           },
         },
       ],
-      totalRecords: 0,
       name: '',
       calories: '',
       search: '',
@@ -415,14 +418,15 @@
     methods: {
       async initialize({ page, itemsPerPage, sortBy }) {
         this.datatableLoading = true
-
+        const offset = (page - 1) * itemsPerPage
+        this.indexOffset = offset
         await this.$ajax
           .post(
             "/dmaster/kodefikasi/indikatorkinerja",
             {
               sortBy: sortBy,
-              page: page,
-              itemsPerPage: itemsPerPage,
+              offset: offset,
+              limit: itemsPerPage,
             },
             {
               headers: {
@@ -431,7 +435,9 @@
             }
           )
           .then(({ data }) => {
-            this.datatable = data.payload
+            let payload = data.payload
+            this.datatable = payload.data
+            this.totalRecords = payload.totalRecords
             this.datatableLoading = false
           })
         // FakeAPI.fetch({ page, itemsPerPage, sortBy, search: { name: this.name, calories: this.calories } }).then(({ items, total }) => {
@@ -454,8 +460,8 @@
                 "/dmaster/kodefikasi/indikatorkinerja/store",
                 {
                   NamaIndikator: this.formdata.NamaIndikator,
-                  is_iku: this.formdata.is_iku,
-                  is_ikk: this.formdata.is_ikk,
+                  is_iku: this.formdata.is_iku == true ? 1 : 0,
+                  is_ikk: this.formdata.is_ikk == true ? 1 : 0,
                 },
                 {
                   headers: {

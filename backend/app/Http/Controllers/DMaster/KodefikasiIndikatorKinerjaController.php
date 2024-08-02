@@ -19,20 +19,50 @@ class KodefikasiIndikatorKinerjaController extends Controller
   {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_BROWSE');
     
-    $this->validate($request, [           
-      'TA'=>'required'
-    ]);
-
-    $ta = $request->input('TA');
+    $totalRecords = IndikatorKinerjaModel::count('IndikatorKinerjaID');
     
-    $data = IndikatorKinerjaModel::orderBy('NamaIndikator', 'ASC')
-      ->get();
+    $data = IndikatorKinerjaModel::select(\DB::raw('*'));
+    
+    if($request->has('offset'))
+    {
+      $this->validate($request, [              
+        'offset'=>'required|numeric',      
+      ]);
+
+      $offset = $request->input('offset');
+      $data = $data->offset($offset);
+    }
+
+    if($request->has('offset'))
+    {
+      $this->validate($request, [              
+        'limit'=>'required|numeric|gt:0',   
+      ]);
+
+      $limit = $request->input('limit');
+      $data = $data->limit($limit);
+    }
+
+    if($request->has('sortBy'))
+    {
+      $sortBy = $request->input('sortBy');
+      if(is_array($sortBy))
+      {
+        foreach ($sortBy as $item)
+        {
+          $data = $data->orderBy($item['key'], $item['order']);
+        }
+      }
+    }
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
-      'payload'=>$data,
-      'message'=>'Fetch data indikator kinerja berhasil diperoleh'
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => [
+        'data' => $data->get(),
+        'totalRecords' => $totalRecords,
+      ],
+      'message' => 'Fetch data indikator kinerja berhasil diperoleh'
     ], 200);  
 
   }
@@ -46,37 +76,24 @@ class KodefikasiIndikatorKinerjaController extends Controller
   {        
     $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_STORE');
 
-    $this->validate($request, [           
-      'TA'=>'required'
-    ]);
-
-    $ta = $request->input('TA');
-
-    $this->validate($request, [
-      'NIP_ASN'=> [
-        Rule::unique('tmASN')->where(function($query) use ($request) {
-          return $query->where('NIP_ASN',$request->input('NIP_ASN'))
-            ->where('TA',$request->input('TA'));
-        }),
-        'required',
-        'regex:/^[0-9]+$/'
-      ],
-      'Nm_ASN'=>'required',
+    $this->validate($request, [      
+      'NamaIndikator'=>'required',
+      'is_iku'=>'required|in:0,1',
+      'is_ikk'=>'required|in:0,1',
     ]);
         
-    $asn = ASNModel::create ([
-      'ASNID'=> Uuid::uuid4()->toString(),
-      'NIP_ASN' => $request->input('NIP_ASN'),
-      'Nm_ASN' => $request->input('Nm_ASN'),
-      'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+    $indikator = IndikatorKinerjaModel::create ([
+      'IndikatorKinerjaID'=> Uuid::uuid4()->toString(),
+      'NamaIndikator' => $request->input('NamaIndikator'),
+      'is_iku' => $request->input('is_iku'),
+      'is_ikk' => $request->input('is_ikk'),
     ]);  
     
     return Response()->json([
       'status'=>1,
       'pid'=>'store',
-      'asn'=>$asn,                                    
-      'message'=>'Data ASN berhasil disimpan.'
+      'payload'=>$indikator,                                    
+      'message'=>'Data Indikator Kinerja berhasil disimpan.'
     ], 200); 		
   }
   /**
