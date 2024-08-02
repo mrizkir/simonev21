@@ -27,15 +27,7 @@ const routes = [
     },
     component: () => import('@/pages/admin/DashboardAdmin.vue'),
   },
-  // admin - dmaster
-  {
-    path: '/admin/dmaster',
-    name: 'DMasterDashboard',
-    meta: {
-      title: 'DATA MASTER',
-    },
-    component: () => import('@/pages/admin/dmaster/DMaster.vue'),
-  },
+  // admin - dmaster indikator kinerja
   {
     path: '/admin/dmaster/indikatorkinerja',
     name: 'DMasterIndikatorKinerja',
