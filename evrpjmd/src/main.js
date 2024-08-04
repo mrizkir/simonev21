@@ -13,6 +13,7 @@ import '@/style.css'
 import api from "@/plugins/api";
 import router from '@/routes'
 import store from '@/stores'
+import dayjs from 'dayjs'
 
 //components
 import App from './App.vue'
@@ -57,9 +58,12 @@ const vuetify = createVuetify({
   },
 })
 
-createApp(App)
+const app = createApp(App)
   .use(api)
   .use(store)
   .use(router)
   .use(vuetify)
-  .mount('#app')
+
+app.config.globalProperties.$dayjs = dayjs
+
+app.mount('#app')

@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        Indikator Kinerja
+        INDIKATOR KINERJA
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -50,7 +50,7 @@
               :items="datatable"
               :items-length="totalRecords"
               :loading="datatableLoading"
-              :search="search"
+              :search="searchTrigger"
               item-value="IndikatorKinerjaID"
               @update:options="initialize"
               :expand-on-click="true"
@@ -136,10 +136,79 @@
                       </v-card>
                     </v-form>
                   </v-dialog>
+                  <v-dialog
+                    v-model="dialogdetailitem"
+                    max-width="700px"
+                    persistent
+                  >
+                    <v-card>
+                      <v-card-title>
+                        <v-icon icon="mdi-eye"></v-icon> &nbsp;
+                        <span class="headline">DETAIL DATA</span>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-row justify="space-between">
+                          <v-col cols="auto" md="6" lg="6">
+                            <v-row tag="dl" class="text-body-2" no-gutters>
+                              <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                                ID
+                              </v-col>
+                              <v-col cols="auto" md="12" lg="12" tag="dt">
+                                {{ formdata.IndikatorKinerjaID }}
+                              </v-col>
+                            </v-row>
+                            <v-row tag="dl" class="text-body-2" no-gutters>
+                              <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                                NAMA INDIKATOR
+                              </v-col>
+                              <v-col cols="auto" md="12" lg="12" tag="dt">
+                                {{ formdata.NamaIndikator }}
+                              </v-col>
+                            </v-row>
+                          </v-col>                        
+                          <v-col cols="auto" md="5" lg="5">
+                            <v-row tag="dl" class="text-body-2" no-gutters>
+                              <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                                IKU
+                              </v-col>
+                              <v-col cols="auto" md="12" lg="12" tag="dt">
+                                {{ formdata.is_iku == 1 ? 'YA' : 'TIDAK' }}
+                              </v-col>
+                            </v-row>
+                            <v-row tag="dl" class="text-body-2" no-gutters>
+                              <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                                IKK
+                              </v-col>
+                              <v-col cols="auto" md="12" lg="12" tag="dt">
+                                {{ formdata.is_ikk == 1 ? 'YA' : 'TIDAK' }}
+                              </v-col>
+                            </v-row>
+                          </v-col>
+                        </v-row>                        
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="orange-darken-1"
+                          @click.stop="closedialogdetailitem"
+                          prepend-icon="mdi-close"
+                          rounded="sm"
+                        >
+                          TUTUP
+                        </v-btn>
+                      </v-card-actions>                      
+                    </v-card>
+                  </v-dialog>
                 </v-toolbar>
               </template>
               <template v-slot:item.no="{ index }">
                 {{ (indexOffset + index) + 1 }}
+              </template>
+              <template v-slot:item.is_iku="{ item }">
+                {{ item.is_iku == 1 ? 'YA' : 'TIDAK' }}
+              </template>
+              <template v-slot:item.is_ikk="{ item }">
+                {{ item.is_iku == 1 ? 'YA' : 'TIDAK' }}
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-icon                                
@@ -172,7 +241,8 @@
               <template v-slot:expanded-row="{ columns, item }">
                 <tr class="bg-grey-lighten-4">
                   <td :colspan="columns.length" class="text-center">
-                    More info about {{ item.name }}
+                    <span class="font-weight-bold">ID: </span> {{ item.IndikatorKinerjaID }} 
+                    <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
                   </td>
                 </tr>
               </template>
@@ -190,88 +260,6 @@
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
   import { usesUserStore } from '@/stores/UsersStore'
-  const desserts = [
-    {
-      name: 'Frozen Yogurt',
-      calories: 159,
-      fat: 6.0,
-      carbs: 24,
-      protein: 4.0,
-      iron: '1',
-    },
-    {
-      name: 'Jelly bean',
-      calories: 375,
-      fat: 0.0,
-      carbs: 94,
-      protein: 0.0,
-      iron: '0',
-    },
-    {
-      name: 'KitKat',
-      calories: 518,
-      fat: 26.0,
-      carbs: 65,
-      protein: 7,
-      iron: '6',
-    },
-    {
-      name: 'Eclair',
-      calories: 262,
-      fat: 16.0,
-      carbs: 23,
-      protein: 6.0,
-      iron: '7',
-    },
-    {
-      name: 'Gingerbread',
-      calories: 356,
-      fat: 16.0,
-      carbs: 49,
-      protein: 3.9,
-      iron: '16',
-    },
-    {
-      name: 'Ice cream sandwich',
-      calories: 237,
-      fat: 9.0,
-      carbs: 37,
-      protein: 4.3,
-      iron: '1',
-    },
-    {
-      name: 'Lollipop',
-      calories: 392,
-      fat: 0.2,
-      carbs: 98,
-      protein: 0,
-      iron: '2',
-    },
-    {
-      name: 'Cupcake',
-      calories: 305,
-      fat: 3.7,
-      carbs: 67,
-      protein: 4.3,
-      iron: '8',
-    },
-    {
-      name: 'Honeycomb',
-      calories: 408,
-      fat: 3.2,
-      carbs: 87,
-      protein: 6.5,
-      iron: '45',
-    },
-    {
-      name: 'Donut',
-      calories: 452,
-      fat: 25.0,
-      carbs: 51,
-      protein: 4.9,
-      iron: '22',
-    },
-  ]
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {
@@ -309,7 +297,6 @@
       })
     },
   }
-
   export default {
     name: 'DMasterIndikatorKinerja',
     created() {
@@ -389,6 +376,7 @@
       search: '',
       //dialog
       dialogfrm: false,
+      dialogdetailitem: false,
       //form data
       form_valid: true,      
       formdata: {
@@ -420,6 +408,16 @@
         this.datatableLoading = true
         const offset = (page - 1) * itemsPerPage
         this.indexOffset = offset
+
+        if(sortBy.length == 0) {
+          sortBy = [
+            {
+              'key': 'NamaIndikator',
+              'order': 'asc'
+            },
+          ]
+        }
+        
         await this.$ajax
           .post(
             "/dmaster/kodefikasi/indikatorkinerja",
@@ -427,6 +425,7 @@
               sortBy: sortBy,
               offset: offset,
               limit: itemsPerPage,
+              search: this.search,
             },
             {
               headers: {
@@ -447,17 +446,49 @@
         // })
         
       },
+      viewItem(item) {
+        this.formdata = item
+        this.dialogdetailitem = true
+      },
+      editItem(item) {
+        this.editedIndex = this.datatable.indexOf(item)
+        this.formdata = Object.assign({}, item)
+        this.dialogfrm = true
+        this.formdata.is_ikk = this.formdata.is_ikk == 1 ? true : false
+        this.formdata.is_iku = this.formdata.is_iku == 1 ? true : false
+      },
       async save() {
         const { valid } = await this.$refs.frmdata.validate()
 
         if(valid) {
-          this.btnLoading = true;
+          this.btnLoading = true
           if (this.editedIndex > -1) {
-
+            this.$ajax
+              .post(
+                '/dmaster/kodefikasi/indikatorkinerja/' + this.formdata.IndikatorKinerjaID,
+                {
+                  _method: "PUT",
+                  NamaIndikator: this.formdata.NamaIndikator,
+                  is_iku: this.formdata.is_iku == true ? 1 : 0,
+                  is_ikk: this.formdata.is_ikk == true ? 1 : 0,
+                },
+                {
+                  headers: {
+                    Authorization: this.userStore.Token,
+                  },
+                }
+              )
+              .then(() => {
+                this.closedialogfrm()
+                this.$router.go()
+              })
+              .catch(() => {
+                this.btnLoading = false
+              })
           } else {
             this.$ajax
               .post(
-                "/dmaster/kodefikasi/indikatorkinerja/store",
+                '/dmaster/kodefikasi/indikatorkinerja/store',
                 {
                   NamaIndikator: this.formdata.NamaIndikator,
                   is_iku: this.formdata.is_iku == true ? 1 : 0,
@@ -470,15 +501,50 @@
                 }
               )
               .then(() => {
-                this.closedialogfrm();
-                this.$router.go();
+                this.closedialogfrm()
+                this.$router.go()
               })
               .catch(() => {
-                this.btnLoading = false;
-              });
+                this.btnLoading = false
+              })
           }
           this.closedialogfrm()
         }        
+      },
+      deleteItem(item) {
+        this.$root.$confirm
+          .open(
+            'Delete',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.IndikatorKinerjaID + ' ?',
+            {
+              color: 'red',
+              width: '400px',
+            }
+          )
+          .then(confirm => {
+            if (confirm) {
+              this.btnLoading = true
+              this.$ajax
+                .post(
+                  '/dmaster/kodefikasi/indikatorkinerja/' + item.IndikatorKinerjaID,
+                  {
+                    _method: 'DELETE',
+                  },
+                  {
+                    headers: {
+                      Authorization: this.userStore.Token,
+                    },
+                  }
+                )
+                .then(() => {
+                  this.closedialogfrm()
+                  this.$router.go()
+                })
+                .catch(() => {
+                  this.btnLoading = false
+                })
+            }
+          })
       },
       closedialogfrm() {
         this.btnLoading = false
@@ -489,10 +555,22 @@
           this.dialogfrm = false
         }, 300)
       },
+      closedialogdetailitem() {
+        this.dialogdetailitem = false;
+        setTimeout(() => {
+          this.formdata = Object.assign({}, this.formdefault);
+          this.editedIndex = -1;
+        }, 300);
+      },
     },
     computed: {
       formTitle() {
-        return this.editedIndex === -1 ? "TAMBAH INDIKATOR" : "UBAH INDIKATOR"
+        return this.editedIndex === -1 ? 'TAMBAH INDIKATOR' : 'UBAH INDIKATOR'
+      },
+      searchTrigger () {
+        if (this.search.length >= 3) {
+          return this.search
+        }
       },
     },
     watch: {
