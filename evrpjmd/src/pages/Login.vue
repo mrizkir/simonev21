@@ -31,8 +31,7 @@
             prepend-inner-icon="mdi-account-outline"
             hint="Masukan username password sama dengan simonev21"
             :rules="rule_username"
-          >
-          </v-text-field>
+          />          
           <v-text-field
             v-model="formlogin.password"
             density="compact"
@@ -42,8 +41,16 @@
             hint="Masukan password sama dengan simonev21"
             type="password"
             :rules="rule_password"
-          >
-          </v-text-field>
+          />          
+          <v-select
+            v-model="formlogin.tahun_evaluasi"
+            density="compact"
+            :items="daftar_ta"
+            label="Tahun Evaluasi"
+            variant="outlined"
+            prepend-inner-icon="mdi-calendar"
+            :rules="rule_tahun_evaluasi"            
+          />
         </v-card-text>
         <v-card-actions>
           <v-btn
@@ -69,16 +76,20 @@
     created() {
       this.userStore = usesUserStore()
     },
+    mounted() {
+      
+    },
     data: () => ({      
       btnLoading: false,
       form_error: false,
       //pinia
       userStore: null,
       //form
+      daftar_ta: [],
       formlogin: {
         username: null,
         password: null,
-        tahun_evaluasi: 2021,
+        tahun_evaluasi: null,
       },
       rule_username: [
         value => !!value || 'Kolom Username mohon untuk diisi !!!',

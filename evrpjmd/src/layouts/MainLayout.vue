@@ -7,9 +7,9 @@
       <template v-slot:prepend>
         <v-list-item
           lines="two"
-          prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
+          :prepend-avatar="photoUser"
           subtitle="Logged in"
-          title="Jane Smith"
+          :title="dataUser.username"
         >
         </v-list-item>
         <v-divider></v-divider>        
@@ -17,6 +17,7 @@
       <v-list density="compact" nav>
         <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token"></v-list-item>
         <v-list-subheader title="DATA MASTER" />
+        <v-list-item prepend-icon="mdi-calendar" title="PERIODE RPJMD" value="indikator_kinerja" to="/admin/dmaster/perioderpjmd"></v-list-item>    
         <v-list-item prepend-icon="mdi-graph" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja"></v-list-item>    
       </v-list>
     </v-navigation-drawer>
@@ -104,6 +105,7 @@
     data: () => ({
       drawer: null,
       drawerRight: null,
+      dataUser: {},
       //pinia
       userStore: null,
     }),
@@ -115,12 +117,13 @@
               Authorization: 'Bearer ' + this.token,
             },
           })
-          .then(({ data }) => {
-            console.log(data);
+          .then(({ data }) => {            
+            this.dataUser = data            
             // this.dashboard = data.role[0];
             // this.$store.dispatch("uiadmin/changeDashboard", this.dashboard);
           })
           .catch(error => {
+            console.log(error)
             if (error.response.status == 401) {
               this.$router.push("/login");
             }
@@ -128,15 +131,14 @@
       }
     },
     computed: {     
-      photoUser() {
-        let photo = '';
-        // let img = this.userStore.AttributeUser("foto");
-        // var photo;
-        // if (img == "") {
-        //   photo = this.$api.storageURL + "/images/users/no_photo.png";
-        // } else {
-        //   photo = this.$api.storageURL + "/" + img;
-        // }
+      photoUser() {        
+        let img = this.dataUser.foto;
+        var photo;
+        if (img == "") {
+          photo = this.$api.storageURL + "/images/users/no_photo.png";
+        } else {
+          photo = this.$api.storageURL + "/" + img;
+        }
         return photo;
       },
     },

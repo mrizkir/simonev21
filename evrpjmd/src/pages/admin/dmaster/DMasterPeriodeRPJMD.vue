@@ -2,10 +2,10 @@
   <v-main-layout :token="userStore.AccessToken">
     <v-page-header>
       <template v-slot:icon>
-        mdi-graph
+        mdi-calendar
       </template>
       <template v-slot:name>
-        INDIKATOR KINERJA
+        PERIODE RPJMD
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola indikator kinerja untuk IKK dan IKU.
+          Halaman ini digunakan untuk mengelola periode rpjmd.
         </v-alert>
       </template>      
     </v-page-header>
@@ -25,19 +25,9 @@
         <v-col cols="12">          
           <v-card>
             <v-card-title class="d-flex align-center pe-2">
-              <v-icon icon="mdi-graph"></v-icon> &nbsp;
-              DAFTAR INDIKATOR KINERJA
-              <v-spacer></v-spacer>
-              <v-text-field
-                v-model="search"
-                density="compact"
-                label="Cari Indikator"
-                prepend-inner-icon="mdi-magnify"
-                variant="solo-filled"
-                flat
-                hide-details
-                single-line
-              />
+              <v-icon icon="mdi-calendar"></v-icon> &nbsp;
+              DAFTAR PERIODE
+              <v-spacer></v-spacer>              
               <template v-slot:append>
                 <v-btn icon="mdi-dots-vertical"></v-btn>
               </template>
@@ -50,8 +40,7 @@
               :items="datatable"
               :items-length="totalRecords"
               :loading="datatableLoading"
-              :search="searchTrigger"
-              item-value="IndikatorKinerjaID"
+              item-value="PeriodeRPJMDID"
               @update:options="initialize"
               :expand-on-click="true"
               items-per-page-text="Jumlah record per halaman"
@@ -84,34 +73,40 @@
                           <v-icon icon="mdi-pencil"></v-icon> &nbsp;
                           <span class="text-h5">{{ formTitle }}</span>
                         </v-card-title>
-                        <v-card-text>
-                          <v-textarea
-                            v-model="formdata.NamaIndikator"
-                            rows="1"
-                            density="compact"        
-                            label="NAMA INDIKATOR"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            hint="Masukan indikator kinerja rpjmd"
-                            :rules="rule_nama_indikator"
-                            auto-grow
-                          />
-                          <v-row no-gutters>
-                            <v-col cols="auto" md="6" lg="6">
-                              <v-switch
-                                v-model="formdata.is_iku"
-                                color="primary"
-                                label="Indikator Kinerja Umum (IKU)"
+                        <v-card-text>                          
+                          <v-row justify="space-between" no-gutters>
+                            <v-col cols="auto" md="6" lg="6">                              
+                              <v-text-field
+                                v-model="formdata.TA_AWAL"
+                                density="compact"        
+                                label="TA AWAL PERIODE"
+                                variant="outlined"
+                                prepend-inner-icon="mdi-calendar"
+                                hint="Masukan tahun awal periode rpjmd"      
+                                :rules="rule_awal_periode"                                              
                               />
                             </v-col>
-                            <v-col cols="auto" md="6" lg="6">
-                              <v-switch
-                                v-model="formdata.is_ikk"
-                                color="primary"
-                                label="Indikator Kinerja Khusus (IKK) Milik Bupati"
+                            <v-col cols="auto" md="5" lg="5">
+                              <v-text-field
+                                v-model="formdata.TA_AKHIR"
+                                density="compact"        
+                                label="TA AKHIR PERIODE"
+                                variant="outlined"
+                                prepend-inner-icon="mdi-calendar"
+                                hint="Masukan tahun akhir periode rpjmd"    
+                                :rules="rule_akhir_periode"                    
                               />
                             </v-col>
                           </v-row>
+                          <v-text-field
+                            v-model="formdata.NamaPeriode"
+                            density="compact"        
+                            label="PERIODE"
+                            variant="outlined"
+                            prepend-inner-icon="mdi-calendar"
+                            hint="Masukan nama periode rpjmd"
+                            :rules="rule_nama_periode"
+                          />
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
@@ -154,33 +149,33 @@
                                 ID
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.IndikatorKinerjaID }}
+                                {{ formdata.PeriodeRPJMDID }}
                               </v-col>
                             </v-row>
                             <v-row tag="dl" class="text-body-2" no-gutters>
                               <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                NAMA INDIKATOR
+                                PERIODE
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.NamaIndikator }}
+                                {{ formdata.NamaPeriode }}
                               </v-col>
                             </v-row>
                           </v-col>                        
                           <v-col cols="auto" md="5" lg="5">
                             <v-row tag="dl" class="text-body-2" no-gutters>
                               <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                IKU
+                                TAHUN AWAL
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.is_iku == 1 ? 'YA' : 'TIDAK' }}
+                                {{ formdata.TA_AWAL }}
                               </v-col>
                             </v-row>
                             <v-row tag="dl" class="text-body-2" no-gutters>
                               <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                IKK
+                                TAHUN AKHIR
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.is_ikk == 1 ? 'YA' : 'TIDAK' }}
+                                {{ formdata.TA_AKHIR }}
                               </v-col>
                             </v-row>
                           </v-col>
@@ -204,16 +199,16 @@
               <template v-slot:item.no="{ index }">
                 {{ (indexOffset + index) + 1 }}
               </template>
-              <template v-slot:item.is_iku="{ item }">
-                {{ item.is_iku == 1 ? 'YA' : 'TIDAK' }}
+              <template v-slot:item.TA_AWAL="{ item }">
+                {{ item.TA_AWAL }}
               </template>
-              <template v-slot:item.is_ikk="{ item }">
-                {{ item.is_iku == 1 ? 'YA' : 'TIDAK' }}
+              <template v-slot:item.TA_AKHIR="{ item }">
+                {{ item.TA_AKHIR }}
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-icon                                
                   class="mr-2"
-                  v-tooltip:bottom="'Detail Indikator Kinerja'"
+                  v-tooltip:bottom="'Detail Periode RPJMD'"
                   @click.stop="viewItem(item)"
                   size="small"
                   color="primary"
@@ -222,7 +217,7 @@
                 </v-icon>
                 <v-icon
                   class="mr-2"
-                  v-tooltip:bottom="'Ubah Indikator Kinerja'"
+                  v-tooltip:bottom="'Ubah Periode RPJMD'"
                   @click.stop="editItem(item)"
                   size="small"
                   color="primary"
@@ -230,7 +225,7 @@
                   mdi-pencil
                 </v-icon>
                 <v-icon
-                  v-tooltip:bottom="'Hapus Indikator Kinerja'"
+                  v-tooltip:bottom="'Hapus Periode RPJMD'"
                   @click.stop="deleteItem(item)"
                   size="small"
                   color="error"
@@ -241,7 +236,7 @@
               <template v-slot:expanded-row="{ columns, item }">
                 <tr class="bg-grey-lighten-4">
                   <td :colspan="columns.length" class="text-center">
-                    <span class="font-weight-bold">ID: </span> {{ item.IndikatorKinerjaID }} 
+                    <span class="font-weight-bold">ID: </span> {{ item.PeriodeRPJMDID }} 
                     <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
                   </td>
                 </tr>
@@ -262,7 +257,7 @@
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'DMasterIndikatorKinerja',
+    name: 'DMasterPeriodeRPJMD',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -276,7 +271,7 @@
           href: '#',
         },
         {
-          title: 'INDIKATOR KINERJA',
+          title: 'PERIODE RPJMD',
           disabled: true,
           href: '#',
         },        
@@ -302,29 +297,29 @@
           },
         },
         {
-          title: 'NAMA INDIKATOR',
-          key: 'NamaIndikator',
+          title: 'PERIODE',
+          key: 'NamaPeriode',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
         },
         {
-          title: 'IKU',
-          key: 'is_iku',
+          title: 'AWAL PERIODE',
+          key: 'TA_AWAL',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
-        },
+        },              
         {
-          title: 'IKK',
-          key: 'is_ikk',
+          title: 'AKHIR PERIODE',
+          key: 'TA_AKHIR',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
-        },        
+        },              
         {
           title: "AKSI",
           key: "actions",
@@ -334,32 +329,39 @@
             class: 'font-weight-bold',
           },
         },
-      ],
-      search: '',
+      ],      
       //dialog
       dialogfrm: false,
       dialogdetailitem: false,
       //form data
       form_valid: true,      
       formdata: {
-        IndikatorKinerjaID: null,
-        NamaIndikator: null,
-        is_iku: false,
-        is_ikk: false,        
+        PeriodeRPJMDID: null,
+        NamaPeriode: null,
+        TA_AWAL: null,
+        TA_AKHIR: null,        
         created_at: null,
         updated_at: null,
       },
       formdefault: {
-        IndikatorKinerjaID: null,
-        NamaIndikator: null,
-        is_iku: false,
-        is_ikk: false,        
+        PeriodeRPJMDID: null,
+        NamaPeriode: null,
+        TA_AWAL: false,
+        TA_AKHIR: false,        
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_nama_indikator: [
-        value => !!value || "Mohon untuk di isi nama indikator dari RPJMD !!!",
+      rule_awal_periode: [
+        value => !!value || "Mohon untuk di isi tahun awal periode dari RPJMD !!!",
+        value => /^[0-9]+$/.test(value) || 'Tahun awal periode RPJMD hanya boleh angka',
+      ],      
+      rule_akhir_periode: [
+        value => !!value || "Mohon untuk di isi tahun akhir periode dari RPJMD !!!",
+        value => /^[0-9]+$/.test(value) || 'Tahun akhir periode RPJMD hanya boleh angka',
+      ],      
+      rule_nama_periode: [
+        value => !!value || "Mohon untuk di isi nama periode dari RPJMD !!!",
       ],      
       editedIndex: -1,
       //pinia
@@ -374,7 +376,7 @@
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'NamaIndikator',
+              'key': 'TA_AWAL',
               'order': 'asc'
             },
           ]
@@ -382,12 +384,11 @@
         
         await this.$ajax
           .post(
-            "/dmaster/kodefikasi/indikatorkinerja",
+            "/dmaster/perioderpjmd",
             {
               sortBy: sortBy,
               offset: offset,
               limit: itemsPerPage,
-              search: this.search,
             },
             {
               headers: {
@@ -410,8 +411,8 @@
         this.editedIndex = this.datatable.indexOf(item)
         this.formdata = Object.assign({}, item)
         this.dialogfrm = true
-        this.formdata.is_ikk = this.formdata.is_ikk == 1 ? true : false
-        this.formdata.is_iku = this.formdata.is_iku == 1 ? true : false
+        this.formdata.TA_AWAL = this.formdata.TA_AWAL
+        this.formdata.TA_AKHIR = this.formdata.TA_AKHIR        
       },
       async save() {
         const { valid } = await this.$refs.frmdata.validate()
@@ -421,12 +422,12 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/dmaster/kodefikasi/indikatorkinerja/' + this.formdata.IndikatorKinerjaID,
+                '/dmaster/perioderpjmd/' + this.formdata.PeriodeRPJMDID,
                 {
                   _method: "PUT",
-                  NamaIndikator: this.formdata.NamaIndikator,
-                  is_iku: this.formdata.is_iku == true ? 1 : 0,
-                  is_ikk: this.formdata.is_ikk == true ? 1 : 0,
+                  NamaPeriode: this.formdata.NamaPeriode,
+                  TA_AWAL: this.formdata.TA_AWAL,
+                  TA_AKHIR: this.formdata.TA_AKHIR,
                 },
                 {
                   headers: {
@@ -444,11 +445,11 @@
           } else {
             this.$ajax
               .post(
-                '/dmaster/kodefikasi/indikatorkinerja/store',
+                '/dmaster/perioderpjmd/store',
                 {
-                  NamaIndikator: this.formdata.NamaIndikator,
-                  is_iku: this.formdata.is_iku == true ? 1 : 0,
-                  is_ikk: this.formdata.is_ikk == true ? 1 : 0,
+                  NamaPeriode: this.formdata.NamaPeriode,
+                  TA_AWAL: this.formdata.TA_AWAL,
+                  TA_AKHIR: this.formdata.TA_AKHIR,
                 },
                 {
                   headers: {
@@ -471,7 +472,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.IndikatorKinerjaID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.PeriodeRPJMDID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -482,7 +483,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/dmaster/kodefikasi/indikatorkinerja/' + item.IndikatorKinerjaID,
+                  '/dmaster/perioderpjmd/' + item.PeriodeRPJMDID,
                   {
                     _method: 'DELETE',
                   },

@@ -27,6 +27,15 @@ const routes = [
     },
     component: () => import('@/pages/admin/DashboardAdmin.vue'),
   },
+  // admin - dmaster periode rpjmd
+  {
+    path: '/admin/dmaster/perioderpjmd',
+    name: 'DMasterPeriodeRPJMD',
+    meta: {
+      title: 'DATA MASTER - PERIODE RPJMD',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterPeriodeRPJMD.vue'),
+  },
   // admin - dmaster indikator kinerja
   {
     path: '/admin/dmaster/indikatorkinerja',

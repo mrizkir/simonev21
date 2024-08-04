@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Models\DMaster;
+
+use Illuminate\Database\Eloquent\Model;
+
+class PeriodeRPJMDModel extends Model {    
+  /**
+   * nama tabel model ini.
+   *
+   * @var string
+   */
+  protected $table = 'tmPeriodeRPJMD';
+  /**
+   * primary key tabel ini.
+   *
+   * @var string
+   */
+  protected $primaryKey = 'PeriodeRPJMDID';
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+      'PeriodeRPJMDID', 
+      'TA_AWAL',                 
+      'TA_AKHIR',                 
+      'NamaPeriode',                 
+  ];
+  /**
+   * enable auto_increment.
+   *
+   * @var string
+   */
+  public $incrementing = false;
+  /**
+   * activated timestamps.
+   *
+   * @var string
+   */
+  public $timestamps = true;
+}

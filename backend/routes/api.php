@@ -12,12 +12,15 @@ $router->group(['prefix'=>'v1'], function () use ($router)
   $router->post('/evaluasimurni/realisasitw', ['uses'=>'Statistik\EvaluasiMurniRealisasiTWController@front','as'=>'evaluasimurnirealisasitw.front']);
   $router->post('/evaluasiperubahan/realisasita', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTAController@front','as'=>'evaluasiperubahanrealisasita.front']);
   $router->post('/evaluasiperubahan/realisasitw', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTWController@front','as'=>'evaluasiperubahanrealisasitw.front']);
-
-  //gallery pembanguna
+  
+  //gallery pembangunan
   $router->post('/gallerypembangunan', ['uses'=>'Renja\GalleryController@index','as'=>'gallerypembangunan.index']);
 
   //dmaster
   $router->post('/dmaster', ['uses'=>'DMaster\DMasterController@index','as'=>'dmaster.index']);
+
+  //datamaster - periode rpjmd  
+  $router->post('/dmaster/perioderpjmd', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\PeriodeRPJMDController@index','as'=>'kodefikasi-periode-rpjmd.index']);
 
   //dmaster - provinsi
   $router->get('/dmaster/provinsi', ['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);
@@ -48,9 +51,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->get('/auth/refresh', ['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
   $router->get('/auth/me', ['uses'=>'AuthController@me','as'=>'auth.me']);
 
+  //datamaster - periode rpjmd 
+  $router->post('/dmaster/perioderpjmd/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@store','as'=>'kodefikasi-periode-rpjmd.store']);
+  $router->put('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@update','as'=>'kodefikasi-periode-rpjmd.update']);
+  $router->delete('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@destroy','as'=>'kodefikasi-periode-rpjmd.destroy']);
+  
   //datamaster - kodefikasi - indikator kinerja  
   $router->post('/dmaster/kodefikasi/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@index','as'=>'kodefikasi-indikator-kinerja.index']);
-  $router->post('/dmaster/kodefikasi/indikatorkinerja/store', ['middleware'=>['role:superadmin|bapelitbang|bapelitbang|'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@store','as'=>'kodefikasi-indikator-kinerja.store']);
+  $router->post('/dmaster/kodefikasi/indikatorkinerja/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@store','as'=>'kodefikasi-indikator-kinerja.store']);
   $router->put('/dmaster/kodefikasi/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@update','as'=>'kodefikasi-indikator-kinerja.update']);
   $router->delete('/dmaster/kodefikasi/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@destroy','as'=>'kodefikasi-indikator-kinerja.destroy']);
 
