@@ -103,7 +103,10 @@
     }),
     methods: {
       async doLogin() {
-        if (this.$refs.frmlogin.validate()) {
+
+        const { valid } = await this.$refs.frmlogin.validate()
+
+        if(valid) {
           this.btnLoading = true
           await this.$ajax
             .post('/auth/login', {

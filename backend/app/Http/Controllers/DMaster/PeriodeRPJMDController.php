@@ -53,12 +53,6 @@ class PeriodeRPJMDController extends Controller
       }
     }
 
-    if($request->filled('search'))
-    {
-      $search = $request->input('search');
-      $data = $data->where('NamaPeriode', 'LIKE', "%$search%");
-    }
-
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
@@ -66,7 +60,7 @@ class PeriodeRPJMDController extends Controller
         'data' => $data->get(),
         'totalRecords' => $totalRecords,
       ],
-      'message' => 'Fetch data indikator kinerja berhasil diperoleh'
+      'message' => 'Fetch data periode rpjmd berhasil diperoleh'
     ], 200);  
 
   }
@@ -87,7 +81,7 @@ class PeriodeRPJMDController extends Controller
     ]);
     
 
-    $indikator = PeriodeRPJMDModel::create ([
+    $periode = PeriodeRPJMDModel::create ([
       'PeriodeRPJMDID'=> Uuid::uuid4()->toString(),
       'NamaPeriode' => $request->input('NamaPeriode'),
       'TA_AWAL' => $request->input('TA_AWAL'),
@@ -97,7 +91,7 @@ class PeriodeRPJMDController extends Controller
     return Response()->json([
       'status'=>1,
       'pid'=>'store',
-      'payload'=>$indikator,                                    
+      'payload'=>$periode,                                    
       'message'=>'Data Periode RPJMD berhasil disimpan.'
     ], 200); 		
   }
@@ -111,9 +105,9 @@ class PeriodeRPJMDController extends Controller
   {        
     $this->hasPermissionTo('DMASTER-TA_DESTROY');
 
-    $indikator = PeriodeRPJMDModel::find($id);
+    $periode = PeriodeRPJMDModel::find($id);
 
-    if(is_null($indikator))
+    if(is_null($periode))
     {
       return Response()->json([
         'status' => 0,
@@ -130,16 +124,16 @@ class PeriodeRPJMDController extends Controller
         'TA_AKHIR'=>'required|digits:4|integer|gt:TA_AWAL',
       ]);
       
-      $indikator->NamaPeriode = $request->input('NamaPeriode');
-      $indikator->TA_AWAL = $request->input('TA_AWAL');
-      $indikator->TA_AKHIR = $request->input('TA_AKHIR');
-      $indikator->save();
+      $periode->NamaPeriode = $request->input('NamaPeriode');
+      $periode->TA_AWAL = $request->input('TA_AWAL');
+      $periode->TA_AKHIR = $request->input('TA_AKHIR');
+      $periode->save();
 
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
         'payload' => [
-          'data' => $indikator,                                    
+          'data' => $periode,                                    
         ],
         'message' => 'Data Periode RPJMD berhasil disimpan.'
       ], 200);
@@ -155,9 +149,9 @@ class PeriodeRPJMDController extends Controller
   {   
     $this->hasPermissionTo('DMASTER-TA_DESTROY');
 
-    $indikator = PeriodeRPJMDModel::find($id);
+    $periode = PeriodeRPJMDModel::find($id);
 
-    if(is_null($indikator))
+    if(is_null($periode))
     {
       return Response()->json([
         'status' => 0,
@@ -167,7 +161,7 @@ class PeriodeRPJMDController extends Controller
     }
     else
     {
-      $indikator->delete();
+      $periode->delete();
 
       return Response()->json([
         'status' => 1,
