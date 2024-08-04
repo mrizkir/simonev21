@@ -23,7 +23,7 @@ class KodefikasiIndikatorKinerjaController extends Controller
     
     $data = IndikatorKinerjaModel::select(\DB::raw('*'));
     
-    if($request->has('offset'))
+    if($request->filled('offset'))
     {
       $this->validate($request, [              
         'offset'=>'required|numeric',      
@@ -33,7 +33,7 @@ class KodefikasiIndikatorKinerjaController extends Controller
       $data = $data->offset($offset);
     }
 
-    if($request->has('offset'))
+    if($request->filled('limit'))
     {
       $this->validate($request, [              
         'limit'=>'required|numeric|gt:0',   
@@ -43,7 +43,7 @@ class KodefikasiIndikatorKinerjaController extends Controller
       $data = $data->limit($limit);
     }
 
-    if($request->has('sortBy'))
+    if($request->filled('sortBy'))
     {
       $sortBy = $request->input('sortBy');
       if(is_array($sortBy))
@@ -54,7 +54,13 @@ class KodefikasiIndikatorKinerjaController extends Controller
         }
       }
     }
-    
+
+    if($request->filled('search'))
+    {
+      $search = $request->input('search');
+      $data = $data->where('NamaIndikator', 'LIKE', "%$search%");
+    }
+
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
@@ -97,98 +103,48 @@ class KodefikasiIndikatorKinerjaController extends Controller
     ], 200); 		
   }
   /**
-   * menyalin asli
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function salin(Request $request)
-  {
-    $this->validate($request, [            
-      'tahun_asal'=>'required|numeric',
-      'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
-    ]);
-
-    $tahun_asal = $request->input('tahun_asal');
-    $tahun_tujuan = $request->input('tahun_tujuan');
-
-    $str_insert = '
-      INSERT INTO `tmASN` (
-        `ASNID`,
-        `NIP_ASN`,
-        `Nm_ASN`,
-        `Descr`,
-        `TA`,
-        `Active`,        
-        created_at,
-        updated_at
-      )		
-      SELECT
-        uuid() AS id,
-        
-        `NIP_ASN`,
-        `Nm_ASN`,
-        "DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
-        '.$tahun_tujuan.' AS `TA`,
-        `Active`,                
-        NOW() AS created_at,
-        NOW() AS updated_at
-      FROM tmASN t1
-      WHERE `TA`='.$tahun_asal.'
-      AND `NIP_ASN` NOT IN (SELECT `NIP_ASN` FROM `tmASN` WHERE `TA`='.$tahun_tujuan.')      			
-    ';    
-    
-    \DB::statement($str_insert); 
-    
-    return Response()->json([
-      'status'=>1,
-      'pid'=>'store',            
-      'message'=>"Salin ASN dari tahun anggaran $tahun_asal berhasil.",
-      'sql_insert'=>$str_insert,
-    ], 200);
-  }
-  /**
    * Store a newly created resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request,$id)
+  public function update(Request $request, $id)
   {        
-    $this->hasPermissionTo('DMASTER-ASN_UPDATE');
-    $asn = ASNModel::find($id);
-    
-    $this->validate($request, [    
-      'NIP_ASN'=>[
-        Rule::unique('tmASN')->where(function($query) use ($request,$asn) {  
-          if ($request->input('NIP_ASN')==$asn->NIP_ASN) 
-          {
-            return $query->where('NIP_ASN','ignore');
-          }                 
-          else
-          {
-            return $query->where('NIP_ASN',$request->input('NIP_ASN'))
-                ->where('TA',$asn->TA);
-          }                                                                                    
-        }),
-        'required',
-        'regex:/^[0-9]+$/'
-      ],
-      'Nm_ASN'=>'required',
-    ]);		
-    
-    $asn->NIP_ASN = $request->input('NIP_ASN');
-    $asn->Nm_ASN = $request->input('Nm_ASN');
-    $asn->Descr = $request->input('Descr');
-    $asn->save();
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_DESTROY');
 
-    return Response()->json([
-      'status'=>1,
-      'pid'=>'update',
-      'asn'=>$asn,                                    
-      'message'=>'Data ASN '.$asn->Nm_ASN.' berhasil diubah.'
-    ], 200);
+    $indikator = IndikatorKinerjaModel::find($id);
+
+    if(is_null($indikator))
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["Indikator Kinerja dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
     
+      $this->validate($request, [      
+        'NamaIndikator'=>'required',
+        'is_iku'=>'required|in:0,1',
+        'is_ikk'=>'required|in:0,1',
+      ]);
+      
+      $indikator->NamaIndikator = $request->input('NamaIndikator');
+      $indikator->is_iku = $request->input('is_iku');
+      $indikator->is_ikk = $request->input('is_ikk');
+      $indikator->save();
+
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'update',
+        'payload' => [
+          'data' => $indikator,                                    
+        ],
+        'message' => 'Data Indikator Kinerja berhasil disimpan.'
+      ], 200);
+    }    
   }
   /**
    * Remove the specified resource from storage.
@@ -198,13 +154,27 @@ class KodefikasiIndikatorKinerjaController extends Controller
    */
   public function destroy(Request $request,$id)
   {   
-    $this->hasPermissionTo('DMASTER-ASN_DESTROY');
-    $asn = ASNModel::find($id);
-    $result=$asn->delete();
-    return Response()->json([
-      'status'=>1,
-      'pid'=>'destroy',                
-      'message'=>"Data ASN dengan ID ($id) berhasil dihapus"
-    ], 200);
+    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_DESTROY');
+
+    $indikator = IndikatorKinerjaModel::find($id);
+
+    if(is_null($indikator))
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["Indikator Kinerja dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      $indikator->delete();
+
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'destroy',                
+        'message' => "Data Indikator Kinerja dengan ID ($id) berhasil dihapus"
+      ], 200);
+    }
   }
 }

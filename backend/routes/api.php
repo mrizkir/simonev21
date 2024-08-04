@@ -51,7 +51,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   //datamaster - kodefikasi - indikator kinerja  
   $router->post('/dmaster/kodefikasi/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@index','as'=>'kodefikasi-indikator-kinerja.index']);
   $router->post('/dmaster/kodefikasi/indikatorkinerja/store', ['middleware'=>['role:superadmin|bapelitbang|bapelitbang|'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@store','as'=>'kodefikasi-indikator-kinerja.store']);
-  
+  $router->put('/dmaster/kodefikasi/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@update','as'=>'kodefikasi-indikator-kinerja.update']);
+  $router->delete('/dmaster/kodefikasi/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@destroy','as'=>'kodefikasi-indikator-kinerja.destroy']);
+
   //data master - kodefikasi - urusan
   $router->post('/dmaster/kodefikasi/urusan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiUrusanController@index','as'=>'kodefikasi-urusan.index']);
   $router->post('/dmaster/kodefikasi/urusan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiUrusanController@store','as'=>'kodefikasi-urusan.store']);
