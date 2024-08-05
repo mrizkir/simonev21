@@ -20,7 +20,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
   $router->post('/dmaster', ['uses'=>'DMaster\DMasterController@index','as'=>'dmaster.index']);
 
   //datamaster - periode rpjmd  
-  $router->post('/dmaster/perioderpjmd', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\PeriodeRPJMDController@index','as'=>'kodefikasi-periode-rpjmd.index']);
+  $router->post('/dmaster/perioderpjmd', ['uses'=>'DMaster\PeriodeRPJMDController@index','as'=>'periode-rpjmd.index']);
 
   //dmaster - provinsi
   $router->get('/dmaster/provinsi', ['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);
@@ -52,9 +52,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->get('/auth/me', ['uses'=>'AuthController@me','as'=>'auth.me']);
 
   //datamaster - periode rpjmd 
-  $router->post('/dmaster/perioderpjmd/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@store','as'=>'kodefikasi-periode-rpjmd.store']);
-  $router->put('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@update','as'=>'kodefikasi-periode-rpjmd.update']);
-  $router->delete('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@destroy','as'=>'kodefikasi-periode-rpjmd.destroy']);
+  $router->post('/dmaster/perioderpjmd/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@store','as'=>'periode-rpjmd.store']);
+  $router->put('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@update','as'=>'periode-rpjmd.update']);
+  $router->delete('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@destroy','as'=>'periode-rpjmd.destroy']);
   
   //datamaster - kodefikasi - indikator kinerja  
   $router->post('/dmaster/kodefikasi/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@index','as'=>'kodefikasi-indikator-kinerja.index']);

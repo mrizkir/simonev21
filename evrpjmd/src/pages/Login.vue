@@ -43,13 +43,14 @@
             :rules="rule_password"
           />          
           <v-select
-            v-model="formlogin.tahun_evaluasi"
+            v-model="formlogin.periode_rpjmd"
             density="compact"
-            :items="daftar_ta"
+            :items="daftar_periode"
             label="Tahun Evaluasi"
             variant="outlined"
             prepend-inner-icon="mdi-calendar"
-            :rules="rule_tahun_evaluasi"            
+            :rules="rule_periode_rpjmd"
+            return-object
           />
         </v-card-text>
         <v-card-actions>
@@ -75,9 +76,7 @@
     name: 'Login',
     created() {
       this.userStore = usesUserStore()
-    },
-    mounted() {
-      
+      this.initialize()
     },
     data: () => ({      
       btnLoading: false,
@@ -85,11 +84,11 @@
       //pinia
       userStore: null,
       //form
-      daftar_ta: [],
+      daftar_periode: [],
       formlogin: {
         username: null,
         password: null,
-        tahun_evaluasi: null,
+        periode_rpjmd: null,
       },
       rule_username: [
         value => !!value || 'Kolom Username mohon untuk diisi !!!',
@@ -97,11 +96,24 @@
       rule_password: [
         value => !!value || 'Kolom Password mohon untuk diisi !!!',
       ],
-      rule_tahun_evaluasi: [
-        value => !!value || 'Tahun Evaluasi RPJMD mohon untuk dipilih !!!',
+      rule_periode_rpjmd: [
+        value => !!value || 'Periode RPJMD mohon untuk dipilih !!!',
       ],
     }),
     methods: {
+      async initialize() {
+        await this.$ajax
+          .post("/dmaster/perioderpjmd")
+          .then(({ data }) => {
+            var daftar_ = data.payload.data
+            daftar_.forEach(element => {
+              this.daftar_periode.push({
+                title: element.NamaPeriode,
+                value: element.PeriodeRPJMDID,
+              })
+            });
+          })
+      },
       async doLogin() {
 
         const { valid } = await this.$refs.frmlogin.validate()
@@ -123,7 +135,7 @@
                 .then(response => {
                   let user = response.data
                   Object.assign(user, {
-                    tahun_evaluasi: this.formlogin.tahun_evaluasi,
+                    periode_rpjmd: this.formlogin.periode_rpjmd,
                   })
                   var data_user = {
                     token: data,

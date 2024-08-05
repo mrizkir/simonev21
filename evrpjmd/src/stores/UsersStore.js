@@ -65,10 +65,11 @@ export const usesUserStore = defineStore('userStore', {
     },
   },
   actions: {
-    afterLoginSuccess(user) {
-      this.access_token = user.token.access_token
-      this.token_type = user.token.token_type
-      this.expires_in = user.token.expires_in
+    afterLoginSuccess(data_user) {
+      this.access_token = data_user.token.access_token
+      this.token_type = data_user.token.token_type
+      this.expires_in = data_user.token.expires_in
+      this.user = data_user.user
     },
     updateFoto() {
 

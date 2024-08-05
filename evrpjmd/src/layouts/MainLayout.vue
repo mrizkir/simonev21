@@ -12,13 +12,13 @@
           :title="dataUser.username"
         >
         </v-list-item>
-        <v-divider></v-divider>        
+        <v-divider />
       </template>
       <v-list density="compact" nav>
-        <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token"></v-list-item>
-        <v-list-subheader title="DATA MASTER" />
-        <v-list-item prepend-icon="mdi-calendar" title="PERIODE RPJMD" value="indikator_kinerja" to="/admin/dmaster/perioderpjmd"></v-list-item>    
-        <v-list-item prepend-icon="mdi-graph" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja"></v-list-item>    
+        <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token" link slim></v-list-item>
+        <v-list-subheader title="DATA MASTER" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PERIODE RPJMD" value="indikator_kinerja" to="/admin/dmaster/perioderpjmd" link slim></v-list-item>    
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja" link slim></v-list-item>    
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer
@@ -42,8 +42,8 @@
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
-        <v-list>
-          
+        <v-list density="compact" nav>
+          <v-list-item prepend-icon="mdi-calendar" title="PERIODE RPJMD" value="indikator_kinerja" to="/admin/dmaster/perioderpjmd" link slim></v-list-item>    
         </v-list>
       </v-menu>
       <v-divider class="mx-4" inset vertical></v-divider>
@@ -55,11 +55,20 @@
         bottom
         left
       >
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ props }">
           <v-avatar size="30">
-            <v-img :src="photoUser" v-on="on" />
+            <v-img :src="photoUser" v-bind="props" />
           </v-avatar>
         </template>
+        <v-list density="compact" nav>
+          <v-list-item
+            prepend-icon="mdi-power"
+            title="Logout"
+            @click.prevent="logout"
+            link
+            slim
+          />
+        </v-list>
       </v-menu>
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
         <v-icon>mdi-menu-open</v-icon>
@@ -128,7 +137,27 @@
               this.$router.push("/login");
             }
           });
-      }
+      },
+      logout() {
+        this.$ajax
+          .post(
+            "/auth/logout",
+            {},
+            {
+              headers: {
+                Authorization: 'Bearer ' + this.token,
+              },
+            }
+          )
+          .then(() => {
+            // this.$store.dispatch("auth/logout");
+            // this.$router.push("/login");
+          })
+          .catch(() => {
+            // this.$store.dispatch("auth/logout");
+            // this.$router.push("/login");
+          });
+      },
     },
     computed: {     
       photoUser() {        
