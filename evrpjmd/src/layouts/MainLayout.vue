@@ -1,5 +1,11 @@
-<template>
+<template>  
   <v-app id="evarpjmd">
+    <v-system-bar color="primary">
+      <v-icon class="ms-2" icon="mdi-wifi-strength-4"></v-icon>      
+      <span class="ms-2">
+        {{ userStore.PeriodeRPJMD.NamaPeriode }}
+      </span>
+    </v-system-bar>
     <v-navigation-drawer
       v-model="drawer"
       :temporary="temporaryleftsidebar"
@@ -15,10 +21,12 @@
         <v-divider />
       </template>
       <v-list density="compact" nav>
-        <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token" link slim></v-list-item>
+        <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token" link slim />
         <v-list-subheader title="DATA MASTER" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PERIODE RPJMD" value="indikator_kinerja" to="/admin/dmaster/perioderpjmd" link slim></v-list-item>    
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja" link slim></v-list-item>    
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PERIODE RPJMD" value="periode_rpjmd" to="/admin/dmaster/perioderpjmd" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator_program" to="/admin/dmaster/indikatorprogram" link slim />
+        <v-divider color="blue-lighten-3" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="VISI" value="visi" to="/admin/dmaster/visi" link slim />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer
@@ -138,7 +146,7 @@
             }
           });
       },
-      logout() {
+      logout() {        
         this.$ajax
           .post(
             "/auth/logout",
@@ -150,12 +158,12 @@
             }
           )
           .then(() => {
-            // this.$store.dispatch("auth/logout");
-            // this.$router.push("/login");
+            this.userStore.logout()
+            this.$router.push("/login");
           })
           .catch(() => {
-            // this.$store.dispatch("auth/logout");
-            // this.$router.push("/login");
+            this.userStore.logout()
+            this.$router.push("/login");
           });
       },
     },

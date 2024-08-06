@@ -2,10 +2,10 @@
   <v-main-layout :token="userStore.AccessToken">
     <v-page-header>
       <template v-slot:icon>
-        mdi-calendar
+        mdi-graph
       </template>
       <template v-slot:name>
-        PERIODE RPJMD
+        VISI
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola periode rpjmd.
+          Halaman ini digunakan untuk mengelola visi.
         </v-alert>
       </template>      
     </v-page-header>
@@ -25,8 +25,8 @@
         <v-col cols="12">          
           <v-card>
             <v-card-title class="d-flex align-center pe-2">
-              <v-icon icon="mdi-calendar"></v-icon> &nbsp;
-              DAFTAR PERIODE
+              <v-icon icon="mdi-graph"></v-icon> &nbsp;
+              DAFTAR VISI
               <v-spacer></v-spacer>              
               <template v-slot:append>
                 <v-btn icon="mdi-dots-vertical"></v-btn>
@@ -39,8 +39,8 @@
               :headers="headers"
               :items="datatable"
               :items-length="totalRecords"
-              :loading="datatableLoading"
-              item-value="PeriodeRPJMDID"
+              :loading="datatableLoading"              
+              item-value="RpjmdVisiID"
               @update:options="initialize"
               :expand-on-click="true"
               items-per-page-text="Jumlah record per halaman"
@@ -73,40 +73,18 @@
                           <v-icon icon="mdi-pencil"></v-icon> &nbsp;
                           <span class="text-h5">{{ formTitle }}</span>
                         </v-card-title>
-                        <v-card-text>                          
-                          <v-row justify="space-between" no-gutters>
-                            <v-col cols="auto" md="6" lg="6">                              
-                              <v-text-field
-                                v-model="formdata.TA_AWAL"
-                                density="compact"        
-                                label="TA AWAL PERIODE"
-                                variant="outlined"
-                                prepend-inner-icon="mdi-calendar"
-                                hint="Masukan tahun awal periode rpjmd"      
-                                :rules="rule_awal_periode"                                              
-                              />
-                            </v-col>
-                            <v-col cols="auto" md="5" lg="5">
-                              <v-text-field
-                                v-model="formdata.TA_AKHIR"
-                                density="compact"        
-                                label="TA AKHIR PERIODE"
-                                variant="outlined"
-                                prepend-inner-icon="mdi-calendar"
-                                hint="Masukan tahun akhir periode rpjmd"    
-                                :rules="rule_akhir_periode"                    
-                              />
-                            </v-col>
-                          </v-row>
-                          <v-text-field
-                            v-model="formdata.NamaPeriode"
+                        <v-card-text>
+                          <v-textarea
+                            v-model="formdata.Nm_RpjmdVisi"
+                            rows="1"
                             density="compact"        
-                            label="PERIODE"
+                            label="NAMA VISI"
                             variant="outlined"
-                            prepend-inner-icon="mdi-calendar"
-                            hint="Masukan nama periode rpjmd"
-                            :rules="rule_nama_periode"
-                          />
+                            prepend-inner-icon="mdi-graph"
+                            hint="Masukan visi dalam rpjmd"
+                            :rules="rule_nama_visi"
+                            auto-grow
+                          />                          
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
@@ -149,33 +127,15 @@
                                 ID
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.PeriodeRPJMDID }}
+                                {{ formdata.RpjmdVisiID }}
                               </v-col>
                             </v-row>
                             <v-row tag="dl" class="text-body-2" no-gutters>
                               <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                PERIODE
+                                NAMA INDIKATOR
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.NamaPeriode }}
-                              </v-col>
-                            </v-row>
-                          </v-col>                        
-                          <v-col cols="auto" md="5" lg="5">
-                            <v-row tag="dl" class="text-body-2" no-gutters>
-                              <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                TAHUN AWAL
-                              </v-col>
-                              <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.TA_AWAL }}
-                              </v-col>
-                            </v-row>
-                            <v-row tag="dl" class="text-body-2" no-gutters>
-                              <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                TAHUN AKHIR
-                              </v-col>
-                              <v-col cols="auto" md="12" lg="12" tag="dt">
-                                {{ formdata.TA_AKHIR }}
+                                {{ formdata.Nm_RpjmdVisi }}
                               </v-col>
                             </v-row>
                           </v-col>
@@ -198,17 +158,11 @@
               </template>
               <template v-slot:item.no="{ index }">
                 {{ (indexOffset + index) + 1 }}
-              </template>
-              <template v-slot:item.TA_AWAL="{ item }">
-                {{ item.TA_AWAL }}
-              </template>
-              <template v-slot:item.TA_AKHIR="{ item }">
-                {{ item.TA_AKHIR }}
-              </template>
+              </template>              
               <template v-slot:item.actions="{ item }">
                 <v-icon                                
                   class="mr-2"
-                  v-tooltip:bottom="'Detail Periode RPJMD'"
+                  v-tooltip:bottom="'Detail Visi'"
                   @click.stop="viewItem(item)"
                   size="small"
                   color="primary"
@@ -217,7 +171,7 @@
                 </v-icon>
                 <v-icon
                   class="mr-2"
-                  v-tooltip:bottom="'Ubah Periode RPJMD'"
+                  v-tooltip:bottom="'Ubah Visi'"
                   @click.stop="editItem(item)"
                   size="small"
                   color="primary"
@@ -225,7 +179,7 @@
                   mdi-pencil
                 </v-icon>
                 <v-icon
-                  v-tooltip:bottom="'Hapus Periode RPJMD'"
+                  v-tooltip:bottom="'Hapus Visi'"
                   @click.stop="deleteItem(item)"
                   size="small"
                   color="error"
@@ -236,7 +190,7 @@
               <template v-slot:expanded-row="{ columns, item }">
                 <tr class="bg-grey-lighten-4">
                   <td :colspan="columns.length" class="text-center">
-                    <span class="font-weight-bold">ID: </span> {{ item.PeriodeRPJMDID }} 
+                    <span class="font-weight-bold">ID: </span> {{ item.RpjmdVisiID }} 
                     <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
                   </td>
                 </tr>
@@ -257,7 +211,7 @@
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'DMasterPeriodeRPJMD',
+    name: 'DMasterVisi',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -271,10 +225,10 @@
           href: '#',
         },
         {
-          title: 'PERIODE RPJMD',
+          title: 'VISI',
           disabled: true,
           href: '#',
-        },        
+        },
       ]
     },
     data: () => ({
@@ -297,29 +251,13 @@
           },
         },
         {
-          title: 'PERIODE',
-          key: 'NamaPeriode',
+          title: 'NAMA',
+          key: 'Nm_RpjmdVisi',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
-        },
-        {
-          title: 'AWAL PERIODE',
-          key: 'TA_AWAL',
-          align: 'start',
-          headerProps: {
-            class: 'font-weight-bold',
-          },
-        },              
-        {
-          title: 'AKHIR PERIODE',
-          key: 'TA_AKHIR',
-          align: 'start',
-          headerProps: {
-            class: 'font-weight-bold',
-          },
-        },              
+        },                
         {
           title: "AKSI",
           key: "actions",
@@ -329,39 +267,30 @@
             class: 'font-weight-bold',
           },
         },
-      ],      
+      ],
       //dialog
       dialogfrm: false,
       dialogdetailitem: false,
       //form data
       form_valid: true,      
       formdata: {
-        PeriodeRPJMDID: null,
-        NamaPeriode: null,
-        TA_AWAL: null,
-        TA_AKHIR: null,        
+        RpjmdVisiID: null,
+        Nm_RpjmdVisi: null,        
         created_at: null,
         updated_at: null,
       },
       formdefault: {
+        RpjmdVisiID: null,
         PeriodeRPJMDID: null,
-        NamaPeriode: null,
-        TA_AWAL: false,
-        TA_AKHIR: false,        
+        Nm_RpjmdVisi: null,        
+        TA_AWAL: null,
+        TA_AKHIR: null,
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_awal_periode: [
-        value => !!value || "Mohon untuk di isi tahun awal periode dari RPJMD !!!",
-        value => /^[0-9]+$/.test(value) || 'Tahun awal periode RPJMD hanya boleh angka',
-      ],      
-      rule_akhir_periode: [
-        value => !!value || "Mohon untuk di isi tahun akhir periode dari RPJMD !!!",
-        value => /^[0-9]+$/.test(value) || 'Tahun akhir periode RPJMD hanya boleh angka',
-      ],      
-      rule_nama_periode: [
-        value => !!value || "Mohon untuk di isi nama periode dari RPJMD !!!",
+      rule_nama_visi: [
+        value => !!value || "Mohon untuk di isi nama visi dari RPJMD !!!",
       ],      
       editedIndex: -1,
       //pinia
@@ -376,19 +305,19 @@
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'TA_AWAL',
+              'key': 'Nm_RpjmdVisi',
               'order': 'asc'
             },
           ]
         }
-        
+
         await this.$ajax
           .post(
-            "/rpjmd/periode",
+            "/rpjmd/visi",
             {
               sortBy: sortBy,
               offset: offset,
-              limit: itemsPerPage,
+              limit: itemsPerPage,              
             },
             {
               headers: {
@@ -410,9 +339,7 @@
       editItem(item) {
         this.editedIndex = this.datatable.indexOf(item)
         this.formdata = Object.assign({}, item)
-        this.dialogfrm = true
-        this.formdata.TA_AWAL = this.formdata.TA_AWAL
-        this.formdata.TA_AKHIR = this.formdata.TA_AKHIR        
+        this.dialogfrm = true        
       },
       async save() {
         const { valid } = await this.$refs.frmdata.validate()
@@ -422,12 +349,11 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/rpjmd/periode/' + this.formdata.PeriodeRPJMDID,
+                '/rpjmd/visi/' + this.formdata.RpjmdVisiID,
                 {
                   _method: "PUT",
-                  NamaPeriode: this.formdata.NamaPeriode,
-                  TA_AWAL: this.formdata.TA_AWAL,
-                  TA_AKHIR: this.formdata.TA_AKHIR,
+                  PeriodeRPJMDID: this.formdata.PeriodeRPJMDID,
+                  Nm_RpjmdVisi: this.formdata.Nm_RpjmdVisi,                  
                 },
                 {
                   headers: {
@@ -445,11 +371,10 @@
           } else {
             this.$ajax
               .post(
-                '/rpjmd/periode/store',
+                '/rpjmd/visi/store',
                 {
-                  NamaPeriode: this.formdata.NamaPeriode,
-                  TA_AWAL: this.formdata.TA_AWAL,
-                  TA_AKHIR: this.formdata.TA_AKHIR,
+                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+                  Nm_RpjmdVisi: this.formdata.Nm_RpjmdVisi,                  
                 },
                 {
                   headers: {
@@ -472,7 +397,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.PeriodeRPJMDID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdVisiID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -483,7 +408,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/periode/' + item.PeriodeRPJMDID,
+                  '/rpjmd/visi/' + item.RpjmdVisiID,
                   {
                     _method: 'DELETE',
                   },
@@ -522,22 +447,9 @@
     },
     computed: {
       formTitle() {
-        return this.editedIndex === -1 ? 'TAMBAH INDIKATOR' : 'UBAH INDIKATOR'
-      },
-      searchTrigger () {
-        if (this.search.length >= 3) {
-          return this.search
-        }
-      },
-    },
-    watch: {
-      name () {
-        this.search = String(Date.now())
-      },
-      calories () {
-        this.search = String(Date.now())
-      },
-    },
+        return this.editedIndex === -1 ? 'TAMBAH VISI' : 'UBAH VISI'
+      },      
+    },    
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,

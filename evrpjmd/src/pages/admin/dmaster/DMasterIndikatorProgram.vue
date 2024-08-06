@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        INDIKATOR KINERJA
+        INDIKATOR PROGRAM
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola indikator kinerja untuk IKK dan IKU.
+          Halaman ini digunakan untuk mengelola indikator program untuk IKK dan IKU.
         </v-alert>
       </template>      
     </v-page-header>
@@ -26,7 +26,7 @@
           <v-card>
             <v-card-title class="d-flex align-center pe-2">
               <v-icon icon="mdi-graph"></v-icon> &nbsp;
-              DAFTAR INDIKATOR KINERJA
+              DAFTAR INDIKATOR PROGRAM
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="search"
@@ -262,7 +262,7 @@
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'DMasterIndikatorKinerja',
+    name: 'DMasterIndikatorProgram',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -276,10 +276,10 @@
           href: '#',
         },
         {
-          title: 'INDIKATOR KINERJA',
+          title: 'INDIKATOR PROGRAM',
           disabled: true,
           href: '#',
-        },        
+        },
       ]
     },
     data: () => ({
@@ -324,7 +324,7 @@
           headerProps: {
             class: 'font-weight-bold',
           },
-        },        
+        },
         {
           title: "AKSI",
           key: "actions",
@@ -343,17 +343,23 @@
       form_valid: true,      
       formdata: {
         IndikatorKinerjaID: null,
+        PeriodeRPJMDID: null,
         NamaIndikator: null,
         is_iku: false,
-        is_ikk: false,        
+        is_ikk: false,
+        TA_AWAL: null,
+        TA_AKHIR: null,
         created_at: null,
         updated_at: null,
       },
       formdefault: {
         IndikatorKinerjaID: null,
+        PeriodeRPJMDID: null,
         NamaIndikator: null,
         is_iku: false,
-        is_ikk: false,        
+        is_ikk: false,
+        TA_AWAL: null,
+        TA_AKHIR: null,
         created_at: null,
         updated_at: null,
       },
@@ -379,10 +385,10 @@
             },
           ]
         }
-        
+
         await this.$ajax
           .post(
-            "/dmaster/kodefikasi/indikatorkinerja",
+            "/rpjmd/indikatorprogram",
             {
               sortBy: sortBy,
               offset: offset,
@@ -421,9 +427,10 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/dmaster/kodefikasi/indikatorkinerja/' + this.formdata.IndikatorKinerjaID,
+                '/rpjmd/indikatorprogram/' + this.formdata.IndikatorKinerjaID,
                 {
                   _method: "PUT",
+                  PeriodeRPJMDID: this.formdata.PeriodeRPJMDID,
                   NamaIndikator: this.formdata.NamaIndikator,
                   is_iku: this.formdata.is_iku == true ? 1 : 0,
                   is_ikk: this.formdata.is_ikk == true ? 1 : 0,
@@ -444,8 +451,9 @@
           } else {
             this.$ajax
               .post(
-                '/dmaster/kodefikasi/indikatorkinerja/store',
+                '/rpjmd/indikatorprogram/store',
                 {
+                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                   NamaIndikator: this.formdata.NamaIndikator,
                   is_iku: this.formdata.is_iku == true ? 1 : 0,
                   is_ikk: this.formdata.is_ikk == true ? 1 : 0,
@@ -482,7 +490,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/dmaster/kodefikasi/indikatorkinerja/' + item.IndikatorKinerjaID,
+                  '/rpjmd/indikatorprogram/' + item.IndikatorKinerjaID,
                   {
                     _method: 'DELETE',
                   },
@@ -527,14 +535,6 @@
         if (this.search.length >= 3) {
           return this.search
         }
-      },
-    },
-    watch: {
-      name () {
-        this.search = String(Date.now())
-      },
-      calories () {
-        this.search = String(Date.now())
       },
     },
     components: {

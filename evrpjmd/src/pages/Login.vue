@@ -49,6 +49,8 @@
             label="Tahun Evaluasi"
             variant="outlined"
             prepend-inner-icon="mdi-calendar"
+            item-value="PeriodeRPJMDID"
+            item-title="NamaPeriode"
             :rules="rule_periode_rpjmd"
             return-object
           />
@@ -103,15 +105,9 @@
     methods: {
       async initialize() {
         await this.$ajax
-          .post("/dmaster/perioderpjmd")
-          .then(({ data }) => {
-            var daftar_ = data.payload.data
-            daftar_.forEach(element => {
-              this.daftar_periode.push({
-                title: element.NamaPeriode,
-                value: element.PeriodeRPJMDID,
-              })
-            });
+          .post("/rpjmd/periode")
+          .then(({ data }) => {            
+            this.daftar_periode = data.payload.data
           })
       },
       async doLogin() {

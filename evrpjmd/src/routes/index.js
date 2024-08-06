@@ -36,14 +36,23 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterPeriodeRPJMD.vue'),
   },
-  // admin - dmaster indikator kinerja
+  // admin - dmaster indikator program
   {
-    path: '/admin/dmaster/indikatorkinerja',
+    path: '/admin/dmaster/indikatorprogram',
     name: 'DMasterIndikatorKinerja',
     meta: {
-      title: 'DATA MASTER - INDIKATOR KINERJA',
+      title: 'DATA MASTER - INDIKATOR PROGRAM',
     },
-    component: () => import('@/pages/admin/dmaster/DMasterIndikatorKinerja.vue'),
+    component: () => import('@/pages/admin/dmaster/DMasterIndikatorProgram.vue'),
+  },
+  // admin - dmaster visi
+  {
+    path: '/admin/dmaster/visi',
+    name: 'DMasterVisi',
+    meta: {
+      title: 'DATA MASTER - VISI',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterVisi.vue'),
   },
   // other page
   {
