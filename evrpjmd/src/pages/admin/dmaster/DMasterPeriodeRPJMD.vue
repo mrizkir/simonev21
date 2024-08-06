@@ -292,6 +292,7 @@
           align: 'start',
           sortable: false,
           key: 'no',
+          width: 70,
           headerProps: {
             class: 'font-weight-bold',
           },

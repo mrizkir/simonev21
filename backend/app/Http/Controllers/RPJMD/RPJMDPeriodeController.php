@@ -129,6 +129,20 @@ class RPJMDPeriodeController extends Controller
       $periode->TA_AKHIR = $request->input('TA_AKHIR');
       $periode->save();
 
+      \DB::table('tmRPJMDIndikatorKinerja')
+      ->where('PeriodeRPJMDID', $periode->PeriodeRPJMDID)
+      ->update([
+        'TA_AWAL' => $periode->TA_AWAL,
+        'TA_AKHIR' => $periode->TA_AKHIR,
+      ]);
+
+      \DB::table('tmRPJMDVisi')
+      ->where('PeriodeRPJMDID', $periode->PeriodeRPJMDID)
+      ->update([
+        'TA_AWAL' => $periode->TA_AWAL,
+        'TA_AKHIR' => $periode->TA_AKHIR,
+      ]);
+
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
@@ -157,6 +171,14 @@ class RPJMDPeriodeController extends Controller
         'status' => 0,
         'pid' => 'fetchdata',
         'message' => ["Periode RPJMD dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else if($periode->indikatorprogram->count('PeriodeRPJMDID') > 0)
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["Periode RPJMD tidak bisa dihapus karena memiliki record di indikator program"]
       ], 422); 
     }
     else

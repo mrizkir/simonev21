@@ -132,7 +132,7 @@
                             </v-row>
                             <v-row tag="dl" class="text-body-2" no-gutters>
                               <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                                NAMA INDIKATOR
+                                NAMA VISI
                               </v-col>
                               <v-col cols="auto" md="12" lg="12" tag="dt">
                                 {{ formdata.Nm_RpjmdVisi }}
@@ -246,6 +246,7 @@
           align: 'start',
           sortable: false,
           key: 'no',
+          width: 70,
           headerProps: {
             class: 'font-weight-bold',
           },
@@ -275,7 +276,10 @@
       form_valid: true,      
       formdata: {
         RpjmdVisiID: null,
+        PeriodeRPJMDID: null,
         Nm_RpjmdVisi: null,        
+        TA_AWAL: null,
+        TA_AKHIR: null,
         created_at: null,
         updated_at: null,
       },

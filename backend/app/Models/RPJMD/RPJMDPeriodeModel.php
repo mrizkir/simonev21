@@ -40,4 +40,14 @@ class RPJMDPeriodeModel extends Model {
    * @var string
    */
   public $timestamps = true;
+
+  public function indikatorprogram()
+  {
+    return $this->hasMany('App\Models\RPJMD\RPJMDIndikatorProgramModel', 'PeriodeRPJMDID', 'PeriodeRPJMDID');
+  }
+
+  public function visi()
+  {
+    return $this->hasMany('App\Models\RPJMD\RPJMDVisiModel', 'PeriodeRPJMDID', 'PeriodeRPJMDID');
+  }
 }

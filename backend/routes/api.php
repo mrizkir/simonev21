@@ -207,6 +207,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/rpjmd/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@store','as'=>'rpjmd-indikator-program.store']);
   $router->put('/rpjmd/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@update','as'=>'rpjmd-indikator-program.update']);
   $router->delete('/rpjmd/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@destroy','as'=>'rpjmd-indikator-program.destroy']);
+  
+  //rpjmd - visi 
+  $router->post('/rpjmd/visi', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDVisiController@index','as'=>'rpjmd-visi.index']);
+  $router->post('/rpjmd/visi/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDVisiController@store','as'=>'rpjmd-visi.store']);
+  $router->put('/rpjmd/visi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDVisiController@update','as'=>'rpjmd-visi.update']);
+  $router->delete('/rpjmd/visi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDVisiController@destroy','as'=>'rpjmd-visi.destroy']);
 
 
   //renja murni
