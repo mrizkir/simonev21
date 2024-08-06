@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models\DMaster;
+namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PeriodeRPJMDModel extends Model {    
+class RPJMDPeriodeModel extends Model {    
   /**
    * nama tabel model ini.
    *
    * @var string
    */
-  protected $table = 'tmPeriodeRPJMD';
+  protected $table = 'tmRPJMDPeriode';
   /**
    * primary key tabel ini.
    *

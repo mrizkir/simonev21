@@ -82,9 +82,7 @@ class PermissionsTableSeeder extends Seeder
       'updated_at'=>Carbon::now()
     ]);
 
-    $modules = [            
-      'DMASTER-KODEFIKASI-INDIKATOR-KINERJA',
-
+    $modules = [
       'DMASTER-KODEFIKASI-URUSAN',
       'DMASTER-KODEFIKASI-BIDANG-URUSAN',
       'DMASTER-KODEFIKASI-PROGRAM',

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\DMaster;
+namespace App\Http\Controllers\RPJMD;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMaster\PeriodeRPJMDModel;
+use App\Models\RPJMD\RPJMDPeriodeModel;
 use Illuminate\Http\Request;
 
 use Ramsey\Uuid\Uuid;
 
-class PeriodeRPJMDController extends Controller
+class RPJMDPeriodeController extends Controller
 {    
   /**
    * mendapatkan daftar seluruh ASN
@@ -17,9 +17,9 @@ class PeriodeRPJMDController extends Controller
    */
   public function index(Request $request)
   {
-    $totalRecords = PeriodeRPJMDModel::count('PeriodeRPJMDID');
+    $totalRecords = RPJMDPeriodeModel::count('PeriodeRPJMDID');
     
-    $data = PeriodeRPJMDModel::select(\DB::raw('*'));
+    $data = RPJMDPeriodeModel::select(\DB::raw('*'));
     
     if($request->filled('offset'))
     {
@@ -81,7 +81,7 @@ class PeriodeRPJMDController extends Controller
     ]);
     
 
-    $periode = PeriodeRPJMDModel::create ([
+    $periode = RPJMDPeriodeModel::create ([
       'PeriodeRPJMDID'=> Uuid::uuid4()->toString(),
       'NamaPeriode' => $request->input('NamaPeriode'),
       'TA_AWAL' => $request->input('TA_AWAL'),
@@ -105,7 +105,7 @@ class PeriodeRPJMDController extends Controller
   {        
     $this->hasPermissionTo('DMASTER-TA_DESTROY');
 
-    $periode = PeriodeRPJMDModel::find($id);
+    $periode = RPJMDPeriodeModel::find($id);
 
     if(is_null($periode))
     {
@@ -149,7 +149,7 @@ class PeriodeRPJMDController extends Controller
   {   
     $this->hasPermissionTo('DMASTER-TA_DESTROY');
 
-    $periode = PeriodeRPJMDModel::find($id);
+    $periode = RPJMDPeriodeModel::find($id);
 
     if(is_null($periode))
     {

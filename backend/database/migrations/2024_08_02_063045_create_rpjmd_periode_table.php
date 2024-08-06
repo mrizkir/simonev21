@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePeriodeRpjmdTable extends Migration
+class CreateRpjmdPeriodeTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePeriodeRpjmdTable extends Migration
    */
   public function up()
   {
-    Schema::create('tmPeriodeRPJMD', function (Blueprint $table) {
+    Schema::create('tmRPJMDPeriode', function (Blueprint $table) {
       $table->uuid('PeriodeRPJMDID');
       $table->year('TA_AWAL');
       $table->year('TA_AKHIR');
@@ -32,6 +32,6 @@ class CreatePeriodeRpjmdTable extends Migration
    */
   public function down()
   {        
-    Schema::dropIfExists('tmPeriodeRPJMD');
+    Schema::dropIfExists('tmRPJMDPeriode');
   }
 }

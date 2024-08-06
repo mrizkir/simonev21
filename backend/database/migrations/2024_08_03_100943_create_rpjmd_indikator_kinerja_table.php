@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIndikatorKinerjaTable extends Migration
+class CreateRPJMDIndikatorKinerjaTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,15 +13,18 @@ class CreateIndikatorKinerjaTable extends Migration
    */
   public function up()
   {
-    Schema::create('tmIndikatorKinerja', function (Blueprint $table) {
+    Schema::create('tmRPJMDIndikatorKinerja', function (Blueprint $table) {
       $table->uuid('IndikatorKinerjaID');
+      $table->uuid('PeriodeRPJMDID');
       $table->text('NamaIndikator');
       $table->boolean('is_iku')->default(0);
-      $table->boolean('is_ikk')->default(0);                  
+      $table->boolean('is_ikk')->default(0);
+      $table->year('TA_AWAL');
+      $table->year('TA_AKHIR');                    
       $table->timestamps();
 
       $table->primary('IndikatorKinerjaID');
-      
+      $table->index('PeriodeRPJMDID');                
     });       
   }
 
@@ -32,6 +35,6 @@ class CreateIndikatorKinerjaTable extends Migration
    */
   public function down()
   {        
-    Schema::dropIfExists('tmIndikatorKinerja');
+    Schema::dropIfExists('tmRPJMDIndikatorKinerja');
   }
 }

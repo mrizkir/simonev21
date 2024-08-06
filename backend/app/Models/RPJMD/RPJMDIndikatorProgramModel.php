@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models\DMaster;
+namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IndikatorKinerjaModel extends Model {    
+class RPJMDIndikatorProgramModel extends Model {    
 	 /**
 	 * nama tabel model ini.
 	 *
 	 * @var string
 	 */
-	protected $table = 'tmIndikatorKinerja';
+	protected $table = 'tmRPJMDIndikatorKinerja';
 	/**
 	 * primary key tabel ini.
 	 *
@@ -24,9 +24,12 @@ class IndikatorKinerjaModel extends Model {
 	 */
 	protected $fillable = [
 		'IndikatorKinerjaID',
+		'PeriodeRPJMDID',
     'NamaIndikator',
     'is_iku',
-    'is_ikk'
+    'is_ikk',
+    'TA_AWAL',
+    'TA_AKHIR',
 	];
 	/**
 	 * enable auto_increment.

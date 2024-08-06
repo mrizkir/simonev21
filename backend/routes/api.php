@@ -20,7 +20,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
   $router->post('/dmaster', ['uses'=>'DMaster\DMasterController@index','as'=>'dmaster.index']);
 
   //datamaster - periode rpjmd  
-  $router->post('/dmaster/perioderpjmd', ['uses'=>'DMaster\PeriodeRPJMDController@index','as'=>'periode-rpjmd.index']);
+  $router->post('/rpjmd/periode', ['uses'=>'RPJMD\RPJMDPeriodeController@index','as'=>'rpjmd-periode.index']);
 
   //dmaster - provinsi
   $router->get('/dmaster/provinsi', ['uses'=>'DMaster\ProvinsiController@index','as'=>'provinsi.index']);
@@ -50,17 +50,6 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   //authentication	
   $router->get('/auth/refresh', ['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
   $router->get('/auth/me', ['uses'=>'AuthController@me','as'=>'auth.me']);
-
-  //datamaster - periode rpjmd 
-  $router->post('/dmaster/perioderpjmd/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@store','as'=>'periode-rpjmd.store']);
-  $router->put('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@update','as'=>'periode-rpjmd.update']);
-  $router->delete('/dmaster/perioderpjmd/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\PeriodeRPJMDController@destroy','as'=>'periode-rpjmd.destroy']);
-  
-  //datamaster - kodefikasi - indikator kinerja  
-  $router->post('/dmaster/kodefikasi/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@index','as'=>'kodefikasi-indikator-kinerja.index']);
-  $router->post('/dmaster/kodefikasi/indikatorkinerja/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@store','as'=>'kodefikasi-indikator-kinerja.store']);
-  $router->put('/dmaster/kodefikasi/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@update','as'=>'kodefikasi-indikator-kinerja.update']);
-  $router->delete('/dmaster/kodefikasi/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiIndikatorKinerjaController@destroy','as'=>'kodefikasi-indikator-kinerja.destroy']);
 
   //data master - kodefikasi - urusan
   $router->post('/dmaster/kodefikasi/urusan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiUrusanController@index','as'=>'kodefikasi-urusan.index']);
@@ -207,6 +196,18 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/dmaster/jenispembangunan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@store','as'=>'jenispembangunan.store']);
   $router->put('/dmaster/jenispembangunan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@update','as'=>'jenispembangunan.update']);
   $router->delete('/dmaster/jenispembangunan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@destroy','as'=>'jenispembangunan.destroy']);
+
+  //rpjmd - periode rpjmd 
+  $router->post('/rpjmd/periode/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDPeriodeController@store','as'=>'rpjmd-periode.store']);
+  $router->put('/rpjmd/periode/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDPeriodeController@update','as'=>'rpjmd-periode.update']);
+  $router->delete('/rpjmd/periode/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDPeriodeController@destroy','as'=>'rpjmd-periode.destroy']);
+  
+  //rpjmd - indikator program  
+  $router->post('/rpjmd/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@index','as'=>'rpjmd-indikator-program.index']);
+  $router->post('/rpjmd/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@store','as'=>'rpjmd-indikator-program.store']);
+  $router->put('/rpjmd/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@update','as'=>'rpjmd-indikator-program.update']);
+  $router->delete('/rpjmd/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@destroy','as'=>'rpjmd-indikator-program.destroy']);
+
 
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);

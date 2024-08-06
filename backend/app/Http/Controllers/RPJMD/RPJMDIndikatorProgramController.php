@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\DMaster;
+namespace App\Http\Controllers\RPJMD;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMaster\IndikatorKinerjaModel;
+use App\Models\RPJMD\RPJMDIndikatorProgramModel;
+use App\Models\RPJMD\RPJMDPeriodeModel;
 use Illuminate\Http\Request;
 
 use Ramsey\Uuid\Uuid;
 
-class KodefikasiIndikatorKinerjaController extends Controller
+class RPJMDIndikatorProgramController extends Controller
 {    
   /**
-   * mendapatkan daftar seluruh ASN
+   * mendapatkan daftar seluruh indikator
    *
    * @return \Illuminate\Http\Response
    */
   public function index(Request $request)
   {
-    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_BROWSE');
+    $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
-    $totalRecords = IndikatorKinerjaModel::count('IndikatorKinerjaID');
+    $totalRecords = RPJMDIndikatorProgramModel::count('IndikatorKinerjaID');
     
-    $data = IndikatorKinerjaModel::select(\DB::raw('*'));
+    $data = RPJMDIndikatorProgramModel::select(\DB::raw('*'));
     
     if($request->filled('offset'))
     {
@@ -80,26 +81,32 @@ class KodefikasiIndikatorKinerjaController extends Controller
    */
   public function store(Request $request)
   {        
-    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_STORE');
+    $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_STORE');
 
     $this->validate($request, [      
+      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
       'NamaIndikator'=>'required',
       'is_iku'=>'required|in:0,1',
       'is_ikk'=>'required|in:0,1',
     ]);
-        
-    $indikator = IndikatorKinerjaModel::create ([
+    
+    $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
+
+    $indikator = RPJMDIndikatorProgramModel::create ([
       'IndikatorKinerjaID'=> Uuid::uuid4()->toString(),
+      'PeriodeRPJMDID' => $periode->PeriodeRPJMDID,
       'NamaIndikator' => $request->input('NamaIndikator'),
       'is_iku' => $request->input('is_iku'),
       'is_ikk' => $request->input('is_ikk'),
+      'TA_AWAL' => $periode->TA_AWAL,
+      'TA_AKHIR' => $periode->TA_AKHIR,
     ]);  
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
-      'payload'=>$indikator,                                    
-      'message'=>'Data Indikator Kinerja berhasil disimpan.'
+      'status' => 1,
+      'pid' => 'store',
+      'payload' => $indikator,                                    
+      'message' => 'Data Indikator Kinerja berhasil disimpan.'
     ], 200); 		
   }
   /**
@@ -110,9 +117,9 @@ class KodefikasiIndikatorKinerjaController extends Controller
    */
   public function update(Request $request, $id)
   {        
-    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_DESTROY');
+    $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
-    $indikator = IndikatorKinerjaModel::find($id);
+    $indikator = RPJMDIndikatorProgramModel::find($id);
 
     if(is_null($indikator))
     {
@@ -154,9 +161,9 @@ class KodefikasiIndikatorKinerjaController extends Controller
    */
   public function destroy(Request $request,$id)
   {   
-    $this->hasPermissionTo('DMASTER-KODEFIKASI-INDIKATOR-KINERJA_DESTROY');
+    $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
-    $indikator = IndikatorKinerjaModel::find($id);
+    $indikator = RPJMDIndikatorProgramModel::find($id);
 
     if(is_null($indikator))
     {
