@@ -54,6 +54,24 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterVisi.vue'),
   },
+  // admin - dmaster misi
+  {
+    path: '/admin/dmaster/misi',
+    name: 'DMasterMisi',
+    meta: {
+      title: 'DATA MASTER - MISI',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterMisi.vue'),
+  },
+  // admin - dmaster misi - tambah
+  {
+    path: '/admin/dmaster/misi/:RpjmdVisiID/manage',
+    name: 'DMasterMisiManage',
+    meta: {
+      title: 'DATA MASTER - MISI',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterMisiManage.vue'),
+  },
   // other page
   {
     path: '/404',

@@ -181,6 +181,14 @@ class RPJMDPeriodeController extends Controller
         'message' => ["Periode RPJMD tidak bisa dihapus karena memiliki record di indikator program"]
       ], 422); 
     }
+    else if($periode->visi->count('PeriodeRPJMDID') > 0)
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["Periode RPJMD tidak bisa dihapus karena memiliki record di visi"]
+      ], 422); 
+    }
     else
     {
       $periode->delete();

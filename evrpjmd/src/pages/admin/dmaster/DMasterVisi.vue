@@ -160,6 +160,16 @@
                 {{ (indexOffset + index) + 1 }}
               </template>              
               <template v-slot:item.actions="{ item }">
+                <v-btn                                
+                  class="mr-2"
+                  v-tooltip:bottom="'Tambah Misi'"
+                  :to="'/admin/dmaster/misi/' + item.RpjmdVisiID + '/manage'"
+                  size="small"
+                  color="primary"
+                  variant="text"
+                  icon="mdi-plus"
+                  density="compact"
+                />                 
                 <v-icon                                
                   class="mr-2"
                   v-tooltip:bottom="'Detail Visi'"
@@ -263,7 +273,7 @@
           title: "AKSI",
           key: "actions",
           sortable: false,
-          width: 110,
+          width: 130,
           headerProps: {
             class: 'font-weight-bold',
           },

@@ -99,42 +99,6 @@ class RPJMDVisiController extends Controller
       'message' => 'Data visi berhasil disimpan.'
     ], 200); 	
   }
-  
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-      $theme = \Auth::user()->theme;
-      $data = RPJMDVisiModel::findOrFail($id);
-      if (!is_null($data) )  
-      {
-          return view("pages.$theme.rpjmd.rpjmdvisi.show")->with(['page_active'=>'rpjmdvisi',
-                                                                  'data'=>$data
-                                                              ]);
-      }        
-  }
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-      $theme = \Auth::user()->theme;
-      
-      $data = RPJMDVisiModel::findOrFail($id);
-      if (!is_null($data) ) 
-      {
-          return view("pages.$theme.rpjmd.rpjmdvisi.edit")->with(['page_active'=>'rpjmdvisi',
-                                                                  'data'=>$data
-                                                              ]);
-      }        
-  }
   /**
    * Update the specified resource in storage.
    *

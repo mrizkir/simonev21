@@ -27,6 +27,7 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator_program" to="/admin/dmaster/indikatorprogram" link slim />
         <v-divider color="blue-lighten-3" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="VISI" value="visi" to="/admin/dmaster/visi" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="MISI" value="misi" to="/admin/dmaster/misi" link slim />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer
