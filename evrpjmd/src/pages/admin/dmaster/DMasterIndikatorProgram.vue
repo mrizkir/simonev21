@@ -82,7 +82,7 @@
                       <v-card>
                         <v-card-title>
                           <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                          <span class="text-h5">{{ formTitle }}</span>
+                          <span class="headline">{{ formTitle }}</span>
                         </v-card-title>
                         <v-card-text>
                           <v-textarea

@@ -71,7 +71,7 @@
                       <v-card>
                         <v-card-title>
                           <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                          <span class="text-h5">{{ formTitle }}</span>
+                          <span class="headline">{{ formTitle }}</span>
                         </v-card-title>
                         <v-card-text>
                           <v-textarea
@@ -270,8 +270,8 @@
           },
         },                
         {
-          title: "AKSI",
-          key: "actions",
+          title: 'AKSI',
+          key: 'actions',
           sortable: false,
           width: 130,
           headerProps: {
@@ -304,7 +304,7 @@
       },
       //form rules
       rule_nama_visi: [
-        value => !!value || "Mohon untuk di isi nama visi dari RPJMD !!!",
+        value => !!value || 'Mohon untuk di isi nama visi dari RPJMD !!!',
       ],      
       editedIndex: -1,
       //pinia
@@ -327,7 +327,7 @@
 
         await this.$ajax
           .post(
-            "/rpjmd/visi",
+            '/rpjmd/visi',
             {
               sortBy: sortBy,
               offset: offset,
@@ -365,7 +365,7 @@
               .post(
                 '/rpjmd/visi/' + this.formdata.RpjmdVisiID,
                 {
-                  _method: "PUT",
+                  _method: 'PUT',
                   PeriodeRPJMDID: this.formdata.PeriodeRPJMDID,
                   Nm_RpjmdVisi: this.formdata.Nm_RpjmdVisi,                  
                 },

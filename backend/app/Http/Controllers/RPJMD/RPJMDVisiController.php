@@ -67,6 +67,54 @@ class RPJMDVisiController extends Controller
     ], 200);  
 
   }
+  public function show(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-VISI_SHOW');
+
+    $visi = RPJMDVisiModel::find($id);
+
+    if(is_null($visi))
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'fetchdata',
+        'payload' => $visi,                                    
+        'message' => 'Data visi berhasil diperoleh.'
+      ], 200); 
+    }
+  }
+  public function misi(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-VISI_SHOW');
+
+    $visi = RPJMDVisiModel::find($id);
+
+    if(is_null($visi))
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'fetchdata',
+        'payload' => $visi->misi,                                    
+        'message' => 'Data misi berhasil diperoleh.'
+      ], 200); 
+    }
+  }
   /**
    * Store a newly created resource in storage.
    *

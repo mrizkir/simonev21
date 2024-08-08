@@ -41,5 +41,10 @@ class RPJMDVisiModel extends Model
    *
    * @var string
    */
-  public $timestamps = true;  
+  public $timestamps = true; 
+  
+  public function misi()
+  {
+    return $this->hasMany('App\Models\RPJMD\RPJMDMisiModel', 'RpjmdVisiID', 'RpjmdVisiID');
+  }
 }

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\RPJMD\RPJMDVisiModel;
 use App\Models\RPJMD\RPJMDMisiModel;
+
+use Ramsey\Uuid\Uuid;
 
 class RPJMDMisiController extends Controller 
 {    
@@ -100,25 +103,26 @@ class RPJMDMisiController extends Controller
     $this->hasPermissionTo('RPJMD-MISI_STORE');
 
     $this->validate($request, [      
-      'RpjmdVisiID'=>'required|exists:tmRPJMDVisi,RpjmdVisiID',
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'RpjmdVisiID'=>'required|exists:tmRPJMDVisi,RpjmdVisiID',      
       'Kd_RpjmdMisi'=>'required',      
-      'Nm_RpjmdVisi'=>'required',      
-    ]);     
-    
+      'Nm_RpjmdMisi'=>'required',      
+    ]);         
+
+    $visi = RPJMDVisiModel::find($request->input('RpjmdVisiID'));
+
     $misi = RPJMDMisiModel::create([
       'RpjmdVisiID'=> Uuid::uuid4()->toString(),
-      'PeriodeRPJMDID' => $request->input('PeriodeRPJMDID'),
+      'PeriodeRPJMDID' => $visi->PeriodeRPJMDID,
       'RpjmdVisiID' => $request->input('RpjmdVisiID'),      
       'Kd_RpjmdMisi' => $request->input('Kd_RpjmdMisi'),
-      'Nm_RpjmdVisi' => $request->input('Nm_RpjmdVisi'),      
+      'Nm_RpjmdMisi' => $request->input('Nm_RpjmdMisi'),      
     ]);        
     
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload' => $rpjmdvisi,                                    
-      'message' => 'Data visi berhasil disimpan.'
+      'payload' => $misi,                                    
+      'message' => 'Data misi berhasil disimpan.'
     ], 200); 	
   }
   
