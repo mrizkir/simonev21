@@ -82,7 +82,7 @@
                   hint="Masukan misi dari rpjmd"
                   :rules="rule_nama_misi"
                   auto-grow
-                />                                      
+                />
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>

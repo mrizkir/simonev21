@@ -108,7 +108,7 @@
                               <v-switch
                                 v-model="formdata.is_ikk"
                                 color="primary"
-                                label="Indikator Kinerja Khusus (IKK) Milik Bupati"
+                                label="Indikator Kinerja Kunci (IKK)"
                               />
                             </v-col>
                           </v-row>

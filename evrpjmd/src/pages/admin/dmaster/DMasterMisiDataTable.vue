@@ -47,7 +47,57 @@
                 max-width="600px"
                 persistent
               >
-
+                <v-form ref="frmdata" v-model="form_valid">
+                  <v-card>
+                    <v-card-title>
+                      <v-icon icon="mdi-pencil"></v-icon> &nbsp;
+                      <span class="headline">UBAH MISI</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-text-field
+                        v-model="formdata.Kd_RpjmdMisi"                  
+                        density="compact"        
+                        label="KODE MISI"
+                        variant="outlined"
+                        prepend-inner-icon="mdi-graph"
+                        hint="Masukan kode / nomor misi dari rpjmd"
+                        :rules="rule_kode_misi"
+                        auto-grow
+                      />    
+                      <v-textarea
+                        v-model="formdata.Nm_RpjmdMisi"
+                        rows="1"
+                        density="compact"        
+                        label="NAMA MISI"
+                        variant="outlined"
+                        prepend-inner-icon="mdi-graph"
+                        hint="Masukan misi dari rpjmd"
+                        :rules="rule_nama_misi"
+                        auto-grow
+                      />
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="orange-darken-1"
+                        @click.stop="closedialogfrm"
+                        prepend-icon="mdi-close"
+                        rounded="sm"
+                      >
+                        TUTUP
+                      </v-btn>
+                      <v-btn
+                        color="primary"
+                        @click.stop="save"
+                        rounded="sm"
+                        prepend-icon="mdi-content-save"
+                        :disabled="!form_valid || btnLoading"
+                      >
+                        SIMPAN
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-form>
               </v-dialog>
             </v-toolbar>
           </template>
@@ -246,6 +296,34 @@
       editItem(item) {        
         this.formdata = Object.assign({}, item)
         this.dialogfrm = true        
+      },
+      async save() {
+        const { valid } = await this.$refs.frmdata.validate()
+
+        if(valid) {
+          this.btnLoading = true
+          this.$ajax
+            .post(
+              '/rpjmd/misi/' + this.formdata.RpjmdMisiID,
+              {
+                _method: 'PUT',
+                Kd_RpjmdMisi: this.formdata.Kd_RpjmdMisi,
+                Nm_RpjmdMisi: this.formdata.Nm_RpjmdMisi,                  
+              },
+              {
+                headers: {
+                  Authorization: this.userStore.Token,
+                },
+              }
+            )
+            .then(() => {
+              this.closedialogfrm()
+              this.$router.go()
+            })
+            .catch(() => {
+              this.btnLoading = false
+            })
+        }
       },
       deleteItem(item) {
         this.$root.$confirm

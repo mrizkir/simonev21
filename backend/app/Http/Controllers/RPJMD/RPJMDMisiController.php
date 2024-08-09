@@ -58,6 +58,13 @@ class RPJMDMisiController extends Controller
       }
     }
 
+    if($request->filled('search'))
+    {
+      $search = $request->input('search');
+      $data = $data->where('Nm_RpjmdMisi', 'LIKE', "%$search%")
+      ->orWhere('Kd_RpjmdMisi', $search);
+    }
+
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
@@ -67,31 +74,7 @@ class RPJMDMisiController extends Controller
       ],
       'message' => 'Fetch data Visi berhasil diperoleh'
     ], 200);  
-  }
-  public function getkodemisi($id)
-  {
-    $Kd_PrioritasKab = RPJMDMisiModel::where('RpjmdVisiID',$id)->count('Kd_PrioritasKab')+1;
-    return response()->json(['success'=>true,'Kd_PrioritasKab'=>$Kd_PrioritasKab],200);
-  }  
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {        
-    $theme = \Auth::user()->theme;
-    $daftar_visi = \App\Models\RPJMD\RPJMDVisiModel::select(\DB::raw('"RpjmdVisiID","Nm_RpjmdVisi"'))
-                                ->get()
-                                ->pluck('Nm_RpjmdVisi','RpjmdVisiID')
-                                ->prepend('','')
-                                ->toArray();
-    
-    return view("pages.$theme.rpjmd.rpjmdmisi.create")->with(['page_active'=>'rpjmdmisi',
-                                  'daftar_visi'=>$daftar_visi,
-                                ]);  
-  }
-  
+  }    
   /**
    * Store a newly created resource in storage.
    *
@@ -127,51 +110,6 @@ class RPJMDMisiController extends Controller
   }
   
   /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-    $theme = \Auth::user()->theme;
-
-    $data = RPJMDMisiModel::findOrFail($id);
-    if (!is_null($data) )  
-    {
-      
-      return view("pages.$theme.rpjmd.rpjmdmisi.show")->with(['page_active'=>'rpjmdmisi',
-                                  'data'=>$data,
-                                ]);
-    }        
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    $theme = \Auth::user()->theme;
-    
-    $data = RPJMDMisiModel::findOrFail($id);
-    if (!is_null($data) ) 
-    {
-      $daftar_visi = \App\Models\RPJMD\RPJMDVisiModel::select(\DB::raw('"RpjmdVisiID","Nm_RpjmdVisi"'))
-                                ->get()
-                                ->pluck('Nm_RpjmdVisi','RpjmdVisiID')
-                                ->prepend('','')
-                                ->toArray();
-      return view("pages.$theme.rpjmd.rpjmdmisi.edit")->with(['page_active'=>'rpjmdmisi',
-                                  'data'=>$data,
-                                  'daftar_visi'=>$daftar_visi
-                                ]);
-    }        
-  }
-
-  /**
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
@@ -180,32 +118,31 @@ class RPJMDMisiController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $rpjmdmisi = RPJMDMisiModel::find($id);
-    $RpjmdVisiID=$request->input('RpjmdVisiID');
-    $this->validate($request, [
-      'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$rpjmdmisi->Kd_PrioritasKab,['where'=>['RpjmdVisiID','=',$RpjmdVisiID]]),
-            'required'
-          ],
-      'RpjmdVisiID'=>'required',
-      'Nm_PrioritasKab'=>'required|min:2'
-    ]);
-    
-    $rpjmdmisi->RpjmdVisiID = $RpjmdVisiID;
-    $rpjmdmisi->Kd_PrioritasKab = $request->input('Kd_PrioritasKab');
-    $rpjmdmisi->Nm_PrioritasKab = $request->input('Nm_PrioritasKab');
-    $rpjmdmisi->Descr = $request->input('Descr');
-    $rpjmdmisi->save();
+    $this->hasPermissionTo('RPJMD-MISI_UPDATE');
 
-    if ($request->ajax()) 
+    $misi = RPJMDMisiModel::find($id);
+
+    if(is_null($misi))
     {
-      return response()->json([
-        'success'=>true,
-        'message'=>'Data ini telah berhasil diubah.'
-      ]);
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
     }
     else
     {
-      return redirect(route('rpjmdmisi.show',['uuid'=>$rpjmdmisi->PrioritasKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+
+      $misi->Kd_RpjmdMisi = $request->input('Kd_RpjmdMisi');
+      $misi->Nm_RpjmdMisi = $request->input('Nm_RpjmdMisi');
+      $misi->save();
+      
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'update',
+        'payload' => $misi,                                    
+        'message' => 'Data misi berhasil disimpan.'
+      ], 200); 
     }
   }
 
