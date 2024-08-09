@@ -1,9 +1,6 @@
 <template>
   <v-front-layout>
-    <template v-slot:system-bar>
-      test
-    </template>
-    test
+    
   </v-front-layout>  
 </template>
 <script>

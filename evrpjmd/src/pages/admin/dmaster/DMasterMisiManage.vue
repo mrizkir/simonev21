@@ -21,7 +21,7 @@
       </template>      
     </v-page-header>
     <v-container fluid>
-      <v-row>
+      <v-row class="mb-4" no-gutters>
         <v-col cols="auto" md="12" lg="12">
           <v-card>
             <v-card-title>
@@ -53,7 +53,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row class="mb-4" no-gutters>
         <v-col cols="auto" md="12" lg="12">
           <v-form ref="frmdata" v-model="form_valid">
             <v-card>
@@ -69,7 +69,7 @@
                   variant="outlined"
                   prepend-inner-icon="mdi-graph"
                   hint="Masukan kode / nomor misi dari rpjmd"
-                  :rules="rule_nama_misi"
+                  :rules="rule_kode_misi"
                   auto-grow
                 />    
                 <v-textarea
@@ -165,25 +165,16 @@
         updated_at: null,
       },
       //form rules
-      rule_nama_visi: [
+      rule_kode_misi: [
+        value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',
+      ],
+      rule_nama_misi: [
         value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
     }),
-    methods: {
-      async fetchMisi() {
-        await this.$ajax
-          .get('/rpjmd/visi/' + this.RpjmdVisiID + '/misi', {
-              headers: {
-                Authorization: this.userStore.Token,
-              },
-            }
-          )
-          .then(({ data }) => {
-            console.log(data)         
-          })
-      },
+    methods: {      
       async fetchVisi() {
         await this.$ajax
           .get('/rpjmd/visi/' + this.RpjmdVisiID, {

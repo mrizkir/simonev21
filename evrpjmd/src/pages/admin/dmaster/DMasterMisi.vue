@@ -21,13 +21,14 @@
       </template>      
     </v-page-header>
     <v-container fluid>
-      
+      <v-misi-data-table />
     </v-container>
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
+  import dataTable from '@/pages/admin/dmaster/DMasterMisiDataTable.vue'
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
@@ -54,6 +55,7 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
+      'v-misi-data-table': dataTable,
     }
   }
 </script>

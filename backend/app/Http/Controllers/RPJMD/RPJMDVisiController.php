@@ -107,10 +107,56 @@ class RPJMDVisiController extends Controller
     }
     else
     {
+      $data = $visi->misi();
+
+      $totalRecords = $data->count('RpjmdMisiID');
+
+      if($request->filled('offset'))
+      {
+        $this->validate($request, [              
+          'offset'=>'required|numeric',      
+        ]);
+
+        $offset = $request->input('offset');
+        $data = $data->offset($offset);
+      }
+
+      if($request->filled('limit'))
+      {
+        $this->validate($request, [              
+          'limit'=>'required|numeric|gt:0',   
+        ]);
+
+        $limit = $request->input('limit');
+        $data = $data->limit($limit);
+      }
+
+      if($request->filled('sortBy'))
+      {
+        $sortBy = $request->input('sortBy');
+        if(is_array($sortBy))
+        {
+          foreach ($sortBy as $item)
+          {
+            $data = $data->orderBy($item['key'], $item['order']);
+          }
+        }
+      }
+
+      if($request->filled('search'))
+      {
+        $search = $request->input('search');
+        $data = $data->where('Nm_RpjmdMisi', 'LIKE', "%$search%")
+        ->orWhere('Kd_RpjmdMisi', $search);
+      }
+
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'payload' => $visi->misi,                                    
+        'payload' => [
+          'data' => $data->get(),
+          'totalRecords' => $totalRecords,
+        ],
         'message' => 'Data misi berhasil diperoleh.'
       ], 200); 
     }
@@ -209,6 +255,14 @@ class RPJMDVisiController extends Controller
         'status' => 0,
         'pid' => 'fetchdata',
         'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else if($visi->misi->count('RpjmdMisiID') > 0)
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Visi dengan dengan ($id) gagal dihapus karena masih terhubung ke Misi"]
       ], 422); 
     }
     else

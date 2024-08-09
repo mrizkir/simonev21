@@ -111,7 +111,7 @@ class RPJMDMisiController extends Controller
     $visi = RPJMDVisiModel::find($request->input('RpjmdVisiID'));
 
     $misi = RPJMDMisiModel::create([
-      'RpjmdVisiID'=> Uuid::uuid4()->toString(),
+      'RpjmdMisiID'=> Uuid::uuid4()->toString(),
       'PeriodeRPJMDID' => $visi->PeriodeRPJMDID,
       'RpjmdVisiID' => $request->input('RpjmdVisiID'),      
       'Kd_RpjmdMisi' => $request->input('Kd_RpjmdMisi'),
@@ -217,30 +217,35 @@ class RPJMDMisiController extends Controller
    */
   public function destroy(Request $request,$id)
   {
-    $theme = \Auth::user()->theme;
-    
-    $rpjmdmisi = RPJMDMisiModel::find($id);
-    $result=$rpjmdmisi->delete();
-    if ($request->ajax()) 
+    $this->hasPermissionTo('RPJMD-MISI_DESTROY');
+
+    $misi = RPJMDMisiModel::find($id);
+
+    if(is_null($misi))
     {
-      $currentpage=$this->getCurrentPageInsideSession('rpjmdmisi'); 
-      $data=$this->populateData($currentpage);
-      if ($currentpage > $data->lastPage())
-      {            
-        $data = $this->populateData($data->lastPage());
-      }
-      $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',
-                              'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
-                              'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                              'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
-                              'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
-                              'data'=>$data])->render();      
-      
-      return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
     }
+    // else if($visi->misi->count('RpjmdMisiID') > 0)
+    // {
+    //   return Response()->json([
+    //     'status' => 0,
+    //     'pid' => 'fetchdata',
+    //     'message' => ["RPJMD Misi dengan dengan ($id) gagal dihapus karena masih terhubung ke Misi"]
+    //   ], 422); 
+    // }
     else
     {
-      return redirect(route('rpjmdmisi.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-    }        
+      $misi->delete();
+
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'destroy',                
+        'message' => "Data RPJMD Misi dengan ID ($id) berhasil dihapus"
+      ], 200);
+    }    
   }
 }
