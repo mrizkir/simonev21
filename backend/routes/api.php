@@ -219,6 +219,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   //rpjmd - misi 
   $router->post('/rpjmd/misi', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDMisiController@index','as'=>'rpjmd-misi.index']);
   $router->post('/rpjmd/misi/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@store','as'=>'rpjmd-misi.store']);
+  $router->get('/rpjmd/misi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@show','as'=>'rpjmd-misi.show']);
+  $router->post('/rpjmd/misi/{id}/tujuan', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@tujuan','as'=>'rpjmd-misi.tujuan']);
   $router->put('/rpjmd/misi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@update','as'=>'rpjmd-misi.update']);
   $router->delete('/rpjmd/misi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@destroy','as'=>'rpjmd-misi.destroy']);
 

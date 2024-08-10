@@ -391,6 +391,7 @@
           .post(
             "/rpjmd/indikatorprogram",
             {
+              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
               sortBy: sortBy,
               offset: offset,
               limit: itemsPerPage,

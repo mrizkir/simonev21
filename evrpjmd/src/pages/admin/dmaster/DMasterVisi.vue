@@ -160,7 +160,7 @@
                 {{ (indexOffset + index) + 1 }}
               </template>              
               <template v-slot:item.actions="{ item }">
-                <v-btn                                
+                <v-btn
                   class="mr-2"
                   v-tooltip:bottom="'Tambah Misi'"
                   :to="'/admin/dmaster/misi/' + item.RpjmdVisiID + '/manage'"
@@ -169,7 +169,7 @@
                   variant="text"
                   icon="mdi-plus"
                   density="compact"
-                />                 
+                />
                 <v-icon                                
                   class="mr-2"
                   v-tooltip:bottom="'Detail Visi'"
@@ -329,6 +329,7 @@
           .post(
             '/rpjmd/visi',
             {
+              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
               sortBy: sortBy,
               offset: offset,
               limit: itemsPerPage,              

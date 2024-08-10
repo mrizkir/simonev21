@@ -20,9 +20,16 @@ class RPJMDIndikatorProgramController extends Controller
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
-    $totalRecords = RPJMDIndikatorProgramModel::count('IndikatorKinerjaID');
+    $this->validate($request, [      
+      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+    ]);
+
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
+
+    $totalRecords = RPJMDIndikatorProgramModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('IndikatorKinerjaID');
     
-    $data = RPJMDIndikatorProgramModel::select(\DB::raw('*'));
+    $data = RPJMDIndikatorProgramModel::select(\DB::raw('*'))
+    ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
     
     if($request->filled('offset'))
     {

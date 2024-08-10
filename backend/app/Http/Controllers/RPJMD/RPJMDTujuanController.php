@@ -4,31 +4,33 @@ namespace App\Http\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\RPJMD\RPJMDVisiModel;
-use App\Models\RPJMD\RPJMDPeriodeModel;
+
+use App\Models\RPJMD\RPJMDMisiModel;
+use App\Models\RPJMD\RPJMDTujuanModel;
 
 use Ramsey\Uuid\Uuid;
 
-class RPJMDVisiController extends Controller 
-{
+class RPJMDMisiController extends Controller 
+{    
+  
   /**
    * Show the form for creating a new resource.
    *
    * @return \Illuminate\Http\Response
    */
   public function index(Request $request)
-  {
-    $this->hasPermissionTo('RPJMD-VISI_BROWSE');
+  {                
+    $this->hasPermissionTo('RPJMD-TUJUAN_BROWSE');
     
     $this->validate($request, [      
       'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
-
-    $totalRecords = RPJMDVisiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdVisiID');
     
-    $data = RPJMDVisiModel::select(\DB::raw('*'))
+    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
+    
+    $data = RPJMDTujuanModel::select(\DB::raw('*'))
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
     
     if($request->filled('offset'))
@@ -63,6 +65,13 @@ class RPJMDVisiController extends Controller
       }
     }
 
+    if($request->filled('search'))
+    {
+      $search = $request->input('search');
+      $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
+      ->orWhere('Kd_RpjmdTujuan', $search);
+    }
+
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
@@ -72,20 +81,52 @@ class RPJMDVisiController extends Controller
       ],
       'message' => 'Fetch data Visi berhasil diperoleh'
     ], 200);  
+  }    
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(Request $request)
+  {
+    $this->hasPermissionTo('RPJMD-TUJUAN_STORE');
 
+    $this->validate($request, [      
+      'RpjmdMisiID'=>'required|exists:tmRPJMDVisi,RpjmdMisiID',      
+      'Kd_RpjmdTujuan'=>'required',      
+      'Nm_RpjmdTujuan'=>'required',      
+    ]);         
+
+    $misi = RPJMDMisiModel::find($request->input('RpjmdMisiID'));
+
+    $tujuan = RPJMDTujuanModel::create([
+      'RpjmdMisiID'=> Uuid::uuid4()->toString(),
+      'PeriodeRPJMDID' => $misi->PeriodeRPJMDID,
+      'RpjmdMisiID' => $request->input('RpjmdMisiID'),      
+      'Kd_RpjmdTujuan' => $request->input('Kd_RpjmdTujuan'),
+      'Nm_RpjmdTujuan' => $request->input('Nm_RpjmdTujuan'),      
+    ]);        
+    
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'store',
+      'payload' => $tujuan,                                    
+      'message' => 'Data tujuan berhasil disimpan.'
+    ], 200); 	
   }
   public function show(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-VISI_SHOW');
+    $this->hasPermissionTo('RPJMD-TUJUAN_SHOW');
 
-    $visi = RPJMDVisiModel::find($id);
+    $tujuan = RPJMDTujuanModel::find($id);
 
-    if(is_null($visi))
+    if(is_null($tujuan))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
@@ -93,30 +134,30 @@ class RPJMDVisiController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'payload' => $visi,                                    
-        'message' => 'Data visi berhasil diperoleh.'
+        'payload' => $tujuan,                                    
+        'message' => 'Data Misi berhasil diperoleh.'
       ], 200); 
     }
   }
-  public function misi(Request $request, $id)
+  public function tujuan(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-VISI_SHOW');
+    $this->hasPermissionTo('RPJMD-TUJUAN_SHOW');
 
-    $visi = RPJMDVisiModel::find($id);
+    $tujuan = RPJMDTujuanModel::find($id);
 
-    if(is_null($visi))
+    if(is_null($tujuan))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $data = $visi->misi();
+      $data = $tujuan->tujuan();
 
-      $totalRecords = $data->count('RpjmdMisiID');
+      $totalRecords = $data->count('RpjmdTujuanID');
 
       if($request->filled('offset'))
       {
@@ -153,8 +194,8 @@ class RPJMDVisiController extends Controller
       if($request->filled('search'))
       {
         $search = $request->input('search');
-        $data = $data->where('Nm_RpjmdMisi', 'LIKE', "%$search%")
-        ->orWhere('Kd_RpjmdMisi', $search);
+        $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
+        ->orWhere('Kd_RpjmdTujuan', $search);
       }
 
       return Response()->json([
@@ -164,41 +205,9 @@ class RPJMDVisiController extends Controller
           'data' => $data->get(),
           'totalRecords' => $totalRecords,
         ],
-        'message' => 'Data misi berhasil diperoleh.'
+        'message' => 'Data tujuan berhasil diperoleh.'
       ], 200); 
     }
-  }
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    $this->hasPermissionTo('RPJMD-VISI_STORE');
-
-    $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
-      'Nm_RpjmdVisi'=>'required',      
-    ]);
-
-    $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
-
-    $rpjmdvisi = RPJMDVisiModel::create([
-      'RpjmdVisiID'=> Uuid::uuid4()->toString(),
-      'PeriodeRPJMDID' => $request->input('PeriodeRPJMDID'),
-      'Nm_RpjmdVisi' => $request->input('Nm_RpjmdVisi'),
-      'TA_AWAL' => $periode->TA_AWAL,
-      'TA_AKHIR' => $periode->TA_AKHIR,
-    ]);        
-    
-    return Response()->json([
-      'status' => 1,
-      'pid' => 'store',
-      'payload' => $rpjmdvisi,                                    
-      'message' => 'Data visi berhasil disimpan.'
-    ], 200); 	
   }
   /**
    * Update the specified resource in storage.
@@ -209,77 +218,70 @@ class RPJMDVisiController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-VISI_UPDATE');
+    $this->hasPermissionTo('RPJMD-TUJUAN_UPDATE');
 
-    $visi = RPJMDVisiModel::find($id);
+    $tujuan = RPJMDTujuanModel::find($id);
 
-    if(is_null($visi))
+    if(is_null($tujuan))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $this->validate($request, [      
-        'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
-        'Nm_RpjmdVisi'=>'required',      
-      ]);
-  
-      $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
-  
-      $visi->Nm_RpjmdVisi = $request->input('Nm_RpjmdVisi');      
-      $visi->TA_Awal = $periode->TA_Awal;
-      $visi->TA_Akhir = $periode->TA_Akhir;
-      $visi->save();
+
+      $tujuan->Kd_RpjmdTujuan = $request->input('Kd_RpjmdTujuan');
+      $tujuan->Nm_RpjmdTujuan = $request->input('Nm_RpjmdTujuan');
+      $tujuan->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'payload' => $visi,                                    
-        'message' => 'Data visi berhasil disimpan.'
-      ], 200); 	
-
+        'payload' => $tujuan,                                    
+        'message' => 'Data tujuan berhasil disimpan.'
+      ], 200); 
     }
   }
-    /**
+
+  /**
    * Remove the specified resource from storage.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request, $id)
+  public function destroy(Request $request,$id)
   {
-    $this->hasPermissionTo('RPJMD-VISI_DESTROY');
+    $this->hasPermissionTo('RPJMD-TUJUAN_DESTROY');
 
-    $visi = RPJMDVisiModel::find($id);
+    $tujuan = RPJMDTujuanModel::find($id);
 
-    if(is_null($visi))
+    if(is_null($tujuan))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Visi dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
-    else if($visi->misi->count('RpjmdMisiID') > 0)
-    {
-      return Response()->json([
-        'status' => 0,
-        'pid' => 'fetchdata',
-        'message' => ["RPJMD Visi dengan dengan ($id) gagal dihapus karena masih terhubung ke Misi"]
-      ], 422); 
-    }
+    // else if($misi->tujuan->count('RpjmdMisiID') > 0)
+    // {
+    //   return Response()->json([
+    //     'status' => 0,
+    //     'pid' => 'fetchdata',
+    //     'message' => ["RPJMD Misi dengan dengan ($id) gagal dihapus karena masih terhubung ke Misi"]
+    //   ], 422); 
+    // }
     else
     {
-      $visi->delete();
+      $tujuan->delete();
 
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data RPJMD Visi dengan ID ($id) berhasil dihapus"
+        'message' => "Data RPJMD Misi dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }

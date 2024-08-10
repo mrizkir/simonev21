@@ -22,9 +22,16 @@ class RPJMDMisiController extends Controller
   {                
     $this->hasPermissionTo('RPJMD-MISI_BROWSE');
     
-    $totalRecords = RPJMDMisiModel::count('RpjmdVisiID');
+    $this->validate($request, [      
+      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+    ]);
+
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $data = RPJMDMisiModel::select(\DB::raw('*'));
+    $totalRecords = RPJMDMisiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdVisiID');
+    
+    $data = RPJMDMisiModel::select(\DB::raw('*'))
+    ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
     
     if($request->filled('offset'))
     {
@@ -108,7 +115,103 @@ class RPJMDMisiController extends Controller
       'message' => 'Data misi berhasil disimpan.'
     ], 200); 	
   }
-  
+  public function show(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-MISI_SHOW');
+
+    $misi = RPJMDMisiModel::find($id);
+
+    if(is_null($misi))
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      $payload = $misi;
+      $payload->visi;
+
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'fetchdata',
+        'payload' => $misi,
+        'message' => 'Data Misi berhasil diperoleh.'
+      ], 200); 
+    }
+  }
+  public function tujuan(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-MISI_SHOW');
+
+    $misi = RPJMDMisiModel::find($id);
+
+    if(is_null($misi))
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
+      ], 422); 
+    }
+    else
+    {
+      $data = $misi->tujuan();
+
+      $totalRecords = $data->count('RpjmdTujuanID');
+
+      if($request->filled('offset'))
+      {
+        $this->validate($request, [              
+          'offset'=>'required|numeric',      
+        ]);
+
+        $offset = $request->input('offset');
+        $data = $data->offset($offset);
+      }
+
+      if($request->filled('limit'))
+      {
+        $this->validate($request, [              
+          'limit'=>'required|numeric|gt:0',   
+        ]);
+
+        $limit = $request->input('limit');
+        $data = $data->limit($limit);
+      }
+
+      if($request->filled('sortBy'))
+      {
+        $sortBy = $request->input('sortBy');
+        if(is_array($sortBy))
+        {
+          foreach ($sortBy as $item)
+          {
+            $data = $data->orderBy($item['key'], $item['order']);
+          }
+        }
+      }
+
+      if($request->filled('search'))
+      {
+        $search = $request->input('search');
+        $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
+        ->orWhere('Kd_RpjmdTujuan', $search);
+      }
+
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'fetchdata',
+        'payload' => [
+          'data' => $data->get(),
+          'totalRecords' => $totalRecords,
+        ],
+        'message' => 'Data tujuan berhasil diperoleh.'
+      ], 200); 
+    }
+  }
   /**
    * Update the specified resource in storage.
    *

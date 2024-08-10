@@ -4,13 +4,13 @@
       <v-card>
         <v-card-title class="d-flex align-center pe-2">
           <v-icon icon="mdi-graph"></v-icon> &nbsp;
-          DAFTAR MISI
+          DAFTAR TUJUAN
           <v-spacer></v-spacer>   
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             density="compact"
-            label="Cari Misi"
+            label="Cari Tujuan"
             prepend-inner-icon="mdi-magnify"
             variant="solo-filled"
             flat
@@ -30,7 +30,7 @@
           :items-length="totalRecords"
           :loading="datatableLoading"
           :search="searchTrigger"
-          item-value="RpjmdMisiID"
+          item-value="RpjmdTujuanID"
           @update:options="initialize"
           :expand-on-click="true"
           items-per-page-text="Jumlah record per halaman"
@@ -39,7 +39,9 @@
             <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
           </template>
           <template v-slot:top>
-            <v-toolbar flat>
+            <v-toolbar flat>                  
+              <v-spacer></v-spacer>
+              <v-divider class="mx-4" inset vertical></v-divider>
               <v-dialog
                 v-model="dialogfrm"
                 max-width="600px"
@@ -49,28 +51,28 @@
                   <v-card>
                     <v-card-title>
                       <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                      <span class="headline">UBAH MISI</span>
+                      <span class="headline">UBAH TUJUAN</span>
                     </v-card-title>
                     <v-card-text>
                       <v-text-field
-                        v-model="formdata.Kd_RpjmdMisi"                  
+                        v-model="formdata.Kd_RpjmdTujuan"                  
                         density="compact"        
-                        label="KODE MISI"
+                        label="KODE TUJUAN"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan kode / nomor misi dari rpjmd"
-                        :rules="rule_kode_misi"
+                        hint="Masukan kode / nomor tujuan dari rpjmd"
+                        :rules="rule_kode_tujuan"
                         auto-grow
                       />    
                       <v-textarea
-                        v-model="formdata.Nm_RpjmdMisi"
+                        v-model="formdata.Nm_RpjmdTujuan"
                         rows="1"
                         density="compact"        
-                        label="NAMA MISI"
+                        label="NAMA TUJUAN"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan misi dari rpjmd"
-                        :rules="rule_nama_misi"
+                        hint="Masukan tujuan dari rpjmd"
+                        :rules="rule_nama_tujuan"
                         auto-grow
                       />
                     </v-card-text>
@@ -105,8 +107,8 @@
           <template v-slot:item.actions="{ item }">
             <v-btn
               class="mr-2"
-              v-tooltip:bottom="'Tambah Tujuan'"
-              :to="'/admin/dmaster/tujuan/' + item.RpjmdMisiID + '/manage'"
+              v-tooltip:bottom="'Tambah Sasaran'"
+              :to="'/admin/dmaster/sasaran/' + item.RpjmdTujuanID + '/manage'"
               size="small"
               color="primary"
               variant="text"
@@ -115,7 +117,7 @@
             />
             <v-icon
               class="mr-2"
-              v-tooltip:bottom="'Ubah Misi'"
+              v-tooltip:bottom="'Ubah Tujuan'"
               @click.stop="editItem(item)"
               size="small"
               color="primary"
@@ -123,7 +125,7 @@
               mdi-pencil
             </v-icon>
             <v-icon
-              v-tooltip:bottom="'Hapus Misi'"
+              v-tooltip:bottom="'Hapus Tujuan'"
               @click.stop="deleteItem(item)"
               size="small"
               color="error"
@@ -134,7 +136,7 @@
           <template v-slot:expanded-row="{ columns, item }">
             <tr class="bg-grey-lighten-4">
               <td :colspan="columns.length" class="text-center">
-                <span class="font-weight-bold">ID: </span> {{ item.RpjmdMisiID }} 
+                <span class="font-weight-bold">ID: </span> {{ item.RpjmdTujuanID }} 
                 <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
               </td>
             </tr>
@@ -151,14 +153,14 @@
 <script>
   import { usesUserStore } from '@/stores/UsersStore'
   export default {
-		name: "DMasterMisiDataTable",
+		name: "DMasterTujuanDataTable",
 		created() {
       this.userStore = usesUserStore()
     },
     props: {
-      RpjmdVisiID: {
+      RpjmdMisiID: {
         type: String,
-        RpjmdVisiID: null,
+        RpjmdMisiID: null,
       },
     },
     data: () => ({
@@ -181,8 +183,8 @@
           },
         },
         {
-          title: 'KODE MISI',
-          key: 'Kd_RpjmdMisi',
+          title: 'KODE TUJUAN',
+          key: 'Kd_RpjmdTujuan',
           align: 'start',
           width: 130,
           headerProps: {
@@ -190,8 +192,8 @@
           },
         },
         {
-          title: 'NAMA MISI',
-          key: 'Nm_RpjmdMisi',
+          title: 'NAMA TUJUAN',
+          key: 'Nm_RpjmdTujuan',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -214,29 +216,29 @@
       //form data
       form_valid: true,      
       formdata: {
+        RpjmdTujuanID: null,
         RpjmdMisiID: null,
-        RpjmdVisiID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdMisi: null,  
-        Nm_RpjmdMisi: null,  
+        Kd_RpjmdTujuan: null,  
+        Nm_RpjmdTujuan: null,  
         created_at: null,
         updated_at: null,
       },
       formdefault: {
+        RpjmdTujuanID: null,
         RpjmdMisiID: null,
-        RpjmdVisiID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdMisi: null,  
-        Nm_RpjmdMisi: null,  
+        Kd_RpjmdTujuan: null,  
+        Nm_RpjmdTujuan: null,  
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_kode_misi: [
-        value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',
+      rule_kode_tujuan: [
+        value => !!value || 'Mohon untuk di isi nama tujuan dari RPJMD !!!',
       ],
-      rule_nama_misi: [
-        value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',
+      rule_nama_tujuan: [
+        value => !!value || 'Mohon untuk di isi nama tujuan dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
@@ -250,15 +252,15 @@
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'Kd_RpjmdMisi',
+              'key': 'Kd_RpjmdTujuan',
               'order': 'asc'
             },
           ]
         }
         
-        if (this.RpjmdVisiID === null || typeof this.RpjmdVisiID === "undefined") {       
+        if (this.RpjmdMisiID === null || typeof this.RpjmdMisiID === "undefined") {       
           await this.$ajax
-            .post('/rpjmd/misi', 
+            .post('/rpjmd/tujuan', 
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
@@ -281,7 +283,7 @@
         } else {
           await this.$ajax
             .post(
-              '/rpjmd/visi/' + this.RpjmdVisiID + '/misi', 
+              '/rpjmd/misi/' + this.RpjmdMisiID + '/tujuan', 
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
@@ -314,11 +316,11 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/misi/' + this.formdata.RpjmdMisiID,
+              '/rpjmd/tujuan/' + this.formdata.RpjmdTujuanID,
               {
                 _method: 'PUT',
-                Kd_RpjmdMisi: this.formdata.Kd_RpjmdMisi,
-                Nm_RpjmdMisi: this.formdata.Nm_RpjmdMisi,                  
+                Kd_RpjmdTujuan: this.formdata.Kd_RpjmdTujuan,
+                Nm_RpjmdTujuan: this.formdata.Nm_RpjmdTujuan,                  
               },
               {
                 headers: {
@@ -339,7 +341,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdMisiID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdTujuanID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -350,7 +352,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/misi/' + item.RpjmdMisiID,
+                  '/rpjmd/tujuan/' + item.RpjmdTujuanID,
                   {
                     _method: 'DELETE',
                   },

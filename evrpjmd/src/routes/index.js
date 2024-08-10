@@ -63,7 +63,7 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterMisi.vue'),
   },
-  // admin - dmaster misi - tambah
+  // admin - dmaster misi - kelola
   {
     path: '/admin/dmaster/misi/:RpjmdVisiID/manage',
     name: 'DMasterMisiManage',
@@ -71,6 +71,42 @@ const routes = [
       title: 'DATA MASTER - MISI',
     },
     component: () => import('@/pages/admin/dmaster/DMasterMisiManage.vue'),
+  },
+  // admin - dmaster tujuan
+  {
+    path: '/admin/dmaster/tujuan',
+    name: 'DMasterTujuan',
+    meta: {
+      title: 'DATA MASTER - TUJUAN',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterTujuan.vue'),
+  },
+  // admin - dmaster tujuan - kelola
+  {
+    path: '/admin/dmaster/tujuan/:RpjmdMisiID/manage',
+    name: 'DMasterTujuanManage',
+    meta: {
+      title: 'DATA MASTER - TUJUAN',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterTujuanManage.vue'),
+  },
+  // admin - dmaster sasaran
+  {
+    path: '/admin/dmaster/sasaran',
+    name: 'DMasterSasaran',
+    meta: {
+      title: 'DATA MASTER - SASARAN',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterSasaran.vue'),
+  },
+  // admin - dmaster sasaran - kelola
+  {
+    path: '/admin/dmaster/sasaran/:RpjmdTujuanID/manage',
+    name: 'DMasterSasaranManage',
+    meta: {
+      title: 'DATA MASTER - SASARAN',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterSasaranManage.vue'),
   },
   // other page
   {
