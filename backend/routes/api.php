@@ -223,6 +223,22 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/rpjmd/misi/{id}/tujuan', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@tujuan','as'=>'rpjmd-misi.tujuan']);
   $router->put('/rpjmd/misi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@update','as'=>'rpjmd-misi.update']);
   $router->delete('/rpjmd/misi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDMisiController@destroy','as'=>'rpjmd-misi.destroy']);
+  
+  //rpjmd - tujuan 
+  $router->post('/rpjmd/tujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDTujuanController@index','as'=>'rpjmd-tujuan.index']);
+  $router->post('/rpjmd/tujuan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDTujuanController@store','as'=>'rpjmd-tujuan.store']);
+  $router->get('/rpjmd/tujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDTujuanController@show','as'=>'rpjmd-tujuan.show']);
+  $router->post('/rpjmd/tujuan/{id}/sasaran', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDTujuanController@sasaran','as'=>'rpjmd-tujuan.sasaran']);
+  $router->put('/rpjmd/tujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDTujuanController@update','as'=>'rpjmd-tujuan.update']);
+  $router->delete('/rpjmd/tujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDTujuanController@destroy','as'=>'rpjmd-tujuan.destroy']);
+  
+  //rpjmd - sasaran
+  $router->post('/rpjmd/sasaran', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDSasaranController@index','as'=>'rpjmd-sasaran.index']);
+  $router->post('/rpjmd/sasaran/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@store','as'=>'rpjmd-sasaran.store']);
+  $router->get('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@show','as'=>'rpjmd-sasaran.show']);
+  $router->post('/rpjmd/sasaran/{id}/arahkebijakan', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@arahkebijakan','as'=>'rpjmd-sasaran.arahkebijakan']);
+  $router->put('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@update','as'=>'rpjmd-sasaran.update']);
+  $router->delete('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@destroy','as'=>'rpjmd-sasaran.destroy']);
 
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);

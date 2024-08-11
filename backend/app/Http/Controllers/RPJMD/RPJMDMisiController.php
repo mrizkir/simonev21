@@ -79,7 +79,7 @@ class RPJMDMisiController extends Controller
         'data' => $data->get(),
         'totalRecords' => $totalRecords,
       ],
-      'message' => 'Fetch data Visi berhasil diperoleh'
+      'message' => 'Fetch data Misi berhasil diperoleh'
     ], 200);  
   }    
   /**

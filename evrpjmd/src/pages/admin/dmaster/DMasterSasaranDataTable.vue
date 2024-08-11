@@ -4,13 +4,13 @@
       <v-card>
         <v-card-title class="d-flex align-center pe-2">
           <v-icon icon="mdi-graph"></v-icon> &nbsp;
-          DAFTAR TUJUAN
+          DAFTAR SASARAN
           <v-spacer></v-spacer>   
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             density="compact"
-            label="Cari Tujuan"
+            label="Cari Sasaran"
             prepend-inner-icon="mdi-magnify"
             variant="solo-filled"
             flat
@@ -30,7 +30,7 @@
           :items-length="totalRecords"
           :loading="datatableLoading"
           :search="searchTrigger"
-          item-value="RpjmdTujuanID"
+          item-value="RpjmdSasaranID"
           @update:options="initialize"
           :expand-on-click="true"
           items-per-page-text="Jumlah record per halaman"
@@ -51,28 +51,28 @@
                   <v-card>
                     <v-card-title>
                       <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                      <span class="headline">UBAH TUJUAN</span>
+                      <span class="headline">UBAH SASARAN</span>
                     </v-card-title>
                     <v-card-text>
                       <v-text-field
-                        v-model="formdata.Kd_RpjmdTujuan"                  
+                        v-model="formdata.Kd_RpjmdSasaran"                  
                         density="compact"        
-                        label="KODE TUJUAN"
+                        label="KODE SASARAN"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan kode / nomor tujuan dari rpjmd"
-                        :rules="rule_kode_tujuan"
+                        hint="Masukan kode / nomor sasaran dari rpjmd"
+                        :rules="rule_kode_sasaran"
                         auto-grow
                       />    
                       <v-textarea
-                        v-model="formdata.Nm_RpjmdTujuan"
+                        v-model="formdata.Nm_RpjmdSasaran"
                         rows="1"
                         density="compact"        
-                        label="NAMA TUJUAN"
+                        label="NAMA SASARAN"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan tujuan dari rpjmd"
-                        :rules="rule_nama_tujuan"
+                        hint="Masukan sasaran dari rpjmd"
+                        :rules="rule_nama_sasaran"
                         auto-grow
                       />
                     </v-card-text>
@@ -108,7 +108,7 @@
             <v-btn
               class="mr-2"
               v-tooltip:bottom="'Tambah Sasaran'"
-              :to="'/admin/dmaster/sasaran/' + item.RpjmdTujuanID + '/manage'"
+              :to="'/admin/dmaster/sasaran/' + item.RpjmdSasaranID + '/manage'"
               size="small"
               color="primary"
               variant="text"
@@ -117,7 +117,7 @@
             />
             <v-icon
               class="mr-2"
-              v-tooltip:bottom="'Ubah Tujuan'"
+              v-tooltip:bottom="'Ubah Sasaran'"
               @click.stop="editItem(item)"
               size="small"
               color="primary"
@@ -125,7 +125,7 @@
               mdi-pencil
             </v-icon>
             <v-icon
-              v-tooltip:bottom="'Hapus Tujuan'"
+              v-tooltip:bottom="'Hapus Sasaran'"
               @click.stop="deleteItem(item)"
               size="small"
               color="error"
@@ -136,7 +136,7 @@
           <template v-slot:expanded-row="{ columns, item }">
             <tr class="bg-grey-lighten-4">
               <td :colspan="columns.length" class="text-center">
-                <span class="font-weight-bold">ID: </span> {{ item.RpjmdTujuanID }} 
+                <span class="font-weight-bold">ID: </span> {{ item.RpjmdSasaranID }} 
                 <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
               </td>
             </tr>
@@ -153,14 +153,14 @@
 <script>
   import { usesUserStore } from '@/stores/UsersStore'
   export default {
-		name: "DMasterTujuanDataTable",
+		name: "DMasterSasaranDataTable",
 		created() {
       this.userStore = usesUserStore()
     },
     props: {
-      RpjmdMisiID: {
+      RpjmdTujuanID: {
         type: String,
-        RpjmdMisiID: null,
+        RpjmdTujuanID: null,
       },
     },
     data: () => ({
@@ -183,8 +183,8 @@
           },
         },
         {
-          title: 'KODE TUJUAN',
-          key: 'kode_tujuan',
+          title: 'KODE SASARAN',
+          key: 'kode_sasaran',
           align: 'start',
           width: 130,
           headerProps: {
@@ -192,8 +192,8 @@
           },
         },
         {
-          title: 'NAMA TUJUAN',
-          key: 'Nm_RpjmdTujuan',
+          title: 'NAMA SASARAN',
+          key: 'Nm_RpjmdSasaran',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -216,29 +216,29 @@
       //form data
       form_valid: true,      
       formdata: {
+        RpjmdSasaranID: null,
         RpjmdTujuanID: null,
-        RpjmdMisiID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdTujuan: null,  
-        Nm_RpjmdTujuan: null,  
+        Kd_RpjmdSasaran: null,  
+        Nm_RpjmdSasaran: null,  
         created_at: null,
         updated_at: null,
       },
       formdefault: {
+        RpjmdSasaranID: null,
         RpjmdTujuanID: null,
-        RpjmdMisiID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdTujuan: null,  
-        Nm_RpjmdTujuan: null,  
+        Kd_RpjmdSasaran: null,  
+        Nm_RpjmdSasaran: null,  
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_kode_tujuan: [
-        value => !!value || 'Mohon untuk di isi nama tujuan dari RPJMD !!!',
+      rule_kode_sasaran: [
+        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
-      rule_nama_tujuan: [
-        value => !!value || 'Mohon untuk di isi nama tujuan dari RPJMD !!!',
+      rule_nama_sasaran: [
+        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
@@ -252,15 +252,15 @@
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'kode_tujuan',
+              'key': 'kode_sasaran',
               'order': 'asc'
             },
           ]
         }
         
-        if (this.RpjmdMisiID === null || typeof this.RpjmdMisiID === "undefined") {       
+        if (this.RpjmdTujuanID === null || typeof this.RpjmdTujuanID === "undefined") {       
           await this.$ajax
-            .post('/rpjmd/tujuan', 
+            .post('/rpjmd/sasaran', 
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
@@ -283,7 +283,7 @@
         } else {
           await this.$ajax
             .post(
-              '/rpjmd/misi/' + this.RpjmdMisiID + '/tujuan', 
+              '/rpjmd/tujuan/' + this.RpjmdTujuanID + '/sasaran', 
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
@@ -316,11 +316,11 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/tujuan/' + this.formdata.RpjmdTujuanID,
+              '/rpjmd/sasaran/' + this.formdata.RpjmdSasaranID,
               {
                 _method: 'PUT',
-                Kd_RpjmdTujuan: this.formdata.Kd_RpjmdTujuan,
-                Nm_RpjmdTujuan: this.formdata.Nm_RpjmdTujuan,                  
+                Kd_RpjmdSasaran: this.formdata.Kd_RpjmdSasaran,
+                Nm_RpjmdSasaran: this.formdata.Nm_RpjmdSasaran,                  
               },
               {
                 headers: {
@@ -341,7 +341,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdTujuanID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdSasaranID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -352,7 +352,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/tujuan/' + item.RpjmdTujuanID,
+                  '/rpjmd/sasaran/' + item.RpjmdSasaranID,
                   {
                     _method: 'DELETE',
                   },

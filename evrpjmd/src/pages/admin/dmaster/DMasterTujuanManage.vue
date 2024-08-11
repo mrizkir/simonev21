@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        MISI
+        TUJUAN
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -165,7 +165,7 @@
       //form data
       form_valid: true,
       formdata: {
-        RpjmdMisiID: null,
+        RpjmdTujuanID: null,
         RpjmdMisiID: null,
         PeriodeRPJMDID: null,
         Kd_RpjmdTujuan: null,  
@@ -174,7 +174,7 @@
         updated_at: null,
       },
       formdefault: {
-        RpjmdMisiID: null,
+        RpjmdTujuanID: null,
         RpjmdMisiID: null,
         PeriodeRPJMDID: null,
         Kd_RpjmdTujuan: null,  

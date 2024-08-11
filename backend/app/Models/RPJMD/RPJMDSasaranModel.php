@@ -4,32 +4,32 @@ namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RPJMDTujuanModel extends Model 
+class RPJMDSasaranModel extends Model 
 {  
   /**
    * nama tabel model ini.
    *
    * @var string
    */
-  protected $table = 'tmRpjmdTujuan';
+  protected $table = 'tmRpjmdSasaran';
   /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
   protected $fillable = [
+    'RpjmdSasaranID',
     'RpjmdTujuanID',
-    'RpjmdMisiID',
     'PeriodeRPJMDID',
-    'Kd_RpjmdTujuan',
-    'Nm_RpjmdTujuan',    
+    'Kd_RpjmdSasaran',
+    'Nm_RpjmdSasaran',    
   ];
   /**
    * primary key tabel ini.
    *
    * @var string
    */
-  protected $primaryKey = 'RpjmdTujuanID';
+  protected $primaryKey = 'RpjmdSasaranID';
   /**
    * enable auto_increment.
    *
@@ -45,10 +45,6 @@ class RPJMDTujuanModel extends Model
 
   public function misi()
   {
-    return $this->belongsTo('App\Models\RPJMD\RPJMDMisiModel', 'RpjmdMisiID', 'RpjmdMisiID');
-  }
-  public function sasaran()
-  {
-    return $this->hasMany('App\Models\RPJMD\RPJMDSasaranModel', 'RpjmdTujuanID', 'RpjmdTujuanID');
+    return $this->belongsTo('App\Models\RPJMD\RPJMDMisiModel', 'RpjmdTujuanID', 'RpjmdTujuanID');
   }
 }

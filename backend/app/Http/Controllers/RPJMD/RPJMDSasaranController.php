@@ -5,12 +5,12 @@ namespace App\Http\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Models\RPJMD\RPJMDMisiModel;
 use App\Models\RPJMD\RPJMDTujuanModel;
+use App\Models\RPJMD\RPJMDSasaranModel;
 
 use Ramsey\Uuid\Uuid;
 
-class RPJMDTujuanController extends Controller 
+class RPJMDSasaranController extends Controller 
 {    
   
   /**
@@ -20,7 +20,7 @@ class RPJMDTujuanController extends Controller
    */
   public function index(Request $request)
   {                
-    $this->hasPermissionTo('RPJMD-TUJUAN_BROWSE');
+    $this->hasPermissionTo('RPJMD-SASARAN_BROWSE');
     
     $this->validate($request, [      
       'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
@@ -28,14 +28,15 @@ class RPJMDTujuanController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
+    $totalRecords = RPJMDSasaranModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdTujuanID');
     
-    $data = RPJMDTujuanModel::select(\DB::raw('
-      tmRpjmdTujuan.*,
-      CONCAT(b.Kd_RpjmdMisi,".",tmRpjmdTujuan.Kd_RpjmdTujuan) AS kode_tujuan
+    $data = RPJMDSasaranModel::select(\DB::raw('
+      tmRpjmdSasaran.*,
+      CONCAT(c.Kd_RpjmdMisi,".",b.Kd_RpjmdTujuan,".",tmRpjmdSasaran.Kd_RpjmdSasaran) AS kode_sasaran
     '))
-    ->join('tmRpjmdMisi AS b', 'b.RpjmdMisiID', 'tmRpjmdTujuan.RpjmdMisiID')
-    ->where('tmRpjmdTujuan.PeriodeRPJMDID', $PeriodeRPJMDID);
+    ->join('tmRpjmdTujuan AS b', 'b.RpjmdTujuanID', 'tmRpjmdSasaran.RpjmdTujuanID')
+    ->join('tmRpjmdMisi AS c', 'c.RpjmdMisiID', 'b.RpjmdMisiID')    
+    ->where('tmRpjmdSasaran.PeriodeRPJMDID', $PeriodeRPJMDID);
     
     if($request->filled('offset'))
     {
@@ -72,8 +73,8 @@ class RPJMDTujuanController extends Controller
     if($request->filled('search'))
     {
       $search = $request->input('search');
-      $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
-      ->orWhere('Kd_RpjmdTujuan', $search);
+      $data = $data->where('Nm_RpjmdSasaran', 'LIKE', "%$search%")
+      ->orWhere('Kd_RpjmdSasaran', $search);
     }
 
     return Response()->json([
@@ -83,7 +84,7 @@ class RPJMDTujuanController extends Controller
         'data' => $data->get(),
         'totalRecords' => $totalRecords,
       ],
-      'message' => 'Fetch data Tujuan berhasil diperoleh'
+      'message' => 'Fetch data Sasaran berhasil diperoleh'
     ], 200);  
   }    
   /**
@@ -94,75 +95,72 @@ class RPJMDTujuanController extends Controller
    */
   public function store(Request $request)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_STORE');
+    $this->hasPermissionTo('RPJMD-SASARAN_STORE');
 
     $this->validate($request, [      
-      'RpjmdMisiID'=>'required|exists:tmRPJMDMisi,RpjmdMisiID',      
-      'Kd_RpjmdTujuan'=>'required',      
-      'Nm_RpjmdTujuan'=>'required',      
+      'RpjmdTujuanID'=>'required|exists:tmRPJMDTujuan,RpjmdTujuanID',      
+      'Kd_RpjmdSasaran'=>'required',      
+      'Nm_RpjmdSasaran'=>'required',      
     ]);         
 
-    $misi = RPJMDMisiModel::find($request->input('RpjmdMisiID'));
+    $sasaran = RPJMDTujuanModel::find($request->input('RpjmdTujuanID'));
 
-    $tujuan = RPJMDTujuanModel::create([
-      'RpjmdTujuanID'=> Uuid::uuid4()->toString(),
-      'PeriodeRPJMDID' => $misi->PeriodeRPJMDID,
-      'RpjmdMisiID' => $request->input('RpjmdMisiID'),      
-      'Kd_RpjmdTujuan' => $request->input('Kd_RpjmdTujuan'),
-      'Nm_RpjmdTujuan' => $request->input('Nm_RpjmdTujuan'),      
+    $sasaran = RPJMDSasaranModel::create([
+      'RpjmdSasaranID'=> Uuid::uuid4()->toString(),
+      'PeriodeRPJMDID' => $sasaran->PeriodeRPJMDID,
+      'RpjmdTujuanID' => $request->input('RpjmdTujuanID'),      
+      'Kd_RpjmdSasaran' => $request->input('Kd_RpjmdSasaran'),
+      'Nm_RpjmdSasaran' => $request->input('Nm_RpjmdSasaran'),      
     ]);        
     
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload' => $tujuan,                                    
-      'message' => 'Data tujuan berhasil disimpan.'
+      'payload' => $sasaran,                                    
+      'message' => 'Data sasaran berhasil disimpan.'
     ], 200); 	
   }
   public function show(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_SHOW');
+    $this->hasPermissionTo('RPJMD-SASARAN_SHOW');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $sasaran = RPJMDSasaranModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($sasaran))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Sasaran dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $payload = $tujuan;
-      $payload->misi;
-
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'payload' => $payload,                                    
-        'message' => 'Data Tujuan berhasil diperoleh.'
+        'payload' => $sasaran,                                    
+        'message' => 'Data Sasaran berhasil diperoleh.'
       ], 200); 
     }
   }
-  public function sasaran(Request $request, $id)
+  public function arahkebijakan(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_SHOW');
+    $this->hasPermissionTo('RPJMD-SASARAN_SHOW');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $sasaran = RPJMDSasaranModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($sasaran))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Arah Kebijakan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $data = $tujuan->sasaran();
+      $data = $sasaran->arahkebijakan();
 
       $totalRecords = $data->count('RpjmdTujuanID');
 
@@ -201,8 +199,8 @@ class RPJMDTujuanController extends Controller
       if($request->filled('search'))
       {
         $search = $request->input('search');
-        $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
-        ->orWhere('Kd_RpjmdTujuan', $search);
+        $data = $data->where('Nm_RpjmdSasaran', 'LIKE', "%$search%")
+        ->orWhere('Kd_RpjmdSasaran', $search);
       }
 
       return Response()->json([
@@ -212,7 +210,7 @@ class RPJMDTujuanController extends Controller
           'data' => $data->get(),
           'totalRecords' => $totalRecords,
         ],
-        'message' => 'Data sasaran berhasil diperoleh.'
+        'message' => 'Data arah kebijakan berhasil diperoleh.'
       ], 200); 
     }
   }
@@ -225,30 +223,30 @@ class RPJMDTujuanController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_UPDATE');
+    $this->hasPermissionTo('RPJMD-SASARAN_UPDATE');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $sasaran = RPJMDSasaranModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($sasaran))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Sasaran dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
 
-      $tujuan->Kd_RpjmdTujuan = $request->input('Kd_RpjmdTujuan');
-      $tujuan->Nm_RpjmdTujuan = $request->input('Nm_RpjmdTujuan');
-      $tujuan->save();
+      $sasaran->Kd_RpjmdSasaran = $request->input('Kd_RpjmdSasaran');
+      $sasaran->Nm_RpjmdSasaran = $request->input('Nm_RpjmdSasaran');
+      $sasaran->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'payload' => $tujuan,                                    
-        'message' => 'Data tujuan berhasil disimpan.'
+        'payload' => $sasaran,                                    
+        'message' => 'Data sasaran berhasil disimpan.'
       ], 200); 
     }
   }
@@ -261,34 +259,34 @@ class RPJMDTujuanController extends Controller
    */
   public function destroy(Request $request,$id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_DESTROY');
+    $this->hasPermissionTo('RPJMD-SASARAN_DESTROY');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $sasaran = RPJMDSasaranModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($sasaran))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Sasaran dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
-    // else if($misi->tujuan->count('RpjmdMisiID') > 0)
+    // else if($sasaran->arahkebijakan->count('RpjmdArahKebijakanID') > 0)
     // {
     //   return Response()->json([
     //     'status' => 0,
     //     'pid' => 'fetchdata',
-    //     'message' => ["RPJMD Tujuan dengan dengan ($id) gagal dihapus karena masih terhubung ke Sasaran"]
+    //     'message' => ["RPJMD Sasaran dengan dengan ($id) gagal dihapus karena masih terhubung ke Arah Kebijakan"]
     //   ], 422); 
     // }
     else
     {
-      $tujuan->delete();
+      $sasaran->delete();
 
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data RPJMD Tujuan dengan ID ($id) berhasil dihapus"
+        'message' => "Data RPJMD Sasaran dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }
