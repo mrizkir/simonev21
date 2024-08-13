@@ -93,6 +93,9 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->validate($request, [      
       'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
       'NamaIndikator'=>'required',
+      'TipeIndikator'=>'required|in:TUJUAN,SASARAN,PROGRAM',
+      'Operasi'=>'required|in:MAX,MIN',
+      'Satuan'=>'required',
       'is_iku'=>'required|in:0,1',
       'is_ikk'=>'required|in:0,1',
     ]);
@@ -103,6 +106,9 @@ class RPJMDIndikatorKinerjaController extends Controller
       'IndikatorKinerjaID'=> Uuid::uuid4()->toString(),
       'PeriodeRPJMDID' => $periode->PeriodeRPJMDID,
       'NamaIndikator' => $request->input('NamaIndikator'),
+      'TipeIndikator' => $request->input('TipeIndikator'),
+      'Operasi' => $request->input('Operasi'),
+      'Satuan' => $request->input('Satuan'),
       'is_iku' => $request->input('is_iku'),
       'is_ikk' => $request->input('is_ikk'),
       'TA_AWAL' => $periode->TA_AWAL,
@@ -141,11 +147,17 @@ class RPJMDIndikatorKinerjaController extends Controller
     
       $this->validate($request, [      
         'NamaIndikator'=>'required',
+        'TipeIndikator'=>'required|in:TUJUAN,SASARAN,PROGRAM',
+        'Operasi'=>'required|in:MAX,MIN',
+        'Satuan'=>'required',
         'is_iku'=>'required|in:0,1',
         'is_ikk'=>'required|in:0,1',
       ]);
       
       $indikator->NamaIndikator = $request->input('NamaIndikator');
+      $indikator->TipeIndikator = $request->input('TipeIndikator');
+      $indikator->Operasi = $request->input('Operasi');
+      $indikator->Satuan = $request->input('Satuan');
       $indikator->is_iku = $request->input('is_iku');
       $indikator->is_ikk = $request->input('is_ikk');
       $indikator->save();

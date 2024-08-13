@@ -96,6 +96,42 @@
                             :rules="rule_nama_indikator"
                             auto-grow
                           />
+                          <v-row justify="space-between" no-gutters>
+                            <v-col cols="auto" md="6" lg="6">                              
+                              <v-select
+                                v-model="formdata.TipeIndikator"
+                                density="compact"
+                                :items="daftar_tipe_indikator"
+                                label="TIPE INDIKATOR"
+                                variant="outlined"
+                                prepend-inner-icon="mdi-calendar"
+                                class="mr-1"
+                              />
+                            </v-col>
+                            <v-col cols="auto" md="6" lg="6">                              
+                              <v-select
+                                v-model="formdata.Operasi"
+                                density="compact"
+                                :items="daftar_operasi"
+                                label="OPERASI"
+                                variant="outlined"   
+                                class="ml-1"
+                              />
+                            </v-col>
+                          </v-row>
+                          <v-row no-gutters>
+                            <v-col cols="auto" md="6" lg="6">
+                              <v-text-field
+                                v-model="formdata.Satuan"                                
+                                density="compact"        
+                                label="SATUAN"
+                                variant="outlined"
+                                prepend-inner-icon="mdi-graph"
+                                hint="Masukan satuan indikator"
+                                :rules="rule_nama_satuan"                                
+                              />
+                            </v-col>                            
+                          </v-row>
                           <v-row no-gutters>
                             <v-col cols="auto" md="6" lg="6">
                               <v-switch
@@ -311,6 +347,30 @@
           },
         },
         {
+          title: 'SATUAN',
+          key: 'Satuan',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
+        {
+          title: 'TIPE',
+          key: 'TipeIndikator',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
+        {
+          title: 'OPERASI',
+          key: 'Operasi',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
+        {
           title: 'IKU',
           key: 'is_iku',
           align: 'start',
@@ -342,10 +402,15 @@
       dialogdetailitem: false,
       //form data
       form_valid: true,      
+      daftar_tipe_indikator: ['TUJUAN', 'SASARAN', 'PROGRAM'],
+      daftar_operasi: ['MAX', 'MIN'],
       formdata: {
         IndikatorKinerjaID: null,
         PeriodeRPJMDID: null,
         NamaIndikator: null,
+        TipeIndikator: 'PROGRAM',
+        Satuan: '%',
+        Operasi: 'MAX',
         is_iku: false,
         is_ikk: false,
         TA_AWAL: null,
@@ -357,6 +422,9 @@
         IndikatorKinerjaID: null,
         PeriodeRPJMDID: null,
         NamaIndikator: null,
+        TipeIndikator: 'PROGRAM',
+        Satuan: '%',
+        Operasi: 'MAX',
         is_iku: false,
         is_ikk: false,
         TA_AWAL: null,
@@ -367,6 +435,9 @@
       //form rules
       rule_nama_indikator: [
         value => !!value || "Mohon untuk di isi nama indikator dari RPJMD !!!",
+      ],      
+      rule_nama_satuan: [
+        value => !!value || "Mohon untuk di isi nama satuan dari RPJMD !!!",
       ],      
       editedIndex: -1,
       //pinia
@@ -434,6 +505,9 @@
                   _method: "PUT",
                   PeriodeRPJMDID: this.formdata.PeriodeRPJMDID,
                   NamaIndikator: this.formdata.NamaIndikator,
+                  TipeIndikator: this.formdata.TipeIndikator,
+                  Satuan: this.formdata.Satuan,
+                  Operasi: this.formdata.Operasi,
                   is_iku: this.formdata.is_iku == true ? 1 : 0,
                   is_ikk: this.formdata.is_ikk == true ? 1 : 0,
                 },
@@ -457,6 +531,9 @@
                 {
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                   NamaIndikator: this.formdata.NamaIndikator,
+                  TipeIndikator: this.formdata.TipeIndikator,
+                  Satuan: this.formdata.Satuan,
+                  Operasi: this.formdata.Operasi,
                   is_iku: this.formdata.is_iku == true ? 1 : 0,
                   is_ikk: this.formdata.is_ikk == true ? 1 : 0,
                 },
