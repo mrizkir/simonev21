@@ -43,8 +43,19 @@ class RPJMDSasaranModel extends Model
    */
   public $timestamps = true;  
 
-  public function misi()
+  public function tujuan()
   {
-    return $this->belongsTo('App\Models\RPJMD\RPJMDMisiModel', 'RpjmdTujuanID', 'RpjmdTujuanID');
+    return $this->belongsTo('App\Models\RPJMD\RPJMDTujuanModel', 'RpjmdTujuanID', 'RpjmdTujuanID');
+  }
+  public function strategi()
+  {
+    return $this->hasMany('App\Models\RPJMD\RPJMDStrategiModel', 'RpjmdSasaranID', 'RpjmdSasaranID')
+    ->select(\DB::raw('
+      tmRpjmdStrategi.*,
+      CONCAT(d.Kd_RpjmdMisi,".",c.Kd_RpjmdTujuan,".",b.Kd_RpjmdSasaran,".",tmRpjmdStrategi.Kd_RpjmdStrategi) AS kode_strategi
+    '))
+    ->join('tmRpjmdSasaran AS b', 'b.RpjmdSasaranID', 'tmRpjmdStrategi.RpjmdSasaranID')
+    ->join('tmRpjmdTujuan AS c', 'b.RpjmdTujuanID', 'c.RpjmdTujuanID')
+    ->join('tmRpjmdMisi AS d', 'c.RpjmdMisiID', 'd.RpjmdMisiID');
   }
 }

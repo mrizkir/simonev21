@@ -49,6 +49,12 @@ class RPJMDTujuanModel extends Model
   }
   public function sasaran()
   {
-    return $this->hasMany('App\Models\RPJMD\RPJMDSasaranModel', 'RpjmdTujuanID', 'RpjmdTujuanID');
+    return $this->hasMany('App\Models\RPJMD\RPJMDSasaranModel', 'RpjmdTujuanID', 'RpjmdTujuanID')
+    ->select(\DB::raw('
+      tmRpjmdSasaran.*,
+      CONCAT(c.Kd_RpjmdMisi,".",b.Kd_RpjmdTujuan,".",tmRpjmdSasaran.Kd_RpjmdSasaran) AS kode_sasaran
+    '))
+    ->join('tmRpjmdTujuan AS b', 'b.RpjmdTujuanID', 'tmRpjmdSasaran.RpjmdTujuanID')
+    ->join('tmRpjmdMisi AS c', 'c.RpjmdMisiID', 'b.RpjmdMisiID');
   }
 }

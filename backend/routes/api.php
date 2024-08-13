@@ -236,9 +236,17 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/rpjmd/sasaran', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDSasaranController@index','as'=>'rpjmd-sasaran.index']);
   $router->post('/rpjmd/sasaran/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@store','as'=>'rpjmd-sasaran.store']);
   $router->get('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@show','as'=>'rpjmd-sasaran.show']);
-  $router->post('/rpjmd/sasaran/{id}/arahkebijakan', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@arahkebijakan','as'=>'rpjmd-sasaran.arahkebijakan']);
+  $router->post('/rpjmd/sasaran/{id}/strategi', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@strategi','as'=>'rpjmd-sasaran.strategi']);
   $router->put('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@update','as'=>'rpjmd-sasaran.update']);
   $router->delete('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@destroy','as'=>'rpjmd-sasaran.destroy']);
+  
+  //rpjmd - strategi dan arah kebijakan
+  $router->post('/rpjmd/strategi', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDStrategiController@index','as'=>'rpjmd-strategi.index']);
+  $router->post('/rpjmd/strategi/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@store','as'=>'rpjmd-strategi.store']);
+  $router->get('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@show','as'=>'rpjmd-strategi.show']);
+  $router->post('/rpjmd/strategi/{id}/program', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@program','as'=>'rpjmd-strategi.program']);
+  $router->put('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@update','as'=>'rpjmd-strategi.update']);
+  $router->delete('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@destroy','as'=>'rpjmd-strategi.destroy']);
 
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);

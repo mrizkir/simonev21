@@ -108,6 +108,24 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterSasaranManage.vue'),
   },
+  // admin - dmaster sasaran
+  {
+    path: '/admin/dmaster/strategi',
+    name: 'DMasterStrategi',
+    meta: {
+      title: 'DATA MASTER - STRATEGI',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterStrategi.vue'),
+  },
+  // admin - dmaster sasaran - kelola
+  {
+    path: '/admin/dmaster/strategi/:RpjmdSasaranID/manage',
+    name: 'DMasterStrategiManage',
+    meta: {
+      title: 'DATA MASTER - STRATEGI',
+    },
+    component: () => import('@/pages/admin/dmaster/DMasterStrategiManage.vue'),
+  },
   // other page
   {
     path: '/404',

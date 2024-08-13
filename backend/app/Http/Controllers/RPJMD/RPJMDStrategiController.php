@@ -5,12 +5,12 @@ namespace App\Http\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Models\RPJMD\RPJMDMisiModel;
-use App\Models\RPJMD\RPJMDTujuanModel;
+use App\Models\RPJMD\RPJMDSasaranModel;
+use App\Models\RPJMD\RPJMDStrategiModel;
 
 use Ramsey\Uuid\Uuid;
 
-class RPJMDTujuanController extends Controller 
+class RPJMDStrategiController extends Controller 
 {    
   
   /**
@@ -20,7 +20,7 @@ class RPJMDTujuanController extends Controller
    */
   public function index(Request $request)
   {                
-    $this->hasPermissionTo('RPJMD-TUJUAN_BROWSE');
+    $this->hasPermissionTo('RPJMD-STRATEGI_BROWSE');
     
     $this->validate($request, [      
       'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
@@ -28,14 +28,16 @@ class RPJMDTujuanController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
+    $totalRecords = RPJMDStrategiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdSasaranID');
     
-    $data = RPJMDTujuanModel::select(\DB::raw('
-      tmRpjmdTujuan.*,
-      CONCAT(b.Kd_RpjmdMisi,".",tmRpjmdTujuan.Kd_RpjmdTujuan) AS kode_tujuan
+    $data = RPJMDStrategiModel::select(\DB::raw('
+      tmRpjmdStrategi.*,
+      CONCAT(d.Kd_RpjmdMisi,".",c.Kd_RpjmdTujuan,".",b.Kd_RpjmdSasaran,".",tmRpjmdStrategi.Kd_RpjmdStrategi) AS kode_strategi
     '))
-    ->join('tmRpjmdMisi AS b', 'b.RpjmdMisiID', 'tmRpjmdTujuan.RpjmdMisiID')
-    ->where('tmRpjmdTujuan.PeriodeRPJMDID', $PeriodeRPJMDID);
+    ->join('tmRpjmdSasaran AS b', 'b.RpjmdSasaranID', 'tmRpjmdStrategi.RpjmdSasaranID')
+    ->join('tmRpjmdTujuan AS c', 'b.RpjmdTujuanID', 'c.RpjmdTujuanID')
+    ->join('tmRpjmdMisi AS d', 'c.RpjmdMisiID', 'd.RpjmdMisiID')    
+    ->where('tmRpjmdStrategi.PeriodeRPJMDID', $PeriodeRPJMDID);
     
     if($request->filled('offset'))
     {
@@ -72,8 +74,8 @@ class RPJMDTujuanController extends Controller
     if($request->filled('search'))
     {
       $search = $request->input('search');
-      $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
-      ->orWhere('Kd_RpjmdTujuan', $search);
+      $data = $data->where('Nm_RpjmdStrategi', 'LIKE', "%$search%")
+      ->orWhere('Kd_RpjmdStrategi', $search);
     }
 
     return Response()->json([
@@ -83,7 +85,7 @@ class RPJMDTujuanController extends Controller
         'data' => $data->get(),
         'totalRecords' => $totalRecords,
       ],
-      'message' => 'Fetch data Tujuan berhasil diperoleh'
+      'message' => 'Fetch data Strategi berhasil diperoleh'
     ], 200);  
   }    
   /**
@@ -94,77 +96,75 @@ class RPJMDTujuanController extends Controller
    */
   public function store(Request $request)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_STORE');
+    $this->hasPermissionTo('RPJMD-STRATEGI_STORE');
 
     $this->validate($request, [      
-      'RpjmdMisiID'=>'required|exists:tmRPJMDMisi,RpjmdMisiID',      
-      'Kd_RpjmdTujuan'=>'required',      
-      'Nm_RpjmdTujuan'=>'required',      
+      'RpjmdSasaranID'=>'required|exists:tmRPJMDSasaran,RpjmdSasaranID',      
+      'Kd_RpjmdStrategi'=>'required',      
+      'Nm_RpjmdStrategi'=>'required',      
     ]);         
 
-    $misi = RPJMDMisiModel::find($request->input('RpjmdMisiID'));
+    $strategi = RPJMDSasaranModel::find($request->input('RpjmdSasaranID'));
 
-    $tujuan = RPJMDTujuanModel::create([
-      'RpjmdTujuanID'=> Uuid::uuid4()->toString(),
-      'PeriodeRPJMDID' => $misi->PeriodeRPJMDID,
-      'RpjmdMisiID' => $request->input('RpjmdMisiID'),      
-      'Kd_RpjmdTujuan' => $request->input('Kd_RpjmdTujuan'),
-      'Nm_RpjmdTujuan' => $request->input('Nm_RpjmdTujuan'),      
+    $strategi = RPJMDStrategiModel::create([
+      'RpjmdStrategiID'=> Uuid::uuid4()->toString(),
+      'PeriodeRPJMDID' => $strategi->PeriodeRPJMDID,
+      'RpjmdSasaranID' => $request->input('RpjmdSasaranID'),      
+      'Kd_RpjmdStrategi' => $request->input('Kd_RpjmdStrategi'),
+      'Nm_RpjmdStrategi' => $request->input('Nm_RpjmdStrategi'),      
     ]);        
     
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload' => $tujuan,                                    
-      'message' => 'Data tujuan berhasil disimpan.'
+      'payload' => $strategi,                                    
+      'message' => 'Data strategi berhasil disimpan.'
     ], 200); 	
   }
   public function show(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_SHOW');
+    $this->hasPermissionTo('RPJMD-STRATEGI_SHOW');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $strategi = RPJMDStrategiModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($strategi))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Strategi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $payload = $tujuan;
-      $payload->misi;
-
+      
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'payload' => $payload,                                    
-        'message' => 'Data Tujuan berhasil diperoleh.'
+        'payload' => $strategi,                                    
+        'message' => 'Data Strategi berhasil diperoleh.'
       ], 200); 
     }
   }
-  public function sasaran(Request $request, $id)
+  public function program(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_SHOW');
+    $this->hasPermissionTo('RPJMD-STRATEGI_SHOW');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $strategi = RPJMDStrategiModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($strategi))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Strategi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $data = $tujuan->sasaran();
+      $data = $strategi->program();
 
-      $totalRecords = $data->count('b.RpjmdTujuanID');
+      $totalRecords = $data->count('RpjmdSasaranID');
 
       if($request->filled('offset'))
       {
@@ -201,8 +201,8 @@ class RPJMDTujuanController extends Controller
       if($request->filled('search'))
       {
         $search = $request->input('search');
-        $data = $data->where('Nm_RpjmdTujuan', 'LIKE', "%$search%")
-        ->orWhere('Kd_RpjmdTujuan', $search);
+        $data = $data->where('Nm_RpjmdStrategi', 'LIKE', "%$search%")
+        ->orWhere('Kd_RpjmdStrategi', $search);
       }
 
       return Response()->json([
@@ -212,7 +212,7 @@ class RPJMDTujuanController extends Controller
           'data' => $data->get(),
           'totalRecords' => $totalRecords,
         ],
-        'message' => 'Data sasaran berhasil diperoleh.'
+        'message' => 'Data arah kebijakan berhasil diperoleh.'
       ], 200); 
     }
   }
@@ -225,30 +225,30 @@ class RPJMDTujuanController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_UPDATE');
+    $this->hasPermissionTo('RPJMD-STRATEGI_UPDATE');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $strategi = RPJMDStrategiModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($strategi))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Strategi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
 
-      $tujuan->Kd_RpjmdTujuan = $request->input('Kd_RpjmdTujuan');
-      $tujuan->Nm_RpjmdTujuan = $request->input('Nm_RpjmdTujuan');
-      $tujuan->save();
+      $strategi->Kd_RpjmdStrategi = $request->input('Kd_RpjmdStrategi');
+      $strategi->Nm_RpjmdStrategi = $request->input('Nm_RpjmdStrategi');
+      $strategi->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'payload' => $tujuan,                                    
-        'message' => 'Data tujuan berhasil disimpan.'
+        'payload' => $strategi,                                    
+        'message' => 'Data strategi berhasil disimpan.'
       ], 200); 
     }
   }
@@ -261,34 +261,34 @@ class RPJMDTujuanController extends Controller
    */
   public function destroy(Request $request,$id)
   {
-    $this->hasPermissionTo('RPJMD-TUJUAN_DESTROY');
+    $this->hasPermissionTo('RPJMD-STRATEGI_DESTROY');
 
-    $tujuan = RPJMDTujuanModel::find($id);
+    $strategi = RPJMDStrategiModel::find($id);
 
-    if(is_null($tujuan))
+    if(is_null($strategi))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Strategi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
-    // else if($misi->tujuan->count('RpjmdMisiID') > 0)
+    // else if($strategi->program->count('RpjmdArahKebijakanID') > 0)
     // {
     //   return Response()->json([
     //     'status' => 0,
     //     'pid' => 'fetchdata',
-    //     'message' => ["RPJMD Tujuan dengan dengan ($id) gagal dihapus karena masih terhubung ke Sasaran"]
+    //     'message' => ["RPJMD Strategi dengan dengan ($id) gagal dihapus karena masih terhubung ke Strategi"]
     //   ], 422); 
     // }
     else
     {
-      $tujuan->delete();
+      $strategi->delete();
 
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data RPJMD Tujuan dengan ID ($id) berhasil dihapus"
+        'message' => "Data RPJMD Strategi dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }

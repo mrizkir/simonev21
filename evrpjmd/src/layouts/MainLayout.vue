@@ -30,6 +30,7 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="MISI" value="misi" to="/admin/dmaster/misi" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="TUJUAN" value="tujuan" to="/admin/dmaster/tujuan" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="SASARAN" value="sasaran" to="/admin/dmaster/sasaran" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="STRATEGI" value="strategi" to="/admin/dmaster/strategi" link slim />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer

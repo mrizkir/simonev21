@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        SASARAN
+        STRATEGI
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola sasaran.
+          Halaman ini digunakan untuk mengelola strategi.
         </v-alert>
       </template>      
     </v-page-header>
@@ -26,7 +26,7 @@
           <v-card>
             <v-card-title>
               <v-icon icon="mdi-eye"></v-icon> &nbsp;
-              <span class="headline">DATA TUJUAN</span>
+              <span class="headline">DATA SASARAN</span>
             </v-card-title>
             <v-card-text>
               <v-row justify="space-between">
@@ -36,31 +36,31 @@
                       ID
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_tujuan.RpjmdTujuanID }}
+                      {{ data_sasaran.RpjmdSasaranID }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      MISI
+                      TUJUAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_tujuan.misi.Kd_RpjmdMisi }}. {{ data_tujuan.misi.Nm_RpjmdMisi }}
+                      {{ data_sasaran.tujuan.Kd_RpjmdTujuan }}. {{ data_sasaran.tujuan.Nm_RpjmdTujuan }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      KODE TUJUAN
+                      KODE SASARAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_tujuan.Kd_RpjmdTujuan }}
+                      {{ data_sasaran.Kd_RpjmdSasaran }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      NAMA TUJUAN
+                      NAMA SASARAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_tujuan.Nm_RpjmdTujuan }}
+                      {{ data_sasaran.Nm_RpjmdSasaran }}
                     </v-col>
                   </v-row>
                 </v-col>
@@ -75,28 +75,28 @@
             <v-card>
               <v-card-title>
                 <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                <span class="headline">TAMBAH SASARAN</span>
+                <span class="headline">TAMBAH STRATEGI</span>
               </v-card-title>
               <v-card-text>
                 <v-text-field
-                  v-model="formdata.Kd_RpjmdSasaran"                  
+                  v-model="formdata.Kd_RpjmdStrategi"                  
                   density="compact"        
-                  label="KODE SASARAN"
+                  label="KODE STRATEGI"
                   variant="outlined"
                   prepend-inner-icon="mdi-graph"
-                  hint="Masukan kode / nomor sasaran dari rpjmd"
-                  :rules="rule_kode_sasaran"
+                  hint="Masukan kode / nomor strategi dari rpjmd"
+                  :rules="rule_kode_strategi"
                   auto-grow
                 />    
                 <v-textarea
-                  v-model="formdata.Nm_RpjmdSasaran"
+                  v-model="formdata.Nm_RpjmdStrategi"
                   rows="1"
                   density="compact"        
-                  label="NAMA SASARAN"
+                  label="NAMA STRATEGI"
                   variant="outlined"
                   prepend-inner-icon="mdi-graph"
-                  hint="Masukan sasaran dari rpjmd"
-                  :rules="rule_nama_sasaran"
+                  hint="Masukan strategi dari rpjmd"
+                  :rules="rule_nama_strategi"
                   auto-grow
                 />
               </v-card-text>
@@ -116,18 +116,18 @@
           </v-form>
         </v-col>
       </v-row>
-      <v-sasaran-data-table :RpjmdTujuanID="RpjmdTujuanID" />
+      <v-strategi-data-table :RpjmdSasaranID="RpjmdSasaranID" />
     </v-container>
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
-  import dataTable from '@/pages/admin/dmaster/DMasterSasaranDataTable.vue'
+  import dataTable from '@/pages/admin/dmaster/DMasterStrategiDataTable.vue'
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'DMasterSasaranManage',
+    name: 'DMasterStrategiManage',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -141,8 +141,8 @@
           href: '#',
         },
         {
-          title: 'SASARAN',    
-          href: '/admin/dmaster/sasaran',
+          title: 'STRATEGI',    
+          href: '/admin/dmaster/strategi',
         },
         {
           title: 'KELOLA',
@@ -150,59 +150,60 @@
           href: '#',
         },
       ]
-      this.RpjmdTujuanID = this.$route.params.RpjmdTujuanID;
+      this.RpjmdSasaranID = this.$route.params.RpjmdSasaranID;
     },
     mounted() {
-      this.fetchTujuan()
+      this.fetchSasaran()
     },
     data: () => ({
-      RpjmdTujuanID: null,
+      RpjmdSasaranID: null,
       btnLoading: false,
       breadcrumbs: [],
-      data_tujuan: {
-        misi: {},
+      data_sasaran: {
+        tujuan: {},
       },
       //form data
       form_valid: true,
       formdata: {
+        RpjmdStrategiID: null,
         RpjmdSasaranID: null,
-        RpjmdTujuanID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdSasaran: null,  
-        Nm_RpjmdSasaran: null,  
+        Kd_RpjmdStrategi: null,  
+        Nm_RpjmdStrategi: null,  
         created_at: null,
         updated_at: null,
       },
       formdefault: {
+        RpjmdStrategiID: null,
         RpjmdSasaranID: null,
-        RpjmdTujuanID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdSasaran: null,  
-        Nm_RpjmdSasaran: null,  
+        Kd_RpjmdStrategi: null,  
+        Nm_RpjmdStrategi: null,  
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_kode_sasaran: [
-        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
+      rule_kode_strategi: [
+        value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
       ],
-      rule_nama_sasaran: [
-        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
+      rule_nama_strategi: [
+        value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
     }),
     methods: {      
-      async fetchTujuan() {
+      async fetchSasaran() {
         await this.$ajax
-          .get('/rpjmd/tujuan/' + this.RpjmdTujuanID, {
+          .get('/rpjmd/sasaran/' + this.RpjmdSasaranID, {
               headers: {
                 Authorization: this.userStore.Token,
               },
             }
           )
           .then(({ data }) => {
-            this.data_tujuan = data.payload            
+            this.data_sasaran = data.payload
+            console.log(this.data_sasaran.Nm_RpjmdSasaran)
           })
       },
       async save() {
@@ -212,11 +213,11 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/sasaran/store',
+              '/rpjmd/strategi/store',
               {
-                RpjmdTujuanID: this.RpjmdTujuanID,                
-                Kd_RpjmdSasaran: this.formdata.Kd_RpjmdSasaran,
-                Nm_RpjmdSasaran: this.formdata.Nm_RpjmdSasaran,                  
+                RpjmdSasaranID: this.RpjmdSasaranID,                
+                Kd_RpjmdStrategi: this.formdata.Kd_RpjmdStrategi,
+                Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,                  
               },
               {
                 headers: {
@@ -236,7 +237,7 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-sasaran-data-table': dataTable,
+      'v-strategi-data-table': dataTable,
     }
   }
 </script>

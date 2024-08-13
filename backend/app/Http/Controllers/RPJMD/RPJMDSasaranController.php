@@ -136,6 +136,9 @@ class RPJMDSasaranController extends Controller
     }
     else
     {
+      $payload = $sasaran;
+      $payload->tujuan;
+
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
@@ -144,7 +147,7 @@ class RPJMDSasaranController extends Controller
       ], 200); 
     }
   }
-  public function arahkebijakan(Request $request, $id)
+  public function strategi(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-SASARAN_SHOW');
 
@@ -155,14 +158,14 @@ class RPJMDSasaranController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["RPJMD Arah Kebijakan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["RPJMD Sasaran dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $data = $sasaran->arahkebijakan();
+      $data = $sasaran->strategi();
 
-      $totalRecords = $data->count('RpjmdTujuanID');
+      $totalRecords = $data->count('RpjmdStrategiID');
 
       if($request->filled('offset'))
       {
@@ -199,8 +202,8 @@ class RPJMDSasaranController extends Controller
       if($request->filled('search'))
       {
         $search = $request->input('search');
-        $data = $data->where('Nm_RpjmdSasaran', 'LIKE', "%$search%")
-        ->orWhere('Kd_RpjmdSasaran', $search);
+        $data = $data->where('Nm_RpjmdStrategi', 'LIKE', "%$search%")
+        ->orWhere('Kd_RpjmdStrategi', $search);
       }
 
       return Response()->json([
@@ -210,7 +213,7 @@ class RPJMDSasaranController extends Controller
           'data' => $data->get(),
           'totalRecords' => $totalRecords,
         ],
-        'message' => 'Data arah kebijakan berhasil diperoleh.'
+        'message' => 'Data strategi berhasil diperoleh.'
       ], 200); 
     }
   }
