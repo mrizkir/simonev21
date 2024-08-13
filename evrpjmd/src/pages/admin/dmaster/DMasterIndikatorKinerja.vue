@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        INDIKATOR PROGRAM
+        INDIKATOR KINERJA
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola indikator program untuk IKK dan IKU.
+          Halaman ini digunakan untuk mengelola indikator kinerja tujuan, sasaran dan program.
         </v-alert>
       </template>      
     </v-page-header>
@@ -26,7 +26,7 @@
           <v-card>
             <v-card-title class="d-flex align-center pe-2">
               <v-icon icon="mdi-graph"></v-icon> &nbsp;
-              DAFTAR INDIKATOR PROGRAM
+              DAFTAR INDIKATOR KINERJA
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="search"
@@ -262,7 +262,7 @@
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'DMasterIndikatorProgram',
+    name: 'DMasterIndikatorKinerja',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -276,7 +276,7 @@
           href: '#',
         },
         {
-          title: 'INDIKATOR PROGRAM',
+          title: 'INDIKATOR KINERJA',
           disabled: true,
           href: '#',
         },
@@ -389,7 +389,7 @@
 
         await this.$ajax
           .post(
-            "/rpjmd/indikatorprogram",
+            "/rpjmd/indikatorkinerja",
             {
               PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
               sortBy: sortBy,
@@ -429,7 +429,7 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/rpjmd/indikatorprogram/' + this.formdata.IndikatorKinerjaID,
+                '/rpjmd/indikatorkinerja/' + this.formdata.IndikatorKinerjaID,
                 {
                   _method: "PUT",
                   PeriodeRPJMDID: this.formdata.PeriodeRPJMDID,
@@ -453,7 +453,7 @@
           } else {
             this.$ajax
               .post(
-                '/rpjmd/indikatorprogram/store',
+                '/rpjmd/indikatorkinerja/store',
                 {
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                   NamaIndikator: this.formdata.NamaIndikator,
@@ -492,7 +492,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/indikatorprogram/' + item.IndikatorKinerjaID,
+                  '/rpjmd/indikatorkinerja/' + item.IndikatorKinerjaID,
                   {
                     _method: 'DELETE',
                   },

@@ -36,14 +36,14 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterPeriodeRPJMD.vue'),
   },
-  // admin - dmaster indikator program
+  // admin - dmaster indikator kinerja
   {
-    path: '/admin/dmaster/indikatorprogram',
+    path: '/admin/dmaster/indikatorkinerja',
     name: 'DMasterIndikatorKinerja',
     meta: {
-      title: 'DATA MASTER - INDIKATOR PROGRAM',
+      title: 'DATA MASTER - INDIKATOR KINERJA',
     },
-    component: () => import('@/pages/admin/dmaster/DMasterIndikatorProgram.vue'),
+    component: () => import('@/pages/admin/dmaster/DMasterIndikatorKinerja.vue'),
   },
   // admin - dmaster visi
   {

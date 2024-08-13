@@ -102,6 +102,7 @@ class RPJMDStrategiController extends Controller
       'RpjmdSasaranID'=>'required|exists:tmRPJMDSasaran,RpjmdSasaranID',      
       'Kd_RpjmdStrategi'=>'required',      
       'Nm_RpjmdStrategi'=>'required',      
+      'Nm_RpjmdArahKebijakan'=>'required',      
     ]);         
 
     $strategi = RPJMDSasaranModel::find($request->input('RpjmdSasaranID'));
@@ -112,6 +113,7 @@ class RPJMDStrategiController extends Controller
       'RpjmdSasaranID' => $request->input('RpjmdSasaranID'),      
       'Kd_RpjmdStrategi' => $request->input('Kd_RpjmdStrategi'),
       'Nm_RpjmdStrategi' => $request->input('Nm_RpjmdStrategi'),      
+      'Nm_RpjmdArahKebijakan' => $request->input('Nm_RpjmdArahKebijakan'),      
     ]);        
     
     return Response()->json([
@@ -242,6 +244,7 @@ class RPJMDStrategiController extends Controller
 
       $strategi->Kd_RpjmdStrategi = $request->input('Kd_RpjmdStrategi');
       $strategi->Nm_RpjmdStrategi = $request->input('Nm_RpjmdStrategi');
+      $strategi->Nm_RpjmdArahKebijakan = $request->input('Nm_RpjmdArahKebijakan');
       $strategi->save();
       
       return Response()->json([

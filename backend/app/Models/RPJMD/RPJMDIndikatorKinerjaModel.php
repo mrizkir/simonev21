@@ -4,7 +4,7 @@ namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RPJMDIndikatorProgramModel extends Model {    
+class RPJMDIndikatorKinerjaModel extends Model {    
 	 /**
 	 * nama tabel model ini.
 	 *
@@ -26,6 +26,9 @@ class RPJMDIndikatorProgramModel extends Model {
 		'IndikatorKinerjaID',
 		'PeriodeRPJMDID',
     'NamaIndikator',
+    'TipeIndikator',
+    'Satuan',
+    'Operasi',
     'is_iku',
     'is_ikk',
     'TA_AWAL',

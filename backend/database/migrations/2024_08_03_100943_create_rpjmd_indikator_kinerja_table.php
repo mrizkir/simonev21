@@ -17,6 +17,9 @@ class CreateRPJMDIndikatorKinerjaTable extends Migration
       $table->uuid('IndikatorKinerjaID');
       $table->uuid('PeriodeRPJMDID');
       $table->text('NamaIndikator');
+      $table->string('TipeIndikator', 15);//program, sasaran, tujuan
+      $table->string('Satuan', 15);
+      $table->string('Operasi', 15)->default('max');
       $table->boolean('is_iku')->default(0);
       $table->boolean('is_ikk')->default(0);
       $table->year('TA_AWAL');

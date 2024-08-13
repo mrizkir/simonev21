@@ -23,6 +23,7 @@ class RPJMDStrategiModel extends Model
     'PeriodeRPJMDID',
     'Kd_RpjmdStrategi',
     'Nm_RpjmdStrategi',    
+    'Nm_RpjmdArahKebijakan',    
   ];
   /**
    * primary key tabel ini.

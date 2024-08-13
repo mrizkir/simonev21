@@ -75,6 +75,17 @@
                         :rules="rule_nama_strategi"
                         auto-grow
                       />
+                      <v-textarea
+                        v-model="formdata.Nm_RpjmdArahKebijakan"
+                        rows="1"
+                        density="compact"        
+                        label="ARAH KEBIJAKAN"
+                        variant="outlined"
+                        prepend-inner-icon="mdi-graph"
+                        hint="Masukan arah kebijakan strategi dari rpjmd"
+                        :rules="rule_nama_arah_kebijakan"
+                        auto-grow
+                      />
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -198,7 +209,15 @@
           headerProps: {
             class: 'font-weight-bold',
           },
-        },        
+        },
+        {
+          title: 'ARAH KEBIJAKAN',
+          key: 'Nm_RpjmdArahKebijakan',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },
         {
           title: "AKSI",
           key: "actions",
@@ -221,6 +240,7 @@
         PeriodeRPJMDID: null,
         Kd_RpjmdStrategi: null,  
         Nm_RpjmdStrategi: null,  
+        Nm_RpjmdArahKebijakan: null,  
         created_at: null,
         updated_at: null,
       },
@@ -229,7 +249,8 @@
         RpjmdSasaranID: null,
         PeriodeRPJMDID: null,
         Kd_RpjmdStrategi: null,  
-        Nm_RpjmdStrategi: null,  
+        Nm_RpjmdStrategi: null, 
+        Nm_RpjmdArahKebijakan: null,   
         created_at: null,
         updated_at: null,
       },
@@ -239,6 +260,9 @@
       ],
       rule_nama_strategi: [
         value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
+      ],
+      rule_nama_arah_kebijakan: [
+        value => !!value || 'Mohon untuk di isi arah kebijakan strategi  dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
@@ -320,7 +344,8 @@
               {
                 _method: 'PUT',
                 Kd_RpjmdStrategi: this.formdata.Kd_RpjmdStrategi,
-                Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,                  
+                Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,
+                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,
               },
               {
                 headers: {

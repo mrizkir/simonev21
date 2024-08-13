@@ -24,13 +24,14 @@
         <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token" link slim />
         <v-list-subheader title="DATA MASTER" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PERIODE RPJMD" value="periode_rpjmd" to="/admin/dmaster/perioderpjmd" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator_program" to="/admin/dmaster/indikatorprogram" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja" link slim />
         <v-divider color="blue-lighten-3" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="VISI" value="visi" to="/admin/dmaster/visi" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="MISI" value="misi" to="/admin/dmaster/misi" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="TUJUAN" value="tujuan" to="/admin/dmaster/tujuan" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="SASARAN" value="sasaran" to="/admin/dmaster/sasaran" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="STRATEGI" value="strategi" to="/admin/dmaster/strategi" link slim />
+        <v-list-subheader title="RELASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer

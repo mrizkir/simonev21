@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\RPJMD;
 
 use App\Http\Controllers\Controller;
-use App\Models\RPJMD\RPJMDIndikatorProgramModel;
+use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
 use App\Models\RPJMD\RPJMDPeriodeModel;
 use Illuminate\Http\Request;
 
 use Ramsey\Uuid\Uuid;
 
-class RPJMDIndikatorProgramController extends Controller
+class RPJMDIndikatorKinerjaController extends Controller
 {    
   /**
    * mendapatkan daftar seluruh indikator
@@ -26,9 +26,9 @@ class RPJMDIndikatorProgramController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
 
-    $totalRecords = RPJMDIndikatorProgramModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('IndikatorKinerjaID');
+    $totalRecords = RPJMDIndikatorKinerjaModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('IndikatorKinerjaID');
     
-    $data = RPJMDIndikatorProgramModel::select(\DB::raw('*'))
+    $data = RPJMDIndikatorKinerjaModel::select(\DB::raw('*'))
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
     
     if($request->filled('offset'))
@@ -99,7 +99,7 @@ class RPJMDIndikatorProgramController extends Controller
     
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
 
-    $indikator = RPJMDIndikatorProgramModel::create ([
+    $indikator = RPJMDIndikatorKinerjaModel::create ([
       'IndikatorKinerjaID'=> Uuid::uuid4()->toString(),
       'PeriodeRPJMDID' => $periode->PeriodeRPJMDID,
       'NamaIndikator' => $request->input('NamaIndikator'),
@@ -126,7 +126,7 @@ class RPJMDIndikatorProgramController extends Controller
   {        
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
-    $indikator = RPJMDIndikatorProgramModel::find($id);
+    $indikator = RPJMDIndikatorKinerjaModel::find($id);
 
     if(is_null($indikator))
     {
@@ -170,7 +170,7 @@ class RPJMDIndikatorProgramController extends Controller
   {   
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
-    $indikator = RPJMDIndikatorProgramModel::find($id);
+    $indikator = RPJMDIndikatorKinerjaModel::find($id);
 
     if(is_null($indikator))
     {

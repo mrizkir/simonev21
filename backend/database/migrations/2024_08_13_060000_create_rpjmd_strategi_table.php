@@ -19,6 +19,7 @@ class CreateRpjmdStrategiTable extends Migration
       $table->uuid('PeriodeRPJMDID');
       $table->string('Kd_RpjmdStrategi', 4);                  
       $table->text('Nm_RpjmdStrategi');                  
+      $table->text('Nm_RpjmdArahKebijakan');                  
       $table->timestamps();
 
       $table->primary('RpjmdStrategiID');

@@ -202,11 +202,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->put('/rpjmd/periode/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDPeriodeController@update','as'=>'rpjmd-periode.update']);
   $router->delete('/rpjmd/periode/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDPeriodeController@destroy','as'=>'rpjmd-periode.destroy']);
   
-  //rpjmd - indikator program  
-  $router->post('/rpjmd/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@index','as'=>'rpjmd-indikator-program.index']);
-  $router->post('/rpjmd/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@store','as'=>'rpjmd-indikator-program.store']);
-  $router->put('/rpjmd/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@update','as'=>'rpjmd-indikator-program.update']);
-  $router->delete('/rpjmd/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorProgramController@destroy','as'=>'rpjmd-indikator-program.destroy']);
+  //rpjmd - indikator kinerja  
+  $router->post('/rpjmd/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@index','as'=>'rpjmd-indikator-kinerja.index']);
+  $router->post('/rpjmd/indikatorkinerja/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@store','as'=>'rpjmd-indikator-kinerja.store']);
+  $router->put('/rpjmd/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@update','as'=>'rpjmd-indikator-kinerja.update']);
+  $router->delete('/rpjmd/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@destroy','as'=>'rpjmd-indikator-kinerja.destroy']);
   
   //rpjmd - visi 
   $router->post('/rpjmd/visi', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDVisiController@index','as'=>'rpjmd-visi.index']);
