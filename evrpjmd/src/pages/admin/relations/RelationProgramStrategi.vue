@@ -1,0 +1,3 @@
+<template>
+  Program Strategi
+</template>

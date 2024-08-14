@@ -1,0 +1,3 @@
+<template>
+  Indikator Sasaran
+</template>

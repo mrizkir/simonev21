@@ -1,0 +1,3 @@
+<template>
+  Indikator Tujuan
+</template>

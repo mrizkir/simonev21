@@ -126,6 +126,33 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterStrategiManage.vue'),
   },
+  // admin - relation - indikator - tujuan
+  {
+    path: '/admin/relations/tujuan',
+    name: 'DMasterRelationTujuan',
+    meta: {
+      title: 'RELAIION - INDIKATOR TUJUAN',
+    },
+    component: () => import('@/pages/admin/dmaster/RelationTujuanIndikator.vue'),
+  },
+  // admin - relation - indikator - tujuan
+  {
+    path: '/admin/relations/sasaran',
+    name: 'DMasterRelationSasaran',
+    meta: {
+      title: 'RELAIION - INDIKATOR SASARAN',
+    },
+    component: () => import('@/pages/admin/dmaster/RelationSasaranIndikator.vue'),
+  },
+  // admin - relation - strategi - program
+  {
+    path: '/admin/relations/sasaran',
+    name: 'DMasterRelationSasaran',
+    meta: {
+      title: 'RELAIION - INDIKATOR SASARAN',
+    },
+    component: () => import('@/pages/admin/dmaster/RelationSasaranIndikator.vue'),
+  },
   // other page
   {
     path: '/404',
