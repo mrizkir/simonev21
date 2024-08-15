@@ -1,3 +1,3 @@
 <template>
-  Indikator Sasaran
+  Indikator Program
 </template>

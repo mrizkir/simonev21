@@ -128,30 +128,39 @@ const routes = [
   },
   // admin - relation - indikator - tujuan
   {
-    path: '/admin/relations/tujuan',
-    name: 'DMasterRelationTujuan',
+    path: '/admin/relations/indikatortujuan',
+    name: 'RelationTujuan',
     meta: {
-      title: 'RELAIION - INDIKATOR TUJUAN',
+      title: 'RELATION - INDIKATOR TUJUAN',
     },
-    component: () => import('@/pages/admin/dmaster/RelationTujuanIndikator.vue'),
+    component: () => import('@/pages/admin/relations/RelationTujuanIndikator.vue'),
   },
   // admin - relation - indikator - tujuan
   {
-    path: '/admin/relations/sasaran',
-    name: 'DMasterRelationSasaran',
+    path: '/admin/relations/indikatorsasaran',
+    name: 'RelationSasaran',
     meta: {
-      title: 'RELAIION - INDIKATOR SASARAN',
+      title: 'RELATION - INDIKATOR SASARAN',
     },
-    component: () => import('@/pages/admin/dmaster/RelationSasaranIndikator.vue'),
+    component: () => import('@/pages/admin/relations/RelationSasaranIndikator.vue'),
   },
   // admin - relation - strategi - program
   {
-    path: '/admin/relations/sasaran',
-    name: 'DMasterRelationSasaran',
+    path: '/admin/relations/programstrategi',
+    name: 'RelationProgramStrategi',
     meta: {
-      title: 'RELAIION - INDIKATOR SASARAN',
+      title: 'RELATION - PROGRAM STRATEGI',
     },
-    component: () => import('@/pages/admin/dmaster/RelationSasaranIndikator.vue'),
+    component: () => import('@/pages/admin/relations/RelationProgramStrategi.vue'),
+  },
+  // admin - relation - indikator - program
+  {
+    path: '/admin/relations/indikatorprogram',
+    name: 'RelationProgram',
+    meta: {
+      title: 'RELATION - INDIKATOR PROGRAM',
+    },
+    component: () => import('@/pages/admin/relations/RelationProgramIndikator.vue'),
   },
   // other page
   {

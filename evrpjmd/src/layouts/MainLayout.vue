@@ -32,6 +32,10 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="SASARAN" value="sasaran" to="/admin/dmaster/sasaran" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="STRATEGI" value="strategi" to="/admin/dmaster/strategi" link slim />
         <v-list-subheader title="RELASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="indikator-tujuan" to="/admin/relations/indikatortujuan" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="indikator-sasaran" to="/admin/relations/indikatorsasaran" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM STRATEGI" value="program-strategi" to="/admin/relations/programstrategi" link slim />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer
