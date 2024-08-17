@@ -29,11 +29,33 @@
         :items-length="totalRecords"
         :loading="datatableLoading"
         :search="searchTrigger"
-        item-value="IndikatorKinerjaID"
+        item-value="RpjmdTujuanID"
         @update:options="initialize"        
         items-per-page-text="Jumlah record per halaman"
+        disable-sort
       >
-        
+        <template v-slot:loading>
+          <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
+        </template>
+        <template v-slot:item="{ index, item }">
+          <tr class="bg-grey-lighten-5">
+            <td>{{ (indexOffset + index) + 1 }}</td>
+            <td colspan="11">{{ item.Nm_RpjmdTujuan }}</td>
+            <td>
+              <v-btn
+                class="mr-2"
+                v-tooltip:bottom="'Tambah Sasaran'"
+                :to="'/admin/dmaster/sasaran/' + item.RpjmdTujuanID + '/manage'"
+                size="small"
+                color="primary"
+                variant="text"
+                icon="mdi-plus"
+                density="compact"
+              />
+            </td>
+          </tr>
+          
+        </template>
       </v-data-table-server>
     </v-container>
   </v-main-layout>  
@@ -72,12 +94,33 @@
       datatable: [],
       itemsPerPage: 10,
       totalRecords: 0,
-      indexOffset: 0,      
-      search: '',
+      indexOffset: 0,
     }),
     methods: {
-      async initialize() {
+      async initialize({ page, itemsPerPage }) {  
+        this.datatableLoading = true
+        const offset = (page - 1) * itemsPerPage
+        this.indexOffset = offset
 
+        await this.$ajax
+          .post('/rpjmd/tujuan/indikatortujuan', 
+            {
+              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,              
+              offset: offset,
+              limit: itemsPerPage,
+            },
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            let payload = data.payload
+            this.datatable = payload.data
+            this.totalRecords = payload.totalRecords
+            this.datatableLoading = false    
+          })
       },
     },
     computed: {
@@ -89,25 +132,25 @@
         var children_kondisi_awal = [
           {
             title: TA_AWAL - 1,
-            value: 'height',
+            value: 'data_1',
             headerProps: {
               class: 'font-weight-bold',
             },
           },
           {
             title: TA_AWAL,
-            value: 'base',
+            value: 'data_2',
             headerProps: {
               class: 'font-weight-bold',
             },
           },
         ]
-        var children_target_tahun = []        
-        for(var i = parseInt(TA_AWAL) + 1; i <= TA_AKHIR; i++) {
-          console.log(i)
+        var children_target_tahun = []
+        var i = 3        
+        for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
           children_target_tahun.push({
-            title: i,
-            value: 'height',
+            title: tahun,
+            value: 'data_' + i,
             headerProps: {
               class: 'font-weight-bold',
             },
@@ -135,7 +178,6 @@
           },
           {
             title: 'INDIKATOR',
-            key: 'Nm_RpjmdTujuan',
             align: 'start',
             headerProps: {
               class: 'font-weight-bold',
@@ -169,6 +211,15 @@
             title: 'AKHIR RPJMD',
             key: 'Nm_RpjmdTujuan',
             align: 'center',
+            headerProps: {
+              class: 'font-weight-bold',
+            },
+          },
+          {
+            title: "AKSI",
+            key: "actions",
+            sortable: false,
+            width: 110,
             headerProps: {
               class: 'font-weight-bold',
             },

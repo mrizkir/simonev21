@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\RPJMD\RPJMDMisiModel;
 use App\Models\RPJMD\RPJMDTujuanModel;
+use App\Models\RPJMD\RPJMDRelasiIndikatorModel;
 
 use Ramsey\Uuid\Uuid;
 
@@ -86,6 +87,89 @@ class RPJMDTujuanController extends Controller
       'message' => 'Fetch data Tujuan berhasil diperoleh'
     ], 200);  
   }    
+  public function indikatortujuan(Request $request)
+  {                
+    $this->hasPermissionTo('RPJMD-TUJUAN_BROWSE');
+    
+    $this->validate($request, [      
+      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+    ]);
+
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
+    
+    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
+    
+    $data = RPJMDTujuanModel::select(\DB::raw('
+      tmRpjmdTujuan.*,
+      CONCAT(b.Kd_RpjmdMisi,".",tmRpjmdTujuan.Kd_RpjmdTujuan) AS kode_tujuan,
+      "{}" AS indikator
+    '))
+    ->join('tmRpjmdMisi AS b', 'b.RpjmdMisiID', 'tmRpjmdTujuan.RpjmdMisiID')
+    ->where('tmRpjmdTujuan.PeriodeRPJMDID', $PeriodeRPJMDID);
+    
+    if($request->filled('offset'))
+    {
+      $this->validate($request, [              
+        'offset'=>'required|numeric',      
+      ]);
+
+      $offset = $request->input('offset');
+      $data = $data->offset($offset);
+    }
+
+    if($request->filled('limit'))
+    {
+      $this->validate($request, [              
+        'limit'=>'required|numeric|gt:0',   
+      ]);
+
+      $limit = $request->input('limit');
+      $data = $data->limit($limit);
+    }
+
+    if($request->filled('sortBy'))
+    {
+      $sortBy = $request->input('sortBy');
+      if(is_array($sortBy))
+      {
+        foreach ($sortBy as $item)
+        {
+          $data = $data->orderBy($item['key'], $item['order']);
+        }
+      }
+    }
+
+    $indikatorkinerja = $data
+    ->get()
+    ->transform(function($item, $key) 
+    {
+      $item->indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
+        a.RpjmdRelasiIndikatorID,
+        data_1,
+        data_2,
+        data_3,
+        data_4,
+        data_5,
+        data_6,
+        data_7
+      '))
+      ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
+      ->where('RpjmdCascadingID', $item->RpjmdTujuanID)
+      ->get();
+
+      return $item;
+    });
+
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => [
+        'data' => $indikatorkinerja,
+        'totalRecords' => $totalRecords,
+      ],
+      'message' => 'Fetch data Indikator Tujuan berhasil diperoleh'
+    ], 200);  
+  }
   /**
    * Store a newly created resource in storage.
    *
@@ -213,9 +297,9 @@ class RPJMDTujuanController extends Controller
           'totalRecords' => $totalRecords,
         ],
         'message' => 'Data sasaran berhasil diperoleh.'
-      ], 200); 
+      ], 200);
     }
-  }
+  }  
   /**
    * Update the specified resource in storage.
    *
