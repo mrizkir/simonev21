@@ -44,8 +44,7 @@
             <td>
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Sasaran'"
-                :to="'/admin/dmaster/sasaran/' + item.RpjmdTujuanID + '/manage'"
+                v-tooltip:bottom="'Tambah Indikator'"                
                 size="small"
                 color="primary"
                 variant="text"
@@ -54,7 +53,14 @@
               />
             </td>
           </tr>
-          
+          <tr v-if="item.indikator.length > 0">
+            <td>
+              {{ item.indikator.length }}
+            </td>
+          </tr>
+          <tr v-else>
+            <td colspan="13" class="text-center">Belum ada indikator. Silahkan tambah</td>
+          </tr>
         </template>
       </v-data-table-server>
     </v-container>
@@ -85,7 +91,6 @@
           href: '#',
         },
       ]
-      this.initialize()
     },
     data: () => ({
       btnLoading: false,
@@ -95,9 +100,10 @@
       itemsPerPage: 10,
       totalRecords: 0,
       indexOffset: 0,
+      search: '',
     }),
     methods: {
-      async initialize({ page, itemsPerPage }) {  
+      async initialize({ page, itemsPerPage }) {        
         this.datatableLoading = true
         const offset = (page - 1) * itemsPerPage
         this.indexOffset = offset
@@ -124,6 +130,11 @@
       },
     },
     computed: {
+      searchTrigger () {
+        if (this.search.length >= 3) {
+          return this.search
+        }
+      },
       fetchHeader() {
         let periode = this.userStore.PeriodeRPJMD;
         let TA_AWAL = periode.TA_AWAL
