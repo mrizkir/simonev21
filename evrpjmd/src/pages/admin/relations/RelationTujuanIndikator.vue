@@ -37,6 +37,56 @@
         <template v-slot:loading>
           <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
         </template>
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-dialog
+              v-model="dialogfrm"
+              max-width="600px"
+              persistent
+            >
+              <v-form ref="frmdata" v-model="form_valid">
+                <v-card>
+                  <v-card-title>
+                    <v-icon icon="mdi-pencil"></v-icon> &nbsp;
+                    <span class="headline">TAMBAH INDIKATOR TUJUAN</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="formdata.Kd_RpjmdMisi"                  
+                      density="compact"        
+                      label="KODE MISI"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"
+                      hint="Masukan kode / nomor misi dari rpjmd"
+                      :rules="rule_kode_misi"
+                      auto-grow
+                    />
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="orange-darken-1"
+                      @click.stop="closedialogfrm"
+                      prepend-icon="mdi-close"
+                      rounded="sm"
+                    >
+                      TUTUP
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      @click.stop="save"
+                      rounded="sm"
+                      prepend-icon="mdi-content-save"
+                      :disabled="!form_valid || btnLoading"
+                    >
+                      SIMPAN
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-form>
+            </v-dialog>
+          </v-toolbar>
+        </template>
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
@@ -50,6 +100,7 @@
                 variant="text"
                 icon="mdi-plus"
                 density="compact"
+                @click.stop="addItem(item)"
               />
             </td>
           </tr>
@@ -101,6 +152,16 @@
       totalRecords: 0,
       indexOffset: 0,
       search: '',
+      //dialog
+      dialogfrm: false,
+      //form data
+      form_valid: true,
+      formdata: {
+
+      }, 
+      formdefault: {
+
+      }, 
     }),
     methods: {
       async initialize({ page, itemsPerPage }) {        
@@ -127,6 +188,21 @@
             this.totalRecords = payload.totalRecords
             this.datatableLoading = false    
           })
+      },
+      async addItem(item) {
+        this.dialogfrm = true        
+        console.log(item)
+      },
+      async save(item) {        
+        console.log(item)
+      },      
+      closedialogfrm() {
+        this.btnLoading = false
+        setTimeout(() => {
+          this.formdata = Object.assign({}, this.formdefault)          
+          this.$refs.frmdata.reset()
+          this.dialogfrm = false
+        }, 300)
       },
     },
     computed: {
