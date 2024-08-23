@@ -204,10 +204,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   
   //rpjmd - indikator kinerja  
   $router->post('/rpjmd/indikatorkinerja', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@index','as'=>'rpjmd-indikator-kinerja.index']);
+  $router->post('/rpjmd/indikatorkinerja/tujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@tujuan','as'=>'rpjmd-indikator-kinerja.tujuan']);
   $router->post('/rpjmd/indikatorkinerja/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@store','as'=>'rpjmd-indikator-kinerja.store']);
   $router->put('/rpjmd/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@update','as'=>'rpjmd-indikator-kinerja.update']);
   $router->delete('/rpjmd/indikatorkinerja/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDIndikatorKinerjaController@destroy','as'=>'rpjmd-indikator-kinerja.destroy']);
-  
   //rpjmd - visi 
   $router->post('/rpjmd/visi', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDVisiController@index','as'=>'rpjmd-visi.index']);
   $router->post('/rpjmd/visi/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDVisiController@store','as'=>'rpjmd-visi.store']);

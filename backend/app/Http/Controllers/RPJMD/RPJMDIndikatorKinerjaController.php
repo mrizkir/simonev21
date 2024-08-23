@@ -81,6 +81,31 @@ class RPJMDIndikatorKinerjaController extends Controller
 
   }
   /**
+   * use for get indikator kinerja filtered by tujuan
+   */
+  public function tujuan(Request $request)
+  {
+    $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
+    
+    $this->validate($request, [      
+      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+    ]);
+
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
+
+    $data = RPJMDIndikatorKinerjaModel::select(\DB::raw('*'))
+    ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
+    ->where('TipeIndikator', 'tujuan')
+    ->get();
+   
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => $data,
+      'message' => 'Fetch data indikator kinerja tujuan berhasil diperoleh'
+    ], 200);
+  }
+  /**
    * Store a newly created resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
