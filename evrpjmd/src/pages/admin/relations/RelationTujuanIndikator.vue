@@ -23,14 +23,14 @@
     <v-container fluid>
       <v-data-table-server
         density="compact"
-        v-model:items-per-page="itemsPerPage"            
+        v-model:items-per-page="itemsPerPage"    
         :headers="fetchHeader"
         :items="datatable"
         :items-length="totalRecords"
         :loading="datatableLoading"
         :search="searchTrigger"
         item-value="RpjmdTujuanID"
-        @update:options="initialize"        
+        @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
         disable-sort
       >
@@ -51,15 +51,90 @@
                     <span class="headline">TAMBAH INDIKATOR TUJUAN</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-text-field
-                      v-model="formdata.Kd_RpjmdMisi"                  
-                      density="compact"        
-                      label="KODE MISI"
+                    <v-row tag="dl" class="text-body-2" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        ID TUJUAN
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        {{ datatujuan.RpjmdTujuanID }}
+                      </v-col>
+                    </v-row>
+                    <v-row tag="dl" class="text-body-2" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        KODE TUJUAN
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        {{ datatujuan.kode_tujuan }}
+                      </v-col>
+                    </v-row>
+                    <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        NAMA TUJUAN
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        {{ datatujuan.Nm_RpjmdTujuan }}
+                      </v-col>
+                    </v-row>
+                    <v-autocomplete
+                      v-model="formdata.IndikatorKinerjaID"  
+                      label="INDIKATOR"
+                      density="compact"
                       variant="outlined"
                       prepend-inner-icon="mdi-graph"
-                      hint="Masukan kode / nomor misi dari rpjmd"
-                      :rules="rule_kode_misi"
-                      auto-grow
+                      hint="Pilih indikator tujuan"
+                      :items="daftarindikator"
+                      item-value="IndikatorKinerjaID"
+                      item-title="NamaIndikator"
+                      clearable
+                    />
+                    <v-text-field
+                      v-model="formdata.data_1"  
+                      density="compact"
+                      :label="'KONDISI AWAL ' + labeltahun[0]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
+                    />
+                    <v-text-field
+                      v-model="formdata.data_2"  
+                      density="compact"
+                      :label="'KONDISI AWAL ' + labeltahun[1]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
+                    />
+                    <v-text-field
+                      v-model="formdata.data_3"  
+                      density="compact"
+                      :label="'TARGET TAHUN ' + labeltahun[2]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
+                    />
+                    <v-text-field
+                      v-model="formdata.data_4"  
+                      density="compact"
+                      :label="'TARGET TAHUN ' + labeltahun[3]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
+                    />
+                    <v-text-field
+                      v-model="formdata.data_5"  
+                      density="compact"
+                      :label="'TARGET TAHUN ' + labeltahun[4]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
+                    />
+                    <v-text-field
+                      v-model="formdata.data_6"  
+                      density="compact"
+                      :label="'TARGET TAHUN ' + labeltahun[5]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
+                    />
+                    <v-text-field
+                      v-model="formdata.data_7"  
+                      density="compact"
+                      label="AKHIR RPJMD"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"      
                     />
                   </v-card-text>
                   <v-card-actions>
@@ -94,7 +169,7 @@
             <td>
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Indikator'"                
+                v-tooltip:bottom="'Tambah Indikator'"
                 size="small"
                 color="primary"
                 variant="text"
@@ -153,15 +228,34 @@
       indexOffset: 0,
       search: '',
       //dialog
+      datatujuan: {},
       dialogfrm: false,
       //form data
       form_valid: true,
+      daftarindikator: [],
       formdata: {
-
+        IndikatorKinerjaID: null,
+        RpjmdCascadingID: null,
+        data_1: null,
+        data_2: null,
+        data_3: null,
+        data_4: null,
+        data_5: null,
+        data_6: null,
+        data_7: null,
       }, 
       formdefault: {
-
+        IndikatorKinerjaID: null,
+        RpjmdCascadingID: null,
+        data_1: null,
+        data_2: null,
+        data_3: null,
+        data_4: null,
+        data_5: null,
+        data_6: null,
+        data_7: null,
       }, 
+      labeltahun: [],
     }),
     methods: {
       async initialize({ page, itemsPerPage }) {        
@@ -190,8 +284,37 @@
           })
       },
       async addItem(item) {
+        this.btnLoading = true
         this.dialogfrm = true        
-        console.log(item)
+        this.datatujuan = item
+
+        let periode = this.userStore.PeriodeRPJMD;
+        let TA_AWAL = periode.TA_AWAL
+        let TA_AKHIR = periode.TA_AKHIR
+
+        this.labeltahun.push(TA_AWAL - 1)        
+        
+        var i = 3        
+        for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
+          this.labeltahun.push(tahun);   
+        }
+
+        await this.$ajax
+          .post('/rpjmd/indikatorkinerja/tujuan', 
+            {
+              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+            },
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            let payload = data.payload
+            this.daftarindikator = payload
+            this.btnLoading = false  
+          })
       },
       async save(item) {        
         console.log(item)

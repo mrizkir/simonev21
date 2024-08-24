@@ -93,7 +93,7 @@ class RPJMDMisiController extends Controller
     $this->hasPermissionTo('RPJMD-MISI_STORE');
 
     $this->validate($request, [      
-      'RpjmdVisiID'=>'required|exists:tmRPJMDVisi,RpjmdVisiID',      
+      'RpjmdVisiID'=>'required|exists:tmRpjmdVisi,RpjmdVisiID',      
       'Kd_RpjmdMisi'=>'required',      
       'Nm_RpjmdMisi'=>'required',      
     ]);         

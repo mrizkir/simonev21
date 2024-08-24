@@ -28,7 +28,7 @@ class RPJMDSasaranController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDSasaranModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdTujuanID');
+    $totalRecords = RPJMDSasaranModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdSasaranID');
     
     $data = RPJMDSasaranModel::select(\DB::raw('
       tmRpjmdSasaran.*,
@@ -98,7 +98,7 @@ class RPJMDSasaranController extends Controller
     $this->hasPermissionTo('RPJMD-SASARAN_STORE');
 
     $this->validate($request, [      
-      'RpjmdTujuanID'=>'required|exists:tmRPJMDTujuan,RpjmdTujuanID',      
+      'RpjmdTujuanID'=>'required|exists:tmRpjmdTujuan,RpjmdTujuanID',      
       'Kd_RpjmdSasaran'=>'required',      
       'Nm_RpjmdSasaran'=>'required',      
     ]);         

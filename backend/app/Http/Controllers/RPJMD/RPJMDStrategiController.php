@@ -99,7 +99,7 @@ class RPJMDStrategiController extends Controller
     $this->hasPermissionTo('RPJMD-STRATEGI_STORE');
 
     $this->validate($request, [      
-      'RpjmdSasaranID'=>'required|exists:tmRPJMDSasaran,RpjmdSasaranID',      
+      'RpjmdSasaranID'=>'required|exists:tmRpjmdSasaran,RpjmdSasaranID',      
       'Kd_RpjmdStrategi'=>'required',      
       'Nm_RpjmdStrategi'=>'required',      
       'Nm_RpjmdArahKebijakan'=>'required',      

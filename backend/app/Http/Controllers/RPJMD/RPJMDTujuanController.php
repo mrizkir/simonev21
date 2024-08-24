@@ -181,7 +181,7 @@ class RPJMDTujuanController extends Controller
     $this->hasPermissionTo('RPJMD-TUJUAN_STORE');
 
     $this->validate($request, [      
-      'RpjmdMisiID'=>'required|exists:tmRPJMDMisi,RpjmdMisiID',      
+      'RpjmdMisiID'=>'required|exists:tmRpjmdMisi,RpjmdMisiID',      
       'Kd_RpjmdTujuan'=>'required',      
       'Nm_RpjmdTujuan'=>'required',      
     ]);         

@@ -136,7 +136,7 @@ class RPJMDPeriodeController extends Controller
         'TA_AKHIR' => $periode->TA_AKHIR,
       ]);
 
-      \DB::table('tmRPJMDVisi')
+      \DB::table('tmRpjmdVisi')
       ->where('PeriodeRPJMDID', $periode->PeriodeRPJMDID)
       ->update([
         'TA_AWAL' => $periode->TA_AWAL,

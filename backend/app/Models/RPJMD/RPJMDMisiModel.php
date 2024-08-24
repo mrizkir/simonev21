@@ -45,7 +45,12 @@ class RPJMDMisiModel extends Model
 
   public function tujuan()
   {
-    return $this->hasMany('App\Models\RPJMD\RPJMDTujuanModel', 'RpjmdMisiID', 'RpjmdMisiID');
+    return $this->hasMany('App\Models\RPJMD\RPJMDTujuanModel', 'RpjmdMisiID', 'RpjmdMisiID')
+    ->select(\DB::raw('
+      tmRpjmdTujuan.*,
+      CONCAT(b.Kd_RpjmdMisi,".",tmRpjmdTujuan.Kd_RpjmdTujuan) AS kode_tujuan
+    '))
+    ->join('tmRpjmdMisi AS b', 'b.RpjmdMisiID', 'tmRpjmdTujuan.RpjmdMisiID');
   }
 
   public function visi()
