@@ -153,7 +153,8 @@ class RPJMDTujuanController extends Controller
         data_4,
         data_5,
         data_6,
-        data_7
+        data_7,
+        data_8
       '))
       ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
       ->where('RpjmdCascadingID', $item->RpjmdTujuanID)

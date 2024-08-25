@@ -132,6 +132,13 @@
                     <v-number-input
                       v-model="formdata.data_7"  
                       density="compact"
+                      :label="'TARGET TAHUN ' + labeltahun[6]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-graph"
+                    />                    
+                    <v-number-input
+                      v-model="formdata.data_8"  
+                      density="compact"
                       label="AKHIR RPJMD"
                       variant="outlined"
                       prepend-inner-icon="mdi-graph"
@@ -165,24 +172,26 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="11">{{ item.Nm_RpjmdTujuan }}</td>
+            <td colspan="10">{{ item.Nm_RpjmdTujuan }}</td>
             <td>
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Indikator'"
-                size="small"
+                v-tooltip:bottom="'Tambah Indikator'"                
                 color="primary"
-                variant="text"
-                icon="mdi-plus"
+                variant="outlined"
+                prepend-icon="mdi-plus"
                 density="compact"
-                @click.stop="addItem(item)"
-              />
+                @click.stop="addItem(item)"                
+              >
+                Tambah
+              </v-btn>
             </td>
           </tr>
           <template v-if="item.indikator.length > 0">            
-            <tr v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID">
-              <td>{{ i + 1 }}</td>
-              <td>&nbsp;</td>
+            <tr v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID" class="bg-green-lighten-5">
+              <td>
+                <v-icon icon="mdi-arrow-right" />
+              </td>
               <td>{{ indikator.NamaIndikator }}</td>
               <td>{{ indikator.Satuan }}</td>
               <td>{{ indikator.data_1 }}</td>
@@ -193,11 +202,30 @@
               <td>{{ indikator.data_6 }}</td>
               <td>{{ indikator.data_7 }}</td>
               <td>{{ indikator.data_8 }}</td>
+              <td>
+                <v-icon
+                  class="mr-2"
+                  v-tooltip:bottom="'Ubah Indikator'"
+                  @click.stop="editItem(indikator)"
+                  size="small"
+                  color="primary"
+                >
+                  mdi-pencil
+                </v-icon>
+                <v-icon
+                  v-tooltip:bottom="'Hapus Indikator'"
+                  @click.stop="deleteItem(indikator)"
+                  size="small"
+                  color="error"
+                >
+                  mdi-delete
+                </v-icon>
+              </td>
             </tr>
           </template>
           <template v-else>
             <tr>
-              <td colspan="13" class="text-center">Belum ada indikator. Silahkan tambah</td>
+              <td colspan="12" class="text-center">Belum ada indikator. Silahkan tambah</td>
             </tr>
           </template>
         </template>
@@ -257,6 +285,7 @@
         data_5: 0,
         data_6: 0,
         data_7: 0,
+        data_8: 0,
       }, 
       formdefault: {
         IndikatorKinerjaID: null,
@@ -269,6 +298,7 @@
         data_5: 0,
         data_6: 0,
         data_7: 0,
+        data_8: 0,
       }, 
       labeltahun: [],
     }),
@@ -308,8 +338,8 @@
         let TA_AKHIR = periode.TA_AKHIR
 
         this.labeltahun.push(TA_AWAL - 1)        
+        this.labeltahun.push(TA_AWAL)        
         
-        var i = 3        
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
           this.labeltahun.push(tahun);   
         }
@@ -351,6 +381,7 @@
                 data_5: this.formdata.data_5,                  
                 data_6: this.formdata.data_6,                  
                 data_7: this.formdata.data_7,                  
+                data_8: this.formdata.data_8,                  
               },
               {
                 headers: {
@@ -420,26 +451,19 @@
             align: 'start',
             sortable: false,
             key: 'no',
-            width: 70,
+            width: 50,
             headerProps: {
               class: 'font-weight-bold',
             },
           },
           {
-            title: 'NAMA TUJUAN',
+            title: 'NAMA TUJUAN / INDIKATOR',
             key: 'Nm_RpjmdTujuan',
             align: 'start',
             headerProps: {
               class: 'font-weight-bold',
             },
-          },
-          {
-            title: 'INDIKATOR',
-            align: 'start',
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },
+          },          
           {
             title: 'SATUAN',
             key: 'Nm_RpjmdTujuan',

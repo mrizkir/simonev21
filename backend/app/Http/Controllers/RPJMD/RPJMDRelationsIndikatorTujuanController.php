@@ -29,6 +29,7 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
       'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
       'RpjmdCascadingID' => $request->input('RpjmdCascadingID'),
       'PeriodeRPJMDID' => $request->input('RpjmdCascadingID'),      
+      'TipeCascading' => 'tujuan',      
       'data_1' => $request->input('data_1'),    
       'data_2' => $request->input('data_2'),    
       'data_3' => $request->input('data_3'),    
@@ -36,7 +37,7 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
       'data_5' => $request->input('data_5'),    
       'data_6' => $request->input('data_6'),    
       'data_7' => $request->input('data_7'),    
-      'data_8' => 0,    
+      'data_8' => $request->input('data_8'),    
       'data_9' => 0,    
       'data_10' => 0,
     ]);
