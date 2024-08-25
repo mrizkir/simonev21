@@ -250,6 +250,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->put('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@update','as'=>'rpjmd-strategi.update']);
   $router->delete('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@destroy','as'=>'rpjmd-strategi.destroy']);
 
+  //rpjmd - indikator tujuan
+  $router->post('/rpjmd/relations/indikatortujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@index','as'=>'rpjmd-relations-indikator-tujuan.index']);
+  $router->post('/rpjmd/relations/indikatortujuan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@store','as'=>'rpjmd-relations-indikator-tujuan.store']);
+  $router->get('/rpjmd/relations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@show','as'=>'rpjmd-relations-indikator-tujuan.show']);
+  $router->post('/rpjmd/relations/indikatortujuan/{id}/program', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@program','as'=>'rpjmd-relations-indikator-tujuan.program']);
+  $router->put('/rpjmd/relations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@update','as'=>'rpjmd-relations-indikator-tujuan.update']);
+  $router->delete('/rpjmd/relations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@destroy','as'=>'rpjmd-relations-indikator-tujuan.destroy']);
+
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);
   $router->post('/renjamurni/reloadstatistik1', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik1','as'=>'renjamurni.reloadstatistik1']);

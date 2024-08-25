@@ -113,6 +113,7 @@ class PermissionsTableSeeder extends Seeder
       'RPJMD-STRATEGI',
       'RPJMD-ARAH-KEBIJAKAN',
       'RPJMD-PROGRAM-PEMBANGUNAN',
+      'RPJMD-INDIKASI-TUJUAN',
       'RPJMD-INDIKASI-PROGRAM',
 
       'RENSTRA-TUJUAN',

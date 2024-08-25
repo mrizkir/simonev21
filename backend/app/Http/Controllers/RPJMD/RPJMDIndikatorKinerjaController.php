@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
 class RPJMDIndikatorKinerjaController extends Controller
-{    
+{
   /**
    * mendapatkan daftar seluruh indikator
    *

@@ -87,54 +87,54 @@
                       item-title="NamaIndikator"
                       clearable
                     />
-                    <v-text-field
+                    <v-number-input
                       v-model="formdata.data_1"  
                       density="compact"
                       :label="'KONDISI AWAL ' + labeltahun[0]"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
+                      prepend-inner-icon="mdi-graph"
                     />
-                    <v-text-field
+                    <v-number-input
                       v-model="formdata.data_2"  
                       density="compact"
                       :label="'KONDISI AWAL ' + labeltahun[1]"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
+                      prepend-inner-icon="mdi-graph"
                     />
-                    <v-text-field
+                    <v-number-input
                       v-model="formdata.data_3"  
                       density="compact"
                       :label="'TARGET TAHUN ' + labeltahun[2]"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
+                      prepend-inner-icon="mdi-graph"
                     />
-                    <v-text-field
+                    <v-number-input
                       v-model="formdata.data_4"  
                       density="compact"
                       :label="'TARGET TAHUN ' + labeltahun[3]"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
+                      prepend-inner-icon="mdi-graph"
                     />
-                    <v-text-field
+                    <v-number-input
                       v-model="formdata.data_5"  
                       density="compact"
                       :label="'TARGET TAHUN ' + labeltahun[4]"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
+                      prepend-inner-icon="mdi-graph"
                     />
-                    <v-text-field
+                    <v-number-input
                       v-model="formdata.data_6"  
                       density="compact"
                       :label="'TARGET TAHUN ' + labeltahun[5]"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
-                    />
-                    <v-text-field
+                      prepend-inner-icon="mdi-graph"
+                    />                    
+                    <v-number-input
                       v-model="formdata.data_7"  
                       density="compact"
                       label="AKHIR RPJMD"
                       variant="outlined"
-                      prepend-inner-icon="mdi-graph"      
+                      prepend-inner-icon="mdi-graph"
                     />
                   </v-card-text>
                   <v-card-actions>
@@ -179,14 +179,27 @@
               />
             </td>
           </tr>
-          <tr v-if="item.indikator.length > 0">
-            <td>
-              {{ item.indikator.length }}
-            </td>
-          </tr>
-          <tr v-else>
-            <td colspan="13" class="text-center">Belum ada indikator. Silahkan tambah</td>
-          </tr>
+          <template v-if="item.indikator.length > 0">            
+            <tr v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID">
+              <td>{{ i + 1 }}</td>
+              <td>&nbsp;</td>
+              <td>{{ indikator.NamaIndikator }}</td>
+              <td>{{ indikator.Satuan }}</td>
+              <td>{{ indikator.data_1 }}</td>
+              <td>{{ indikator.data_2 }}</td>
+              <td>{{ indikator.data_3 }}</td>
+              <td>{{ indikator.data_4 }}</td>
+              <td>{{ indikator.data_5 }}</td>
+              <td>{{ indikator.data_6 }}</td>
+              <td>{{ indikator.data_7 }}</td>
+              <td>{{ indikator.data_8 }}</td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="13" class="text-center">Belum ada indikator. Silahkan tambah</td>
+            </tr>
+          </template>
         </template>
       </v-data-table-server>
     </v-container>
@@ -196,7 +209,7 @@
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
-
+  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RelationTujuanIndikator',
     created() {
@@ -226,7 +239,7 @@
       itemsPerPage: 10,
       totalRecords: 0,
       indexOffset: 0,
-      search: '',
+      search: '',      
       //dialog
       datatujuan: {},
       dialogfrm: false,
@@ -236,24 +249,26 @@
       formdata: {
         IndikatorKinerjaID: null,
         RpjmdCascadingID: null,
-        data_1: null,
-        data_2: null,
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
+        PeriodeRPJMDID: null,
+        data_1: 0,
+        data_2: 0,
+        data_3: 0,
+        data_4: 0,
+        data_5: 0,
+        data_6: 0,
+        data_7: 0,
       }, 
       formdefault: {
         IndikatorKinerjaID: null,
         RpjmdCascadingID: null,
-        data_1: null,
-        data_2: null,
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
+        PeriodeRPJMDID: null,
+        data_1: 0,
+        data_2: 0,
+        data_3: 0,
+        data_4: 0,
+        data_5: 0,
+        data_6: 0,
+        data_7: 0,
       }, 
       labeltahun: [],
     }),
@@ -316,8 +331,40 @@
             this.btnLoading = false  
           })
       },
-      async save(item) {        
-        console.log(item)
+      async save() {        
+        const { valid } = await this.$refs.frmdata.validate()
+
+        if(valid) {
+          this.btnLoading = true
+
+          this.$ajax
+            .post(
+              '/rpjmd/relations/indikatortujuan/store',
+              {
+                IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
+                RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
+                PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+                data_1: this.formdata.data_1,                  
+                data_2: this.formdata.data_2,                  
+                data_3: this.formdata.data_3,                  
+                data_4: this.formdata.data_4,                  
+                data_5: this.formdata.data_5,                  
+                data_6: this.formdata.data_6,                  
+                data_7: this.formdata.data_7,                  
+              },
+              {
+                headers: {
+                  Authorization: this.userStore.Token,
+                },
+              }
+            )
+            .then(() => {
+              this.$router.go()
+            })
+            .catch(() => {
+              this.btnLoading = false
+            })
+        }
       },      
       closedialogfrm() {
         this.btnLoading = false
@@ -440,7 +487,8 @@
     },
     components: {
       'v-main-layout': mainLayout,
-      'v-page-header': pageHeader,      
+      'v-page-header': pageHeader,
+      'v-number-input': VNumberInput,
     }
   }
 </script>

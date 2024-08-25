@@ -145,6 +145,8 @@ class RPJMDTujuanController extends Controller
     {
       $item->indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
         a.RpjmdRelasiIndikatorID,
+        b.NamaIndikator,
+        b.Satuan,
         data_1,
         data_2,
         data_3,
