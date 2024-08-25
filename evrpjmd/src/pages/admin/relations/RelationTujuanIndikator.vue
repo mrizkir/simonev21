@@ -206,7 +206,7 @@
                 <v-icon
                   class="mr-2"
                   v-tooltip:bottom="'Ubah Indikator'"
-                  @click.stop="editItem(indikator)"
+                  @click.stop="editItem(item, indikator)"
                   size="small"
                   color="primary"
                 >
@@ -275,6 +275,7 @@
       form_valid: true,
       daftarindikator: [],
       formdata: {
+        RpjmdRelasiIndikatorID: null,
         IndikatorKinerjaID: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
@@ -288,6 +289,7 @@
         data_8: 0,
       }, 
       formdefault: {
+        RpjmdRelasiIndikatorID: null,
         IndikatorKinerjaID: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
@@ -301,6 +303,7 @@
         data_8: 0,
       }, 
       labeltahun: [],
+      editedIndex: -1,
     }),
     methods: {
       async initialize({ page, itemsPerPage }) {        
@@ -328,11 +331,7 @@
             this.datatableLoading = false    
           })
       },
-      async addItem(item) {
-        this.btnLoading = true
-        this.dialogfrm = true        
-        this.datatujuan = item
-
+      async setLabelTahun() {
         let periode = this.userStore.PeriodeRPJMD;
         let TA_AWAL = periode.TA_AWAL
         let TA_AKHIR = periode.TA_AKHIR
@@ -343,7 +342,14 @@
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
           this.labeltahun.push(tahun);   
         }
+      },
+      async addItem(item) {
+        this.btnLoading = true
+        this.dialogfrm = true        
+        this.datatujuan = item
 
+        this.setLabelTahun()
+        
         await this.$ajax
           .post('/rpjmd/indikatorkinerja/tujuan', 
             {
@@ -361,46 +367,139 @@
             this.btnLoading = false  
           })
       },
+      async editItem(datatujuan, item) {
+        this.editedIndex = this.datatable.indexOf(datatujuan)
+        this.setLabelTahun()
+        this.datatujuan = datatujuan
+
+        await this.$ajax
+          .post('/rpjmd/indikatorkinerja/tujuan', 
+            {
+              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+            },
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            let payload = data.payload
+            this.daftarindikator = payload
+
+            this.formdata = Object.assign({}, item)        
+            this.dialogfrm = true
+
+            this.btnLoading = false  
+          })
+      },
       async save() {        
         const { valid } = await this.$refs.frmdata.validate()
 
         if(valid) {
           this.btnLoading = true
-
-          this.$ajax
-            .post(
-              '/rpjmd/relations/indikatortujuan/store',
-              {
-                IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
-                RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
-                PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                data_1: this.formdata.data_1,                  
-                data_2: this.formdata.data_2,                  
-                data_3: this.formdata.data_3,                  
-                data_4: this.formdata.data_4,                  
-                data_5: this.formdata.data_5,                  
-                data_6: this.formdata.data_6,                  
-                data_7: this.formdata.data_7,                  
-                data_8: this.formdata.data_8,                  
-              },
-              {
-                headers: {
-                  Authorization: this.userStore.Token,
+          
+          if (this.editedIndex > -1) {
+            this.$ajax
+              .post(
+                '/rpjmd/relations/indikatortujuan/' + this.formdata.RpjmdRelasiIndikatorID,
+                {
+                  _method: 'PUT',
+                  IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
+                  RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
+                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+                  data_1: this.formdata.data_1,                  
+                  data_2: this.formdata.data_2,                  
+                  data_3: this.formdata.data_3,                  
+                  data_4: this.formdata.data_4,                  
+                  data_5: this.formdata.data_5,                  
+                  data_6: this.formdata.data_6,                  
+                  data_7: this.formdata.data_7,                  
+                  data_8: this.formdata.data_8,                  
                 },
-              }
-            )
-            .then(() => {
-              this.$router.go()
-            })
-            .catch(() => {
-              this.btnLoading = false
-            })
+                {
+                  headers: {
+                    Authorization: this.userStore.Token,
+                  },
+                }
+              )
+              .then(() => {
+                this.$router.go()
+              })
+              .catch(() => {
+                this.btnLoading = false
+              })
+          } else {            
+            this.$ajax
+              .post(
+                '/rpjmd/relations/indikatortujuan/store',
+                {
+                  IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
+                  RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
+                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+                  data_1: this.formdata.data_1,                  
+                  data_2: this.formdata.data_2,                  
+                  data_3: this.formdata.data_3,                  
+                  data_4: this.formdata.data_4,                  
+                  data_5: this.formdata.data_5,                  
+                  data_6: this.formdata.data_6,                  
+                  data_7: this.formdata.data_7,                  
+                  data_8: this.formdata.data_8,                  
+                },
+                {
+                  headers: {
+                    Authorization: this.userStore.Token,
+                  },
+                }
+              )
+              .then(() => {
+                this.$router.go()
+              })
+              .catch(() => {
+                this.btnLoading = false
+              })
+          }
         }
-      },      
+      },  
+      deleteItem(item) {
+        this.$root.$confirm
+          .open(
+            'Delete',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdRelasiIndikatorID + ' ?',
+            {
+              color: 'red',
+              width: '400px',
+            }
+          )
+          .then(confirm => {
+            if (confirm) {
+              this.btnLoading = true
+              this.$ajax
+                .post(
+                  '/rpjmd/relations/indikatortujuan/' + item.RpjmdRelasiIndikatorID,
+                  {
+                    _method: 'DELETE',
+                  },
+                  {
+                    headers: {
+                      Authorization: this.userStore.Token,
+                    },
+                  }
+                )
+                .then(() => {
+                  this.$router.go()
+                })
+                .catch(() => {
+                  this.btnLoading = false
+                })
+            }
+          })
+      },
       closedialogfrm() {
         this.btnLoading = false
         setTimeout(() => {
-          this.formdata = Object.assign({}, this.formdefault)          
+          this.formdata = Object.assign({}, this.formdefault)  
+          this.editedIndex = -1        
           this.$refs.frmdata.reset()
           this.dialogfrm = false
         }, 300)

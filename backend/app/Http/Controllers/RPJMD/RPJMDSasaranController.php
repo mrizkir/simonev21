@@ -241,6 +241,11 @@ class RPJMDSasaranController extends Controller
     else
     {
 
+      $this->validate($request, [              
+        'Kd_RpjmdSasaran'=>'required',      
+        'Nm_RpjmdSasaran'=>'required',      
+      ]);   
+
       $sasaran->Kd_RpjmdSasaran = $request->input('Kd_RpjmdSasaran');
       $sasaran->Nm_RpjmdSasaran = $request->input('Nm_RpjmdSasaran');
       $sasaran->save();

@@ -231,6 +231,7 @@
         created_at: null,
         updated_at: null,
       },
+      editedIndex: -1,
       //form rules
       rule_kode_misi: [
         value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',

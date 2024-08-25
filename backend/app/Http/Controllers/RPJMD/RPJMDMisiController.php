@@ -236,6 +236,11 @@ class RPJMDMisiController extends Controller
     else
     {
 
+      $this->validate($request, [         
+        'Kd_RpjmdMisi'=>'required',      
+        'Nm_RpjmdMisi'=>'required',      
+      ]);     
+
       $misi->Kd_RpjmdMisi = $request->input('Kd_RpjmdMisi');
       $misi->Nm_RpjmdMisi = $request->input('Nm_RpjmdMisi');
       $misi->save();
@@ -269,14 +274,14 @@ class RPJMDMisiController extends Controller
         'message' => ["RPJMD Misi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
-    // else if($visi->misi->count('RpjmdMisiID') > 0)
-    // {
-    //   return Response()->json([
-    //     'status' => 0,
-    //     'pid' => 'fetchdata',
-    //     'message' => ["RPJMD Misi dengan dengan ($id) gagal dihapus karena masih terhubung ke Misi"]
-    //   ], 422); 
-    // }
+    else if($misi->tujuan->count('RpjmdTujuanID') > 0)
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Misi dengan dengan ($id) gagal dihapus karena masih terhubung ke Tujuan"]
+      ], 422); 
+    }
     else
     {
       $misi->delete();

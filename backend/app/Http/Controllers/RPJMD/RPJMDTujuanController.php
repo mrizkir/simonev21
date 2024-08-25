@@ -145,6 +145,7 @@ class RPJMDTujuanController extends Controller
     {
       $item->indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
         a.RpjmdRelasiIndikatorID,
+        b.IndikatorKinerjaID,
         b.NamaIndikator,
         b.Satuan,
         data_1,
@@ -327,6 +328,11 @@ class RPJMDTujuanController extends Controller
     else
     {
 
+      $this->validate($request, [              
+        'Kd_RpjmdTujuan'=>'required',      
+        'Nm_RpjmdTujuan'=>'required',      
+      ]);         
+
       $tujuan->Kd_RpjmdTujuan = $request->input('Kd_RpjmdTujuan');
       $tujuan->Nm_RpjmdTujuan = $request->input('Nm_RpjmdTujuan');
       $tujuan->save();
@@ -360,14 +366,14 @@ class RPJMDTujuanController extends Controller
         'message' => ["RPJMD Tujuan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
-    // else if($misi->tujuan->count('RpjmdMisiID') > 0)
-    // {
-    //   return Response()->json([
-    //     'status' => 0,
-    //     'pid' => 'fetchdata',
-    //     'message' => ["RPJMD Tujuan dengan dengan ($id) gagal dihapus karena masih terhubung ke Sasaran"]
-    //   ], 422); 
-    // }
+    else if($tujuan->sasaran->count('RpjmdSasaranID') > 0)
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Tujuan dengan dengan ($id) gagal dihapus karena masih terhubung ke Sasaran"]
+      ], 422); 
+    }
     else
     {
       $tujuan->delete();

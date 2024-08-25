@@ -241,6 +241,11 @@ class RPJMDStrategiController extends Controller
     }
     else
     {
+      $this->validate($request, [              
+        'Kd_RpjmdStrategi'=>'required',      
+        'Nm_RpjmdStrategi'=>'required',      
+        'Nm_RpjmdArahKebijakan'=>'required',      
+      ]);         
 
       $strategi->Kd_RpjmdStrategi = $request->input('Kd_RpjmdStrategi');
       $strategi->Nm_RpjmdStrategi = $request->input('Nm_RpjmdStrategi');
