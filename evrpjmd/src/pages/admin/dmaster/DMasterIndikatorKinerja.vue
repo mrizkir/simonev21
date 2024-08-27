@@ -403,7 +403,7 @@
       //form data
       form_valid: true,      
       daftar_tipe_indikator: ['TUJUAN', 'SASARAN', 'PROGRAM'],
-      daftar_operasi: ['MAX', 'MIN'],
+      daftar_operasi: ['MAX', 'MIN', 'RANGE'],
       formdata: {
         IndikatorKinerjaID: null,
         PeriodeRPJMDID: null,

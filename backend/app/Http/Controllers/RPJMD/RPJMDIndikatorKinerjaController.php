@@ -119,7 +119,7 @@ class RPJMDIndikatorKinerjaController extends Controller
       'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
       'NamaIndikator'=>'required',
       'TipeIndikator'=>'required|in:TUJUAN,SASARAN,PROGRAM',
-      'Operasi'=>'required|in:MAX,MIN',
+      'Operasi'=>'required|in:MAX,MIN,RANGE',
       'Satuan'=>'required',
       'is_iku'=>'required|in:0,1',
       'is_ikk'=>'required|in:0,1',
@@ -173,7 +173,7 @@ class RPJMDIndikatorKinerjaController extends Controller
       $this->validate($request, [      
         'NamaIndikator'=>'required',
         'TipeIndikator'=>'required|in:TUJUAN,SASARAN,PROGRAM',
-        'Operasi'=>'required|in:MAX,MIN',
+        'Operasi'=>'required|in:MAX,MIN,RANGE',
         'Satuan'=>'required',
         'is_iku'=>'required|in:0,1',
         'is_ikk'=>'required|in:0,1',

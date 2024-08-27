@@ -66,7 +66,7 @@
                       <v-col cols="auto" md="9" lg="9" tag="dt">
                         {{ datatujuan.kode_tujuan }}
                       </v-col>
-                    </v-row>
+                    </v-row>                    
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
                         NAMA TUJUAN
@@ -75,6 +75,7 @@
                         {{ datatujuan.Nm_RpjmdTujuan }}
                       </v-col>
                     </v-row>
+                    <hr class="mb-3">
                     <v-autocomplete
                       v-model="formdata.IndikatorKinerjaID"  
                       label="INDIKATOR"
@@ -87,6 +88,23 @@
                       item-title="NamaIndikator"
                       clearable
                     />
+                    <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        SATUAN
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        -
+                      </v-col>
+                    </v-row>
+                    <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        JENIS INPUT
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        -
+                      </v-col>
+                    </v-row>
+                    <hr class="mb-3">
                     <v-number-input
                       v-model="formdata.data_1"  
                       density="compact"
