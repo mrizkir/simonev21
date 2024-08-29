@@ -86,32 +86,34 @@
                       :items="daftarindikator"
                       item-value="IndikatorKinerjaID"
                       item-title="NamaIndikator"
+                      @update:modelValue="indikatorselected"
                       clearable
+                      return-object
                     />
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
                         SATUAN
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        -
+                        {{ formdata.satuan }}
                       </v-col>
                     </v-row>
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
-                        JENIS INPUT
+                        OPERASI
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        -
+                        {{ formdata.operasi }}
                       </v-col>
                     </v-row>
-                    <hr class="mb-3">
+                    <hr class="mb-3">                    
                     <v-number-input
                       v-model="formdata.data_1"  
                       density="compact"
                       :label="'KONDISI AWAL ' + labeltahun[0]"
                       variant="outlined"
                       prepend-inner-icon="mdi-graph"
-                    />
+                    />                    
                     <v-number-input
                       v-model="formdata.data_2"  
                       density="compact"
@@ -119,13 +121,40 @@
                       variant="outlined"
                       prepend-inner-icon="mdi-graph"
                     />
-                    <v-number-input
-                      v-model="formdata.data_3"  
-                      density="compact"
-                      :label="'TARGET TAHUN ' + labeltahun[2]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                    />
+                    <hr class="mb-3">
+                    <v-row v-if="formdata.operasi == 'RANGE'" no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+                        <v-number-input
+                          v-model="formdata.data_3"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[2]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                        />    
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+                        <v-number-input
+                          v-model="formdata.data_4"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[2]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                        />
+                      </v-col>                      
+                    </v-row>
+                    <v-row no-gutters v-else>                      
+                      <v-col cols="auto" md="12" lg="12">
+                        <v-number-input
+                          v-model="formdata.data_3"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[2]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                        />    
+                      </v-col>                      
+                    </v-row>                    
                     <v-number-input
                       v-model="formdata.data_4"  
                       density="compact"
@@ -305,6 +334,8 @@
         data_6: 0,
         data_7: 0,
         data_8: 0,
+        satuan: '-',
+        operasi: '-',
       }, 
       formdefault: {
         RpjmdRelasiIndikatorID: null,
@@ -319,6 +350,8 @@
         data_6: 0,
         data_7: 0,
         data_8: 0,
+        satuan: '-',
+        operasi: '-',
       }, 
       labeltahun: [],
       editedIndex: -1,
@@ -411,73 +444,87 @@
             this.btnLoading = false  
           })
       },
+      indikatorselected() {
+        if(this.formdata.IndikatorKinerjaID == null || typeof this.formdata.IndikatorKinerjaID == 'undefined') {
+          this.formdata.satuan = '-'
+          this.formdata.operasi = '-'
+        } else {
+          this.formdata.satuan = this.formdata.IndikatorKinerjaID.Satuan
+          this.formdata.operasi = this.formdata.IndikatorKinerjaID.Operasi
+        }
+      },
+      indikatorselectedCleared() {
+        this.formdata.satuan = '-'
+        this.formdata.operasi = '-'
+      },
       async save() {        
         const { valid } = await this.$refs.frmdata.validate()
 
-        if(valid) {
-          this.btnLoading = true
+        console.log(this.formdata.IndikatorKinerjaID)
+        // if(valid) {
+        //   this.btnLoading = true
           
-          if (this.editedIndex > -1) {
-            this.$ajax
-              .post(
-                '/rpjmd/relations/indikatortujuan/' + this.formdata.RpjmdRelasiIndikatorID,
-                {
-                  _method: 'PUT',
-                  IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
-                  RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
-                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                  data_1: this.formdata.data_1,                  
-                  data_2: this.formdata.data_2,                  
-                  data_3: this.formdata.data_3,                  
-                  data_4: this.formdata.data_4,                  
-                  data_5: this.formdata.data_5,                  
-                  data_6: this.formdata.data_6,                  
-                  data_7: this.formdata.data_7,                  
-                  data_8: this.formdata.data_8,                  
-                },
-                {
-                  headers: {
-                    Authorization: this.userStore.Token,
-                  },
-                }
-              )
-              .then(() => {
-                this.$router.go()
-              })
-              .catch(() => {
-                this.btnLoading = false
-              })
-          } else {            
-            this.$ajax
-              .post(
-                '/rpjmd/relations/indikatortujuan/store',
-                {
-                  IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
-                  RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
-                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                  data_1: this.formdata.data_1,                  
-                  data_2: this.formdata.data_2,                  
-                  data_3: this.formdata.data_3,                  
-                  data_4: this.formdata.data_4,                  
-                  data_5: this.formdata.data_5,                  
-                  data_6: this.formdata.data_6,                  
-                  data_7: this.formdata.data_7,                  
-                  data_8: this.formdata.data_8,                  
-                },
-                {
-                  headers: {
-                    Authorization: this.userStore.Token,
-                  },
-                }
-              )
-              .then(() => {
-                this.$router.go()
-              })
-              .catch(() => {
-                this.btnLoading = false
-              })
-          }
-        }
+        //   if (this.editedIndex > -1) {
+        //     this.$ajax
+        //       .post(
+        //         '/rpjmd/relations/indikatortujuan/' + this.formdata.RpjmdRelasiIndikatorID,
+        //         {
+        //           _method: 'PUT',
+        //           IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
+        //           RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
+        //           PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+        //           data_1: this.formdata.data_1,                  
+        //           data_2: this.formdata.data_2,                  
+        //           data_3: this.formdata.data_3,                  
+        //           data_4: this.formdata.data_4,                  
+        //           data_5: this.formdata.data_5,                  
+        //           data_6: this.formdata.data_6,                  
+        //           data_7: this.formdata.data_7,                  
+        //           data_8: this.formdata.data_8,                  
+        //         },
+        //         {
+        //           headers: {
+        //             Authorization: this.userStore.Token,
+        //           },
+        //         }
+        //       )
+        //       .then(() => {
+        //         this.$router.go()
+        //       })
+        //       .catch(() => {
+        //         this.btnLoading = false
+        //       })
+        //   } else {            
+        //     this.$ajax
+        //       .post(
+        //         '/rpjmd/relations/indikatortujuan/store',
+        //         {
+        //           IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
+        //           RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
+        //           PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+        //           data_1: this.formdata.data_1,                  
+        //           data_2: this.formdata.data_2,                  
+        //           data_3: this.formdata.data_3,                  
+        //           data_4: this.formdata.data_4,                  
+        //           data_5: this.formdata.data_5,                  
+        //           data_6: this.formdata.data_6,                  
+        //           data_7: this.formdata.data_7,                  
+        //           data_8: this.formdata.data_8,                  
+        //         },
+        //         {
+        //           headers: {
+        //             Authorization: this.userStore.Token,
+        //           },
+        //         }
+        //       )
+        //       .then(() => {
+        //         this.$router.go()
+        //       })
+        //       .catch(() => {
+        //         this.btnLoading = false
+        //       })
+        //   }
+        // }
       },  
       deleteItem(item) {
         this.$root.$confirm

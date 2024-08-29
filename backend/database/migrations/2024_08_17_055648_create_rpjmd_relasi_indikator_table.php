@@ -29,6 +29,16 @@ class CreateRpjmdRelasiIndikatorTable extends Migration
       $table->string('data_8');
       $table->string('data_9');
       $table->string('data_10');
+      $table->string('data_11');
+      $table->string('data_12');
+      $table->string('data_13');
+      $table->string('data_14');
+      $table->string('data_15');
+      $table->string('data_16');
+      $table->string('data_17');
+      $table->string('data_18');
+      $table->string('data_19');
+      $table->string('data_20');
       $table->timestamps();
 
       $table->primary('RpjmdRelasiIndikatorID');
