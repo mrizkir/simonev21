@@ -154,42 +154,108 @@
                           prepend-inner-icon="mdi-graph"
                         />    
                       </v-col>                      
+                    </v-row>     
+
+                    <v-row v-if="formdata.operasi == 'RANGE'" no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                    </v-row>
+                    <v-row no-gutters v-else>                      
+                      <v-col cols="auto" md="12" lg="12">
+                        <v-number-input
+                          v-model="formdata.data_4"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[3]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                        />
+                      </v-col>
+                    </v-row>
+
+                    <v-row v-if="formdata.operasi == 'RANGE'" no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                    </v-row>
+                    <v-row no-gutters v-else>                      
+                      <v-col cols="auto" md="12" lg="12">
+                        <v-number-input
+                          v-model="formdata.data_5"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[4]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                        />
+                      </v-col>
+                    </v-row>
+                    
+                    <v-row v-if="formdata.operasi == 'RANGE'" no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                    </v-row>
+                    <v-row no-gutters v-else>                      
+                      <v-col cols="auto" md="12" lg="12">                        
+                        <v-number-input
+                          v-model="formdata.data_6"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[5]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                        />              
+                      </v-col>
                     </v-row>                    
-                    <v-number-input
-                      v-model="formdata.data_4"  
-                      density="compact"
-                      :label="'TARGET TAHUN ' + labeltahun[3]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                    />
-                    <v-number-input
-                      v-model="formdata.data_5"  
-                      density="compact"
-                      :label="'TARGET TAHUN ' + labeltahun[4]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                    />
-                    <v-number-input
-                      v-model="formdata.data_6"  
-                      density="compact"
-                      :label="'TARGET TAHUN ' + labeltahun[5]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                    />                    
-                    <v-number-input
-                      v-model="formdata.data_7"  
-                      density="compact"
-                      :label="'TARGET TAHUN ' + labeltahun[6]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                    />                    
-                    <v-number-input
-                      v-model="formdata.data_8"  
-                      density="compact"
-                      label="AKHIR RPJMD"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                    />
+                    
+                    <v-row v-if="formdata.operasi == 'RANGE'" no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                    </v-row>
+                    <v-row no-gutters v-else>                      
+                      <v-col cols="auto" md="12" lg="12">                        
+                        <v-number-input
+                          v-model="formdata.data_7"  
+                          density="compact"
+                          :label="'TARGET TAHUN ' + labeltahun[6]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                        />     
+                      </v-col>
+                    </v-row>
+                    
+                    <v-row v-if="formdata.operasi == 'RANGE'" no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+
+                      </v-col>
+                    </v-row>
+                    <v-row no-gutters v-else>                      
+                      <v-col cols="auto" md="12" lg="12">                        
+                        <v-number-input
+                          v-model="formdata.data_8"  
+                          density="compact"
+                          label="AKHIR RPJMD"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                        />
+                      </v-col>
+                    </v-row>
+
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
