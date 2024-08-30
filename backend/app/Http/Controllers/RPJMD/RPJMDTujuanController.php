@@ -140,6 +140,7 @@ class RPJMDTujuanController extends Controller
     }
 
     $indikatorkinerja = $data
+    ->orderBy('kode_tujuan', 'asc')
     ->get()
     ->transform(function($item, $key) 
     {

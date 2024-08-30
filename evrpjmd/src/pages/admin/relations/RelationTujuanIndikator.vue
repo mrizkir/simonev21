@@ -115,6 +115,7 @@
                       variant="outlined"
                       prepend-inner-icon="mdi-graph"
                       :disabled="disabledtarget"
+                      :rules="rule_kondisi_awal"
                     />                    
                     <template v-if="formdata.Operasi == 'RANGE'">
                       <p class="mb-3">Kondisi Awal {{ labeltahun[1] }}:</p>                      
@@ -128,6 +129,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -139,6 +141,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>                      
                       </v-row>
@@ -154,6 +157,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -165,6 +169,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>                      
                       </v-row>
@@ -179,6 +184,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -190,6 +196,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>
                       </v-row>
@@ -204,6 +211,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -215,6 +223,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>
                       </v-row>
@@ -229,6 +238,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -240,6 +250,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>
                       </v-row>
@@ -254,6 +265,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -265,6 +277,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>
                       </v-row>
@@ -278,6 +291,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
+                            :rules="rule_range_awal"
                           />    
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
@@ -289,6 +303,7 @@
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
+                            :rules="rule_range_akhir"
                           />
                         </v-col>
                       </v-row>
@@ -398,7 +413,7 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="10">{{ item.Nm_RpjmdTujuan }}</td>
+            <td colspan="10">[{{ item.kode_tujuan }}] {{ item.Nm_RpjmdTujuan }}</td>
             <td>
               <v-btn
                 class="mr-2"
@@ -461,7 +476,7 @@
             </tr>
           </template>
           <template v-else>
-            <tr>
+            <tr class="bg-green-lighten-5">
               <td colspan="12" class="text-center">Belum ada indikator. Silahkan tambah</td>
             </tr>
           </template>
@@ -560,6 +575,18 @@
       }, 
       labeltahun: [],
       editedIndex: -1,
+      //form rules range
+      rule_kondisi_awal: [
+        value => !!value || 'Mohon untuk diisi nilai kondisi awal !!!',
+      ],
+      rule_range_awal: [
+        value => !!value || 'Mohon untuk diisi nilai awal target !!!',
+      ],      
+      rule_range_akhir: [
+        value => !!value || 'Mohon untuk diisi nilai akhir target !!!',
+      ],
+      //pinia
+      userStore: null,
     }),
     methods: {
       async initialize({ page, itemsPerPage }) {        
