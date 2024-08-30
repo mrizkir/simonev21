@@ -22,6 +22,7 @@ class RPJMDRelasiIndikatorModel extends Model
     'RpjmdCascadingID',
     'PeriodeRPJMDID',
     'IndikatorKinerjaID',
+    'TipeCascading',
     'data_1',    
     'data_2',    
     'data_3',    

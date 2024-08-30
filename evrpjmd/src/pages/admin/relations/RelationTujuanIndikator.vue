@@ -77,7 +77,7 @@
                     </v-row>
                     <hr class="mb-3">
                     <v-autocomplete
-                      v-model="formdata.IndikatorKinerjaID"  
+                      v-model="formdata.IndikatorKinerja"  
                       label="INDIKATOR"
                       density="compact"
                       variant="outlined"
@@ -87,6 +87,7 @@
                       item-value="IndikatorKinerjaID"
                       item-title="NamaIndikator"
                       @update:modelValue="indikatorselected"
+                      :disabled="editedIndex > -1"
                       clearable
                       return-object
                     />
@@ -95,7 +96,7 @@
                         SATUAN
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.satuan }}
+                        {{ formdata.Satuan }}
                       </v-col>
                     </v-row>
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
@@ -103,7 +104,7 @@
                         OPERASI
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.operasi }}
+                        {{ formdata.Operasi }}
                       </v-col>
                     </v-row>
                     <hr class="mb-3">                    
@@ -115,22 +116,14 @@
                       prepend-inner-icon="mdi-graph"
                       :disabled="disabledtarget"
                     />                    
-                    <v-number-input
-                      v-model="formdata.data_2"  
-                      density="compact"
-                      :label="'KONDISI AWAL ' + labeltahun[1]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                      :disabled="disabledtarget"
-                    />
-                    <hr class="mb-3">
-                    <template v-if="formdata.operasi == 'RANGE'">
+                    <template v-if="formdata.Operasi == 'RANGE'">
+                      <p class="mb-3">Kondisi Awal {{ labeltahun[1] }}:</p>                      
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_3"  
+                            v-model="formdata.data_2"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[2]"
+                            label="AWAL RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
@@ -139,9 +132,9 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_4"  
+                            v-model="formdata.data_3"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[2]"
+                            label="AKHIR RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
@@ -149,95 +142,100 @@
                           />
                         </v-col>                      
                       </v-row>
+                      <hr class="mb-3">
+                      <p class="mb-3">Target Tahun {{ labeltahun[2] }}:</p>
                       <v-row no-gutters>
+                        <v-col cols="auto" md="6" lg="6">
+                          <v-number-input
+                            v-model="formdata.data_4"  
+                            density="compact"
+                            label="AWAL RANGE"
+                            variant="outlined"
+                            prepend-inner-icon="mdi-graph"
+                            class="mr-1"
+                            :disabled="disabledtarget"
+                          />    
+                        </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_5"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[3]"
+                            label="AKHIR RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
-                          />    
-                        </v-col>
+                          />
+                        </v-col>                      
+                      </v-row>
+                      <p class="mb-3">Target Tahun {{ labeltahun[3] }}:</p>
+                      <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_6"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[3]"
+                            label="AWAL RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
-                          />
+                          />    
                         </v-col>
-                      </v-row>
-                      <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_7"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[4]"
+                            label="AKHIR RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
-                          />    
+                          />
                         </v-col>
+                      </v-row>
+                      <p class="mb-3">Target Tahun {{ labeltahun[4] }}:</p>
+                      <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_8"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[4]"
+                            label="AWAL RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
-                          />
+                          />    
                         </v-col>
-                      </v-row>
-                      <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_9"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[5]"
+                            label="AKHIR RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
-                          />    
+                          />
                         </v-col>
+                      </v-row>
+                      <p class="mb-3">Target Tahun {{ labeltahun[5] }}:</p>
+                      <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_10"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[5]"
+                            label="AWAL RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
                             :disabled="disabledtarget"
-                          />
+                          />    
                         </v-col>
-                      </v-row>
-                      <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_11"  
                             density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[6]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_12"  
-                            density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[6]"
+                            label="AKHIR RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
@@ -245,12 +243,38 @@
                           />
                         </v-col>
                       </v-row>
+                      <p class="mb-3">Target Tahun {{ labeltahun[6] }}:</p>
                       <v-row no-gutters>
+                        <v-col cols="auto" md="6" lg="6">
+                          <v-number-input
+                            v-model="formdata.data_12"  
+                            density="compact"
+                            label="AWAL RANGE"
+                            variant="outlined"
+                            prepend-inner-icon="mdi-graph"
+                            class="mr-1"
+                            :disabled="disabledtarget"
+                          />    
+                        </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
                             v-model="formdata.data_13"  
                             density="compact"
-                            label="AKHIR RPJMD"
+                            label="AKHIR RANGE"
+                            variant="outlined"
+                            prepend-inner-icon="mdi-graph"
+                            class="mr-1"
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
+                      <p class="mb-3">Akhir RPJMD:</p>
+                      <v-row no-gutters>
+                        <v-col cols="auto" md="6" lg="6">
+                          <v-number-input
+                            v-model="formdata.data_14"  
+                            density="compact"
+                            label="AWAL RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
@@ -258,9 +282,9 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_14"  
+                            v-model="formdata.data_15"  
                             density="compact"
-                            label="AKHIR RPJMD"
+                            label="AKHIR RANGE"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             class="mr-1"
@@ -270,6 +294,18 @@
                       </v-row>
                     </template>
                     <template v-else>
+                      <v-row no-gutters>                      
+                        <v-col cols="auto" md="12" lg="12">
+                          <v-number-input
+                            v-model="formdata.data_2"  
+                            density="compact"
+                            :label="'KONDISI AWAL ' + labeltahun[1]"
+                            variant="outlined"
+                            prepend-inner-icon="mdi-graph"
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
                       <v-row no-gutters>                      
                         <v-col cols="auto" md="12" lg="12">
                           <v-number-input
@@ -385,13 +421,24 @@
               <td>{{ indikator.NamaIndikator }}</td>
               <td>{{ indikator.Satuan }}</td>
               <td>{{ indikator.data_1 }}</td>
-              <td>{{ indikator.data_2 }}</td>
-              <td>{{ indikator.data_3 }}</td>
-              <td>{{ indikator.data_4 }}</td>
-              <td>{{ indikator.data_5 }}</td>
-              <td>{{ indikator.data_6 }}</td>
-              <td>{{ indikator.data_7 }}</td>
-              <td>{{ indikator.data_8 }}</td>
+              <template v-if="indikator.Operasi == 'RANGE'">
+                <td>{{ indikator.data_2 + ' s.d ' + indikator.data_3 }}</td>
+                <td>{{ indikator.data_4 + ' s.d ' + indikator.data_5 }}</td>
+                <td>{{ indikator.data_6 + ' s.d ' + indikator.data_7 }}</td>
+                <td>{{ indikator.data_8 + ' s.d ' + indikator.data_9 }}</td>
+                <td>{{ indikator.data_10 + ' s.d ' + indikator.data_11 }}</td>
+                <td>{{ indikator.data_12 + ' s.d ' + indikator.data_13 }}</td>
+                <td>{{ indikator.data_14 + ' s.d ' + indikator.data_15 }}</td>
+              </template>
+              <template v-else>
+                <td>{{ indikator.data_2 }}</td>
+                <td>{{ indikator.data_3 }}</td>
+                <td>{{ indikator.data_4 }}</td>
+                <td>{{ indikator.data_5 }}</td>
+                <td>{{ indikator.data_6 }}</td>
+                <td>{{ indikator.data_7 }}</td>
+                <td>{{ indikator.data_8 }}</td>
+              </template>
               <td>
                 <v-icon
                   class="mr-2"
@@ -467,7 +514,7 @@
       disabledtarget: true,
       formdata: {
         RpjmdRelasiIndikatorID: null,
-        IndikatorKinerjaID: null,
+        IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
         data_1: 0,
@@ -478,12 +525,19 @@
         data_6: 0,
         data_7: 0,
         data_8: 0,
-        satuan: '-',
-        operasi: '-',
+        data_9: 0,
+        data_10: 0,
+        data_11: 0,
+        data_12: 0,
+        data_13: 0,
+        data_14: 0,
+        data_15: 0,        
+        Satuan: '-',
+        Operasi: '-',
       }, 
       formdefault: {
         RpjmdRelasiIndikatorID: null,
-        IndikatorKinerjaID: null,
+        IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
         data_1: 0,
@@ -494,8 +548,15 @@
         data_6: 0,
         data_7: 0,
         data_8: 0,
-        satuan: '-',
-        operasi: '-',
+        data_9: 0,
+        data_10: 0,
+        data_11: 0,
+        data_12: 0,
+        data_13: 0,
+        data_14: 0,
+        data_15: 0,
+        Satuan: '-',
+        Operasi: '-',
       }, 
       labeltahun: [],
       editedIndex: -1,
@@ -531,8 +592,8 @@
         let TA_AWAL = periode.TA_AWAL
         let TA_AKHIR = periode.TA_AKHIR
 
-        this.labeltahun.push(TA_AWAL - 1)        
-        this.labeltahun.push(TA_AWAL)        
+        this.labeltahun.push(TA_AWAL - 1)
+        this.labeltahun.push(TA_AWAL)
         
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
           this.labeltahun.push(tahun);   
@@ -582,91 +643,109 @@
             let payload = data.payload
             this.daftarindikator = payload
 
-            this.formdata = Object.assign({}, item)        
+            this.formdata = Object.assign({}, item)
+            this.formdata.IndikatorKinerja = {
+              IndikatorKinerjaID: item.IndikatorKinerjaID,
+              NamaIndikator: item.NamaIndikator,
+              Satuan: item.Satuan,
+              Operasi: item.Operasi,
+            }
             this.dialogfrm = true
-
+            this.disabledtarget = false
             this.btnLoading = false  
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerjaID == null || typeof this.formdata.IndikatorKinerjaID == 'undefined') {
-          this.formdata.satuan = '-'
-          this.formdata.operasi = '-'
+        if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
+          this.formdata.Satuan = '-'
+          this.formdata.Operasi = '-'
           this.disabledtarget = true
         } else {
-          this.formdata.satuan = this.formdata.IndikatorKinerjaID.Satuan
-          this.formdata.operasi = this.formdata.IndikatorKinerjaID.Operasi
+          this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
+          this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi
           this.disabledtarget = false
         }
       },
       async save() {        
         const { valid } = await this.$refs.frmdata.validate()
 
-        console.log(this.formdata.IndikatorKinerjaID)
-        // if(valid) {
-        //   this.btnLoading = true
+        if(valid) {
+          this.btnLoading = true
           
-        //   if (this.editedIndex > -1) {
-        //     this.$ajax
-        //       .post(
-        //         '/rpjmd/relations/indikatortujuan/' + this.formdata.RpjmdRelasiIndikatorID,
-        //         {
-        //           _method: 'PUT',
-        //           IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
-        //           RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
-        //           PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-        //           data_1: this.formdata.data_1,                  
-        //           data_2: this.formdata.data_2,                  
-        //           data_3: this.formdata.data_3,                  
-        //           data_4: this.formdata.data_4,                  
-        //           data_5: this.formdata.data_5,                  
-        //           data_6: this.formdata.data_6,                  
-        //           data_7: this.formdata.data_7,                  
-        //           data_8: this.formdata.data_8,                  
-        //         },
-        //         {
-        //           headers: {
-        //             Authorization: this.userStore.Token,
-        //           },
-        //         }
-        //       )
-        //       .then(() => {
-        //         this.$router.go()
-        //       })
-        //       .catch(() => {
-        //         this.btnLoading = false
-        //       })
-        //   } else {            
-        //     this.$ajax
-        //       .post(
-        //         '/rpjmd/relations/indikatortujuan/store',
-        //         {
-        //           IndikatorKinerjaID: this.formdata.IndikatorKinerjaID,                
-        //           RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
-        //           PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-        //           data_1: this.formdata.data_1,                  
-        //           data_2: this.formdata.data_2,                  
-        //           data_3: this.formdata.data_3,                  
-        //           data_4: this.formdata.data_4,                  
-        //           data_5: this.formdata.data_5,                  
-        //           data_6: this.formdata.data_6,                  
-        //           data_7: this.formdata.data_7,                  
-        //           data_8: this.formdata.data_8,                  
-        //         },
-        //         {
-        //           headers: {
-        //             Authorization: this.userStore.Token,
-        //           },
-        //         }
-        //       )
-        //       .then(() => {
-        //         this.$router.go()
-        //       })
-        //       .catch(() => {
-        //         this.btnLoading = false
-        //       })
-        //   }
-        // }
+          if (this.editedIndex > -1) {
+            this.$ajax
+              .post(
+                '/rpjmd/relations/indikatortujuan/' + this.formdata.RpjmdRelasiIndikatorID,
+                {
+                  _method: 'PUT',
+                  Operasi: this.formdata.Operasi,
+                  data_1: this.formdata.data_1,
+                  data_2: this.formdata.data_2,
+                  data_3: this.formdata.data_3,
+                  data_4: this.formdata.data_4,
+                  data_5: this.formdata.data_5,
+                  data_6: this.formdata.data_6,
+                  data_7: this.formdata.data_7,
+                  data_8: this.formdata.data_8,
+                  data_9: this.formdata.data_9,
+                  data_10: this.formdata.data_10,
+                  data_11: this.formdata.data_11,
+                  data_12: this.formdata.data_12,
+                  data_13: this.formdata.data_13,
+                  data_14: this.formdata.data_14,
+                  data_15: this.formdata.data_15,
+                },
+                {
+                  headers: {
+                    Authorization: this.userStore.Token,
+                  },
+                }
+              )
+              .then(() => {
+                this.$router.go()
+              })
+              .catch(() => {
+                this.btnLoading = false
+              })
+          } else {            
+            this.$ajax
+              .post(
+                '/rpjmd/relations/indikatortujuan/store',
+                {
+                  IndikatorKinerjaID: this.formdata.IndikatorKinerja.IndikatorKinerjaID,                
+                  RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
+                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+                  Operasi: this.formdata.Operasi,
+                  data_1: this.formdata.data_1,
+                  data_2: this.formdata.data_2,
+                  data_3: this.formdata.data_3,
+                  data_4: this.formdata.data_4,
+                  data_5: this.formdata.data_5,
+                  data_6: this.formdata.data_6,
+                  data_7: this.formdata.data_7,
+                  data_8: this.formdata.data_8,
+                  data_9: this.formdata.data_9,
+                  data_10: this.formdata.data_10,
+                  data_11: this.formdata.data_11,
+                  data_12: this.formdata.data_12,
+                  data_13: this.formdata.data_13,
+                  data_14: this.formdata.data_14,
+                  data_15: this.formdata.data_15,
+                },
+                {
+                  headers: {
+                    Authorization: this.userStore.Token,
+                  },
+                }
+              )
+              .then(() => {
+                this.$router.go()
+              })
+              .catch(() => {
+                this.btnLoading = false
+              })
+          }
+        }
       },  
       deleteItem(item) {
         this.$root.$confirm
@@ -819,6 +898,6 @@
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
       'v-number-input': VNumberInput,
-    }
+    },
   }
 </script>
