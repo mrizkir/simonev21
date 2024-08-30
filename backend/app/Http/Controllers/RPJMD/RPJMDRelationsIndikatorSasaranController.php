@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 use Ramsey\Uuid\Uuid;
 
-class RPJMDRelationsIndikatorTujuanController extends Controller
+class RPJMDRelationsIndikatorSasaranController extends Controller
 {
   /**
    * mendapatkan daftar seluruh indikator
@@ -18,11 +18,11 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
    */
   public function index(Request $request)
   {
-    $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_BROWSE');
+    $this->hasPermissionTo('RPJMD-INDIKASI-SASARAN_BROWSE');
   }
   public function store(Request $request)
   {
-    $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_STORE');
+    $this->hasPermissionTo('RPJMD-INDIKASI-SASARAN_STORE');
 
     $this->validate($request, [
       'Operasi' => 'required|in:MAX,MIN,RANGE'
@@ -32,7 +32,7 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     
     $rules = [      
       'IndikatorKinerjaID'=>'required|exists:tmRPJMDIndikatorKinerja,IndikatorKinerjaID',      
-      'RpjmdCascadingID'=>'required|exists:tmRpjmdTujuan,RpjmdTujuanID',      
+      'RpjmdCascadingID'=>'required|exists:tmRpjmdSasaran,RpjmdSasaranID',      
       'data_1'=>'required|numeric',      
       'data_2'=>'required|numeric',      
       'data_3'=>'required|numeric',      
@@ -55,12 +55,12 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
 
       $this->validate($request, $rules); 
 
-      $indikatortujuan = RPJMDRelasiIndikatorModel::create([
+      $indikatorsasaran = RPJMDRelasiIndikatorModel::create([
         'RpjmdRelasiIndikatorID' => Uuid::uuid4()->toString(),
         'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
         'RpjmdCascadingID' => $request->input('RpjmdCascadingID'),
         'PeriodeRPJMDID' => $request->input('PeriodeRPJMDID'),      
-        'TipeCascading' => 'tujuan',      
+        'TipeCascading' => 'sasaran',      
         'data_1' => $request->input('data_1'),    
         'data_2' => $request->input('data_2'),    
         'data_3' => $request->input('data_3'),    
@@ -87,12 +87,12 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     {
       $this->validate($request, $rules); 
 
-      $indikatortujuan = RPJMDRelasiIndikatorModel::create([
+      $indikatorsasaran = RPJMDRelasiIndikatorModel::create([
         'RpjmdRelasiIndikatorID' => Uuid::uuid4()->toString(),
         'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
         'RpjmdCascadingID' => $request->input('RpjmdCascadingID'),
         'PeriodeRPJMDID' => $request->input('PeriodeRPJMDID'),      
-        'TipeCascading' => 'tujuan',      
+        'TipeCascading' => 'sasaran',      
         'data_1' => $request->input('data_1'),    
         'data_2' => $request->input('data_2'),    
         'data_3' => $request->input('data_3'),    
@@ -119,22 +119,22 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     return Response()->json([
       'status'=>1,
       'pid'=>'store',
-      'payload'=>$indikatortujuan,                                    
-      'message'=>'Data Indikator Tujuan berhasil disimpan.'
+      'payload'=>$indikatorsasaran,                                    
+      'message'=>'Data Indikator Sasaran berhasil disimpan.'
     ], 200);
   }
   public function update(Request $request, $id)
   {
-    $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_UPDATE');
+    $this->hasPermissionTo('RPJMD-INDIKASI-SASARAN_UPDATE');
 
-    $indikatortujuan = RPJMDRelasiIndikatorModel::find($id);
+    $indikatorsasaran = RPJMDRelasiIndikatorModel::find($id);
 
-    if(is_null($indikatortujuan))
+    if(is_null($indikatorsasaran))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Indikator Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Indikator Sasaran dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
@@ -169,42 +169,42 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
 
         $this->validate($request, $rules); 
 
-        $indikatortujuan->data_1 = $request->input('data_1');
-        $indikatortujuan->data_2 = $request->input('data_2');
-        $indikatortujuan->data_3 = $request->input('data_3');
-        $indikatortujuan->data_4 = $request->input('data_4');
-        $indikatortujuan->data_5 = $request->input('data_5');
-        $indikatortujuan->data_6 = $request->input('data_6');
-        $indikatortujuan->data_7 = $request->input('data_7');
-        $indikatortujuan->data_8 = $request->input('data_8');
-        $indikatortujuan->data_9 = $request->input('data_9');
-        $indikatortujuan->data_10 = $request->input('data_10');
-        $indikatortujuan->data_11 = $request->input('data_11');
-        $indikatortujuan->data_12 = $request->input('data_12');
-        $indikatortujuan->data_13 = $request->input('data_13');
-        $indikatortujuan->data_14 = $request->input('data_14');
-        $indikatortujuan->data_15 = $request->input('data_15');
+        $indikatorsasaran->data_1 = $request->input('data_1');
+        $indikatorsasaran->data_2 = $request->input('data_2');
+        $indikatorsasaran->data_3 = $request->input('data_3');
+        $indikatorsasaran->data_4 = $request->input('data_4');
+        $indikatorsasaran->data_5 = $request->input('data_5');
+        $indikatorsasaran->data_6 = $request->input('data_6');
+        $indikatorsasaran->data_7 = $request->input('data_7');
+        $indikatorsasaran->data_8 = $request->input('data_8');
+        $indikatorsasaran->data_9 = $request->input('data_9');
+        $indikatorsasaran->data_10 = $request->input('data_10');
+        $indikatorsasaran->data_11 = $request->input('data_11');
+        $indikatorsasaran->data_12 = $request->input('data_12');
+        $indikatorsasaran->data_13 = $request->input('data_13');
+        $indikatorsasaran->data_14 = $request->input('data_14');
+        $indikatorsasaran->data_15 = $request->input('data_15');
       }
       else
       {
         $this->validate($request, $rules); 
 
-        $indikatortujuan->data_1 = $request->input('data_1');
-        $indikatortujuan->data_2 = $request->input('data_2');
-        $indikatortujuan->data_3 = $request->input('data_3');
-        $indikatortujuan->data_4 = $request->input('data_4');
-        $indikatortujuan->data_5 = $request->input('data_5');
-        $indikatortujuan->data_6 = $request->input('data_6');
-        $indikatortujuan->data_7 = $request->input('data_7');
-        $indikatortujuan->data_8 = $request->input('data_8');
+        $indikatorsasaran->data_1 = $request->input('data_1');
+        $indikatorsasaran->data_2 = $request->input('data_2');
+        $indikatorsasaran->data_3 = $request->input('data_3');
+        $indikatorsasaran->data_4 = $request->input('data_4');
+        $indikatorsasaran->data_5 = $request->input('data_5');
+        $indikatorsasaran->data_6 = $request->input('data_6');
+        $indikatorsasaran->data_7 = $request->input('data_7');
+        $indikatorsasaran->data_8 = $request->input('data_8');
       }
-      $indikatortujuan->save();
+      $indikatorsasaran->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'payload' => $indikatortujuan,                                    
-        'message' => 'Data indikator tujuan berhasil disimpan.'
+        'payload' => $indikatorsasaran,                                    
+        'message' => 'Data indikator sasaran berhasil disimpan.'
       ], 200); 
     }
   }
@@ -216,16 +216,16 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
    */
   public function destroy(Request $request,$id)
   {
-    $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_DESTROY');
+    $this->hasPermissionTo('RPJMD-INDIKASI-SASARAN_DESTROY');
 
-    $indikatortujuan = RPJMDRelasiIndikatorModel::find($id);
+    $indikatorsasaran = RPJMDRelasiIndikatorModel::find($id);
 
-    if(is_null($indikatortujuan))
+    if(is_null($indikatorsasaran))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Indikator Tujuan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Indikator Sasaran dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     // else if($visi->misi->count('RpjmdMisiID') > 0)
@@ -238,12 +238,12 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     // }
     else
     {
-      $indikatortujuan->delete();
+      $indikatorsasaran->delete();
 
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data Indikator Tujuan dengan ID ($id) berhasil dihapus"
+        'message' => "Data Indikator Sasaran dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }

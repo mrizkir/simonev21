@@ -318,6 +318,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_kondisi_awal"
                           />
                         </v-col>
                       </v-row>
@@ -330,6 +331,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_target"
                           />    
                         </v-col>
                         <v-col cols="auto" md="12" lg="12">
@@ -340,6 +342,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_target"
                           />
                         </v-col>                      
                         <v-col cols="auto" md="12" lg="12">
@@ -350,6 +353,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_target"
                           />
                         </v-col>
                         <v-col cols="auto" md="12" lg="12">                        
@@ -360,6 +364,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_target"
                           />              
                         </v-col>
                         <v-col cols="auto" md="12" lg="12">                        
@@ -370,6 +375,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_target"
                           />     
                         </v-col>
                         <v-col cols="auto" md="12" lg="12">                        
@@ -380,6 +386,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
+                            :rules="rule_target"
                           />
                         </v-col>
                       </v-row>     
@@ -532,21 +539,21 @@
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
-        data_1: 0,
-        data_2: 0,
-        data_3: 0,
-        data_4: 0,
-        data_5: 0,
-        data_6: 0,
-        data_7: 0,
-        data_8: 0,
-        data_9: 0,
-        data_10: 0,
-        data_11: 0,
-        data_12: 0,
-        data_13: 0,
-        data_14: 0,
-        data_15: 0,        
+        data_1: null,
+        data_2: null,
+        data_3: null,
+        data_4: null,
+        data_5: null,
+        data_6: null,
+        data_7: null,
+        data_8: null,
+        data_9: null,
+        data_10: null,
+        data_11: null,
+        data_12: null,
+        data_13: null,
+        data_14: null,
+        data_15: null,        
         Satuan: '-',
         Operasi: '-',
       }, 
@@ -555,21 +562,21 @@
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
-        data_1: 0,
-        data_2: 0,
-        data_3: 0,
-        data_4: 0,
-        data_5: 0,
-        data_6: 0,
-        data_7: 0,
-        data_8: 0,
-        data_9: 0,
-        data_10: 0,
-        data_11: 0,
-        data_12: 0,
-        data_13: 0,
-        data_14: 0,
-        data_15: 0,
+        data_1: null,
+        data_2: null,
+        data_3: null,
+        data_4: null,
+        data_5: null,
+        data_6: null,
+        data_7: null,
+        data_8: null,
+        data_9: null,
+        data_10: null,
+        data_11: null,
+        data_12: null,
+        data_13: null,
+        data_14: null,
+        data_15: null,
         Satuan: '-',
         Operasi: '-',
       }, 
@@ -584,6 +591,9 @@
       ],      
       rule_range_akhir: [
         value => !!value || 'Mohon untuk diisi nilai akhir target !!!',
+      ],
+      rule_target: [
+        value => !!value || 'Mohon untuk diisi nilai target !!!',
       ],
       //pinia
       userStore: null,
