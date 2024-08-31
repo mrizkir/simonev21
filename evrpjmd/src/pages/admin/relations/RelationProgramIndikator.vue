@@ -44,9 +44,11 @@
               variant="outlined"
               v-model="OrgID_Selected"
               label="OPD / SKPD PENANGGUNG JAWAB"
-              item-text="Nm_Organisasi"
+              item-title="Nm_Organisasi"
               item-value="OrgID"
               class="pa-3 mt-4"
+              clearable
+              return-object
             >
             </v-autocomplete>
             <v-dialog
