@@ -127,18 +127,6 @@ class RPJMDTujuanController extends Controller
       $data = $data->limit($limit);
     }
 
-    if($request->filled('sortBy'))
-    {
-      $sortBy = $request->input('sortBy');
-      if(is_array($sortBy))
-      {
-        foreach ($sortBy as $item)
-        {
-          $data = $data->orderBy($item['key'], $item['order']);
-        }
-      }
-    }
-
     $indikatorkinerja = $data
     ->orderBy('kode_tujuan', 'asc')
     ->get()
