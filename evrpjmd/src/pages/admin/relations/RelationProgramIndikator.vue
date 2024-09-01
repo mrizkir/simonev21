@@ -43,14 +43,13 @@
               density="compact"
               variant="outlined"
               v-model="OrgID_Selected"
-              label="OPD / SKPD PENANGGUNG JAWAB"
+              label="OPD / SKPD PENANGGUNG JAWAB"              
               item-title="Nm_Organisasi"
               item-value="OrgID"
               class="pa-3 mt-4"
               clearable
               return-object
-            >
-            </v-autocomplete>
+            />
             <v-dialog
               v-model="dialogfrm"
               max-width="600px"
@@ -545,7 +544,7 @@
       datatableLoading: false,
       //filter form
       daftar_opd: [],
-      OrgID_Selected: '',
+      OrgID_Selected: null,
       //data table
       datatable: [],
       itemsPerPage: 10,
@@ -639,33 +638,37 @@
           )
           .then(({ data }) => {
             this.daftar_opd = data.opd;
-            // this.datatableLoaded = true;
           });
       },
-      async initialize({ page, itemsPerPage }) {        
-        this.datatableLoading = true
-        const offset = (page - 1) * itemsPerPage
-        this.indexOffset = offset
+      async initialize({ page, itemsPerPage }) {                
+        if (this.OrgID_Selected !== null || typeof  OrgID_Selected  !== 'undefined') {
+          this.datatableLoading = true
+          const offset = (page - 1) * itemsPerPage
+          this.indexOffset = offset
 
-        await this.$ajax
-          .post('/dmaster/kodefikasi/program/indikatorprogram', 
-            {
-              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,              
-              offset: offset,
-              limit: itemsPerPage,
-            },
-            {
-              headers: {
-                Authorization: this.userStore.Token,
+          await this.$ajax
+            .post('/dmaster/kodefikasi/program/indikatorprogram', 
+              {
+                PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+                OrgID: this.OrgID_Selected.OrgID,
+                offset: offset,
+                limit: itemsPerPage,
               },
-            }
-          )
-          .then(({ data }) => {
-            let payload = data.payload
-            this.datatable = payload.data
-            this.totalRecords = payload.totalRecords
-            this.datatableLoading = false    
-          })
+              {
+                headers: {
+                  Authorization: this.userStore.Token,
+                },
+              }
+            )
+            .then(({ data }) => {
+              let payload = data.payload
+              this.datatable = payload.data
+              this.totalRecords = payload.totalRecords
+              this.datatableLoading = false
+            })
+        } else {
+          this.datatableLoading = false    
+        }
       },
       async setLabelTahun() {
         let periode = this.userStore.PeriodeRPJMD;
@@ -967,6 +970,12 @@
           },
         ]
         return headers
+      },
+    },
+    watch: {
+      OrgID_Selected(val) {
+        this.OrgID_Selected = val
+        this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
       },
     },
     components: {

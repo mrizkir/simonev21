@@ -25,7 +25,7 @@ class FormBOPDMurniController extends Controller
     $this->validate($request, [            
       'tahun'=>'required|numeric',
       'no_bulan'=>'required',   
-      'OrgID'=>'required|exists:tmOrg,OrgID',            
+      'OrgID'=>'required|exists:tmOrg,OrgID',
     ]);
     $tahun = $request->input('tahun');
     $no_bulan = $request->input('no_bulan');

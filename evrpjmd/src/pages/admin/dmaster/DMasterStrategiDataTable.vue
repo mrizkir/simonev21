@@ -119,7 +119,7 @@
             <v-btn
               class="mr-2"
               v-tooltip:bottom="'Tambah Program'"
-              :to="'/admin/dmaster/strategi/' + item.RpjmdStrategiID + '/manage'"
+              :to="'/admin/relations/programstrategi/' + item.RpjmdStrategiID + '/manage'"
               size="small"
               color="primary"
               variant="text"

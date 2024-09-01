@@ -1,3 +1,3 @@
 <template>
-  Program Strategi
+  relasi program strategi
 </template>

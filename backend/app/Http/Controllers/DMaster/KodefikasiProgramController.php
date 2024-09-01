@@ -79,10 +79,12 @@ class KodefikasiProgramController extends Controller
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',  
+      'OrgID'=>'required|exists:tmOrg,OrgID',    
     ]);
 
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
+    $OrgID = $request->input('OrgID');
 
     $totalRecords = KodefikasiProgramModel::where('TA', $periode->TA_AWAL)->count('PrgID');
     
@@ -118,10 +120,16 @@ class KodefikasiProgramController extends Controller
     ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
     ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
     ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->leftJoin('tmOrg', function($join) {      
+      $join->on('tmOrg.BidangID_1', '=', 'tmBidangUrusan.BidangID');
+      $join->orOn('tmOrg.BidangID_2', '=', 'tmBidangUrusan.BidangID');
+      $join->orOn('tmOrg.BidangID_3', '=', 'tmBidangUrusan.BidangID');      
+    })
+    ->where('tmOrg.OrgID', $OrgID)
+    ->where('tmProgram.TA', $periode->TA_AWAL)    
     ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
     ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-    ->orderBy('tmProgram.Kd_Program','ASC')                                    
-    ->where('tmProgram.TA', $periode->TA_AWAL);
+    ->orderBy('tmProgram.Kd_Program','ASC');
 
     if($request->filled('offset'))
     {

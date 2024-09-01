@@ -126,6 +126,24 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterStrategiManage.vue'),
   },
+  // admin - relation - strategi - program
+  {
+    path: '/admin/relations/programstrategi',
+    name: 'RelationProgramStrategi',
+    meta: {
+      title: 'RELATION - PROGRAM STRATEGI',
+    },
+    component: () => import('@/pages/admin/relations/RelationProgramStrategi.vue'),
+  },
+  // admin - relation - strategi - program - manage
+  {
+    path: '/admin/relations/programstrategi/:RpjmdStrategiID/manage',
+    name: 'RelationProgramStrategiManage',
+    meta: {
+      title: 'RELATION - PROGRAM STRATEGI',
+    },
+    component: () => import('@/pages/admin/relations/RelationProgramStrategiManage.vue'),
+  },
   // admin - relation - indikator - tujuan
   {
     path: '/admin/relations/indikatortujuan',
@@ -143,16 +161,7 @@ const routes = [
       title: 'RELATION - INDIKATOR SASARAN',
     },
     component: () => import('@/pages/admin/relations/RelationSasaranIndikator.vue'),
-  },
-  // admin - relation - strategi - program
-  {
-    path: '/admin/relations/programstrategi',
-    name: 'RelationProgramStrategi',
-    meta: {
-      title: 'RELATION - PROGRAM STRATEGI',
-    },
-    component: () => import('@/pages/admin/relations/RelationProgramStrategi.vue'),
-  },
+  },  
   // admin - relation - indikator - program
   {
     path: '/admin/relations/indikatorprogram',
