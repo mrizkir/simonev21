@@ -28,11 +28,11 @@ class UsersController extends Controller {
     $role = Role::findByName('superadmin');
 
     return Response()->json([
-                'status'=>1,
-                'pid'=>'fetchdata',
+                'status' => 1,
+                'pid' => 'fetchdata',
                 'role'=>$role,
                 'users'=>$data,
-                'message'=>'Fetch data users berhasil diperoleh'
+                'message' => 'Fetch data users berhasil diperoleh'
               ], 200);  
   }    
   /**
@@ -45,11 +45,11 @@ class UsersController extends Controller {
   {
     $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_STORE');
     $this->validate($request, [
-      'name'=>'required',
-      'email'=>'required|string|email|unique:users',
-      'nomor_hp'=>'required|string|unique:users',
-      'username'=>'required|string|unique:users',
-      'password'=>'required',
+      'name' => 'required',
+      'email' => 'required|string|email|unique:users',
+      'nomor_hp' => 'required|string|unique:users',
+      'username' => 'required|string|unique:users',
+      'password' => 'required',
     ]);
     $user = \DB::transaction(function () use ($request) {
       $now = \Carbon\Carbon::now()->toDateTimeString();        
@@ -61,8 +61,8 @@ class UsersController extends Controller {
         'username'=> $request->input('username'),
         'password'=>Hash::make($request->input('password')),
         'email_verified_at'=>\Carbon\Carbon::now(),
-        'theme'=>'default',            
-        'default_role'=>'superadmin',            
+        'theme' => 'default',            
+        'default_role' => 'superadmin',            
         'foto'=> 'storages/images/users/no_photo.png',
         'created_at'=>$now, 
         'updated_at'=>$now
@@ -80,10 +80,10 @@ class UsersController extends Controller {
       return $user;
     });
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
+                  'status' => 1,
+                  'pid' => 'store',
                   'user'=>$user,                                    
-                  'message'=>'Data user berhasil disimpan.'
+                  'message' => 'Data user berhasil disimpan.'
                 ], 200); 
 
   }
@@ -104,16 +104,16 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'fetchdata',                
+                  'pid' => 'fetchdata',                
                   'message'=>["User ID ($id) gagal diperoleh"]
                 ], 422); 
     }
     else
     {
-      $roles=$user->getRoleNames();           
+      $roles = $user->getRoleNames();           
       return Response()->json([
-                    'status'=>1,
-                    'pid'=>'fetchdata',                
+                    'status' => 1,
+                    'pid' => 'fetchdata',                
                     'roles'=>$roles,                                                        
                     'message'=>"daftar roles user ($user->username) berhasil diperoleh"
                   ], 200); 
@@ -136,14 +136,14 @@ class UsersController extends Controller {
   {      
     $this->hasPermissionTo('USER_STOREPERMISSIONS');
     $this->validate($request, [            
-      'role_name'=>'required|exists:roles,name',            
+      'role_name' => 'required|exists:roles,name',            
     ]);
-    $role_name=$request->input('role_name');        
+    $role_name = $request->input('role_name');        
     switch($role_name)
     {            
       case 'bapelitbang':
         $permission=Role::findByName($role_name)->permissions;
-        $permissions=$permission->pluck('name');
+        $permissions = $permission->pluck('name');
         $data = User::role('bapelitbang')
             ->select(\DB::raw('users.id'))                        
             ->where('active',1)
@@ -151,13 +151,13 @@ class UsersController extends Controller {
 
         foreach ($data as $user)
         {
-          \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+          \DB::table('model_has_permissions')->where('model_id', $user->id)->delete();
           $user->givePermissionTo($permissions);                 
         }                
       break;
       case 'opd':
         $permission=Role::findByName($role_name)->permissions;
-        $permissions=$permission->pluck('name');
+        $permissions = $permission->pluck('name');
         $data = User::role('opd')
             ->select(\DB::raw('users.id'))                        
             ->where('active',1)
@@ -165,13 +165,13 @@ class UsersController extends Controller {
 
         foreach ($data as $user)
         {
-          \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+          \DB::table('model_has_permissions')->where('model_id', $user->id)->delete();
           $user->givePermissionTo($permissions);                 
         }                
       break;
       case 'pptk':
         $permission=Role::findByName($role_name)->permissions;
-        $permissions=$permission->pluck('name');
+        $permissions = $permission->pluck('name');
         $data = User::role('pptk')
             ->select(\DB::raw('users.id'))                        
             ->where('active',1)
@@ -179,13 +179,13 @@ class UsersController extends Controller {
 
         foreach ($data as $user)
         {
-          \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+          \DB::table('model_has_permissions')->where('model_id', $user->id)->delete();
           $user->givePermissionTo($permissions);                 
         }                
       break;
       case 'dewan':
         $permission=Role::findByName($role_name)->permissions;
-        $permissions=$permission->pluck('name');
+        $permissions = $permission->pluck('name');
         $data = User::role('dewan')
             ->select(\DB::raw('users.id'))                        
             ->where('active',1)
@@ -193,13 +193,13 @@ class UsersController extends Controller {
 
         foreach ($data as $user)
         {
-          \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+          \DB::table('model_has_permissions')->where('model_id', $user->id)->delete();
           $user->givePermissionTo($permissions);                 
         }                
       break;
       case 'tapd':
         $permission=Role::findByName($role_name)->permissions;
-        $permissions=$permission->pluck('name');
+        $permissions = $permission->pluck('name');
         $data = User::role('tapd')
             ->select(\DB::raw('users.id'))                        
             ->where('active',1)
@@ -207,14 +207,14 @@ class UsersController extends Controller {
 
         foreach ($data as $user)
         {
-          \DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+          \DB::table('model_has_permissions')->where('model_id', $user->id)->delete();
           $user->givePermissionTo($permissions);                 
         }                
       break;            
     }       
     return Response()->json([
-      'status'=>1,
-      'pid'=>'update',                                                                                                     
+      'status' => 1,
+      'pid' => 'update',                                                                                                     
       'message'=>"Permission seluruh user role ($role_name) berhasil disinkronisasi."
     ], 200); 
   }    
@@ -234,7 +234,7 @@ class UsersController extends Controller {
 
     foreach($permissions as $k=>$v)
     {
-      $records[]=$v['name'];
+      $records[] = $v['name'];
     }        
     
     $user = User::find($user_id);
@@ -247,9 +247,9 @@ class UsersController extends Controller {
                             'message' => 'Mensetting permission user ('.$user->username.') berhasil'
                           ]);
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
-                  'message'=>'Permission user '.$user->username.' berhasil disimpan.'
+                  'status' => 1,
+                  'pid' => 'store',
+                  'message' => 'Permission user '.$user->username.' berhasil disimpan.'
                 ], 200); 
   }
   /**
@@ -277,9 +277,9 @@ class UsersController extends Controller {
                     'message' => 'Menghilangkan permission('.$name.') user ('.$user->username.') berhasil'
                   ]);
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',
-                  'message'=>'Role user '.$user->username.' berhasil di revoke.'
+                  'status' => 1,
+                  'pid' => 'destroy',
+                  'message' => 'Role user '.$user->username.' berhasil di revoke.'
                 ], 200); 
   }
   /**
@@ -298,7 +298,7 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["User ID ($id) gagal diupdate"]
                 ], 422); 
     }
@@ -309,9 +309,9 @@ class UsersController extends Controller {
                             'required',
                             'unique:users,username,'.$user->id
                           ],           
-                    'name'=>'required',            
-                    'email'=>'required|string|email|unique:users,email,'.$user->id,
-                    'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,                                                   
+                    'name' => 'required',            
+                    'email' => 'required|string|email|unique:users,email,'.$user->id,
+                    'nomor_hp' => 'required|string|unique:users,nomor_hp,'.$user->id,                                                   
                   ]);  
       
       $user = \DB::transaction(function () use ($request,$user) {
@@ -336,10 +336,10 @@ class UsersController extends Controller {
                               ]);
 
         return Response()->json([
-                      'status'=>1,
-                      'pid'=>'update',
+                      'status' => 1,
+                      'pid' => 'update',
                       'user'=>$user,                                    
-                      'message'=>'Data user '.$user->username.' berhasil diubah.'
+                      'message' => 'Data user '.$user->username.' berhasil diubah.'
                     ], 200); 
       });
     }
@@ -359,14 +359,14 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["Password User ID ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [            
-        'password'=>'required',                        
+        'password' => 'required',                        
       ]); 
 
       $user->password = Hash::make($request->input('password'));                
@@ -380,10 +380,10 @@ class UsersController extends Controller {
                             ]);
 
       return Response()->json([
-                    'status'=>1,
-                    'pid'=>'update',
+                    'status' => 1,
+                    'pid' => 'update',
                     'user'=>$user,                                    
-                    'message'=>'Password user '.$user->username.' berhasil diubah.'
+                    'message' => 'Password user '.$user->username.' berhasil diubah.'
                   ], 200); 
     }
   }
@@ -400,7 +400,7 @@ class UsersController extends Controller {
     $id = $user->id;
 
     $this->validate($request, [        
-      'email'=>'required|string|email|unique:users,email,'.$id,                          
+      'email' => 'required|string|email|unique:users,email,'.$id,                          
     ]);
     
     $user->email = $request->input('email');
@@ -414,7 +414,7 @@ class UsersController extends Controller {
     {
       return response()->json([
         'success'=>true,
-        'message'=>'Data ini telah berhasil diubah.'
+        'message' => 'Data ini telah berhasil diubah.'
       ]);
     }
     else
@@ -439,13 +439,13 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                                      
+                  'pid' => 'destroy',                                      
                   'message'=>["User dengan id ($id) gagal dihapus"]
                 ], 422);    
     }
     else
     {
-      $username=$user->username;
+      $username = $user->username;
       $user->delete();
 
       \App\Models\System\ActivityLog::log($request,[
@@ -456,8 +456,8 @@ class UsersController extends Controller {
       ]);
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'destroy',  
+        'status' => 1,
+        'pid' => 'destroy',  
         'user'=>$user,              
         'message'=>"User ($username) berhasil dihapus"
       ], 200);    
@@ -473,31 +473,31 @@ class UsersController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'store',                
+        'pid' => 'store',                
         'message'=>["Data User tidak ditemukan."]
       ], 422);         
     }
     else
     {
       $this->validate($request, [        
-        'foto'=>'required',                          
+        'foto' => 'required',                          
       ]);
-      $username=$user->username;
+      $username = $user->username;
       $foto = $request->file('foto');
-      $mime_type=$foto->getMimeType();
+      $mime_type = $foto->getMimeType();
       if ($mime_type=='image/png' || $mime_type=='image/jpeg')
       {
         $folder=Helper::public_path('images/users/');
         $file_name=uniqid('img').".".$foto->exension();
         $foto->move($folder,$file_name);
 
-        $old_file=$user->foto;
+        $old_file = $user->foto;
         $user->foto="storages/images/users/$file_name";
         $user->save();
 
         if ($old_file != 'storages/images/users/no_photo.png')
         {
-          $old_file=str_replace('storages/','',$old_file);
+          $old_file=str_replace('storages/','', $old_file);
           if (is_file(Helper::public_path($old_file)))
           {
             unlink(Helper::public_path($old_file));
@@ -505,7 +505,7 @@ class UsersController extends Controller {
         }
         return Response()->json([
           'status'=>0,
-          'pid'=>'store',
+          'pid' => 'store',
           'user'=>$user,                
           'message'=>"Foto User ($username)  berhasil diupload"
         ], 200);    
@@ -513,8 +513,8 @@ class UsersController extends Controller {
       else
       {
         return Response()->json([
-          'status'=>1,
-          'pid'=>'store',
+          'status' => 1,
+          'pid' => 'store',
           'message'=>["Extensi file yang diupload bukan jpg atau png."]
         ], 422); 
       }
@@ -528,20 +528,20 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'store',                
+                  'pid' => 'store',                
                   'message'=>["Data User tidak ditemukan."]
                 ], 422);         
     }
     else
     {
-      $username=$user->username;
-      $old_file=$user->foto;
+      $username = $user->username;
+      $old_file = $user->foto;
       $user->foto="storages/images/users/no_photo.png";
       $user->save();
 
       if ($old_file != 'storages/images/users/no_photo.png')
       {
-        $old_file=str_replace('storages/','',$old_file);
+        $old_file=str_replace('storages/','', $old_file);
         if (is_file(Helper::public_path($old_file)))
         {
           unlink(Helper::public_path($old_file));
@@ -549,8 +549,8 @@ class UsersController extends Controller {
       }
       
       return Response()->json([
-                    'status'=>1,
-                    'pid'=>'store',
+                    'status' => 1,
+                    'pid' => 'store',
                     'user'=>$user,                
                     'message'=>"Foto User ($username)  berhasil direset"
                   ], 200); 
@@ -564,17 +564,17 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'store',                
+                  'pid' => 'store',                
                   'message'=>["Data User tidak ditemukan."]
                 ], 422);         
     }
     else
     {
       $username = $user->username;            
-      $opd=$user->opd;            
+      $opd = $user->opd;            
       return Response()->json([
-                    'status'=>1,
-                    'pid'=>'fetchdata',
+                    'status' => 1,
+                    'pid' => 'fetchdata',
                     'daftar_opd'=>$opd,                
                     'message'=>"Daftar OPD dari username ($username)  berhasil diperoleh"
                   ], 200); 
@@ -588,22 +588,22 @@ class UsersController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'store',                
+                  'pid' => 'store',                
                   'message'=>["Data User tidak ditemukan."]
                 ], 422);         
     }
     else
     {
       $username = $user->username;            
-      $unitkerja=$user->unitkerja;            
+      $unitkerja = $user->unitkerja;            
       $OrgID = null;
       if (!is_null($unitkerja)) 
       {
         $OrgID = $unitkerja[0]->OrgID;
       }            
       return Response()->json([
-                    'status'=>1,
-                    'pid'=>'fetchdata',
+                    'status' => 1,
+                    'pid' => 'fetchdata',
                     'OrgID'=>$OrgID,
                     'daftar_unitkerja'=>$unitkerja,
                     'message'=>"Daftar Unit Kerja dari username ($username)  berhasil diperoleh"

@@ -25,11 +25,11 @@ class UsersBapelitbangController extends Controller {
                     
         $role = Role::findByName('bapelitbang');
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',
+                                'status' => 1,
+                                'pid' => 'fetchdata',
                                 'role'=>$role,
                                 'users'=>$data,
-                                'message'=>'Fetch data users BAPPELITBANG berhasil diperoleh'
+                                'message' => 'Fetch data users BAPPELITBANG berhasil diperoleh'
                             ], 200);  
     }    
     /**
@@ -42,11 +42,11 @@ class UsersBapelitbangController extends Controller {
     {
         $this->hasPermissionTo('SYSTEM-USERS-BAPELITBANG_STORE');
         $this->validate($request, [
-            'name'=>'required',
-            'email'=>'required|string|email|unique:users',
-            'nomor_hp'=>'required|string|unique:users',
-            'username'=>'required|string|unique:users',
-            'password'=>'required',
+            'name' => 'required',
+            'email' => 'required|string|email|unique:users',
+            'nomor_hp' => 'required|string|unique:users',
+            'username' => 'required|string|unique:users',
+            'password' => 'required',
         ]);
         $user = \DB::transaction(function () use ($request) {
             $now = \Carbon\Carbon::now()->toDateTimeString();        
@@ -57,8 +57,8 @@ class UsersBapelitbangController extends Controller {
                 'nomor_hp'=>$request->input('nomor_hp'),
                 'username'=> $request->input('username'),
                 'password'=>Hash::make($request->input('password')),                        
-                'theme'=>'default',
-                'default_role'=>'bapelitbang',            
+                'theme' => 'default',
+                'default_role' => 'bapelitbang',            
                 'foto'=> 'storages/images/users/no_photo.png',
                 'created_at'=>$now, 
                 'updated_at'=>$now
@@ -67,7 +67,7 @@ class UsersBapelitbangController extends Controller {
             $user->assignRole($role);               
             
             $permission=Role::findByName('bapelitbang')->permissions;
-            $permissions=$permission->pluck('name');
+            $permissions = $permission->pluck('name');
             $user->givePermissionTo($permissions);
 
             $daftar_roles=json_decode($request->input('role_id'),true);
@@ -77,7 +77,7 @@ class UsersBapelitbangController extends Controller {
                 {
                     $user->assignRole($v);               
                     $permission=Role::findByName($v)->permissions;
-                    $permissions=$permission->pluck('name');
+                    $permissions = $permission->pluck('name');
                     $user->givePermissionTo($permissions);
                 }
             }
@@ -93,10 +93,10 @@ class UsersBapelitbangController extends Controller {
         });
 
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'store',
+                                    'status' => 1,
+                                    'pid' => 'store',
                                     'user'=>$user,                                    
-                                    'message'=>'Data user BAPPELITBANG berhasil disimpan.'
+                                    'message' => 'Data user BAPPELITBANG berhasil disimpan.'
                                 ], 200); 
 
     }
@@ -112,18 +112,18 @@ class UsersBapelitbangController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'update',                
+                                    'pid' => 'update',                
                                     'message'=>["User ID ($id) gagal diperoleh"]
                                 ], 422); 
         }
         else
         {
             return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
+                                    'status' => 1,
+                                    'pid' => 'fetchdata',
                                     'user'=>$user,  
                                     'role_bapelitbang'=>$user->hasRole('bapelitbang'),    
-                                    'message'=>'Data user '.$user->username.' berhasil diperoleh.'
+                                    'message' => 'Data user '.$user->username.' berhasil diperoleh.'
                                 ], 200); 
         }
 
@@ -144,7 +144,7 @@ class UsersBapelitbangController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'update',                
+                                    'pid' => 'update',                
                                     'message'=>["User ID ($id) gagal diupdate"]
                                 ], 422); 
         }
@@ -155,9 +155,9 @@ class UsersBapelitbangController extends Controller {
                                                         'required',
                                                         'unique:users,username,'.$user->id
                                                     ],           
-                                        'name'=>'required',            
-                                        'email'=>'required|string|email|unique:users,email,'.$user->id,
-                                        'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,                                                    
+                                        'name' => 'required',            
+                                        'email' => 'required|string|email|unique:users,email,'.$user->id,
+                                        'nomor_hp' => 'required|string|unique:users,nomor_hp,'.$user->id,                                                    
                                     ]); 
             $user = \DB::transaction(function () use ($request,$user) {
                 $user->name = $request->input('name');
@@ -180,10 +180,10 @@ class UsersBapelitbangController extends Controller {
             });
 
             return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'update',
+                                    'status' => 1,
+                                    'pid' => 'update',
                                     'user'=>$user,      
-                                    'message'=>'Data user BAPPELITBANG '.$user->username.' berhasil diubah.'
+                                    'message' => 'Data user BAPPELITBANG '.$user->username.' berhasil diubah.'
                                 ], 200); 
         }
     }
@@ -204,13 +204,13 @@ class UsersBapelitbangController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'destroy',                
+                                    'pid' => 'destroy',                
                                     'message'=>["User ID ($id) gagal dihapus"]
                                 ], 422); 
         }
         else
         {
-            $username=$user->username;
+            $username = $user->username;
             $user->delete();
 
             \App\Models\System\ActivityLog::log($request,[
@@ -221,8 +221,8 @@ class UsersBapelitbangController extends Controller {
                                                             ]);
         
             return Response()->json([
-                                        'status'=>1,
-                                        'pid'=>'destroy',                
+                                        'status' => 1,
+                                        'pid' => 'destroy',                
                                         'message'=>"User BAPPELITBANG ($username) berhasil dihapus"
                                     ], 200);         
         }

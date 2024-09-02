@@ -21,7 +21,7 @@ class RekeningAkunController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-AKUN_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required'
+      'TA' => 'required'
     ]);    
     $ta = $request->input('TA');
     $akun=RekeningAKunModel::select(\DB::raw('
@@ -33,14 +33,14 @@ class RekeningAkunController extends Controller {
                     `TA`
                   '))
                   ->orderBy('Kd_Rek_1','ASC')                                    
-                  ->where('TA',$ta)
+                  ->where('TA', $ta)
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'akun'=>$akun,
-                  'message'=>'Fetch data rekening akun berhasil.'
+                  'message' => 'Fetch data rekening akun berhasil.'
                 ], 200);
   }
   /**
@@ -56,12 +56,12 @@ class RekeningAkunController extends Controller {
     $this->validate($request, [
       'Kd_Rek_1'=> [
             Rule::unique('tmAkun')->where(function($query) use ($request) {
-              return $query->where('TA',$request->input('TA'));
+              return $query->where('TA', $request->input('TA'));
             }),
             'required',
             'regex:/^[0-9]+$/'],
-      'Nm_Akun'=>'required',
-      'TA'=>'required'
+      'Nm_Akun' => 'required',
+      'TA' => 'required'
     ]);     
       
     $ta = $request->input('TA');
@@ -75,10 +75,10 @@ class RekeningAkunController extends Controller {
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
+                  'status' => 1,
+                  'pid' => 'store',
                   'akun'=>$akun,                                    
-                  'message'=>'Data Rekening Akun berhasil disimpan.'
+                  'message' => 'Data Rekening Akun berhasil disimpan.'
                 ], 200); 
   }               
   /**
@@ -90,8 +90,8 @@ class RekeningAkunController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -134,8 +134,8 @@ class RekeningAkunController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin rekening akun dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -155,7 +155,7 @@ class RekeningAkunController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["Data Rekening Akun ($id) gagal diupdate"]
                 ], 422); 
     }
@@ -164,21 +164,21 @@ class RekeningAkunController extends Controller {
       $this->validate($request, [    
                     'Kd_Rek_1'=>[
                           Rule::unique('tmAkun')->where(function($query) use ($request,$akun) {  
-                            if ($request->input('Kd_Rek_1')==$akun->Kd_Rek_1) 
+                            if ($request->input('Kd_Rek_1')= = $akun->Kd_Rek_1) 
                             {
                               return $query->where('Kd_Rek_1','ignore')
-                                    ->where('TA',$akun->TA);
+                                    ->where('TA', $akun->TA);
                             }                 
                             else
                             {
-                              return $query->where('Kd_Rek_1',$request->input('Kd_Rek_1'))
-                                  ->where('TA',$akun->TA);
+                              return $query->where('Kd_Rek_1', $request->input('Kd_Rek_1'))
+                                  ->where('TA', $akun->TA);
                             }                                                                                    
                           }),
                           'required',
                           'regex:/^[0-9]+$/'
                         ],
-                    'Nm_Akun'=>'required',
+                    'Nm_Akun' => 'required',
                   ]);
       
       
@@ -188,10 +188,10 @@ class RekeningAkunController extends Controller {
       $akun->save();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
+                  'status' => 1,
+                  'pid' => 'update',
                   'akun'=>$akun,                                    
-                  'message'=>'Data Rekening Akun '.$akun->Nm_Akun.' berhasil diubah.'
+                  'message' => 'Data Rekening Akun '.$akun->Nm_Akun.' berhasil diubah.'
                 ], 200);
     }
     
@@ -212,18 +212,18 @@ class RekeningAkunController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                
+                  'pid' => 'destroy',                
                   'message'=>["Data Rekening Akun ($id) gagal dihapus"]
                 ], 422); 
     }
     else
     {
       
-      $result=$akun->delete();
+      $result = $akun->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
+                  'status' => 1,
+                  'pid' => 'destroy',                
                   'message'=>"Data Rekening Akun dengan ID ($id) berhasil dihapus"
                 ], 200);
     }

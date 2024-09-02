@@ -22,24 +22,24 @@ class KecamatanController extends Controller {
                                 ->get();
                                 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',
+                                'status' => 1,
+                                'pid' => 'fetchdata',
                                 'kecamatan'=>$data,
-                                'message'=>'Fetch data kecamatan berhasil diperoleh'
+                                'message' => 'Fetch data kecamatan berhasil diperoleh'
                             ], 200);  
     }
     public function desa (Request $request,$id)
     {
         
-        $desa = DesaModel::where('kecamatan_id',$id)
+        $desa = DesaModel::where('kecamatan_id', $id)
                             ->orderBy('nama','ASC')
                             ->get();
 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',                                
+                                'status' => 1,
+                                'pid' => 'fetchdata',                                
                                 'desa'=>$desa,
-                                'message'=>'Fetch data desa dari kecamatan berhasil diperoleh'
+                                'message' => 'Fetch data desa dari kecamatan berhasil diperoleh'
                             ], 200);  
 
     }

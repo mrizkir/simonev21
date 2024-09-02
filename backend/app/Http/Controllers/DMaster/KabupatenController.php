@@ -21,24 +21,24 @@ class KabupatenController extends Controller {
                                 ->get();
                                 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',
+                                'status' => 1,
+                                'pid' => 'fetchdata',
                                 'kota'=>$data,
-                                'message'=>'Fetch data provinsi berhasil diperoleh'
+                                'message' => 'Fetch data provinsi berhasil diperoleh'
                             ], 200);  
     }
     public function kecamatan (Request $request,$id)
     {
         
-        $kecamatan = KecamatanModel::where('kabupaten_id',$id)
+        $kecamatan = KecamatanModel::where('kabupaten_id', $id)
                             ->orderBy('nama', 'asc')
                             ->get();
 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',                                
+                                'status' => 1,
+                                'pid' => 'fetchdata',                                
                                 'kecamatan'=>$kecamatan,
-                                'message'=>'Fetch data kecamatan dari kota berhasil diperoleh'
+                                'message' => 'Fetch data kecamatan dari kota berhasil diperoleh'
                             ], 200);  
 
     }

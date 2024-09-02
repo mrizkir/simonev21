@@ -27,8 +27,8 @@ class KodefikasiProgramController extends Controller
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required'
-    ]);    
+      'TA' => 'required'
+    ]);
     $ta = $request->input('TA');
     $kodefikasiprogram = KodefikasiProgramModel::select(\DB::raw("
       tmProgram.`PrgID`,
@@ -64,14 +64,14 @@ class KodefikasiProgramController extends Controller
     ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
     ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
     ->orderBy('tmProgram.Kd_Program','ASC')                                    
-    ->where('tmProgram.TA',$ta)
+    ->where('tmProgram.TA', $ta)
     ->get();
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'kodefikasiprogram'=>$kodefikasiprogram,
-      'message'=>'Fetch data kodefikasi program berhasil.'
+      'message' => 'Fetch data kodefikasi program berhasil.'
     ], 200);
   }
   public function indikatorprogram(Request $request)
@@ -79,8 +79,8 @@ class KodefikasiProgramController extends Controller
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',  
-      'OrgID'=>'required|exists:tmOrg,OrgID',    
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',  
+      'OrgID' => 'required|exists:tmOrg,OrgID',    
     ]);
 
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
@@ -134,7 +134,7 @@ class KodefikasiProgramController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -144,7 +144,7 @@ class KodefikasiProgramController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -207,19 +207,19 @@ class KodefikasiProgramController extends Controller
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required',
-      'BidangID_1'=>'required',
+      'TA' => 'required',
+      'BidangID_1' => 'required',
     ]);    
     $ta = $request->input('TA');
-    $BidangID_1=$request->input('BidangID_1');
-    $BidangID_2=$request->input('BidangID_2');
-    $BidangID_3=$request->input('BidangID_3');
+    $BidangID_1 = $request->input('BidangID_1');
+    $BidangID_2 = $request->input('BidangID_2');
+    $BidangID_3 = $request->input('BidangID_3');
 
     $program = KodefikasiProgramModel::select(\DB::raw('
       `PrgID`,
       CONCAT("[X.XX.",`Kd_Program`,"] ",`Nm_Program`) AS nama_program	
     '))
-    ->where('TA',$ta)
+    ->where('TA', $ta)
     ->where('Jns',0)
     ->orderBy('Kd_Program','ASC')                                    
     ->get();
@@ -231,10 +231,10 @@ class KodefikasiProgramController extends Controller
     ->join('tmUrusanProgram AS B','tmProgram.PrgID','B.PrgID')
     ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
     ->join('tmUrusan AS D','D.UrsID','D.UrsID')                                    
-    ->where('tmProgram.TA',$ta)
-    ->where('B.BidangID',$BidangID_1)
-    ->orWhere('B.BidangID',$BidangID_2)
-    ->orWhere('B.BidangID',$BidangID_3)
+    ->where('tmProgram.TA', $ta)
+    ->where('B.BidangID', $BidangID_1)
+    ->orWhere('B.BidangID', $BidangID_2)
+    ->orWhere('B.BidangID', $BidangID_3)
     ->orderBy('D.Kd_Urusan','ASC')                                    
     ->orderBy('C.Kd_Bidang','ASC')                                    
     ->orderBy('tmProgram.Kd_Program','ASC')                                    
@@ -245,10 +245,10 @@ class KodefikasiProgramController extends Controller
       $program->add($item);
     }
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'programrka'=>$program,
-      'message'=>'Fetch data kodefikasi program rka berhasil.'
+      'message' => 'Fetch data kodefikasi program rka berhasil.'
     ], 200);
   }
   /**
@@ -275,12 +275,12 @@ class KodefikasiProgramController extends Controller
     ->orderBy('tmProgram.Kd_Program','ASC')                                    
     ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
     ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
-    ->where('tmKegiatan.PrgID',$id)
+    ->where('tmKegiatan.PrgID', $id)
     ->get();
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'programkegiatan'=>$programkegiatan,
       'message'=>"Fetch data kegiatan dari program $id berhasil."
     ], 200);   
@@ -295,9 +295,9 @@ class KodefikasiProgramController extends Controller
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_STORE');
     
     $this->validate($request, [            
-      'Jns'=>'required|in:1,0',
-      'Nm_Program'=>'required',
-      'TA'=>'required',
+      'Jns' => 'required|in:1,0',
+      'Nm_Program' => 'required',
+      'TA' => 'required',
       'Kd_Program'=> [                        
         'required',
         'regex:/^[0-9]+$/', 
@@ -356,10 +356,10 @@ class KodefikasiProgramController extends Controller
       return $kodefikasiprogram;
     });
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
+      'status' => 1,
+      'pid' => 'store',
       'kodefikasiprogram'=>$kodefikasiprogram,                                    
-      'message'=>'Data Kodefikasi Program berhasil disimpan.'
+      'message' => 'Data Kodefikasi Program berhasil disimpan.'
     ], 200); 
   }               
   /* Store a newly created resource in storage.
@@ -370,8 +370,8 @@ class KodefikasiProgramController extends Controller
  public function salin(Request $request)
  {       
    $this->validate($request, [            
-     'tahun_asal'=>'required|numeric',
-     'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+     'tahun_asal' => 'required|numeric',
+     'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
    ]);
 
    $tahun_asal = $request->input('tahun_asal');
@@ -444,8 +444,8 @@ class KodefikasiProgramController extends Controller
    \DB::commit();
 
    return Response()->json([
-     'status'=>1,
-     'pid'=>'store',            
+     'status' => 1,
+     'pid' => 'store',            
      'message'=>"Salin program dari tahun anggaran $tahun_asal berhasil."
    ], 200);
  }
@@ -465,7 +465,7 @@ class KodefikasiProgramController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'update',                
+        'pid' => 'update',                
         'message'=>["Data Kodefikasi Program ($id) gagal diupdate"]
       ], 422); 
     }
@@ -475,9 +475,9 @@ class KodefikasiProgramController extends Controller
         'Kd_Program'=>[                                                    
               'required',
               'regex:/^[0-9]+$/',
-              new KodefikasiKodeProgramRule($request,'ignore',$kodefikasiprogram)
+              new KodefikasiKodeProgramRule($request,'ignore', $kodefikasiprogram)
             ],
-        'Nm_Program'=>'required',
+        'Nm_Program' => 'required',
       ]);
       
       $kodefikasiprogram = \DB::transaction(function () use ($request, $kodefikasiprogram) 
@@ -546,10 +546,10 @@ class KodefikasiProgramController extends Controller
       });
       
       return Response()->json([
-        'status'=>1,
-        'pid'=>'update',
+        'status' => 1,
+        'pid' => 'update',
         'kodefikasiprogram'=>$kodefikasiprogram,                                    
-        'message'=>'Data Kodefikasi Program '.$kodefikasiprogram->Nm_Program.' berhasil diubah.'
+        'message' => 'Data Kodefikasi Program '.$kodefikasiprogram->Nm_Program.' berhasil diubah.'
       ], 200);
     }
   }
@@ -569,7 +569,7 @@ class KodefikasiProgramController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',                
+        'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Program ($id) gagal dihapus"]
       ], 422); 
     }
@@ -577,16 +577,16 @@ class KodefikasiProgramController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',                
+        'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Program ($id) gagal dihapus karena status terkunci / tidak aktif"]
       ], 422); 
     }
     else
     {   
-      $result=$kodefikasiprogram->delete();
+      $result = $kodefikasiprogram->delete();
       return Response()->json([
-        'status'=>1,
-        'pid'=>'destroy',                
+        'status' => 1,
+        'pid' => 'destroy',                
         'message'=>"Data Kodefikasi Program dengan ID ($id) berhasil dihapus"
       ], 200);
     }

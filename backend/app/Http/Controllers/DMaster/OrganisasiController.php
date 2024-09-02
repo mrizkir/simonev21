@@ -23,7 +23,7 @@ class OrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-OPD_BROWSE');
 
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun' => 'required',            
     ]);
     
     $tahun = $request->input('tahun');
@@ -36,19 +36,19 @@ class OrganisasiController extends Controller {
     }       
     else if ($this->hasRole(['opd', 'unitkerja']))
     {
-      $daftar_opd=$this->getUserOrgID($tahun);      
-      $data = OrganisasiModel::where('TA',$tahun)
-        ->whereIn('OrgID',$daftar_opd)
+      $daftar_opd = $this->getUserOrgID($tahun);      
+      $data = OrganisasiModel::where('TA', $tahun)
+        ->whereIn('OrgID', $daftar_opd)
         ->orderBy('kode_organisasi','ASC')
         ->get();
     }
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'opd'=>$data,
       'jumlah_apbd'=>$data->sum('PaguDana1'),
       'jumlah_apbdp'=>$data->sum('PaguDana2'),
-      'message'=>'Fetch data opd berhasil diperoleh'
+      'message' => 'Fetch data opd berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
   }
@@ -62,7 +62,7 @@ class OrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-OPD_STORE');
     
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun' => 'required',            
     ]); 
     $tahun = $request->input('tahun');
     
@@ -72,7 +72,7 @@ class OrganisasiController extends Controller {
         kode_organisasi,
         SUM(`PaguUraian2`) AS `PaguUraian2` 
       FROM sipd 
-      WHERE `TA`=$tahun 
+      WHERE `TA` = $tahun 
       AND `EntryLevel`=2 
       GROUP BY kode_organisasi
     ) AS level1
@@ -80,7 +80,7 @@ class OrganisasiController extends Controller {
       `tmOrg`.`PaguDana2`=level1.`PaguUraian2` 
     WHERE 
       level1.kode_organisasi=`tmOrg`.kode_organisasi AND 
-      `tmOrg`.`TA`=$tahun    
+      `tmOrg`.`TA` = $tahun    
     ";   
     
     \DB::statement($str_statistik_opd1); 
@@ -88,12 +88,12 @@ class OrganisasiController extends Controller {
     $str_update_jumlah_program = "UPDATE `tmOrg`, ( 
       SELECT kode_organisasi, COUNT(kd_prog_gabungan) jumlah_program FROM (
         SELECT * FROM 
-          (SELECT kode_organisasi, kd_prog_gabungan FROM sipd WHERE `TA`=$tahun AND `EntryLevel`=2 GROUP BY `kd_prog_gabungan`,kode_organisasi ORDER BY kd_prog_gabungan ASC) AS level1
+          (SELECT kode_organisasi, kd_prog_gabungan FROM sipd WHERE `TA` = $tahun AND `EntryLevel`=2 GROUP BY `kd_prog_gabungan`,kode_organisasi ORDER BY kd_prog_gabungan ASC) AS level1
       ) AS level2 GROUP BY kode_organisasi ORDER BY kode_organisasi
     ) AS level3    
     SET `JumlahProgram2`=level3.jumlah_program 
     WHERE level3.kode_organisasi=`tmOrg`.kode_organisasi
-    AND `tmOrg`.`TA`=$tahun";
+    AND `tmOrg`.`TA` = $tahun";
 
     \DB::statement($str_update_jumlah_program);     
     
@@ -103,25 +103,25 @@ class OrganisasiController extends Controller {
           SELECT 
             DISTINCT(kd_keg_gabung),				
             `kode_organisasi`				
-          FROM sipd WHERE `TA`=$tahun AND `EntryLevel`=2
+          FROM sipd WHERE `TA` = $tahun AND `EntryLevel`=2
           ORDER BY kd_keg_gabung ASC
         ) AS level1 GROUP BY kd_keg_gabung
       ) AS level2
       SET `JumlahKegiatan2`=level2.jumlah_kegiatan
       WHERE level2.kode_organisasi=`tmOrg`.kode_organisasi
-    AND `tmOrg`.`TA`=$tahun";   
+    AND `tmOrg`.`TA` = $tahun";   
     
     \DB::statement($str_update_jumlah_kegiatan);  
 
     $data = OrganisasiModel::where('TA', $tahun)->get();
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
+      'status' => 1,
+      'pid' => 'store',
       'opd'=>$data,
       'jumlah_apbd'=>$data->sum('PaguDana1'),
       'jumlah_apbdp'=>$data->sum('PaguDana2'),
-      'message'=>'Fetch data opd berhasil diperoleh'
+      'message' => 'Fetch data opd berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }    
   /**
@@ -136,20 +136,20 @@ class OrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-OPD_STORE');
 
     $this->validate($request, [
-      'BidangID_1'=>'required|exists:tmBidangUrusan,BidangID',
-      'kode_bidang_1'=>'required',
-      'Nm_Bidang_1'=>'required',            
+      'BidangID_1' => 'required|exists:tmBidangUrusan,BidangID',
+      'kode_bidang_1' => 'required',
+      'Nm_Bidang_1' => 'required',            
 
-      'kode_organisasi'=>'required',
-      'Kd_Organisasi'=>'required',
-      'Nm_Organisasi'=>'required',
-      'Alias_Organisasi'=>'required',
-      'Alamat'=>'required|min:5',
+      'kode_organisasi' => 'required',
+      'Kd_Organisasi' => 'required',
+      'Nm_Organisasi' => 'required',
+      'Alias_Organisasi' => 'required',
+      'Alamat' => 'required|min:5',
 
-      'NamaKepalaSKPD'=>'required|min:5',
-      'NIPKepalaSKPD'=>'required|min:5',
+      'NamaKepalaSKPD' => 'required|min:5',
+      'NIPKepalaSKPD' => 'required|min:5',
 
-      'TA'=>'required|numeric',
+      'TA' => 'required|numeric',
     ]);
     
     $BidangID_2 = null;
@@ -198,10 +198,10 @@ class OrganisasiController extends Controller {
     ]);        
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
+      'status' => 1,
+      'pid' => 'store',
       'opd'=>$organisasi,                                    
-      'message'=>'Data organisasi '.$organisasi->OrgNm.' berhasil disimpan.'
+      'message' => 'Data organisasi '.$organisasi->OrgNm.' berhasil disimpan.'
     ], 200); 
   }
   /**
@@ -213,8 +213,8 @@ class OrganisasiController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -379,8 +379,8 @@ class OrganisasiController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin OPD dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -396,18 +396,18 @@ class OrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-OPD_UPDATE');
 
     $this->validate($request, [            
-      'BidangID_1'=>'required|exists:tmBidangUrusan,BidangID',
-      'kode_bidang_1'=>'required',
-      'Nm_Bidang_1'=>'required',            
+      'BidangID_1' => 'required|exists:tmBidangUrusan,BidangID',
+      'kode_bidang_1' => 'required',
+      'Nm_Bidang_1' => 'required',            
 
-      'kode_organisasi'=>'required',
-      'Kd_Organisasi'=>'required',
-      'Nm_Organisasi'=>'required',
-      'Alias_Organisasi'=>'required',
-      'Alamat'=>'required|min:5',
+      'kode_organisasi' => 'required',
+      'Kd_Organisasi' => 'required',
+      'Nm_Organisasi' => 'required',
+      'Alias_Organisasi' => 'required',
+      'Alamat' => 'required|min:5',
 
-      'NamaKepalaSKPD'=>'required|min:5',
-      'NIPKepalaSKPD'=>'required|min:5',
+      'NamaKepalaSKPD' => 'required|min:5',
+      'NIPKepalaSKPD' => 'required|min:5',
     ]);
 
     $organisasi = OrganisasiModel::find($id);
@@ -459,10 +459,10 @@ class OrganisasiController extends Controller {
     \DB::statement($sql);
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'update',
+      'status' => 1,
+      'pid' => 'update',
       'opd'=>$organisasi,                                    
-      'message'=>'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
+      'message' => 'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
     ], 200); 
 
   }
@@ -479,17 +479,17 @@ class OrganisasiController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',                
+        'pid' => 'destroy',                
         'message'=>["Data OPD ($id) gagal dihapus"]
       ], 422); 
     }
     else
     {
       $this->validate($request, [            
-        'tahun'=>'required',
-        'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
-        'status'=>'required|in:0,1',
-        'masapelaporan'=>'required|in:murni,perubahan'
+        'tahun' => 'required',
+        'bulan' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+        'status' => 'required|in:0,1',
+        'masapelaporan' => 'required|in:murni,perubahan'
       ]);
 
       $tahun = $request->input('tahun');
@@ -513,10 +513,10 @@ class OrganisasiController extends Controller {
       ]);
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'update',
+        'status' => 1,
+        'pid' => 'update',
         'opd'=>$organisasi,                                    
-        'message'=>'Status input untuk OPD '.$organisasi->Nm_Organisasi.' berhasil diubah.'
+        'message' => 'Status input untuk OPD '.$organisasi->Nm_Organisasi.' berhasil diubah.'
       ], 200);       
     }
   }
@@ -526,8 +526,8 @@ class OrganisasiController extends Controller {
   public function lockedall(Request $request)
   {
     $this->validate($request, [            
-      'tahun'=>'required',
-      'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+      'tahun' => 'required',
+      'bulan' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
     ]);
     
     $tahun = $request->input('tahun');
@@ -591,7 +591,7 @@ class OrganisasiController extends Controller {
     }       
     else if ($this->hasRole(['opd', 'unitkerja']))
     {
-      $daftar_opd=$this->getUserOrgID($tahun);
+      $daftar_opd = $this->getUserOrgID($tahun);
 
       $data = \DB::table('tmOrg AS A')
       ->select(\DB::raw('
@@ -643,12 +643,12 @@ class OrganisasiController extends Controller {
       ->get();            
     }
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'opd'=>$data,
       'jumlah_apbd'=>$data->sum('PaguDana1'),
       'jumlah_apbdp'=>$data->sum('PaguDana2'),
-      'message'=>'Fetch data opd berhasil diperoleh'
+      'message' => 'Fetch data opd berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);   
   }
   public function lockall(Request $request)
@@ -656,9 +656,9 @@ class OrganisasiController extends Controller {
     $this->hasPermissionTo('SYSTEM-SETTING-LOCK-OPD_UPDATE');
 
     $this->validate($request, [            
-      'tahun'=>'required',
-      'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
-      'status'=>'required|in:0,1',
+      'tahun' => 'required',
+      'bulan' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+      'status' => 'required|in:0,1',
     ]);
 
     $tahun = $request->input('tahun');
@@ -689,9 +689,9 @@ class OrganisasiController extends Controller {
       ]);   
     }
     return Response()->json([
-      'status'=>1,
-      'pid'=>'update',                                   
-      'message'=>'Status input seluruh OPD berhasil diubah.'
+      'status' => 1,
+      'pid' => 'update',                                   
+      'message' => 'Status input seluruh OPD berhasil diubah.'
     ], 200);  
   }
   /**
@@ -710,18 +710,18 @@ class OrganisasiController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',                
+        'pid' => 'destroy',                
         'message'=>["Data OPD ($id) gagal dihapus"]
       ], 422); 
     }
     else
     {
       
-      $result=$organisasi->delete();
+      $result = $organisasi->delete();
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'destroy',                
+        'status' => 1,
+        'pid' => 'destroy',                
         'message'=>"Data OPD dengan ID ($id) berhasil dihapus"
       ], 200);
     }
@@ -750,11 +750,11 @@ class OrganisasiController extends Controller {
       $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi','ASC')->get();        
     }
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'organisasi'=>$organisasi,
       'unitkerja'=>$unitkerja,                                    
-      'message'=>'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diperoleh.'
+      'message' => 'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diperoleh.'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
@@ -769,7 +769,7 @@ class OrganisasiController extends Controller {
     $pejabat = \DB::table('tmASN')
       ->select(\DB::raw('`trRiwayatJabatanASN`.`ASNID`,`tmASN`.`Nm_ASN`,`Jenis_Jabatan`'))
       ->join('trRiwayatJabatanASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
-      ->where('trRiwayatJabatanASN.OrgID',$id)
+      ->where('trRiwayatJabatanASN.OrgID', $id)
       ->get();
 
     $pa=[];
@@ -807,15 +807,15 @@ class OrganisasiController extends Controller {
       }
     }        
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',                                    
+      'status' => 1,
+      'pid' => 'fetchdata',                                    
       'pejabat'=>[
         'pa'=>$pa,
         'kpa'=>$kpa,
         'ppk'=>$ppk,
         'pptk'=>$pptk,
       ],                                    
-      'message'=>'Data unit kerja berdasarkan id '.$id.' berhasil diperoleh.'
+      'message' => 'Data unit kerja berdasarkan id '.$id.' berhasil diperoleh.'
     ], 200); 
   }
 }

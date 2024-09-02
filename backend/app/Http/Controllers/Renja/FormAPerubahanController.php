@@ -24,8 +24,8 @@ class FormAPerubahanController extends Controller
     $this->hasPermissionTo('RENJA-FORM-A-PERUBAHAN_BROWSE');
 
     $this->validate($request, [
-      'RKAID'=>'required',
-      'no_bulan'=>'required',
+      'RKAID' => 'required',
+      'no_bulan' => 'required',
     ]);
     $RKAID = $request->input('RKAID');
     $no_bulan = $request->input('no_bulan');
@@ -67,18 +67,18 @@ class FormAPerubahanController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'fetchdata',
-        'message'=>'Fetch data form a perubahan gagal diperoleh'
+        'pid' => 'fetchdata',
+        'message' => 'Fetch data form a perubahan gagal diperoleh'
       ], 422);
     }
     else if (isset($tingkat[1]) )
     {
-      $tingkat_1=$tingkat[1];
-      $tingkat_2=$tingkat[2];
-      $tingkat_3=$tingkat[3];
-      $tingkat_4=$tingkat[4];
-      $tingkat_5=$tingkat[5];
-      $tingkat_6=$tingkat[6];
+      $tingkat_1 = $tingkat[1];
+      $tingkat_2 = $tingkat[2];
+      $tingkat_3 = $tingkat[3];
+      $tingkat_4 = $tingkat[4];
+      $tingkat_5 = $tingkat[5];
+      $tingkat_6 = $tingkat[6];
       $totalPaguDana=0;
       $totalUraian=0;
       $totalTargetSatuKegiatan=0;
@@ -98,21 +98,21 @@ class FormAPerubahanController extends Controller
             //tingkat i
 
             $totalPaguDana_Rek1=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k1,'Kd_Rek_1');
-            $totalPaguDana=$totalPaguDana_Rek1['totalpagu'];
+            $totalPaguDana = $totalPaguDana_Rek1['totalpagu'];
             $data[]=[
               'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
-              'tingkat'=>1,
+              'tingkat' => 1,
               'kode'=>$k1,
               'nama_uraian'=>$v1,
               'totalPaguDana'=>$totalPaguDana,
-              'persen_bobot'=>'',
-              'persen_rata2_fisik'=>'',
-              'persen_tertimbang_fisik'=>'',
-              'total_target'=>'',
-              'total_realisasi'=>'',
-              'persen_realisasi'=>'',
-              'persen_tertimbang_realisasi'=>'',
-              'sisa_anggaran'=>'',
+              'persen_bobot' => '',
+              'persen_rata2_fisik' => '',
+              'persen_tertimbang_fisik' => '',
+              'total_target' => '',
+              'total_realisasi' => '',
+              'persen_realisasi' => '',
+              'persen_tertimbang_realisasi' => '',
+              'sisa_anggaran' => '',
             ];
             //tingkat ii
             foreach ($tingkat_2 as $k2=>$v2)
@@ -122,34 +122,34 @@ class FormAPerubahanController extends Controller
                 $rek2=substr($k5_level2,0,3);
                 if ($rek2 == $k2) {
                   if (!array_key_exists($k2,$rek2_tampil)) {
-                    $rek2_tampil[$rek2]=$v2;
+                    $rek2_tampil[$rek2] = $v2;
                   }
                 }
               }
               foreach ($rek2_tampil as $a=>$b)
               {
                 $totalPaguDana_Rek2=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$a,'Kd_Rek_2');
-                $no_=explode ('.',$a);
+                $no_=explode ('.', $a);
                 $data[]=[
                   'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                   'tingkat'=>2,
                   'kode'=>$no_[0].'.'.$no_[1],
                   'nama_uraian'=>$b,
                   'totalPaguDana'=>$totalPaguDana_Rek2['totalpagu'],
-                  'persen_bobot'=>'',
-                  'persen_rata2_fisik'=>'',
-                  'persen_tertimbang_fisik'=>'',
-                  'total_target'=>'',
-                  'total_realisasi'=>'',
-                  'persen_realisasi'=>'',
-                  'persen_tertimbang_realisasi'=>'',
-                  'sisa_anggaran'=>'',
+                  'persen_bobot' => '',
+                  'persen_rata2_fisik' => '',
+                  'persen_tertimbang_fisik' => '',
+                  'total_target' => '',
+                  'total_realisasi' => '',
+                  'persen_realisasi' => '',
+                  'persen_tertimbang_realisasi' => '',
+                  'sisa_anggaran' => '',
                 ];
                 //tingkat iii
                 foreach ($tingkat_3 as $k3=>$v3)
                 {
                   $rek3=substr($k3,0,3);
-                  if ($a==$rek3)
+                  if ($a= = $rek3)
                   {
                     $totalPaguDana_Rek3=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k3,'Kd_Rek_3');
                     $no_=explode (".",$k3);
@@ -238,8 +238,8 @@ class FormAPerubahanController extends Controller
                               {
                                 $totalUraian+=1;
                                 $totalPaguDana_Rek6=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k6,'Kd_Rek_6');
-                                $RKARincID=$rka[$k6]['RKARincID'];
-                                $nama_uraian=$rka[$k6]['nama_uraian'];
+                                $RKARincID = $rka[$k6]['RKARincID'];
+                                $nama_uraian = $rka[$k6]['nama_uraian'];
                                 $no_=explode (".",$k6);
                                 $no_6 = explode('_', $no_[5]);
                                 $persen_bobot_rek6=Helper::formatPersen($totalPaguDana_Rek6['totalpersenbobot'],100);
@@ -265,58 +265,58 @@ class FormAPerubahanController extends Controller
                                   'sisa_anggaran'=>$totalPaguDana_Rek6['totalpagu']-$totalPaguDana_Rek6['totalrealisasi'],
                                 ];
 
-                                $nilaiuraian=$rka[$k6]['pagu_uraian'];
-                                $target=$rka[$k6]['target'];
-                                $totalTargetSatuKegiatan+=$target;
-                                $realisasi=$rka[$k6]['realisasi'];
-                                $totalRealisasiSatuKegiatan+=$realisasi;
-                                $fisik=$rka[$k6]['fisik'];
-                                $volume=$rka[$k6]['volume'];
+                                $nilaiuraian = $rka[$k6]['pagu_uraian'];
+                                $target = $rka[$k6]['target'];
+                                $totalTargetSatuKegiatan+ = $target;
+                                $realisasi = $rka[$k6]['realisasi'];
+                                $totalRealisasiSatuKegiatan+ = $realisasi;
+                                $fisik = $rka[$k6]['fisik'];
+                                $volume = $rka[$k6]['volume'];
                                 $persen_bobot=Helper::formatPecahan($rka[$k6]['persen_bobot'],1);
-                                $totalPersenBobotSatuKegiatan+=$persen_bobot;
+                                $totalPersenBobotSatuKegiatan+ = $persen_bobot;
                                 $persen_target=Helper::formatPecahan($rka[$k6]['persen_target'],1);
-                                $totalPersenTargetSatuKegiatan+=$persen_target;
+                                $totalPersenTargetSatuKegiatan+ = $persen_target;
                                 $persen_realisasi=Helper::formatPecahan($rka[$k6]['persen_realisasi'],1);
-                                $totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
+                                $totalPersenRealisasiSatuKegiatan+ = $persen_realisasi;
                                 $persen_tertimbang_realisasi=Helper::formatPecahan($rka[$k6]['persen_tertimbang_realisasi'],1);
                                 $persen_fisik=Helper::formatPecahan($rka[$k6]['persen_fisik'],1);
-                                $totalPersenFisikSatuKegiatan+=$persen_fisik;
+                                $totalPersenFisikSatuKegiatan+ = $persen_fisik;
                                 $persen_tertimbang_fisik=Helper::formatPecahan($rka[$k6]['persen_tertimbang_fisik'],1);
-                                $totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
-                                $sisa_anggaran=$nilaiuraian-$realisasi;
+                                $totalPersenTertimbangFisikSatuKegiatan+ = $persen_tertimbang_fisik;
+                                $sisa_anggaran = $nilaiuraian-$realisasi;
 
                                 if (isset($rka[$k6]['child'][0]))
                                 {
-                                  $child=$rka[$k6]['child'];
+                                  $child = $rka[$k6]['child'];
                                   foreach ($child as $n)
                                   {
                                     $totalUraian+=1;
-                                    $RKARincID=$n['RKARincID'];
-                                    $nama_uraian=$n['nama_uraian'];
-                                    $nilaiuraian=$n['pagu_uraian'];
-                                    $target=$n['target'];
-                                    $totalTargetSatuKegiatan+=$target;
-                                    $realisasi=$n['realisasi'];
-                                    $totalRealisasiSatuKegiatan+=$realisasi;
-                                    $fisik=$n['fisik'];
-                                    $volume=$n['volume'];
+                                    $RKARincID = $n['RKARincID'];
+                                    $nama_uraian = $n['nama_uraian'];
+                                    $nilaiuraian = $n['pagu_uraian'];
+                                    $target = $n['target'];
+                                    $totalTargetSatuKegiatan+ = $target;
+                                    $realisasi = $n['realisasi'];
+                                    $totalRealisasiSatuKegiatan+ = $realisasi;
+                                    $fisik = $n['fisik'];
+                                    $volume = $n['volume'];
                                     $persen_bobot=Helper::formatPecahan($n['persen_bobot'],1);
-                                    $totalPersenBobotSatuKegiatan+=$persen_bobot;
+                                    $totalPersenBobotSatuKegiatan+ = $persen_bobot;
                                     $persen_target=Helper::formatPecahan($n['persen_target'],1);
-                                    $totalPersenTargetSatuKegiatan+=$persen_target;
+                                    $totalPersenTargetSatuKegiatan+ = $persen_target;
                                     $persen_realisasi=Helper::formatPecahan($n['persen_realisasi'],1);
-                                    $totalPersenRealisasiSatuKegiatan+=$persen_realisasi;
+                                    $totalPersenRealisasiSatuKegiatan+ = $persen_realisasi;
                                     $persen_tertimbang_realisasi=Helper::formatPecahan($n['persen_tertimbang_realisasi'],1);
                                     $persen_fisik=Helper::formatPecahan($n['persen_fisik'],1);
-                                    $totalPersenFisikSatuKegiatan+=$persen_fisik;
+                                    $totalPersenFisikSatuKegiatan+ = $persen_fisik;
                                     $persen_tertimbang_fisik=Helper::formatPecahan($n['persen_tertimbang_fisik'],1);
-                                    $totalPersenTertimbangFisikSatuKegiatan+=$persen_tertimbang_fisik;
-                                    $sisa_anggaran=$nilaiuraian-$realisasi;
+                                    $totalPersenTertimbangFisikSatuKegiatan+ = $persen_tertimbang_fisik;
+                                    $sisa_anggaran = $nilaiuraian-$realisasi;
 
                                     $data[]=[
                                       'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                                       'tingkat'=>7,
-                                      'kode'=>'',
+                                      'kode' => '',
                                       'nama_uraian'=>$nama_uraian,
                                       'totalPaguDana'=>$nilaiuraian,
                                       'persen_bobot'=>$persen_bobot,
@@ -367,7 +367,7 @@ class FormAPerubahanController extends Controller
         SUM(`TargetFisik2`) AS `TargetFisik2`,
         SUM(`RealisasiFisik2`) AS `RealisasiFisik2`
       '))
-      ->where('RKAID',$RKAID)                                                                                       
+      ->where('RKAID', $RKAID)                                                                                       
       ->where('EntryLvl', 2)        
       ->groupBy('Bulan')                                
       ->get();
@@ -464,25 +464,25 @@ class FormAPerubahanController extends Controller
       }
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'fetchdata',
+        'status' => 1,
+        'pid' => 'fetchdata',
         'rka'=>$data,
         'total_data'=>$total_data,
         'chart_keuangan'=>$chart_keuangan,
         'chart_fisik'=>$chart_fisik,
-        'message'=>'Fetch data form a perubahan berhasil diperoleh'
+        'message' => 'Fetch data form a perubahan berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
     else
     {
       return Response()->json([
-        'status'=>1,
-        'pid'=>'fetchdata',
+        'status' => 1,
+        'pid' => 'fetchdata',
         'rka'=>$data,
         'total_data'=>$total_data,
         'chart_keuangan'=>$chart_keuangan,
         'chart_fisik'=>$chart_fisik,
-        'message'=>'Fetch data form a perubahan berhasil diperoleh'
+        'message' => 'Fetch data form a perubahan berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
@@ -492,16 +492,16 @@ class FormAPerubahanController extends Controller
     $this->hasPermissionTo('RENJA-FORM-A-PERUBAHAN_BROWSE');
 
     $this->validate($request, [
-      'no_bulan'=>'required',
-      'SOrgID'=>'required',
-      'RKAID'=>'required|exists:trRKA,RKAID',
+      'no_bulan' => 'required',
+      'SOrgID' => 'required',
+      'RKAID' => 'required|exists:trRKA,RKAID',
     ]);
     $SOrgID = $request->input('SOrgID');
     $tahun = $request->input('tahun');
     $no_bulan = $request->input('no_bulan');
     $RKAID = $request->input('RKAID');
 
-    if (\DB::table('trRKARinc')->where('RKAID',$RKAID)->count() > 0)
+    if (\DB::table('trRKARinc')->where('RKAID', $RKAID)->count() > 0)
     {
       $unitkerja = SubOrganisasiModel::find($SOrgID);
       $data_report=[
@@ -521,7 +521,7 @@ class FormAPerubahanController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'fetchdata',
+        'pid' => 'fetchdata',
         'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
       ], 422);
     }
@@ -533,7 +533,7 @@ class FormAPerubahanController extends Controller
   {
     $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();	
     $data_sub_kegiatan = RKAModel::select(\DB::raw('`RKAID`,`kode_kegiatan`,`kode_sub_kegiatan`,`Nm_Kegiatan`,`Nm_Sub_Kegiatan`,`PaguDana2`,`lokasi_kegiatan2`, `TA`'))    
-    ->where('RKAID',$RKAID)                                       
+    ->where('RKAID', $RKAID)                                       
     ->first();
 
     Statistik6Model::where('RKAID', $RKAID)
@@ -543,25 +543,25 @@ class FormAPerubahanController extends Controller
     {
       $data_target=\DB::table('trRKATargetRinc')
         ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
-        ->where('RKAID',$RKAID)
-        ->where('bulan2','<=',$no_bulan)
+        ->where('RKAID', $RKAID)
+        ->where('bulan2','<=', $no_bulan)
         ->get();
 
       $data_realisasi=\DB::table('trRKARealisasiRinc')
         ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
-        ->where('RKAID',$RKAID)
-        ->where('bulan2','<=',$no_bulan)
+        ->where('RKAID', $RKAID)
+        ->where('bulan2','<=', $no_bulan)
         ->get();
 
       $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);
       $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
-      $totalTargetKeuangan=$data_target[0]->totaltarget;
-      $totalRealisasiKeuangan=$data_realisasi[0]->realisasi2;
+      $totalTargetKeuangan = $data_target[0]->totaltarget;
+      $totalRealisasiKeuangan = $data_realisasi[0]->realisasi2;
 
       $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan, $data_sub_kegiatan->PaguDana2);
       $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana2); 
       
-      $sisa_anggaran=$data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;							
+      $sisa_anggaran = $data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;							
               
       $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana2);                            
 
@@ -578,11 +578,11 @@ class FormAPerubahanController extends Controller
         'PaguDana2'=>$data_sub_kegiatan->PaguDana2,            
         'PaguDana3'=>0,            
         'JumlahKegiatan1'=>0,
-        'JumlahKegiatan2'=>1,
+        'JumlahKegiatan2' => 1,
         'JumlahKegiatan3'=>0,
 
         'JumlahSubKegiatan1'=>0,
-        'JumlahSubKegiatan2'=>1,
+        'JumlahSubKegiatan2' => 1,
         'JumlahSubKegiatan1'=>0,
 
         'JumlahUraian1'=>0,
@@ -619,7 +619,7 @@ class FormAPerubahanController extends Controller
         'PersenSisaPaguDana3'=>0,
 
         'Bobot1'=>0,
-        'Bobot2'=>100,
+        'Bobot2' => 100,
         'Bobot3'=>0,
         
         'Bulan'=>$no_bulan,

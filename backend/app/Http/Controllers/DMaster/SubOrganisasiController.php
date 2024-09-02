@@ -21,10 +21,10 @@ class SubOrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-UNIT-KERJA_BROWSE');
 
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun' => 'required',            
     ]);     
     
-    $tahun=$request->input('tahun');
+    $tahun = $request->input('tahun');
 
     $select = \DB::raw('
       tmSOrg.SOrgID,            
@@ -49,30 +49,30 @@ class SubOrganisasiController extends Controller {
     {
       $data = SubOrganisasiModel::select($select)
                 ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
-                ->where('tmSOrg.TA',$tahun)
+                ->where('tmSOrg.TA', $tahun)
                 ->orderBy('kode_sub_organisasi','ASC')
                 ->get();
     }       
     else if ($this->hasRole('opd'))
     {
-      $daftar_opd=$this->getUserOrgID($tahun);
+      $daftar_opd = $this->getUserOrgID($tahun);
       
       $data = SubOrganisasiModel::select($select)
         ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
-        ->where('tmSOrg.TA',$tahun)
-        ->whereIn('tmOrg.OrgID',$daftar_opd)
+        ->where('tmSOrg.TA', $tahun)
+        ->whereIn('tmOrg.OrgID', $daftar_opd)
         ->orderBy('kode_sub_organisasi','ASC')
         ->get();
     }
     
 
     return Response()->json([
-                'status'=>1,
-                'pid'=>'fetchdata',
+                'status' => 1,
+                'pid' => 'fetchdata',
                 'unitkerja'=>$data,
                 'jumlah_apbd'=>$data->sum('PaguDana1'),
                 'jumlah_apbdp'=>$data->sum('PaguDana2'),
-                'message'=>'Fetch data unit kerjaberhasil diperoleh'
+                'message' => 'Fetch data unit kerjaberhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
   }
@@ -86,19 +86,19 @@ class SubOrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-UNIT-KERJA_STORE');
 
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun' => 'required',            
     ]);
-    $tahun=$request->input('tahun');
+    $tahun = $request->input('tahun');
     
     $str_update_jumlah_program = "UPDATE `tmSOrg`, ( 
       SELECT kode_sub_organisasi, COUNT(kd_prog_gabungan) jumlah_program FROM (
         SELECT * FROM 
-          (SELECT kode_sub_organisasi, kd_prog_gabungan FROM sipd WHERE `TA`=$tahun AND `EntryLevel`=2 GROUP BY `kd_prog_gabungan`,kode_sub_organisasi ORDER BY kd_prog_gabungan ASC) AS level1
+          (SELECT kode_sub_organisasi, kd_prog_gabungan FROM sipd WHERE `TA` = $tahun AND `EntryLevel`=2 GROUP BY `kd_prog_gabungan`,kode_sub_organisasi ORDER BY kd_prog_gabungan ASC) AS level1
       ) AS level2 GROUP BY kode_sub_organisasi ORDER BY kode_sub_organisasi
     ) AS level3
     SET `JumlahProgram2`=level3.jumlah_program   
     WHERE level3.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi
-    AND `tmSOrg`.`TA`=$tahun";
+    AND `tmSOrg`.`TA` = $tahun";
 
     \DB::statement($str_update_jumlah_program); 
     
@@ -108,13 +108,13 @@ class SubOrganisasiController extends Controller {
         SELECT 
           DISTINCT(kd_keg_gabung),				
           `kode_sub_organisasi`				
-        FROM sipd WHERE `TA`=$tahun AND `EntryLevel`=2
+        FROM sipd WHERE `TA` = $tahun AND `EntryLevel`=2
         ORDER BY kode_sub_organisasi ASC
       ) AS level1 GROUP BY kode_sub_organisasi
     ) AS level2 
     SET `JumlahKegiatan2`=level2.jumlah_kegiatan    
     WHERE level2.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi
-    AND `tmSOrg`.`TA`=$tahun";
+    AND `tmSOrg`.`TA` = $tahun";
 
     \DB::statement($str_update_jumlah_kegiatan); 
     
@@ -123,7 +123,7 @@ class SubOrganisasiController extends Controller {
       ) AS level1
       SET `PaguDana2`=level1.`PaguUraian2`
       WHERE level1.kode_sub_organisasi=`tmSOrg`.kode_sub_organisasi
-      AND `TA`=$tahun
+      AND `TA` = $tahun
     ";
 
     \DB::statement($str_statistik_unitkerja1); 
@@ -131,12 +131,12 @@ class SubOrganisasiController extends Controller {
     $data = SubOrganisasiModel::where('TA', $tahun)->get();
 
     return Response()->json([
-                'status'=>1,
-                'pid'=>'store',
+                'status' => 1,
+                'pid' => 'store',
                 'unitkerja'=>$data,
                 'jumlah_apbd'=>$data->sum('PaguDana1'),
                 'jumlah_apbdp'=>$data->sum('PaguDana2'),
-                'message'=>'Fetch data unit kerja berhasil diperoleh'
+                'message' => 'Fetch data unit kerja berhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
@@ -148,8 +148,8 @@ class SubOrganisasiController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -231,8 +231,8 @@ class SubOrganisasiController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin Unit kerja dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -248,16 +248,16 @@ class SubOrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-UNIT-KERJA_STORE');
 
   $this->validate($request, [
-      'OrgID'=>'required|exists:tmOrg,OrgID',
-      'Kd_Sub_Organisasi'=>'required',
-      'Nm_Sub_Organisasi'=>'required',
-      'Alias_Sub_Organisasi'=>'required',
-      'Alamat'=>'required|min:5',
+      'OrgID' => 'required|exists:tmOrg,OrgID',
+      'Kd_Sub_Organisasi' => 'required',
+      'Nm_Sub_Organisasi' => 'required',
+      'Alias_Sub_Organisasi' => 'required',
+      'Alamat' => 'required|min:5',
 
-      'NamaKepalaUnitKerja'=>'required|min:5',
-      'NIPKepalaUnitKerja'=>'required|min:5',
+      'NamaKepalaUnitKerja' => 'required|min:5',
+      'NIPKepalaUnitKerja' => 'required|min:5',
 
-      'TA'=>'required|numeric',
+      'TA' => 'required|numeric',
     ]);
     
     $organisasi = OrganisasiModel::find($request->input('OrgID'));
@@ -277,10 +277,10 @@ class SubOrganisasiController extends Controller {
     ]);        
     
     return Response()->json([
-                'status'=>1,
-                'pid'=>'store',
+                'status' => 1,
+                'pid' => 'store',
                 'unitkerja'=>$sub_organisasi,                                    
-                'message'=>'Data sub organisasi '.$sub_organisasi->OrgNm.' berhasil disimpan.'
+                'message' => 'Data sub organisasi '.$sub_organisasi->OrgNm.' berhasil disimpan.'
               ], 200); 
   }
   /**
@@ -295,14 +295,14 @@ class SubOrganisasiController extends Controller {
     $this->hasPermissionTo('DMASTER-UNIT-KERJA_UPDATE');
 
     $this->validate($request, [            
-      'OrgID'=>'required|exists:tmOrg,OrgID',
-      'Kd_Sub_Organisasi'=>'required',
-      'Nm_Sub_Organisasi'=>'required',
-      'Alias_Sub_Organisasi'=>'required',
-      'Alamat'=>'required|min:5',
+      'OrgID' => 'required|exists:tmOrg,OrgID',
+      'Kd_Sub_Organisasi' => 'required',
+      'Nm_Sub_Organisasi' => 'required',
+      'Alias_Sub_Organisasi' => 'required',
+      'Alamat' => 'required|min:5',
 
-      'NamaKepalaUnitKerja'=>'required|min:5',
-      'NIPKepalaUnitKerja'=>'required|min:5',
+      'NamaKepalaUnitKerja' => 'required|min:5',
+      'NIPKepalaUnitKerja' => 'required|min:5',
     ]);
 
     $sub_organisasi = SubOrganisasiModel::find($id);
@@ -358,10 +358,10 @@ class SubOrganisasiController extends Controller {
     // $sub_organisasi = SubOrganisasiModel::find($id);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
+                  'status' => 1,
+                  'pid' => 'update',
                   'unitkerja'=>$sub_organisasi,                                    
-                  'message'=>'Data unit kerja '.$sub_organisasi->SOrgNm.' berhasil diubah.'
+                  'message' => 'Data unit kerja '.$sub_organisasi->SOrgNm.' berhasil diubah.'
                 ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   
   }
@@ -381,18 +381,18 @@ class SubOrganisasiController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                
+                  'pid' => 'destroy',                
                   'message'=>["Data Unit Kerja dengan ($id) gagal dihapus"]
                 ], 422); 
     }
     else
     {
       
-      $result=$sub_organisasi->delete();
+      $result = $sub_organisasi->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
+                  'status' => 1,
+                  'pid' => 'destroy',                
                   'message'=>"Data Unit Kerja dengan ID ($id) berhasil dihapus"
                 ], 200);
     }

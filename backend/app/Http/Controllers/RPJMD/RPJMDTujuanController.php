@@ -24,7 +24,7 @@ class RPJMDTujuanController extends Controller
     $this->hasPermissionTo('RPJMD-TUJUAN_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -41,7 +41,7 @@ class RPJMDTujuanController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -51,7 +51,7 @@ class RPJMDTujuanController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -92,7 +92,7 @@ class RPJMDTujuanController extends Controller
     $this->hasPermissionTo('RPJMD-TUJUAN_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -110,7 +110,7 @@ class RPJMDTujuanController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -120,7 +120,7 @@ class RPJMDTujuanController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -185,9 +185,9 @@ class RPJMDTujuanController extends Controller
     $this->hasPermissionTo('RPJMD-TUJUAN_STORE');
 
     $this->validate($request, [      
-      'RpjmdMisiID'=>'required|exists:tmRpjmdMisi,RpjmdMisiID',      
-      'Kd_RpjmdTujuan'=>'required',      
-      'Nm_RpjmdTujuan'=>'required',      
+      'RpjmdMisiID' => 'required|exists:tmRpjmdMisi,RpjmdMisiID',      
+      'Kd_RpjmdTujuan' => 'required',      
+      'Nm_RpjmdTujuan' => 'required',      
     ]);         
 
     $misi = RPJMDMisiModel::find($request->input('RpjmdMisiID'));
@@ -257,7 +257,7 @@ class RPJMDTujuanController extends Controller
       if($request->filled('offset'))
       {
         $this->validate($request, [              
-          'offset'=>'required|numeric',      
+          'offset' => 'required|numeric',      
         ]);
 
         $offset = $request->input('offset');
@@ -267,7 +267,7 @@ class RPJMDTujuanController extends Controller
       if($request->filled('limit'))
       {
         $this->validate($request, [              
-          'limit'=>'required|numeric|gt:0',   
+          'limit' => 'required|numeric|gt:0',   
         ]);
 
         $limit = $request->input('limit');
@@ -329,8 +329,8 @@ class RPJMDTujuanController extends Controller
     {
 
       $this->validate($request, [              
-        'Kd_RpjmdTujuan'=>'required',      
-        'Nm_RpjmdTujuan'=>'required',      
+        'Kd_RpjmdTujuan' => 'required',      
+        'Nm_RpjmdTujuan' => 'required',      
       ]);         
 
       $tujuan->Kd_RpjmdTujuan = $request->input('Kd_RpjmdTujuan');

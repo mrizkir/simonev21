@@ -26,11 +26,11 @@ class TargetKinerjaPerubahanController extends Controller
 	private function recalculate($RKAID)
 	{
 		$paguuraian = \DB::table('trRKARinc')                            
-					->where('RKAID',$RKAID)
+					->where('RKAID', $RKAID)
 					->sum('PaguUraian2');
 
 		$jumlah_uraian = \DB::table('trRKARinc')                            
-							->where('RKAID',$RKAID)
+							->where('RKAID', $RKAID)
 							->count('RKARincID');
 
 		$data_realisasi = \DB::table('trRKARealisasiRinc')
@@ -38,12 +38,12 @@ class TargetKinerjaPerubahanController extends Controller
 								COALESCE(SUM(realisasi2),0) AS jumlah_realisasi,
 								COALESCE(SUM(fisik2),0) AS jumlah_fisik
 							'))
-							->where('RKAID',$RKAID)
+							->where('RKAID', $RKAID)
 							->get();
 		
 		$rka = RKAModel::find($RKAID);
 		$rka->PaguDana2 = $paguuraian;
-		$rka->RealisasiKeuangan2=$data_realisasi[0]->jumlah_realisasi;
+		$rka->RealisasiKeuangan2 = $data_realisasi[0]->jumlah_realisasi;
 		$rka->RealisasiFisik2=Helper::formatPecahan($data_realisasi[0]->jumlah_fisik,$jumlah_uraian);
 		$rka->save();  
 	}
@@ -121,7 +121,7 @@ class TargetKinerjaPerubahanController extends Controller
 												`created_at`,
 												`updated_at`
 											'))
-							->where('RKARincID',$RKARincID)
+							->where('RKARincID', $RKARincID)
 							->orderBy('bulan2','ASC')
 							->get();
 
@@ -134,11 +134,11 @@ class TargetKinerjaPerubahanController extends Controller
 			foreach ($r as $item)
 			{
 				$sum_realisasi = \DB::table('trRKARealisasiRinc')
-								->where('RKARincID',$RKARincID)
-								->where('bulan2','<=',$item->bulan2)
+								->where('RKARincID', $RKARincID)
+								->where('bulan2','<=', $item->bulan2)
 								->sum('realisasi2');
 
-				$sisa_anggaran=$datauraian->PaguUraian2-$sum_realisasi;            
+				$sisa_anggaran = $datauraian->PaguUraian2-$sum_realisasi;            
 				$daftar_realisasi[]=[
 					'RKARealisasiRincID'=>$item->RKARealisasiRincID,
 					'bulan2'=>$item->bulan2,
@@ -154,18 +154,18 @@ class TargetKinerjaPerubahanController extends Controller
 					'updated_at'=>$item->updated_at,
 				];
 				
-				$totalanggarankas+=$item->target2;
-				$totalrealisasi+=$item->realisasi2;
-				$totaltargetfisik+=$item->target_fisik2;
-				$totalfisik+=$item->fisik2;
+				$totalanggarankas+ = $item->target2;
+				$totalrealisasi+ = $item->realisasi2;
+				$totaltargetfisik+ = $item->target_fisik2;
+				$totalfisik+ = $item->fisik2;
 			}
 			
-			$data['datarealisasi']=$daftar_realisasi;
-			$data['totalanggarankas']=$totalanggarankas;
-			$data['totalrealisasi']=$totalrealisasi;
+			$data['datarealisasi'] = $daftar_realisasi;
+			$data['totalanggarankas'] = $totalanggarankas;
+			$data['totalrealisasi'] = $totalrealisasi;
 			$data['totaltargetfisik']=round($totaltargetfisik,2);
 			$data['totalfisik']=round($totalfisik,2);
-			$data['sisa_anggaran']=$datauraian->PaguUraian2-$totalrealisasi;
+			$data['sisa_anggaran'] = $datauraian->PaguUraian2-$totalrealisasi;
 			
 		}        
 		return $data;
@@ -180,8 +180,8 @@ class TargetKinerjaPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_BROWSE');
 		
 		$this->validate($request, [            
-			'tahun'=>'required',            
-			'SOrgID'=>'required|exists:tmSOrg,SOrgID',            
+			'tahun' => 'required',            
+			'SOrgID' => 'required|exists:tmSOrg,SOrgID',            
 		]);
 		$tahun = $request->input('tahun');
 		$SOrgID = $request->input('SOrgID');
@@ -228,8 +228,8 @@ class TargetKinerjaPerubahanController extends Controller
 							created_at,
 							updated_at
 						'))
-						->where('SOrgID',$unitkerja->SOrgID)
-						->where('TA',$tahun)
+						->where('SOrgID', $unitkerja->SOrgID)
+						->where('TA', $tahun)
 						->where('EntryLvl',2)
 						->orderByRaw('kode_urusan="X" DESC')
 						->orderBy('kode_bidang','ASC')
@@ -240,16 +240,16 @@ class TargetKinerjaPerubahanController extends Controller
 		
 		$data->transform(function ($item,$key) {
 			$item->TargetKeuangan2 = \DB::table('trRKATargetRinc')
-				->where('RKAID',$item->RKAID)				
+				->where('RKAID', $item->RKAID)				
 				->sum('target2');
 			$this->total_target_keuangan += $item->TargetKeuangan2;
 
 			$jumlah_uraian = \DB::table('trRKARinc')
-				->where('RKAID',$item->RKAID)				
+				->where('RKAID', $item->RKAID)				
 				->count();
 
 			$total_fisik = \DB::table('trRKATargetRinc')
-				->where('RKAID',$item->RKAID)				
+				->where('RKAID', $item->RKAID)				
 				->sum('fisik2');
 
 			$item->TargetFisik2 = Helper::formatPecahan($total_fisik,$jumlah_uraian);
@@ -260,14 +260,14 @@ class TargetKinerjaPerubahanController extends Controller
 		});		
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'fetchdata',
+								'status' => 1,
+								'pid' => 'fetchdata',
 								'unitkerja'=>$unitkerja,
 								'total_pagu'=>$this->total_pagu,
 								'total_target_keuangan'=>$this->total_target_keuangan,
 								'total_target_fisik'=>Helper::formatPecahan($this->total_target_fisik,$this->total_sub_kegiatan),
 								'rka'=>$data,
-								'message'=>'Fetch data rka murni berhasil diperoleh'
+								'message' => 'Fetch data rka murni berhasil diperoleh'
 							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	/**
@@ -290,10 +290,10 @@ class TargetKinerjaPerubahanController extends Controller
 			->get();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',			
+			'status' => 1,
+			'pid' => 'fetchdata',			
 			'targetkinerja'=>$data,
-			'message'=>'Fetch data rencana target berhasil diperoleh'
+			'message' => 'Fetch data rencana target berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	/**
@@ -307,8 +307,8 @@ class TargetKinerjaPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_STORE');
 
 		$this->validate($request, [
-			'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
-			'bulan_fisik.*'=>'required',
+			'RKARincID' => 'required|exists:trRKARinc,RKARincID',            
+			'bulan_fisik.*' => 'required',
 		]);
 
 		
@@ -337,9 +337,9 @@ class TargetKinerjaPerubahanController extends Controller
 		RKARencanaTargetModel::insert($data);
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'store',
-									'message'=>'Rencana target fisik uraian berhasil disimpan.'
+									'status' => 1,
+									'pid' => 'store',
+									'message' => 'Rencana target fisik uraian berhasil disimpan.'
 								], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
@@ -355,8 +355,8 @@ class TargetKinerjaPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_UPDATE');
 
 		$this->validate($request, [
-			'RKATargetRincID'=>'required|exists:trRKATargetRinc,RKATargetRincID',            
-			'fisik2'=>'required|numeric|digits_between:0,100',
+			'RKATargetRincID' => 'required|exists:trRKATargetRinc,RKATargetRincID',            
+			'fisik2' => 'required|numeric|digits_between:0,100',
 		]);
 		
 		$target_kinerja = RKARencanaTargetModel::find($request->input('RKATargetRincID'));
@@ -368,7 +368,7 @@ class TargetKinerjaPerubahanController extends Controller
 		{
 			return Response()->json([
 				'status'=>0,
-				'pid'=>'update',				
+				'pid' => 'update',				
 				'message'=>"Rencana target fisik uraian gagal diubah karena jumlah fisik ($jumlah_target) melampaui 100."
 			], 422)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}		
@@ -377,10 +377,10 @@ class TargetKinerjaPerubahanController extends Controller
 		$target_kinerja->save();
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'update',
+								'status' => 1,
+								'pid' => 'update',
 								'target_kinerja'=>$target_kinerja,
-								'message'=>'Rencana target fisik uraian berhasil diubah.'
+								'message' => 'Rencana target fisik uraian berhasil diubah.'
 							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 							
 			
@@ -396,8 +396,8 @@ class TargetKinerjaPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_STORE');
 
 		$this->validate($request, [
-			'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
-			'bulan_fisik.*'=>'required',
+			'RKARincID' => 'required|exists:trRKARinc,RKARincID',            
+			'bulan_fisik.*' => 'required',
 		]);
 
 		$bulan_anggaran= $request->input('bulan_anggaran');      
@@ -425,9 +425,9 @@ class TargetKinerjaPerubahanController extends Controller
 		RKARencanaTargetModel::insert($data);
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'store',
-								'message'=>'Rencana target anggaran kas uraian berhasil disimpan.'
+								'status' => 1,
+								'pid' => 'store',
+								'message' => 'Rencana target anggaran kas uraian berhasil disimpan.'
 							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
@@ -443,8 +443,8 @@ class TargetKinerjaPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_UPDATE');
 
 		$this->validate($request, [
-			'RKATargetRincID'=>'required|exists:trRKATargetRinc,RKATargetRincID',            
-			'target2'=>'required|numeric',
+			'RKATargetRincID' => 'required|exists:trRKATargetRinc,RKATargetRincID',            
+			'target2' => 'required|numeric',
 		]);
 		$RKATargetRincID = $request->input('RKATargetRincID');
 		$target2 = $request->input('target2');
@@ -457,17 +457,17 @@ class TargetKinerjaPerubahanController extends Controller
 		{
 			return Response()->json([
 				'status'=>0,
-				'pid'=>'update',				
+				'pid' => 'update',				
 				'message'=>"Rencana target anggaran kas uraian gagal diubah karena jumlah anggaran kas ($jumlah_target) melampaui Pagu Uraian ({$uraian->PaguUraian2})."
 			], 422)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		}		
 		\DB::statement("UPDATE `trRKATargetRinc` SET `target2`='$target2' WHERE `RKATargetRincID`='$RKATargetRincID'");				
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'update',
+								'status' => 1,
+								'pid' => 'update',
 								'target_kinerja'=>$target_kinerja,
-								'message'=>'Rencana target anggaran kas uraian berhasil diubah.'
+								'message' => 'Rencana target anggaran kas uraian berhasil diubah.'
 							], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 		
 			
@@ -483,10 +483,10 @@ class TargetKinerjaPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-PERUBAHAN_SHOW');
 		$target_kinerja = [];
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'update',
+			'status' => 1,
+			'pid' => 'update',
 			'target_kinerja'=>$target_kinerja,
-			'message'=>'Rencana target anggaran kas uraian berhasil diubah.'
+			'message' => 'Rencana target anggaran kas uraian berhasil diubah.'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
 	}	
 	/**
@@ -505,7 +505,7 @@ class TargetKinerjaPerubahanController extends Controller
 		{
 			return Response()->json([
 															'status'=>0,
-															'pid'=>'destroy',                
+															'pid' => 'destroy',                
 															'message'=>["Target Kinerja ($id) gagal dihapus"]
 													], 422); 
 		}
@@ -513,8 +513,8 @@ class TargetKinerjaPerubahanController extends Controller
 		{	
 			$target_kinerja->delete();
 			return Response()->json([
-															'status'=>1,
-															'pid'=>'destroy',                
+															'status' => 1,
+															'pid' => 'destroy',                
 															'message'=>"Target Kinerja dengan ID ($id) berhasil dihapus"
 													], 200);
 		}		

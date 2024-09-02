@@ -17,8 +17,8 @@ class AuthController extends Controller
 	public function login(Request $request)
 	{
 		$this->validate($request, [            
-			'username'=>'required',
-			'password'=>'required',                        
+			'username' => 'required',
+			'password' => 'required',                        
 		]);
 		$credentials = $request->only('username', 'password');
 		$credentials['active']=1;
@@ -28,7 +28,7 @@ class AuthController extends Controller
 
 		if ($config['TOKEN_TTL_EXPIRE'])
 		{
-			$ttl_expire=$config['TOKEN_TTL_EXPIRE'];
+			$ttl_expire = $config['TOKEN_TTL_EXPIRE'];
 		}
 		
 		if (! $token = $this->guard()->attempt($credentials, ['exp' => \Carbon\Carbon::now()->addMinutes($ttl_expire)->timestamp])) {
@@ -56,9 +56,9 @@ class AuthController extends Controller
 	public function me()
 	{
 		$user = $this->guard()->user()->toArray();
-		$user['role']=$this->getRoleNames();
-		$user['issuperadmin']=$this->hasRole('superadmin');
-		$user['permissions']=$this->guard()->user()->permissions->pluck('id','name')->toArray();
+		$user['role'] = $this->getRoleNames();
+		$user['issuperadmin'] = $this->hasRole('superadmin');
+		$user['permissions'] = $this->guard()->user()->permissions->pluck('id','name')->toArray();
 		return response()->json($user);
 	}   
 	/**

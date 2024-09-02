@@ -19,19 +19,19 @@ class JenisPelaksanaanController extends Controller
     {
         $this->hasPermissionTo('DMASTER-JENIS-PELAKSANAAN_BROWSE');
         
-        $tahun=$request->input('tahun');
+        $tahun = $request->input('tahun');
         $this->validate($request, [            
-            'tahun'=>'required',
+            'tahun' => 'required',
             
         ]);     
         
-        $data = JenisPelaksanaanModel::where('TA',$tahun)
+        $data = JenisPelaksanaanModel::where('TA', $tahun)
                                         ->get();
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',
+                                'status' => 1,
+                                'pid' => 'fetchdata',
                                 'jenispelaksanaan'=>$data,
-                                'message'=>'Fetch data jenis pelaksanaan berhasil diperoleh'
+                                'message' => 'Fetch data jenis pelaksanaan berhasil diperoleh'
                             ], 200);  
 
     }    
@@ -45,8 +45,8 @@ class JenisPelaksanaanController extends Controller
     {        
         $this->hasPermissionTo('DMASTER-JENIS-PELAKSANAAN_STORE'); 
         $this->validate($request, [
-            'NamaJenis'=>'required|unique:tmJenisPelaksanaan',
-            'TA'=>'required',
+            'NamaJenis' => 'required|unique:tmJenisPelaksanaan',
+            'TA' => 'required',
         ]);
 
        
@@ -58,10 +58,10 @@ class JenisPelaksanaanController extends Controller
         ]);     
         
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'store',
+                                'status' => 1,
+                                'pid' => 'store',
                                 'jenispelaksanaan'=>$jenispelaksanaan,                                    
-                                'message'=>'Data Jenis Pelaksanaan berhasil disimpan.'
+                                'message' => 'Data Jenis Pelaksanaan berhasil disimpan.'
                             ], 200); 
                
     } 
@@ -77,7 +77,7 @@ class JenisPelaksanaanController extends Controller
         $jenispelaksanaan = JenisPelaksanaanModel::find($id);
         
         $this->validate($request, [
-            'NamaJenis'=>'required',
+            'NamaJenis' => 'required',
         ]);
 
         $jenispelaksanaan->NamaJenis = $request->input('NamaJenis');
@@ -85,10 +85,10 @@ class JenisPelaksanaanController extends Controller
         $jenispelaksanaan->save();
 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'store',
+                                'status' => 1,
+                                'pid' => 'store',
                                 'jenispelaksanaan'=>$jenispelaksanaan,                                    
-                                'message'=>'Data Jenis Pelaksanaan berhasil diubah.'
+                                'message' => 'Data Jenis Pelaksanaan berhasil diubah.'
                             ], 200); 
                                 
     }
@@ -102,10 +102,10 @@ class JenisPelaksanaanController extends Controller
     {  
         $this->hasPermissionTo('DMASTER-JENIS-PELAKSANAAN_DESTROY'); 
         $jenispelaksanaan = JenisPelaksanaanModel::find($id);
-        $result=$jenispelaksanaan->delete();
+        $result = $jenispelaksanaan->delete();
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'destroy',                
+                                    'status' => 1,
+                                    'pid' => 'destroy',                
                                     'message'=>"Nama Jenis Pelaksanaan berhasil dihapus"
                                 ], 200);
     }

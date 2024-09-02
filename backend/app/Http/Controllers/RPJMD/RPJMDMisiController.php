@@ -23,7 +23,7 @@ class RPJMDMisiController extends Controller
     $this->hasPermissionTo('RPJMD-MISI_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -36,7 +36,7 @@ class RPJMDMisiController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -46,7 +46,7 @@ class RPJMDMisiController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -93,9 +93,9 @@ class RPJMDMisiController extends Controller
     $this->hasPermissionTo('RPJMD-MISI_STORE');
 
     $this->validate($request, [      
-      'RpjmdVisiID'=>'required|exists:tmRpjmdVisi,RpjmdVisiID',      
-      'Kd_RpjmdMisi'=>'required',      
-      'Nm_RpjmdMisi'=>'required',      
+      'RpjmdVisiID' => 'required|exists:tmRpjmdVisi,RpjmdVisiID',      
+      'Kd_RpjmdMisi' => 'required',      
+      'Nm_RpjmdMisi' => 'required',      
     ]);         
 
     $visi = RPJMDVisiModel::find($request->input('RpjmdVisiID'));
@@ -165,7 +165,7 @@ class RPJMDMisiController extends Controller
       if($request->filled('offset'))
       {
         $this->validate($request, [              
-          'offset'=>'required|numeric',      
+          'offset' => 'required|numeric',      
         ]);
 
         $offset = $request->input('offset');
@@ -175,7 +175,7 @@ class RPJMDMisiController extends Controller
       if($request->filled('limit'))
       {
         $this->validate($request, [              
-          'limit'=>'required|numeric|gt:0',   
+          'limit' => 'required|numeric|gt:0',   
         ]);
 
         $limit = $request->input('limit');
@@ -237,8 +237,8 @@ class RPJMDMisiController extends Controller
     {
 
       $this->validate($request, [         
-        'Kd_RpjmdMisi'=>'required',      
-        'Nm_RpjmdMisi'=>'required',      
+        'Kd_RpjmdMisi' => 'required',      
+        'Nm_RpjmdMisi' => 'required',      
       ]);     
 
       $misi->Kd_RpjmdMisi = $request->input('Kd_RpjmdMisi');

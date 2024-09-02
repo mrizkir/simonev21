@@ -22,7 +22,7 @@ class KodefikasiBidangUrusanController extends Controller {
 		$this->hasPermissionTo('DMASTER-KODEFIKASI-BIDANG-URUSAN_BROWSE');
 
 		$this->validate($request, [        
-			'TA'=>'required'
+			'TA' => 'required'
 		]);    
 		$ta = $request->input('TA');
 		$kodefikasibidangurusan=KodefikasiBidangUrusanModel::select(\DB::raw("
@@ -39,14 +39,14 @@ class KodefikasiBidangUrusanController extends Controller {
 		"))
 		->join('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
 		->orderBy('kode_bidang','ASC')                                    
-		->where('tmBidangUrusan.TA',$ta)
+		->where('tmBidangUrusan.TA', $ta)
 		->get();
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'fetchdata',
+									'status' => 1,
+									'pid' => 'fetchdata',
 									'kodefikasibidangurusan'=>$kodefikasibidangurusan,
-									'message'=>'Fetch data kodefikasi urusan berhasil.'
+									'message' => 'Fetch data kodefikasi urusan berhasil.'
 								], 200);
 	}
 	/**
@@ -59,7 +59,7 @@ class KodefikasiBidangUrusanController extends Controller {
 		$this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
 		$this->validate($request, [        
-			'TA'=>'required',            
+			'TA' => 'required',            
 		]);        
 		if ($id == 'all')
 		{
@@ -68,7 +68,7 @@ class KodefikasiBidangUrusanController extends Controller {
 								`PrgID`,
 								CONCAT("[X.XX.",`Kd_Program`,"] ",`Nm_Program`) AS nama_program	
 							'))
-							->where('TA',$ta)
+							->where('TA', $ta)
 							->where('Jns',0)
 							->orderBy('Kd_Program','ASC')                                    
 							->get();
@@ -90,14 +90,14 @@ class KodefikasiBidangUrusanController extends Controller {
 				->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
 				->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
 				->orderBy('tmProgram.Kd_Program','ASC')                                    
-				->where('tmBidangUrusan.BidangID',$id)
+				->where('tmBidangUrusan.BidangID', $id)
 				->get();
 		}
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',
+			'status' => 1,
+			'pid' => 'fetchdata',
 			'program'=>$program,
-			'message'=>'Fetch data kodefikasi program rka berhasil.'
+			'message' => 'Fetch data kodefikasi program rka berhasil.'
 		], 200);
 	}
 	/**
@@ -109,8 +109,8 @@ class KodefikasiBidangUrusanController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -151,8 +151,8 @@ class KodefikasiBidangUrusanController extends Controller {
 		\DB::statement($str_insert); 
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin bidang urusan dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -169,13 +169,13 @@ class KodefikasiBidangUrusanController extends Controller {
 		$this->validate($request, [
 			'Kd_Bidang'=> [
 						Rule::unique('tmBidangUrusan')->where(function($query) use ($request) {
-							return $query->where('UrsID',$request->input('UrsID'))
-										->where('TA',$request->input('TA'));
+							return $query->where('UrsID', $request->input('UrsID'))
+										->where('TA', $request->input('TA'));
 						}),
 						'required',
 						'regex:/^[0-9]+$/'],
-			'Nm_Bidang'=>'required',
-			'TA'=>'required'
+			'Nm_Bidang' => 'required',
+			'TA' => 'required'
 		]);     
 			
 		$ta = $request->input('TA');
@@ -190,10 +190,10 @@ class KodefikasiBidangUrusanController extends Controller {
 		]);
 
 		return Response()->json([
-									'status'=>1,
-									'pid'=>'store',
+									'status' => 1,
+									'pid' => 'store',
 									'kodefikasibidangurusan'=>$kodefikasibidangurusan,                                    
-									'message'=>'Data Kodefikasi Bidang Urusan berhasil disimpan.'
+									'message' => 'Data Kodefikasi Bidang Urusan berhasil disimpan.'
 								], 200); 
 	}               
 	
@@ -213,7 +213,7 @@ class KodefikasiBidangUrusanController extends Controller {
 		{
 			return Response()->json([
 									'status'=>0,
-									'pid'=>'update',                
+									'pid' => 'update',                
 									'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
 								], 422); 
 		}
@@ -222,22 +222,22 @@ class KodefikasiBidangUrusanController extends Controller {
 			$this->validate($request, [    
 										'Kd_Bidang'=>[
 													Rule::unique('tmBidangUrusan')->where(function($query) use ($request,$kodefikasibidangurusan) {  
-														if ($request->input('Kd_Bidang')==$kodefikasibidangurusan->Kd_Bidang) 
+														if ($request->input('Kd_Bidang')= = $kodefikasibidangurusan->Kd_Bidang) 
 														{
 															return $query->where('Kd_Bidang','ignore')
-																		->where('TA',$kodefikasibidangurusan->TA);
+																		->where('TA', $kodefikasibidangurusan->TA);
 														}                 
 														else
 														{
-															return $query->where('Kd_Bidang',$request->input('Kd_Bidang'))
-																	->where('UrsID',$kodefikasibidangurusan->UrsID)
-																	->where('TA',$kodefikasibidangurusan->TA);
+															return $query->where('Kd_Bidang', $request->input('Kd_Bidang'))
+																	->where('UrsID', $kodefikasibidangurusan->UrsID)
+																	->where('TA', $kodefikasibidangurusan->TA);
 														}                                                                                    
 													}),
 													'required',
 													'regex:/^[0-9]+$/'
 												],
-										'Nm_Bidang'=>'required',
+										'Nm_Bidang' => 'required',
 									]);
 			
 			
@@ -247,10 +247,10 @@ class KodefikasiBidangUrusanController extends Controller {
 			$kodefikasibidangurusan->save();
 
 			return Response()->json([
-									'status'=>1,
-									'pid'=>'update',
+									'status' => 1,
+									'pid' => 'update',
 									'kodefikasibidangurusan'=>$kodefikasibidangurusan,                                    
-									'message'=>'Data Kodefikasi Bidang Urusan '.$kodefikasibidangurusan->Nm_Bidang.' berhasil diubah.'
+									'message' => 'Data Kodefikasi Bidang Urusan '.$kodefikasibidangurusan->Nm_Bidang.' berhasil diubah.'
 								], 200);
 		}
 		
@@ -271,18 +271,18 @@ class KodefikasiBidangUrusanController extends Controller {
 		{
 			return Response()->json([
 									'status'=>0,
-									'pid'=>'destroy',                
+									'pid' => 'destroy',                
 									'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal dihapus"]
 								], 422); 
 		}
 		else
 		{
 			
-			$result=$kodefikasibidangurusan->delete();
+			$result = $kodefikasibidangurusan->delete();
 
 			return Response()->json([
-									'status'=>1,
-									'pid'=>'destroy',                
+									'status' => 1,
+									'pid' => 'destroy',                
 									'message'=>"Data Kodefikasi Bidang Urusan dengan ID ($id) berhasil dihapus"
 								], 200);
 		}

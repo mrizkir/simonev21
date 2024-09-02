@@ -21,7 +21,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -34,7 +34,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -44,7 +44,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -88,7 +88,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
@@ -113,7 +113,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
@@ -138,7 +138,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
@@ -166,13 +166,13 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_STORE');
 
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
-      'NamaIndikator'=>'required',
-      'TipeIndikator'=>'required|in:TUJUAN,SASARAN,PROGRAM',
-      'Operasi'=>'required|in:MAX,MIN,RANGE',
-      'Satuan'=>'required',
-      'is_iku'=>'required|in:0,1',
-      'is_ikk'=>'required|in:0,1',
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'NamaIndikator' => 'required',
+      'TipeIndikator' => 'required|in:TUJUAN,SASARAN,PROGRAM',
+      'Operasi' => 'required|in:MAX,MIN,RANGE',
+      'Satuan' => 'required',
+      'is_iku' => 'required|in:0,1',
+      'is_ikk' => 'required|in:0,1',
     ]);
     
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
@@ -221,12 +221,12 @@ class RPJMDIndikatorKinerjaController extends Controller
     {
     
       $this->validate($request, [      
-        'NamaIndikator'=>'required',
-        'TipeIndikator'=>'required|in:TUJUAN,SASARAN,PROGRAM',
-        'Operasi'=>'required|in:MAX,MIN,RANGE',
-        'Satuan'=>'required',
-        'is_iku'=>'required|in:0,1',
-        'is_ikk'=>'required|in:0,1',
+        'NamaIndikator' => 'required',
+        'TipeIndikator' => 'required|in:TUJUAN,SASARAN,PROGRAM',
+        'Operasi' => 'required|in:MAX,MIN,RANGE',
+        'Satuan' => 'required',
+        'is_iku' => 'required|in:0,1',
+        'is_ikk' => 'required|in:0,1',
       ]);
       
       $indikator->NamaIndikator = $request->input('NamaIndikator');

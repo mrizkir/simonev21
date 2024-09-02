@@ -13,12 +13,12 @@ class EvaluasiMurniRealisasiTAController extends Controller {
   public function front(Request $request)
 	{
 		$this->validate($request, [            
-			'tahun'=>'required|numeric',
-			'bulan'=>'required|numeric',
+			'tahun' => 'required|numeric',
+			'bulan' => 'required|numeric',
 		]);
 
-		$tahun=$request->input('tahun');
-		$bulan=$request->input('bulan');
+		$tahun = $request->input('tahun');
+		$bulan = $request->input('bulan');
 
     $laporan_realisasi = [];
 
@@ -112,11 +112,11 @@ class EvaluasiMurniRealisasiTAController extends Controller {
     ];
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'laporan_realisasi'=>$laporan_realisasi,
       'laporan_total'=>$laporan_total,
-      'message'=>'Fetch data untuk laporan realisasi berhasil diperoleh'
+      'message' => 'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }
 }

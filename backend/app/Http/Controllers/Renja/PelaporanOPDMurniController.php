@@ -22,8 +22,8 @@ class PelaporanOPDMurniController extends Controller
 		$this->hasPermissionTo('RENJA-PELAPORAN-OPD_BROWSE');
 
 		$this->validate($request, [
-      'tahun'=>'required|numeric',
-			'OrgID'=>'required|exists:tmOrg,OrgID',            
+      'tahun' => 'required|numeric',
+			'OrgID' => 'required|exists:tmOrg,OrgID',            
 		]);
 		$OrgID = $request->input('OrgID');
 		$data_opd = OrganisasiModel::find($OrgID);
@@ -32,11 +32,11 @@ class PelaporanOPDMurniController extends Controller
 			->get();    
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',									
+			'status' => 1,
+			'pid' => 'fetchdata',									
 			'data_opd'=>$data_opd,
 			'laporanopd'=>$data,
-			'message'=>'Fetch data pelaporan opd murni berhasil diperoleh'
+			'message' => 'Fetch data pelaporan opd murni berhasil diperoleh'
 		], 200);
 	}
 	/**
@@ -63,10 +63,10 @@ class PelaporanOPDMurniController extends Controller
 			}
 		}
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',
+			'status' => 1,
+			'pid' => 'fetchdata',
 			'bulan'=>$data,
-			'message'=>'Fetch data bulan pelaporan berhasil diperoleh'
+			'message' => 'Fetch data bulan pelaporan berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	public function store(Request $request)
@@ -81,7 +81,7 @@ class PelaporanOPDMurniController extends Controller
 		$bukti_laporan = $request->input('BulanLaporan');
 		$bukti_cetak = $request->file('BuktiCetak');
 
-		$mime_type=$foto->getMimeType();
+		$mime_type = $foto->getMimeType();
 		if ($mime_type=='image/png' || $mime_type=='image/jpeg')
 		{
 			Statistik3Model::create([				
@@ -104,9 +104,9 @@ class PelaporanOPDMurniController extends Controller
 			]);
 		}
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',
-			'message'=>'Pelaporan OPD Renja Murni berhasil disimpan'
+			'status' => 1,
+			'pid' => 'store',
+			'message' => 'Pelaporan OPD Renja Murni berhasil disimpan'
 		], 200);
 	}
 	public function printtoexcel (Request $request)
@@ -114,16 +114,16 @@ class PelaporanOPDMurniController extends Controller
 		$this->hasPermissionTo('RENJA-FORM-B-MURNI_BROWSE');
 
 		$this->validate($request, [            
-			'tahun'=>'required',         
-			'no_bulan'=>'required',   
-			'OrgID'=>'required|exists:tmOrg,OrgID',            
+			'tahun' => 'required',         
+			'no_bulan' => 'required',   
+			'OrgID' => 'required|exists:tmOrg,OrgID',            
 		]);
 		$tahun = $request->input('tahun');
 		$no_bulan = $request->input('no_bulan');
 		$OrgID = $request->input('OrgID');
 		
 		$opd = OrganisasiModel::find($OrgID);
-		if (\DB::table('trRKA')->where('OrgID',$opd->OrgID)->where('EntryLvl',1)->where('TA',$tahun)->count() > 0)
+		if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl',1)->where('TA', $tahun)->count() > 0)
 		{
 			$data_report=[
 							'OrgID'=>$opd->OrgID,
@@ -142,7 +142,7 @@ class PelaporanOPDMurniController extends Controller
 		{
 			return Response()->json([
 									'status'=>0,
-									'pid'=>'fetchdata',                                                                            
+									'pid' => 'fetchdata',                                                                            
 									'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
 								], 422); 
 		}

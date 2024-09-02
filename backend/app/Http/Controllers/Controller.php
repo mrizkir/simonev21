@@ -93,10 +93,10 @@ class Controller extends BaseController
     $user = User::find($id);
     $permissions=is_null($user)?[]:$user->permissions;     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'permissions'=>$permissions,                                    
-      'message'=>'Fetch permission role '.$user->username.' berhasil diperoleh.'
+      'message' => 'Fetch permission role '.$user->username.' berhasil diperoleh.'
     ], 200); 
   }
   /**

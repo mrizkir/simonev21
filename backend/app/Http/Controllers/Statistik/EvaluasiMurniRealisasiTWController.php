@@ -13,14 +13,14 @@ class EvaluasiMurniRealisasiTWController extends Controller {
   public function front(Request $request)
 	{
     $rule = [            
-			'tahun'=>'required|digits:4|integer|min:2020|max:'. (date('Y')),
-			'tw_realisasi'=>'required|in:1,2,3,4',
+			'tahun' => 'required|digits:4|integer|min:2020|max:'. (date('Y')),
+			'tw_realisasi' => 'required|in:1,2,3,4',
 		];
         
     $this->validate($request, $rule);
     
-		$tahun=$request->input('tahun');
-		$tw_realisasi=$request->input('tw_realisasi');
+		$tahun = $request->input('tahun');
+		$tw_realisasi = $request->input('tw_realisasi');
     
     switch ($tw_realisasi)
     {
@@ -117,11 +117,11 @@ class EvaluasiMurniRealisasiTWController extends Controller {
     ];
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'evaluasi_realisasi'=>$evaluasi_realisasi,
       'laporan_total'=>$evaluasi_total,
-      'message'=>'Fetch data untuk laporan realisasi berhasil diperoleh'
+      'message' => 'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }
 }

@@ -22,7 +22,7 @@ class RekeningRincianObjekController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required'
+      'TA' => 'required'
     ]);    
     $ta = $request->input('TA');
 
@@ -41,7 +41,7 @@ class RekeningRincianObjekController extends Controller {
                   ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmROby.TA',$ta)
+                  ->where('tmROby.TA', $ta)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->orderBy('Kd_Rek_3','ASC')
@@ -50,10 +50,10 @@ class RekeningRincianObjekController extends Controller {
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'rincianobjek'=>$rincianobjek,
-                  'message'=>'Fetch data rincian objek berhasil.'
+                  'message' => 'Fetch data rincian objek berhasil.'
                 ], 200);
   }
   /**
@@ -67,16 +67,16 @@ class RekeningRincianObjekController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-RINCIAN-OBJEK_STORE');
 
     $this->validate($request, [
-      'ObyID'=>'required|exists:tmOby,ObyID',
+      'ObyID' => 'required|exists:tmOby,ObyID',
       'Kd_Rek_5'=> [
             Rule::unique('tmROby')->where(function($query) use ($request) {
-              return $query->where('ObyID',$request->input('ObyID'))
-                    ->where('TA',$request->input('TA'));
+              return $query->where('ObyID', $request->input('ObyID'))
+                    ->where('TA', $request->input('TA'));
             }),
             'required',
             'regex:/^[0-9]+$/'],
-      'RObyNm'=>'required',
-      'TA'=>'required'
+      'RObyNm' => 'required',
+      'TA' => 'required'
     ]);     
       
     $ta = $request->input('TA');
@@ -91,10 +91,10 @@ class RekeningRincianObjekController extends Controller {
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
+                  'status' => 1,
+                  'pid' => 'store',
                   'objek'=>$rincianobjek,                                    
-                  'message'=>'Data Rekening Rincian Objek berhasil disimpan.'
+                  'message' => 'Data Rekening Rincian Objek berhasil disimpan.'
                 ], 200); 
   }               
   /**
@@ -106,8 +106,8 @@ class RekeningRincianObjekController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -153,8 +153,8 @@ class RekeningRincianObjekController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin rekening rincian objek dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -174,33 +174,33 @@ class RekeningRincianObjekController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["Data Rekening Rincian Objek ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
-                    'ObyID'=>'required|exists:tmOby,ObyID',
+                    'ObyID' => 'required|exists:tmOby,ObyID',
                     'Kd_Rek_5'=>[
                           Rule::unique('tmROby')->where(function($query) use ($request,$rincianobjek) {  
-                            if ($request->input('Kd_Rek_5')==$rincianobjek->Kd_Rek_5) 
+                            if ($request->input('Kd_Rek_5')= = $rincianobjek->Kd_Rek_5) 
                             {
-                              return $query->where('ObyID',$request->input('ObyID'))
+                              return $query->where('ObyID', $request->input('ObyID'))
                                     ->where('Kd_Rek_5','ignore')
-                                    ->where('TA',$rincianobjek->TA);
+                                    ->where('TA', $rincianobjek->TA);
                             }                 
                             else
                             {
-                              return $query->where('Kd_Rek_5',$request->input('Kd_Rek_5'))
-                                  ->where('ObyID',$request->input('ObyID'))
-                                  ->where('TA',$rincianobjek->TA);
+                              return $query->where('Kd_Rek_5', $request->input('Kd_Rek_5'))
+                                  ->where('ObyID', $request->input('ObyID'))
+                                  ->where('TA', $rincianobjek->TA);
                             }                                                                                    
                           }),
                           'required',
                           'regex:/^[0-9]+$/'
                         ],
-                    'RObyNm'=>'required',
+                    'RObyNm' => 'required',
                   ]);
       
       
@@ -211,10 +211,10 @@ class RekeningRincianObjekController extends Controller {
       $rincianobjek->save();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
+                  'status' => 1,
+                  'pid' => 'update',
                   'objek'=>$rincianobjek,                                    
-                  'message'=>'Data Rekening Rincian Objek '.$rincianobjek->RObyNm.' berhasil diubah.'
+                  'message' => 'Data Rekening Rincian Objek '.$rincianobjek->RObyNm.' berhasil diubah.'
                 ], 200);
     }
     
@@ -234,7 +234,7 @@ class RekeningRincianObjekController extends Controller {
                   ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmROby.RObyID',$id)
+                  ->where('tmROby.RObyID', $id)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->orderBy('Kd_Rek_3','ASC')
@@ -244,8 +244,8 @@ class RekeningRincianObjekController extends Controller {
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'subrincianobjek'=>$subrincianobjek,
                   'message'=>"Fetch data sub rincian objek dari rincian objek ($id) berhasil."
                 ], 200);
@@ -267,18 +267,18 @@ class RekeningRincianObjekController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                
+                  'pid' => 'destroy',                
                   'message'=>["Data Rekening Rincian Objek ($id) gagal dihapus"]
                 ], 422); 
     }
     else
     {
       
-      $result=$rincianobjek->delete();
+      $result = $rincianobjek->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
+                  'status' => 1,
+                  'pid' => 'destroy',                
                   'message'=>"Data Rekening Rincian Objek dengan ID ($id) berhasil dihapus"
                 ], 200);
     }

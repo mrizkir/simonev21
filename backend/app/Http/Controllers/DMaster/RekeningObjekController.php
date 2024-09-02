@@ -22,7 +22,7 @@ class RekeningObjekController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required'
+      'TA' => 'required'
     ]);    
     $ta = $request->input('TA');
 
@@ -40,7 +40,7 @@ class RekeningObjekController extends Controller {
                   ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmOby.TA',$ta)
+                  ->where('tmOby.TA', $ta)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->orderBy('Kd_Rek_3','ASC')
@@ -48,10 +48,10 @@ class RekeningObjekController extends Controller {
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'objek'=>$objek,
-                  'message'=>'Fetch data objek berhasil.'
+                  'message' => 'Fetch data objek berhasil.'
                 ], 200);
   }
   /**
@@ -65,16 +65,16 @@ class RekeningObjekController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-OBJEK_STORE');
 
     $this->validate($request, [
-      'JnsID'=>'required|exists:tmJns,JnsID',
+      'JnsID' => 'required|exists:tmJns,JnsID',
       'Kd_Rek_4'=> [
             Rule::unique('tmOby')->where(function($query) use ($request) {
-              return $query->where('JnsID',$request->input('JnsID'))
-                    ->where('TA',$request->input('TA'));
+              return $query->where('JnsID', $request->input('JnsID'))
+                    ->where('TA', $request->input('TA'));
             }),
             'required',
             'regex:/^[0-9]+$/'],
-      'ObyNm'=>'required',
-      'TA'=>'required'
+      'ObyNm' => 'required',
+      'TA' => 'required'
     ]);     
       
     $ta = $request->input('TA');
@@ -89,10 +89,10 @@ class RekeningObjekController extends Controller {
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
+                  'status' => 1,
+                  'pid' => 'store',
                   'objek'=>$objek,                                    
-                  'message'=>'Data Rekening Objek berhasil disimpan.'
+                  'message' => 'Data Rekening Objek berhasil disimpan.'
                 ], 200); 
   }               
   /**
@@ -104,8 +104,8 @@ class RekeningObjekController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -151,8 +151,8 @@ class RekeningObjekController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin rekening objek dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -172,33 +172,33 @@ class RekeningObjekController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["Data Rekening Objek ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
-                    'JnsID'=>'required|exists:tmJns,JnsID',
+                    'JnsID' => 'required|exists:tmJns,JnsID',
                     'Kd_Rek_4'=>[
                           Rule::unique('tmOby')->where(function($query) use ($request,$objek) {  
-                            if ($request->input('Kd_Rek_4')==$objek->Kd_Rek_4) 
+                            if ($request->input('Kd_Rek_4')= = $objek->Kd_Rek_4) 
                             {
-                              return $query->where('JnsID',$request->input('JnsID'))
+                              return $query->where('JnsID', $request->input('JnsID'))
                                     ->where('Kd_Rek_4','ignore')
-                                    ->where('TA',$objek->TA);
+                                    ->where('TA', $objek->TA);
                             }                 
                             else
                             {
-                              return $query->where('Kd_Rek_4',$request->input('Kd_Rek_4'))
-                                  ->where('JnsID',$request->input('JnsID'))
-                                  ->where('TA',$objek->TA);
+                              return $query->where('Kd_Rek_4', $request->input('Kd_Rek_4'))
+                                  ->where('JnsID', $request->input('JnsID'))
+                                  ->where('TA', $objek->TA);
                             }                                                                                    
                           }),
                           'required',
                           'regex:/^[0-9]+$/'
                         ],
-                    'ObyNm'=>'required',
+                    'ObyNm' => 'required',
                   ]);
       
       
@@ -209,10 +209,10 @@ class RekeningObjekController extends Controller {
       $objek->save();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
+                  'status' => 1,
+                  'pid' => 'update',
                   'objek'=>$objek,                                    
-                  'message'=>'Data Rekening Objek '.$objek->ObyNm.' berhasil diubah.'
+                  'message' => 'Data Rekening Objek '.$objek->ObyNm.' berhasil diubah.'
                 ], 200);
     }
     
@@ -229,7 +229,7 @@ class RekeningObjekController extends Controller {
                   ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmROby.ObyID',$id)
+                  ->where('tmROby.ObyID', $id)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->orderBy('Kd_Rek_3','ASC')
@@ -238,8 +238,8 @@ class RekeningObjekController extends Controller {
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'rincianobjek'=>$rincianobjek,
                   'message'=>"Fetch data rincian objek dari objek ($id) berhasil."
                 ], 200);
@@ -260,18 +260,18 @@ class RekeningObjekController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                
+                  'pid' => 'destroy',                
                   'message'=>["Data Rekening Objek ($id) gagal dihapus"]
                 ], 422); 
     }
     else
     {
       
-      $result=$objek->delete();
+      $result = $objek->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
+                  'status' => 1,
+                  'pid' => 'destroy',                
                   'message'=>"Data Rekening Objek dengan ID ($id) berhasil dihapus"
                 ], 200);
     }

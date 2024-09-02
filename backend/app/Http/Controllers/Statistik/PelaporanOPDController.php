@@ -19,7 +19,7 @@ class PelaporanOPDController extends Controller {
   public function front(Request $request)
   {
     $this->validate($request, [            
-      'tahun'=>'required',                     
+      'tahun' => 'required',                     
     ]);
 
     $tahun = $request->input('tahun');
@@ -86,10 +86,10 @@ class PelaporanOPDController extends Controller {
     }		
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'peringkat'=>$peringkat,
-      'message'=>'Fetch data untuk peringkat opd berhasil diperoleh'
+      'message' => 'Fetch data untuk peringkat opd berhasil diperoleh'
     ], 200);    
     
   }    

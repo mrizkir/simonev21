@@ -67,10 +67,10 @@ class PeringkatOPDMurniController extends Controller {
       $k+=1;
     }		
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'peringkat'=>$peringkat,
-      'message'=>'Fetch data untuk peringkat opd berhasil diperoleh'
+      'message' => 'Fetch data untuk peringkat opd berhasil diperoleh'
     ], 200);    
     
   }    

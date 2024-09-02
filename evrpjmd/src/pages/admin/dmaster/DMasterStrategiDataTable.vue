@@ -171,7 +171,7 @@
     props: {
       RpjmdSasaranID: {
         type: String,
-        RpjmdSasaranID: null,
+        default: null,
       },
     },
     data: () => ({

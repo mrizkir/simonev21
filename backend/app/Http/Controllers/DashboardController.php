@@ -15,11 +15,11 @@ class DashboardController extends Controller
   public function indexfront(Request $request)
   {
     $this->validate($request, [            
-      'ta'=>'required',
-      'bulan_realisasi'=>'required'            
+      'ta' => 'required',
+      'bulan_realisasi' => 'required'            
     ]);
-    $tahun=$request->input('ta');
-    $bulan_realisasi=$request->input('bulan_realisasi');
+    $tahun = $request->input('ta');
+    $bulan_realisasi = $request->input('bulan_realisasi');
     
     $statistik1_murni = Statistik1Model::select(\DB::raw('
       `PaguDana1`,
@@ -77,7 +77,7 @@ class DashboardController extends Controller
       SUM(`TargetFisik1`) AS `TargetFisik1`,
       SUM(`RealisasiFisik1`) AS `RealisasiFisik1`                                                
     '))
-    ->where('TA',$tahun)                                                                                       
+    ->where('TA', $tahun)                                                                                       
     ->where('EntryLvl', 1)        
     ->groupBy('Bulan')                                
     ->get();
@@ -209,7 +209,7 @@ class DashboardController extends Controller
       SUM(`TargetFisik2`) AS `TargetFisik2`,
       SUM(`RealisasiFisik2`) AS `RealisasiFisik2`                                                
     '))
-    ->where('TA',$tahun)                                                                                   
+    ->where('TA', $tahun)                                                                                   
     ->where('EntryLvl', 2)        
     ->groupBy('Bulan')                                
     ->get();
@@ -305,15 +305,15 @@ class DashboardController extends Controller
       }
     }
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',                                                            
+      'status' => 1,
+      'pid' => 'fetchdata',                                                            
       'statistik1_murni'=>$statistik1_murni,                                                                                                                                                             
       'statistik1_perubahan'=>$statistik1_perubahan,              
       'chart_keuangan_murni'=>$chart_keuangan_murni,
       'chart_keuangan_perubahan'=>$chart_keuangan_perubahan,
       'chart_fisik_murni'=>$chart_fisik_murni,
       'chart_fisik_perubahan'=>$chart_fisik_perubahan,                                                                                                                                               
-      'message'=>'Fetch data dashboard berhasil diperoleh'
+      'message' => 'Fetch data dashboard berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
 }

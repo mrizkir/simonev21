@@ -21,7 +21,7 @@ class RekeningKelompokController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-KELOMPOK_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required'
+      'TA' => 'required'
     ]);    
     $ta = $request->input('TA');
 
@@ -37,16 +37,16 @@ class RekeningKelompokController extends Controller {
                     `tmKlp`.`TA`
                   '))
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmKlp.TA',$ta)
+                  ->where('tmKlp.TA', $ta)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'kelompok'=>$kelompok,
-                  'message'=>'Fetch data rekening kelompok berhasil.'
+                  'message' => 'Fetch data rekening kelompok berhasil.'
                 ], 200);
   }
   /**
@@ -60,16 +60,16 @@ class RekeningKelompokController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-KELOMPOK_STORE');
 
     $this->validate($request, [
-      'AkunID'=>'required|exists:tmAkun,AkunID',
+      'AkunID' => 'required|exists:tmAkun,AkunID',
       'Kd_Rek_2'=> [
             Rule::unique('tmKlp')->where(function($query) use ($request) {
-              return $query->where('AkunID',$request->input('AkunID'))
-                    ->where('TA',$request->input('TA'));
+              return $query->where('AkunID', $request->input('AkunID'))
+                    ->where('TA', $request->input('TA'));
             }),
             'required',
             'regex:/^[0-9]+$/'],
-      'KlpNm'=>'required',
-      'TA'=>'required'
+      'KlpNm' => 'required',
+      'TA' => 'required'
     ]);     
       
     $ta = $request->input('TA');
@@ -84,10 +84,10 @@ class RekeningKelompokController extends Controller {
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
+                  'status' => 1,
+                  'pid' => 'store',
                   'kelompok'=>$kelompok,                                    
-                  'message'=>'Data Rekening Kelompok berhasil disimpan.'
+                  'message' => 'Data Rekening Kelompok berhasil disimpan.'
                 ], 200); 
   }               
   /**
@@ -99,8 +99,8 @@ class RekeningKelompokController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -146,8 +146,8 @@ class RekeningKelompokController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin rekening kelompok dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -167,33 +167,33 @@ class RekeningKelompokController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["Data Rekening Kelompok ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
-                    'AkunID'=>'required|exists:tmAkun,AkunID',
+                    'AkunID' => 'required|exists:tmAkun,AkunID',
                     'Kd_Rek_2'=>[
                           Rule::unique('tmKlp')->where(function($query) use ($request,$kelompok) {  
-                            if ($request->input('Kd_Rek_2')==$kelompok->Kd_Rek_2) 
+                            if ($request->input('Kd_Rek_2')= = $kelompok->Kd_Rek_2) 
                             {
-                              return $query->where('AkunID',$request->input('AkunID'))
+                              return $query->where('AkunID', $request->input('AkunID'))
                                     ->where('Kd_Rek_2','ignore')
-                                    ->where('TA',$kelompok->TA);
+                                    ->where('TA', $kelompok->TA);
                             }                 
                             else
                             {
-                              return $query->where('Kd_Rek_2',$request->input('Kd_Rek_2'))
-                                  ->where('AkunID',$request->input('AkunID'))
-                                  ->where('TA',$kelompok->TA);
+                              return $query->where('Kd_Rek_2', $request->input('Kd_Rek_2'))
+                                  ->where('AkunID', $request->input('AkunID'))
+                                  ->where('TA', $kelompok->TA);
                             }                                                                                    
                           }),
                           'required',
                           'regex:/^[0-9]+$/'
                         ],
-                    'KlpNm'=>'required',
+                    'KlpNm' => 'required',
                   ]);
       
       $kelompok->AkunID = $request->input('AkunID');
@@ -203,10 +203,10 @@ class RekeningKelompokController extends Controller {
       $kelompok->save();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
+                  'status' => 1,
+                  'pid' => 'update',
                   'kelompok'=>$kelompok,                                    
-                  'message'=>'Data Rekening Kelompok '.$kelompok->KlpNm.' berhasil diubah.'
+                  'message' => 'Data Rekening Kelompok '.$kelompok->KlpNm.' berhasil diubah.'
                 ], 200);
     }
     
@@ -227,18 +227,18 @@ class RekeningKelompokController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                
+                  'pid' => 'destroy',                
                   'message'=>["Data Rekening Kelompok ($id) gagal dihapus"]
                 ], 422); 
     }
     else
     {
       
-      $result=$kelompok->delete();
+      $result = $kelompok->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
+                  'status' => 1,
+                  'pid' => 'destroy',                
                   'message'=>"Data Rekening Kelompok dengan ID ($id) berhasil dihapus"
                 ], 200);
     }

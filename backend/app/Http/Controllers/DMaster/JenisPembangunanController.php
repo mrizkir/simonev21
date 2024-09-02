@@ -19,19 +19,19 @@ class JenisPembangunanController extends Controller
     {
         $this->hasPermissionTo('DMASTER-JENIS-PEMBANGUNAN_BROWSE');
         
-        $tahun=$request->input('tahun');
+        $tahun = $request->input('tahun');
         $this->validate($request, [            
-            'tahun'=>'required',
+            'tahun' => 'required',
             
         ]);     
         
-        $data = JenisPembangunanModel::where('TA',$tahun)
+        $data = JenisPembangunanModel::where('TA', $tahun)
                                         ->get();
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',
+                                'status' => 1,
+                                'pid' => 'fetchdata',
                                 'jenispembangunan'=>$data,
-                                'message'=>'Fetch data jenis pembangunan berhasil diperoleh'
+                                'message' => 'Fetch data jenis pembangunan berhasil diperoleh'
                             ], 200);  
 
     }    
@@ -45,8 +45,8 @@ class JenisPembangunanController extends Controller
     {      
         $this->hasPermissionTo('DMASTER-JENIS-PEMBANGUNAN_STORE');  
         $this->validate($request, [
-            'NamaJenis'=>'required|unique:tmJenisPembangunan',
-            'TA'=>'required',
+            'NamaJenis' => 'required|unique:tmJenisPembangunan',
+            'TA' => 'required',
         ]);
 
        
@@ -58,10 +58,10 @@ class JenisPembangunanController extends Controller
         ]);     
         
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'store',
+                                'status' => 1,
+                                'pid' => 'store',
                                 'jenispembangunan'=>$jenispembangunan,                                    
-                                'message'=>'Data Jenis Pembangunan berhasil disimpan.'
+                                'message' => 'Data Jenis Pembangunan berhasil disimpan.'
                             ], 200); 
                
     } 
@@ -77,7 +77,7 @@ class JenisPembangunanController extends Controller
         $jenispembangunan = JenisPembangunanModel::find($id);
         
         $this->validate($request, [
-            'NamaJenis'=>'required',
+            'NamaJenis' => 'required',
         ]);
 
         $jenispembangunan->NamaJenis = $request->input('NamaJenis');
@@ -85,10 +85,10 @@ class JenisPembangunanController extends Controller
         $jenispembangunan->save();
 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'store',
+                                'status' => 1,
+                                'pid' => 'store',
                                 'jenispembangunan'=>$jenispembangunan,                                    
-                                'message'=>'Data Jenis Pembangunan berhasil diubah.'
+                                'message' => 'Data Jenis Pembangunan berhasil diubah.'
                             ], 200); 
                                 
     } 
@@ -102,10 +102,10 @@ class JenisPembangunanController extends Controller
     {  
         $this->hasPermissionTo('DMASTER-JENIS-PEMBANGUNAN_DESTROY');  
         $jenispembangunan = JenisPembangunanModel::find($id);
-        $result=$jenispembangunan->delete();
+        $result = $jenispembangunan->delete();
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'destroy',                
+                                'status' => 1,
+                                'pid' => 'destroy',                
                                 'message'=>"Nama Jenis Pembangunan berhasil dihapus"
                             ], 200);
     }

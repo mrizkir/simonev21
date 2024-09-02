@@ -23,7 +23,7 @@ class RPJMDSasaranController extends Controller
     $this->hasPermissionTo('RPJMD-SASARAN_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -41,7 +41,7 @@ class RPJMDSasaranController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -51,7 +51,7 @@ class RPJMDSasaranController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -92,7 +92,7 @@ class RPJMDSasaranController extends Controller
     $this->hasPermissionTo('RPJMD-SASARAN_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -111,7 +111,7 @@ class RPJMDSasaranController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -121,7 +121,7 @@ class RPJMDSasaranController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -186,9 +186,9 @@ class RPJMDSasaranController extends Controller
     $this->hasPermissionTo('RPJMD-SASARAN_STORE');
 
     $this->validate($request, [      
-      'RpjmdTujuanID'=>'required|exists:tmRpjmdTujuan,RpjmdTujuanID',      
-      'Kd_RpjmdSasaran'=>'required',      
-      'Nm_RpjmdSasaran'=>'required',      
+      'RpjmdTujuanID' => 'required|exists:tmRpjmdTujuan,RpjmdTujuanID',      
+      'Kd_RpjmdSasaran' => 'required',      
+      'Nm_RpjmdSasaran' => 'required',      
     ]);         
 
     $sasaran = RPJMDTujuanModel::find($request->input('RpjmdTujuanID'));
@@ -258,7 +258,7 @@ class RPJMDSasaranController extends Controller
       if($request->filled('offset'))
       {
         $this->validate($request, [              
-          'offset'=>'required|numeric',      
+          'offset' => 'required|numeric',      
         ]);
 
         $offset = $request->input('offset');
@@ -268,7 +268,7 @@ class RPJMDSasaranController extends Controller
       if($request->filled('limit'))
       {
         $this->validate($request, [              
-          'limit'=>'required|numeric|gt:0',   
+          'limit' => 'required|numeric|gt:0',   
         ]);
 
         $limit = $request->input('limit');
@@ -330,8 +330,8 @@ class RPJMDSasaranController extends Controller
     {
 
       $this->validate($request, [              
-        'Kd_RpjmdSasaran'=>'required',      
-        'Nm_RpjmdSasaran'=>'required',      
+        'Kd_RpjmdSasaran' => 'required',      
+        'Nm_RpjmdSasaran' => 'required',      
       ]);   
 
       $sasaran->Kd_RpjmdSasaran = $request->input('Kd_RpjmdSasaran');

@@ -10,7 +10,7 @@ class DMasterController extends Controller
   public function index(Request $request)
   {
     $this->validate($request, [            
-			'ta'=>'required',            			
+			'ta' => 'required',            			
 		]);
     $ta = $request->input('ta');
 
@@ -37,10 +37,10 @@ class DMasterController extends Controller
       'jumlah_sub_kegiatan' => $jumlah_sub_kegiatan,
     ];
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'dmaster'=>$dmaster,
-      'message'=>'Fetch data master berhasil diperoleh'
+      'message' => 'Fetch data master berhasil diperoleh'
   ], 200); 
   }
 }

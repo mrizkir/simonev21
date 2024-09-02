@@ -78,37 +78,16 @@
                 <span class="headline">TAMBAH PROGRAM</span>
               </v-card-title>
               <v-card-text>
-                <v-text-field
-                  v-model="formdata.Kd_RpjmdStrategi"                  
-                  density="compact"        
-                  label="KODE STRATEGI"
+                <v-autocomplete
+                  :items="daftar_program"
+                  density="compact"
                   variant="outlined"
-                  prepend-inner-icon="mdi-graph"
-                  hint="Masukan kode / nomor strategi dari rpjmd"
-                  :rules="rule_kode_strategi"
-                  auto-grow
-                />    
-                <v-textarea
-                  v-model="formdata.Nm_RpjmdStrategi"
-                  rows="1"
-                  density="compact"        
-                  label="NAMA STRATEGI"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-graph"
-                  hint="Masukan strategi dari rpjmd"
-                  :rules="rule_nama_strategi"
-                  auto-grow
-                />
-                <v-textarea
-                  v-model="formdata.Nm_RpjmdArahKebijakan"
-                  rows="1"
-                  density="compact"        
-                  label="ARAH KEBIJAKAN"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-graph"
-                  hint="Masukan arah kebijakan strategi dari rpjmd"
-                  :rules="rule_nama_arah_kebijakan"
-                  auto-grow
+                  v-model="formdata.PrgID"
+                  label="PROGRAM"              
+                  item-title="Nm_Program"
+                  item-value="PrgID"
+                  :rules="rule_program"
+                  clearable                  
                 />
               </v-card-text>
               <v-card-actions>
@@ -147,13 +126,13 @@
           href: '/admin/' + this.userStore.AccessToken,
         },
         {
-          title: 'DATA MASTER',
+          title: 'RELASI',
           disabled: false,
           href: '#',
         },
         {
-          title: 'STRATEGI',    
-          href: '/admin/dmaster/strategi',
+          title: 'STRATEGI - PROGRAM',    
+          href: '/admin/relations/programstrategi',
         },
         {
           title: 'KELOLA',
@@ -165,32 +144,28 @@
     },
     mounted() {
       this.fetchStrategi()
+      this.fetchProgram()
     },
     data: () => ({
       RpjmdStrategiID: null,
       btnLoading: false,
       breadcrumbs: [],
       data_strategi: {
-        tujuan: {},
+        sasaran: {},
       },
       //form data
+      daftar_program: [],
       form_valid: true,
       formdata: {
-        RpjmdStrategiID: null,        
+        Program: null,       
       },
       formdefault: {
-        RpjmdStrategiID: null,        
+        Program: null,        
       },
       //form rules
-      rule_kode_strategi: [
-        value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
-      ],
-      rule_nama_strategi: [
-        value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
-      ],
-      rule_nama_arah_kebijakan: [
-        value => !!value || 'Mohon untuk di isi arah kebijakan strategi  dari RPJMD !!!',
-      ],
+      rule_program: [
+        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan strategi RPJMD !!!',
+      ],      
       //pinia
       userStore: null,
     }),
@@ -207,6 +182,22 @@
             this.data_strategi = data.payload
           })
       },
+      async fetchProgram() {
+        await this.$ajax
+        .post('/dmaster/kodefikasi/program', 
+          {
+            TA: this.userStore.PeriodeRPJMD.TA_AWAL,            
+          },
+          {
+            headers: {
+              Authorization: this.userStore.Token,
+            },
+          }
+        )
+        .then(({ data }) => {
+          this.daftar_program = data.kodefikasiprogram
+        })
+      },
       async save() {
         const { valid } = await this.$refs.frmdata.validate()
 
@@ -214,9 +205,10 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/strategi/store',
+              '/rpjmd/relations/strategiprogram/store',
               {
                 RpjmdStrategiID: this.RpjmdStrategiID,
+                PrgID: this.formdata.PrgID,
               },
               {
                 headers: {

@@ -12,8 +12,8 @@ class RKPDMurniController extends Controller
 {
   private function load(Request $request)
   {
-    $tahun=$request->input('tahun');
-		$no_bulan=$request->input('no_bulan');
+    $tahun = $request->input('tahun');
+		$no_bulan = $request->input('no_bulan');
 
     $urusan=\DB::table('tmUrusan')
     ->select(\DB::raw('
@@ -22,7 +22,7 @@ class RKPDMurniController extends Controller
       `Nm_Urusan`        
     '))
     ->orderBy('Kd_Urusan','ASC')                                    
-    ->where('TA',$tahun)
+    ->where('TA', $tahun)
     ->get();
     
     $now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
@@ -288,26 +288,26 @@ class RKPDMurniController extends Controller
     $this->hasPermissionTo('RKPD-GROUP');
 
     $this->validate($request, [            
-			'tahun'=>'required',
-			'no_bulan'=>'required'            
+			'tahun' => 'required',
+			'no_bulan' => 'required'            
 		]);
 
-    $tahun=$request->input('tahun');
-		$no_bulan=$request->input('no_bulan');
+    $tahun = $request->input('tahun');
+		$no_bulan = $request->input('no_bulan');
 
     $this->load($request);
 
     $data = \DB::table('RKPD')
-    ->where('TA',$tahun)
+    ->where('TA', $tahun)
     ->where('BulanLaporan', $no_bulan)
     ->orderByRaw('no_urut + 1')
     ->get();
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata', 
+      'status' => 1,
+      'pid' => 'fetchdata', 
       'rkpd'=>$data,
-      'message'=>'Fetch data rkpd murni berhasil diperoleh'
+      'message' => 'Fetch data rkpd murni berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);      
   }
 }

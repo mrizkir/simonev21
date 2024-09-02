@@ -213,7 +213,7 @@ class GalleryController extends Controller
     try
     {
       $validator = Validator::make($request->all(), [        
-        'pid'=>'required|in:gallery,rincian'
+        'pid' => 'required|in:gallery,rincian'
       ]);     
       $this->validatorException($validator);
       
@@ -224,14 +224,14 @@ class GalleryController extends Controller
       {
         case 'gallery':
           $validator = Validator::make($request->all(), [        
-            'TA'=>'required|digits:4|integer|min:2020|max:'. (date('Y')),
+            'TA' => 'required|digits:4|integer|min:2020|max:'. (date('Y')),
           ]);     
           $this->validatorException($validator);
 
           $TA = $request->input('TA');
           if ($this->hasRole('opd'))
           {
-            $daftar_opd=$this->getUserOrgID($TA);
+            $daftar_opd = $this->getUserOrgID($TA);
 
             $result = RKARealisasiModel::select(\DB::raw('
               trRKARealisasiRinc.RKARealisasiRincID
@@ -345,8 +345,8 @@ class GalleryController extends Controller
       }			
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'fetchdata',
+        'status' => 1,
+        'pid' => 'fetchdata',
         'daftar_bulan'=>$daftar_bulan,
         'media'=>$daftar_media,
         'paginate'=>$paginate,
@@ -357,7 +357,7 @@ class GalleryController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'fetchdata',
+        'pid' => 'fetchdata',
         'media'=>[],                                    
         'daftar_bulan'=>[],                                    
         'message'=>$e->getMessage()
@@ -372,8 +372,8 @@ class GalleryController extends Controller
 
       $validator = Validator::make($request->all(), [
         'RKARealisasiRincID' => 'required|exists:trRKARealisasiRinc,RKARealisasiRincID',
-        'foto'=>'required|image',	
-        'pid'=>'required|in:realisasirincian'
+        'foto' => 'required|image',	
+        'pid' => 'required|in:realisasirincian'
       ]);     
       $this->validatorException($validator);
 
@@ -385,17 +385,17 @@ class GalleryController extends Controller
       }      
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'store',
+        'status' => 1,
+        'pid' => 'store',
         'media'=>$result,                                    
-        'message'=>'Media realisasi rincian berhasil disimpan'
+        'message' => 'Media realisasi rincian berhasil disimpan'
       ], 200); 			
     }
     catch(Exception $e)
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'store',
+        'pid' => 'store',
         'media'=>[],                                    
         'message'=>$e->getMessage()
       ], 422); 			
@@ -409,7 +409,7 @@ class GalleryController extends Controller
 
       $validator = Validator::make($request->all(), [
         'RKARealisasiRincID' => 'required|exists:trRKARealisasiRinc,RKARealisasiRincID',					
-        'pid'=>'required|in:realisasirincian'
+        'pid' => 'required|in:realisasirincian'
       ]);     
       $this->validatorException($validator);
       
@@ -417,7 +417,7 @@ class GalleryController extends Controller
       if ($this->hasRole('opd'))
       {
         $data_realisasi = RKARealisasiModel::find($request->input('RKARealisasiRincID'));
-        $daftar_opd=$this->getUserOrgID($data_realisasi->TA);
+        $daftar_opd = $this->getUserOrgID($data_realisasi->TA);
 
         $jumlah = \DB::table('trRKARealisasiRinc AS A')
         ->join('trRKA AS B', 'A.RKAID', 'B.RKAID')
@@ -453,16 +453,16 @@ class GalleryController extends Controller
       }      
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'destroy',				                               
-        'message'=>'Media realisasi rincian berhasil dihapus'
+        'status' => 1,
+        'pid' => 'destroy',				                               
+        'message' => 'Media realisasi rincian berhasil dihapus'
       ], 200); 			
     }
     catch(Exception $e)
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',				                               
+        'pid' => 'destroy',				                               
         'message'=>$e->getMessage()
       ], 422); 			
     }

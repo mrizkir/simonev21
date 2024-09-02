@@ -19,10 +19,10 @@ class TAController extends Controller {
         $ta=TAModel::all();
 
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
+                                    'status' => 1,
+                                    'pid' => 'fetchdata',
                                     'ta'=>$ta,
-                                    'message'=>'Fetch data tahun anggaran berhasil.'
+                                    'message' => 'Fetch data tahun anggaran berhasil.'
                                 ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
     /**
@@ -42,7 +42,7 @@ class TAController extends Controller {
                         }),
                         'required',
                         'regex:/^[0-9]+$/'],
-            'tahun_anggaran'=>'required',
+            'tahun_anggaran' => 'required',
         ]);
 
               
@@ -52,10 +52,10 @@ class TAController extends Controller {
                             ]);  
         
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'store',
+                                'status' => 1,
+                                'pid' => 'store',
                                 'ta'=>$ta,                                    
-                                'message'=>'Data TA berhasil disimpan.'
+                                'message' => 'Data TA berhasil disimpan.'
                             ], 200); 
         
     }  
@@ -73,20 +73,20 @@ class TAController extends Controller {
         $this->validate($request, [
                                     'tahun'=>[
                                                 Rule::unique('ta')->where(function($query) use ($request,$ta) {  
-                                                    if ($request->input('tahun')==$ta->tahun) 
+                                                    if ($request->input('tahun')= = $ta->tahun) 
                                                     {
                                                         return $query->where('tahun',0);
                                                     }                 
                                                     else
                                                     {
-                                                        return $query->where('tahun',$request->input('tahun'))
-                                                                ->where('TA',$ta->tahun);
+                                                        return $query->where('tahun', $request->input('tahun'))
+                                                                ->where('TA', $ta->tahun);
                                                     }                                                                                    
                                                 }),
                                                 'required',
                                                 'regex:/^[0-9]+$/'
                                             ],
-                                    'tahun_anggaran'=>'required',
+                                    'tahun_anggaran' => 'required',
                                 ]);
         
         
@@ -95,10 +95,10 @@ class TAController extends Controller {
         $ta->save();
 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'update',
+                                'status' => 1,
+                                'pid' => 'update',
                                 'ta'=>$ta,                                    
-                                'message'=>'Data TA '.$ta->tahun_anggaran.' berhasil diubah.'
+                                'message' => 'Data TA '.$ta->tahun_anggaran.' berhasil diubah.'
                             ], 200);
         
     }
@@ -112,10 +112,10 @@ class TAController extends Controller {
     {   
         $this->hasPermissionTo('DMASTER-TA_DESTROY');
         $ta = TAModel::find($id);
-        $result=$ta->delete();
+        $result = $ta->delete();
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'destroy',                
+                                'status' => 1,
+                                'pid' => 'destroy',                
                                 'message'=>"Data TA dengan ID ($id) berhasil dihapus"
                             ], 200);
     }

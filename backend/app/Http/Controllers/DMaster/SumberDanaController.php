@@ -17,20 +17,20 @@ class SumberDanaController extends Controller {
   {
     $this->hasPermissionTo('DMASTER-SUMBER-DANA_BROWSE');
     
-    $tahun=$request->input('tahun');
+    $tahun = $request->input('tahun');
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun' => 'required',            
     ]);     
-    $tahun=$request->input('tahun');
-    $data = SumberDanaModel::where('TA',$tahun)
+    $tahun = $request->input('tahun');
+    $data = SumberDanaModel::where('TA', $tahun)
       ->orderBy('Nm_SumberDana','ASC')
       ->get();
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'sumberdana'=>$data,
-      'message'=>'Fetch data Sumber Dana berhasil diperoleh'
+      'message' => 'Fetch data Sumber Dana berhasil diperoleh'
     ], 200);  
 
   }
@@ -45,25 +45,25 @@ class SumberDanaController extends Controller {
   { 
     $this->hasPermissionTo('DMASTER-SUMBER-DANA_STORE');
 
-    $tahun=$request->input('TA');
+    $tahun = $request->input('TA');
     $this->validate($request,
       [
         'Kd_SumberDana' => [                                
                 Rule::unique('tmSumberDana')->where(function($query) use ($request) {
-                  return $query->where('TA',$request->input('TA'));
+                  return $query->where('TA', $request->input('TA'));
                 }),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
         ],               
-        'Nm_SumberDana'=>'required', 
+        'Nm_SumberDana' => 'required', 
       ],
       [   
-        'Kd_SumberDana.required'=>'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
-        'Kd_SumberDana.min'=>'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
+        'Kd_SumberDana.required' => 'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
+        'Kd_SumberDana.min' => 'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
 
-        'Nm_SumberDana.required'=>'Mohon Nama Sumber Dana untuk di isi karena ini diperlukan',
-        'Nm_SumberDana.min'=>'Mohon Nama Sumber Dana di isi minimal 5 karakter'
+        'Nm_SumberDana.required' => 'Mohon Nama Sumber Dana untuk di isi karena ini diperlukan',
+        'Nm_SumberDana.min' => 'Mohon Nama Sumber Dana di isi minimal 5 karakter'
       ]
     );
     
@@ -76,10 +76,10 @@ class SumberDanaController extends Controller {
                       ]);
 
      return Response()->json([
-                'status'=>1,
-                'pid'=>'store',
+                'status' => 1,
+                'pid' => 'store',
                 'sumberdana'=>$sumberdana,                                    
-                'message'=>'Data Sumber Dana berhasil disimpan.'
+                'message' => 'Data Sumber Dana berhasil disimpan.'
               ], 200); 
 
   }
@@ -99,14 +99,14 @@ class SumberDanaController extends Controller {
     [
       'Kd_SumberDana'=>['required',
             Rule::unique('tmSumberDana')->where(function($query) use ($request,$sumberdana) {  
-              if ($request->input('Kd_SumberDana')==$sumberdana->Kd_SumberDana) 
+              if ($request->input('Kd_SumberDana')= = $sumberdana->Kd_SumberDana) 
               {
                 return $query->where('Kd_SumberDana',0);
               }                 
               else
               {
-                return $query->where('Kd_SumberDana',$request->input('Kd_SumberDana'))
-                        ->where('TA',$sumberdana->TA);
+                return $query->where('Kd_SumberDana', $request->input('Kd_SumberDana'))
+                        ->where('TA', $sumberdana->TA);
               }                                                                                    
             }),
             'min:1',
@@ -114,14 +114,14 @@ class SumberDanaController extends Controller {
 
           ],   
        
-      'Nm_SumberDana'=>'required', 
+      'Nm_SumberDana' => 'required', 
     ],
     [            
-      'Kd_SumberDana.required'=>'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
-      'Kd_SumberDana.min'=>'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
+      'Kd_SumberDana.required' => 'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
+      'Kd_SumberDana.min' => 'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
 
-      'Nm_SumberDana.required'=>'Mohon Nama Sumber Dana untuk di isi karena ini diperlukan',
-      'Nm_SumberDana.min'=>'Mohon Nama Sumber Dana di isi minimal 5 karakter'
+      'Nm_SumberDana.required' => 'Mohon Nama Sumber Dana untuk di isi karena ini diperlukan',
+      'Nm_SumberDana.min' => 'Mohon Nama Sumber Dana di isi minimal 5 karakter'
     ]
     );
 
@@ -132,10 +132,10 @@ class SumberDanaController extends Controller {
     $sumberdana->save();
 
     return Response()->json([
-              'status'=>1,
-              'pid'=>'update',
+              'status' => 1,
+              'pid' => 'update',
               'sumberdana'=>$sumberdana,                                    
-              'message'=>'Data Sumber Dana '.$sumberdana->Nm_SumberDana.' berhasil diubah.'
+              'message' => 'Data Sumber Dana '.$sumberdana->Nm_SumberDana.' berhasil diubah.'
             ], 200);
 
   }
@@ -151,12 +151,12 @@ class SumberDanaController extends Controller {
     $this->hasPermissionTo('DMASTER-SUMBER-DANA_DESTROY');
 
     $sumberdana = SumberDanaModel::find($id);        
-    $result=$sumberdana->delete();
+    $result = $sumberdana->delete();
       
     
     return Response()->json([
-                'status'=>1,
-                'pid'=>'destroy',                
+                'status' => 1,
+                'pid' => 'destroy',                
                 'message'=>"Data Sumber Dana dengan ID ($id) berhasil dihapus"
               ], 200);
   }

@@ -21,7 +21,7 @@ class RPJMDVisiController extends Controller
     $this->hasPermissionTo('RPJMD-VISI_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -34,7 +34,7 @@ class RPJMDVisiController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -44,7 +44,7 @@ class RPJMDVisiController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -121,7 +121,7 @@ class RPJMDVisiController extends Controller
       if($request->filled('offset'))
       {
         $this->validate($request, [              
-          'offset'=>'required|numeric',      
+          'offset' => 'required|numeric',      
         ]);
 
         $offset = $request->input('offset');
@@ -131,7 +131,7 @@ class RPJMDVisiController extends Controller
       if($request->filled('limit'))
       {
         $this->validate($request, [              
-          'limit'=>'required|numeric|gt:0',   
+          'limit' => 'required|numeric|gt:0',   
         ]);
 
         $limit = $request->input('limit');
@@ -179,8 +179,8 @@ class RPJMDVisiController extends Controller
     $this->hasPermissionTo('RPJMD-VISI_STORE');
 
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
-      'Nm_RpjmdVisi'=>'required',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'Nm_RpjmdVisi' => 'required',      
     ]);
 
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
@@ -224,8 +224,8 @@ class RPJMDVisiController extends Controller
     else
     {
       $this->validate($request, [      
-        'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
-        'Nm_RpjmdVisi'=>'required',      
+        'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+        'Nm_RpjmdVisi' => 'required',      
       ]);
   
       $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));

@@ -60,12 +60,12 @@ class SnapshotRKAMurniController extends Controller
   public function loaddatakegiatanFirsttime(Request $request)
   { 
     $this->validate($request, [            
-      'tahun'=>'required',
-      'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
-      'SOrgID'=>'required|exists:tmSOrg,SOrgID',
+      'tahun' => 'required',
+      'bulan' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+      'SOrgID' => 'required|exists:tmSOrg,SOrgID',
     ]); 
     
-    $SOrgID=$request->input('SOrgID');
+    $SOrgID = $request->input('SOrgID');
     $unitkerja = SubOrganisasiModel::find($SOrgID);
 
     $tahun = $request->input('tahun');
@@ -458,17 +458,17 @@ class SnapshotRKAMurniController extends Controller
     \DB::statement($str_insert);    
 
     $data = SnapshotRKAModel::where('SOrgID', $SOrgID)
-      ->where('TA',$tahun)
+      ->where('TA', $tahun)
       ->where('TABULAN', $tahun.$bulan)
       ->where('EntryLvl', 1)
       ->get();
               
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'unitkerja'=>$unitkerja,
       'rka'=>$data,
-      'message'=>'Fetch data rka murni berhasil diperoleh'
+      'message' => 'Fetch data rka murni berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
     
   }
@@ -500,7 +500,7 @@ class SnapshotRKAMurniController extends Controller
           `created_at`,
           `updated_at`
           '))
-        ->where('RKARincID',$RKARincID)
+        ->where('RKARincID', $RKARincID)
         ->where('TABULAN', $datauraian->TABULAN)
         ->orderBy('bulan1','ASC')
         ->get();
@@ -514,12 +514,12 @@ class SnapshotRKAMurniController extends Controller
       foreach ($r as $item)
       {
         $sum_realisasi = \DB::table('trSnapshotRKARealisasiRinc')
-          ->where('RKARincID',$RKARincID)
-          ->where('bulan1','<=',$item->bulan1)
+          ->where('RKARincID', $RKARincID)
+          ->where('bulan1','<=', $item->bulan1)
           ->where('TABULAN', $item->TABULAN)
           ->sum('realisasi1');
 
-        $sisa_anggaran=$datauraian->PaguUraian1-$sum_realisasi;            
+        $sisa_anggaran = $datauraian->PaguUraian1-$sum_realisasi;            
         $daftar_realisasi[]=[
           'RKARealisasiRincID'=>$item->RKARealisasiRincID,
           'bulan1'=>$item->bulan1,
@@ -535,18 +535,18 @@ class SnapshotRKAMurniController extends Controller
           'updated_at'=>$item->updated_at,
         ];
         
-        $totalanggarankas+=$item->target1;
-        $totalrealisasi+=$item->realisasi1;
-        $totaltargetfisik+=$item->target_fisik1;
-        $totalfisik+=$item->fisik1;
+        $totalanggarankas+ = $item->target1;
+        $totalrealisasi+ = $item->realisasi1;
+        $totaltargetfisik+ = $item->target_fisik1;
+        $totalfisik+ = $item->fisik1;
       }
       
-      $data['datarealisasi']=$daftar_realisasi;
-      $data['totalanggarankas']=$totalanggarankas;
-      $data['totalrealisasi']=$totalrealisasi;
+      $data['datarealisasi'] = $daftar_realisasi;
+      $data['totalanggarankas'] = $totalanggarankas;
+      $data['totalrealisasi'] = $totalrealisasi;
       $data['totaltargetfisik']=round($totaltargetfisik,2);
       $data['totalfisik']=round($totalfisik,2);
-      $data['sisa_anggaran']=$datauraian->PaguUraian1-$totalrealisasi;			
+      $data['sisa_anggaran'] = $datauraian->PaguUraian1-$totalrealisasi;			
     }        
     return $data;
   } 
@@ -555,9 +555,9 @@ class SnapshotRKAMurniController extends Controller
     $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_BROWSE');
 
     $this->validate($request, [            
-      'tahun'=>'required',            
-      'bulan'=>'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
-      'SOrgID'=>'required|exists:tmSOrg,SOrgID',            
+      'tahun' => 'required',            
+      'bulan' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+      'SOrgID' => 'required|exists:tmSOrg,SOrgID',            
     ]);
 
     $tahun = $request->input('tahun');
@@ -624,12 +624,12 @@ class SnapshotRKAMurniController extends Controller
       return $item;
     });
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'unitkerja'=>$unitkerja,
       'rka'=>$data,
       'locked'=>$is_locked == 1,
-      'message'=>'Fetch data rka murni berhasil diperoleh'
+      'message' => 'Fetch data rka murni berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   /**
@@ -648,7 +648,7 @@ class SnapshotRKAMurniController extends Controller
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'fetchdata',                
+        'pid' => 'fetchdata',                
         'message'=>"Fetch data kegiatan murni dengan id ($id) gagal diperoleh"
       ], 422); 
     }
@@ -695,7 +695,7 @@ class SnapshotRKAMurniController extends Controller
         `trSnapshotRKARinc`.created_at,
         `trSnapshotRKARinc`.updated_at
       '))                                
-      ->where('RKAID',$rka->RKAID)
+      ->where('RKAID', $rka->RKAID)
       ->where('TABULAN', $rka->TABULAN)
       ->orderBy('trSnapshotRKARinc.kode_uraian1', 'ASC')
       ->get();
@@ -721,10 +721,10 @@ class SnapshotRKAMurniController extends Controller
             
             if (!is_null($lokasi))
             {
-              $item->desa_id=$lokasi->desa_id;
-              $item->kecamatan_id=$lokasi->kecamatan_id;
-              $item->kabupaten_id=$lokasi->kabupaten_id;
-              $item->provinsi_id=$lokasi->provinsi_id;                            
+              $item->desa_id = $lokasi->desa_id;
+              $item->kecamatan_id = $lokasi->kecamatan_id;
+              $item->kabupaten_id = $lokasi->kabupaten_id;
+              $item->provinsi_id = $lokasi->provinsi_id;                            
             }
           break;
           case 'kecamatan' :
@@ -735,9 +735,9 @@ class SnapshotRKAMurniController extends Controller
 
             if (!is_null($lokasi))
             {
-              $item->kecamatan_id=$lokasi->kecamatan_id;
-              $item->kabupaten_id=$lokasi->kabupaten_id;
-              $item->provinsi_id=$lokasi->provinsi_id;
+              $item->kecamatan_id = $lokasi->kecamatan_id;
+              $item->kabupaten_id = $lokasi->kabupaten_id;
+              $item->provinsi_id = $lokasi->provinsi_id;
             }
           break;
           case 'kota' :
@@ -747,8 +747,8 @@ class SnapshotRKAMurniController extends Controller
 
             if (!is_null($lokasi))
             {
-              $item->kabupaten_id=$lokasi->kabupaten_id;
-              $item->provinsi_id=$lokasi->provinsi_id;
+              $item->kabupaten_id = $lokasi->kabupaten_id;
+              $item->provinsi_id = $lokasi->provinsi_id;
             }
           break;
           case 'provinsi' :
@@ -757,7 +757,7 @@ class SnapshotRKAMurniController extends Controller
 
             if (!is_null($lokasi))
             {
-              $item->provinsi_id=$lokasi->provinsi_id;
+              $item->provinsi_id = $lokasi->provinsi_id;
             }
           break;                
         }
@@ -765,11 +765,11 @@ class SnapshotRKAMurniController extends Controller
       });
       
       return Response()->json([
-        'status'=>1,
-        'pid'=>'fetchdata',
+        'status' => 1,
+        'pid' => 'fetchdata',
         'datakegiatan'=>$rka,
         'uraian'=>$data,
-        'message'=>'Fetch data rincian kegiatan berhasil diperoleh'
+        'message' => 'Fetch data rincian kegiatan berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
     }            
   }
@@ -783,8 +783,8 @@ class SnapshotRKAMurniController extends Controller
     $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_SHOW');
 
     $this->validate($request, [            
-      'mode'=>'required',            
-      'RKARincID'=>'required|exists:trRKARinc,RKARincID',            
+      'mode' => 'required',            
+      'RKARincID' => 'required|exists:trRKARinc,RKARincID',            
     ]);
     $mode = $request->input('mode');
     $RKARincID = $request->input('RKARincID');
@@ -804,8 +804,8 @@ class SnapshotRKAMurniController extends Controller
         COALESCE(SUM(target_fisik1),0) AS jumlah_targetfisik,
         COALESCE(SUM(fisik1),0) AS jumlah_fisik
       '))
-      ->where('RKARincID',$RKARincID)
-      ->where('TABULAN',$data_uraian->TABULAN)
+      ->where('RKARincID', $RKARincID)
+      ->where('TABULAN', $data_uraian->TABULAN)
       ->get();
 
     $target = ['fisik'=>0,'anggaran'=>0];			
@@ -823,8 +823,8 @@ class SnapshotRKAMurniController extends Controller
           ),
         '}') AS `fisik1`							
       "))
-      ->where('RKARincID',$RKARincID)
-      ->where('TABULAN',$data_uraian->TABULAN)
+      ->where('RKARincID', $RKARincID)
+      ->where('TABULAN', $data_uraian->TABULAN)
       ->get();                    
       $target=isset($data[0]) ? json_decode($data[0]->fisik1, true) : [];
     }
@@ -842,8 +842,8 @@ class SnapshotRKAMurniController extends Controller
           ),
         '}') AS `anggaran1`
       "))
-      ->where('RKARincID',$RKARincID)
-      ->where('TABULAN',$data_uraian->TABULAN)
+      ->where('RKARincID', $RKARincID)
+      ->where('TABULAN', $data_uraian->TABULAN)
       ->get();      
 
       $target=isset($data[0]) ? json_decode($data[0]->anggaran1, true) : [];
@@ -873,8 +873,8 @@ class SnapshotRKAMurniController extends Controller
             ),
           '}') AS `anggaran1`
         "))
-        ->where('RKARincID',$RKARincID)
-        ->where('TABULAN',$data_uraian->TABULAN)
+        ->where('RKARincID', $RKARincID)
+        ->where('TABULAN', $data_uraian->TABULAN)
         ->groupBy('RKARincID')
         ->get();                  		
       
@@ -888,8 +888,8 @@ class SnapshotRKAMurniController extends Controller
     }
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'mode'=>$mode,
       'datauraian'=>$data_uraian,
       'target'=>$target,
@@ -909,15 +909,15 @@ class SnapshotRKAMurniController extends Controller
     $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_SHOW');
 
     $this->validate($request, [            
-      'RKARincID'=>'required|exists:trSnapshotRKARinc,RKARincID',            
+      'RKARincID' => 'required|exists:trSnapshotRKARinc,RKARincID',            
     ]);
     
-    $RKARincID=$request->input('RKARincID');
-    $data=$this->populateDataRealisasi($RKARincID); 
+    $RKARincID = $request->input('RKARincID');
+    $data = $this->populateDataRealisasi($RKARincID); 
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'realisasi'=>$data['datarealisasi'],
       'totalanggarankas'=>$data['totalanggarankas'],
       'totalrealisasi'=>$data['totalrealisasi'],
@@ -932,12 +932,12 @@ class SnapshotRKAMurniController extends Controller
     $this->hasPermissionTo('RENJA-SNAPSHOT-RKA-MURNI_BROWSE');
 
     $this->validate($request, [            
-			'pid'=>'required|in:all',
-			'SOrgID'=>'required|exists:tmSOrg,SOrgID',
+			'pid' => 'required|in:all',
+			'SOrgID' => 'required|exists:tmSOrg,SOrgID',
 		]); 
 
-    $SOrgID=$request->input('SOrgID');
-    $pid=$request->input('pid');
+    $SOrgID = $request->input('SOrgID');
+    $pid = $request->input('pid');
 
 		switch ($pid)
 		{ 
@@ -968,8 +968,8 @@ class SnapshotRKAMurniController extends Controller
     }
         
     return Response()->json([
-      'status'=>1,
-      'pid'=>'destroy',                
+      'status' => 1,
+      'pid' => 'destroy',                
       'message'=>$message,
     ], 200);
   }

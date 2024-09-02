@@ -25,8 +25,8 @@ class DataMentahPerubahanController extends Controller
 		$this->hasPermissionTo('RENJA-RKA-MURNI_BROWSE');
 		
 		$this->validate($request, [            
-			'tahun'=>'required',            
-			'OrgID'=>'required|exists:tmOrg,OrgID',            
+			'tahun' => 'required',            
+			'OrgID' => 'required|exists:tmOrg,OrgID',            
 		]);
 		$tahun = $request->input('tahun');
 		$OrgID = $request->input('OrgID');		
@@ -74,8 +74,8 @@ class DataMentahPerubahanController extends Controller
 			created_at,
 			updated_at
 		'))
-		->where('OrgID',$OrgID)
-		->where('TA',$tahun)
+		->where('OrgID', $OrgID)
+		->where('TA', $tahun)
 		->where('EntryLvl',1)
 		->orderByRaw('kode_urusan="X" DESC')
 		->orderBy('kode_bidang','ASC')
@@ -91,16 +91,16 @@ class DataMentahPerubahanController extends Controller
 		});
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',								
+			'status' => 1,
+			'pid' => 'fetchdata',								
 			'rka'=>$data,
-			'message'=>'Fetch data rka murni berhasil diperoleh'
+			'message' => 'Fetch data rka murni berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
 	}   
 	public function copyrka(Request $request)
 	{
 		$this->validate($request, [             
-			'RKAID'=>'required|exists:trRKA,RKAID,Locked,0',            			
+			'RKAID' => 'required|exists:trRKA,RKAID,Locked,0',            			
 		]);		
 
 		\DB::transaction(function () use ($request) {
@@ -337,9 +337,9 @@ class DataMentahPerubahanController extends Controller
 		});
 
 		return Response()->json([
-								'status'=>1,
-								'pid'=>'store',                                
-								'message'=>'Salin kegiatan dari RKA Murni ke RKA Perubahan berhasil'
+								'status' => 1,
+								'pid' => 'store',                                
+								'message' => 'Salin kegiatan dari RKA Murni ke RKA Perubahan berhasil'
 							], 200);    
 	}
 }

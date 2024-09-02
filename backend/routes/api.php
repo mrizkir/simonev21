@@ -270,6 +270,13 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->put('/rpjmd/relations/indikatorsasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@update','as'=>'rpjmd-relations-indikator-sasaran.update']);
   $router->delete('/rpjmd/relations/indikatorsasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@destroy','as'=>'rpjmd-relations-indikator-sasaran.destroy']);
 
+  //rpjmd - strategi program 
+  $router->post('/rpjmd/relations/strategiprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@index','as'=>'rpjmd-relations-strategi-program.index']);
+  $router->post('/rpjmd/relations/strategiprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@store','as'=>'rpjmd-relations-strategi-program.store']);
+  $router->get('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@show','as'=>'rpjmd-relations-strategi-program.show']);  
+  $router->put('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@update','as'=>'rpjmd-relations-strategi-program.update']);
+  $router->delete('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@destroy','as'=>'rpjmd-relations-strategi-program.destroy']);
+
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);
   $router->post('/renjamurni/reloadstatistik1', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik1','as'=>'renjamurni.reloadstatistik1']);

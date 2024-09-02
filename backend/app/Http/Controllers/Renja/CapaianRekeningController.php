@@ -15,9 +15,9 @@ class CapaianRekeningController extends Controller
   public function index(Request $request)
   {
     $this->validate($request, [            
-      'ta'=>'required',
-      'tw'=>'required|in:1,2,3,4',
-      'mode'=>'required|in:fisik,keuangan',
+      'ta' => 'required',
+      'tw' => 'required|in:1,2,3,4',
+      'mode' => 'required|in:fisik,keuangan',
     ]);
     
     $tahun = $request->input('ta');
@@ -139,9 +139,9 @@ class CapaianRekeningController extends Controller
   public function reloadcapaianrek(Request $request)
   {
     $this->validate($request, [            
-      'ta'=>'required',
-      'tw'=>'required|in:1,2,3,4',
-      'mode'=>'required|in:fisik,keuangan',
+      'ta' => 'required',
+      'tw' => 'required|in:1,2,3,4',
+      'mode' => 'required|in:fisik,keuangan',
     ]);
     
     $tahun = $request->input('ta');

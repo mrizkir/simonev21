@@ -20,10 +20,10 @@ class PeringkatOPDPerubahanController extends Controller {
 		$this->hasPermissionTo('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE');
 		
 		$this->validate($request, [            
-			'tahun'=>'required',                     
+			'tahun' => 'required',                     
 		]);
 
-		$tahun=$request->input('tahun');
+		$tahun = $request->input('tahun');
 		
 		$subquery = \DB::table('statistik2')
 			->select(\DB::raw('`OrgID`,MAX(`Bulan`) AS `Bulan`'))
@@ -67,10 +67,10 @@ class PeringkatOPDPerubahanController extends Controller {
 			$k+=1;
 		}
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',
+			'status' => 1,
+			'pid' => 'fetchdata',
 			'peringkat'=>$peringkat,
-			'message'=>'Fetch data untuk peringkat opd berhasil diperoleh'
+			'message' => 'Fetch data untuk peringkat opd berhasil diperoleh'
 		], 200);    
 		
 	}    

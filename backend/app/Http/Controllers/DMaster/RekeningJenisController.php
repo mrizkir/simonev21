@@ -22,7 +22,7 @@ class RekeningJenisController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-JENIS_BROWSE');
 
     $this->validate($request, [        
-      'TA'=>'required'
+      'TA' => 'required'
     ]);    
     $ta = $request->input('TA');
 
@@ -39,17 +39,17 @@ class RekeningJenisController extends Controller {
                   '))
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmKlp.TA',$ta)
+                  ->where('tmKlp.TA', $ta)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->orderBy('Kd_Rek_3','ASC')
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'jenis'=>$jenis,
-                  'message'=>'Fetch data rekening jenis berhasil.'
+                  'message' => 'Fetch data rekening jenis berhasil.'
                 ], 200);
   }
   /**
@@ -63,16 +63,16 @@ class RekeningJenisController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-REKENING-JENIS_STORE');
 
     $this->validate($request, [
-      'KlpID'=>'required|exists:tmKlp,KlpID',
+      'KlpID' => 'required|exists:tmKlp,KlpID',
       'Kd_Rek_3'=> [
             Rule::unique('tmJns')->where(function($query) use ($request) {
-              return $query->where('KlpID',$request->input('KlpID'))
-                    ->where('TA',$request->input('TA'));
+              return $query->where('KlpID', $request->input('KlpID'))
+                    ->where('TA', $request->input('TA'));
             }),
             'required',
             'regex:/^[0-9]+$/'],
-      'JnsNm'=>'required',
-      'TA'=>'required'
+      'JnsNm' => 'required',
+      'TA' => 'required'
     ]);     
       
     $ta = $request->input('TA');
@@ -87,10 +87,10 @@ class RekeningJenisController extends Controller {
     ]);
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'store',
+                  'status' => 1,
+                  'pid' => 'store',
                   'jenis'=>$jenis,                                    
-                  'message'=>'Data Rekening Jenis berhasil disimpan.'
+                  'message' => 'Data Rekening Jenis berhasil disimpan.'
                 ], 200); 
   }               
   /**
@@ -102,8 +102,8 @@ class RekeningJenisController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -149,8 +149,8 @@ class RekeningJenisController extends Controller {
     \DB::commit();
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin rekening jenis dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -170,33 +170,33 @@ class RekeningJenisController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'update',                
+                  'pid' => 'update',                
                   'message'=>["Data Rekening Jenis ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
-                    'KlpID'=>'required|exists:tmKlp,KlpID',
+                    'KlpID' => 'required|exists:tmKlp,KlpID',
                     'Kd_Rek_3'=>[
                           Rule::unique('tmJns')->where(function($query) use ($request,$jenis) {  
-                            if ($request->input('Kd_Rek_3')==$jenis->Kd_Rek_3) 
+                            if ($request->input('Kd_Rek_3')= = $jenis->Kd_Rek_3) 
                             {
-                              return $query->where('KlpID',$request->input('KlpID'))
+                              return $query->where('KlpID', $request->input('KlpID'))
                                     ->where('Kd_Rek_3','ignore')
-                                    ->where('TA',$jenis->TA);
+                                    ->where('TA', $jenis->TA);
                             }                 
                             else
                             {
-                              return $query->where('Kd_Rek_3',$request->input('Kd_Rek_3'))
-                                  ->where('KlpID',$request->input('KlpID'))
-                                  ->where('TA',$jenis->TA);
+                              return $query->where('Kd_Rek_3', $request->input('Kd_Rek_3'))
+                                  ->where('KlpID', $request->input('KlpID'))
+                                  ->where('TA', $jenis->TA);
                             }                                                                                    
                           }),
                           'required',
                           'regex:/^[0-9]+$/'
                         ],
-                    'JnsNm'=>'required',
+                    'JnsNm' => 'required',
                   ]);
       
       
@@ -207,10 +207,10 @@ class RekeningJenisController extends Controller {
       $jenis->save();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'update',
+                  'status' => 1,
+                  'pid' => 'update',
                   'jenis'=>$jenis,                                    
-                  'message'=>'Data Rekening Jenis '.$jenis->JnsNm.' berhasil diubah.'
+                  'message' => 'Data Rekening Jenis '.$jenis->JnsNm.' berhasil diubah.'
                 ], 200);
     }
     
@@ -226,7 +226,7 @@ class RekeningJenisController extends Controller {
                   ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-                  ->where('tmOby.JnsID',$id)
+                  ->where('tmOby.JnsID', $id)
                   ->orderBy('Kd_Rek_1','ASC')
                   ->orderBy('Kd_Rek_2','ASC')
                   ->orderBy('Kd_Rek_3','ASC')
@@ -234,8 +234,8 @@ class RekeningJenisController extends Controller {
                   ->get();
 
     return Response()->json([
-                  'status'=>1,
-                  'pid'=>'fetchdata',
+                  'status' => 1,
+                  'pid' => 'fetchdata',
                   'objek'=>$objek,
                   'message'=>"Fetch data objek dari rekening jenis ($id) berhasil."
                 ], 200);
@@ -256,18 +256,18 @@ class RekeningJenisController extends Controller {
     {
       return Response()->json([
                   'status'=>0,
-                  'pid'=>'destroy',                
+                  'pid' => 'destroy',                
                   'message'=>["Data Rekening Jenis ($id) gagal dihapus"]
                 ], 422); 
     }
     else
     {
       
-      $result=$jenis->delete();
+      $result = $jenis->delete();
 
       return Response()->json([
-                  'status'=>1,
-                  'pid'=>'destroy',                
+                  'status' => 1,
+                  'pid' => 'destroy',                
                   'message'=>"Data Rekening Jenis dengan ID ($id) berhasil dihapus"
                 ], 200);
     }

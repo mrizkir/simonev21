@@ -23,7 +23,7 @@ class RPJMDStrategiController extends Controller
     $this->hasPermissionTo('RPJMD-STRATEGI_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID'=>'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -42,7 +42,7 @@ class RPJMDStrategiController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -52,7 +52,7 @@ class RPJMDStrategiController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -99,10 +99,10 @@ class RPJMDStrategiController extends Controller
     $this->hasPermissionTo('RPJMD-STRATEGI_STORE');
 
     $this->validate($request, [      
-      'RpjmdSasaranID'=>'required|exists:tmRpjmdSasaran,RpjmdSasaranID',      
-      'Kd_RpjmdStrategi'=>'required',      
-      'Nm_RpjmdStrategi'=>'required',      
-      'Nm_RpjmdArahKebijakan'=>'required',      
+      'RpjmdSasaranID' => 'required|exists:tmRpjmdSasaran,RpjmdSasaranID',      
+      'Kd_RpjmdStrategi' => 'required',      
+      'Nm_RpjmdStrategi' => 'required',      
+      'Nm_RpjmdArahKebijakan' => 'required',      
     ]);         
 
     $strategi = RPJMDSasaranModel::find($request->input('RpjmdSasaranID'));
@@ -171,7 +171,7 @@ class RPJMDStrategiController extends Controller
       if($request->filled('offset'))
       {
         $this->validate($request, [              
-          'offset'=>'required|numeric',      
+          'offset' => 'required|numeric',      
         ]);
 
         $offset = $request->input('offset');
@@ -181,7 +181,7 @@ class RPJMDStrategiController extends Controller
       if($request->filled('limit'))
       {
         $this->validate($request, [              
-          'limit'=>'required|numeric|gt:0',   
+          'limit' => 'required|numeric|gt:0',   
         ]);
 
         $limit = $request->input('limit');
@@ -242,9 +242,9 @@ class RPJMDStrategiController extends Controller
     else
     {
       $this->validate($request, [              
-        'Kd_RpjmdStrategi'=>'required',      
-        'Nm_RpjmdStrategi'=>'required',      
-        'Nm_RpjmdArahKebijakan'=>'required',      
+        'Kd_RpjmdStrategi' => 'required',      
+        'Nm_RpjmdStrategi' => 'required',      
+        'Nm_RpjmdArahKebijakan' => 'required',      
       ]);         
 
       $strategi->Kd_RpjmdStrategi = $request->input('Kd_RpjmdStrategi');

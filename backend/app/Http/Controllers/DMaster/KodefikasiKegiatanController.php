@@ -23,7 +23,7 @@ class KodefikasiKegiatanController extends Controller {
       $this->hasPermissionTo('DMASTER-KODEFIKASI-KEGIATAN_BROWSE');
 
       $this->validate($request, [        
-          'TA'=>'required'
+          'TA' => 'required'
       ]);    
       $ta = $request->input('TA');
       $kodefikasikegiatan=KodefikasiKegiatanModel::select(\DB::raw("
@@ -68,14 +68,14 @@ class KodefikasiKegiatanController extends Controller {
       ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
       ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
       ->orderBy('kode_kegiatan','ASC')                                    
-      ->where('tmKegiatan.TA',$ta)
+      ->where('tmKegiatan.TA', $ta)
       ->get();
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'kodefikasikegiatan'=>$kodefikasikegiatan,
-      'message'=>'Fetch data kodefikasi urusan berhasil.'
+      'message' => 'Fetch data kodefikasi urusan berhasil.'
     ], 200);
   }
   /**
@@ -87,8 +87,8 @@ class KodefikasiKegiatanController extends Controller {
 	public function salin(Request $request)
 	{       
 		$this->validate($request, [            
-			'tahun_asal'=>'required|numeric',
-			'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+			'tahun_asal' => 'required|numeric',
+			'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
 		]);
 
 		$tahun_asal = $request->input('tahun_asal');
@@ -133,8 +133,8 @@ class KodefikasiKegiatanController extends Controller {
 		\DB::statement($str_insert); 
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'store',            
+			'status' => 1,
+			'pid' => 'store',            
 			'message'=>"Salin bidang urusan dari tahun anggaran $tahun_asal berhasil."
 		], 200);
 	}
@@ -151,14 +151,14 @@ class KodefikasiKegiatanController extends Controller {
     $this->validate($request, [
       'Kd_Kegiatan'=> [
         Rule::unique('tmKegiatan')->where(function($query) use ($request) {
-          return $query->where('PrgID',$request->input('PrgID'))
-          ->where('TA',$request->input('TA'));
+          return $query->where('PrgID', $request->input('PrgID'))
+          ->where('TA', $request->input('TA'));
         }),
         'required',
         'regex:/^[0-9]*\.?[0-9]*$/'
       ],
-      'Nm_Kegiatan'=>'required',
-      'TA'=>'required'
+      'Nm_Kegiatan' => 'required',
+      'TA' => 'required'
     ]);     
           
     $ta = $request->input('TA');
@@ -184,7 +184,7 @@ class KodefikasiKegiatanController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'store',                
+        'pid' => 'store',                
         'message'=>["Data Kodefikasi Kegiatan gagal ditambah karena program ini terkunci / tidak aktif"]
       ], 422);
     } 
@@ -210,10 +210,10 @@ class KodefikasiKegiatanController extends Controller {
           ]);
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'store',
+        'status' => 1,
+        'pid' => 'store',
         'kodefikasikegiatan'=>$kodefikasikegiatan,                                    
-        'message'=>'Data Kodefikasi Kegiatan berhasil disimpan.'
+        'message' => 'Data Kodefikasi Kegiatan berhasil disimpan.'
       ], 200); 
     }    
   }              
@@ -234,7 +234,7 @@ class KodefikasiKegiatanController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'update',                
+        'pid' => 'update',                
         'message'=>["Data Kodefikasi Kegiatan ($id) gagal diupdate"]
       ], 422); 
     }
@@ -243,22 +243,22 @@ class KodefikasiKegiatanController extends Controller {
       $this->validate($request, [    
         'Kd_Kegiatan'=>[
           Rule::unique('tmKegiatan')->where(function($query) use ($request,$kodefikasikegiatan) {  
-            if ($request->input('Kd_Kegiatan')==$kodefikasikegiatan->Kd_Kegiatan) 
+            if ($request->input('Kd_Kegiatan')= = $kodefikasikegiatan->Kd_Kegiatan) 
             {
               return $query->where('Kd_Kegiatan','ignore')
-              ->where('TA',$kodefikasikegiatan->TA);
+              ->where('TA', $kodefikasikegiatan->TA);
             }                 
             else
             {
-              return $query->where('Kd_Kegiatan',$request->input('Kd_Kegiatan'))
-              ->where('PrgID',$kodefikasikegiatan->PrgID)
-              ->where('TA',$kodefikasikegiatan->TA);
+              return $query->where('Kd_Kegiatan', $request->input('Kd_Kegiatan'))
+              ->where('PrgID', $kodefikasikegiatan->PrgID)
+              ->where('TA', $kodefikasikegiatan->TA);
             }                                                                                    
           }),
           'required',
           'regex:/^[0-9]*\.?[0-9]*$/'
         ],
-        'Nm_Kegiatan'=>'required',
+        'Nm_Kegiatan' => 'required',
       ]);
       $PrgID = $request->input('PrgID');
       $program = KodefikasiProgramModel::select(\DB::raw("                                      
@@ -280,7 +280,7 @@ class KodefikasiKegiatanController extends Controller {
       {
         return Response()->json([
           'status'=>0,
-          'pid'=>'store',                
+          'pid' => 'store',                
           'message'=>["Data Kodefikasi Kegiatan gagal ditambah karena program ini terkunci / tidak aktif"]
         ], 422);
       } 
@@ -312,10 +312,10 @@ class KodefikasiKegiatanController extends Controller {
         });
 
         return Response()->json([
-          'status'=>1,
-          'pid'=>'update',
+          'status' => 1,
+          'pid' => 'update',
           'kodefikasikegiatan'=>$kodefikasikegiatan,                                    
-          'message'=>'Data Kodefikasi Kegiatan '.$kodefikasikegiatan->Nm_Kegiatan.' berhasil diubah.'
+          'message' => 'Data Kodefikasi Kegiatan '.$kodefikasikegiatan->Nm_Kegiatan.' berhasil diubah.'
         ], 200);
       }
     }        
@@ -328,7 +328,7 @@ class KodefikasiKegiatanController extends Controller {
         $this->hasPermissionTo('DMASTER-KODEFIKASI-SUB-KEGIATAN_BROWSE');
 
         $this->validate($request, [            
-            'SOrgID'=>'required|exists:tmSOrg,SOrgID',            
+            'SOrgID' => 'required|exists:tmSOrg,SOrgID',            
         ]);   
         $SOrgID = $request->input('SOrgID');
 
@@ -352,11 +352,11 @@ class KodefikasiKegiatanController extends Controller {
         ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
         ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
         ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
-        ->where('tmSubKegiatan.KgtID',$id)
+        ->where('tmSubKegiatan.KgtID', $id)
         ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID) {
             $query->select('kode_sub_kegiatan')
                 ->from('trRKA')
-                ->where('SOrgID',$SOrgID);
+                ->where('SOrgID', $SOrgID);
         })
         ->orderBy('tmSubKegiatan.Kd_SubKegiatan','ASC')                                    
         ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
@@ -366,8 +366,8 @@ class KodefikasiKegiatanController extends Controller {
         ->get();
 
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'fetchdata',
+                                    'status' => 1,
+                                    'pid' => 'fetchdata',
                                     'subkegiatanrka'=>$kodefikasisubkegiatan,
                                     'message'=>"Fetch data sub kegiatan dari kegiatan $id berhasil."
                                 ], 200);   
@@ -412,7 +412,7 @@ class KodefikasiKegiatanController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',                
+        'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Kegiatan ($id) gagal dihapus"]
       ], 422); 
     }
@@ -420,17 +420,17 @@ class KodefikasiKegiatanController extends Controller {
     {
       return Response()->json([
         'status'=>0,
-        'pid'=>'destroy',                
+        'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Kegiatan ($id) gagal dihapus karena status terkunci / tidak aktif"]
       ], 422); 
     }
     else
     {          
-      $result=$kodefikasikegiatan->delete();
+      $result = $kodefikasikegiatan->delete();
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'destroy',                
+        'status' => 1,
+        'pid' => 'destroy',                
         'message'=>"Data Kodefikasi Kegiatan dengan ID ($id) berhasil dihapus"
       ], 200);
     }

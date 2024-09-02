@@ -21,7 +21,7 @@ class KodefikasiUrusanController extends Controller {
         $this->hasPermissionTo('DMASTER-KODEFIKASI-URUSAN_BROWSE');
 
         $this->validate($request, [        
-            'TA'=>'required'
+            'TA' => 'required'
         ]);    
         $ta = $request->input('TA');
         $kodefikasiurusan=KodefikasiUrusanModel::select(\DB::raw('
@@ -35,14 +35,14 @@ class KodefikasiUrusanController extends Controller {
             updated_at
         '))
         ->orderBy('Kd_Urusan','ASC')                                    
-        ->where('TA',$ta)
+        ->where('TA', $ta)
         ->get();
         
         return Response()->json([
-            'status'=>1,
-            'pid'=>'fetchdata',
+            'status' => 1,
+            'pid' => 'fetchdata',
             'kodefikasiurusan'=>$kodefikasiurusan,
-            'message'=>'Fetch data kodefikasi urusan berhasil.'
+            'message' => 'Fetch data kodefikasi urusan berhasil.'
         ], 200);
     }
     /**
@@ -54,8 +54,8 @@ class KodefikasiUrusanController extends Controller {
     public function salin(Request $request)
     {       
         $this->validate($request, [            
-            'tahun_asal'=>'required|numeric',
-            'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+            'tahun_asal' => 'required|numeric',
+            'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
         ]);
 
         $tahun_asal = $request->input('tahun_asal');
@@ -90,8 +90,8 @@ class KodefikasiUrusanController extends Controller {
         \DB::statement($str_insert); 
 
         return Response()->json([
-            'status'=>1,
-            'pid'=>'store',            
+            'status' => 1,
+            'pid' => 'store',            
             'message'=>"Salin urusan dari tahun anggaran $tahun_asal berhasil."
         ], 200);
     }
@@ -108,12 +108,12 @@ class KodefikasiUrusanController extends Controller {
         $this->validate($request, [
             'Kd_Urusan'=> [
                         Rule::unique('tmUrusan')->where(function($query) use ($request) {
-                            return $query->where('TA',$request->input('TA'));
+                            return $query->where('TA', $request->input('TA'));
                         }),
                         'required',
                         'regex:/^[0-9]+$/'],
-            'Nm_Urusan'=>'required',
-            'TA'=>'required'
+            'Nm_Urusan' => 'required',
+            'TA' => 'required'
         ]);     
             
         $ta = $request->input('TA');
@@ -127,10 +127,10 @@ class KodefikasiUrusanController extends Controller {
         ]);
 
         return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'store',
+                                    'status' => 1,
+                                    'pid' => 'store',
                                     'kodefikasiurusan'=>$kodefikasiurusan,                                    
-                                    'message'=>'Data Kodefikasi Urusan berhasil disimpan.'
+                                    'message' => 'Data Kodefikasi Urusan berhasil disimpan.'
                                 ], 200); 
     }               
     
@@ -150,7 +150,7 @@ class KodefikasiUrusanController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'update',                
+                                    'pid' => 'update',                
                                     'message'=>["Data Kodefikasi Urusan ($id) gagal diupdate"]
                                 ], 422); 
         }
@@ -159,21 +159,21 @@ class KodefikasiUrusanController extends Controller {
             $this->validate($request, [    
                                         'Kd_Urusan'=>[
                                                     Rule::unique('tmUrusan')->where(function($query) use ($request,$kodefikasiurusan) {  
-                                                        if ($request->input('Kd_Urusan')==$kodefikasiurusan->Kd_Urusan) 
+                                                        if ($request->input('Kd_Urusan')= = $kodefikasiurusan->Kd_Urusan) 
                                                         {
                                                             return $query->where('Kd_Urusan','ignore')
-                                                                        ->where('TA',$kodefikasiurusan->TA);
+                                                                        ->where('TA', $kodefikasiurusan->TA);
                                                         }                 
                                                         else
                                                         {
-                                                            return $query->where('Kd_Urusan',$request->input('Kd_Urusan'))
-                                                                    ->where('TA',$kodefikasiurusan->TA);
+                                                            return $query->where('Kd_Urusan', $request->input('Kd_Urusan'))
+                                                                    ->where('TA', $kodefikasiurusan->TA);
                                                         }                                                                                    
                                                     }),
                                                     'required',
                                                     'regex:/^[0-9]+$/'
                                                 ],
-                                        'Nm_Urusan'=>'required',
+                                        'Nm_Urusan' => 'required',
                                     ]);
             
             
@@ -183,10 +183,10 @@ class KodefikasiUrusanController extends Controller {
             $kodefikasiurusan->save();
 
             return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'update',
+                                    'status' => 1,
+                                    'pid' => 'update',
                                     'kodefikasiurusan'=>$kodefikasiurusan,                                    
-                                    'message'=>'Data Kodefikasi Urusan '.$kodefikasiurusan->Nm_Urusan.' berhasil diubah.'
+                                    'message' => 'Data Kodefikasi Urusan '.$kodefikasiurusan->Nm_Urusan.' berhasil diubah.'
                                 ], 200);
         }
         
@@ -207,18 +207,18 @@ class KodefikasiUrusanController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'destroy',                
+                                    'pid' => 'destroy',                
                                     'message'=>["Data Kodefikasi Urusan ($id) gagal dihapus"]
                                 ], 422); 
         }
         else
         {
             
-            $result=$kodefikasiurusan->delete();
+            $result = $kodefikasiurusan->delete();
 
             return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'destroy',                
+                                    'status' => 1,
+                                    'pid' => 'destroy',                
                                     'message'=>"Data Kodefikasi Urusan dengan ID ($id) berhasil dihapus"
                                 ], 200);
         }

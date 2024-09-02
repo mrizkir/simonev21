@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\RPJMD;
 
 use App\Http\Controllers\Controller;
-use App\Models\RPJMD\RPJMDPeriodeModel;
 use App\Models\RPJMD\RPJMDRelasiIndikatorModel;
 use Illuminate\Http\Request;
 
@@ -31,16 +30,16 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     $Operasi = $request->input('Operasi');
     
     $rules = [      
-      'IndikatorKinerjaID'=>'required|exists:tmRPJMDIndikatorKinerja,IndikatorKinerjaID',      
-      'RpjmdCascadingID'=>'required|exists:tmRpjmdTujuan,RpjmdTujuanID',      
-      'data_1'=>'required|numeric',      
-      'data_2'=>'required|numeric',      
-      'data_3'=>'required|numeric',      
-      'data_4'=>'required|numeric',      
-      'data_5'=>'required|numeric',      
-      'data_6'=>'required|numeric',      
-      'data_7'=>'required|numeric',      
-      'data_8'=>'required|numeric',
+      'IndikatorKinerjaID' => 'required|exists:tmRPJMDIndikatorKinerja,IndikatorKinerjaID',      
+      'RpjmdCascadingID' => 'required|exists:tmRpjmdTujuan,RpjmdTujuanID',      
+      'data_1' => 'required|numeric',      
+      'data_2' => 'required|numeric',      
+      'data_3' => 'required|numeric',      
+      'data_4' => 'required|numeric',      
+      'data_5' => 'required|numeric',      
+      'data_6' => 'required|numeric',      
+      'data_7' => 'required|numeric',      
+      'data_8' => 'required|numeric',
     ];
 
     if($Operasi == 'RANGE')
@@ -53,7 +52,7 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
       $rules['data_14'] = 'required|numeric';
       $rules['data_15'] = 'required|numeric';
 
-      $this->validate($request, $rules); 
+      $this->validate($request, $rules);
 
       $indikatortujuan = RPJMDRelasiIndikatorModel::create([
         'RpjmdRelasiIndikatorID' => Uuid::uuid4()->toString(),
@@ -117,10 +116,10 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     }
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
+      'status' => 1,
+      'pid' => 'store',
       'payload'=>$indikatortujuan,                                    
-      'message'=>'Data Indikator Tujuan berhasil disimpan.'
+      'message' => 'Data Indikator Tujuan berhasil disimpan.'
     ], 200);
   }
   public function update(Request $request, $id)
@@ -147,14 +146,14 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
       
       
       $rules = [
-        'data_1'=>'required|numeric',      
-        'data_2'=>'required|numeric',      
-        'data_3'=>'required|numeric',      
-        'data_4'=>'required|numeric',      
-        'data_5'=>'required|numeric',      
-        'data_6'=>'required|numeric',      
-        'data_7'=>'required|numeric',      
-        'data_8'=>'required|numeric',
+        'data_1' => 'required|numeric',      
+        'data_2' => 'required|numeric',      
+        'data_3' => 'required|numeric',      
+        'data_4' => 'required|numeric',      
+        'data_5' => 'required|numeric',      
+        'data_6' => 'required|numeric',      
+        'data_7' => 'required|numeric',      
+        'data_8' => 'required|numeric',
       ];
 
       if($Operasi == 'RANGE')

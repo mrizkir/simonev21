@@ -24,7 +24,7 @@ class RPJMDPeriodeController extends Controller
     if($request->filled('offset'))
     {
       $this->validate($request, [              
-        'offset'=>'required|numeric',      
+        'offset' => 'required|numeric',      
       ]);
 
       $offset = $request->input('offset');
@@ -34,7 +34,7 @@ class RPJMDPeriodeController extends Controller
     if($request->filled('limit'))
     {
       $this->validate($request, [              
-        'limit'=>'required|numeric|gt:0',   
+        'limit' => 'required|numeric|gt:0',   
       ]);
 
       $limit = $request->input('limit');
@@ -75,9 +75,9 @@ class RPJMDPeriodeController extends Controller
     $this->hasPermissionTo('DMASTER-TA_STORE');
 
     $this->validate($request, [      
-      'NamaPeriode'=>'required',      
-      'TA_AWAL'=>'required|digits:4|integer|min:2015',
-      'TA_AKHIR'=>'required|digits:4|integer|gt:TA_AWAL',
+      'NamaPeriode' => 'required',      
+      'TA_AWAL' => 'required|digits:4|integer|min:2015',
+      'TA_AKHIR' => 'required|digits:4|integer|gt:TA_AWAL',
     ]);
     
 
@@ -89,10 +89,10 @@ class RPJMDPeriodeController extends Controller
     ]);  
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
+      'status' => 1,
+      'pid' => 'store',
       'payload'=>$periode,                                    
-      'message'=>'Data Periode RPJMD berhasil disimpan.'
+      'message' => 'Data Periode RPJMD berhasil disimpan.'
     ], 200); 		
   }
   /**
@@ -119,9 +119,9 @@ class RPJMDPeriodeController extends Controller
     {
     
       $this->validate($request, [      
-        'NamaPeriode'=>'required',
-        'TA_AWAL'=>'required|digits:4|integer|min:2015',
-        'TA_AKHIR'=>'required|digits:4|integer|gt:TA_AWAL',
+        'NamaPeriode' => 'required',
+        'TA_AWAL' => 'required|digits:4|integer|min:2015',
+        'TA_AKHIR' => 'required|digits:4|integer|gt:TA_AWAL',
       ]);
       
       $periode->NamaPeriode = $request->input('NamaPeriode');

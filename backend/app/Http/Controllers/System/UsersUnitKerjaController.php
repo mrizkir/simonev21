@@ -23,7 +23,7 @@ class UsersUnitKerjaController extends Controller {
 		$this->hasPermissionTo('SYSTEM-USERS-UNIT-KERJA_BROWSE');
 		
 		$this->validate($request, [        
-			'TA'=>'required'
+			'TA' => 'required'
 		]);    
 		$ta = $request->input('TA');
 
@@ -33,7 +33,7 @@ class UsersUnitKerjaController extends Controller {
 				`SOrgID`									
 			'))
 			->where('ta', $ta)
-			->where('user_id',$this->getUserid())
+			->where('user_id', $this->getUserid())
 			->where('locked', 0)
 			->get()
 			->pluck('SOrgID');
@@ -44,7 +44,7 @@ class UsersUnitKerjaController extends Controller {
 					"" AS unitkerja
 				'))
 				->join('usersunitkerja', 'usersunitkerja.user_id', 'users.id')
-				->whereIn('SOrgID',$daftar_unitkerja)
+				->whereIn('SOrgID', $daftar_unitkerja)
 				->orderBy('username','ASC')
 				->get(); 
 
@@ -71,7 +71,7 @@ class UsersUnitKerjaController extends Controller {
 				locked
 			'))
 			->where('ta', $ta)
-			->where('user_id',$item->id)
+			->where('user_id', $item->id)
 			->get();
 							
 			$item->unitkerja = $daftar_unitkerja;
@@ -79,11 +79,11 @@ class UsersUnitKerjaController extends Controller {
 		});
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',
+			'status' => 1,
+			'pid' => 'fetchdata',
 			'role'=>$role,
 			'users'=>$data,
-			'message'=>'Fetch data users UNIT KERJA berhasil diperoleh'
+			'message' => 'Fetch data users UNIT KERJA berhasil diperoleh'
 		], 200);  
 	}    
 	/**
@@ -97,14 +97,14 @@ class UsersUnitKerjaController extends Controller {
 		$this->hasPermissionTo('SYSTEM-USERS-UNIT-KERJA_STORE');
 
 		$this->validate($request, [
-			'name'=>'required',
-			'email'=>'required|string|email|unique:users',
-			'ta'=>'required',
-			'nomor_hp'=>'required|string|unique:users',
-			'username'=>'required|string|unique:users',
-			'password'=>'required',            
-			'org_id'=>'required',
-			'sorg_id'=>'required',
+			'name' => 'required',
+			'email' => 'required|string|email|unique:users',
+			'ta' => 'required',
+			'nomor_hp' => 'required|string|unique:users',
+			'username' => 'required|string|unique:users',
+			'password' => 'required',            
+			'org_id' => 'required',
+			'sorg_id' => 'required',
 		]);
 		$daftar_unitkerja=json_decode($request->input('sorg_id'), true);
 		if (count($daftar_unitkerja) > 0)
@@ -119,8 +119,8 @@ class UsersUnitKerjaController extends Controller {
 					'nomor_hp'=>$request->input('nomor_hp'),
 					'username'=> $request->input('username'),
 					'password'=>Hash::make($request->input('password')),                        
-					'theme'=>'default',
-					'default_role'=>'unitkerja',            
+					'theme' => 'default',
+					'default_role' => 'unitkerja',            
 					'foto'=> 'storages/images/users/no_photo.png',
 					'created_at'=>$now, 
 					'updated_at'=>$now
@@ -129,10 +129,10 @@ class UsersUnitKerjaController extends Controller {
 				$user->assignRole($role);               
 				
 				$permission=Role::findByName('unitkerja')->permissions;
-				$permissions=$permission->pluck('name');
+				$permissions = $permission->pluck('name');
 				$user->givePermissionTo($permissions);
 
-				$user_id=$user->id;
+				$user_id = $user->id;
 				$org_id = $request->input('org_id');
 				$daftar_unitkerja=json_decode($request->input('sorg_id'), true);
 				$organisasi = OrganisasiModel::find($org_id);
@@ -195,18 +195,18 @@ class UsersUnitKerjaController extends Controller {
 			});
 
 			return Response()->json([
-				'status'=>1,
-				'pid'=>'store',
+				'status' => 1,
+				'pid' => 'store',
 				'user'=>$user,                                    
-				'message'=>'Data user UNIT KERJA berhasil disimpan.'
+				'message' => 'Data user UNIT KERJA berhasil disimpan.'
 			], 200); 
 		}
 		else
 		{
 			return Response()->json([
         'status'=>0,
-        'pid'=>'store',                                           
-        'message'=>'Data user UNIT KERJA gagal disimpan karena Jumlah Unit Kerja 0.'
+        'pid' => 'store',                                           
+        'message' => 'Data user UNIT KERJA gagal disimpan karena Jumlah Unit Kerja 0.'
       ], 422);
 		}
 	}
@@ -221,8 +221,8 @@ class UsersUnitKerjaController extends Controller {
     $this->hasPermissionTo('SYSTEM-USERS-UNIT-KERJA_STORE');
     
     $this->validate($request, [            
-      'tahun_asal'=>'required|numeric',
-      'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+      'tahun_asal' => 'required|numeric',
+      'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
     ]);
 
     $tahun_asal = $request->input('tahun_asal');
@@ -233,7 +233,7 @@ class UsersUnitKerjaController extends Controller {
       $tahun_dif = $tahun_tujuan - 1;
       return Response()->json([
         'status'=>0,
-        'pid'=>'store',
+        'pid' => 'store',
         'message'=>"Salin relasi user ke UNIT KERJA dari tahun anggaran $tahun_asal gagal. Harus dari tahun $tahun_dif."
       ], 422);
     }
@@ -288,8 +288,8 @@ class UsersUnitKerjaController extends Controller {
       \DB::commit();
 
       return Response()->json([
-        'status'=>1,
-        'pid'=>'store',            
+        'status' => 1,
+        'pid' => 'store',            
         'message'=>"Salin relasi user ke UNIT KERJA dari tahun anggaran $tahun_asal berhasil."
       ], 200);
     }
@@ -306,18 +306,18 @@ class UsersUnitKerjaController extends Controller {
 		{
 			return Response()->json([
 				'status'=>0,
-				'pid'=>'update',                
+				'pid' => 'update',                
 				'message'=>["User ID ($id) gagal diperoleh"]
 			], 422); 
 		}
 		else
 		{
 			return Response()->json([
-				'status'=>1,
-				'pid'=>'fetchdata',
+				'status' => 1,
+				'pid' => 'fetchdata',
 				'user'=>$user,  
 				'role_unitkerja'=>$user->hasRole('unitkerja'),    
-				'message'=>'Data user '.$user->username.' berhasil diperoleh.'
+				'message' => 'Data user '.$user->username.' berhasil diperoleh.'
 			], 200); 
 		}
 
@@ -338,7 +338,7 @@ class UsersUnitKerjaController extends Controller {
 		{
 			return Response()->json([
 				'status'=>0,
-				'pid'=>'update',                
+				'pid' => 'update',                
 				'message'=>["User ID ($id) gagal diupdate"]
 			], 422); 
 		}
@@ -349,10 +349,10 @@ class UsersUnitKerjaController extends Controller {
 								'required',
 								'unique:users,username,'.$user->id
 							],           
-				'name'=>'required',            
-				'email'=>'required|string|email|unique:users,email,'.$user->id,
-				'nomor_hp'=>'required|string|unique:users,nomor_hp,'.$user->id,   
-				'org_id'=>'required',           
+				'name' => 'required',            
+				'email' => 'required|string|email|unique:users,email,'.$user->id,
+				'nomor_hp' => 'required|string|unique:users,nomor_hp,'.$user->id,   
+				'org_id' => 'required',           
 			]); 
 
 			$daftar_unitkerja=json_decode($request->input('sorg_id'), true);
@@ -369,9 +369,9 @@ class UsersUnitKerjaController extends Controller {
 					$user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
 					$user->save();
 
-					$user_id=$user->id;
+					$user_id = $user->id;
 					$org_id = $request->input('org_id');
-					\DB::table('usersunitkerja')->where('user_id',$user_id)->delete();
+					\DB::table('usersunitkerja')->where('user_id', $user_id)->delete();
 					$daftar_unitkerja=json_decode($request->input('sorg_id'),true);
 					$organisasi = OrganisasiModel::find($org_id);
 					foreach($daftar_unitkerja as $v)
@@ -432,18 +432,18 @@ class UsersUnitKerjaController extends Controller {
 				});
 
 				return Response()->json([
-					'status'=>1,
-					'pid'=>'update',
+					'status' => 1,
+					'pid' => 'update',
 					'user'=>$user,      
-					'message'=>'Data user UNIT KERJA '.$user->username.' berhasil diubah.'
+					'message' => 'Data user UNIT KERJA '.$user->username.' berhasil diubah.'
 				], 200); 
 			}
 			else
 			{
 				return Response()->json([
 					'status'=>0,
-					'pid'=>'store',                                           
-					'message'=>'Data user UNIT KERJA gagal disimpan karena Jumlah Unit Kerja 0.'
+					'pid' => 'store',                                           
+					'message' => 'Data user UNIT KERJA gagal disimpan karena Jumlah Unit Kerja 0.'
 				], 422);
 			}
 		}
@@ -465,13 +465,13 @@ class UsersUnitKerjaController extends Controller {
 		{
 			return Response()->json([
 				'status'=>0,
-				'pid'=>'destroy',                
+				'pid' => 'destroy',                
 				'message'=>["User ID ($id) gagal dihapus"]
 			], 422); 
 		}
 		else
 		{
-			$username=$user->username;
+			$username = $user->username;
 			$user->delete();
 
 			\App\Models\System\ActivityLog::log($request,[
@@ -482,8 +482,8 @@ class UsersUnitKerjaController extends Controller {
 			]);
 		
 			return Response()->json([
-				'status'=>1,
-				'pid'=>'destroy',                
+				'status' => 1,
+				'pid' => 'destroy',                
 				'message'=>"User UNIT KERJA ($username) berhasil dihapus"
 			], 200);         
 		}

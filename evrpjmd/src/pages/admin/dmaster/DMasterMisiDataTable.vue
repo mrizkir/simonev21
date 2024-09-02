@@ -158,7 +158,7 @@
     props: {
       RpjmdVisiID: {
         type: String,
-        RpjmdVisiID: null,
+        default: null,
       },
     },
     data: () => ({

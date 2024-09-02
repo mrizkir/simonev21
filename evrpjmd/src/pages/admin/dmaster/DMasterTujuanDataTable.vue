@@ -160,7 +160,7 @@
     props: {
       RpjmdMisiID: {
         type: String,
-        RpjmdMisiID: null,
+        default: null,
       },
     },
     data: () => ({

@@ -21,24 +21,24 @@ class ProvinsiController extends Controller {
                                 ->get();
                                 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',
+                                'status' => 1,
+                                'pid' => 'fetchdata',
                                 'provinsi'=>$data,
-                                'message'=>'Fetch data provinsi berhasil diperoleh'
+                                'message' => 'Fetch data provinsi berhasil diperoleh'
                             ], 200);  
     }
     public function kabupaten (Request $request,$id)
     {
         
-        $kota = KabupatenModel::where('provinsi_id',$id)
+        $kota = KabupatenModel::where('provinsi_id', $id)
                             ->orderBy('nama', 'asc')
                             ->get();
 
         return Response()->json([
-                                'status'=>1,
-                                'pid'=>'fetchdata',                                
+                                'status' => 1,
+                                'pid' => 'fetchdata',                                
                                 'kota'=>$kota,
-                                'message'=>'Fetch data kabupaten/kota dari provinsi berhasil diperoleh'
+                                'message' => 'Fetch data kabupaten/kota dari provinsi berhasil diperoleh'
                             ], 200);  
 
     }

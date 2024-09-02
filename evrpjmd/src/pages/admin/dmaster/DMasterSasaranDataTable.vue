@@ -160,7 +160,7 @@
     props: {
       RpjmdTujuanID: {
         type: String,
-        RpjmdTujuanID: null,
+        default: null,
       },
     },
     data: () => ({

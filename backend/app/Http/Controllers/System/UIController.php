@@ -17,10 +17,10 @@ class UIController extends Controller {
 	public function frontend()
 	{
 		$config = ConfigurationModel::getCache();        
-		$identitas['nama_app']=$config['NAMA_APP'];
-		$identitas['nama_app_alias']=$config['NAMA_APP_ALIAS'];
-		$identitas['nama_opd']=$config['NAMA_OPD'];
-		$identitas['nama_opd_alias']=$config['NAMA_OPD_ALIAS'];       		      
+		$identitas['nama_app'] = $config['NAMA_APP'];
+		$identitas['nama_app_alias'] = $config['NAMA_APP_ALIAS'];
+		$identitas['nama_opd'] = $config['NAMA_OPD'];
+		$identitas['nama_opd_alias'] = $config['NAMA_OPD_ALIAS'];       		      
 
 		$theme=[
 			'V-SYSTEM-BAR-CSS-CLASS'=>$config['V-SYSTEM-BAR-CSS-CLASS'],
@@ -47,8 +47,8 @@ class UIController extends Controller {
 		}
 		$tahun_anggaran = $config['DEFAULT_TA'];
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',                                    
+			'status' => 1,
+			'pid' => 'fetchdata',                                    
 			'tahun_anggaran'=>$tahun_anggaran,
 			'bulan_realisasi'=>$tahun_anggaran < date('Y') ? 12 : date('m'),
 			'identitas'=>$identitas,       
@@ -56,7 +56,7 @@ class UIController extends Controller {
 			'daftar_bulan'=>$daftar_bulan,                             
 			'masa_pelaporan'=>$config['DEFAULT_MASA_PELAPORAN'],                         
 			'theme'=>$theme,
-			'message'=>'Fetch data ui untuk front berhasil diperoleh'
+			'message' => 'Fetch data ui untuk front berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 	/**
@@ -65,16 +65,16 @@ class UIController extends Controller {
 	public function admin(Request $request)
 	{
 		$this->validate($request, [            
-      'tahun'=>'required',      
+      'tahun' => 'required',      
     ]);
 
 		$tahun = $request->input('tahun');
 
 		return Response()->json([
-			'status'=>1,
-			'pid'=>'fetchdata',
+			'status' => 1,
+			'pid' => 'fetchdata',
 			'masa_pelaporan' => HelperKegiatan::getMasaPelaporan($tahun),
-			'message'=>'Fetch data ui untuk admin berhasil diperoleh'
+			'message' => 'Fetch data ui untuk admin berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
 }

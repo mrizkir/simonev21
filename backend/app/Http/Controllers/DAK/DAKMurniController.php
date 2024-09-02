@@ -13,12 +13,12 @@ class DAKMurniController extends Controller
   public function index(Request $request)
   {
     $this->validate($request, [            
-      'ta'=>'required',
-      'bulan_realisasi'=>'required'            
+      'ta' => 'required',
+      'bulan_realisasi' => 'required'            
     ]);
     
-    $tahun=$request->input('ta');
-    $bulan_realisasi=$request->input('bulan_realisasi');
+    $tahun = $request->input('ta');
+    $bulan_realisasi = $request->input('bulan_realisasi');
     
     $daftar_sumber_dana = \DB::table('tmSumberDana')
     ->select(\DB::raw('
@@ -41,19 +41,19 @@ class DAKMurniController extends Controller
       $data_target=\DB::table('trRKATargetRinc AS A')
         ->select(\DB::raw('COALESCE(SUM(A.target1),0) AS totaltarget, COALESCE(SUM(A.fisik1),0) AS jumlah_fisik'))
         ->join('trRKARinc AS B', 'A.RKARincID', 'B.RKARincID')
-        ->where('B.SumberDanaID',$item->SumberDanaID)        
+        ->where('B.SumberDanaID', $item->SumberDanaID)        
         ->get();
 
       $data_realisasi=\DB::table('trRKARealisasiRinc AS A')
         ->select(\DB::raw('COALESCE(SUM(A.realisasi1),0) AS realisasi1, COALESCE(SUM(A.fisik1),0) AS fisik1'))
         ->join('trRKARinc AS B', 'A.RKARincID', 'B.RKARincID')
-        ->where('B.SumberDanaID',$item->SumberDanaID)        
+        ->where('B.SumberDanaID', $item->SumberDanaID)        
         ->get();
 
       $item->target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);
       $item->realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-      $totalTargetKeuangan=$data_target[0]->totaltarget;
-      $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
+      $totalTargetKeuangan = $data_target[0]->totaltarget;
+      $totalRealisasiKeuangan = $data_realisasi[0]->realisasi1;
 
       $item->persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan, $PaguUraian1);
       $item->persen_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$PaguUraian1); 
@@ -61,19 +61,19 @@ class DAKMurniController extends Controller
       return $item;
     });
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'daftar_sumber_dana' => $daftar_sumber_dana,
-      'message'=>'Fetch data ringkasan perubahan berhasil diperoleh'
+      'message' => 'Fetch data ringkasan perubahan berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   public function reloadstatistik1(Request $request)
   {
     $this->validate($request, [            
-      'ta'=>'required',          
+      'ta' => 'required',          
     ]);
     
-    $tahun=$request->input('ta');        
+    $tahun = $request->input('ta');        
     $statistik1=[
           'PaguDana1'=>0,             
           'JumlahProgram1'=>0,             
@@ -92,12 +92,12 @@ class DAKMurniController extends Controller
               SUM(`PaguUraian1`) AS PaguDana1 
             FROM
               `trRKARinc` 
-            WHERE `TA`=$tahun 
+            WHERE `TA` = $tahun 
             AND `EntryLvl`=11
           ) AS level1
         SET 
           statistik1.`PaguDana1`=level1.PaguDana1 
-        WHERE statistik1.`statistikID`=$tahun
+        WHERE statistik1.`statistikID` = $tahun
       ";
       \DB::statement($str_jumlah_pagudana); 
 
@@ -173,10 +173,10 @@ class DAKMurniController extends Controller
 
       \DB::statement($str_jumlah_sub_kegiatan1);             
       
-      $jumlahuraian = \DB::table('trRKARinc')->where('TA',$tahun)->count();
+      $jumlahuraian = \DB::table('trRKARinc')->where('TA', $tahun)->count();
 
       $totalfisik=\DB::table('trRKARealisasiRinc')                                   
-                  ->where('TA',$tahun)                                    
+                  ->where('TA', $tahun)                                    
                   ->sum('fisik1');
       
       $persen_realisasi_fisik=Helper::formatPecahan($totalfisik,$jumlahuraian);
@@ -189,13 +189,13 @@ class DAKMurniController extends Controller
               SUM(`realisasi1`) AS realisasi1 
             FROM
               `trRKARealisasiRinc` 
-            WHERE `TA`=$tahun 
+            WHERE `TA` = $tahun 
             AND `EntryLvl`=11
           ) AS level1
         SET 
           statistik1.`RealisasiKeuangan1`=level1.realisasi1,
-          statistik1.`RealisasiFisik1`=$persen_realisasi_fisik
-        WHERE statistik1.`statistikID`=$tahun
+          statistik1.`RealisasiFisik1` = $persen_realisasi_fisik
+        WHERE statistik1.`statistikID` = $tahun
       ";
       \DB::statement($str_jumlah_realisasi1); 
       
@@ -226,21 +226,21 @@ class DAKMurniController extends Controller
     }
     else if ($this->hasRole('opd'))
     {
-      $daftar_opd=$this->getUserOrgID($tahun);
+      $daftar_opd = $this->getUserOrgID($tahun);
       $jumlah_opd=count($daftar_opd);
       if ($jumlah_opd > 0)
       {
         foreach ($daftar_opd as $OrgID)
         {
-          $total_data=$this->generateStatistikOPD($OrgID, $tahun);
-          $persen_realisasi_fisik=$total_data['totalPersenRealisasiFisik'];
-          $total_realisasi=$total_data['totalRealisasiKeuanganKeseluruhan'];
+          $total_data = $this->generateStatistikOPD($OrgID, $tahun);
+          $persen_realisasi_fisik = $total_data['totalPersenRealisasiFisik'];
+          $total_realisasi = $total_data['totalRealisasiKeuanganKeseluruhan'];
 
           $str_jumlah_realisasi1='UPDATE `tmOrg` SET `RealisasiKeuangan1`='.$total_realisasi.',`RealisasiFisik1`='.$persen_realisasi_fisik.' WHERE `tmOrg`.`OrgID`=\''.$OrgID.'\'';
 
           \DB::statement($str_jumlah_realisasi1); 
         }                                          
-        $statistik1 = OrganisasiModel::where('TA',$tahun)
+        $statistik1 = OrganisasiModel::where('TA', $tahun)
           ->select(\DB::raw('
             COALESCE(SUM(`PaguDana1`),0) AS `PaguDana1`, 
             COALESCE(SUM(`JumlahProgram1`),0) AS `JumlahProgram1`, 
@@ -250,7 +250,7 @@ class DAKMurniController extends Controller
             COALESCE(SUM(`RealisasiFisik1`),0) AS `RealisasiFisik1`,
             0 AS `PersenRealisasiKeuangan1`
           '))
-          ->whereIn('OrgID',$daftar_opd)                                
+          ->whereIn('OrgID', $daftar_opd)                                
           ->first();
 
         $statistik1->PersenRealisasiKeuangan1=Helper::formatPersen($statistik1->RealisasiKeuangan1,$statistik1->PaguDana1);                
@@ -267,22 +267,22 @@ class DAKMurniController extends Controller
     }
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'update',                                    
+      'status' => 1,
+      'pid' => 'update',                                    
       'statistik1'=>$statistik1,                                    
-      'message'=>'Data statistik1 berhasil di update'
+      'message' => 'Data statistik1 berhasil di update'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   public function reloadstatistik2(Request $request)
   {
     $this->validate($request, [            
-      'ta'=>'required',          
+      'ta' => 'required',          
     ]);
-    $tahun=$request->input('ta');  
+    $tahun = $request->input('ta');  
     if ($this->hasRole(['superadmin','bapelitbang']))
     {
       $daftar_opd = OrganisasiModel::select('OrgID')
-                    ->where('TA',$tahun)
+                    ->where('TA', $tahun)
                     ->get();
 
       foreach ($daftar_opd as $v)
@@ -292,7 +292,7 @@ class DAKMurniController extends Controller
     }
     else
     {
-      $daftar_opd=$this->getUserOrgID($tahun);
+      $daftar_opd = $this->getUserOrgID($tahun);
       $jumlah_opd=count($daftar_opd);
       if ($jumlah_opd > 0)
       {
@@ -376,8 +376,8 @@ class DAKMurniController extends Controller
       
       $daftar_sub_kegiatan = \DB::table('trRKA')
                     ->select(\DB::raw('`RKAID`,`PaguDana1`'))                                                                             
-                    ->where('OrgID',$opd->OrgID)                                            
-                    ->where('TA',$tahun)  
+                    ->where('OrgID', $opd->OrgID)                                            
+                    ->where('TA', $tahun)  
                     ->where('EntryLvl', 11)                                        
                     ->get();
 
@@ -386,48 +386,48 @@ class DAKMurniController extends Controller
       {
         foreach ($daftar_sub_kegiatan as $n)
         {
-          $RKAID=$n->RKAID;
-          $nilai_pagu_proyek=$n->PaguDana1;
+          $RKAID = $n->RKAID;
+          $nilai_pagu_proyek = $n->PaguDana1;
           $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
-          $totalPersenBobot+=$persen_bobot;
+          $totalPersenBobot+ = $persen_bobot;
 
           //jumlah baris uraian
-          $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
-          $total_uraian+=$jumlahuraian;
+          $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();	
+          $total_uraian+ = $jumlahuraian;
 
           $data_target=\DB::table('trRKATargetRinc')
                     ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
-                    ->where('RKAID',$RKAID)                                        
+                    ->where('RKAID', $RKAID)                                        
                     ->get();
 
           $data_realisasi=\DB::table('trRKARealisasiRinc')
                   ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-                  ->where('RKAID',$RKAID)                                    
+                  ->where('RKAID', $RKAID)                                    
                   ->get();
 
           //menghitung persen target fisik         
           $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
           $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
-          $totalPersenTargetFisik+=$persen_target_fisik;               
+          $totalPersenTargetFisik+ = $persen_target_fisik;               
 
           //menghitung persen realisasi fisik                
           $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-          $totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
+          $totalPersenRealisasiFisik+ = $persen_realisasi_fisik; 
           
           $persen_tertimbang_fisik=0.00;
           if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
           {
             $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
           }							
-          $total_ttb_fisik+=$persen_tertimbang_fisik;
+          $total_ttb_fisik+ = $persen_tertimbang_fisik;
 
           //menghitung total target dan realisasi keuangan 
-          $totalTargetKeuangan=$data_target[0]->totaltarget;
-          $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+          $totalTargetKeuangan = $data_target[0]->totaltarget;
+          $totalTargetKeuanganKeseluruhan+ = $totalTargetKeuangan;
           $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
         
-          $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
-          $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+          $totalRealisasiKeuangan = $data_realisasi[0]->realisasi1;
+          $totalRealisasiKeuanganKeseluruhan+ = $totalRealisasiKeuangan;
           $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
           
           $persen_tertimbang_keuangan=0.00;
@@ -437,8 +437,8 @@ class DAKMurniController extends Controller
           }	
           $total_ttb_keuangan += $persen_tertimbang_keuangan;
 
-          $sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
-          $totalSisaAnggaran+=$sisa_anggaran; 
+          $sisa_anggaran = $nilai_pagu_proyek-$totalRealisasiKeuangan;
+          $totalSisaAnggaran+ = $sisa_anggaran; 
           
           $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
@@ -547,66 +547,66 @@ class DAKMurniController extends Controller
 
         $daftar_sub_kegiatan = \DB::table('trRKA')
           ->select(\DB::raw('`RKAID`,`PaguDana1`'))                                                                             
-          ->where('OrgID',$opd->OrgID)                                            
-          ->where('TA',$tahun)  
+          ->where('OrgID', $opd->OrgID)                                            
+          ->where('TA', $tahun)  
           ->where('EntryLvl', 11)                                        
           ->get();
 
         if(isset($daftar_sub_kegiatan[0]))
         {
           $total_kegiatan = \DB::table('trRKA')
-            ->where('OrgID',$opd->OrgID)                                            
-            ->where('TA',$tahun)  
+            ->where('OrgID', $opd->OrgID)                                            
+            ->where('TA', $tahun)  
             ->where('EntryLvl', 11) 
             ->distinct('kode_kegiatan')
             ->count('kode_kegiatan');
 
           foreach ($daftar_sub_kegiatan as $n)
           {
-            $RKAID=$n->RKAID;
-            $nilai_pagu_proyek=$n->PaguDana1;
+            $RKAID = $n->RKAID;
+            $nilai_pagu_proyek = $n->PaguDana1;
             $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
-            $totalPersenBobot+=$persen_bobot;
+            $totalPersenBobot+ = $persen_bobot;
 
             //jumlah baris uraian
-            $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
-            $total_uraian+=$jumlahuraian;
+            $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();	
+            $total_uraian+ = $jumlahuraian;
 
             $data_target=\DB::table('trRKATargetRinc')
                     ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
-                    ->where('RKAID',$RKAID)                   
-                    ->where('bulan1','<=',$i)                     
+                    ->where('RKAID', $RKAID)                   
+                    ->where('bulan1','<=', $i)                     
                     ->get();
 
             $data_realisasi=\DB::table('trRKARealisasiRinc')
                     ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-                    ->where('RKAID',$RKAID)      
-                    ->where('bulan1','<=',$i)                                   
+                    ->where('RKAID', $RKAID)      
+                    ->where('bulan1','<=', $i)                                   
                     ->get();
 
             //menghitung persen target fisik         
             $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
             $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
-            $totalPersenTargetFisik+=$persen_target_fisik;               
+            $totalPersenTargetFisik+ = $persen_target_fisik;               
 
             //menghitung persen realisasi fisik                
             $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-            $totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
+            $totalPersenRealisasiFisik+ = $persen_realisasi_fisik; 
             
             $persen_tertimbang_fisik=0.00;
             if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
             }							
-            $total_ttb_fisik+=$persen_tertimbang_fisik;
+            $total_ttb_fisik+ = $persen_tertimbang_fisik;
 
             //menghitung total target dan realisasi keuangan 
-            $totalTargetKeuangan=$data_target[0]->totaltarget;
-            $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+            $totalTargetKeuangan = $data_target[0]->totaltarget;
+            $totalTargetKeuanganKeseluruhan+ = $totalTargetKeuangan;
             $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
           
-            $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
-            $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+            $totalRealisasiKeuangan = $data_realisasi[0]->realisasi1;
+            $totalRealisasiKeuanganKeseluruhan+ = $totalRealisasiKeuangan;
             $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
             
             $persen_tertimbang_keuangan=0.00;
@@ -616,8 +616,8 @@ class DAKMurniController extends Controller
             }	
             $total_ttb_keuangan += $persen_tertimbang_keuangan;
 
-            $sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
-            $totalSisaAnggaran+=$sisa_anggaran; 
+            $sisa_anggaran = $nilai_pagu_proyek-$totalRealisasiKeuangan;
+            $totalSisaAnggaran+ = $sisa_anggaran; 
             
             $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
@@ -636,9 +636,9 @@ class DAKMurniController extends Controller
         $total_ttb_fisik=round($total_ttb_fisik,2);
         $total_ttb_keuangan=round($total_ttb_keuangan,2);
 
-        $statistik2 = Statistik2Model::where('Bulan',$i)
-        ->where('OrgID',$OrgID)
-        ->where('TA',$tahun)   
+        $statistik2 = Statistik2Model::where('Bulan', $i)
+        ->where('OrgID', $OrgID)
+        ->where('TA', $tahun)   
         ->where('EntryLvl', 11)                                                                                   
         ->first();
 
@@ -704,25 +704,25 @@ class DAKMurniController extends Controller
             
             'Bulan'=>$i,
             'TA'=>$tahun,
-            'EntryLvl'=>11,
+            'EntryLvl' => 11,
           ]);
         }
         else
         {
         
-          $statistik2->PaguDana1=$totalPaguOPD;            
-          $statistik2->JumlahKegiatan1=$total_kegiatan;
-          $statistik2->JumlahSubKegiatan1=$total_sub_kegiatan;
-          $statistik2->JumlahUraian1=$total_uraian;              
-          $statistik2->TargetFisik1=$totalPersenTargetFisik;
-          $statistik2->RealisasiFisik1=$totalPersenRealisasiFisik;
-          $statistik2->TargetKeuangan1=$totalTargetKeuanganKeseluruhan;
-          $statistik2->RealisasiKeuangan1=$totalRealisasiKeuanganKeseluruhan;
-          $statistik2->PersenTargetKeuangan1=$totalPersenTargetKeuangan;
-          $statistik2->PersenRealisasiKeuangan1=$totalPersenRealisasiKeuangan;
-          $statistik2->SisaPaguDana1=$totalSisaAnggaran;
-          $statistik2->PersenSisaPaguDana1=$totalPersenSisaAnggaran;
-          $statistik2->Bobot2=$totalPersenBobot;
+          $statistik2->PaguDana1 = $totalPaguOPD;            
+          $statistik2->JumlahKegiatan1 = $total_kegiatan;
+          $statistik2->JumlahSubKegiatan1 = $total_sub_kegiatan;
+          $statistik2->JumlahUraian1 = $total_uraian;              
+          $statistik2->TargetFisik1 = $totalPersenTargetFisik;
+          $statistik2->RealisasiFisik1 = $totalPersenRealisasiFisik;
+          $statistik2->TargetKeuangan1 = $totalTargetKeuanganKeseluruhan;
+          $statistik2->RealisasiKeuangan1 = $totalRealisasiKeuanganKeseluruhan;
+          $statistik2->PersenTargetKeuangan1 = $totalPersenTargetKeuangan;
+          $statistik2->PersenRealisasiKeuangan1 = $totalPersenRealisasiKeuangan;
+          $statistik2->SisaPaguDana1 = $totalSisaAnggaran;
+          $statistik2->PersenSisaPaguDana1 = $totalPersenSisaAnggaran;
+          $statistik2->Bobot2 = $totalPersenBobot;
           $statistik2->save();				
         }
       }

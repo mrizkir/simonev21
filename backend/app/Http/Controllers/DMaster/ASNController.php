@@ -21,20 +21,20 @@ class ASNController extends Controller
     $this->hasPermissionTo('DMASTER-ASN_BROWSE');
     
     $this->validate($request, [            
-      'tahun'=>'required',            
+      'tahun' => 'required',            
     ]);     
     
-    $tahun=$request->input('tahun');
+    $tahun = $request->input('tahun');
     
-    $data = ASNModel::where('TA',$tahun)
+    $data = ASNModel::where('TA', $tahun)
       ->orderBy('Nm_ASN', 'ASC')
       ->get();
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'fetchdata',
+      'status' => 1,
+      'pid' => 'fetchdata',
       'asn'=>$data,
-      'message'=>'Fetch data ASN berhasil diperoleh'
+      'message' => 'Fetch data ASN berhasil diperoleh'
     ], 200);  
 
   }
@@ -48,7 +48,7 @@ class ASNController extends Controller
   {        
     $this->hasPermissionTo('DMASTER-ASN_STORE');
     $this->validate($request, [           
-      'TA'=>'required'
+      'TA' => 'required'
     ]);
 
     $ta = $request->input('TA');
@@ -56,13 +56,13 @@ class ASNController extends Controller
     $this->validate($request, [
       'NIP_ASN'=> [
         Rule::unique('tmASN')->where(function($query) use ($request) {
-          return $query->where('NIP_ASN',$request->input('NIP_ASN'))
-            ->where('TA',$request->input('TA'));
+          return $query->where('NIP_ASN', $request->input('NIP_ASN'))
+            ->where('TA', $request->input('TA'));
         }),
         'required',
         'regex:/^[0-9]+$/'
       ],
-      'Nm_ASN'=>'required',
+      'Nm_ASN' => 'required',
     ]);
         
     $asn = ASNModel::create ([
@@ -74,10 +74,10 @@ class ASNController extends Controller
     ]);  
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',
+      'status' => 1,
+      'pid' => 'store',
       'asn'=>$asn,                                    
-      'message'=>'Data ASN berhasil disimpan.'
+      'message' => 'Data ASN berhasil disimpan.'
     ], 200); 		
   }
   /**
@@ -89,8 +89,8 @@ class ASNController extends Controller
   public function salin(Request $request)
   {
     $this->validate($request, [            
-      'tahun_asal'=>'required|numeric',
-      'tahun_tujuan'=>'required|numeric|gt:tahun_asal',
+      'tahun_asal' => 'required|numeric',
+      'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
     ]);
 
     $tahun_asal = $request->input('tahun_asal');
@@ -125,8 +125,8 @@ class ASNController extends Controller
     \DB::statement($str_insert); 
     
     return Response()->json([
-      'status'=>1,
-      'pid'=>'store',            
+      'status' => 1,
+      'pid' => 'store',            
       'message'=>"Salin ASN dari tahun anggaran $tahun_asal berhasil.",
       'sql_insert'=>$str_insert,
     ], 200);
@@ -145,20 +145,20 @@ class ASNController extends Controller
     $this->validate($request, [    
       'NIP_ASN'=>[
         Rule::unique('tmASN')->where(function($query) use ($request,$asn) {  
-          if ($request->input('NIP_ASN')==$asn->NIP_ASN) 
+          if ($request->input('NIP_ASN')= = $asn->NIP_ASN) 
           {
             return $query->where('NIP_ASN','ignore');
           }                 
           else
           {
-            return $query->where('NIP_ASN',$request->input('NIP_ASN'))
-                ->where('TA',$asn->TA);
+            return $query->where('NIP_ASN', $request->input('NIP_ASN'))
+                ->where('TA', $asn->TA);
           }                                                                                    
         }),
         'required',
         'regex:/^[0-9]+$/'
       ],
-      'Nm_ASN'=>'required',
+      'Nm_ASN' => 'required',
     ]);		
     
     $asn->NIP_ASN = $request->input('NIP_ASN');
@@ -167,10 +167,10 @@ class ASNController extends Controller
     $asn->save();
 
     return Response()->json([
-      'status'=>1,
-      'pid'=>'update',
+      'status' => 1,
+      'pid' => 'update',
       'asn'=>$asn,                                    
-      'message'=>'Data ASN '.$asn->Nm_ASN.' berhasil diubah.'
+      'message' => 'Data ASN '.$asn->Nm_ASN.' berhasil diubah.'
     ], 200);
     
   }
@@ -184,10 +184,10 @@ class ASNController extends Controller
   {   
     $this->hasPermissionTo('DMASTER-ASN_DESTROY');
     $asn = ASNModel::find($id);
-    $result=$asn->delete();
+    $result = $asn->delete();
     return Response()->json([
-      'status'=>1,
-      'pid'=>'destroy',                
+      'status' => 1,
+      'pid' => 'destroy',                
       'message'=>"Data ASN dengan ID ($id) berhasil dihapus"
     ], 200);
   }
