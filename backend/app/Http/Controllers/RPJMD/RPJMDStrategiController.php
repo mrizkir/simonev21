@@ -166,7 +166,7 @@ class RPJMDStrategiController extends Controller
     {
       $data = $strategi->program();
 
-      $totalRecords = $data->count('RpjmdSasaranID');
+      $totalRecords = $data->count('StrategiProgramID');
 
       if($request->filled('offset'))
       {

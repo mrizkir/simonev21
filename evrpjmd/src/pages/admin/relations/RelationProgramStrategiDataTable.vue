@@ -105,33 +105,7 @@
             {{ (indexOffset + index) + 1 }}
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-btn
-              class="mr-2"
-              v-tooltip:bottom="'Tambah Strategi'"
-              :to="'/admin/dmaster/strategi/' + item.RpjmdSasaranID + '/manage'"
-              size="small"
-              color="primary"
-              variant="text"
-              icon="mdi-plus"
-              density="compact"
-            />
-            <v-icon
-              class="mr-2"
-              v-tooltip:bottom="'Ubah Sasaran'"
-              @click.stop="editItem(item)"
-              size="small"
-              color="primary"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon
-              v-tooltip:bottom="'Hapus Sasaran'"
-              @click.stop="deleteItem(item)"
-              size="small"
-              color="error"
-            >
-              mdi-delete
-            </v-icon>
+            -
           </template>
           <template v-slot:expanded-row="{ columns, item }">
             <tr class="bg-grey-lighten-4">
@@ -183,8 +157,8 @@
           },
         },
         {
-          title: 'KODE SASARAN',
-          key: 'kode_sasaran',
+          title: 'KODE PROGRAM',
+          key: 'kode_program',
           align: 'start',
           width: 130,
           headerProps: {
@@ -192,8 +166,24 @@
           },
         },
         {
-          title: 'NAMA SASARAN',
-          key: 'Nm_RpjmdSasaran',
+          title: 'NAMA PROGRAM',
+          key: 'Nm_Program',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },        
+        {
+          title: 'NAMA BIDANG',
+          key: 'Nm_Bidang',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },        
+        {
+          title: 'NAMA URUSAN',
+          key: 'Nm_Urusan',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -252,7 +242,7 @@
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'kode_sasaran',
+              'key': 'kode_program',
               'order': 'asc'
             },
           ]
@@ -260,7 +250,7 @@
         
         if (this.RpjmdStrategiID === null || typeof this.RpjmdStrategiID === "undefined") {       
           await this.$ajax
-            .post('/rpjmd/sasaran', 
+            .post('/rpjmd/relations/strategiprogram', 
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
@@ -283,7 +273,7 @@
         } else {
           await this.$ajax
             .post(
-              '/rpjmd/tujuan/' + this.RpjmdStrategiID + '/sasaran', 
+              '/rpjmd/strategi/' + this.RpjmdStrategiID + '/program', 
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
