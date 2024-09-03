@@ -21,6 +21,8 @@ class RPJMDRelasiStrategiProgramModel extends Model
     'StrategiProgramID',
     'PrgID',
     'RpjmdStrategiID',    
+    'Kd_ProgramRPJMD',    
+    'Nm_ProgramRPJMD',    
   ];
   /**
    * primary key tabel ini.

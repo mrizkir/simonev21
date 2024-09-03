@@ -52,6 +52,7 @@ class RPJMDStrategiModel extends Model
   {
     return $this->hasMany('App\Models\RPJMD\RPJMDRelasiStrategiProgramModel', 'RpjmdStrategiID', 'RpjmdStrategiID')
     ->select(\DB::raw("
+      tmRpjmdRelasiStrategiProgram.`StrategiProgramID`,
       b.`PrgID`,
       d.BidangID,
       e.`Kd_Urusan`,
@@ -71,18 +72,19 @@ class RPJMDStrategiModel extends Model
           CONCAT('[',e.`Kd_Urusan`,'.',d.`Kd_Bidang`,'.',b.`Kd_Program`,'] ',b.Nm_Program)
         ELSE
           CONCAT('[X.','XX.',b.`Kd_Program`,'] ',b.Nm_Program)
-      END AS nama_program,                                        
+      END AS nama_program,
+      tmRpjmdRelasiStrategiProgram.Kd_ProgramRPJMD,
+      tmRpjmdRelasiStrategiProgram.Nm_ProgramRPJMD,
       b.`Jns`,
       b.`TA`,                                        
       b.`Descr`,
       b.`Locked`,
-      b.`created_at`,
-      b.`updated_at`
+      tmRpjmdRelasiStrategiProgram.`created_at`,
+      tmRpjmdRelasiStrategiProgram.`updated_at`
     "))
     ->join('tmProgram AS b', 'b.PrgID', 'tmRpjmdRelasiStrategiProgram.PrgID')
     ->leftJoin('tmUrusanProgram AS c','b.PrgID','c.PrgID')
     ->leftJoin('tmBidangUrusan AS d','d.BidangID','c.BidangID')
-    ->leftJoin('tmUrusan AS e','d.UrsID','e.UrsID')
-    ;    
+    ->leftJoin('tmUrusan AS e','d.UrsID','e.UrsID');    
   }
 }

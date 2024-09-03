@@ -78,12 +78,33 @@
                 <span class="headline">TAMBAH PROGRAM</span>
               </v-card-title>
               <v-card-text>
+                <v-text-field
+                  v-model="formdata.Kd_ProgramRPJMD"                  
+                  density="compact"        
+                  label="KODE PROGRAM"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-graph"
+                  hint="Masukan kode / nomor program dari rpjmd"
+                  :rules="rule_kode_program"
+                  auto-grow
+                />    
+                <v-textarea
+                  v-model="formdata.Nm_ProgramRPJMD"
+                  rows="1"
+                  density="compact"        
+                  label="NAMA PROGRAM"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-graph"
+                  hint="Masukan nama program dari rpjmd"
+                  :rules="rule_nama_program"
+                  auto-grow
+                />
                 <v-autocomplete
                   :items="daftar_program"
                   density="compact"
                   variant="outlined"
                   v-model="formdata.PrgID"
-                  label="PROGRAM"              
+                  label="PROGRAM PERMENDARI 98"              
                   item-title="Nm_Program"
                   item-value="PrgID"
                   :rules="rule_program"
@@ -131,7 +152,7 @@
           href: '#',
         },
         {
-          title: 'STRATEGI - PROGRAM',    
+          title: 'STRATEGI - PROGRAM',
           href: '/admin/relations/programstrategi',
         },
         {
@@ -163,9 +184,15 @@
         Program: null,        
       },
       //form rules
+      rule_kode_program: [
+        value => !!value || 'Mohon untuk di isi kode program dari RPJMD !!!',
+      ],
+      rule_nama_program: [
+        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
+      ],
       rule_program: [
-        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan strategi RPJMD !!!',
-      ],      
+        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 98 !!!',
+      ],
       //pinia
       userStore: null,
     }),
@@ -209,6 +236,8 @@
               {
                 RpjmdStrategiID: this.RpjmdStrategiID,
                 PrgID: this.formdata.PrgID,
+                Kd_ProgramRPJMD: this.formdata.Kd_ProgramRPJMD,          
+                Nm_ProgramRPJMD: this.formdata.Nm_ProgramRPJMD,          
               },
               {
                 headers: {

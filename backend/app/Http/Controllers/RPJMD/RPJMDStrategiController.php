@@ -281,14 +281,14 @@ class RPJMDStrategiController extends Controller
         'message' => ["RPJMD Strategi dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
-    // else if($strategi->program->count('RpjmdArahKebijakanID') > 0)
-    // {
-    //   return Response()->json([
-    //     'status' => 0,
-    //     'pid' => 'fetchdata',
-    //     'message' => ["RPJMD Strategi dengan dengan ($id) gagal dihapus karena masih terhubung ke Strategi"]
-    //   ], 422); 
-    // }
+    else if($strategi->program->count('StrategiProgramID') > 0)
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ["RPJMD Strategi dengan dengan ($id) gagal dihapus karena masih terhubung ke Program Strategi"]
+      ], 422); 
+    }
     else
     {
       $strategi->delete();

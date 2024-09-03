@@ -30,7 +30,7 @@
           :items-length="totalRecords"
           :loading="datatableLoading"
           :search="searchTrigger"
-          item-value="RpjmdSasaranID"
+          item-value="StrategiProgramID"
           @update:options="initialize"
           :expand-on-click="true"
           items-per-page-text="Jumlah record per halaman"
@@ -51,13 +51,13 @@
                   <v-card>
                     <v-card-title>
                       <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                      <span class="headline">UBAH SASARAN</span>
+                      <span class="headline">UBAH PROGRAM</span>
                     </v-card-title>
-                    <v-card-text>
+                    <v-card-text>                      
                       <v-text-field
-                        v-model="formdata.Kd_RpjmdSasaran"                  
+                        v-model="formdata.Kd_ProgramRPJMD"                  
                         density="compact"        
-                        label="KODE SASARAN"
+                        label="KODE PROGRAM"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
                         hint="Masukan kode / nomor sasaran dari rpjmd"
@@ -65,15 +65,26 @@
                         auto-grow
                       />    
                       <v-textarea
-                        v-model="formdata.Nm_RpjmdSasaran"
+                        v-model="formdata.Nm_ProgramRPJMD"
                         rows="1"
                         density="compact"        
-                        label="NAMA SASARAN"
+                        label="NAMA PROGRAM"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
                         hint="Masukan sasaran dari rpjmd"
                         :rules="rule_nama_sasaran"
                         auto-grow
+                      />
+                      <v-autocomplete
+                        :items="daftar_program"
+                        density="compact"
+                        variant="outlined"
+                        v-model="formdata.PrgID"
+                        label="PROGRAM PERMENDARI 98"              
+                        item-title="Nm_Program"
+                        item-value="PrgID"
+                        :rules="rule_program"
+                        clearable                  
                       />
                     </v-card-text>
                     <v-card-actions>
@@ -105,12 +116,28 @@
             {{ (indexOffset + index) + 1 }}
           </template>
           <template v-slot:item.actions="{ item }">
-            -
+            <v-icon
+              class="mr-2"
+              v-tooltip:bottom="'Ubah Tujuan'"
+              @click.stop="editItem(item)"
+              size="small"
+              color="primary"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon
+              v-tooltip:bottom="'Hapus Program'"
+              @click.stop="deleteItem(item)"
+              size="small"
+              color="error"
+            >
+              mdi-delete
+            </v-icon>
           </template>
           <template v-slot:expanded-row="{ columns, item }">
             <tr class="bg-grey-lighten-4">
               <td :colspan="columns.length" class="text-center">
-                <span class="font-weight-bold">ID: </span> {{ item.RpjmdSasaranID }} 
+                <span class="font-weight-bold">ID: </span> {{ item.StrategiProgramID }} 
                 <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
               </td>
             </tr>
@@ -157,8 +184,8 @@
           },
         },
         {
-          title: 'KODE PROGRAM',
-          key: 'kode_program',
+          title: 'KODE PROGRAM RPJMD',
+          key: 'Kd_ProgramRPJMD',
           align: 'start',
           width: 130,
           headerProps: {
@@ -166,15 +193,15 @@
           },
         },
         {
-          title: 'NAMA PROGRAM',
-          key: 'Nm_Program',
+          title: 'NAMA PROGRAM RPJMD',
+          key: 'Nm_ProgramRPJMD',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
         },        
         {
-          title: 'NAMA BIDANG',
+          title: 'NAMA BIDANG PERMENDAGRI 98',
           key: 'Nm_Bidang',
           align: 'start',
           headerProps: {
@@ -182,8 +209,16 @@
           },
         },        
         {
-          title: 'NAMA URUSAN',
+          title: 'NAMA URUSAN PERMENDAGRI 98',
           key: 'Nm_Urusan',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },        
+        {
+          title: 'NAMA PROGRAM PERMENDAGRI 98',
+          key: 'nama_program',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
@@ -204,31 +239,35 @@
       dialogfrm: false,
       dialogdetailitem: false,
       //form data
-      form_valid: true,      
+      form_valid: true, 
+      daftar_program: [],     
       formdata: {
-        RpjmdSasaranID: null,
-        RpjmdStrategiID: null,
-        PeriodeRPJMDID: null,
-        Kd_RpjmdSasaran: null,  
-        Nm_RpjmdSasaran: null,  
+        StrategiProgramID: null,
+        RpjmdStrategiID: null,        
+        PrgID: null,          
+        Kd_ProgramRPJMD: null,          
+        Nm_ProgramRPJMD: null,          
         created_at: null,
         updated_at: null,
       },
       formdefault: {
-        RpjmdSasaranID: null,
-        RpjmdStrategiID: null,
-        PeriodeRPJMDID: null,
-        Kd_RpjmdSasaran: null,  
-        Nm_RpjmdSasaran: null,  
+        StrategiProgramID: null,
+        RpjmdStrategiID: null,        
+        PrgID: null,          
+        Kd_ProgramRPJMD: null,          
+        Nm_ProgramRPJMD: null,          
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_kode_sasaran: [
+      rule_kode_program: [
         value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
-      rule_nama_sasaran: [
+      rule_nama_program: [
         value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
+      ],
+      rule_program: [
+        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 98 !!!',
       ],
       //pinia
       userStore: null,
@@ -250,7 +289,7 @@
         
         if (this.RpjmdStrategiID === null || typeof this.RpjmdStrategiID === "undefined") {       
           await this.$ajax
-            .post('/rpjmd/relations/strategiprogram', 
+            .post('/rpjmd/relations/strategiprogram',
               {
                 PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                 sortBy: sortBy,
@@ -295,9 +334,23 @@
             })
         }
       },
-      editItem(item) {        
-        this.formdata = Object.assign({}, item)
-        this.dialogfrm = true        
+      async editItem(item) {        
+        await this.$ajax
+          .post('/dmaster/kodefikasi/program', 
+            {
+              TA: this.userStore.PeriodeRPJMD.TA_AWAL,            
+            },
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.daftar_program = data.kodefikasiprogram
+            this.formdata = Object.assign({}, item)
+            this.dialogfrm = true        
+          })        
       },
       async save() {
         const { valid } = await this.$refs.frmdata.validate()
@@ -306,11 +359,12 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/sasaran/' + this.formdata.RpjmdSasaranID,
+              '/rpjmd/relations/strategiprogram/' + this.formdata.StrategiProgramID,
               {
                 _method: 'PUT',
-                Kd_RpjmdSasaran: this.formdata.Kd_RpjmdSasaran,
-                Nm_RpjmdSasaran: this.formdata.Nm_RpjmdSasaran,                  
+                PrgID: this.formdata.PrgID,
+                Kd_ProgramRPJMD: this.formdata.Kd_ProgramRPJMD,          
+                Nm_ProgramRPJMD: this.formdata.Nm_ProgramRPJMD,                          
               },
               {
                 headers: {
@@ -331,7 +385,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdSasaranID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.StrategiProgramID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -342,7 +396,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/sasaran/' + item.RpjmdSasaranID,
+                  '/rpjmd/relations/strategiprogram/' + item.StrategiProgramID,
                   {
                     _method: 'DELETE',
                   },
