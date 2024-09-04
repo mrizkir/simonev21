@@ -221,7 +221,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
-              'user_id'=>$user_id,
+              'user_id' => $user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
@@ -241,7 +241,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
-              'user_id'=>$user_id,
+              'user_id' => $user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
@@ -261,7 +261,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
-              'user_id'=>$user_id,
+              'user_id' => $user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],
@@ -281,7 +281,7 @@ class CapaianRekeningController extends Controller
             $data_rekening[$k]['realisasi'][$i] = $mode == 'fisik' ? Helper::formatPecahan($realisasi, $jumlah_total) : Helper::formatPersen($realisasi, $jumlah_total);
             Statistik7Model::create([
               'Statistik7ID'=>Uuid::uuid4()->toString(),
-              'user_id'=>$user_id,
+              'user_id' => $user_id,
               'nama_rekening' => $v['nama_rekening'],
               'target' => $data_rekening[$k]['target'][$i],
               'realisasi' => $data_rekening[$k]['realisasi'][$i],

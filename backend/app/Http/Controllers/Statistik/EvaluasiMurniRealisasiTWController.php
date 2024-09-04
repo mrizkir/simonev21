@@ -89,15 +89,15 @@ class EvaluasiMurniRealisasiTWController extends Controller {
       }
       $index = $index + 1;
       $evaluasi_realisasi[] = [
-        'index'=>$index,
-        'kode_organisasi'=>$v->kode_organisasi,
-        'Nm_Organisasi'=>$v->Nm_Organisasi,
-        'pagu_dana'=>$pagu_dana,
-        'target_fisik'=>$target_fisik,
-        'realisasi_fisik'=>$realisasi_fisik,        
-        'target_keuangan'=>$target_keuangan,
-        'realisasi_keuangan'=>$realisasi_keuangan,
-        'persen_keuangan'=>$persen_realisasi_keuangan,        
+        'index' => $index,
+        'kode_organisasi' => $v->kode_organisasi,
+        'Nm_Organisasi' => $v->Nm_Organisasi,
+        'pagu_dana' => $pagu_dana,
+        'target_fisik' => $target_fisik,
+        'realisasi_fisik' => $realisasi_fisik,        
+        'target_keuangan' => $target_keuangan,
+        'realisasi_keuangan' => $realisasi_keuangan,
+        'persen_keuangan' => $persen_realisasi_keuangan,        
       ];
       $TotalPaguDana += $pagu_dana;
       $TotalTargetFisik += $target_fisik;
@@ -108,19 +108,19 @@ class EvaluasiMurniRealisasiTWController extends Controller {
     }
     
     $evaluasi_total = [      
-      'total_pagu_dana'=>$TotalPaguDana,
+      'total_pagu_dana' => $TotalPaguDana,
       'total_target_fisik'=>Helper::formatPecahan($TotalTargetFisik, $index),
       'total_realisasi_fisik'=>Helper::formatPecahan($TotalRealisasiFisik,$index),
-      'total_target_keuangan'=>$TotalTargetKeuangan,
-      'total_realisasi_keuangan'=>$TotalRealisasiKeuangan,
+      'total_target_keuangan' => $TotalTargetKeuangan,
+      'total_realisasi_keuangan' => $TotalRealisasiKeuangan,
       'total_persen_keuangan'=>Helper::formatPecahan($TotalPersenRealisasiKeuangan, $index),      
     ];
 
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'evaluasi_realisasi'=>$evaluasi_realisasi,
-      'laporan_total'=>$evaluasi_total,
+      'evaluasi_realisasi' => $evaluasi_realisasi,
+      'laporan_total' => $evaluasi_total,
       'message' => 'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }

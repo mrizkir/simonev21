@@ -50,7 +50,7 @@ class RekeningObjekController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'objek'=>$objek,
+                  'objek' => $objek,
                   'message' => 'Fetch data objek berhasil.'
                 ], 200);
   }
@@ -85,13 +85,13 @@ class RekeningObjekController extends Controller {
       'Kd_Rek_4' => $request->input('Kd_Rek_4'),
       'ObyNm' => $request->input('ObyNm'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);
 
     return Response()->json([
                   'status' => 1,
                   'pid' => 'store',
-                  'objek'=>$objek,                                    
+                  'objek' => $objek,                                    
                   'message' => 'Data Rekening Objek berhasil disimpan.'
                 ], 200); 
   }               
@@ -182,7 +182,7 @@ class RekeningObjekController extends Controller {
                     'JnsID' => 'required|exists:tmJns,JnsID',
                     'Kd_Rek_4'=>[
                           Rule::unique('tmOby')->where(function($query) use ($request,$objek) {  
-                            if ($request->input('Kd_Rek_4')= = $objek->Kd_Rek_4) 
+                            if ($request->input('Kd_Rek_4') == $objek->Kd_Rek_4) 
                             {
                               return $query->where('JnsID', $request->input('JnsID'))
                                     ->where('Kd_Rek_4','ignore')
@@ -211,7 +211,7 @@ class RekeningObjekController extends Controller {
       return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'objek'=>$objek,                                    
+                  'objek' => $objek,                                    
                   'message' => 'Data Rekening Objek '.$objek->ObyNm.' berhasil diubah.'
                 ], 200);
     }
@@ -240,7 +240,7 @@ class RekeningObjekController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'rincianobjek'=>$rincianobjek,
+                  'rincianobjek' => $rincianobjek,
                   'message'=>"Fetch data rincian objek dari objek ($id) berhasil."
                 ], 200);
   }

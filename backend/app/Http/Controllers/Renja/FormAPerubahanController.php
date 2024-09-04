@@ -102,9 +102,9 @@ class FormAPerubahanController extends Controller
             $data[]=[
               'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
               'tingkat' => 1,
-              'kode'=>$k1,
-              'nama_uraian'=>$v1,
-              'totalPaguDana'=>$totalPaguDana,
+              'kode' => $k1,
+              'nama_uraian' => $v1,
+              'totalPaguDana' => $totalPaguDana,
               'persen_bobot' => '',
               'persen_rata2_fisik' => '',
               'persen_tertimbang_fisik' => '',
@@ -133,9 +133,9 @@ class FormAPerubahanController extends Controller
                 $data[]=[
                   'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                   'tingkat'=>2,
-                  'kode'=>$no_[0].'.'.$no_[1],
-                  'nama_uraian'=>$b,
-                  'totalPaguDana'=>$totalPaguDana_Rek2['totalpagu'],
+                  'kode' => $no_[0].'.'.$no_[1],
+                  'nama_uraian' => $b,
+                  'totalPaguDana' => $totalPaguDana_Rek2['totalpagu'],
                   'persen_bobot' => '',
                   'persen_rata2_fisik' => '',
                   'persen_tertimbang_fisik' => '',
@@ -149,7 +149,7 @@ class FormAPerubahanController extends Controller
                 foreach ($tingkat_3 as $k3=>$v3)
                 {
                   $rek3=substr($k3,0,3);
-                  if ($a= = $rek3)
+                  if ($a == $rek3)
                   {
                     $totalPaguDana_Rek3=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k3,'Kd_Rek_3');
                     $no_=explode (".",$k3);
@@ -163,17 +163,17 @@ class FormAPerubahanController extends Controller
                     $data[]=[
                       'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                       'tingkat'=>3,
-                      'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2],
-                      'nama_uraian'=>$v3,
-                      'totalPaguDana'=>$totalPaguDana_Rek3['totalpagu'],
-                      'persen_bobot'=>$persen_bobot_rek3,
-                      'persen_rata2_fisik'=>$persen_rata2_fisik_rek3,
-                      'persen_tertimbang_fisik'=>$persen_tertimbang_fisik_rek3,
-                      'total_target'=>$totalPaguDana_Rek3['totaltarget'],
-                      'total_realisasi'=>$totalPaguDana_Rek3['totalrealisasi'],
-                      'persen_realisasi'=>$persen_realisasi_rek3,
-                      'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek3,
-                      'sisa_anggaran'=>$totalPaguDana_Rek3['totalpagu']-$totalPaguDana_Rek3['totalrealisasi'],
+                      'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2],
+                      'nama_uraian' => $v3,
+                      'totalPaguDana' => $totalPaguDana_Rek3['totalpagu'],
+                      'persen_bobot' => $persen_bobot_rek3,
+                      'persen_rata2_fisik' => $persen_rata2_fisik_rek3,
+                      'persen_tertimbang_fisik' => $persen_tertimbang_fisik_rek3,
+                      'total_target' => $totalPaguDana_Rek3['totaltarget'],
+                      'total_realisasi' => $totalPaguDana_Rek3['totalrealisasi'],
+                      'persen_realisasi' => $persen_realisasi_rek3,
+                      'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi_rek3,
+                      'sisa_anggaran' => $totalPaguDana_Rek3['totalpagu']-$totalPaguDana_Rek3['totalrealisasi'],
                     ];
                     foreach ($tingkat_4 as $k4=>$v4)
                     {
@@ -191,17 +191,17 @@ class FormAPerubahanController extends Controller
                         $data[]=[
                           'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                           'tingkat'=>4,
-                          'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3],
-                          'nama_uraian'=>$v4,
-                          'totalPaguDana'=>$totalPaguDana_Rek4['totalpagu'],
-                          'persen_bobot'=>$persen_bobot_rek4,
-                          'persen_rata2_fisik'=>$persen_rata2_fisik_rek4,
-                          'persen_tertimbang_fisik'=>$persen_tertimbang_fisik_rek4,
-                          'total_target'=>$totalPaguDana_Rek4['totaltarget'],
-                          'total_realisasi'=>$totalPaguDana_Rek4['totalrealisasi'],
-                          'persen_realisasi'=>$persen_realisasi_rek4,
-                          'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek4,
-                          'sisa_anggaran'=>$totalPaguDana_Rek4['totalpagu']-$totalPaguDana_Rek4['totalrealisasi'],
+                          'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3],
+                          'nama_uraian' => $v4,
+                          'totalPaguDana' => $totalPaguDana_Rek4['totalpagu'],
+                          'persen_bobot' => $persen_bobot_rek4,
+                          'persen_rata2_fisik' => $persen_rata2_fisik_rek4,
+                          'persen_tertimbang_fisik' => $persen_tertimbang_fisik_rek4,
+                          'total_target' => $totalPaguDana_Rek4['totaltarget'],
+                          'total_realisasi' => $totalPaguDana_Rek4['totalrealisasi'],
+                          'persen_realisasi' => $persen_realisasi_rek4,
+                          'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi_rek4,
+                          'sisa_anggaran' => $totalPaguDana_Rek4['totalpagu']-$totalPaguDana_Rek4['totalrealisasi'],
                         ];
                         foreach ($tingkat_5 as $k5=>$v5)
                         {
@@ -219,17 +219,17 @@ class FormAPerubahanController extends Controller
                             $data[]=[
                               'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                               'tingkat'=>5,
-                              'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4],
-                              'nama_uraian'=>$v5,
-                              'totalPaguDana'=>$totalPaguDana_Rek5['totalpagu'],
-                              'persen_bobot'=>$persen_bobot_rek5,
-                              'persen_rata2_fisik'=>$persen_rata2_fisik_rek5,
-                              'persen_tertimbang_fisik'=>$persen_tertimbang_fisik_rek5,
-                              'total_target'=>$totalPaguDana_Rek5['totaltarget'],
-                              'total_realisasi'=>$totalPaguDana_Rek5['totalrealisasi'],
-                              'persen_realisasi'=>$persen_realisasi_rek5,
-                              'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek5,
-                              'sisa_anggaran'=>$totalPaguDana_Rek5['totalpagu']-$totalPaguDana_Rek5['totalrealisasi'],
+                              'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4],
+                              'nama_uraian' => $v5,
+                              'totalPaguDana' => $totalPaguDana_Rek5['totalpagu'],
+                              'persen_bobot' => $persen_bobot_rek5,
+                              'persen_rata2_fisik' => $persen_rata2_fisik_rek5,
+                              'persen_tertimbang_fisik' => $persen_tertimbang_fisik_rek5,
+                              'total_target' => $totalPaguDana_Rek5['totaltarget'],
+                              'total_realisasi' => $totalPaguDana_Rek5['totalrealisasi'],
+                              'persen_realisasi' => $persen_realisasi_rek5,
+                              'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi_rek5,
+                              'sisa_anggaran' => $totalPaguDana_Rek5['totalpagu']-$totalPaguDana_Rek5['totalrealisasi'],
                             ];
 
                             foreach ($tingkat_6 as $k6=>$v6)
@@ -252,37 +252,37 @@ class FormAPerubahanController extends Controller
                                 $data[]=[
                                   'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                                   'tingkat'=>6,
-                                  'kode'=>$no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_6[0],
-                                  'nama_uraian'=>$v6,
-                                  'totalPaguDana'=>$totalPaguDana_Rek6['totalpagu'],
-                                  'persen_bobot'=>$persen_bobot_rek6,
-                                  'persen_rata2_fisik'=>$persen_rata2_fisik_rek6,
-                                  'persen_tertimbang_fisik'=>$persen_tertimbang_fisik_rek6,
-                                  'total_target'=>$totalPaguDana_Rek6['totaltarget'],
-                                  'total_realisasi'=>$totalPaguDana_Rek6['totalrealisasi'],
-                                  'persen_realisasi'=>$persen_realisasi_rek6,
-                                  'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi_rek6,
-                                  'sisa_anggaran'=>$totalPaguDana_Rek6['totalpagu']-$totalPaguDana_Rek6['totalrealisasi'],
+                                  'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_6[0],
+                                  'nama_uraian' => $v6,
+                                  'totalPaguDana' => $totalPaguDana_Rek6['totalpagu'],
+                                  'persen_bobot' => $persen_bobot_rek6,
+                                  'persen_rata2_fisik' => $persen_rata2_fisik_rek6,
+                                  'persen_tertimbang_fisik' => $persen_tertimbang_fisik_rek6,
+                                  'total_target' => $totalPaguDana_Rek6['totaltarget'],
+                                  'total_realisasi' => $totalPaguDana_Rek6['totalrealisasi'],
+                                  'persen_realisasi' => $persen_realisasi_rek6,
+                                  'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi_rek6,
+                                  'sisa_anggaran' => $totalPaguDana_Rek6['totalpagu']-$totalPaguDana_Rek6['totalrealisasi'],
                                 ];
 
                                 $nilaiuraian = $rka[$k6]['pagu_uraian'];
                                 $target = $rka[$k6]['target'];
-                                $totalTargetSatuKegiatan+ = $target;
+                                $totalTargetSatuKegiatan+= $target;
                                 $realisasi = $rka[$k6]['realisasi'];
-                                $totalRealisasiSatuKegiatan+ = $realisasi;
+                                $totalRealisasiSatuKegiatan+= $realisasi;
                                 $fisik = $rka[$k6]['fisik'];
                                 $volume = $rka[$k6]['volume'];
                                 $persen_bobot=Helper::formatPecahan($rka[$k6]['persen_bobot'],1);
-                                $totalPersenBobotSatuKegiatan+ = $persen_bobot;
+                                $totalPersenBobotSatuKegiatan+= $persen_bobot;
                                 $persen_target=Helper::formatPecahan($rka[$k6]['persen_target'],1);
-                                $totalPersenTargetSatuKegiatan+ = $persen_target;
+                                $totalPersenTargetSatuKegiatan+= $persen_target;
                                 $persen_realisasi=Helper::formatPecahan($rka[$k6]['persen_realisasi'],1);
-                                $totalPersenRealisasiSatuKegiatan+ = $persen_realisasi;
+                                $totalPersenRealisasiSatuKegiatan+= $persen_realisasi;
                                 $persen_tertimbang_realisasi=Helper::formatPecahan($rka[$k6]['persen_tertimbang_realisasi'],1);
                                 $persen_fisik=Helper::formatPecahan($rka[$k6]['persen_fisik'],1);
-                                $totalPersenFisikSatuKegiatan+ = $persen_fisik;
+                                $totalPersenFisikSatuKegiatan+= $persen_fisik;
                                 $persen_tertimbang_fisik=Helper::formatPecahan($rka[$k6]['persen_tertimbang_fisik'],1);
-                                $totalPersenTertimbangFisikSatuKegiatan+ = $persen_tertimbang_fisik;
+                                $totalPersenTertimbangFisikSatuKegiatan+= $persen_tertimbang_fisik;
                                 $sisa_anggaran = $nilaiuraian-$realisasi;
 
                                 if (isset($rka[$k6]['child'][0]))
@@ -295,38 +295,38 @@ class FormAPerubahanController extends Controller
                                     $nama_uraian = $n['nama_uraian'];
                                     $nilaiuraian = $n['pagu_uraian'];
                                     $target = $n['target'];
-                                    $totalTargetSatuKegiatan+ = $target;
+                                    $totalTargetSatuKegiatan+= $target;
                                     $realisasi = $n['realisasi'];
-                                    $totalRealisasiSatuKegiatan+ = $realisasi;
+                                    $totalRealisasiSatuKegiatan+= $realisasi;
                                     $fisik = $n['fisik'];
                                     $volume = $n['volume'];
                                     $persen_bobot=Helper::formatPecahan($n['persen_bobot'],1);
-                                    $totalPersenBobotSatuKegiatan+ = $persen_bobot;
+                                    $totalPersenBobotSatuKegiatan+= $persen_bobot;
                                     $persen_target=Helper::formatPecahan($n['persen_target'],1);
-                                    $totalPersenTargetSatuKegiatan+ = $persen_target;
+                                    $totalPersenTargetSatuKegiatan+= $persen_target;
                                     $persen_realisasi=Helper::formatPecahan($n['persen_realisasi'],1);
-                                    $totalPersenRealisasiSatuKegiatan+ = $persen_realisasi;
+                                    $totalPersenRealisasiSatuKegiatan+= $persen_realisasi;
                                     $persen_tertimbang_realisasi=Helper::formatPecahan($n['persen_tertimbang_realisasi'],1);
                                     $persen_fisik=Helper::formatPecahan($n['persen_fisik'],1);
-                                    $totalPersenFisikSatuKegiatan+ = $persen_fisik;
+                                    $totalPersenFisikSatuKegiatan+= $persen_fisik;
                                     $persen_tertimbang_fisik=Helper::formatPecahan($n['persen_tertimbang_fisik'],1);
-                                    $totalPersenTertimbangFisikSatuKegiatan+ = $persen_tertimbang_fisik;
+                                    $totalPersenTertimbangFisikSatuKegiatan+= $persen_tertimbang_fisik;
                                     $sisa_anggaran = $nilaiuraian-$realisasi;
 
                                     $data[]=[
                                       'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                                       'tingkat'=>7,
                                       'kode' => '',
-                                      'nama_uraian'=>$nama_uraian,
-                                      'totalPaguDana'=>$nilaiuraian,
-                                      'persen_bobot'=>$persen_bobot,
-                                      'persen_rata2_fisik'=>$persen_fisik,
-                                      'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                                      'total_target'=>$target,
-                                      'total_realisasi'=>$realisasi,
-                                      'persen_realisasi'=>$persen_realisasi,
-                                      'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                                      'sisa_anggaran'=>$sisa_anggaran,
+                                      'nama_uraian' => $nama_uraian,
+                                      'totalPaguDana' => $nilaiuraian,
+                                      'persen_bobot' => $persen_bobot,
+                                      'persen_rata2_fisik' => $persen_fisik,
+                                      'persen_tertimbang_fisik' => $persen_tertimbang_fisik,
+                                      'total_target' => $target,
+                                      'total_realisasi' => $realisasi,
+                                      'persen_realisasi' => $persen_realisasi,
+                                      'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi,
+                                      'sisa_anggaran' => $sisa_anggaran,
                                     ];
                                   }
                                 }
@@ -347,15 +347,15 @@ class FormAPerubahanController extends Controller
       }
       $total_persen_rata2_realisasi=Helper::formatPersen($totalRealisasiSatuKegiatan,$totalPaguDana);
       $total_data=[
-        'totalPaguDana'=>$totalPaguDana,
+        'totalPaguDana' => $totalPaguDana,
         'totalPersenBobot'=>Helper::formatPersen($totalPersenBobotSatuKegiatan,100),
         'totalRealisasiFisik'=>Helper::formatPecahan($totalPersenFisikSatuKegiatan,$totalUraian),
-        'totalPersenTertimbangFisikSatuKegiatan'=>$totalPersenTertimbangFisikSatuKegiatan,
-        'totalTargetSatuKegiatan'=>$totalTargetSatuKegiatan,
-        'totalRealisasiSatuKegiatan'=>$totalRealisasiSatuKegiatan,
+        'totalPersenTertimbangFisikSatuKegiatan' => $totalPersenTertimbangFisikSatuKegiatan,
+        'totalTargetSatuKegiatan' => $totalTargetSatuKegiatan,
+        'totalRealisasiSatuKegiatan' => $totalRealisasiSatuKegiatan,
         'total_persen_rata2_realisasi'=>Helper::formatPersen($total_persen_rata2_realisasi,100),
         'totalPersenTertimbangRealisasiSatuKegiatan'=>Helper::formatPecahan($total_persen_rata2_realisasi,$totalPersenBobotSatuKegiatan),
-        'sisa_anggaran'=>$totalPaguDana-$totalRealisasiSatuKegiatan
+        'sisa_anggaran' => $totalPaguDana-$totalRealisasiSatuKegiatan
       ];
 
       $this->generateStatistik6($RKAID);
@@ -466,10 +466,10 @@ class FormAPerubahanController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'rka'=>$data,
-        'total_data'=>$total_data,
-        'chart_keuangan'=>$chart_keuangan,
-        'chart_fisik'=>$chart_fisik,
+        'rka' => $data,
+        'total_data' => $total_data,
+        'chart_keuangan' => $chart_keuangan,
+        'chart_fisik' => $chart_fisik,
         'message' => 'Fetch data form a perubahan berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
@@ -478,10 +478,10 @@ class FormAPerubahanController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'rka'=>$data,
-        'total_data'=>$total_data,
-        'chart_keuangan'=>$chart_keuangan,
-        'chart_fisik'=>$chart_fisik,
+        'rka' => $data,
+        'total_data' => $total_data,
+        'chart_keuangan' => $chart_keuangan,
+        'chart_fisik' => $chart_fisik,
         'message' => 'Fetch data form a perubahan berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
@@ -505,13 +505,13 @@ class FormAPerubahanController extends Controller
     {
       $unitkerja = SubOrganisasiModel::find($SOrgID);
       $data_report=[
-        'RKAID'=>$RKAID,
-        'kode_subkegiatan'=>$unitkerja->kode_subkegiatan,
-        'SOrgNm'=>$unitkerja->SOrgNm,
-        'tahun'=>$tahun,
-        'no_bulan'=>$no_bulan,
-        'nama_pengguna_anggaran'=>$unitkerja->NamaKepalaUnitKerja,
-        'nip_pengguna_anggaran'=>$unitkerja->NIPKepalaUnitKerja
+        'RKAID' => $RKAID,
+        'kode_subkegiatan' => $unitkerja->kode_subkegiatan,
+        'SOrgNm' => $unitkerja->SOrgNm,
+        'tahun' => $tahun,
+        'no_bulan' => $no_bulan,
+        'nama_pengguna_anggaran' => $unitkerja->NamaKepalaUnitKerja,
+        'nip_pengguna_anggaran' => $unitkerja->NIPKepalaUnitKerja
       ];
       $report= new \App\Models\Renja\FormAPerubahanModel ($data_report);
       $generate_date=date('Y-m-d_H_m_s');
@@ -568,14 +568,14 @@ class FormAPerubahanController extends Controller
     
       Statistik6Model::create([
         'Statistik6ID'=>Uuid::uuid4()->toString(),
-        'RKAID'=>$RKAID,
-        'kode_kegiatan'=>$data_sub_kegiatan->kode_kegiatan,
-        'kode_sub_kegiatan'=>$data_sub_kegiatan->kode_sub_kegiatan,
-        'Nm_Kegiatan'=>$data_sub_kegiatan->Nm_Kegiatan,
-        'Nm_Sub_Kegiatan'=>$data_sub_kegiatan->Nm_Sub_Kegiatan,
+        'RKAID' => $RKAID,
+        'kode_kegiatan' => $data_sub_kegiatan->kode_kegiatan,
+        'kode_sub_kegiatan' => $data_sub_kegiatan->kode_sub_kegiatan,
+        'Nm_Kegiatan' => $data_sub_kegiatan->Nm_Kegiatan,
+        'Nm_Sub_Kegiatan' => $data_sub_kegiatan->Nm_Sub_Kegiatan,
         
         'PaguDana1'=>0,
-        'PaguDana2'=>$data_sub_kegiatan->PaguDana2,            
+        'PaguDana2' => $data_sub_kegiatan->PaguDana2,            
         'PaguDana3'=>0,            
         'JumlahKegiatan1'=>0,
         'JumlahKegiatan2' => 1,
@@ -586,44 +586,44 @@ class FormAPerubahanController extends Controller
         'JumlahSubKegiatan1'=>0,
 
         'JumlahUraian1'=>0,
-        'JumlahUraian2'=>$jumlahuraian,
+        'JumlahUraian2' => $jumlahuraian,
         'JumlahUraian3'=>0,
             
         'TargetFisik1'=>0,
-        'TargetFisik2'=>$target_fisik,
+        'TargetFisik2' => $target_fisik,
         'TargetFisik3'=>0,
         'RealisasiFisik1'=>0,
-        'RealisasiFisik2'=>$persen_realisasi_fisik,
+        'RealisasiFisik2' => $persen_realisasi_fisik,
         'RealisasiFisik3'=>0,
 
         'TargetKeuangan1'=>0,
-        'TargetKeuangan2'=>$totalTargetKeuangan,
+        'TargetKeuangan2' => $totalTargetKeuangan,
         'TargetKeuangan3'=>0,
         'RealisasiKeuangan1'=>0,
-        'RealisasiKeuangan2'=>$totalRealisasiKeuangan,
+        'RealisasiKeuangan2' => $totalRealisasiKeuangan,
         'RealisasiKeuangan3'=>0,
 
         'PersenTargetKeuangan1'=>0,
-        'PersenTargetKeuangan2'=>$persen_target_keuangan,
+        'PersenTargetKeuangan2' => $persen_target_keuangan,
         'PersenTargetKeuangan3'=>0,
         'PersenRealisasiKeuangan1'=>0,
-        'PersenRealisasiKeuangan2'=>$persen_realisasi_keuangan,
+        'PersenRealisasiKeuangan2' => $persen_realisasi_keuangan,
         'PersenRealisasiKeuangan3'=>0,
             
         'SisaPaguDana1'=>0,
-        'SisaPaguDana2'=>$sisa_anggaran,
+        'SisaPaguDana2' => $sisa_anggaran,
         'SisaPaguDana3'=>0,
 
         'PersenSisaPaguDana1'=>0,
-        'PersenSisaPaguDana2'=>$persen_sisa_anggaran,
+        'PersenSisaPaguDana2' => $persen_sisa_anggaran,
         'PersenSisaPaguDana3'=>0,
 
         'Bobot1'=>0,
         'Bobot2' => 100,
         'Bobot3'=>0,
         
-        'Bulan'=>$no_bulan,
-        'TA'=>$data_sub_kegiatan->TA,
+        'Bulan' => $no_bulan,
+        'TA' => $data_sub_kegiatan->TA,
         'EntryLvl'=>2,
       ]);
     }

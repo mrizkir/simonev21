@@ -45,9 +45,9 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'opd'=>$data,
-      'jumlah_apbd'=>$data->sum('PaguDana1'),
-      'jumlah_apbdp'=>$data->sum('PaguDana2'),
+      'opd' => $data,
+      'jumlah_apbd' => $data->sum('PaguDana1'),
+      'jumlah_apbdp' => $data->sum('PaguDana2'),
       'message' => 'Fetch data opd berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
@@ -118,9 +118,9 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'opd'=>$data,
-      'jumlah_apbd'=>$data->sum('PaguDana1'),
-      'jumlah_apbdp'=>$data->sum('PaguDana2'),
+      'opd' => $data,
+      'jumlah_apbd' => $data->sum('PaguDana1'),
+      'jumlah_apbdp' => $data->sum('PaguDana2'),
       'message' => 'Fetch data opd berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }    
@@ -174,33 +174,33 @@ class OrganisasiController extends Controller {
     $organisasi = OrganisasiModel::create([
       'OrgID' => Uuid::uuid4()->toString(), 
     
-      'BidangID_1'=>$request->input('BidangID_1'),         
-      'kode_bidang_1'=>$request->input('kode_bidang_1'),
-      'Nm_Bidang_1'=>$request->input('Nm_Bidang_1'),
+      'BidangID_1' => $request->input('BidangID_1'),         
+      'kode_bidang_1' => $request->input('kode_bidang_1'),
+      'Nm_Bidang_1' => $request->input('Nm_Bidang_1'),
       
-      'BidangID_2'=>$BidangID_2,         
-      'kode_bidang_2'=>$kode_bidang_2,         
-      'Nm_Bidang_2'=>$Nm_Bidang_2,         
+      'BidangID_2' => $BidangID_2,         
+      'kode_bidang_2' => $kode_bidang_2,         
+      'Nm_Bidang_2' => $Nm_Bidang_2,         
 
-      'BidangID_3'=>$BidangID_3,         
-      'kode_bidang_3'=>$kode_bidang_3,         
-      'Nm_Bidang_3'=>$Nm_Bidang_3,         
+      'BidangID_3' => $BidangID_3,         
+      'kode_bidang_3' => $kode_bidang_3,         
+      'Nm_Bidang_3' => $Nm_Bidang_3,         
 
-      'kode_organisasi'=>$request->input('kode_organisasi'), 
-      'Kd_Organisasi'=>$request->input('Kd_Organisasi'), 
-      'Nm_Organisasi'=>$request->input('Nm_Organisasi'), 
-      'Alias_Organisasi'=>$request->input('Alias_Organisasi'),                
-      'Alamat'=>$request->input('Alamat'), 
-      'NamaKepalaSKPD'=>$request->input('NamaKepalaSKPD'), 
-      'NIPKepalaSKPD'=>$request->input('NIPKepalaSKPD'), 
+      'kode_organisasi' => $request->input('kode_organisasi'), 
+      'Kd_Organisasi' => $request->input('Kd_Organisasi'), 
+      'Nm_Organisasi' => $request->input('Nm_Organisasi'), 
+      'Alias_Organisasi' => $request->input('Alias_Organisasi'),                
+      'Alamat' => $request->input('Alamat'), 
+      'NamaKepalaSKPD' => $request->input('NamaKepalaSKPD'), 
+      'NIPKepalaSKPD' => $request->input('NIPKepalaSKPD'), 
 
-      'TA'=>$request->input('TA'), 
+      'TA' => $request->input('TA'), 
     ]);        
     
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'opd'=>$organisasi,                                    
+      'opd' => $organisasi,                                    
       'message' => 'Data organisasi '.$organisasi->OrgNm.' berhasil disimpan.'
     ], 200); 
   }
@@ -461,7 +461,7 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'update',
-      'opd'=>$organisasi,                                    
+      'opd' => $organisasi,                                    
       'message' => 'Data organisasi '.$organisasi->Nm_Organisasi.' berhasil diubah.'
     ], 200); 
 
@@ -515,7 +515,7 @@ class OrganisasiController extends Controller {
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'opd'=>$organisasi,                                    
+        'opd' => $organisasi,                                    
         'message' => 'Status input untuk OPD '.$organisasi->Nm_Organisasi.' berhasil diubah.'
       ], 200);       
     }
@@ -645,9 +645,9 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'opd'=>$data,
-      'jumlah_apbd'=>$data->sum('PaguDana1'),
-      'jumlah_apbdp'=>$data->sum('PaguDana2'),
+      'opd' => $data,
+      'jumlah_apbd' => $data->sum('PaguDana1'),
+      'jumlah_apbdp' => $data->sum('PaguDana2'),
       'message' => 'Fetch data opd berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);   
   }
@@ -752,8 +752,8 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'organisasi'=>$organisasi,
-      'unitkerja'=>$unitkerja,                                    
+      'organisasi' => $organisasi,
+      'unitkerja' => $unitkerja,                                    
       'message' => 'Data unit kerja berdasarkan id '.$organisasi->OrgNm.' berhasil diperoleh.'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
@@ -782,26 +782,26 @@ class OrganisasiController extends Controller {
       {
         case 'pa' :
           $pa[]=[
-            'text'=>$item->Nm_ASN,
-            'value'=>$item->ASNID
+            'text' => $item->Nm_ASN,
+            'value' => $item->ASNID
           ];
         break;                    
         case 'kpa' :
           $kpa[]=[
-            'text'=>$item->Nm_ASN,
-            'value'=>$item->ASNID
+            'text' => $item->Nm_ASN,
+            'value' => $item->ASNID
           ];;
         break;                    
         case 'ppk' :
           $ppk[]=[
-            'text'=>$item->Nm_ASN,
-            'value'=>$item->ASNID
+            'text' => $item->Nm_ASN,
+            'value' => $item->ASNID
           ];
         break;                    
         case 'pptk' :
           $pptk[]=[
-            'text'=>$item->Nm_ASN,
-            'value'=>$item->ASNID
+            'text' => $item->Nm_ASN,
+            'value' => $item->ASNID
           ];
         break;                   
       }
@@ -810,10 +810,10 @@ class OrganisasiController extends Controller {
       'status' => 1,
       'pid' => 'fetchdata',                                    
       'pejabat'=>[
-        'pa'=>$pa,
-        'kpa'=>$kpa,
-        'ppk'=>$ppk,
-        'pptk'=>$pptk,
+        'pa' => $pa,
+        'kpa' => $kpa,
+        'ppk' => $ppk,
+        'pptk' => $pptk,
       ],                                    
       'message' => 'Data unit kerja berdasarkan id '.$id.' berhasil diperoleh.'
     ], 200); 

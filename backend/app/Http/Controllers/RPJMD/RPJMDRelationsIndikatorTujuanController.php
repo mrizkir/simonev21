@@ -118,7 +118,7 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload'=>$indikatortujuan,                                    
+      'payload' => $indikatortujuan,                                    
       'message' => 'Data Indikator Tujuan berhasil disimpan.'
     ], 200);
   }

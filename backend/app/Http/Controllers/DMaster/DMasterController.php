@@ -39,7 +39,7 @@ class DMasterController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'dmaster'=>$dmaster,
+      'dmaster' => $dmaster,
       'message' => 'Fetch data master berhasil diperoleh'
   ], 200); 
   }

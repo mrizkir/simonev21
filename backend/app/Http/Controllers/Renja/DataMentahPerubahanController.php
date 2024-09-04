@@ -93,7 +93,7 @@ class DataMentahPerubahanController extends Controller
 		return Response()->json([
 			'status' => 1,
 			'pid' => 'fetchdata',								
-			'rka'=>$data,
+			'rka' => $data,
 			'message' => 'Fetch data rka murni berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
 	}   

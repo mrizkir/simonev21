@@ -63,7 +63,7 @@ class VariablesController extends Controller
       break;
     }
     return Response()->json([
-      'status'=>$status,
+      'status' => $status,
       'pid' => 'fetch',  
       'result' => $data,              
       'message'=> $message,
@@ -94,7 +94,7 @@ class VariablesController extends Controller
     
     foreach($config as $k=>$v)
     {
-      \DB::table('configuration')->where('config_id', $k)->update(['config_value'=>$v]);      
+      \DB::table('configuration')->where('config_id', $k)->update(['config_value' => $v]);      
     }
 
     ConfigurationModel::clear();
@@ -130,7 +130,7 @@ class VariablesController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'update',       
-      'config'=>$config,                                                               
+      'config' => $config,                                                               
       'message'=>"Data setting $pid berhasil diubah."
     ], 200); 
   }

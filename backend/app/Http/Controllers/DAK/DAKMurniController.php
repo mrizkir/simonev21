@@ -214,13 +214,13 @@ class DAKMurniController extends Controller
       {
         $statistik1->PersenRealisasiKeuangan1 = Helper::formatPersen($statistik1->RealisasiKeuangan1, $statistik1->PaguDana1);
         $statistik1=[
-          'PaguDana1'=>$statistik1->PaguDana1,             
-          'JumlahProgram1'=>$statistik1->JumlahProgram1,             
-          'JumlahKegiatan1'=>$statistik1->JumlahKegiatan1,             
-          'JumlahSubKegiatan1'=>$statistik1->JumlahSubKegiatan1,             
-          'RealisasiKeuangan1'=>$statistik1->RealisasiKeuangan1,             
-          'RealisasiFisik1'=>$statistik1->RealisasiFisik1, 
-          'PersenRealisasiKeuangan1'=>$statistik1->PersenRealisasiKeuangan1, 
+          'PaguDana1' => $statistik1->PaguDana1,             
+          'JumlahProgram1' => $statistik1->JumlahProgram1,             
+          'JumlahKegiatan1' => $statistik1->JumlahKegiatan1,             
+          'JumlahSubKegiatan1' => $statistik1->JumlahSubKegiatan1,             
+          'RealisasiKeuangan1' => $statistik1->RealisasiKeuangan1,             
+          'RealisasiFisik1' => $statistik1->RealisasiFisik1, 
+          'PersenRealisasiKeuangan1' => $statistik1->PersenRealisasiKeuangan1, 
         ];
       }			
     }
@@ -255,13 +255,13 @@ class DAKMurniController extends Controller
 
         $statistik1->PersenRealisasiKeuangan1=Helper::formatPersen($statistik1->RealisasiKeuangan1,$statistik1->PaguDana1);                
         $statistik1=[
-          'PaguDana1'=>$statistik1->PaguDana1,             
-          'JumlahProgram1'=>$statistik1->JumlahProgram1,             
-          'JumlahKegiatan1'=>$statistik1->JumlahKegiatan1,             
-          'JumlahSubKegiatan1'=>$statistik1->JumlahSubKegiatan1,             
-          'RealisasiKeuangan1'=>$statistik1->RealisasiKeuangan1,             
-          'RealisasiFisik1'=>$statistik1->RealisasiFisik1, 
-          'PersenRealisasiKeuangan1'=>$statistik1->PersenRealisasiKeuangan1, 
+          'PaguDana1' => $statistik1->PaguDana1,             
+          'JumlahProgram1' => $statistik1->JumlahProgram1,             
+          'JumlahKegiatan1' => $statistik1->JumlahKegiatan1,             
+          'JumlahSubKegiatan1' => $statistik1->JumlahSubKegiatan1,             
+          'RealisasiKeuangan1' => $statistik1->RealisasiKeuangan1,             
+          'RealisasiFisik1' => $statistik1->RealisasiFisik1, 
+          'PersenRealisasiKeuangan1' => $statistik1->PersenRealisasiKeuangan1, 
         ];
       }                         
     }
@@ -269,7 +269,7 @@ class DAKMurniController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'update',                                    
-      'statistik1'=>$statistik1,                                    
+      'statistik1' => $statistik1,                                    
       'message' => 'Data statistik1 berhasil di update'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
@@ -389,11 +389,11 @@ class DAKMurniController extends Controller
           $RKAID = $n->RKAID;
           $nilai_pagu_proyek = $n->PaguDana1;
           $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
-          $totalPersenBobot+ = $persen_bobot;
+          $totalPersenBobot+= $persen_bobot;
 
           //jumlah baris uraian
           $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();	
-          $total_uraian+ = $jumlahuraian;
+          $total_uraian+= $jumlahuraian;
 
           $data_target=\DB::table('trRKATargetRinc')
                     ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
@@ -408,26 +408,26 @@ class DAKMurniController extends Controller
           //menghitung persen target fisik         
           $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
           $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
-          $totalPersenTargetFisik+ = $persen_target_fisik;               
+          $totalPersenTargetFisik+= $persen_target_fisik;               
 
           //menghitung persen realisasi fisik                
           $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-          $totalPersenRealisasiFisik+ = $persen_realisasi_fisik; 
+          $totalPersenRealisasiFisik+= $persen_realisasi_fisik; 
           
           $persen_tertimbang_fisik=0.00;
           if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
           {
             $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
           }							
-          $total_ttb_fisik+ = $persen_tertimbang_fisik;
+          $total_ttb_fisik+= $persen_tertimbang_fisik;
 
           //menghitung total target dan realisasi keuangan 
           $totalTargetKeuangan = $data_target[0]->totaltarget;
-          $totalTargetKeuanganKeseluruhan+ = $totalTargetKeuangan;
+          $totalTargetKeuanganKeseluruhan+= $totalTargetKeuangan;
           $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
         
           $totalRealisasiKeuangan = $data_realisasi[0]->realisasi1;
-          $totalRealisasiKeuanganKeseluruhan+ = $totalRealisasiKeuangan;
+          $totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
           $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
           
           $persen_tertimbang_keuangan=0.00;
@@ -438,7 +438,7 @@ class DAKMurniController extends Controller
           $total_ttb_keuangan += $persen_tertimbang_keuangan;
 
           $sisa_anggaran = $nilai_pagu_proyek-$totalRealisasiKeuangan;
-          $totalSisaAnggaran+ = $sisa_anggaran; 
+          $totalSisaAnggaran+= $sisa_anggaran; 
           
           $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
@@ -458,18 +458,18 @@ class DAKMurniController extends Controller
       $total_ttb_fisik=round($total_ttb_fisik,2);
       $total_ttb_keuangan=round($total_ttb_keuangan,2);
       $total_data=[
-        'totalPaguOPD'=>$totalPaguOPD,
-        'totalPersenBobot'=>$totalPersenBobot,
-        'totalPersenTargetFisik'=>$totalPersenTargetFisik,
-        'totalPersenRealisasiFisik'=>$totalPersenRealisasiFisik,
-        'total_ttb_fisik'=>$total_ttb_fisik,
-        'totalTargetKeuanganKeseluruhan'=>$totalTargetKeuanganKeseluruhan,
-        'totalRealisasiKeuanganKeseluruhan'=>$totalRealisasiKeuanganKeseluruhan,
-        'totalPersenTargetKeuangan'=>$totalPersenTargetKeuangan,
-        'totalPersenRealisasiKeuangan'=>$totalPersenRealisasiKeuangan,
-        'total_ttb_keuangan'=>$total_ttb_keuangan,
-        'totalSisaAnggaran'=>$totalSisaAnggaran,
-        'totalPersenSisaAnggaran'=>$totalPersenSisaAnggaran,
+        'totalPaguOPD' => $totalPaguOPD,
+        'totalPersenBobot' => $totalPersenBobot,
+        'totalPersenTargetFisik' => $totalPersenTargetFisik,
+        'totalPersenRealisasiFisik' => $totalPersenRealisasiFisik,
+        'total_ttb_fisik' => $total_ttb_fisik,
+        'totalTargetKeuanganKeseluruhan' => $totalTargetKeuanganKeseluruhan,
+        'totalRealisasiKeuanganKeseluruhan' => $totalRealisasiKeuanganKeseluruhan,
+        'totalPersenTargetKeuangan' => $totalPersenTargetKeuangan,
+        'totalPersenRealisasiKeuangan' => $totalPersenRealisasiKeuangan,
+        'total_ttb_keuangan' => $total_ttb_keuangan,
+        'totalSisaAnggaran' => $totalSisaAnggaran,
+        'totalPersenSisaAnggaran' => $totalPersenSisaAnggaran,
       ];                           
     }
     return $total_data;
@@ -566,11 +566,11 @@ class DAKMurniController extends Controller
             $RKAID = $n->RKAID;
             $nilai_pagu_proyek = $n->PaguDana1;
             $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguOPD);
-            $totalPersenBobot+ = $persen_bobot;
+            $totalPersenBobot+= $persen_bobot;
 
             //jumlah baris uraian
             $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();	
-            $total_uraian+ = $jumlahuraian;
+            $total_uraian+= $jumlahuraian;
 
             $data_target=\DB::table('trRKATargetRinc')
                     ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
@@ -587,26 +587,26 @@ class DAKMurniController extends Controller
             //menghitung persen target fisik         
             $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
             $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
-            $totalPersenTargetFisik+ = $persen_target_fisik;               
+            $totalPersenTargetFisik+= $persen_target_fisik;               
 
             //menghitung persen realisasi fisik                
             $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
-            $totalPersenRealisasiFisik+ = $persen_realisasi_fisik; 
+            $totalPersenRealisasiFisik+= $persen_realisasi_fisik; 
             
             $persen_tertimbang_fisik=0.00;
             if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
             }							
-            $total_ttb_fisik+ = $persen_tertimbang_fisik;
+            $total_ttb_fisik+= $persen_tertimbang_fisik;
 
             //menghitung total target dan realisasi keuangan 
             $totalTargetKeuangan = $data_target[0]->totaltarget;
-            $totalTargetKeuanganKeseluruhan+ = $totalTargetKeuangan;
+            $totalTargetKeuanganKeseluruhan+= $totalTargetKeuangan;
             $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
           
             $totalRealisasiKeuangan = $data_realisasi[0]->realisasi1;
-            $totalRealisasiKeuanganKeseluruhan+ = $totalRealisasiKeuangan;
+            $totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
             $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
             
             $persen_tertimbang_keuangan=0.00;
@@ -617,7 +617,7 @@ class DAKMurniController extends Controller
             $total_ttb_keuangan += $persen_tertimbang_keuangan;
 
             $sisa_anggaran = $nilai_pagu_proyek-$totalRealisasiKeuangan;
-            $totalSisaAnggaran+ = $sisa_anggaran; 
+            $totalSisaAnggaran+= $sisa_anggaran; 
             
             $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
@@ -646,64 +646,64 @@ class DAKMurniController extends Controller
         {
           Statistik2Model::create([
             'Statistik2ID' => uniqid ('uid'),
-            'OrgID'=>$OrgID,
-            'kode_organisasi'=>$opd->kode_organisasi,
-            'OrgNm'=>$opd->Nm_Organisasi,   
+            'OrgID' => $OrgID,
+            'kode_organisasi' => $opd->kode_organisasi,
+            'OrgNm' => $opd->Nm_Organisasi,   
                                  
-            'PaguDana1'=>$totalPaguOPD,            
+            'PaguDana1' => $totalPaguOPD,            
             'PaguDana2'=>0,            
             'PaguDana3'=>0,      
 
-            'JumlahKegiatan1'=>$total_kegiatan,
+            'JumlahKegiatan1' => $total_kegiatan,
             'JumlahKegiatan2'=>0,
             'JumlahKegiatan3'=>0,
 
-            'JumlahSubKegiatan1'=>$total_sub_kegiatan,
+            'JumlahSubKegiatan1' => $total_sub_kegiatan,
             'JumlahSubKegiatan2'=>0,
             'JumlahSubKegiatan3'=>0,
 
-            'JumlahUraian1'=>$total_uraian,
+            'JumlahUraian1' => $total_uraian,
             'JumlahUraian2'=>0,
             'JumlahUraian3'=>0,
               
-            'TargetFisik1'=>$totalPersenTargetFisik,
+            'TargetFisik1' => $totalPersenTargetFisik,
             'TargetFisik2'=>0,
             'TargetFisik3'=>0,
 
-            'RealisasiFisik1'=>$totalPersenRealisasiFisik,
+            'RealisasiFisik1' => $totalPersenRealisasiFisik,
             'RealisasiFisik2'=>0,
             'RealisasiFisik3'=>0,
 
-            'TargetKeuangan1'=>$totalTargetKeuanganKeseluruhan,
+            'TargetKeuangan1' => $totalTargetKeuanganKeseluruhan,
             'TargetKeuangan2'=>0,
             'TargetKeuangan3'=>0,
 
-            'RealisasiKeuangan1'=>$totalRealisasiKeuanganKeseluruhan,
+            'RealisasiKeuangan1' => $totalRealisasiKeuanganKeseluruhan,
             'RealisasiKeuangan2'=>0,
             'RealisasiKeuangan3'=>0,
 
-            'PersenTargetKeuangan1'=>$totalPersenTargetKeuangan,
+            'PersenTargetKeuangan1' => $totalPersenTargetKeuangan,
             'PersenTargetKeuangan2'=>0,
             'PersenTargetKeuangan3'=>0,
 
-            'PersenRealisasiKeuangan1'=>$totalPersenRealisasiKeuangan,
+            'PersenRealisasiKeuangan1' => $totalPersenRealisasiKeuangan,
             'PersenRealisasiKeuangan2'=>0,
             'PersenRealisasiKeuangan3'=>0,
               
-            'SisaPaguDana1'=>$totalSisaAnggaran,
+            'SisaPaguDana1' => $totalSisaAnggaran,
             'SisaPaguDana2'=>0,
             'SisaPaguDana3'=>0,
 
-            'PersenSisaPaguDana1'=>$totalPersenSisaAnggaran,
+            'PersenSisaPaguDana1' => $totalPersenSisaAnggaran,
             'PersenSisaPaguDana2'=>0,
             'PersenSisaPaguDana3'=>0,
 
-            'Bobot1'=>$totalPersenBobot,
+            'Bobot1' => $totalPersenBobot,
             'Bobot2'=>0,
             'Bobot3'=>0,
             
-            'Bulan'=>$i,
-            'TA'=>$tahun,
+            'Bulan' => $i,
+            'TA' => $tahun,
             'EntryLvl' => 11,
           ]);
         }

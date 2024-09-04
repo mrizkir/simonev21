@@ -48,7 +48,7 @@ class PejabatController extends Controller
 		return Response()->json([
 								'status' => 1,
 								'pid' => 'fetchdata',
-								'pejabat'=>$data,
+								'pejabat' => $data,
 								'message' => 'Fetch data Pejabat berhasil diperoleh'
 							], 200);  
 
@@ -80,13 +80,13 @@ class PejabatController extends Controller
 			'OrgID'=> $OrgID,
 			'ASNID'=> $request->input('ASNID'),
 			'Jenis_Jabatan' => $Jenis_Jabatan,
-			'TA'=>$request->input('TA'),
+			'TA' => $request->input('TA'),
 		]);   
 
 		return Response()->json([
 									'status' => 1,
 									'pid' => 'store',
-									'pejabat'=>$asn,                                    
+									'pejabat' => $asn,                                    
 									'message'=>"Data ASN berhasil disimpan sebagai pejabat $Jenis_Jabatan."
 								], 200); 
 	

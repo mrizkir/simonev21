@@ -39,16 +39,15 @@
         <template v-slot:top>
           <v-toolbar flat>
             <v-autocomplete
-              :items="daftar_opd"
+              :items="daftar_bidang_urusan"
               density="compact"
               variant="outlined"
-              v-model="OrgID_Selected"
-              label="OPD / SKPD PENANGGUNG JAWAB"              
-              item-title="Nm_Organisasi"
-              item-value="OrgID"
+              v-model="BidangID"
+              label="BIDANG URUSAN"              
+              item-title="bidangurusan"
+              item-value="BidangID"
               class="pa-3 mt-4"
-              clearable
-              return-object
+              clearable              
             />
             <v-dialog
               v-model="dialogfrm"
@@ -67,9 +66,25 @@
                         ID PROGRAM
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ dataprogram.RpjmdProgramID }}
+                        {{ dataprogram.PrgID }}
                       </v-col>
                     </v-row>
+                    <v-row tag="dl" class="text-body-2" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        URUSAN
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        {{ dataprogram.Nm_Urusan }}
+                      </v-col>
+                    </v-row>                    
+                    <v-row tag="dl" class="text-body-2" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        BIDANG URUSAN
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        {{ dataprogram.Nm_Bidang }}
+                      </v-col>
+                    </v-row>                    
                     <v-row tag="dl" class="text-body-2" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
                         KODE PROGRAM
@@ -83,7 +98,7 @@
                         NAMA PROGRAM
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ dataprogram.Nm_RpjmdProgram }}
+                        {{ dataprogram.Nm_Program }}
                       </v-col>
                     </v-row>
                     <hr class="mb-3">
@@ -122,286 +137,157 @@
                     <v-number-input
                       v-model="formdata.data_1"  
                       density="compact"
-                      :label="'KONDISI AWAL ' + labeltahun[0]"
+                      :label="'KONDISI KINERJA AWAL RPJMD ' + labeltahun[0]"
                       variant="outlined"
                       prepend-inner-icon="mdi-graph"
                       :disabled="disabledtarget"
                       :rules="rule_kondisi_awal"
                     />                    
-                    <template v-if="formdata.Operasi == 'RANGE'">
-                      <p class="mb-3">Kondisi Awal {{ labeltahun[1] }}:</p>                      
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_2"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_3"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>                      
-                      </v-row>
-                      <hr class="mb-3">
-                      <p class="mb-3">Target Tahun {{ labeltahun[2] }}:</p>
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_4"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_5"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>                      
-                      </v-row>
-                      <p class="mb-3">Target Tahun {{ labeltahun[3] }}:</p>
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_6"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_7"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>
-                      </v-row>
-                      <p class="mb-3">Target Tahun {{ labeltahun[4] }}:</p>
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_8"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_9"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>
-                      </v-row>
-                      <p class="mb-3">Target Tahun {{ labeltahun[5] }}:</p>
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_10"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_11"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>
-                      </v-row>
-                      <p class="mb-3">Target Tahun {{ labeltahun[6] }}:</p>
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_12"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_13"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>
-                      </v-row>
-                      <p class="mb-3">Akhir RPJMD:</p>
-                      <v-row no-gutters>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_14"  
-                            density="compact"
-                            label="AWAL RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :rules="rule_range_awal"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="6" lg="6">
-                          <v-number-input
-                            v-model="formdata.data_15"  
-                            density="compact"
-                            label="AKHIR RANGE"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            class="mr-1"
-                            :disabled="disabledtarget"
-                            :rules="rule_range_akhir"
-                          />
-                        </v-col>
-                      </v-row>
-                    </template>
-                    <template v-else>
-                      <v-row no-gutters>                      
-                        <v-col cols="auto" md="12" lg="12">
-                          <v-number-input
-                            v-model="formdata.data_2"  
-                            density="compact"
-                            :label="'KONDISI AWAL ' + labeltahun[1]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_kondisi_awal"
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row no-gutters>                      
-                        <v-col cols="auto" md="12" lg="12">
-                          <v-number-input
-                            v-model="formdata.data_3"  
-                            density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[2]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_target"
-                          />    
-                        </v-col>
-                        <v-col cols="auto" md="12" lg="12">
-                          <v-number-input
-                            v-model="formdata.data_4"  
-                            density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[3]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_target"
-                          />
-                        </v-col>                      
-                        <v-col cols="auto" md="12" lg="12">
-                          <v-number-input
-                            v-model="formdata.data_5"  
-                            density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[4]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_target"
-                          />
-                        </v-col>
-                        <v-col cols="auto" md="12" lg="12">                        
-                          <v-number-input
-                            v-model="formdata.data_6"  
-                            density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[5]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_target"
-                          />              
-                        </v-col>
-                        <v-col cols="auto" md="12" lg="12">                        
-                          <v-number-input
-                            v-model="formdata.data_7"  
-                            density="compact"
-                            :label="'TARGET TAHUN ' + labeltahun[6]"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_target"
-                          />     
-                        </v-col>
-                        <v-col cols="auto" md="12" lg="12">                        
-                          <v-number-input
-                            v-model="formdata.data_8"  
-                            density="compact"
-                            label="AKHIR RPJMD"
-                            variant="outlined"
-                            prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
-                            :rules="rule_target"
-                          />
-                        </v-col>
-                      </v-row>     
-                    </template>
+                    <v-row no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[1] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_2"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_fisik"
+                        />    
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[1] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_3"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_keuangan"
+                        />
+                      </v-col>                      
+                    </v-row>
+                    <hr class="mb-3">                    
+                    <v-row no-gutters>                      
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[2] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_4"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_fisik"
+                        />    
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[2] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_5"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_keuangan"
+                        />
+                      </v-col>                      
+                    </v-row>                    
+                    <v-row no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[3] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_6"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_fisik"
+                        />    
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[3] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_7"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_keuangan"
+                        />
+                      </v-col>
+                    </v-row>                    
+                    <v-row no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[4] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_8"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_fisik"
+                        />    
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[4] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_9"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_keuangan"
+                        />
+                      </v-col>
+                    </v-row>                    
+                    <v-row no-gutters>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[5] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_10"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_fisik"
+                        />    
+                      </v-col>
+                      <v-col cols="auto" md="6" lg="6">
+                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[5] }}:</p>
+                        <v-number-input
+                          v-model="formdata.data_11"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_target_keuangan"
+                        />
+                      </v-col>
+                    </v-row>
+                    <p class="mb-3">Akhir RPJMD:</p>
+                    <v-row no-gutters>                      
+                      <v-col cols="auto" md="12" lg="12">
+                        <v-number-input
+                          v-model="formdata.data_12"  
+                          density="compact"                          
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          class="mr-1"
+                          :disabled="disabledtarget"
+                          :rules="rule_kondisi_akhir"
+                        />
+                      </v-col>
+                    </v-row>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -431,7 +317,7 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="10">
+            <td colspan="14">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
@@ -459,25 +345,18 @@
               </td>
               <td>{{ indikator.NamaIndikator }}</td>
               <td>{{ indikator.Satuan }}</td>
-              <td>{{ indikator.data_1 }}</td>
-              <template v-if="indikator.Operasi == 'RANGE'">
-                <td>{{ indikator.data_2 + ' s.d ' + indikator.data_3 }}</td>
-                <td>{{ indikator.data_4 + ' s.d ' + indikator.data_5 }}</td>
-                <td>{{ indikator.data_6 + ' s.d ' + indikator.data_7 }}</td>
-                <td>{{ indikator.data_8 + ' s.d ' + indikator.data_9 }}</td>
-                <td>{{ indikator.data_10 + ' s.d ' + indikator.data_11 }}</td>
-                <td>{{ indikator.data_12 + ' s.d ' + indikator.data_13 }}</td>
-                <td>{{ indikator.data_14 + ' s.d ' + indikator.data_15 }}</td>
-              </template>
-              <template v-else>
-                <td>{{ indikator.data_2 }}</td>
-                <td>{{ indikator.data_3 }}</td>
-                <td>{{ indikator.data_4 }}</td>
-                <td>{{ indikator.data_5 }}</td>
-                <td>{{ indikator.data_6 }}</td>
-                <td>{{ indikator.data_7 }}</td>
-                <td>{{ indikator.data_8 }}</td>
-              </template>
+              <td>{{ indikator.data_1 }}</td>              
+              <td>{{ indikator.data_2 }}</td>
+              <td>{{ indikator.data_3 }}</td>
+              <td>{{ indikator.data_4 }}</td>
+              <td>{{ indikator.data_5 }}</td>
+              <td>{{ indikator.data_6 }}</td>
+              <td>{{ indikator.data_7 }}</td>
+              <td>{{ indikator.data_8 }}</td>            
+              <td>{{ indikator.data_9 }}</td>            
+              <td>{{ indikator.data_10 }}</td>            
+              <td>{{ indikator.data_11 }}</td>            
+              <td>{{ indikator.data_12 }}</td>            
               <td>
                 <v-icon
                   class="mr-2"
@@ -501,7 +380,7 @@
           </template>
           <template v-else>
             <tr class="bg-green-lighten-5">
-              <td colspan="12" class="text-center">Belum ada indikator. Silahkan tambah</td>
+              <td colspan="16" class="text-center">Belum ada indikator. Silahkan tambah</td>
             </tr>
           </template>
         </template>
@@ -543,8 +422,8 @@
       btnLoading: false,
       datatableLoading: false,
       //filter form
-      daftar_opd: [],
-      OrgID_Selected: null,
+      daftar_bidang_urusan: [],
+      BidangID: null,
       //data table
       datatable: [],
       itemsPerPage: 10,
@@ -574,10 +453,7 @@
         data_9: null,
         data_10: null,
         data_11: null,
-        data_12: null,
-        data_13: null,
-        data_14: null,
-        data_15: null,        
+        data_12: null,        
         Satuan: '-',
         Operasi: '-',
       }, 
@@ -598,9 +474,6 @@
         data_10: null,
         data_11: null,
         data_12: null,
-        data_13: null,
-        data_14: null,
-        data_15: null,
         Satuan: '-',
         Operasi: '-',
       }, 
@@ -610,13 +483,13 @@
       rule_kondisi_awal: [
         value => !!value || 'Mohon untuk diisi nilai kondisi awal !!!',
       ],
-      rule_range_awal: [
-        value => !!value || 'Mohon untuk diisi nilai awal target !!!',
+      rule_target_fisik: [
+        value => !!value || 'Mohon untuk diisi nilai target fisik !!!',
       ],      
-      rule_range_akhir: [
-        value => !!value || 'Mohon untuk diisi nilai akhir target !!!',
+      rule_target_keuangan: [
+        value => !!value || 'Mohon untuk diisi nilai keuangan target !!!',
       ],
-      rule_target: [
+      rule_kondisi_akhir: [
         value => !!value || 'Mohon untuk diisi nilai target !!!',
       ],
       //pinia
@@ -626,9 +499,9 @@
       async fetchOPD() {
         await this.$ajax
           .post(
-            "/dmaster/opd",
+            "/dmaster/kodefikasi/bidangurusan",
             {
-              tahun: this.userStore.PeriodeRPJMD.TA_AWAL,
+              TA: this.userStore.PeriodeRPJMD.TA_AWAL,
             },
             {
               headers: {
@@ -637,20 +510,19 @@
             }
           )
           .then(({ data }) => {
-            this.daftar_opd = data.opd;
+            this.daftar_bidang_urusan = data.kodefikasibidangurusan;
           });
       },
       async initialize({ page, itemsPerPage }) {                
-        if (this.OrgID_Selected !== null || typeof  OrgID_Selected  !== 'undefined') {
+        if (this.BidangID !== null || typeof  BidangID  !== 'undefined') {
           this.datatableLoading = true
           const offset = (page - 1) * itemsPerPage
           this.indexOffset = offset
 
           await this.$ajax
-            .post('/dmaster/kodefikasi/program/indikatorprogram', 
+            .post('/dmaster/kodefikasi/bidangurusan/' + this.BidangID + '/programrpjmd', 
               {
-                PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                OrgID: this.OrgID_Selected.OrgID,
+                PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,                
                 offset: offset,
                 limit: itemsPerPage,
               },
@@ -675,7 +547,6 @@
         let TA_AWAL = periode.TA_AWAL
         let TA_AKHIR = periode.TA_AKHIR
 
-        this.labeltahun.push(TA_AWAL - 1)
         this.labeltahun.push(TA_AWAL)
         
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
@@ -686,7 +557,7 @@
         this.btnLoading = true
         this.dialogfrm = true        
         this.dataprogram = item
-
+        console.log(item)
         this.setLabelTahun()
         
         await this.$ajax
@@ -710,7 +581,7 @@
         this.editedIndex = this.datatable.indexOf(dataprogram)
         this.setLabelTahun()
         this.dataprogram = dataprogram
-
+        
         await this.$ajax
           .post('/rpjmd/indikatorkinerja/program', 
             {
@@ -773,10 +644,7 @@
                   data_9: this.formdata.data_9,
                   data_10: this.formdata.data_10,
                   data_11: this.formdata.data_11,
-                  data_12: this.formdata.data_12,
-                  data_13: this.formdata.data_13,
-                  data_14: this.formdata.data_14,
-                  data_15: this.formdata.data_15,
+                  data_12: this.formdata.data_12,                  
                 },
                 {
                   headers: {
@@ -880,32 +748,37 @@
         let TA_AWAL = periode.TA_AWAL
         let TA_AKHIR = periode.TA_AKHIR
 
-        var children_kondisi_awal = [
-          {
-            title: TA_AWAL - 1,
-            value: 'data_1',
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },
-          {
-            title: TA_AWAL,
-            value: 'data_2',
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },
-        ]
         var children_target_tahun = []
-        var i = 3        
+        var i = 2        
+        var next_i = 3
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
+
+          var children = [
+            {
+              title: 'TARGET',
+              value: 'data_' + i,
+              headerProps: {
+                class: 'font-weight-bold',
+              },
+            },
+            {
+              title: 'RP',
+              value: 'data_' + next_i,
+              headerProps: {
+                class: 'font-weight-bold',
+              },
+            },
+          ]
+          console.log(children)
           children_target_tahun.push({
             title: tahun,
-            value: 'data_' + i,
+            children: children,
             headerProps: {
               class: 'font-weight-bold',
             },
           });   
+          i += 2
+          next_i += 2
         }
         
         var headers = [
@@ -936,15 +809,15 @@
             },
           },
           {
-            title: 'KONDISI AWAL',
+            title: 'KONDISI AWAL ' + TA_AWAL,
             align: 'center',
-            children: children_kondisi_awal,
+            value: 'data_1',            
             headerProps: {
               class: 'font-weight-bold',
             },
           },
           {
-            title: 'TARGET TAHUN',
+            title: 'CAPAIAN KINERJA PROGRAM DAN KERANGKA PENDANAAN',
             align: 'center',
             children: children_target_tahun,
             headerProps: {
@@ -973,8 +846,8 @@
       },
     },
     watch: {
-      OrgID_Selected(val) {
-        this.OrgID_Selected = val
+      BidangID(val) {
+        this.BidangID = val
         this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
       },
     },

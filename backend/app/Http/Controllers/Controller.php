@@ -95,7 +95,7 @@ class Controller extends BaseController
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'permissions'=>$permissions,                                    
+      'permissions' => $permissions,                                    
       'message' => 'Fetch permission role '.$user->username.' berhasil diperoleh.'
     ], 200); 
   }

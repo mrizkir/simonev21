@@ -54,7 +54,7 @@ class RekeningSubRincianObjekController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'subrincianobjek'=>$subrincianobjek,
+                  'subrincianobjek' => $subrincianobjek,
                   'message' => 'Fetch data sub rincian objek berhasil.'
                 ], 200);
   }
@@ -164,13 +164,13 @@ class RekeningSubRincianObjekController extends Controller {
       'kode_rek_6' => $rincianobjek->kode_rincian_objek.$request->input('Kd_Rek_6'),
       'SubRObyNm' => $request->input('SubRObyNm'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);
 
     return Response()->json([
                   'status' => 1,
                   'pid' => 'store',
-                  'subrincianobjek'=>$subrincianobjek,                                    
+                  'subrincianobjek' => $subrincianobjek,                                    
                   'message' => 'Data Rekening Rincian Objek berhasil disimpan.'
                 ], 200); 
   }               
@@ -201,7 +201,7 @@ class RekeningSubRincianObjekController extends Controller {
                     'RObyID' => 'required|exists:tmROby,RObyID',
                     'Kd_Rek_6'=>[
                           Rule::unique('tmSubROby')->where(function($query) use ($request,$subrincianobjek) {  
-                            if ($request->input('Kd_Rek_6')= = $subrincianobjek->Kd_Rek_6) 
+                            if ($request->input('Kd_Rek_6') == $subrincianobjek->Kd_Rek_6) 
                             {
                               return $query->where('RObyID', $request->input('RObyID'))
                                     ->where('Kd_Rek_6','ignore')
@@ -242,7 +242,7 @@ class RekeningSubRincianObjekController extends Controller {
       return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'subrincianobjek'=>$subrincianobjek,                                    
+                  'subrincianobjek' => $subrincianobjek,                                    
                   'message' => 'Data Rekening Rincian Objek '.$subrincianobjek->SubRObyNm.' berhasil diubah.'
                 ], 200);
     }

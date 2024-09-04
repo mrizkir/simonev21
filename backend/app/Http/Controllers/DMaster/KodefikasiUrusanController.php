@@ -41,7 +41,7 @@ class KodefikasiUrusanController extends Controller {
         return Response()->json([
             'status' => 1,
             'pid' => 'fetchdata',
-            'kodefikasiurusan'=>$kodefikasiurusan,
+            'kodefikasiurusan' => $kodefikasiurusan,
             'message' => 'Fetch data kodefikasi urusan berhasil.'
         ], 200);
     }
@@ -123,13 +123,13 @@ class KodefikasiUrusanController extends Controller {
             'Kd_Urusan' => $request->input('Kd_Urusan'),
             'Nm_Urusan' => strtoupper($request->input('Nm_Urusan')),
             'Descr' => $request->input('Descr'),
-            'TA'=>$ta,
+            'TA' => $ta,
         ]);
 
         return Response()->json([
                                     'status' => 1,
                                     'pid' => 'store',
-                                    'kodefikasiurusan'=>$kodefikasiurusan,                                    
+                                    'kodefikasiurusan' => $kodefikasiurusan,                                    
                                     'message' => 'Data Kodefikasi Urusan berhasil disimpan.'
                                 ], 200); 
     }               
@@ -159,7 +159,7 @@ class KodefikasiUrusanController extends Controller {
             $this->validate($request, [    
                                         'Kd_Urusan'=>[
                                                     Rule::unique('tmUrusan')->where(function($query) use ($request,$kodefikasiurusan) {  
-                                                        if ($request->input('Kd_Urusan')= = $kodefikasiurusan->Kd_Urusan) 
+                                                        if ($request->input('Kd_Urusan') == $kodefikasiurusan->Kd_Urusan) 
                                                         {
                                                             return $query->where('Kd_Urusan','ignore')
                                                                         ->where('TA', $kodefikasiurusan->TA);
@@ -185,7 +185,7 @@ class KodefikasiUrusanController extends Controller {
             return Response()->json([
                                     'status' => 1,
                                     'pid' => 'update',
-                                    'kodefikasiurusan'=>$kodefikasiurusan,                                    
+                                    'kodefikasiurusan' => $kodefikasiurusan,                                    
                                     'message' => 'Data Kodefikasi Urusan '.$kodefikasiurusan->Nm_Urusan.' berhasil diubah.'
                                 ], 200);
         }

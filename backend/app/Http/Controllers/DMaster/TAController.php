@@ -21,7 +21,7 @@ class TAController extends Controller {
         return Response()->json([
                                     'status' => 1,
                                     'pid' => 'fetchdata',
-                                    'ta'=>$ta,
+                                    'ta' => $ta,
                                     'message' => 'Fetch data tahun anggaran berhasil.'
                                 ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
@@ -54,7 +54,7 @@ class TAController extends Controller {
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'store',
-                                'ta'=>$ta,                                    
+                                'ta' => $ta,                                    
                                 'message' => 'Data TA berhasil disimpan.'
                             ], 200); 
         
@@ -73,7 +73,7 @@ class TAController extends Controller {
         $this->validate($request, [
                                     'tahun'=>[
                                                 Rule::unique('ta')->where(function($query) use ($request,$ta) {  
-                                                    if ($request->input('tahun')= = $ta->tahun) 
+                                                    if ($request->input('tahun') == $ta->tahun) 
                                                     {
                                                         return $query->where('tahun',0);
                                                     }                 
@@ -97,7 +97,7 @@ class TAController extends Controller {
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'update',
-                                'ta'=>$ta,                                    
+                                'ta' => $ta,                                    
                                 'message' => 'Data TA '.$ta->tahun_anggaran.' berhasil diubah.'
                             ], 200);
         

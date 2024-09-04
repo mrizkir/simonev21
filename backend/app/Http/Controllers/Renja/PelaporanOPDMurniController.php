@@ -34,8 +34,8 @@ class PelaporanOPDMurniController extends Controller
 		return Response()->json([
 			'status' => 1,
 			'pid' => 'fetchdata',									
-			'data_opd'=>$data_opd,
-			'laporanopd'=>$data,
+			'data_opd' => $data_opd,
+			'laporanopd' => $data,
 			'message' => 'Fetch data pelaporan opd murni berhasil diperoleh'
 		], 200);
 	}
@@ -59,13 +59,13 @@ class PelaporanOPDMurniController extends Controller
 		{
 			if (!array_key_exists($k, $bulan_realisasi))
 			{
-				$data[$k]=['value'=>$k,'text'=>$v];
+				$data[$k]=['value' => $k,'text' => $v];
 			}
 		}
 		return Response()->json([
 			'status' => 1,
 			'pid' => 'fetchdata',
-			'bulan'=>$data,
+			'bulan' => $data,
 			'message' => 'Fetch data bulan pelaporan berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}
@@ -126,13 +126,13 @@ class PelaporanOPDMurniController extends Controller
 		if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl',1)->where('TA', $tahun)->count() > 0)
 		{
 			$data_report=[
-							'OrgID'=>$opd->OrgID,
-							'kode_organisasi'=>$opd->kode_organisasi,
-							'Nm_Organisasi'=>$opd->Nm_Organisasi,
-							'tahun'=>$tahun,
-							'no_bulan'=>$no_bulan,
-							'nama_pengguna_anggaran'=>$opd->NamaKepalaOPD,
-							'nip_pengguna_anggaran'=>$opd->NIPKepalaOPD
+							'OrgID' => $opd->OrgID,
+							'kode_organisasi' => $opd->kode_organisasi,
+							'Nm_Organisasi' => $opd->Nm_Organisasi,
+							'tahun' => $tahun,
+							'no_bulan' => $no_bulan,
+							'nama_pengguna_anggaran' => $opd->NamaKepalaOPD,
+							'nip_pengguna_anggaran' => $opd->NIPKepalaOPD
 						];
 			$report= new \App\Models\Renja\FormBOPDMurniModel ($data_report);
 			$generate_date=date('Y-m-d_H_m_s');

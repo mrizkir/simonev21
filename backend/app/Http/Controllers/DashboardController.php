@@ -34,7 +34,7 @@ class DashboardController extends Controller
     if (is_null($statistik1_murni) )
     {
       $statistik1_murni = Statistik1Model::create([
-        'statistikID'=>$tahun, 
+        'statistikID' => $tahun, 
         'PaguDana1'=>0, 
         'PaguDana2'=>0,
         'JumlahProgram1'=>0, 
@@ -307,12 +307,12 @@ class DashboardController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',                                                            
-      'statistik1_murni'=>$statistik1_murni,                                                                                                                                                             
-      'statistik1_perubahan'=>$statistik1_perubahan,              
-      'chart_keuangan_murni'=>$chart_keuangan_murni,
-      'chart_keuangan_perubahan'=>$chart_keuangan_perubahan,
-      'chart_fisik_murni'=>$chart_fisik_murni,
-      'chart_fisik_perubahan'=>$chart_fisik_perubahan,                                                                                                                                               
+      'statistik1_murni' => $statistik1_murni,                                                                                                                                                             
+      'statistik1_perubahan' => $statistik1_perubahan,              
+      'chart_keuangan_murni' => $chart_keuangan_murni,
+      'chart_keuangan_perubahan' => $chart_keuangan_perubahan,
+      'chart_fisik_murni' => $chart_fisik_murni,
+      'chart_fisik_perubahan' => $chart_fisik_perubahan,                                                                                                                                               
       'message' => 'Fetch data dashboard berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }

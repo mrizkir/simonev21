@@ -22,7 +22,7 @@ class RolesController extends Controller {
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'fetchdata',
-                                'roles'=>$data,
+                                'roles' => $data,
                                 'message' => 'Fetch data roles berhasil diperoleh'
                             ], 200);    
     }    
@@ -50,7 +50,7 @@ class RolesController extends Controller {
         return Response()->json([
                                     'status' => 1,
                                     'pid' => 'store',
-                                    'role'=>$role,                                    
+                                    'role' => $role,                                    
                                     'message' => 'Data role berhasil disimpan.'
                                 ], 200); 
 
@@ -139,7 +139,7 @@ class RolesController extends Controller {
             return Response()->json([
                                         'status' => 1,
                                         'pid' => 'fetchdata',
-                                        'permissions'=>$role->permissions,                                    
+                                        'permissions' => $role->permissions,                                    
                                         'message' => 'Fetch permission role '.$role->name.' berhasil diperoleh.'
                                     ], 200); 
         }
@@ -167,7 +167,7 @@ class RolesController extends Controller {
             return Response()->json([
                                         'status' => 1,
                                         'pid' => 'fetchdata',
-                                        'permissions'=>$role->permissions,                                    
+                                        'permissions' => $role->permissions,                                    
                                         'message' => 'Fetch permission role '.$role->name.' berhasil diperoleh.'
                                     ], 200); 
         }
@@ -200,7 +200,7 @@ class RolesController extends Controller {
         return Response()->json([
                                     'status' => 1,
                                     'pid' => 'update',
-                                    'role'=>$role,                                    
+                                    'role' => $role,                                    
                                     'message' => 'Data role '.$role->name.' berhasil diubah.'
                                 ], 200); 
     }

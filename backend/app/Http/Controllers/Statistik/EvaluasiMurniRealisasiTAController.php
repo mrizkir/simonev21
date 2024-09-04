@@ -76,20 +76,20 @@ class EvaluasiMurniRealisasiTAController extends Controller {
       }
       $index = $index + 1;
       $laporan_realisasi[] = [
-        'index'=>$index,
-        'kode_organisasi'=>$v->kode_organisasi,
-        'Nm_Organisasi'=>$v->Nm_Organisasi,
-        'Alias_Organisasi'=>$v->Alias_Organisasi,
-        'pagu_dana'=>$pagu_dana,
+        'index' => $index,
+        'kode_organisasi' => $v->kode_organisasi,
+        'Nm_Organisasi' => $v->Nm_Organisasi,
+        'Alias_Organisasi' => $v->Alias_Organisasi,
+        'pagu_dana' => $pagu_dana,
         'pagu_dana_formatted'=>Helper::formatUang($pagu_dana),
-        'target_fisik'=>$target_fisik,
-        'realisasi_fisik'=>$realisasi_fisik,        
-        'target_keuangan'=>$target_keuangan,
+        'target_fisik' => $target_fisik,
+        'realisasi_fisik' => $realisasi_fisik,        
+        'target_keuangan' => $target_keuangan,
         'target_keuangan_formated'=>Helper::formatUang($target_keuangan),
-        'persen_target_keuangan'=>$persen_target_keuangan,
-        'realisasi_keuangan'=>$realisasi_keuangan,
+        'persen_target_keuangan' => $persen_target_keuangan,
+        'realisasi_keuangan' => $realisasi_keuangan,
         'realisasi_keuangan_formatted'=>Helper::formatUang($realisasi_keuangan),
-        'persen_keuangan'=>$persen_realisasi_keuangan,        
+        'persen_keuangan' => $persen_realisasi_keuangan,        
       ];
       $TotalPaguDana += $pagu_dana;
       $TotalTargetFisik += $target_fisik;
@@ -100,13 +100,13 @@ class EvaluasiMurniRealisasiTAController extends Controller {
     }
     
     $laporan_total = [      
-      'total_pagu_dana'=>$TotalPaguDana,
+      'total_pagu_dana' => $TotalPaguDana,
       'total_pagu_dana_formatted'=>Helper::formatUang($TotalPaguDana),
       'total_target_fisik'=>Helper::formatPecahan($TotalTargetFisik, $index),
       'total_realisasi_fisik'=>Helper::formatPecahan($TotalRealisasiFisik,$index),
-      'total_target_keuangan'=>$TotalTargetKeuangan,
+      'total_target_keuangan' => $TotalTargetKeuangan,
       'total_target_keuangan_formatted'=>Helper::formatUang($TotalTargetKeuangan),
-      'total_realisasi_keuangan'=>$TotalRealisasiKeuangan,      
+      'total_realisasi_keuangan' => $TotalRealisasiKeuangan,      
       'total_realisasi_keuangan_formatted'=>Helper::formatUang($TotalRealisasiKeuangan),      
       'total_persen_keuangan'=>Helper::formatPersen($TotalRealisasiKeuangan,$TotalPaguDana),
     ];
@@ -114,8 +114,8 @@ class EvaluasiMurniRealisasiTAController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'laporan_realisasi'=>$laporan_realisasi,
-      'laporan_total'=>$laporan_total,
+      'laporan_realisasi' => $laporan_realisasi,
+      'laporan_total' => $laporan_total,
       'message' => 'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }

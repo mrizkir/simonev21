@@ -306,7 +306,7 @@ class RKPDMurniController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata', 
-      'rkpd'=>$data,
+      'rkpd' => $data,
       'message' => 'Fetch data rkpd murni berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);      
   }

@@ -466,8 +466,8 @@ class SnapshotRKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'unitkerja'=>$unitkerja,
-      'rka'=>$data,
+      'unitkerja' => $unitkerja,
+      'rka' => $data,
       'message' => 'Fetch data rka perubahan berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
     
@@ -521,24 +521,24 @@ class SnapshotRKAPerubahanController extends Controller
 
         $sisa_anggaran = $datauraian->PaguUraian2-$sum_realisasi;            
         $daftar_realisasi[]=[
-          'RKARealisasiRincID'=>$item->RKARealisasiRincID,
-          'bulan2'=>$item->bulan2,
+          'RKARealisasiRincID' => $item->RKARealisasiRincID,
+          'bulan2' => $item->bulan2,
           'NamaBulan'=>Helper::getNamaBulan($item->bulan2),
-          'target2'=>$item->target2,
-          'realisasi2'=>$item->realisasi2,
-          'target_fisik2'=>$item->target_fisik2,
-          'fisik2'=>$item->fisik2,
-          'sisa_anggaran'=>$sisa_anggaran,
-          'Descr'=>$item->Descr,
-          'TA'=>$item->TA,
-          'created_at'=>$item->created_at,
-          'updated_at'=>$item->updated_at,
+          'target2' => $item->target2,
+          'realisasi2' => $item->realisasi2,
+          'target_fisik2' => $item->target_fisik2,
+          'fisik2' => $item->fisik2,
+          'sisa_anggaran' => $sisa_anggaran,
+          'Descr' => $item->Descr,
+          'TA' => $item->TA,
+          'created_at' => $item->created_at,
+          'updated_at' => $item->updated_at,
         ];
         
-        $totalanggarankas+ = $item->target2;
-        $totalrealisasi+ = $item->realisasi2;
-        $totaltargetfisik+ = $item->target_fisik2;
-        $totalfisik+ = $item->fisik2;
+        $totalanggarankas+= $item->target2;
+        $totalrealisasi+= $item->realisasi2;
+        $totaltargetfisik+= $item->target_fisik2;
+        $totalfisik+= $item->fisik2;
       }
       
       $data['datarealisasi'] = $daftar_realisasi;
@@ -626,9 +626,9 @@ class SnapshotRKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'unitkerja'=>$unitkerja,
-      'rka'=>$data,
-      'locked'=>$is_locked == 1,
+      'unitkerja' => $unitkerja,
+      'rka' => $data,
+      'locked' => $is_locked == 1,
       'message' => 'Fetch data rka perubahan berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
@@ -767,8 +767,8 @@ class SnapshotRKAPerubahanController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'datakegiatan'=>$rka,
-        'uraian'=>$data,
+        'datakegiatan' => $rka,
+        'uraian' => $data,
         'message' => 'Fetch data rincian kegiatan berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
     }            
@@ -890,10 +890,10 @@ class SnapshotRKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'mode'=>$mode,
-      'datauraian'=>$data_uraian,
-      'target'=>$target,
-      'datarealisasi'=>$data_realisasi[0],
+      'mode' => $mode,
+      'datauraian' => $data_uraian,
+      'target' => $target,
+      'datarealisasi' => $data_realisasi[0],
       'message'=>"Fetch data target $mode berhasil diperoleh"
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 
@@ -918,12 +918,12 @@ class SnapshotRKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'realisasi'=>$data['datarealisasi'],
-      'totalanggarankas'=>$data['totalanggarankas'],
-      'totalrealisasi'=>$data['totalrealisasi'],
-      'totaltargetfisik'=>$data['totaltargetfisik'],
-      'totalfisik'=>$data['totalfisik'],
-      'sisa_anggaran'=>$data['sisa_anggaran'],
+      'realisasi' => $data['datarealisasi'],
+      'totalanggarankas' => $data['totalanggarankas'],
+      'totalrealisasi' => $data['totalrealisasi'],
+      'totaltargetfisik' => $data['totaltargetfisik'],
+      'totalfisik' => $data['totalfisik'],
+      'sisa_anggaran' => $data['sisa_anggaran'],
       'message'=>"Fetch data realisasi berhasil diperoleh"
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
@@ -970,7 +970,7 @@ class SnapshotRKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'destroy',                
-      'message'=>$message,
+      'message' => $message,
     ], 200);
   }
 }

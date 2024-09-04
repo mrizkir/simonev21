@@ -79,8 +79,8 @@ class UsersOPDController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'role'=>$role,
-      'users'=>$data,
+      'role' => $role,
+      'users' => $data,
       'message' => 'Fetch data users OPD berhasil diperoleh'
     ], 200);  
   }    
@@ -109,17 +109,17 @@ class UsersOPDController extends Controller {
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
           'id'=>Uuid::uuid4()->toString(),
-          'name'=>$request->input('name'),
-          'email'=>$request->input('email'),
-          'ta'=>$request->input('ta'),
-          'nomor_hp'=>$request->input('nomor_hp'),
+          'name' => $request->input('name'),
+          'email' => $request->input('email'),
+          'ta' => $request->input('ta'),
+          'nomor_hp' => $request->input('nomor_hp'),
           'username'=> $request->input('username'),
           'password'=>Hash::make($request->input('password')),                        
           'theme' => 'default',
           'default_role' => 'opd',                    
           'foto'=> 'storages/images/users/no_photo.png',
-          'created_at'=>$now, 
-          'updated_at'=>$now
+          'created_at' => $now, 
+          'updated_at' => $now
         ]);            
         $role='opd';   
         $user->assignRole($role);               
@@ -176,7 +176,7 @@ class UsersOPDController extends Controller {
       return Response()->json([
         'status' => 1,
         'pid' => 'store',
-        'user'=>$user,                                    
+        'user' => $user,                                    
         'message' => 'Data user OPD berhasil disimpan.'
       ], 200); 
     }
@@ -285,8 +285,8 @@ class UsersOPDController extends Controller {
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'user'=>$user,  
-        'role_opd'=>$user->hasRole('opd'),    
+        'user' => $user,  
+        'role_opd' => $user->hasRole('opd'),    
         'message' => 'Data user '.$user->username.' berhasil diperoleh.'
       ], 200); 
     }
@@ -386,7 +386,7 @@ class UsersOPDController extends Controller {
         return Response()->json([
           'status' => 1,
           'pid' => 'update',
-          'user'=>$user,      
+          'user' => $user,      
           'message' => 'Data user OPD '.$user->username.' berhasil diubah.'
         ], 200); 
       }

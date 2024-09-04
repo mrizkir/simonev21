@@ -91,7 +91,7 @@ class RPJMDPeriodeController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload'=>$periode,                                    
+      'payload' => $periode,                                    
       'message' => 'Data Periode RPJMD berhasil disimpan.'
     ], 200); 		
   }

@@ -77,7 +77,7 @@ class KodefikasiSubKegiatanController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,
+      'kodefikasisubkegiatan' => $kodefikasisubkegiatan,
       'message' => 'Fetch data kodefikasi urusan berhasil.'
     ], 200);
   }
@@ -205,7 +205,7 @@ class KodefikasiSubKegiatanController extends Controller {
         'Nm_SubKegiatan' => strtoupper($request->input('Nm_SubKegiatan')),
         'Descr' => $request->input('Descr'),
         'Locked' => $request->input('Locked'),
-        'TA'=>$ta,
+        'TA' => $ta,
       ]);
 
       \DB::table('trRKA')
@@ -218,7 +218,7 @@ class KodefikasiSubKegiatanController extends Controller {
       return Response()->json([
         'status' => 1,
         'pid' => 'store',
-        'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
+        'kodefikasisubkegiatan' => $kodefikasisubkegiatan,                                    
         'message' => 'Data Kodefikasi Sub Kegiatan berhasil disimpan.'
       ], 200);
     } 
@@ -249,7 +249,7 @@ class KodefikasiSubKegiatanController extends Controller {
       $this->validate($request, [    
         'Kd_SubKegiatan'=>[
           Rule::unique('tmSubKegiatan')->where(function($query) use ($request,$kodefikasisubkegiatan) {  
-            if ($request->input('Kd_SubKegiatan')= = $kodefikasisubkegiatan->Kd_SubKegiatan) 
+            if ($request->input('Kd_SubKegiatan') == $kodefikasisubkegiatan->Kd_SubKegiatan) 
             {
               return $query->where('Kd_SubKegiatan','ignore')
               ->where('TA', $kodefikasisubkegiatan->TA);
@@ -314,7 +314,7 @@ class KodefikasiSubKegiatanController extends Controller {
         return Response()->json([
           'status' => 1,
           'pid' => 'update',
-          'kodefikasisubkegiatan'=>$kodefikasisubkegiatan,                                    
+          'kodefikasisubkegiatan' => $kodefikasisubkegiatan,                                    
           'message' => 'Data Kodefikasi Sub Kegiatan '.$kodefikasisubkegiatan->Nm_SubKegiatan.' berhasil diubah.'
         ], 200);
       }

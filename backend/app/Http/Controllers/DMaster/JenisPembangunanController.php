@@ -30,7 +30,7 @@ class JenisPembangunanController extends Controller
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'fetchdata',
-                                'jenispembangunan'=>$data,
+                                'jenispembangunan' => $data,
                                 'message' => 'Fetch data jenis pembangunan berhasil diperoleh'
                             ], 200);  
 
@@ -54,13 +54,13 @@ class JenisPembangunanController extends Controller
             'JenisPembangunanID'=> Uuid::uuid4()->toString(),
             'NamaJenis' => $request->input('NamaJenis'),
             'Descr' => $request->input('Descr'),
-            'TA'=>$request->input('TA'),
+            'TA' => $request->input('TA'),
         ]);     
         
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'store',
-                                'jenispembangunan'=>$jenispembangunan,                                    
+                                'jenispembangunan' => $jenispembangunan,                                    
                                 'message' => 'Data Jenis Pembangunan berhasil disimpan.'
                             ], 200); 
                
@@ -87,7 +87,7 @@ class JenisPembangunanController extends Controller
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'store',
-                                'jenispembangunan'=>$jenispembangunan,                                    
+                                'jenispembangunan' => $jenispembangunan,                                    
                                 'message' => 'Data Jenis Pembangunan berhasil diubah.'
                             ], 200); 
                                 

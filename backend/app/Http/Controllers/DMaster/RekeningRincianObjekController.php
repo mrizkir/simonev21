@@ -52,7 +52,7 @@ class RekeningRincianObjekController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'rincianobjek'=>$rincianobjek,
+                  'rincianobjek' => $rincianobjek,
                   'message' => 'Fetch data rincian objek berhasil.'
                 ], 200);
   }
@@ -87,13 +87,13 @@ class RekeningRincianObjekController extends Controller {
       'Kd_Rek_5' => $request->input('Kd_Rek_5'),
       'RObyNm' => $request->input('RObyNm'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);
 
     return Response()->json([
                   'status' => 1,
                   'pid' => 'store',
-                  'objek'=>$rincianobjek,                                    
+                  'objek' => $rincianobjek,                                    
                   'message' => 'Data Rekening Rincian Objek berhasil disimpan.'
                 ], 200); 
   }               
@@ -184,7 +184,7 @@ class RekeningRincianObjekController extends Controller {
                     'ObyID' => 'required|exists:tmOby,ObyID',
                     'Kd_Rek_5'=>[
                           Rule::unique('tmROby')->where(function($query) use ($request,$rincianobjek) {  
-                            if ($request->input('Kd_Rek_5')= = $rincianobjek->Kd_Rek_5) 
+                            if ($request->input('Kd_Rek_5') == $rincianobjek->Kd_Rek_5) 
                             {
                               return $query->where('ObyID', $request->input('ObyID'))
                                     ->where('Kd_Rek_5','ignore')
@@ -213,7 +213,7 @@ class RekeningRincianObjekController extends Controller {
       return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'objek'=>$rincianobjek,                                    
+                  'objek' => $rincianobjek,                                    
                   'message' => 'Data Rekening Rincian Objek '.$rincianobjek->RObyNm.' berhasil diubah.'
                 ], 200);
     }
@@ -246,7 +246,7 @@ class RekeningRincianObjekController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'subrincianobjek'=>$subrincianobjek,
+                  'subrincianobjek' => $subrincianobjek,
                   'message'=>"Fetch data sub rincian objek dari rincian objek ($id) berhasil."
                 ], 200);
 

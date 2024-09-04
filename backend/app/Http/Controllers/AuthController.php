@@ -40,7 +40,7 @@ class AuthController extends Controller
 		//log user loggin
 		\App\Models\System\ActivityLog::log($request,[
 			'object' => $this->guard()->user(), 
-			'object_id'=>$this->getUserid(), 
+			'object_id' => $this->getUserid(), 
 			'user_id' => $this->getUserid(), 
 			'message' => 'user '.$credentials['username'].' berhasil login'
 		]);

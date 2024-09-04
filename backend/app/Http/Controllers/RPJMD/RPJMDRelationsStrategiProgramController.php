@@ -20,7 +20,7 @@ class RPJMDRelationsStrategiProgramController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [      
-      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -140,7 +140,7 @@ class RPJMDRelationsStrategiProgramController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload'=>$strategiprogram,                                    
+      'payload' => $strategiprogram,                                    
       'message' => 'Data Program Strategi berhasil disimpan.'
     ], 200);
   }

@@ -69,7 +69,7 @@ class PeringkatOPDPerubahanController extends Controller {
 		return Response()->json([
 			'status' => 1,
 			'pid' => 'fetchdata',
-			'peringkat'=>$peringkat,
+			'peringkat' => $peringkat,
 			'message' => 'Fetch data untuk peringkat opd berhasil diperoleh'
 		], 200);    
 		

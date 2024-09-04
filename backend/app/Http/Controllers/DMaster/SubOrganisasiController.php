@@ -69,9 +69,9 @@ class SubOrganisasiController extends Controller {
     return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'unitkerja'=>$data,
-                'jumlah_apbd'=>$data->sum('PaguDana1'),
-                'jumlah_apbdp'=>$data->sum('PaguDana2'),
+                'unitkerja' => $data,
+                'jumlah_apbd' => $data->sum('PaguDana1'),
+                'jumlah_apbdp' => $data->sum('PaguDana2'),
                 'message' => 'Fetch data unit kerjaberhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);    
     
@@ -133,9 +133,9 @@ class SubOrganisasiController extends Controller {
     return Response()->json([
                 'status' => 1,
                 'pid' => 'store',
-                'unitkerja'=>$data,
-                'jumlah_apbd'=>$data->sum('PaguDana1'),
-                'jumlah_apbdp'=>$data->sum('PaguDana2'),
+                'unitkerja' => $data,
+                'jumlah_apbd' => $data->sum('PaguDana1'),
+                'jumlah_apbdp' => $data->sum('PaguDana2'),
                 'message' => 'Fetch data unit kerja berhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
@@ -264,22 +264,22 @@ class SubOrganisasiController extends Controller {
     $sub_organisasi = SubOrganisasiModel::create([
       'SOrgID' => Uuid::uuid4()->toString(), 
       'OrgID' => $request->input('OrgID'), 
-      'kode_sub_organisasi'=>$organisasi->kode_organisasi.'.'.$request->input('Kd_Sub_Organisasi'), 
-      'Kd_Sub_Organisasi'=>$request->input('Kd_Sub_Organisasi'), 
-      'Nm_Sub_Organisasi'=>$request->input('Nm_Sub_Organisasi'), 
-      'Alias_Sub_Organisasi'=>$request->input('Alias_Sub_Organisasi'),                
-      'Alamat'=>$request->input('Alamat'), 
-      'NamaKepalaUnitKerja'=>$request->input('NamaKepalaUnitKerja'), 
-      'NIPKepalaUnitKerja'=>$request->input('NIPKepalaUnitKerja'), 
+      'kode_sub_organisasi' => $organisasi->kode_organisasi.'.'.$request->input('Kd_Sub_Organisasi'), 
+      'Kd_Sub_Organisasi' => $request->input('Kd_Sub_Organisasi'), 
+      'Nm_Sub_Organisasi' => $request->input('Nm_Sub_Organisasi'), 
+      'Alias_Sub_Organisasi' => $request->input('Alias_Sub_Organisasi'),                
+      'Alamat' => $request->input('Alamat'), 
+      'NamaKepalaUnitKerja' => $request->input('NamaKepalaUnitKerja'), 
+      'NIPKepalaUnitKerja' => $request->input('NIPKepalaUnitKerja'), 
 
-      'Descr'=>$request->input('Descr'), 
-      'TA'=>$request->input('TA'), 
+      'Descr' => $request->input('Descr'), 
+      'TA' => $request->input('TA'), 
     ]);        
     
     return Response()->json([
                 'status' => 1,
                 'pid' => 'store',
-                'unitkerja'=>$sub_organisasi,                                    
+                'unitkerja' => $sub_organisasi,                                    
                 'message' => 'Data sub organisasi '.$sub_organisasi->OrgNm.' berhasil disimpan.'
               ], 200); 
   }
@@ -360,7 +360,7 @@ class SubOrganisasiController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'unitkerja'=>$sub_organisasi,                                    
+                  'unitkerja' => $sub_organisasi,                                    
                   'message' => 'Data unit kerja '.$sub_organisasi->SOrgNm.' berhasil diubah.'
                 ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   

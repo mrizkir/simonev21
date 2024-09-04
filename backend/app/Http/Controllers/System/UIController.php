@@ -23,14 +23,14 @@ class UIController extends Controller {
 		$identitas['nama_opd_alias'] = $config['NAMA_OPD_ALIAS'];       		      
 
 		$theme=[
-			'V-SYSTEM-BAR-CSS-CLASS'=>$config['V-SYSTEM-BAR-CSS-CLASS'],
-			'V-APP-BAR-CSS-CLASS'=>$config['V-APP-BAR-CSS-CLASS'],
-			'V-APP-BAR-COLOR'=>$config['V-APP-BAR-COLOR'],
-			'V-APP-BAR-NAV-ICON-CSS-CLASS'=>$config['V-APP-BAR-NAV-ICON-CSS-CLASS'],
-			'V-NAVIGATION-DRAWER-CSS-CLASS'=>$config['V-NAVIGATION-DRAWER-CSS-CLASS'],
-			'V-LIST-ITEM-BOARD-CSS-CLASS'=>$config['V-LIST-ITEM-BOARD-CSS-CLASS'],
-			'V-LIST-ITEM-BOARD-COLOR'=>$config['V-LIST-ITEM-BOARD-COLOR'],
-			'V-LIST-ITEM-ACTIVE-CSS-CLASS'=>$config['V-LIST-ITEM-ACTIVE-CSS-CLASS'],            
+			'V-SYSTEM-BAR-CSS-CLASS' => $config['V-SYSTEM-BAR-CSS-CLASS'],
+			'V-APP-BAR-CSS-CLASS' => $config['V-APP-BAR-CSS-CLASS'],
+			'V-APP-BAR-COLOR' => $config['V-APP-BAR-COLOR'],
+			'V-APP-BAR-NAV-ICON-CSS-CLASS' => $config['V-APP-BAR-NAV-ICON-CSS-CLASS'],
+			'V-NAVIGATION-DRAWER-CSS-CLASS' => $config['V-NAVIGATION-DRAWER-CSS-CLASS'],
+			'V-LIST-ITEM-BOARD-CSS-CLASS' => $config['V-LIST-ITEM-BOARD-CSS-CLASS'],
+			'V-LIST-ITEM-BOARD-COLOR' => $config['V-LIST-ITEM-BOARD-COLOR'],
+			'V-LIST-ITEM-ACTIVE-CSS-CLASS' => $config['V-LIST-ITEM-ACTIVE-CSS-CLASS'],            
 		];
 		$daftar_ta=TAModel::select(\DB::raw('tahun AS value,tahun AS text'))
 			->orderBy('tahun','asc')
@@ -41,21 +41,21 @@ class UIController extends Controller {
 		foreach ($bulan as $k=>$v)
 		{
 			$daftar_bulan[]=[
-				'text'=>$v,
-				'value'=>$k,
+				'text' => $v,
+				'value' => $k,
 			];
 		}
 		$tahun_anggaran = $config['DEFAULT_TA'];
 		return Response()->json([
 			'status' => 1,
 			'pid' => 'fetchdata',                                    
-			'tahun_anggaran'=>$tahun_anggaran,
-			'bulan_realisasi'=>$tahun_anggaran < date('Y') ? 12 : date('m'),
-			'identitas'=>$identitas,       
-			'daftar_ta'=>$daftar_ta,                             
-			'daftar_bulan'=>$daftar_bulan,                             
-			'masa_pelaporan'=>$config['DEFAULT_MASA_PELAPORAN'],                         
-			'theme'=>$theme,
+			'tahun_anggaran' => $tahun_anggaran,
+			'bulan_realisasi' => $tahun_anggaran < date('Y') ? 12 : date('m'),
+			'identitas' => $identitas,       
+			'daftar_ta' => $daftar_ta,                             
+			'daftar_bulan' => $daftar_bulan,                             
+			'masa_pelaporan' => $config['DEFAULT_MASA_PELAPORAN'],                         
+			'theme' => $theme,
 			'message' => 'Fetch data ui untuk front berhasil diperoleh'
 		], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
 	}

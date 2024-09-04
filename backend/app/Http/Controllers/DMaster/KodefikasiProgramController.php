@@ -70,7 +70,7 @@ class KodefikasiProgramController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'kodefikasiprogram'=>$kodefikasiprogram,
+      'kodefikasiprogram' => $kodefikasiprogram,
       'message' => 'Fetch data kodefikasi program berhasil.'
     ], 200);
   }
@@ -247,7 +247,7 @@ class KodefikasiProgramController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'programrka'=>$program,
+      'programrka' => $program,
       'message' => 'Fetch data kodefikasi program rka berhasil.'
     ], 200);
   }
@@ -281,7 +281,7 @@ class KodefikasiProgramController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'programkegiatan'=>$programkegiatan,
+      'programkegiatan' => $programkegiatan,
       'message'=>"Fetch data kegiatan dari program $id berhasil."
     ], 200);   
   }
@@ -315,20 +315,20 @@ class KodefikasiProgramController extends Controller
         'Jns' => $request->input('Jns'),
         'Descr' => $request->input('Descr'),
         'Locked' => $request->input('Locked'),
-        'TA'=>$ta,
+        'TA' => $ta,
       ]);
       if ($jns == 1)  // per urusan
       {
         KodefikasiUrusanProgramModel::create ([
           'UrsPrgID'=>Uuid::uuid4()->toString(),
-          'BidangID'=>$request->input('BidangID'),
-          'PrgID'=>$kodefikasiprogram->PrgID,
-          'Descr'=>$kodefikasiprogram->Descr,
-          'TA'=>$kodefikasiprogram->TA,
+          'BidangID' => $request->input('BidangID'),
+          'PrgID' => $kodefikasiprogram->PrgID,
+          'Descr' => $kodefikasiprogram->Descr,
+          'TA' => $kodefikasiprogram->TA,
         ]);
       }
 
-      $program=KodefikasiProgramModel::select(\DB::raw("					
+      $program = KodefikasiProgramModel::select(\DB::raw("					
           CASE 
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
@@ -358,7 +358,7 @@ class KodefikasiProgramController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'kodefikasiprogram'=>$kodefikasiprogram,                                    
+      'kodefikasiprogram' => $kodefikasiprogram,                                    
       'message' => 'Data Kodefikasi Program berhasil disimpan.'
     ], 200); 
   }               
@@ -497,28 +497,28 @@ class KodefikasiProgramController extends Controller
         {
           KodefikasiUrusanProgramModel::create ([
             'UrsPrgID'=>Uuid::uuid4()->toString(),
-            'BidangID'=>$request->input('BidangID'),
-            'PrgID'=>$kodefikasiprogram->PrgID,
-            'Descr'=>$kodefikasiprogram->Descr,
-            'TA'=>$kodefikasiprogram->TA,
-            'Locked'=>$kodefikasiprogram->Locked,
+            'BidangID' => $request->input('BidangID'),
+            'PrgID' => $kodefikasiprogram->PrgID,
+            'Descr' => $kodefikasiprogram->Descr,
+            'TA' => $kodefikasiprogram->TA,
+            'Locked' => $kodefikasiprogram->Locked,
           ]);
         }   
       
         \DB::table('tmKegiatan')                    
         ->where('PrgID', $kodefikasiprogram->PrgID)
         ->update([
-          'tmKegiatan.Locked'=>$kodefikasiprogram->Locked,
+          'tmKegiatan.Locked' => $kodefikasiprogram->Locked,
         ]);
 
         \DB::table('tmSubKegiatan')
         ->join('tmKegiatan', 'tmSubKegiatan.KgtID', 'tmKegiatan.KgtID')
         ->where('tmKegiatan.PrgID', $kodefikasiprogram->PrgID)
         ->update([
-          'tmSubKegiatan.Locked'=>$kodefikasiprogram->Locked,
+          'tmSubKegiatan.Locked' => $kodefikasiprogram->Locked,
         ]);
         
-        $program=KodefikasiProgramModel::select(\DB::raw("					
+        $program = KodefikasiProgramModel::select(\DB::raw("					
           CASE 
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
@@ -548,7 +548,7 @@ class KodefikasiProgramController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'kodefikasiprogram'=>$kodefikasiprogram,                                    
+        'kodefikasiprogram' => $kodefikasiprogram,                                    
         'message' => 'Data Kodefikasi Program '.$kodefikasiprogram->Nm_Program.' berhasil diubah.'
       ], 200);
     }

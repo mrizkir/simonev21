@@ -77,8 +77,8 @@ class DataMentahMurniController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'organisasi'=>$organisasi,
-      'rka'=>$data,
+      'organisasi' => $organisasi,
+      'rka' => $data,
       'message' => 'Fetch data rka perubahan berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
   }   

@@ -27,8 +27,8 @@ class UsersBapelitbangController extends Controller {
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'fetchdata',
-                                'role'=>$role,
-                                'users'=>$data,
+                                'role' => $role,
+                                'users' => $data,
                                 'message' => 'Fetch data users BAPPELITBANG berhasil diperoleh'
                             ], 200);  
     }    
@@ -52,16 +52,16 @@ class UsersBapelitbangController extends Controller {
             $now = \Carbon\Carbon::now()->toDateTimeString();        
             $user=User::create([
                 'id'=>Uuid::uuid4()->toString(),
-                'name'=>$request->input('name'),
-                'email'=>$request->input('email'),
-                'nomor_hp'=>$request->input('nomor_hp'),
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'nomor_hp' => $request->input('nomor_hp'),
                 'username'=> $request->input('username'),
                 'password'=>Hash::make($request->input('password')),                        
                 'theme' => 'default',
                 'default_role' => 'bapelitbang',            
                 'foto'=> 'storages/images/users/no_photo.png',
-                'created_at'=>$now, 
-                'updated_at'=>$now
+                'created_at' => $now, 
+                'updated_at' => $now
             ]);            
             $role='bapelitbang';   
             $user->assignRole($role);               
@@ -95,7 +95,7 @@ class UsersBapelitbangController extends Controller {
         return Response()->json([
                                     'status' => 1,
                                     'pid' => 'store',
-                                    'user'=>$user,                                    
+                                    'user' => $user,                                    
                                     'message' => 'Data user BAPPELITBANG berhasil disimpan.'
                                 ], 200); 
 
@@ -121,8 +121,8 @@ class UsersBapelitbangController extends Controller {
             return Response()->json([
                                     'status' => 1,
                                     'pid' => 'fetchdata',
-                                    'user'=>$user,  
-                                    'role_bapelitbang'=>$user->hasRole('bapelitbang'),    
+                                    'user' => $user,  
+                                    'role_bapelitbang' => $user->hasRole('bapelitbang'),    
                                     'message' => 'Data user '.$user->username.' berhasil diperoleh.'
                                 ], 200); 
         }
@@ -182,7 +182,7 @@ class UsersBapelitbangController extends Controller {
             return Response()->json([
                                     'status' => 1,
                                     'pid' => 'update',
-                                    'user'=>$user,      
+                                    'user' => $user,      
                                     'message' => 'Data user BAPPELITBANG '.$user->username.' berhasil diubah.'
                                 ], 200); 
         }

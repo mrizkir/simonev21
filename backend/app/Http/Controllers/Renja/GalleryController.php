@@ -203,7 +203,7 @@ class GalleryController extends Controller
     $daftar_bulan = [];
     foreach($bulan_realisasi as $k=>$v)
     {
-      $daftar_bulan[]=['value'=>$k,'text'=>$bulan[$v]];			
+      $daftar_bulan[]=['value' => $k,'text' => $bulan[$v]];			
     }
     
     return $daftar_bulan;
@@ -347,10 +347,10 @@ class GalleryController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
-        'daftar_bulan'=>$daftar_bulan,
-        'media'=>$daftar_media,
-        'paginate'=>$paginate,
-        'message'=>$message,
+        'daftar_bulan' => $daftar_bulan,
+        'media' => $daftar_media,
+        'paginate' => $paginate,
+        'message' => $message,
       ], 200); 
     }
     catch(Exception $e)
@@ -360,7 +360,7 @@ class GalleryController extends Controller
         'pid' => 'fetchdata',
         'media'=>[],                                    
         'daftar_bulan'=>[],                                    
-        'message'=>$e->getMessage()
+        'message' => $e->getMessage()
       ], 422); 			
     }
   }
@@ -387,7 +387,7 @@ class GalleryController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'store',
-        'media'=>$result,                                    
+        'media' => $result,                                    
         'message' => 'Media realisasi rincian berhasil disimpan'
       ], 200); 			
     }
@@ -397,7 +397,7 @@ class GalleryController extends Controller
         'status'=>0,
         'pid' => 'store',
         'media'=>[],                                    
-        'message'=>$e->getMessage()
+        'message' => $e->getMessage()
       ], 422); 			
     }
   }
@@ -463,7 +463,7 @@ class GalleryController extends Controller
       return Response()->json([
         'status'=>0,
         'pid' => 'destroy',				                               
-        'message'=>$e->getMessage()
+        'message' => $e->getMessage()
       ], 422); 			
     }
   }

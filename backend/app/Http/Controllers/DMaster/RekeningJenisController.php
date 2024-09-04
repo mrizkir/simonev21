@@ -48,7 +48,7 @@ class RekeningJenisController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'jenis'=>$jenis,
+                  'jenis' => $jenis,
                   'message' => 'Fetch data rekening jenis berhasil.'
                 ], 200);
   }
@@ -83,13 +83,13 @@ class RekeningJenisController extends Controller {
       'Kd_Rek_3' => $request->input('Kd_Rek_3'),
       'JnsNm' => $request->input('JnsNm'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);
 
     return Response()->json([
                   'status' => 1,
                   'pid' => 'store',
-                  'jenis'=>$jenis,                                    
+                  'jenis' => $jenis,                                    
                   'message' => 'Data Rekening Jenis berhasil disimpan.'
                 ], 200); 
   }               
@@ -180,7 +180,7 @@ class RekeningJenisController extends Controller {
                     'KlpID' => 'required|exists:tmKlp,KlpID',
                     'Kd_Rek_3'=>[
                           Rule::unique('tmJns')->where(function($query) use ($request,$jenis) {  
-                            if ($request->input('Kd_Rek_3')= = $jenis->Kd_Rek_3) 
+                            if ($request->input('Kd_Rek_3') == $jenis->Kd_Rek_3) 
                             {
                               return $query->where('KlpID', $request->input('KlpID'))
                                     ->where('Kd_Rek_3','ignore')
@@ -209,7 +209,7 @@ class RekeningJenisController extends Controller {
       return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'jenis'=>$jenis,                                    
+                  'jenis' => $jenis,                                    
                   'message' => 'Data Rekening Jenis '.$jenis->JnsNm.' berhasil diubah.'
                 ], 200);
     }
@@ -236,7 +236,7 @@ class RekeningJenisController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'objek'=>$objek,
+                  'objek' => $objek,
                   'message'=>"Fetch data objek dari rekening jenis ($id) berhasil."
                 ], 200);
   }

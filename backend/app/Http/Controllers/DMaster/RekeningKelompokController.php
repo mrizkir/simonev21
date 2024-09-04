@@ -45,7 +45,7 @@ class RekeningKelompokController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'kelompok'=>$kelompok,
+                  'kelompok' => $kelompok,
                   'message' => 'Fetch data rekening kelompok berhasil.'
                 ], 200);
   }
@@ -80,13 +80,13 @@ class RekeningKelompokController extends Controller {
       'Kd_Rek_2' => $request->input('Kd_Rek_2'),
       'KlpNm' => $request->input('KlpNm'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);
 
     return Response()->json([
                   'status' => 1,
                   'pid' => 'store',
-                  'kelompok'=>$kelompok,                                    
+                  'kelompok' => $kelompok,                                    
                   'message' => 'Data Rekening Kelompok berhasil disimpan.'
                 ], 200); 
   }               
@@ -177,7 +177,7 @@ class RekeningKelompokController extends Controller {
                     'AkunID' => 'required|exists:tmAkun,AkunID',
                     'Kd_Rek_2'=>[
                           Rule::unique('tmKlp')->where(function($query) use ($request,$kelompok) {  
-                            if ($request->input('Kd_Rek_2')= = $kelompok->Kd_Rek_2) 
+                            if ($request->input('Kd_Rek_2') == $kelompok->Kd_Rek_2) 
                             {
                               return $query->where('AkunID', $request->input('AkunID'))
                                     ->where('Kd_Rek_2','ignore')
@@ -205,7 +205,7 @@ class RekeningKelompokController extends Controller {
       return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'kelompok'=>$kelompok,                                    
+                  'kelompok' => $kelompok,                                    
                   'message' => 'Data Rekening Kelompok '.$kelompok->KlpNm.' berhasil diubah.'
                 ], 200);
     }

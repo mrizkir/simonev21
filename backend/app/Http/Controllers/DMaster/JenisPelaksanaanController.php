@@ -30,7 +30,7 @@ class JenisPelaksanaanController extends Controller
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'fetchdata',
-                                'jenispelaksanaan'=>$data,
+                                'jenispelaksanaan' => $data,
                                 'message' => 'Fetch data jenis pelaksanaan berhasil diperoleh'
                             ], 200);  
 
@@ -54,13 +54,13 @@ class JenisPelaksanaanController extends Controller
             'JenisPelaksanaanID'=> Uuid::uuid4()->toString(),
             'NamaJenis' => $request->input('NamaJenis'),
             'Descr' => $request->input('Descr'),
-            'TA'=>$request->input('TA'),
+            'TA' => $request->input('TA'),
         ]);     
         
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'store',
-                                'jenispelaksanaan'=>$jenispelaksanaan,                                    
+                                'jenispelaksanaan' => $jenispelaksanaan,                                    
                                 'message' => 'Data Jenis Pelaksanaan berhasil disimpan.'
                             ], 200); 
                
@@ -87,7 +87,7 @@ class JenisPelaksanaanController extends Controller
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'store',
-                                'jenispelaksanaan'=>$jenispelaksanaan,                                    
+                                'jenispelaksanaan' => $jenispelaksanaan,                                    
                                 'message' => 'Data Jenis Pelaksanaan berhasil diubah.'
                             ], 200); 
                                 

@@ -74,7 +74,7 @@ class KodefikasiKegiatanController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'kodefikasikegiatan'=>$kodefikasikegiatan,
+      'kodefikasikegiatan' => $kodefikasikegiatan,
       'message' => 'Fetch data kodefikasi urusan berhasil.'
     ], 200);
   }
@@ -199,7 +199,7 @@ class KodefikasiKegiatanController extends Controller {
         'Nm_Kegiatan' => strtoupper($request->input('Nm_Kegiatan')),
         'Descr' => $request->input('Descr'),
         'Locked' => $request->input('Locked'),
-        'TA'=>$ta,
+        'TA' => $ta,
       ]);
 
       \DB::table('trRKA')
@@ -212,7 +212,7 @@ class KodefikasiKegiatanController extends Controller {
       return Response()->json([
         'status' => 1,
         'pid' => 'store',
-        'kodefikasikegiatan'=>$kodefikasikegiatan,                                    
+        'kodefikasikegiatan' => $kodefikasikegiatan,                                    
         'message' => 'Data Kodefikasi Kegiatan berhasil disimpan.'
       ], 200); 
     }    
@@ -243,7 +243,7 @@ class KodefikasiKegiatanController extends Controller {
       $this->validate($request, [    
         'Kd_Kegiatan'=>[
           Rule::unique('tmKegiatan')->where(function($query) use ($request,$kodefikasikegiatan) {  
-            if ($request->input('Kd_Kegiatan')= = $kodefikasikegiatan->Kd_Kegiatan) 
+            if ($request->input('Kd_Kegiatan') == $kodefikasikegiatan->Kd_Kegiatan) 
             {
               return $query->where('Kd_Kegiatan','ignore')
               ->where('TA', $kodefikasikegiatan->TA);
@@ -298,7 +298,7 @@ class KodefikasiKegiatanController extends Controller {
           \DB::table('tmSubKegiatan')            
             ->where('KgtID', $kodefikasikegiatan->KgtID)
             ->update([
-              'Locked'=>$kodefikasikegiatan->Locked,
+              'Locked' => $kodefikasikegiatan->Locked,
             ]);
           
             \DB::table('trRKA')
@@ -314,7 +314,7 @@ class KodefikasiKegiatanController extends Controller {
         return Response()->json([
           'status' => 1,
           'pid' => 'update',
-          'kodefikasikegiatan'=>$kodefikasikegiatan,                                    
+          'kodefikasikegiatan' => $kodefikasikegiatan,                                    
           'message' => 'Data Kodefikasi Kegiatan '.$kodefikasikegiatan->Nm_Kegiatan.' berhasil diubah.'
         ], 200);
       }
@@ -368,7 +368,7 @@ class KodefikasiKegiatanController extends Controller {
         return Response()->json([
                                     'status' => 1,
                                     'pid' => 'fetchdata',
-                                    'subkegiatanrka'=>$kodefikasisubkegiatan,
+                                    'subkegiatanrka' => $kodefikasisubkegiatan,
                                     'message'=>"Fetch data sub kegiatan dari kegiatan $id berhasil."
                                 ], 200);   
     }

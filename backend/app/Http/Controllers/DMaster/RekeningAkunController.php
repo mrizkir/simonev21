@@ -39,7 +39,7 @@ class RekeningAkunController extends Controller {
     return Response()->json([
                   'status' => 1,
                   'pid' => 'fetchdata',
-                  'akun'=>$akun,
+                  'akun' => $akun,
                   'message' => 'Fetch data rekening akun berhasil.'
                 ], 200);
   }
@@ -71,13 +71,13 @@ class RekeningAkunController extends Controller {
       'Kd_Rek_1' => $request->input('Kd_Rek_1'),
       'Nm_Akun' => $request->input('Nm_Akun'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);
 
     return Response()->json([
                   'status' => 1,
                   'pid' => 'store',
-                  'akun'=>$akun,                                    
+                  'akun' => $akun,                                    
                   'message' => 'Data Rekening Akun berhasil disimpan.'
                 ], 200); 
   }               
@@ -164,7 +164,7 @@ class RekeningAkunController extends Controller {
       $this->validate($request, [    
                     'Kd_Rek_1'=>[
                           Rule::unique('tmAkun')->where(function($query) use ($request,$akun) {  
-                            if ($request->input('Kd_Rek_1')= = $akun->Kd_Rek_1) 
+                            if ($request->input('Kd_Rek_1') == $akun->Kd_Rek_1) 
                             {
                               return $query->where('Kd_Rek_1','ignore')
                                     ->where('TA', $akun->TA);
@@ -190,7 +190,7 @@ class RekeningAkunController extends Controller {
       return Response()->json([
                   'status' => 1,
                   'pid' => 'update',
-                  'akun'=>$akun,                                    
+                  'akun' => $akun,                                    
                   'message' => 'Data Rekening Akun '.$akun->Nm_Akun.' berhasil diubah.'
                 ], 200);
     }

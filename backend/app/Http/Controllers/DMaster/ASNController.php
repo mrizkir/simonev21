@@ -33,7 +33,7 @@ class ASNController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'asn'=>$data,
+      'asn' => $data,
       'message' => 'Fetch data ASN berhasil diperoleh'
     ], 200);  
 
@@ -70,13 +70,13 @@ class ASNController extends Controller
       'NIP_ASN' => $request->input('NIP_ASN'),
       'Nm_ASN' => $request->input('Nm_ASN'),
       'Descr' => $request->input('Descr'),
-      'TA'=>$ta,
+      'TA' => $ta,
     ]);  
     
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'asn'=>$asn,                                    
+      'asn' => $asn,                                    
       'message' => 'Data ASN berhasil disimpan.'
     ], 200); 		
   }
@@ -128,7 +128,7 @@ class ASNController extends Controller
       'status' => 1,
       'pid' => 'store',            
       'message'=>"Salin ASN dari tahun anggaran $tahun_asal berhasil.",
-      'sql_insert'=>$str_insert,
+      'sql_insert' => $str_insert,
     ], 200);
   }
   /**
@@ -145,7 +145,7 @@ class ASNController extends Controller
     $this->validate($request, [    
       'NIP_ASN'=>[
         Rule::unique('tmASN')->where(function($query) use ($request,$asn) {  
-          if ($request->input('NIP_ASN')= = $asn->NIP_ASN) 
+          if ($request->input('NIP_ASN') == $asn->NIP_ASN) 
           {
             return $query->where('NIP_ASN','ignore');
           }                 
@@ -169,7 +169,7 @@ class ASNController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'update',
-      'asn'=>$asn,                                    
+      'asn' => $asn,                                    
       'message' => 'Data ASN '.$asn->Nm_ASN.' berhasil diubah.'
     ], 200);
     

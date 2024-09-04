@@ -29,7 +29,7 @@ class SumberDanaController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'sumberdana'=>$data,
+      'sumberdana' => $data,
       'message' => 'Fetch data Sumber Dana berhasil diperoleh'
     ], 200);  
 
@@ -69,16 +69,16 @@ class SumberDanaController extends Controller {
     
     $sumberdana = SumberDanaModel::create ([
                         'SumberDanaID'=> uniqid ('uid'),
-                        'Kd_SumberDana'=>$request->input('Kd_SumberDana'),        
-                        'Nm_SumberDana'=>$request->input('Nm_SumberDana'),
-                        'Descr'=>$request->input('Descr'),
-                        'TA'=>$tahun,
+                        'Kd_SumberDana' => $request->input('Kd_SumberDana'),        
+                        'Nm_SumberDana' => $request->input('Nm_SumberDana'),
+                        'Descr' => $request->input('Descr'),
+                        'TA' => $tahun,
                       ]);
 
      return Response()->json([
                 'status' => 1,
                 'pid' => 'store',
-                'sumberdana'=>$sumberdana,                                    
+                'sumberdana' => $sumberdana,                                    
                 'message' => 'Data Sumber Dana berhasil disimpan.'
               ], 200); 
 
@@ -99,7 +99,7 @@ class SumberDanaController extends Controller {
     [
       'Kd_SumberDana'=>['required',
             Rule::unique('tmSumberDana')->where(function($query) use ($request,$sumberdana) {  
-              if ($request->input('Kd_SumberDana')= = $sumberdana->Kd_SumberDana) 
+              if ($request->input('Kd_SumberDana') == $sumberdana->Kd_SumberDana) 
               {
                 return $query->where('Kd_SumberDana',0);
               }                 
@@ -134,7 +134,7 @@ class SumberDanaController extends Controller {
     return Response()->json([
               'status' => 1,
               'pid' => 'update',
-              'sumberdana'=>$sumberdana,                                    
+              'sumberdana' => $sumberdana,                                    
               'message' => 'Data Sumber Dana '.$sumberdana->Nm_SumberDana.' berhasil diubah.'
             ], 200);
 

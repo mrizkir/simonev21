@@ -23,7 +23,7 @@ class ProvinsiController extends Controller {
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'fetchdata',
-                                'provinsi'=>$data,
+                                'provinsi' => $data,
                                 'message' => 'Fetch data provinsi berhasil diperoleh'
                             ], 200);  
     }
@@ -37,7 +37,7 @@ class ProvinsiController extends Controller {
         return Response()->json([
                                 'status' => 1,
                                 'pid' => 'fetchdata',                                
-                                'kota'=>$kota,
+                                'kota' => $kota,
                                 'message' => 'Fetch data kabupaten/kota dari provinsi berhasil diperoleh'
                             ], 200);  
 

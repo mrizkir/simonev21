@@ -135,24 +135,24 @@ class RKAPerubahanController extends Controller
 
         $sisa_anggaran = $datauraian->PaguUraian2-$sum_realisasi;            
         $daftar_realisasi[]=[
-          'RKARealisasiRincID'=>$item->RKARealisasiRincID,
-          'bulan2'=>$item->bulan2,
+          'RKARealisasiRincID' => $item->RKARealisasiRincID,
+          'bulan2' => $item->bulan2,
           'NamaBulan'=>Helper::getNamaBulan($item->bulan2),
-          'target2'=>$item->target2,
-          'realisasi2'=>$item->realisasi2,
-          'target_fisik2'=>$item->target_fisik2,
-          'fisik2'=>$item->fisik2,
-          'sisa_anggaran'=>$sisa_anggaran,
-          'Descr'=>$item->Descr,
-          'TA'=>$item->TA,
-          'created_at'=>$item->created_at,
-          'updated_at'=>$item->updated_at,
+          'target2' => $item->target2,
+          'realisasi2' => $item->realisasi2,
+          'target_fisik2' => $item->target_fisik2,
+          'fisik2' => $item->fisik2,
+          'sisa_anggaran' => $sisa_anggaran,
+          'Descr' => $item->Descr,
+          'TA' => $item->TA,
+          'created_at' => $item->created_at,
+          'updated_at' => $item->updated_at,
         ];
         
-        $totalanggarankas+ = $item->target2;
-        $totalrealisasi+ = $item->realisasi2;
-        $totaltargetfisik+ = $item->target_fisik2;
-        $totalfisik+ = $item->fisik2;
+        $totalanggarankas+= $item->target2;
+        $totalrealisasi+= $item->realisasi2;
+        $totaltargetfisik+= $item->target_fisik2;
+        $totalfisik+= $item->fisik2;
       }
       
       $data['datarealisasi'] = $daftar_realisasi;
@@ -358,8 +358,8 @@ class RKAPerubahanController extends Controller
     return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'unitkerja'=>$unitkerja,
-                'rka'=>$data,
+                'unitkerja' => $unitkerja,
+                'rka' => $data,
                 'message' => 'Fetch data rka perubahan berhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
     
@@ -630,8 +630,8 @@ class RKAPerubahanController extends Controller
     return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'rka'=>$rka,
-                'uraian'=>$data,
+                'rka' => $rka,
+                'uraian' => $data,
                 'message' => 'Fetch data uraian rka perubahan berhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
     
@@ -727,8 +727,8 @@ class RKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
-      'unitkerja'=>$unitkerja,
-      'rka'=>$data,
+      'unitkerja' => $unitkerja,
+      'rka' => $data,
       'message' => 'Fetch data rka perubahan berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
   }
@@ -837,13 +837,13 @@ class RKAPerubahanController extends Controller
       'user_id' => $this->getUserid(),
       'EntryLvl' => 2,
 
-      'TA'=>$kodefikasisubkegiatan->TA,
+      'TA' => $kodefikasisubkegiatan->TA,
     ]);
 
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'rka'=>$rka,                    
+      'rka' => $rka,                    
       'message' => 'Data RKA berhasil disimpan.'
     ], 200); 
   }               
@@ -891,7 +891,7 @@ class RKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'uraian'=>$uraian,                    
+      'uraian' => $uraian,                    
       'message' => 'Data Uraian RKA berhasil disimpan.'
     ], 200); 
   }               
@@ -1063,7 +1063,7 @@ class RKAPerubahanController extends Controller
 
         \DB::table('sipd')
           ->where('SIPDID', $rinciankegiatan->SIPDID)
-          ->update(['PaguUraian2'=>$request->input('PaguUraian2')]);                
+          ->update(['PaguUraian2' => $request->input('PaguUraian2')]);                
 
         $paguuraian=RKARincianModel::where('RKAID', $rinciankegiatan->RKAID)                                 
                       ->sum('PaguUraian2');                
@@ -1071,7 +1071,7 @@ class RKAPerubahanController extends Controller
         \DB::table('trRKA')
           ->where('RKAID', $rinciankegiatan->RKAID)
           ->update([
-            'PaguDana2'=>$paguuraian
+            'PaguDana2' => $paguuraian
           ]);                    
       
         return $rinciankegiatan;
@@ -1080,8 +1080,8 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'rka'=>$rka,
-        'rinciankegiatan'=>$rinciankegiatan,
+        'rka' => $rka,
+        'rinciankegiatan' => $rinciankegiatan,
         'message' => 'Update uraian berhasil disimpan.'
       ], 200); 
     }
@@ -1205,13 +1205,13 @@ class RKAPerubahanController extends Controller
     {
       if (!array_key_exists($k,$bulan_realisasi))
       {
-        $data[$k]=['value'=>$k,'text'=>$v];
+        $data[$k]=['value' => $k,'text' => $v];
       }
     }
     return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'bulan'=>$data,
+                'bulan' => $data,
                 'message' => 'Fetch data bulan realisasi berhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
@@ -1239,19 +1239,19 @@ class RKAPerubahanController extends Controller
     {
       $data[]=[
         'RKATargetRincID'=>Uuid::uuid4()->toString(),
-        'RKAID'=>$request->input('RKAID'),
-        'RKARincID'=>$request->input('RKARincID'),
-        'bulan1'=>$i+1,
-        'bulan2'=>$i+1,
+        'RKAID' => $request->input('RKAID'),
+        'RKARincID' => $request->input('RKARincID'),
+        'bulan1' => $i+1,
+        'bulan2' => $i+1,
         'target1'=>0,
         'target2'=>0,
         'fisik1'=>0,
-        'fisik2'=>$bulan_fisik[$i],
+        'fisik2' => $bulan_fisik[$i],
         'EntryLvl'=>2,
-        'Descr'=>$request->input('Descr'),
-        'TA'=>$request->input('tahun'),
-        'created_at'=>$now,
-        'updated_at'=>$now,
+        'Descr' => $request->input('Descr'),
+        'TA' => $request->input('tahun'),
+        'created_at' => $now,
+        'updated_at' => $now,
       ];
     }
     RKARencanaTargetModel::insert($data);
@@ -1287,7 +1287,7 @@ class RKAPerubahanController extends Controller
       \DB::table('trRKATargetRinc')
         ->where('RKARincID', $request->input('RKARincID'))
         ->where('bulan2', $i+1)
-        ->update(['fisik2'=>$bulan_fisik[$i]]);
+        ->update(['fisik2' => $bulan_fisik[$i]]);
     }
     return Response()->json([
                 'status' => 1,
@@ -1322,19 +1322,19 @@ class RKAPerubahanController extends Controller
     {
       $data[]=[
         'RKATargetRincID'=>Uuid::uuid4()->toString(),
-        'RKAID'=>$request->input('RKAID'),
-        'RKARincID'=>$RKARincID,
-        'bulan1'=>$item->no_bulan,
-        'bulan2'=>$item->no_bulan,
+        'RKAID' => $request->input('RKAID'),
+        'RKARincID' => $RKARincID,
+        'bulan1' => $item->no_bulan,
+        'bulan2' => $item->no_bulan,
         'fisik1'=>0,
         'fisik2'=>0,
         'target1'=>0,
-        'target2'=>$item->target,
+        'target2' => $item->target,
         'EntryLvl'=>2,
-        'Descr'=>$request->input('Descr'),
-        'TA'=>$request->input('tahun'),
-        'created_at'=>$now,
-        'updated_at'=>$now,
+        'Descr' => $request->input('Descr'),
+        'TA' => $request->input('tahun'),
+        'created_at' => $now,
+        'updated_at' => $now,
       ];
     }
     RKARencanaTargetModel::insert($data);
@@ -1343,7 +1343,7 @@ class RKAPerubahanController extends Controller
                 'status' => 1,
                 'pid' => 'store',
                 'message' => 'Rencana target anggaran kas uraian berhasil disimpan.',
-                'bulan_anggaran'=>$bulan_anggaran,
+                'bulan_anggaran' => $bulan_anggaran,
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
   } 
   /**
@@ -1369,7 +1369,7 @@ class RKAPerubahanController extends Controller
         ->where('RKARincID', $RKARincID)
         ->where('bulan2', $item->no_bulan)
         ->update([
-          'target2'=>$item->target
+          'target2' => $item->target
         ]);
     }
 
@@ -1377,7 +1377,7 @@ class RKAPerubahanController extends Controller
                 'status' => 1,
                 'pid' => 'update',
                 'message' => 'Rencana target anggaran kas uraian berhasil diubah.',
-                'bulan_anggaran'=>$bulan_anggaran,
+                'bulan_anggaran' => $bulan_anggaran,
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
   }      
   /**
@@ -1420,7 +1420,7 @@ class RKAPerubahanController extends Controller
     return Response()->json([
                 'status' => 1,
                 'pid' => 'store',
-                'realisasi'=>$realisasi,                    
+                'realisasi' => $realisasi,                    
                 'message' => 'Data realisasi berhasil disimpan.'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
     
@@ -1456,7 +1456,7 @@ class RKAPerubahanController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'update',
-      'realisasi'=>$realisasi,                    
+      'realisasi' => $realisasi,                    
       'message' => 'Data realisasi berhasil diubah.'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
     
@@ -1591,8 +1591,8 @@ class RKAPerubahanController extends Controller
       return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'datakegiatan'=>$rka,
-                'uraian'=>$data,
+                'datakegiatan' => $rka,
+                'uraian' => $data,
                 'message' => 'Fetch data rincian kegiatan berhasil diperoleh'
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
     }            
@@ -1714,10 +1714,10 @@ class RKAPerubahanController extends Controller
     return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'mode'=>$mode,
-                'datauraian'=>$data_uraian,
-                'target'=>$target,
-                'datarealisasi'=>$data_realisasi[0],
+                'mode' => $mode,
+                'datauraian' => $data_uraian,
+                'target' => $target,
+                'datarealisasi' => $data_realisasi[0],
                 'message'=>"Fetch data target $mode berhasil diperoleh"
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
 
@@ -1742,12 +1742,12 @@ class RKAPerubahanController extends Controller
     return Response()->json([
                 'status' => 1,
                 'pid' => 'fetchdata',
-                'realisasi'=>$data['datarealisasi'],
-                'totalanggarankas'=>$data['totalanggarankas'],
-                'totalrealisasi'=>$data['totalrealisasi'],
-                'totaltargetfisik'=>$data['totaltargetfisik'],
-                'totalfisik'=>$data['totalfisik'],
-                'sisa_anggaran'=>$data['sisa_anggaran'],
+                'realisasi' => $data['datarealisasi'],
+                'totalanggarankas' => $data['totalanggarankas'],
+                'totalrealisasi' => $data['totalrealisasi'],
+                'totaltargetfisik' => $data['totaltargetfisik'],
+                'totalfisik' => $data['totalfisik'],
+                'sisa_anggaran' => $data['sisa_anggaran'],
                 'message'=>"Fetch data realisasi berhasil diperoleh"
               ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
@@ -1815,7 +1815,7 @@ class RKAPerubahanController extends Controller
     return Response()->json([
                   'status' => 1,
                   'pid' => 'destroy',
-                  'message'=>$message
+                  'message' => $message
                 ], 200);  
         
   }
