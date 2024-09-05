@@ -664,7 +664,7 @@
                 '/rpjmd/relations/indikatorprogram/store',
                 {
                   IndikatorKinerjaID: this.formdata.IndikatorKinerja.IndikatorKinerjaID,                
-                  RpjmdCascadingID: this.dataprogram.RpjmdProgramID,
+                  RpjmdCascadingID: this.dataprogram.PrgID,
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                   Operasi: this.formdata.Operasi,
                   data_1: this.formdata.data_1,
@@ -678,10 +678,7 @@
                   data_9: this.formdata.data_9,
                   data_10: this.formdata.data_10,
                   data_11: this.formdata.data_11,
-                  data_12: this.formdata.data_12,
-                  data_13: this.formdata.data_13,
-                  data_14: this.formdata.data_14,
-                  data_15: this.formdata.data_15,
+                  data_12: this.formdata.data_12,                  
                 },
                 {
                   headers: {
@@ -796,6 +793,7 @@
             title: 'NAMA PROGRAM / INDIKATOR',
             key: 'Nm_RpjmdProgram',
             align: 'start',
+            width: '200px',
             headerProps: {
               class: 'font-weight-bold',
             },
@@ -803,7 +801,7 @@
           {
             title: 'SATUAN',
             key: 'Nm_RpjmdProgram',
-            align: 'start',
+            align: 'start',            
             headerProps: {
               class: 'font-weight-bold',
             },
