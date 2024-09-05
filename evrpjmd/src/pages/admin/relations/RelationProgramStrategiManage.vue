@@ -104,8 +104,9 @@
                   density="compact"
                   variant="outlined"
                   v-model="formdata.PrgID"
-                  label="PROGRAM PERMENDARI 98"              
-                  item-title="Nm_Program"
+                  prepend-inner-icon="mdi-graph"
+                  label="PROGRAM PERMENDARI 90 Tahun 2019"              
+                  item-title="nama_program"
                   item-value="PrgID"
                   :rules="rule_program"
                   clearable                  
@@ -191,7 +192,7 @@
         value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
       rule_program: [
-        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 98 !!!',
+        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 90 TAHUN 2019 !!!',
       ],
       //pinia
       userStore: null,

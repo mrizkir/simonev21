@@ -79,9 +79,10 @@
                         :items="daftar_program"
                         density="compact"
                         variant="outlined"
+                        prepend-inner-icon="mdi-graph"
                         v-model="formdata.PrgID"
-                        label="PROGRAM PERMENDARI 98"              
-                        item-title="Nm_Program"
+                        label="PROGRAM PERMENDARI 90 Tahun 2019"              
+                        item-title="nama_program"
                         item-value="PrgID"
                         :rules="rule_program"
                         clearable                  
@@ -201,7 +202,7 @@
           },
         },        
         {
-          title: 'NAMA BIDANG PERMENDAGRI 98',
+          title: 'NAMA BIDANG PERMENDAGRI 90 TAHUN 2019',
           key: 'Nm_Bidang',
           align: 'start',
           headerProps: {
@@ -209,7 +210,7 @@
           },
         },        
         {
-          title: 'NAMA URUSAN PERMENDAGRI 98',
+          title: 'NAMA URUSAN PERMENDAGRI 90 TAHUN 2019',
           key: 'Nm_Urusan',
           align: 'start',
           headerProps: {
@@ -217,7 +218,7 @@
           },
         },        
         {
-          title: 'NAMA PROGRAM PERMENDAGRI 98',
+          title: 'NAMA PROGRAM PERMENDAGRI 90 TAHUN 2019',
           key: 'nama_program',
           align: 'start',
           headerProps: {
@@ -267,7 +268,7 @@
         value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
       rule_program: [
-        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 98 !!!',
+        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 90 TAHUN 2019 !!!',
       ],
       //pinia
       userStore: null,

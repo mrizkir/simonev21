@@ -167,7 +167,8 @@ class KodefikasiBidangUrusanController extends Controller {
       ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
       ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
       ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-      ->where('tmBidangUrusan.BidangID', $id);
+      ->where('tmBidangUrusan.BidangID', $id)
+      ->orderBy('kode_program', 'asc');
 
       $totalRecords = 0;      
     }

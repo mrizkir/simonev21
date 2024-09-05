@@ -18,7 +18,7 @@ class CreateRpjmdRelasiStrategiProgramTable extends Migration
       $table->uuid('PeriodeRPJMDID');
       $table->uuid('PrgID');
       $table->uuid('RpjmdStrategiID');
-      $table->string('Kd_ProgramRPJMD', 4);                  
+      $table->string('Kd_ProgramRPJMD', 10);                  
       $table->text('Nm_ProgramRPJMD');                  
       $table->timestamps();      
       
