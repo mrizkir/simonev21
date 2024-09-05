@@ -338,45 +338,51 @@
               </v-btn>
             </td>
           </tr>
-          <template v-if="item.indikator.length > 0">            
-            <tr v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID" class="bg-green-lighten-5">
-              <td>
-                <v-icon icon="mdi-arrow-right" />
-              </td>
-              <td>{{ indikator.NamaIndikator }}</td>
-              <td>{{ indikator.Satuan }}</td>
-              <td>{{ indikator.data_1 }}</td>              
-              <td>{{ indikator.data_2 }}</td>
-              <td>{{ indikator.data_3 }}</td>
-              <td>{{ indikator.data_4 }}</td>
-              <td>{{ indikator.data_5 }}</td>
-              <td>{{ indikator.data_6 }}</td>
-              <td>{{ indikator.data_7 }}</td>
-              <td>{{ indikator.data_8 }}</td>            
-              <td>{{ indikator.data_9 }}</td>            
-              <td>{{ indikator.data_10 }}</td>            
-              <td>{{ indikator.data_11 }}</td>            
-              <td>{{ indikator.data_12 }}</td>            
-              <td>
-                <v-icon
-                  class="mr-2"
-                  v-tooltip:bottom="'Ubah Indikator'"
-                  @click.stop="editItem(item, indikator)"
-                  size="small"
-                  color="primary"
-                >
-                  mdi-pencil
-                </v-icon>
-                <v-icon
-                  v-tooltip:bottom="'Hapus Indikator'"
-                  @click.stop="deleteItem(indikator)"
-                  size="small"
-                  color="error"
-                >
-                  mdi-delete
-                </v-icon>
-              </td>
-            </tr>
+          <template v-if="item.indikator.length > 0">
+            <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID">
+              <tr class="bg-green-lighten-5">
+                <td>
+                  <v-icon icon="mdi-arrow-right" />
+                </td>
+                <td colspan="14">{{ indikator.NamaIndikator }}</td>
+                <td class="text-center">
+                  <v-icon
+                    class="mr-2"
+                    v-tooltip:bottom="'Ubah Indikator'"
+                    @click.stop="editItem(item, indikator)"
+                    size="small"
+                    color="primary"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                  <v-icon
+                    v-tooltip:bottom="'Hapus Indikator'"
+                    @click.stop="deleteItem(indikator)"
+                    size="small"
+                    color="error"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </td>
+              </tr>
+              <tr class="text-center">
+                <td colspan="2" class="bg-grey">&nbsp;</td>                
+                <td>{{ indikator.Satuan }}</td>
+                <td>{{ indikator.data_1 }}</td>              
+                <td>{{ indikator.data_2 }}</td>
+                <td>{{ indikator.data_3 }}</td>
+                <td>{{ indikator.data_4 }}</td>
+                <td>{{ indikator.data_5 }}</td>
+                <td>{{ indikator.data_6 }}</td>
+                <td>{{ indikator.data_7 }}</td>
+                <td>{{ indikator.data_8 }}</td>            
+                <td>{{ indikator.data_9 }}</td>            
+                <td>{{ indikator.data_10 }}</td>            
+                <td>{{ indikator.data_11 }}</td>            
+                <td>{{ indikator.data_12 }}</td>
+                <td class="bg-grey">&nbsp;</td>
+              </tr>
+            </template>
           </template>
           <template v-else>
             <tr class="bg-green-lighten-5">
@@ -833,6 +839,7 @@
           {
             title: "AKSI",
             key: "actions",
+            align: 'center',
             sortable: false,
             width: 110,
             headerProps: {
