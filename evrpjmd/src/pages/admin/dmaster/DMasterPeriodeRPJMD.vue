@@ -371,9 +371,7 @@
     methods: {
       async initialize({ page, itemsPerPage, sortBy }) {
         this.datatableLoading = true
-        const offset = (page - 1) * itemsPerPage
-        this.indexOffset = offset
-
+        
         if(sortBy.length == 0) {
           sortBy = [
             {
@@ -383,14 +381,24 @@
           ]
         }
         
+        var request_param = {
+          PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+          sortBy: sortBy,
+          search: this.search,
+        }
+
+        if(itemsPerPage > 0) {
+          const offset = (page - 1) * itemsPerPage
+          this.indexOffset = offset
+
+          request_param.offset = offset
+          request_param.limit = itemsPerPage
+        }
+
         await this.$ajax
           .post(
             "/rpjmd/periode",
-            {
-              sortBy: sortBy,
-              offset: offset,
-              limit: itemsPerPage,
-            },
+            request_param,
             {
               headers: {
                 Authorization: this.userStore.Token,

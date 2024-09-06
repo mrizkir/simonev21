@@ -422,7 +422,6 @@
     },
     mounted() {
       this.fetchOPD()
-      console.log('test')
     },
     data: () => ({
       btnLoading: false,
@@ -522,16 +521,22 @@
       async initialize({ page, itemsPerPage }) {                
         if (this.BidangID !== null || typeof  BidangID  !== 'undefined') {
           this.datatableLoading = true
-          const offset = (page - 1) * itemsPerPage
-          this.indexOffset = offset
+         
+          var request_param = {
+            PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
+          }
 
+          if(itemsPerPage > 0) {
+            const offset = (page - 1) * itemsPerPage
+            this.indexOffset = offset
+
+            request_param.offset = offset
+            request_param.limit = itemsPerPage
+          }
+          
           await this.$ajax
             .post('/dmaster/kodefikasi/bidangurusan/' + this.BidangID + '/programrpjmd', 
-              {
-                PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,                
-                offset: offset,
-                limit: itemsPerPage,
-              },
+              request_param,
               {
                 headers: {
                   Authorization: this.userStore.Token,
@@ -563,7 +568,7 @@
         this.btnLoading = true
         this.dialogfrm = true        
         this.dataprogram = item
-        console.log(item)
+        
         this.setLabelTahun()
         
         await this.$ajax
@@ -772,7 +777,7 @@
               },
             },
           ]
-          console.log(children)
+          
           children_target_tahun.push({
             title: tahun,
             children: children,

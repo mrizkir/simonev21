@@ -601,16 +601,22 @@
     methods: {
       async initialize({ page, itemsPerPage }) {        
         this.datatableLoading = true
-        const offset = (page - 1) * itemsPerPage
-        this.indexOffset = offset
+        
+        var request_param = {
+          PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
+        }
 
+        if(itemsPerPage > 0) {
+          const offset = (page - 1) * itemsPerPage
+          this.indexOffset = offset
+
+          request_param.offset = offset
+          request_param.limit = itemsPerPage
+        }
+        
         await this.$ajax
           .post('/rpjmd/tujuan/indikatortujuan', 
-            {
-              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,              
-              offset: offset,
-              limit: itemsPerPage,
-            },
+            request_param,
             {
               headers: {
                 Authorization: this.userStore.Token,
