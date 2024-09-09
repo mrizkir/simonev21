@@ -107,18 +107,30 @@
                         {{ formdata.Operasi }}
                       </v-col>
                     </v-row>
-                    <hr class="mb-3">                    
-                    <v-number-input
-                      v-model="formdata.data_1"  
-                      density="compact"
-                      :label="'KONDISI AWAL ' + labeltahun[0]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                      :disabled="disabledtarget"
-                      :rules="rule_kondisi_awal"
-                    />                    
-                    <template v-if="formdata.Operasi == 'RANGE'">
-                      <p class="mb-3">Kondisi Awal {{ labeltahun[1] }}:</p>                      
+                    <hr class="mb-3"> 
+                    <v-row no-gutters>
+                      <v-col cols="auto" md="9" lg="9">
+                        <v-number-input
+                          v-model="formdata.data_1"  
+                          density="compact"
+                          :label="'KONDISI AWAL ' + labeltahun[0]"
+                          variant="outlined"
+                          prepend-inner-icon="mdi-graph"
+                          :disabled="disabledtarget"
+                          :rules="rule_kondisi_awal"
+                          class="mr-4"
+                        />                    
+                      </v-col>
+                      <v-col cols="auto" md="3" lg="3" class="text-center">
+                        <v-switch
+                          v-model="formdata.is_iku"
+                          color="primary"
+                          label="NA"
+                          hide-details
+                        />
+                      </v-col>
+                    </v-row>
+                    <template v-if="formdata.Operasi == 'RANGE'">                                         
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input

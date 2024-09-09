@@ -683,7 +683,7 @@
                   Nm_Program: this.formdata.Nm_Program,
                   Descr: this.formdata.Descr,
                   TA: this.$store.getters["auth/TahunSelected"],
-                  Locked: this.formdata.Locked,
+                  Locked: locked,
                 },
                 {
                   headers: {
