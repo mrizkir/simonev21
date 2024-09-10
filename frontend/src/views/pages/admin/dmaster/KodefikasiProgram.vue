@@ -645,8 +645,8 @@
       save() {
         if (this.$refs.frmdata.validate()) {
           this.btnLoading = true;
-          if (this.editedIndex > -1) {
-            var locked = this.formdata.Locked == 1 ? 0 : 1;
+          var locked = this.formdata.Locked == 1 ? 0 : 1;
+          if (this.editedIndex > -1) {            
             this.$ajax
               .post(
                 "/dmaster/kodefikasi/program/" + this.formdata.PrgID,
