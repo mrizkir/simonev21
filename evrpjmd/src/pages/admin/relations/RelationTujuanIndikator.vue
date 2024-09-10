@@ -116,17 +116,18 @@
                           :label="'KONDISI AWAL ' + labeltahun[0]"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
-                          :disabled="disabledtarget"
+                          :disabled="disabledtarget || data_1_na"
                           :rules="rule_kondisi_awal"
                           class="mr-4"
                         />                    
                       </v-col>
                       <v-col cols="auto" md="3" lg="3" class="text-center">
                         <v-switch
-                          v-model="formdata.is_iku"
+                          v-model="formdata.data_1_na"
                           color="primary"
-                          label="NA"
+                          label="N.A"
                           hide-details
+                          :disabled="disabledtarget"
                         />
                       </v-col>
                     </v-row>
@@ -322,7 +323,7 @@
                     </template>
                     <template v-else>
                       <v-row no-gutters>                      
-                        <v-col cols="auto" md="12" lg="12">
+                        <v-col cols="auto" md="9" lg="9">
                           <v-number-input
                             v-model="formdata.data_2"  
                             density="compact"
@@ -331,11 +332,21 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_kondisi_awal"
+                            class="mr-4"
+                          />
+                        </v-col>
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
                           />
                         </v-col>
                       </v-row>
                       <v-row no-gutters>                      
-                        <v-col cols="auto" md="12" lg="12">
+                        <v-col cols="auto" md="9" lg="9">
                           <v-number-input
                             v-model="formdata.data_3"  
                             density="compact"
@@ -344,9 +355,21 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_target"
+                            class="mr-4"
                           />    
                         </v-col>
-                        <v-col cols="auto" md="12" lg="12">
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row no-gutters>
+                        <v-col cols="auto" md="9" lg="9">
                           <v-number-input
                             v-model="formdata.data_4"  
                             density="compact"
@@ -355,9 +378,21 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_target"
+                            class="mr-4"
                           />
-                        </v-col>                      
-                        <v-col cols="auto" md="12" lg="12">
+                        </v-col> 
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row no-gutters>
+                        <v-col cols="auto" md="9" lg="9">
                           <v-number-input
                             v-model="formdata.data_5"  
                             density="compact"
@@ -366,9 +401,21 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_target"
+                            class="mr-4"
                           />
                         </v-col>
-                        <v-col cols="auto" md="12" lg="12">                        
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row no-gutters>
+                        <v-col cols="auto" md="9" lg="9">                      
                           <v-number-input
                             v-model="formdata.data_6"  
                             density="compact"
@@ -377,9 +424,21 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_target"
+                            class="mr-4"
                           />              
                         </v-col>
-                        <v-col cols="auto" md="12" lg="12">                        
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row no-gutters>
+                        <v-col cols="auto" md="9" lg="9">                       
                           <v-number-input
                             v-model="formdata.data_7"  
                             density="compact"
@@ -388,9 +447,21 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_target"
+                            class="mr-4"
                           />     
                         </v-col>
-                        <v-col cols="auto" md="12" lg="12">                        
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row no-gutters>
+                        <v-col cols="auto" md="9" lg="9">                      
                           <v-number-input
                             v-model="formdata.data_8"  
                             density="compact"
@@ -399,6 +470,16 @@
                             prepend-inner-icon="mdi-graph"
                             :disabled="disabledtarget"
                             :rules="rule_target"
+                            class="mr-4"
+                          />
+                        </v-col>
+                        <v-col cols="auto" md="3" lg="3" class="text-center">
+                          <v-switch
+                            v-model="formdata.data_2_na"
+                            color="primary"
+                            label="N.A"
+                            hide-details
+                            :disabled="disabledtarget"
                           />
                         </v-col>
                       </v-row>     
@@ -551,20 +632,35 @@
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
+        data_1_na: null,
         data_1: null,
+        data_2_na: null,
         data_2: null,
+        data_3_na: null,
         data_3: null,
+        data_4_na: null,
         data_4: null,
+        data_5_na: null,
         data_5: null,
+        data_6_na: null,
         data_6: null,
+        data_7_na: null,
         data_7: null,
+        data_8_na: null,
         data_8: null,
+        data_9_na: null,
         data_9: null,
+        data_10_na: null,
         data_10: null,
+        data_11_na: null,
         data_11: null,
+        data_12_na: null,
         data_12: null,
+        data_13_na: null,
         data_13: null,
+        data_14_na: null,
         data_14: null,
+        data_15_na: null,
         data_15: null,        
         Satuan: '-',
         Operasi: '-',
@@ -574,21 +670,36 @@
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
+        data_1_na: null,
         data_1: null,
+        data_2_na: null,
         data_2: null,
+        data_3_na: null,
         data_3: null,
+        data_4_na: null,
         data_4: null,
+        data_5_na: null,
         data_5: null,
+        data_6_na: null,
         data_6: null,
+        data_7_na: null,
         data_7: null,
+        data_8_na: null,
         data_8: null,
+        data_9_na: null,
         data_9: null,
+        data_10_na: null,
         data_10: null,
+        data_11_na: null,
         data_11: null,
+        data_12_na: null,
         data_12: null,
+        data_13_na: null,
         data_13: null,
+        data_14_na: null,
         data_14: null,
-        data_15: null,
+        data_15_na: null,
+        data_15: null, 
         Satuan: '-',
         Operasi: '-',
       }, 
