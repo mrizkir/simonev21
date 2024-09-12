@@ -75,6 +75,13 @@
                         {{ datatujuan.Nm_RpjmdTujuan }}
                       </v-col>
                     </v-row>
+                    <v-row>
+                      <v-col cols="auto" md="12" lg="12">
+                        <v-alert>
+                          Nilai N.A(Not Available) diganti dengan -99999.
+                        </v-alert>
+                      </v-col>
+                    </v-row>
                     <hr class="mb-3">
                     <v-autocomplete
                       v-model="formdata.IndikatorKinerja"  
@@ -123,7 +130,7 @@
                       </v-col>
                       <v-col cols="auto" md="3" lg="3" class="text-center">
                         <v-switch
-                          v-model="formdata.data_1_na"
+                          v-model="data_1_na"
                           color="primary"
                           label="N.A"
                           hide-details
@@ -330,14 +337,14 @@
                             :label="'KONDISI AWAL ' + labeltahun[1]"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_2_na"
                             :rules="rule_kondisi_awal"
                             class="mr-4"
                           />
                         </v-col>
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_2_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -353,14 +360,14 @@
                             :label="'TARGET TAHUN ' + labeltahun[2]"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_3_na"
                             :rules="rule_target"
                             class="mr-4"
                           />    
                         </v-col>
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_3_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -376,14 +383,14 @@
                             :label="'TARGET TAHUN ' + labeltahun[3]"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_4_na"
                             :rules="rule_target"
                             class="mr-4"
                           />
                         </v-col> 
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_4_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -399,14 +406,14 @@
                             :label="'TARGET TAHUN ' + labeltahun[4]"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_5_na"
                             :rules="rule_target"
                             class="mr-4"
                           />
                         </v-col>
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_5_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -422,14 +429,14 @@
                             :label="'TARGET TAHUN ' + labeltahun[5]"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_6_na"
                             :rules="rule_target"
                             class="mr-4"
                           />              
                         </v-col>
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_6_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -445,14 +452,14 @@
                             :label="'TARGET TAHUN ' + labeltahun[6]"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_7_na"
                             :rules="rule_target"
                             class="mr-4"
                           />     
                         </v-col>
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_7_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -468,14 +475,14 @@
                             label="AKHIR RPJMD"
                             variant="outlined"
                             prepend-inner-icon="mdi-graph"
-                            :disabled="disabledtarget"
+                            :disabled="disabledtarget || data_8_na"
                             :rules="rule_target"
                             class="mr-4"
                           />
                         </v-col>
                         <v-col cols="auto" md="3" lg="3" class="text-center">
                           <v-switch
-                            v-model="formdata.data_2_na"
+                            v-model="data_8_na"
                             color="primary"
                             label="N.A"
                             hide-details
@@ -535,24 +542,45 @@
               </td>
               <td>{{ indikator.NamaIndikator }}</td>
               <td>{{ indikator.Satuan }}</td>
-              <td>{{ indikator.data_1 }}</td>
+              <td>{{ indikator.data_1 == '-99999' ? 'n.a' :  indikator.data_1 }}</td>
               <template v-if="indikator.Operasi == 'RANGE'">
-                <td>{{ indikator.data_2 + ' s.d ' + indikator.data_3 }}</td>
-                <td>{{ indikator.data_4 + ' s.d ' + indikator.data_5 }}</td>
-                <td>{{ indikator.data_6 + ' s.d ' + indikator.data_7 }}</td>
-                <td>{{ indikator.data_8 + ' s.d ' + indikator.data_9 }}</td>
-                <td>{{ indikator.data_10 + ' s.d ' + indikator.data_11 }}</td>
-                <td>{{ indikator.data_12 + ' s.d ' + indikator.data_13 }}</td>
-                <td>{{ indikator.data_14 + ' s.d ' + indikator.data_15 }}</td>
+                <td>
+                  {{ indikator.data_2 == '-99999' ? 'n.a' :  indikator.data_2 }} s.d 
+                  {{ indikator.data_3 == '-99999' ? 'n.a' :  indikator.data_3 }}
+                </td>                
+                <td>
+                  {{ indikator.data_4 == '-99999' ? 'n.a' :  indikator.data_4 }} s.d 
+                  {{ indikator.data_5 == '-99999' ? 'n.a' :  indikator.data_5 }}
+                </td>                
+                <td>
+                  {{ indikator.data_6 == '-99999' ? 'n.a' :  indikator.data_6 }} s.d 
+                  {{ indikator.data_7 == '-99999' ? 'n.a' :  indikator.data_7 }}
+                </td>                
+                <td>
+                  {{ indikator.data_8 == '-99999' ? 'n.a' :  indikator.data_8 }} s.d 
+                  {{ indikator.data_9 == '-99999' ? 'n.a' :  indikator.data_9 }}
+                </td>                
+                <td>
+                  {{ indikator.data_10 == '-99999' ? 'n.a' :  indikator.data_10 }} s.d 
+                  {{ indikator.data_11 == '-99999' ? 'n.a' :  indikator.data_11 }}
+                </td>                
+                <td>
+                  {{ indikator.data_12 == '-99999' ? 'n.a' :  indikator.data_12 }} s.d 
+                  {{ indikator.data_13 == '-99999' ? 'n.a' :  indikator.data_13 }}
+                </td>                
+                <td>
+                  {{ indikator.data_14 == '-99999' ? 'n.a' :  indikator.data_14 }} s.d 
+                  {{ indikator.data_15 == '-99999' ? 'n.a' :  indikator.data_15 }}
+                </td>                                
               </template>
               <template v-else>
-                <td>{{ indikator.data_2 }}</td>
-                <td>{{ indikator.data_3 }}</td>
-                <td>{{ indikator.data_4 }}</td>
-                <td>{{ indikator.data_5 }}</td>
-                <td>{{ indikator.data_6 }}</td>
-                <td>{{ indikator.data_7 }}</td>
-                <td>{{ indikator.data_8 }}</td>
+                <td>{{ indikator.data_2 == '-99999' ? 'n.a' :  indikator.data_2 }}</td>
+                <td>{{ indikator.data_3 == '-99999' ? 'n.a' :  indikator.data_3 }}</td>
+                <td>{{ indikator.data_4 == '-99999' ? 'n.a' :  indikator.data_4 }}</td>
+                <td>{{ indikator.data_5 == '-99999' ? 'n.a' :  indikator.data_5 }}</td>
+                <td>{{ indikator.data_6 == '-99999' ? 'n.a' :  indikator.data_6 }}</td>
+                <td>{{ indikator.data_7 == '-99999' ? 'n.a' :  indikator.data_7 }}</td>
+                <td>{{ indikator.data_8 == '-99999' ? 'n.a' :  indikator.data_8 }}</td>
               </template>
               <td>
                 <v-icon
@@ -624,43 +652,37 @@
       datatujuan: {},
       dialogfrm: false,
       //form data
+      formdata_old: {},
       form_valid: true,
       daftarindikator: [],
       disabledtarget: true,
+      data_1_na: null,
+      data_2_na: null,
+      data_3_na: null,
+      data_4_na: null,
+      data_5_na: null,
+      data_6_na: null,
+      data_7_na: null,
+      data_8_na: null,      
       formdata: {
         RpjmdRelasiIndikatorID: null,
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,
-        data_1_na: null,
-        data_1: null,
-        data_2_na: null,
-        data_2: null,
-        data_3_na: null,
-        data_3: null,
-        data_4_na: null,
-        data_4: null,
-        data_5_na: null,
-        data_5: null,
-        data_6_na: null,
-        data_6: null,
-        data_7_na: null,
-        data_7: null,
-        data_8_na: null,
-        data_8: null,
-        data_9_na: null,
-        data_9: null,
-        data_10_na: null,
-        data_10: null,
-        data_11_na: null,
-        data_11: null,
-        data_12_na: null,
-        data_12: null,
-        data_13_na: null,
-        data_13: null,
-        data_14_na: null,
-        data_14: null,
-        data_15_na: null,
+        PeriodeRPJMDID: null,        
+        data_1: null,        
+        data_2: null,        
+        data_3: null,        
+        data_4: null,        
+        data_5: null,        
+        data_6: null,        
+        data_7: null,        
+        data_8: null,        
+        data_9: null,        
+        data_10: null,        
+        data_11: null,        
+        data_12: null,        
+        data_13: null,        
+        data_14: null,        
         data_15: null,        
         Satuan: '-',
         Operasi: '-',
@@ -669,36 +691,21 @@
         RpjmdRelasiIndikatorID: null,
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,
-        data_1_na: null,
-        data_1: null,
-        data_2_na: null,
-        data_2: null,
-        data_3_na: null,
+        PeriodeRPJMDID: null,        
+        data_1: null,        
+        data_2: null,        
         data_3: null,
-        data_4_na: null,
         data_4: null,
-        data_5_na: null,
         data_5: null,
-        data_6_na: null,
         data_6: null,
-        data_7_na: null,
         data_7: null,
-        data_8_na: null,
         data_8: null,
-        data_9_na: null,
         data_9: null,
-        data_10_na: null,
         data_10: null,
-        data_11_na: null,
         data_11: null,
-        data_12_na: null,
         data_12: null,
-        data_13_na: null,
         data_13: null,
-        data_14_na: null,
         data_14: null,
-        data_15_na: null,
         data_15: null, 
         Satuan: '-',
         Operasi: '-',
@@ -810,6 +817,7 @@
             this.daftarindikator = payload
 
             this.formdata = Object.assign({}, item)
+            this.formdata_old = Object.assign({}, item)
             this.formdata.IndikatorKinerja = {
               IndikatorKinerjaID: item.IndikatorKinerjaID,
               NamaIndikator: item.NamaIndikator,
@@ -951,6 +959,7 @@
         this.btnLoading = false
         setTimeout(() => {
           this.formdata = Object.assign({}, this.formdefault)  
+          this.formdata_old = {}
           this.editedIndex = -1        
           this.$refs.frmdata.reset()
           this.dialogfrm = false
@@ -1058,6 +1067,18 @@
           },
         ]
         return headers
+      },
+    },
+    watch: {
+      data_1_na(val) {
+        console.log(this.formdata_old)
+        if(val) {
+          this.formdata.data_1 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_1 = this.formdata_old.data_1
+        } else {
+          this.formdata.data_1 = null
+        }
       },
     },
     components: {
