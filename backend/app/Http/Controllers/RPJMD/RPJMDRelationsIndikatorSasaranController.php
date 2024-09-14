@@ -120,7 +120,7 @@ class RPJMDRelationsIndikatorSasaranController extends Controller
       'pid' => 'store',
       'payload' => $indikatorsasaran,                                    
       'message' => 'Data Indikator Sasaran berhasil disimpan.'
-    ], 200);
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   public function update(Request $request, $id)
   {

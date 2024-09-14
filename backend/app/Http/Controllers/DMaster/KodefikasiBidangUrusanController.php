@@ -237,7 +237,7 @@ class KodefikasiBidangUrusanController extends Controller {
         'totalRecords' => $totalRecords,
       ],
       'message' => 'Fetch data program rpjmd berhasil.'
-    ], 200);
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   /**
    * Store a newly created resource in storage.

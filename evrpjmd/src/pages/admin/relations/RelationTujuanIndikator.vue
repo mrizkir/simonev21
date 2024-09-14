@@ -75,10 +75,10 @@
                         {{ datatujuan.Nm_RpjmdTujuan }}
                       </v-col>
                     </v-row>
-                    <v-row>
+                    <v-row class="mb-3" no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <v-alert>
-                          Nilai N.A(Not Available) diganti dengan -99999.
+                        <v-alert title="Perhatian" type="info">
+                          Nilai N.A (Not Available) diganti dengan -99999.
                         </v-alert>
                       </v-col>
                     </v-row>
@@ -647,7 +647,7 @@
       itemsPerPage: 10,
       totalRecords: 0,
       indexOffset: 0,
-      search: '',      
+      search: '',
       //dialog
       datatujuan: {},
       dialogfrm: false,
@@ -663,27 +663,27 @@
       data_5_na: null,
       data_6_na: null,
       data_7_na: null,
-      data_8_na: null,      
+      data_8_na: null,
       formdata: {
         RpjmdRelasiIndikatorID: null,
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,        
-        data_1: null,        
-        data_2: null,        
-        data_3: null,        
-        data_4: null,        
-        data_5: null,        
-        data_6: null,        
-        data_7: null,        
-        data_8: null,        
-        data_9: null,        
-        data_10: null,        
-        data_11: null,        
-        data_12: null,        
-        data_13: null,        
-        data_14: null,        
-        data_15: null,        
+        PeriodeRPJMDID: null,  
+        data_1: null,  
+        data_2: null,  
+        data_3: null,  
+        data_4: null,  
+        data_5: null,  
+        data_6: null,  
+        data_7: null,  
+        data_8: null,  
+        data_9: null,  
+        data_10: null,  
+        data_11: null,  
+        data_12: null,  
+        data_13: null,  
+        data_14: null,  
+        data_15: null,  
         Satuan: '-',
         Operasi: '-',
       }, 
@@ -691,9 +691,9 @@
         RpjmdRelasiIndikatorID: null,
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,        
-        data_1: null,        
-        data_2: null,        
+        PeriodeRPJMDID: null,  
+        data_1: null,  
+        data_2: null,  
         data_3: null,
         data_4: null,
         data_5: null,
@@ -718,7 +718,7 @@
       ],
       rule_range_awal: [
         value => !!value || 'Mohon untuk diisi nilai awal target !!!',
-      ],      
+      ],
       rule_range_akhir: [
         value => !!value || 'Mohon untuk diisi nilai akhir target !!!',
       ],
@@ -733,7 +733,7 @@
         this.datatableLoading = true
         
         var request_param = {
-          PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
+          PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
         }
 
         if(itemsPerPage > 0) {
@@ -824,6 +824,15 @@
               Satuan: item.Satuan,
               Operasi: item.Operasi,
             }
+            this.data_1_na = this.formdata.data_1 == '-99999';
+            this.data_2_na = this.formdata.data_2 == '-99999';
+            this.data_3_na = this.formdata.data_3 == '-99999';
+            this.data_4_na = this.formdata.data_4 == '-99999';
+            this.data_5_na = this.formdata.data_5 == '-99999';
+            this.data_6_na = this.formdata.data_6 == '-99999';
+            this.data_7_na = this.formdata.data_7 == '-99999';
+            this.data_8_na = this.formdata.data_8 == '-99999';
+            
             this.dialogfrm = true
             this.disabledtarget = false
             this.btnLoading = false  
@@ -886,7 +895,7 @@
               .post(
                 '/rpjmd/relations/indikatortujuan/store',
                 {
-                  IndikatorKinerjaID: this.formdata.IndikatorKinerja.IndikatorKinerjaID,                
+                  IndikatorKinerjaID: this.formdata.IndikatorKinerja.IndikatorKinerjaID,    
                   RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                   Operasi: this.formdata.Operasi,
@@ -1023,7 +1032,7 @@
             headerProps: {
               class: 'font-weight-bold',
             },
-          },          
+          },    
           {
             title: 'SATUAN',
             key: 'Nm_RpjmdTujuan',
@@ -1070,8 +1079,7 @@
       },
     },
     watch: {
-      data_1_na(val) {
-        console.log(this.formdata_old)
+      data_1_na(val) {        
         if(val) {
           this.formdata.data_1 = -99999
         } else if (this.editedIndex > -1) {
@@ -1080,6 +1088,69 @@
           this.formdata.data_1 = null
         }
       },
+      data_2_na(val) {
+        if(val) {
+          this.formdata.data_2 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_2 = this.formdata_old.data_2
+        } else {
+          this.formdata.data_2 = null
+        }
+      },
+      data_3_na(val) {
+        if(val) {
+          this.formdata.data_3 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_3 = this.formdata_old.data_3
+        } else {
+          this.formdata.data_3 = null
+        }
+      },
+      data_4_na(val) {
+        if(val) {
+          this.formdata.data_4 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_4 = this.formdata_old.data_4
+        } else {
+          this.formdata.data_4 = null
+        }
+      },
+      data_5_na(val) {
+        if(val) {
+          this.formdata.data_5 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_5 = this.formdata_old.data_5
+        } else {
+          this.formdata.data_5 = null
+        }
+      },
+      data_6_na(val) {
+        if(val) {
+          this.formdata.data_6 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_6 = this.formdata_old.data_6
+        } else {
+          this.formdata.data_6 = null
+        }
+      },
+      data_7_na(val) {
+        if(val) {
+          this.formdata.data_7 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_7 = this.formdata_old.data_7
+        } else {
+          this.formdata.data_7 = null
+        }
+      },
+      data_8_na(val) {
+        if(val) {
+          this.formdata.data_8 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata.data_8 = this.formdata_old.data_8
+        } else {
+          this.formdata.data_8 = null
+        }
+      },      
     },
     components: {
       'v-main-layout': mainLayout,
