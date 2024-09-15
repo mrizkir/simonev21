@@ -135,40 +135,43 @@ class KodefikasiBidangUrusanController extends Controller {
     }
     else
     {
-      $data = KodefikasiProgramModel::select(\DB::raw("
-        tmProgram.`PrgID`,
-        tmBidangUrusan.BidangID,
-        COALESCE(tmUrusan.`Kd_Urusan`, 'X') AS `Kd_Urusan`,       
-        COALESCE(tmBidangUrusan.`Kd_Bidang`, 'X') AS `Kd_Bidang`,
-        tmProgram.`Kd_Program`,
+      $data = KodefikasiProgramModel::from('tmProgram AS a')->select(\DB::raw("
+        a.PrgID,
+        b.BidangID,
+        COALESCE(d.`Kd_Urusan`, 'X') AS `Kd_Urusan`, 
+        COALESCE(c.`Kd_Bidang`, 'X') AS `Kd_Bidang`,
+        a.`Kd_Program`,
         CASE 
-          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-            CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
-          ELSE
-            CONCAT('X.','XX.',tmProgram.`Kd_Program`)
-        END AS kode_program,                                        
-        COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
-        COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
-        tmProgram.`Nm_Program`,
+          WHEN c.`UrsID` IS NOT NULL OR c.`BidangID` IS NOT NULL THEN 
+            CONCAT(d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',a.`Kd_Program`) 
+          ELSE 
+            CONCAT('X.','XX.',a.`Kd_Program`) 
+        END AS kode_program, 
+        COALESCE(d.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan, 
+        COALESCE(c.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
+        a.Nm_Program,
         CASE 
-          WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
-            CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
-          ELSE
-            CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
-        END AS nama_program,                                        
-        tmProgram.`Jns`,
-        tmProgram.`TA`,                                        
-        tmProgram.`Descr`,
-        tmProgram.`Locked`,
-        tmProgram.`created_at`,
-        tmProgram.`updated_at`,
+          WHEN c.`UrsID` IS NOT NULL OR c.`BidangID` IS NOT NULL THEN 
+            CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',a.`Kd_Program`,'] ',a.Nm_Program) 
+          ELSE 
+            CONCAT('[X.','XX.',a.`Kd_Program`,'] ',a.Nm_Program) 
+        END AS nama_program,
+        a.`Jns`, 
+        a.`TA`, 
+        a.`Descr`, 
+        a.`Locked`, 
+        a.`created_at`, 
+        a.`updated_at`, 
         '{}' AS indikator
       "))
-      ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-      ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-      ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-      ->where('tmBidangUrusan.BidangID', $id)
-      ->orderBy('kode_program', 'asc');
+      ->leftJoin('tmUrusanProgram AS b', 'a.PrgID', 'b.PrgID')
+      ->leftJoin('tmBidangUrusan AS c', 'b.BidangID', 'c.BidangID')
+      ->leftJoin('tmUrusan AS d', 'c.UrsID', 'd.UrsID')
+      ->whereRaw("(b.BidangID = '$id' OR c.BidangID IS NULL)")
+      ->where('a.TA', $ta)
+      ->orderBy('d.Kd_Urusan', 'asc')
+      ->orderBy('c.Kd_Bidang', 'asc')
+      ->orderBy('a.Kd_Program', 'asc');
 
       $totalRecords = 0;      
     }

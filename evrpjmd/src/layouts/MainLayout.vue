@@ -36,6 +36,8 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="indikator-tujuan" to="/admin/relations/indikatortujuan" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="indikator-sasaran" to="/admin/relations/indikatorsasaran" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim />        
+        <v-list-subheader title="REALISASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM" value="visi" to="/admin/realitation/indikatorprogram" link slim />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer
@@ -45,7 +47,23 @@
       temporary
       v-if="showrightsidebar"
     >
-      test
+      <v-list>
+        <v-list-item
+          prepend-icon="mdi-filter"
+          subtitle="Daftar opsi / filter halaman"
+          title="OPTION / FILTER"
+        >
+          <template v-slot:append>
+            <v-btn
+              icon="mdi-close"
+              size="small"
+              variant="text"
+            ></v-btn>
+          </template>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <slot name="filtersidebar" />
     </v-navigation-drawer>
     <v-app-bar class="white" elevation="0">
       <template v-slot:prepend>

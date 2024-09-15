@@ -171,6 +171,15 @@ const routes = [
     },
     component: () => import('@/pages/admin/relations/RelationProgramIndikator.vue'),
   },
+  // admin - realitation - program
+  {
+    path: '/admin/realitation/indikatorprogram',
+    name: 'RelationProgram',
+    meta: {
+      title: 'RELATION - INDIKATOR PROGRAM',
+    },
+    component: () => import('@/pages/admin/realitation/RealitationProgramIndikator.vue'),
+  },
   // other page
   {
     path: '/404',
