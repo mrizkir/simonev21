@@ -309,8 +309,10 @@ class Helper {
 	 * @param type $value
 	 * @return string
 	 */
-	public static function getKodeWarna($triwulan,$value) {
-		switch ($triwulan) {
+	public static function getKodeWarna($triwulan, $value)
+	{
+		switch ($triwulan) 
+		{
 			case 1 :
 				if ($value >= 23) {
 					$color='#29af28';
