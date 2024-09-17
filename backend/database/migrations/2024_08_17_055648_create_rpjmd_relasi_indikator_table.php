@@ -17,7 +17,7 @@ class CreateRpjmdRelasiIndikatorTable extends Migration
       $table->uuid('RpjmdRelasiIndikatorID');
       $table->uuid('RpjmdCascadingID');     //merujuk pada tujuan,sasaran,program id 
       $table->uuid('PeriodeRPJMDID');
-      $table->uuid('IndikatorKinerjaID');
+      $table->uuid('IndikatorKinerjaID')->nullable();
       $table->string('TipeCascading', 20); //merujuk pada tujuan,sasarab,program id
       $table->string('data_1');
       $table->string('data_2');
@@ -44,6 +44,7 @@ class CreateRpjmdRelasiIndikatorTable extends Migration
       $table->primary('RpjmdRelasiIndikatorID');
       $table->index('RpjmdCascadingID');
       $table->index('PeriodeRPJMDID');
+      $table->index('IndikatorKinerjaID');
 
       $table->foreign('IndikatorKinerjaID')
       ->references('IndikatorKinerjaID')

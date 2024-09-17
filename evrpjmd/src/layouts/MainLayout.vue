@@ -37,7 +37,7 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="indikator-sasaran" to="/admin/relations/indikatorsasaran" link slim />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim />        
         <v-list-subheader title="REALISASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM" value="visi" to="/admin/realitation/indikatorprogram" link slim />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM" value="visi" to="/admin/realitation/indikatorprogram" link slim />        
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer

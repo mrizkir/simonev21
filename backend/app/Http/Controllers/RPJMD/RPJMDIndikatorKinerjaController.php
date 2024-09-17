@@ -21,7 +21,7 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
@@ -88,15 +88,27 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'Listed' => 'required|in:0,1',
     ]);
 
-    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
+    $Listed = $request->input('Listed');
 
     $data = RPJMDIndikatorKinerjaModel::select(\DB::raw('*'))
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
-    ->where('TipeIndikator', 'tujuan')
-    ->get();
+    ->where('TipeIndikator', 'tujuan');
+
+    if($Listed == 1)
+    {
+      $data = $data->whereNotIn('tmRPJMDIndikatorKinerja.IndikatorKinerjaID', function($query) use($PeriodeRPJMDID) {
+        $query->select('IndikatorKinerjaID')
+            ->from('tmRpjmdRelasiIndikator')
+            ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
+      });
+    }
+
+    $data = $data->get();
    
     return Response()->json([
       'status' => 1,
@@ -113,16 +125,28 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'Listed' => 'required|in:0,1',
     ]);
 
-    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID'); 
+    $Listed = $request->input('Listed'); 
 
     $data = RPJMDIndikatorKinerjaModel::select(\DB::raw('*'))
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
-    ->where('TipeIndikator', 'sasaran')
-    ->get();
-   
+    ->where('TipeIndikator', 'sasaran');
+    
+    if($Listed == 1)
+    {
+      $data = $data->whereNotIn('tmRPJMDIndikatorKinerja.IndikatorKinerjaID', function($query) use($PeriodeRPJMDID) {
+        $query->select('IndikatorKinerjaID')
+            ->from('tmRpjmdRelasiIndikator')
+            ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
+      });
+    }
+
+    $data = $data->get();
+    
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
@@ -138,16 +162,28 @@ class RPJMDIndikatorKinerjaController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
     
     $this->validate($request, [      
-      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'Listed' => 'required|in:0,1',
     ]);
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');  
+    $Listed = $request->input('Listed'); 
 
     $data = RPJMDIndikatorKinerjaModel::select(\DB::raw('*'))
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
-    ->where('TipeIndikator', 'program')
-    ->get();
-   
+    ->where('TipeIndikator', 'program');
+    
+    if($Listed == 1)
+    {
+      $data = $data->whereNotIn('tmRPJMDIndikatorKinerja.IndikatorKinerjaID', function($query) use($PeriodeRPJMDID) {
+        $query->select('IndikatorKinerjaID')
+            ->from('tmRpjmdRelasiIndikator')
+            ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
+      });
+    }
+
+    $data = $data->get();
+    
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',

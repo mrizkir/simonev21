@@ -783,6 +783,7 @@
           .post('/rpjmd/indikatorkinerja/sasaran', 
             {
               PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+              Listed: 1,
             },
             {
               headers: {
@@ -805,6 +806,7 @@
           .post('/rpjmd/indikatorkinerja/sasaran', 
             {
               PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+              Listed: 0,
             },
             {
               headers: {

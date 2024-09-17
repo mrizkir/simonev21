@@ -174,7 +174,7 @@ const routes = [
   // admin - realitation - program
   {
     path: '/admin/realitation/indikatorprogram',
-    name: 'RelationProgram',
+    name: 'RealitationIndikatorProgram',
     meta: {
       title: 'RELATION - INDIKATOR PROGRAM',
     },

@@ -145,7 +145,7 @@
                     />                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[1] }}:</p>
+                        <p class="mb-3">Target Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
                           v-model="formdata.data_2"  
                           density="compact"                          
@@ -153,11 +153,11 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_fisik"
+                          :rules="rule_target_indikator"
                         />    
                       </v-col>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[1] }}:</p>
+                        <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[1] }}:</p>
                         <v-number-input
                           v-model="formdata.data_3"  
                           density="compact"                          
@@ -165,14 +165,14 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_keuangan"
+                          :rules="rule_pagu_indikatif"
                         />
                       </v-col>                      
                     </v-row>
                     <hr class="mb-3">                    
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[2] }}:</p>
+                        <p class="mb-3">Target Indikator TA {{ labeltahun[2] }}:</p>
                         <v-number-input
                           v-model="formdata.data_4"  
                           density="compact"                          
@@ -180,11 +180,11 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_fisik"
+                          :rules="rule_target_indikator"
                         />    
                       </v-col>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[2] }}:</p>
+                        <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[2] }}:</p>
                         <v-number-input
                           v-model="formdata.data_5"  
                           density="compact"                          
@@ -192,13 +192,13 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_keuangan"
+                          :rules="rule_pagu_indikatif"
                         />
                       </v-col>                      
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[3] }}:</p>
+                        <p class="mb-3">Target Indikator TA {{ labeltahun[3] }}:</p>
                         <v-number-input
                           v-model="formdata.data_6"  
                           density="compact"                          
@@ -206,11 +206,11 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_fisik"
+                          :rules="rule_target_indikator"
                         />    
                       </v-col>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[3] }}:</p>
+                        <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[3] }}:</p>
                         <v-number-input
                           v-model="formdata.data_7"  
                           density="compact"                          
@@ -218,13 +218,13 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_keuangan"
+                          :rules="rule_pagu_indikatif"
                         />
                       </v-col>
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[4] }}:</p>
+                        <p class="mb-3">Target Indikator TA {{ labeltahun[4] }}:</p>
                         <v-number-input
                           v-model="formdata.data_8"  
                           density="compact"                          
@@ -232,11 +232,11 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_fisik"
+                          :rules="rule_target_indikator"
                         />    
                       </v-col>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[4] }}:</p>
+                        <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[4] }}:</p>
                         <v-number-input
                           v-model="formdata.data_9"  
                           density="compact"                          
@@ -244,13 +244,13 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_keuangan"
+                          :rules="rule_pagu_indikatif"
                         />
                       </v-col>
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Fisik Tahun {{ labeltahun[5] }}:</p>
+                        <p class="mb-3">Target Indikator TA {{ labeltahun[5] }}:</p>
                         <v-number-input
                           v-model="formdata.data_10"  
                           density="compact"                          
@@ -258,11 +258,11 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_fisik"
+                          :rules="rule_target_indikator"
                         />    
                       </v-col>
                       <v-col cols="auto" md="6" lg="6">
-                        <p class="mb-3">Target Keuangan Tahun {{ labeltahun[5] }}:</p>
+                        <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[5] }}:</p>
                         <v-number-input
                           v-model="formdata.data_11"  
                           density="compact"                          
@@ -270,7 +270,7 @@
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
                           :disabled="disabledtarget"
-                          :rules="rule_target_keuangan"
+                          :rules="rule_pagu_indikatif"
                         />
                       </v-col>
                     </v-row>
@@ -327,7 +327,7 @@
             <td>
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Indikator'"                
+                v-tooltip:bottom="'Tambah Target Indikator'"                
                 color="primary"
                 variant="outlined"
                 prepend-icon="mdi-plus"
@@ -488,11 +488,11 @@
       rule_kondisi_awal: [
         value => !!value || 'Mohon untuk diisi nilai kondisi awal !!!',
       ],
-      rule_target_fisik: [
-        value => !!value || 'Mohon untuk diisi nilai target fisik !!!',
+      rule_target_indikator: [
+        value => !!value || 'Mohon untuk diisi nilai target indikator !!!',
       ],      
-      rule_target_keuangan: [
-        value => !!value || 'Mohon untuk diisi nilai keuangan target !!!',
+      rule_pagu_indikatif: [
+        value => !!value || 'Mohon untuk diisi pagu indikatif program !!!',
       ],
       rule_kondisi_akhir: [
         value => !!value || 'Mohon untuk diisi nilai target !!!',
@@ -575,6 +575,7 @@
           .post('/rpjmd/indikatorkinerja/program', 
             {
               PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+              Listed: 1,
             },
             {
               headers: {
@@ -597,6 +598,7 @@
           .post('/rpjmd/indikatorkinerja/program', 
             {
               PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
+              Listed: 0,
             },
             {
               headers: {
