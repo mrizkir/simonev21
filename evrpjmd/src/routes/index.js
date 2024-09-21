@@ -165,11 +165,20 @@ const routes = [
   // admin - relation - indikator - program
   {
     path: '/admin/relations/indikatorprogram',
-    name: 'RelationProgram',
+    name: 'RelationIndikatorProgram',
     meta: {
       title: 'RELATION - INDIKATOR PROGRAM',
     },
     component: () => import('@/pages/admin/relations/RelationProgramIndikator.vue'),
+  },
+  // admin - relation - pagu - program
+  {
+    path: '/admin/relations/paguprogram',
+    name: 'RelationPaguProgram',
+    meta: {
+      title: 'RELATION - PAGU PROGRAM',
+    },
+    component: () => import('@/pages/admin/relations/RelationProgramPagu.vue'),
   },
   // admin - realitation - program
   {

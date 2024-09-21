@@ -280,10 +280,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   
   //rpjmd - indikator program
   $router->post('/rpjmd/relations/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@index','as'=>'rpjmd-relations-indikator-program.index']);
-  $router->post('/rpjmd/relations/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@store','as'=>'rpjmd-relations-indikator-program.store']);
+  $router->post('/rpjmd/relations/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@store','as'=>'rpjmd-relations-indikator-program.store']);  
   $router->get('/rpjmd/relations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@show','as'=>'rpjmd-relations-indikator-program.show']);  
   $router->put('/rpjmd/relations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@update','as'=>'rpjmd-relations-indikator-program.update']);
   $router->delete('/rpjmd/relations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@destroy','as'=>'rpjmd-relations-indikator-program.destroy']);
+
+  $router->post('/rpjmd/relations/paguprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@storepagu','as'=>'rpjmd-relations-pagu-program.store']);
+  $router->put('/rpjmd/relations/paguprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@updatepagu','as'=>'rpjmd-relations-pagu-program.update']);
+
 
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);

@@ -162,6 +162,7 @@ class KodefikasiBidangUrusanController extends Controller {
         a.`Locked`, 
         a.`created_at`, 
         a.`updated_at`, 
+        '{}' AS pagu,
         '{}' AS indikator
       "))
       ->leftJoin('tmUrusanProgram AS b', 'a.PrgID', 'b.PrgID')
@@ -200,6 +201,24 @@ class KodefikasiBidangUrusanController extends Controller {
     ->get()
     ->transform(function($item, $key) 
     {
+      $item->pagu = \DB::table('tmRpjmdRelasiIndikator')->select(\DB::raw('
+        RpjmdRelasiIndikatorID,
+        IndikatorKinerjaID,
+        data_1,
+        data_2,
+        data_3,
+        data_4,
+        data_5,
+        data_6,
+        data_7,
+        data_8,        
+        created_at,
+        updated_at
+      '))
+      ->whereNull('IndikatorKinerjaID')
+      ->where('RpjmdCascadingID', $item->PrgID)
+      ->get();
+
       $item->indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
         a.RpjmdRelasiIndikatorID,
         b.IndikatorKinerjaID,
@@ -213,15 +232,7 @@ class KodefikasiBidangUrusanController extends Controller {
         data_5,
         data_6,
         data_7,
-        data_8,
-        data_9,
-        data_10,
-        data_11,
-        data_12,
-        data_13,
-        data_14,
-        data_15,
-        data_16,
+        data_8,        
         a.created_at,
         a.updated_at
       '))
@@ -354,10 +365,10 @@ class KodefikasiBidangUrusanController extends Controller {
     if (is_null($kodefikasibidangurusan))
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid' => 'update',                
-                  'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
-                ], 422); 
+        'status'=>0,
+        'pid' => 'update',                
+        'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
+      ], 422); 
     }
     else
     {

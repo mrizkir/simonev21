@@ -1044,6 +1044,7 @@
           .catch(() => {
             this.datatableLoaded = true;
             this.datatableLoading = false;
+            this.btnLoading = true;
           });
       },
       loaddatauraianfirsttime: async function() {
