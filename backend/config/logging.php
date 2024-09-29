@@ -106,6 +106,14 @@ return [
       'driver' => 'monolog',
       'handler' => NullHandler::class,
     ],
+
+    'update-realisasi-murni' => [
+      'driver' => 'daily',
+      'tap' => [App\Helpers\HelperLogFormatBaris::class],
+      'path' => storage_path('logs/update-realisasi-murni.log'),
+      'level' => env('LOG_LEVEL', 'debug'),
+      'days' => 7,
+    ],
   ],
 
 ];

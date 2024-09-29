@@ -50,6 +50,7 @@ $app->configure('jwt');
 $app->configure('mail');
 $app->configure('media-library');
 $app->configure('queue');
+$app->configure('logging');
 
 /*
 |--------------------------------------------------------------------------

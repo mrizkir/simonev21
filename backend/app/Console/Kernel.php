@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
     //job system - update realiasi
     $schedule->job(new \App\Jobs\UpdateRealisasiMurniJob, 'update-realiasi-murni');
     
-    $schedule->command('queue:work --stop-when-empty --queue=update-realiasi-murnil')
+    $schedule->command('queue:work --stop-when-empty --queue=update-realiasi-murni')
     ->everyMinute();
   }
 }
