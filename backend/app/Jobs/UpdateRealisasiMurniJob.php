@@ -82,7 +82,7 @@ class UpdateRealisasiMurniJob extends Job
               $no_urut = 1;
               foreach ($sheetData as $row)
               {     
-                if($no_urut > 1)
+                if($no_urut > 1 && $row['AB'] > 0)
                 {
                   $kode_opd[0] = str_replace('.', '-', substr($row['B'], 0, 4));
                   $kode_opd[1] = str_replace('.', '-', substr($row['B'], 5, 4));
@@ -100,13 +100,15 @@ class UpdateRealisasiMurniJob extends Job
                   
                   $kode_sub_organisasi_ = "{$kode_sub_organisasi[0]}.{$kode_sub_organisasi[1]}.{$kode_sub_organisasi[2]}.{$kode_sub_organisasi[3]}.{$kode_sub_organisasi[4]}";
 
+                  $kode_rekening = $row['T'];
+
                   \Log::channel(self::LOG_CHANNEL)->info("** KODE ORGANISASI = $kode_opd_");
                   \Log::channel(self::LOG_CHANNEL)->info("** NAMA ORGANISASI = {$row['C']}");
                   \Log::channel(self::LOG_CHANNEL)->info("** KODE SUB ORGANISASI = $kode_sub_organisasi_");
                   \Log::channel(self::LOG_CHANNEL)->info("** NAMA SUB ORGANISASI = {$row['E']}");
                   \Log::channel(self::LOG_CHANNEL)->info("** KODE SUB KEGIATAN = {$row['R']}");
                   \Log::channel(self::LOG_CHANNEL)->info("** NAMA SUB KEGIATAN = {$row['S']}");
-                  \Log::channel(self::LOG_CHANNEL)->info("** KODE REKENING = {$row['T']}");
+                  \Log::channel(self::LOG_CHANNEL)->info("** KODE REKENING = $kode_rekening");
                   \Log::channel(self::LOG_CHANNEL)->info("** NAMA REKENING = {$row['U']}");
                   \Log::channel(self::LOG_CHANNEL)->info("** REALISASI = {$row['AB']}");
             
@@ -117,10 +119,9 @@ class UpdateRealisasiMurniJob extends Job
                   ->where('bulan1', $bulan)
                   ->where('EntryLevel', 1)
                   ->delete();
-
-                  \DB::table('sipd_realisasi')
-                  ->insert([
-                    'SIPDID' => Uuid::uuid4()->toString(),
+                  
+                  $data_sipd_realisasi = [
+                    'SIPDID' => Uuid::uuid4()->toString(),                    
                     'kode_organisasi' => $kode_opd_,
                     'Nm_Organisasi' => $row['C'],
                     'kode_sub_organisasi' => $kode_sub_organisasi_,
@@ -143,7 +144,38 @@ class UpdateRealisasiMurniJob extends Job
                     'EntryLevel' => 1,
                     'created_at' => \App\Helpers\Helper::tanggal('Y-m-d H:i:s'),
                     'updated_at' => \App\Helpers\Helper::tanggal('Y-m-d H:i:s'),
-                  ]);    
+                  ];
+
+                  $data_rekening = \DB::table('trRKARinc AS a')
+                  ->select(\DB::raw('
+                    b.OrgID,
+                    b.SOrgID,
+                    b.PrgID,
+                    b.KgtID,
+                    b.SubKgtID,
+                    a.RKAID,
+                    a.RKARincID
+                  '))
+                  ->join('trRKA AS b', 'a.RKAID', 'b.RKAID')
+                  ->where('kode_organisasi', $kode_opd_)
+                  ->where('kode_sub_organisasi', $kode_sub_organisasi_)
+                  ->where('kode_uraian1', $kode_rekening)
+                  ->where('A.TA', $tahun)
+                  ->where('A.EntryLvl', 1)
+                  ->first();
+
+                  if(!is_null($data_rekening))
+                  {
+                    $data_sipd_realisasi['OrgID'] = $data_rekening->OrgID;
+                    $data_sipd_realisasi['SOrgID'] = $data_rekening->SOrgID;
+                    $data_sipd_realisasi['PrgID'] = $data_rekening->PrgID;
+                    $data_sipd_realisasi['KgtID'] = $data_rekening->KgtID;
+                    $data_sipd_realisasi['SubKgtID'] = $data_rekening->SubKgtID;
+                    $data_sipd_realisasi['RKAID'] = $data_rekening->RKAID;
+                    $data_sipd_realisasi['RKARincID'] = $data_rekening->RKARincID;
+                  }
+                  \DB::table('sipd_realisasi')
+                  ->insert($data_sipd_realisasi);    
                   
                   \Log::channel(self::LOG_CHANNEL)->info("** DONE **");
                 }
