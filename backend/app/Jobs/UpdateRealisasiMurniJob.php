@@ -160,8 +160,8 @@ class UpdateRealisasiMurniJob extends Job
                   ->where('kode_organisasi', $kode_opd_)
                   ->where('kode_sub_organisasi', $kode_sub_organisasi_)
                   ->where('kode_uraian1', $kode_rekening)
-                  ->where('A.TA', $tahun)
-                  ->where('A.EntryLvl', 1)
+                  ->where('a.TA', $tahun)
+                  ->where('a.EntryLvl', 1)
                   ->first();
 
                   if(!is_null($data_rekening))
