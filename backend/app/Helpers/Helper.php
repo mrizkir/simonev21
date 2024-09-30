@@ -119,6 +119,33 @@ class Helper {
   {
     return "$ta/".($ta+1);
   }
+  public static function isValidDate($date_string) {
+    // Try to parse the date using the default format (Y-m-d)
+    $date_obj = date_create($date_string);
+
+    // If parsing is successful, check if the date is valid
+    if ($date_obj !== false) {
+      return true;
+    }
+
+    // If parsing fails, try alternative formats (adjust as needed)
+    $alternative_formats = [
+      'd/m/Y', // Day/Month/Year
+      'm/d/Y', // Month/Day/Year
+      'Y-m-d H:i:s', // Date and time with seconds
+      'Y-m-d H:i', // Date and time without seconds
+    ];
+
+    foreach ($alternative_formats as $format) {
+      $date_obj = date_create_from_format($format, $date_string);
+      if ($date_obj !== false) {
+        return true;
+      }
+    }
+
+    // If none of the formats match, the date is invalid
+    return false;
+  }
   /**
    * digunakan untuk memformat tanggal
    * @param type $format
@@ -127,9 +154,12 @@ class Helper {
    */
   public static function tanggal($format, $date=null) {
     Carbon::setLocale(app()->getLocale());
-    if ($date == null){
+    if ($date == null)
+    {
       $tanggal=Carbon::parse(Carbon::now())->format($format);
-    }else{
+    }
+    else
+    {
       $tanggal = Carbon::parse($date)->format($format);
     }
     $result = str_replace([
@@ -153,33 +183,33 @@ class Helper {
     $tanggal);
 
     return str_replace([
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November' ,
-              'December'
-            ],
-            [
-              'Januari',
-              'Februari',
-              'Maret',
-              'April',
-              'Mei',
-              'Juni',
-              'Juli',
-              'Agustus',
-              'September',
-              'Oktober',
-              'November',
-              'Desember'
-            ], $result);
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November' ,
+      'December'
+    ],
+    [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember'
+    ], $result);
   }  
   public static function nextDay($format,$date,$next=1)
   {
