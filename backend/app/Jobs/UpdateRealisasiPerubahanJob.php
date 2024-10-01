@@ -9,9 +9,9 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use Ramsey\Uuid\Uuid;
 
-class UpdateRealisasiMurniJob extends Job
+class UpdateRealisasiPerubahanJob extends Job
 {
-  const LOG_CHANNEL = 'update-realisasi-murni';
+  const LOG_CHANNEL = 'update-realisasi-perubahan';
   
   /**
    * Create a new job instance.
@@ -33,7 +33,7 @@ class UpdateRealisasiMurniJob extends Job
     try 
     {
       //dapatkan daftar file		
-      $directory = app()->basePath('storage/app/realisasi_m');
+      $directory = app()->basePath('storage/app/realisasi_p');
       $inputFileType = 'Xlsx';
 
       // dapatkan daftar file dalam direktori
@@ -139,10 +139,10 @@ class UpdateRealisasiMurniJob extends Job
                     'nama_sub_kegiatan' => $row['S'],
                     'kode_rekening' => $row['T'],
                     'nama_rekening' => $row['U'],
-                    'Realisasi1' => $row['AB'],
-                    'bulan1' => $bulan,
+                    'Realisasi2' => $row['AB'],
+                    'bulan2' => $bulan,
                     'TA' => $tahun,
-                    'EntryLevel' => 1,
+                    'EntryLevel' => 2,
                     'created_at' => \App\Helpers\Helper::tanggal('Y-m-d H:i:s'),
                     'updated_at' => \App\Helpers\Helper::tanggal('Y-m-d H:i:s'),
                   ];
@@ -162,7 +162,7 @@ class UpdateRealisasiMurniJob extends Job
                   ->where('kode_sub_organisasi', $kode_sub_organisasi_)
                   ->where('kode_uraian1', $kode_rekening)
                   ->where('a.TA', $tahun)
-                  ->where('a.EntryLvl', 1)
+                  ->where('a.EntryLvl', 2)
                   ->first();
 
                   if(!is_null($data_rekening))
@@ -183,8 +183,8 @@ class UpdateRealisasiMurniJob extends Job
                 $no_urut += 1;
               }
             }
-            if (Storage::disk('local')->exists("realisasi_m/$file")) {
-              Storage::disk('local')->delete("realisasi_m/$file");
+            if (Storage::disk('local')->exists("realisasi_p/$file")) {
+              Storage::disk('local')->delete("realisasi_p/$file");
               \Log::channel(self::LOG_CHANNEL)->info("** FILE $file dihapus");
             }            
             else

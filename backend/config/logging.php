@@ -114,6 +114,14 @@ return [
       'level' => env('LOG_LEVEL', 'debug'),
       'days' => 7,
     ],
+
+    'update-realisasi-perubahan' => [
+      'driver' => 'daily',
+      'tap' => [App\Helpers\HelperLogFormatBaris::class],
+      'path' => storage_path('logs/update-realisasi-perubahan.log'),
+      'level' => env('LOG_LEVEL', 'debug'),
+      'days' => 7,
+    ],
   ],
 
 ];
