@@ -56,6 +56,10 @@ class CreateSipdRealisasiTable extends Migration
 
       $table->year('TA');                    
       $table->tinyInteger('EntryLevel')->default(1);
+
+      $table->tinyInteger('status')->default(0);
+      $table->text('Descr')->nullable();
+
       $table->timestamps();
 
       $table->primary('SIPDID');

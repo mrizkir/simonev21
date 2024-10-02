@@ -9,6 +9,9 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use Ramsey\Uuid\Uuid;
 
+use App\Models\Renja\RKARencanaTargetModel;
+use App\Models\Renja\RKARealisasiModel;
+
 class UpdateRealisasiMurniJob extends Job
 {
   const LOG_CHANNEL = 'update-realisasi-murni';
@@ -103,6 +106,7 @@ class UpdateRealisasiMurniJob extends Job
 
                   $kode_rekening = $row['T'];
 
+                  \Log::channel(self::LOG_CHANNEL)->info("** SIPDID = {$row['A']}");
                   \Log::channel(self::LOG_CHANNEL)->info("** KODE ORGANISASI = $kode_opd_");
                   \Log::channel(self::LOG_CHANNEL)->info("** NAMA ORGANISASI = {$row['C']}");
                   \Log::channel(self::LOG_CHANNEL)->info("** KODE SUB ORGANISASI = $kode_sub_organisasi_");
@@ -114,15 +118,11 @@ class UpdateRealisasiMurniJob extends Job
                   \Log::channel(self::LOG_CHANNEL)->info("** REALISASI = {$row['AB']}");
             
                   \DB::table('sipd_realisasi')
-                  ->where('kode_sub_organisasi', $kode_sub_organisasi_)
-                  ->where('kode_rekening', $row['T'])
-                  ->where('TA', $tahun)
-                  ->where('bulan1', $bulan)
-                  ->where('EntryLevel', 1)
+                  ->where('SIPDID', $row['A'])                  
                   ->delete();
                   
                   $data_sipd_realisasi = [
-                    'SIPDID' => Uuid::uuid4()->toString(),                    
+                    'SIPDID' => $row['A'],                    
                     'kode_organisasi' => $kode_opd_,
                     'Nm_Organisasi' => $row['C'],
                     'kode_sub_organisasi' => $kode_sub_organisasi_,
@@ -183,6 +183,104 @@ class UpdateRealisasiMurniJob extends Job
                 $no_urut += 1;
               }
             }
+            //insert ke tabel RKARealisasi
+            $subquery = \DB::table('sipd_realisasi')
+            ->select(\DB::raw('
+              RKARincID,              
+              SUM(Realisasi1) AS jumlah_realisasi
+            '))
+            ->where('EntryLevel', 1)
+            ->where('bulan1', $bulan)
+            ->where('TA', $tahun)
+            ->where('status', 0)
+            ->whereNotNull('RKARincID')
+            ->groupBy('RKARincID');
+
+            $daftar_rka_rinc = \DB::table('trRKARinc AS a')
+              ->select(\DB::raw('                
+                a.RKAID,
+                a.RKARincID,
+                b.Nm_Sub_Organisasi,
+                b.kode_sub_kegiatan,
+                b.Nm_Sub_Kegiatan,
+                a.kode_uraian1,
+                a.NamaUraian1,
+                c.jumlah_realisasi
+              '))
+              ->join('trRKA AS b', 'a.RKAID', 'b.RKAID')
+              ->joinSub($subquery, 'c', function($join) {
+                $join->on('a.RKARincID', 'c.RKARincID');
+              })
+              ->get();
+
+            foreach($daftar_rka_rinc as $data_rka_rinc)
+            {
+              $data_target = RKARencanaTargetModel::where('RKARincID', $data_rka_rinc->RKARincID)
+              ->where('bulan1', $bulan)
+              ->first();
+
+              $target_keuangan = 0;
+              $target_fisik = 0;
+
+              if(!is_null($data_target))
+              {
+                $target_keuangan = $data_target->target1;
+                $target_fisik = $data_target->fisik1;
+              }
+
+              \Log::channel(self::LOG_CHANNEL)->info("------> REALISASI {$data_rka_rinc->RKARincID} <------");
+              \Log::channel(self::LOG_CHANNEL)->info("# Unit Kerja: {$data_rka_rinc->Nm_Sub_Organisasi}");
+              \Log::channel(self::LOG_CHANNEL)->info("# Kode Sub Kegiatan: {$data_rka_rinc->kode_sub_kegiatan}");
+              \Log::channel(self::LOG_CHANNEL)->info("# Nama Sub Kegiatan: {$data_rka_rinc->Nm_Sub_Kegiatan}");
+              \Log::channel(self::LOG_CHANNEL)->info("# Kode Uraian: {$data_rka_rinc->kode_uraian1}");
+              \Log::channel(self::LOG_CHANNEL)->info("# Nama Uraian: {$data_rka_rinc->NamaUraian1}");
+              \Log::channel(self::LOG_CHANNEL)->info("-- Hapus Realisasi bulan $tahun-$bulan");
+              
+              RKARealisasiModel::where('RKARincID', $data_rka_rinc->RKARincID)
+              ->where('bulan1', $bulan)
+              ->delete();
+              
+              \Log::channel(self::LOG_CHANNEL)->info("<-- OK");
+              \Log::channel(self::LOG_CHANNEL)->info("-- Input realisasi ");
+              
+              $realisasi = RKARealisasiModel::create([
+                'RKARealisasiRincID' => Uuid::uuid4()->toString(),
+                'RKAID' => $data_rka_rinc->RKAID,
+                'RKARincID' => $data_rka_rinc->RKARincID,
+                'bulan1' => $bulan,
+                'bulan2' => 0,
+                'target1' => $target_keuangan,            
+                'target2' => 0,            
+                'realisasi1' => $data_rka_rinc->jumlah_realisasi,            
+                'realisasi2' => 0,            
+                'target_fisik1' => $target_fisik,           
+                'target_fisik2' => 0,           
+                'fisik1' => 0,           
+                'fisik2' => 0,           
+                'EntryLvl' => 1,
+                'Descr' => 'di input otomatis oleh job',            
+                'TA' => $tahun,
+              ]);
+              \Log::channel(self::LOG_CHANNEL)->info("<-- OK");
+
+              \Log::channel(self::LOG_CHANNEL)->info("-- Update sipd_realisasi");
+              \DB::table('sipd_realisasi')
+              ->where('RKARincID', $data_rka_rinc->RKARincID)
+              ->update([
+                'status' => 1,
+                'Descr' => "Unit Kerja: {$data_rka_rinc->Nm_Sub_Organisasi}#Kode Sub Kegiatan: {$data_rka_rinc->kode_sub_kegiatan}#Nama Sub Kegiatan: {$data_rka_rinc->Nm_Sub_Kegiatan}#Kode Uraian: {$data_rka_rinc->kode_uraian1}#Nama Uraian: {$data_rka_rinc->NamaUraian1}#RKARealisasiRincID: {$realisasi->RKARealisasiRincID}#Target Keuangan: {$realisasi->target1}#Realisasi Keuangan: {$realisasi->realisasi1}#Target Fisik: {$realisasi->target_fisik1}",
+              ]);
+              
+              \Log::channel(self::LOG_CHANNEL)->info("<-- OK");
+              \Log::channel(self::LOG_CHANNEL)->info("<-- RKARealisasiRincID ({$realisasi->RKARealisasiRincID})");
+              \Log::channel(self::LOG_CHANNEL)->info("<-- Target Keuangan: {$realisasi->target1}");
+              \Log::channel(self::LOG_CHANNEL)->info("<-- Realisasi Keuangan: {$realisasi->realisasi1}");
+              \Log::channel(self::LOG_CHANNEL)->info("<-- Target Fisik: {$realisasi->target_fisik1}");
+
+              \Log::channel(self::LOG_CHANNEL)->info("DONE.");
+            }
+
+            //hapus file excel
             if (Storage::disk('local')->exists("realisasi_m/$file")) {
               Storage::disk('local')->delete("realisasi_m/$file");
               \Log::channel(self::LOG_CHANNEL)->info("** FILE $file dihapus");
