@@ -89,7 +89,4 @@ export const usesUserStore = defineStore('userStore', {
       this.user = null
     },
   },
-  persist: {
-    key: 'evarpjmd',
-  },
 })
