@@ -30,8 +30,8 @@ class FormAPerubahanController extends Controller
     $RKAID = $request->input('RKAID');
     $no_bulan = $request->input('no_bulan');
 
-    $forma=new FormAPerubahanModel([],false);
-    $rka = $forma->getDataRKA($RKAID,$no_bulan,2);
+    $forma = new FormAPerubahanModel([],false);
+    $rka = $forma->getDataRKA($RKAID, $no_bulan, 2);
     $tingkat = $forma->getRekeningProyek();
     $data=[];
     $total_data=[
@@ -462,7 +462,6 @@ class FormAPerubahanController extends Controller
           break;
         }
       }
-
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',

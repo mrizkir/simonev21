@@ -278,7 +278,7 @@ class Helper {
   * digunakan untuk mem-format uang
   */
   public static function formatUang ($uang=0,$decimal=2) {
-    $formatted = number_format((float)$uang,$decimal,',','.');
+    $formatted = number_format((float)$uang, $decimal, ',', '.');
     return $formatted;
   }
   /**
@@ -312,8 +312,8 @@ class Helper {
   /**
   * digunakan untuk mem-format pecahan
   */
-  public static function formatPecahan ($pembilang,$penyebut=0,$dec_sep=2) {
-    $result=0;
+  public static function formatPecahan ($pembilang, $penyebut = 0, $dec_sep = 2) {
+    $result = 0;
     if ($pembilang > 0 && $penyebut > 0) {
       $result=round(number_format((float)($pembilang/$penyebut),2),$dec_sep);
     }

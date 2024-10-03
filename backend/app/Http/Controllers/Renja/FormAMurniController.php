@@ -31,10 +31,10 @@ class FormAMurniController extends Controller
     $no_bulan = $request->input('no_bulan');
 
     $forma = new FormAMurniModel([], false);
-    $rka = $forma->getDataRKA($RKAID,$no_bulan,1);
+    $rka = $forma->getDataRKA($RKAID, $no_bulan, 1);
     $tingkat = $forma->getRekeningProyek();
-    $data=[];
-    $total_data=[
+    $data = [];
+    $total_data = [
       'totalPaguDana'=>0,
       'totalPersenBobot'=>0,
       'totalRealisasiFisik'=>0,
@@ -91,9 +91,9 @@ class FormAMurniController extends Controller
       $totalPersenTertimbangFisikSatuKegiatan=0;
       foreach ($tingkat_1 as $k1=>$v1)
       {
-        foreach ($tingkat_6 as $k6=>$v6)
+        foreach ($tingkat_6 as $k6 => $v6)
         {
-          $rek1=substr($k6,0,1);
+          $rek1 = substr($k6, 0, 1);
           if ($rek1 == $k1)
           {
             //tingkat i
@@ -146,12 +146,12 @@ class FormAMurniController extends Controller
                   'sisa_anggaran' => '',
                 ];
                 //tingkat iii
-                foreach ($tingkat_3 as $k3=>$v3)
+                foreach ($tingkat_3 as $k3 => $v3)
                 {
-                  $rek3=substr($k3,0,3);                  
+                  $rek3 = substr($k3, 0, 3);                  
                   if ($a == $rek3)
                   {
-                    $totalPaguDana_Rek3=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k3,'Kd_Rek_3');
+                    $totalPaguDana_Rek3=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k3, 'Kd_Rek_3');
                     $no_=explode (".",$k3);
                     $persen_bobot_rek3=Helper::formatPersen($totalPaguDana_Rek3['totalpersenbobot'],100);
                     $persen_target_rek3=Helper::formatPecahan($totalPaguDana_Rek3['totalpersentarget'],1);
@@ -287,7 +287,7 @@ class FormAMurniController extends Controller
                                 }
                                 else
                                 {
-                                  $totalUraian+=1;
+                                  $totalUraian += 1;
                                   $totalPaguDana_Rek6=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k6, 'Kd_Rek_6');
                                   $RKARincID = $rka[$k6]['RKARincID'];
                                   $nama_uraian = $rka[$k6]['nama_uraian'];
@@ -353,6 +353,7 @@ class FormAMurniController extends Controller
           continue;
         }
       }
+      
       $total_persen_rata2_realisasi=Helper::formatPersen($totalRealisasiSatuKegiatan, $totalPaguDana);
       $total_data=[
         'totalPaguDana' => $totalPaguDana,
@@ -368,7 +369,7 @@ class FormAMurniController extends Controller
 
       $this->generateStatistik6($RKAID);
       
-      $statistik6=Statistik6Model::select(\DB::raw('
+      $statistik6 = Statistik6Model::select(\DB::raw('
         `Bulan`,
         SUM(`PersenTargetKeuangan1`) AS `PersenTargetKeuangan1`,
         SUM(`PersenRealisasiKeuangan1`) AS `PersenRealisasiKeuangan1`,                                                
@@ -470,7 +471,7 @@ class FormAMurniController extends Controller
           break;
         }
       }
-
+      
       return Response()->json([
         'status' => 1,
         'pid' => 'fetchdata',
@@ -493,7 +494,6 @@ class FormAMurniController extends Controller
         'message' => 'Fetch data form a murni berhasil diperoleh'
       ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
-
   }
   public function printtoexcel (Request $request)
   {

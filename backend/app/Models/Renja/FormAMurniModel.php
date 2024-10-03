@@ -59,7 +59,7 @@ class FormAMurniModel extends ReportModel
     $styleArray=array( 
       'font' => array('bold' => true,'size'=>'11'),
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                 'vertical'=>Alignment::HORIZONTAL_CENTER),								
+      'vertical'=>Alignment::HORIZONTAL_CENTER),								
     );                
     
     $sheet->getStyle("A1:A$row")->applyFromArray($styleArray);
@@ -706,7 +706,7 @@ class FormAMurniModel extends ReportModel
     $sheet->setCellValueExplicit("M$row",$rp_total_pagu_dana,DataType::TYPE_STRING);
     $totalPersenBobotSatuKegiatan=$totalPersenBobotSatuKegiatan > 100 ? 100:$totalPersenBobotSatuKegiatan;
     $sheet->setCellValue("N$row",number_format($totalPersenBobotSatuKegiatan,2));
-    $sheet->setCellValue("O$row",number_format($totalPersenFisikSatuKegiatan/$totalUraian,2));                
+    $sheet->setCellValue("O$row",Helper::formatPecahan($totalPersenFisikSatuKegiatan, $totalUraian));                
     $sheet->setCellValue("P$row", number_format($totalPersenTertimbangFisikSatuKegiatan, 2));
     $sheet->setCellValueExplicit("Q$row",$rp_total_target,DataType::TYPE_STRING);
     $total_persen_target=Helper::formatPersen($totalTargetSatuKegiatan,$totalPaguDana);

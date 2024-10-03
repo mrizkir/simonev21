@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use App\Helpers\Helper;
+use Exception;
 
 class ReportModel extends Model
 {   
@@ -53,8 +54,8 @@ class ReportModel extends Model
   * digunakan untuk mendapatkan data RKA
   */
   public function getDataRKA ($id, $no_bulan, $entryLvl)
-  {      
-    $dataAkhir=[];
+  {
+    $dataAkhir = [];
     switch ($entryLvl)
     {
       case 1 :
@@ -105,58 +106,58 @@ class ReportModel extends Model
         ->leftJoin('tmSumberDana AS C','C.SumberDanaID','trRKA.SumberDanaID')                                 
         ->where('trRKA.EntryLvl', $entryLvl)
         ->find($id);
-
+        
         if (!is_null($rka))
         {
           $this->dataKegiatan=$rka->toArray();        
           $totalPaguUraian = $rka->PaguDana1;
           $this->dataKegiatan['total_pagu_uraian']=$totalPaguUraian;
           $data_akhir = \DB::table('trRKARinc')
-            ->select(\DB::raw("
-              `trRKARinc`.`RKARincID`,
-              `trRKARinc`.`RKAID`,
-              tmAkun.`Kd_Rek_1`, 
-              tmAkun.`Nm_Akun`, 
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`) AS `Kd_Rek_2`, tmKlp.`KlpNm`, 
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`, '_', tmSumberDana.`Kd_SumberDana`) AS `Kd_Rek_6`, 
-              `tmSubROby`.`SubRObyNm`, 
-              `trRKARinc`.`NamaUraian1`, 
-              `trRKARinc`.`PaguUraian1`, 
-              `trRKARinc`.`volume1`, 
-              `trRKARinc`.`satuan1`, 
-              `trRKARinc`.`harga_satuan1` 
-            "))            
-            ->join('tmSubROby', function($join) use ($rka) {
-              $join->on('tmSubROby.kode_rek_6', '=', 'trRKARinc.kode_uraian1');              
-              $join->on('tmSubROby.TA', '=', \DB::raw($rka->TA));              
-            })            
-            ->join('tmROby','tmROby.RobyID','tmSubROby.RobyID')
-            ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-            ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-            ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
-            ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
-            ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKARinc.SumberDanaID')
-            ->where('RKAID',$rka->RKAID)
-            ->orderBy('kode_uraian1', 'ASC')
-            ->get();   
+          ->select(\DB::raw("
+            `trRKARinc`.`RKARincID`,
+            `trRKARinc`.`RKAID`,
+            tmAkun.`Kd_Rek_1`, 
+            tmAkun.`Nm_Akun`, 
+            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`) AS `Kd_Rek_2`, tmKlp.`KlpNm`, 
+            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
+            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
+            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
+            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`, '_', tmSumberDana.`Kd_SumberDana`) AS `Kd_Rek_6`, 
+            `tmSubROby`.`SubRObyNm`, 
+            `trRKARinc`.`NamaUraian1`, 
+            `trRKARinc`.`PaguUraian1`, 
+            `trRKARinc`.`volume1`, 
+            `trRKARinc`.`satuan1`, 
+            `trRKARinc`.`harga_satuan1` 
+          "))            
+          ->join('tmSubROby', function($join) use ($rka) {
+            $join->on('tmSubROby.kode_rek_6', '=', 'trRKARinc.kode_uraian1');              
+            $join->on('tmSubROby.TA', '=', \DB::raw($rka->TA));              
+          })            
+          ->join('tmROby','tmROby.RobyID','tmSubROby.RobyID')
+          ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
+          ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
+          ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
+          ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+          ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKARinc.SumberDanaID')
+          ->where('RKAID',$rka->RKAID)
+          ->orderBy('kode_uraian1', 'ASC')
+          ->get();   
           
           foreach ($data_akhir as $k=>$v)
           {
             $RKARincID=$v->RKARincID;                      
             $nama_uraian=$v->NamaUraian1;
             $target=(float)\DB::table('trRKATargetRinc')
-                      ->where('RKARincID',$RKARincID)
-                      ->where('bulan1','<=',$no_bulan)
-                      ->sum('target1');  
+            ->where('RKARincID',$RKARincID)
+            ->where('bulan1','<=',$no_bulan)
+            ->sum('target1');  
             
             $data_realisasi=\DB::table('trRKARealisasiRinc')
-                      ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
-                      ->where('RKARincID',$RKARincID)
-                      ->where('bulan1','<=',$no_bulan)
-                      ->get();
+              ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+              ->where('RKARincID',$RKARincID)
+              ->where('bulan1','<=',$no_bulan)
+              ->get();
             
             $realisasi=(float)$data_realisasi[0]->realisasi1;
             $fisik=(float)$data_realisasi[0]->fisik1;            
@@ -427,7 +428,7 @@ class ReportModel extends Model
       break;
       
     }          
-    $this->dataRKA=$dataAkhir;
+    $this->dataRKA = $dataAkhir;
     return $dataAkhir;
   }  
   /**
@@ -441,16 +442,23 @@ class ReportModel extends Model
   * digunakan untuk mendapatkan tingkat rekening Form A	
   */
   public function getRekeningProyek () {		 
-    $a=$this->dataRKA;        
-    $tingkat=[];
+    $a = $this->dataRKA;        
+    $tingkat = [];
     foreach ($a as $v) {					
-      $tingkat[1][$v['Kd_Rek_1']]=$v['Nm_Akun'];
-      $tingkat[2][$v['Kd_Rek_2']]=$v['KlpNm'];
-      $tingkat[3][$v['Kd_Rek_3']]=$v['JnsNm'];
-      $tingkat[4][$v['Kd_Rek_4']]=$v['ObyNm'];
-      $tingkat[5][$v['Kd_Rek_5']]=$v['RObyNm'];				
-      $tingkat[6][$v['Kd_Rek_6']]=$v['SubRObyNm'];				
+      $tingkat[1][$v['Kd_Rek_1']] = $v['Nm_Akun'];
+      $tingkat[2][$v['Kd_Rek_2']] = $v['KlpNm'];
+      $tingkat[3][$v['Kd_Rek_3']] = $v['JnsNm'];
+      $tingkat[4][$v['Kd_Rek_4']] = $v['ObyNm'];
+      $tingkat[5][$v['Kd_Rek_5']] = $v['RObyNm'];
+      
+      $rek1 = substr($v['Kd_Rek_6'], 0, 1);
+      if($rek1 != $v['Kd_Rek_1'])
+      {
+        throw new Exception("Kode Rekening Sub Rincian Objek tidak ada pada {$v['SubRObyNm']}");
+      }
+      $tingkat[6][$v['Kd_Rek_6']] = $v['SubRObyNm'];
     }
+    
     return $tingkat;
   }
   /**
@@ -467,8 +475,10 @@ class ReportModel extends Model
     $totalpersentertimbangrealisasi=0;
     $totalpersentertimbangfisik=0;
     $totalbaris=0;        
-    foreach ($dataproyek as $de) {                        
-      if ($k==$de[$no_rek]) {
+    foreach ($dataproyek as $de) 
+    {                        
+      if ($k==$de[$no_rek]) 
+      {
         $totalpagu+=$de['pagu_uraian'];
         $totaltarget+=$de['target'];
         $totalrealisasi+=$de['realisasi'];
@@ -479,9 +489,11 @@ class ReportModel extends Model
         $totalpersentertimbangrealisasi+=$de['persen_tertimbang_realisasi'];
         $totalpersentertimbangfisik+=$de['persen_tertimbang_fisik'];
         $totalbaris+=1;
-        if (isset($dataproyek[$de['Kd_Rek_5']]['child'][0])) {                    
+        if (isset($dataproyek[$de['Kd_Rek_5']]['child'][0])) 
+        {                    
           $child=$dataproyek[$de['Kd_Rek_5']]['child'];                    
-          foreach ($child as $n) {                       
+          foreach ($child as $n) 
+          {                       
             $totalbaris+=1;
             $totalpagu+=$n['pagu_uraian'];
             $totaltarget+=$n['target'];
@@ -497,15 +509,16 @@ class ReportModel extends Model
     $totalpersenrealisasi=Helper::formatPersen($totalrealisasi,$totalpagu);            
     $totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100, 2);
     $result=['totalpagu'=>$totalpagu,
-        'totaltarget'=>$totaltarget,
-        'totalrealisasi'=>$totalrealisasi,
-        'totalfisik'=>$totalfisik,
-        'totalpersenbobot'=>$totalpersenbobot,
-        'totalpersentarget'=>$totalpersentarget,
-        'totalpersenrealisasi'=>$totalpersenrealisasi,
-        'totalpersentertimbangrealisasi'=>$totalpersentertimbangrealisasi,
-        'totalpersentertimbangfisik'=>$totalpersentertimbangfisik,
-        'totalbaris'=>$totalbaris];        
+      'totaltarget'=>$totaltarget,
+      'totalrealisasi'=>$totalrealisasi,
+      'totalfisik'=>$totalfisik,
+      'totalpersenbobot'=>$totalpersenbobot,
+      'totalpersentarget'=>$totalpersentarget,
+      'totalpersenrealisasi'=>$totalpersenrealisasi,
+      'totalpersentertimbangrealisasi'=>$totalpersentertimbangrealisasi,
+      'totalpersentertimbangfisik'=>$totalpersentertimbangfisik,
+      'totalbaris'=>$totalbaris
+    ];        
     return $result;
   }
 }
