@@ -22,6 +22,7 @@
             BULAN {{ nama_bulan }} T.A
             {{ $store.getters["auth/TahunSelected"] }}
           </strong>
+          Bila menemukan kode rekening muncul dua kali atau lebih, itu disebabkan oleh Sumber Dana yang berbeda dan bila tidak ada sumber dana maka akan otomatis di set ke APBD(100)
         </v-alert>
       </template>
     </ModuleHeader>

@@ -122,7 +122,7 @@ class ReportModel extends Model
             CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
             CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
             CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
-            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`, '_', tmSumberDana.`Kd_SumberDana`) AS `Kd_Rek_6`, 
+            CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`, '_', COALESCE(tmSumberDana.`Kd_SumberDana`, '100')) AS `Kd_Rek_6`, 
             `tmSubROby`.`SubRObyNm`, 
             `trRKARinc`.`NamaUraian1`, 
             `trRKARinc`.`PaguUraian1`, 
@@ -144,7 +144,7 @@ class ReportModel extends Model
           ->orderBy('kode_uraian1', 'ASC')
           ->get();   
           
-          foreach ($data_akhir as $k=>$v)
+          foreach ($data_akhir as $k => $v)
           {
             $RKARincID=$v->RKARincID;                      
             $nama_uraian=$v->NamaUraian1;
@@ -172,33 +172,33 @@ class ReportModel extends Model
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
 
               $dataAkhir[$no_rek6]['child'][]=[
-                'RKARincID'=>$v->RKARincID,
-                'Kd_Rek_1'=>$v->Kd_Rek_1,
-                'Nm_Akun'=>$v->Nm_Akun,
-                'Kd_Rek_2'=>$v->Kd_Rek_2,
-                'KlpNm'=>$v->KlpNm,
-                'Kd_Rek_3'=>$v->Kd_Rek_3,
-                'JnsNm'=>$v->JnsNm,
-                'Kd_Rek_4'=>$v->Kd_Rek_4,
-                'ObyNm'=>$v->ObyNm,
-                'Kd_Rek_5'=>$v->Kd_Rek_5,
-                'RObyNm'=>$v->RObyNm,
-                'Kd_Rek_6'=>$v->Kd_Rek_6,
-                'SubRObyNm'=>$v->SubRObyNm,
-                'nama_uraian'=>$nama_uraian,                                        
-                'pagu_uraian'=>$v->PaguUraian1,
-                'persen_bobot'=>$persenbobot,
-                'target'=>$target,
-                'persen_target'=>$persen_target,
-                'realisasi'=>$realisasi,
-                'persen_realisasi'=>$persen_realisasi,
-                'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                'fisik'=>$fisik,
-                'persen_fisik'=>$persen_fisik,
-                'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                'volume'=>$v->volume1,
+                'RKARincID' => $v->RKARincID,
+                'Kd_Rek_1' => $v->Kd_Rek_1,
+                'Nm_Akun' => $v->Nm_Akun,
+                'Kd_Rek_2' => $v->Kd_Rek_2,
+                'KlpNm' => $v->KlpNm,
+                'Kd_Rek_3' => $v->Kd_Rek_3,
+                'JnsNm' => $v->JnsNm,
+                'Kd_Rek_4' => $v->Kd_Rek_4,
+                'ObyNm' => $v->ObyNm,
+                'Kd_Rek_5' => $v->Kd_Rek_5,
+                'RObyNm' => $v->RObyNm,
+                'Kd_Rek_6' => $v->Kd_Rek_6,
+                'SubRObyNm' => $v->SubRObyNm,
+                'nama_uraian' => $nama_uraian,                                        
+                'pagu_uraian' => $v->PaguUraian1,
+                'persen_bobot' => $persenbobot,
+                'target' => $target,
+                'persen_target' => $persen_target,
+                'realisasi' => $realisasi,
+                'persen_realisasi' => $persen_realisasi,
+                'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi,
+                'fisik' => $fisik,
+                'persen_fisik' => $persen_fisik,
+                'persen_tertimbang_fisik' => $persen_tertimbang_fisik,
+                'volume' => $v->volume1,
                 'harga_satuan'=>(float)$v->harga_satuan1,
-                'satuan'=>$v->satuan1
+                'satuan' => $v->satuan1
               ];
             }
             else
@@ -210,33 +210,33 @@ class ReportModel extends Model
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
               
               $dataAkhir[$no_rek6]=[
-                'RKARincID'=>$v->RKARincID,
-                'Kd_Rek_1'=>$v->Kd_Rek_1,
-                'Nm_Akun'=>$v->Nm_Akun,
-                'Kd_Rek_2'=>$v->Kd_Rek_2,
-                'KlpNm'=>$v->KlpNm,
-                'Kd_Rek_3'=>$v->Kd_Rek_3,
-                'JnsNm'=>$v->JnsNm,
-                'Kd_Rek_4'=>$v->Kd_Rek_4,
-                'ObyNm'=>$v->ObyNm,
-                'Kd_Rek_5'=>$v->Kd_Rek_5,
-                'RObyNm'=>$v->RObyNm,
-                'Kd_Rek_6'=>$v->Kd_Rek_6,
-                'SubRObyNm'=>$v->SubRObyNm,
-                'nama_uraian'=>$nama_uraian,                                        
-                'pagu_uraian'=>$v->PaguUraian1,
-                'persen_bobot'=>$persenbobot,
-                'target'=>$target,
-                'persen_target'=>$persen_target,
-                'realisasi'=>$realisasi,
-                'persen_realisasi'=>$persen_realisasi,
-                'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                'fisik'=>$fisik,
-                'persen_fisik'=>$persen_fisik,
-                'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                'volume'=>$v->volume1,
+                'RKARincID' => $v->RKARincID,
+                'Kd_Rek_1' => $v->Kd_Rek_1,
+                'Nm_Akun' => $v->Nm_Akun,
+                'Kd_Rek_2' => $v->Kd_Rek_2,
+                'KlpNm' => $v->KlpNm,
+                'Kd_Rek_3' => $v->Kd_Rek_3,
+                'JnsNm' => $v->JnsNm,
+                'Kd_Rek_4' => $v->Kd_Rek_4,
+                'ObyNm' => $v->ObyNm,
+                'Kd_Rek_5' => $v->Kd_Rek_5,
+                'RObyNm' => $v->RObyNm,
+                'Kd_Rek_6' => $v->Kd_Rek_6,
+                'SubRObyNm' => $v->SubRObyNm,
+                'nama_uraian' => $nama_uraian,                                        
+                'pagu_uraian' => $v->PaguUraian1,
+                'persen_bobot' => $persenbobot,
+                'target' => $target,
+                'persen_target' => $persen_target,
+                'realisasi' => $realisasi,
+                'persen_realisasi' => $persen_realisasi,
+                'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi,
+                'fisik' => $fisik,
+                'persen_fisik' => $persen_fisik,
+                'persen_tertimbang_fisik' => $persen_tertimbang_fisik,
+                'volume' => $v->volume1,
                 'harga_satuan'=>(float)$v->harga_satuan1,
-                'satuan'=>$v->satuan1
+                'satuan' => $v->satuan1
               ];
               
             }
@@ -307,7 +307,7 @@ class ReportModel extends Model
               CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`) AS `Kd_Rek_3`, tmJns.`JnsNm`, 
               CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`) AS `Kd_Rek_4`, tmOby.`ObyNm`,
               CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`) AS `Kd_Rek_5`, tmROby.`RObyNm`, 
-              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`) AS `Kd_Rek_6`, 
+              CONCAT(tmAkun.`Kd_Rek_1`,'.',tmKlp.`Kd_Rek_2`,'.',tmJns.`Kd_Rek_3`,'.',tmOby.`Kd_Rek_4`,'.',tmROby.`Kd_Rek_5`,'.',tmSubROby.`Kd_Rek_6`, '_', COALESCE(tmSumberDana.`Kd_SumberDana`, '100')) AS `Kd_Rek_6`,
               `tmSubROby`.`SubRObyNm`, 
               `trRKARinc`.`NamaUraian2`, 
               `trRKARinc`.`PaguUraian2`, 
@@ -356,33 +356,33 @@ class ReportModel extends Model
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
 
               $dataAkhir[$no_rek6]['child'][]=[
-                'RKARincID'=>$v->RKARincID,
-                'Kd_Rek_1'=>$v->Kd_Rek_1,
-                'Nm_Akun'=>$v->Nm_Akun,
-                'Kd_Rek_2'=>$v->Kd_Rek_2,
-                'KlpNm'=>$v->KlpNm,
-                'Kd_Rek_3'=>$v->Kd_Rek_3,
-                'JnsNm'=>$v->JnsNm,
-                'Kd_Rek_4'=>$v->Kd_Rek_4,
-                'ObyNm'=>$v->ObyNm,
-                'Kd_Rek_5'=>$v->Kd_Rek_5,
-                'RObyNm'=>$v->RObyNm,
-                'Kd_Rek_6'=>$v->Kd_Rek_6,
-                'SubRObyNm'=>$v->SubRObyNm,
-                'nama_uraian'=>$nama_uraian,                                        
-                'pagu_uraian'=>$v->PaguUraian2,
-                'persen_bobot'=>$persenbobot,
-                'target'=>$target,
-                'persen_target'=>$persen_target,
-                'realisasi'=>$realisasi,
-                'persen_realisasi'=>$persen_realisasi,
-                'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                'fisik'=>$fisik,
-                'persen_fisik'=>$persen_fisik,
-                'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                'volume'=>$v->volume2,
+                'RKARincID' => $v->RKARincID,
+                'Kd_Rek_1' => $v->Kd_Rek_1,
+                'Nm_Akun' => $v->Nm_Akun,
+                'Kd_Rek_2' => $v->Kd_Rek_2,
+                'KlpNm' => $v->KlpNm,
+                'Kd_Rek_3' => $v->Kd_Rek_3,
+                'JnsNm' => $v->JnsNm,
+                'Kd_Rek_4' => $v->Kd_Rek_4,
+                'ObyNm' => $v->ObyNm,
+                'Kd_Rek_5' => $v->Kd_Rek_5,
+                'RObyNm' => $v->RObyNm,
+                'Kd_Rek_6' => $v->Kd_Rek_6,
+                'SubRObyNm' => $v->SubRObyNm,
+                'nama_uraian' => $nama_uraian,                                        
+                'pagu_uraian' => $v->PaguUraian2,
+                'persen_bobot' => $persenbobot,
+                'target' => $target,
+                'persen_target' => $persen_target,
+                'realisasi' => $realisasi,
+                'persen_realisasi' => $persen_realisasi,
+                'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi,
+                'fisik' => $fisik,
+                'persen_fisik' => $persen_fisik,
+                'persen_tertimbang_fisik' => $persen_tertimbang_fisik,
+                'volume' => $v->volume2,
                 'harga_satuan'=>(float)$v->harga_satuan2,
-                'satuan'=>$v->satuan2
+                'satuan' => $v->satuan2
               ];
             }
             else
@@ -394,33 +394,33 @@ class ReportModel extends Model
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
               
               $dataAkhir[$no_rek6]=[
-                'RKARincID'=>$v->RKARincID,
-                'Kd_Rek_1'=>$v->Kd_Rek_1,
-                'Nm_Akun'=>$v->Nm_Akun,
-                'Kd_Rek_2'=>$v->Kd_Rek_2,
-                'KlpNm'=>$v->KlpNm,
-                'Kd_Rek_3'=>$v->Kd_Rek_3,
-                'JnsNm'=>$v->JnsNm,
-                'Kd_Rek_4'=>$v->Kd_Rek_4,
-                'ObyNm'=>$v->ObyNm,
-                'Kd_Rek_5'=>$v->Kd_Rek_5,
-                'RObyNm'=>$v->RObyNm,
-                'Kd_Rek_6'=>$v->Kd_Rek_6,
-                'SubRObyNm'=>$v->SubRObyNm,
-                'nama_uraian'=>$nama_uraian,                                        
-                'pagu_uraian'=>$v->PaguUraian2,
-                'persen_bobot'=>$persenbobot,
-                'target'=>$target,
-                'persen_target'=>$persen_target,
-                'realisasi'=>$realisasi,
-                'persen_realisasi'=>$persen_realisasi,
-                'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
-                'fisik'=>$fisik,
-                'persen_fisik'=>$persen_fisik,
-                'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
-                'volume'=>$v->volume2,
+                'RKARincID' => $v->RKARincID,
+                'Kd_Rek_1' => $v->Kd_Rek_1,
+                'Nm_Akun' => $v->Nm_Akun,
+                'Kd_Rek_2' => $v->Kd_Rek_2,
+                'KlpNm' => $v->KlpNm,
+                'Kd_Rek_3' => $v->Kd_Rek_3,
+                'JnsNm' => $v->JnsNm,
+                'Kd_Rek_4' => $v->Kd_Rek_4,
+                'ObyNm' => $v->ObyNm,
+                'Kd_Rek_5' => $v->Kd_Rek_5,
+                'RObyNm' => $v->RObyNm,
+                'Kd_Rek_6' => $v->Kd_Rek_6,
+                'SubRObyNm' => $v->SubRObyNm,
+                'nama_uraian' => $nama_uraian,                                        
+                'pagu_uraian' => $v->PaguUraian2,
+                'persen_bobot' => $persenbobot,
+                'target' => $target,
+                'persen_target' => $persen_target,
+                'realisasi' => $realisasi,
+                'persen_realisasi' => $persen_realisasi,
+                'persen_tertimbang_realisasi' => $persen_tertimbang_realisasi,
+                'fisik' => $fisik,
+                'persen_fisik' => $persen_fisik,
+                'persen_tertimbang_fisik' => $persen_tertimbang_fisik,
+                'volume' => $v->volume2,
                 'harga_satuan'=>(float)$v->harga_satuan2,
-                'satuan'=>$v->satuan2
+                'satuan' => $v->satuan2
               ];              
             }
           }       	
@@ -442,7 +442,7 @@ class ReportModel extends Model
   * digunakan untuk mendapatkan tingkat rekening Form A	
   */
   public function getRekeningProyek () {		 
-    $a = $this->dataRKA;        
+    $a = $this->dataRKA;   
     $tingkat = [];
     foreach ($a as $v) {					
       $tingkat[1][$v['Kd_Rek_1']] = $v['Nm_Akun'];
@@ -508,16 +508,16 @@ class ReportModel extends Model
     $totalpersentarget=Helper::formatPersen($totaltarget,$totalpagu);                
     $totalpersenrealisasi=Helper::formatPersen($totalrealisasi,$totalpagu);            
     $totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100, 2);
-    $result=['totalpagu'=>$totalpagu,
-      'totaltarget'=>$totaltarget,
-      'totalrealisasi'=>$totalrealisasi,
-      'totalfisik'=>$totalfisik,
-      'totalpersenbobot'=>$totalpersenbobot,
-      'totalpersentarget'=>$totalpersentarget,
-      'totalpersenrealisasi'=>$totalpersenrealisasi,
-      'totalpersentertimbangrealisasi'=>$totalpersentertimbangrealisasi,
-      'totalpersentertimbangfisik'=>$totalpersentertimbangfisik,
-      'totalbaris'=>$totalbaris
+    $result=['totalpagu' => $totalpagu,
+      'totaltarget' => $totaltarget,
+      'totalrealisasi' => $totalrealisasi,
+      'totalfisik' => $totalfisik,
+      'totalpersenbobot' => $totalpersenbobot,
+      'totalpersentarget' => $totalpersentarget,
+      'totalpersenrealisasi' => $totalpersenrealisasi,
+      'totalpersentertimbangrealisasi' => $totalpersentertimbangrealisasi,
+      'totalpersentertimbangfisik' => $totalpersentertimbangfisik,
+      'totalbaris' => $totalbaris
     ];        
     return $result;
   }
