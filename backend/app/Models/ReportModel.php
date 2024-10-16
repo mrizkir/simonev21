@@ -324,6 +324,7 @@ class ReportModel extends Model
             ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
             ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
             ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+            ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKARinc.SumberDanaID')
             ->where('RKAID',$rka->RKAID)
             ->orderBy('kode_uraian2', 'ASC')
             ->get();   
