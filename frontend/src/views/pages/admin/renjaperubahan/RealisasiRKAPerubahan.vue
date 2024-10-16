@@ -445,15 +445,23 @@
             <template v-slot:item.actions="{ item }">
               <v-icon small class="mr-2" @click.stop="editItem(item)">
                 mdi-pencil
-              </v-icon>
-              <v-icon
-                small
-                :loading="btnLoading"
-                :disabled="btnLoading"
-                @click.stop="deleteItem(item)"
-              >
-                mdi-delete
-              </v-icon>
+              </v-icon>              
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                    color="red"
+                    :loading="btnLoading"
+                    :disabled="btnLoading"
+                    @click.stop="deleteItem(item)"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </template>
+                <span>Hapus Realisasi</span>
+              </v-tooltip>
             </template>
             <template v-slot:item.target2="{ item }">
               {{ item.target2 | formatUang }}
@@ -593,7 +601,7 @@
             value: "sisa_anggaran",
             width: 100,
           },
-          { text: "AKSI", value: "actions", sortable: false, width: 100 },
+          { text: "AKSI", value: "actions", sortable: false, width: 70 },
         ],
         footers: {
           anggarankas: 0,

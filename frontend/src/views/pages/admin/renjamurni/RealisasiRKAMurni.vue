@@ -448,14 +448,22 @@
               <v-icon small class="mr-2" @click.stop="editItem(item)" :disabled="datakegiatan.Locked == 1">
                 mdi-pencil
               </v-icon>
-              <v-icon
-                small
-                :loading="btnLoading"
-                :disabled="btnLoading || datakegiatan.Locked == 1"
-                @click.stop="deleteItem(item)"
-              >
-                mdi-delete
-              </v-icon>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                    color="red"
+                    :loading="btnLoading"
+                    :disabled="btnLoading || datakegiatan.Locked == 1"
+                    @click.stop="deleteItem(item)"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </template>
+                <span>Hapus Realisasi</span>
+              </v-tooltip>
             </template>
             <template v-slot:item.target1="{ item }">
               {{ item.target1 | formatUang }}

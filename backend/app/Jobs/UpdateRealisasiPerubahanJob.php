@@ -165,7 +165,12 @@ class UpdateRealisasiPerubahanJob extends Job
                   ->where('a.EntryLvl', 2)
                   ->first();
 
-                  if(!is_null($data_rekening))
+                  if(is_null($data_rekening))
+                  {
+                    \Log::channel(self::LOG_CHANNEL)->warning("** RKARINCID: null");
+                    \Log::channel(self::LOG_CHANNEL)->warning("** DONE(TIDAK AKAN DIPROSES) **");
+                  }
+                  else
                   {
                     $data_sipd_realisasi['OrgID'] = $data_rekening->OrgID;
                     $data_sipd_realisasi['SOrgID'] = $data_rekening->SOrgID;
@@ -174,11 +179,12 @@ class UpdateRealisasiPerubahanJob extends Job
                     $data_sipd_realisasi['SubKgtID'] = $data_rekening->SubKgtID;
                     $data_sipd_realisasi['RKAID'] = $data_rekening->RKAID;
                     $data_sipd_realisasi['RKARincID'] = $data_rekening->RKARincID;
+
+                    \Log::channel(self::LOG_CHANNEL)->info("** RKARINCID: {$data_rekening->RKARincID}");
+                    \Log::channel(self::LOG_CHANNEL)->info("** DONE(AKAN DIPROSES) **");
                   }
                   \DB::table('sipd_realisasi')
                   ->insert($data_sipd_realisasi);    
-                  
-                  \Log::channel(self::LOG_CHANNEL)->info("** DONE **");
                 }
                 $no_urut += 1;
               }
@@ -197,21 +203,21 @@ class UpdateRealisasiPerubahanJob extends Job
             ->groupBy('RKARincID');
 
             $daftar_rka_rinc = \DB::table('trRKARinc AS a')
-              ->select(\DB::raw('                
-                a.RKAID,
-                a.RKARincID,
-                b.Nm_Sub_Organisasi,
-                b.kode_sub_kegiatan,
-                b.Nm_Sub_Kegiatan,
-                a.kode_uraian2,
-                a.NamaUraian2,
-                c.jumlah_realisasi
-              '))
-              ->join('trRKA AS b', 'a.RKAID', 'b.RKAID')
-              ->joinSub($subquery, 'c', function($join) {
-                $join->on('a.RKARincID', 'c.RKARincID');
-              })
-              ->get();
+            ->select(\DB::raw('                
+              a.RKAID,
+              a.RKARincID,
+              b.Nm_Sub_Organisasi,
+              b.kode_sub_kegiatan,
+              b.Nm_Sub_Kegiatan,
+              a.kode_uraian2,
+              a.NamaUraian2,
+              c.jumlah_realisasi
+            '))
+            ->join('trRKA AS b', 'a.RKAID', 'b.RKAID')
+            ->joinSub($subquery, 'c', function($join) {
+              $join->on('a.RKARincID', 'c.RKARincID');
+            })
+            ->get();
 
             foreach($daftar_rka_rinc as $data_rka_rinc)
             {

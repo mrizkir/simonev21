@@ -165,7 +165,12 @@ class UpdateRealisasiMurniJob extends Job
                   ->where('a.EntryLvl', 1)
                   ->first();
 
-                  if(!is_null($data_rekening))
+                  if(is_null($data_rekening))
+                  {
+                    \Log::channel(self::LOG_CHANNEL)->warning("** RKARINCID: null");
+                    \Log::channel(self::LOG_CHANNEL)->warning("** DONE(TIDAK AKAN DIPROSES) **");
+                  }
+                  else
                   {
                     $data_sipd_realisasi['OrgID'] = $data_rekening->OrgID;
                     $data_sipd_realisasi['SOrgID'] = $data_rekening->SOrgID;
@@ -174,6 +179,9 @@ class UpdateRealisasiMurniJob extends Job
                     $data_sipd_realisasi['SubKgtID'] = $data_rekening->SubKgtID;
                     $data_sipd_realisasi['RKAID'] = $data_rekening->RKAID;
                     $data_sipd_realisasi['RKARincID'] = $data_rekening->RKARincID;
+
+                    \Log::channel(self::LOG_CHANNEL)->info("** RKARINCID: {$data_rekening->RKARincID}");
+                    \Log::channel(self::LOG_CHANNEL)->info("** DONE(AKAN DIPROSES) **");
                   }
                   \DB::table('sipd_realisasi')
                   ->insert($data_sipd_realisasi);    
