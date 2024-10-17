@@ -328,11 +328,13 @@
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
+  import { usesPageStore } from '@/stores/PageStore'
   import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RelationProgramPagu',
     created() {
       this.userStore = usesUserStore()
+      this.pageStore = usesPageStore()
       this.breadcrumbs = [
         {
           title: 'HOME',
@@ -352,6 +354,7 @@
     },
     mounted() {
       this.fetchOPD()
+      // var BidangID_Selected = this.pageStore.AtributeValueOfPage('RelationProgramPagu', 'BidangID_Selected')      
     },
     data: () => ({
       btnLoading: false,
@@ -425,6 +428,7 @@
       ],
       //pinia
       userStore: null,
+      pageStore: null,
     }),
     methods: {
       async fetchOPD() {
@@ -767,8 +771,12 @@
     },
     watch: {
       BidangID(val) {
-        this.BidangID = val
-        this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
+        if(val.length > 0) {
+          this.BidangID = val
+          var page = this.pageStore.pages
+          console.log(page)
+          this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
+        }        
       },
     },
     components: {
