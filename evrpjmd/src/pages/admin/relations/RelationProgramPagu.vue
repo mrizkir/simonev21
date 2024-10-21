@@ -63,6 +63,14 @@
                   <v-card-text>
                     <v-row tag="dl" class="text-body-2" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
+                        ID RELASI
+                      </v-col>
+                      <v-col cols="auto" md="9" lg="9" tag="dt">
+                        {{ formdata.RpjmdRelasiIndikatorID }}
+                      </v-col>
+                    </v-row>
+                    <v-row tag="dl" class="text-body-2" no-gutters>
+                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
                         ID PROGRAM
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
@@ -101,15 +109,7 @@
                         {{ dataprogram.Nm_Program }}
                       </v-col>
                     </v-row>
-                    <hr class="mb-3">                    
-                    <v-number-input
-                      v-model="formdata.data_1"  
-                      density="compact"
-                      :label="'KONDISI KINERJA AWAL RPJMD ' + labeltahun[0]"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-graph"
-                      :rules="rule_kondisi_awal"
-                    />                    
+                    <hr class="mb-3">
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[1] }}:</p>
@@ -123,7 +123,6 @@
                         />
                       </v-col>                      
                     </v-row>
-                    <hr class="mb-3">                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Pagu Indikatif Program TA {{ labeltahun[2] }}:</p>
@@ -245,18 +244,18 @@
               <tr class="text-center bg-green-lighten-3">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
                 <td>-</td>
-                <td>{{ pagu.data_1 }}</td>              
+                <td>-</td>              
                 <td>-</td>
-                <td>{{ pagu.data_2 }}</td>
+                <td>{{ $filters.formatUang(pagu.data_2) }}</td>
                 <td>-</td>
-                <td>{{ pagu.data_3 }}</td>
+                <td>{{ $filters.formatUang(pagu.data_3) }}</td>
                 <td>-</td>
-                <td>{{ pagu.data_4 }}</td>
+                <td>{{ $filters.formatUang(pagu.data_4) }}</td>
                 <td>-</td>
-                <td>{{ pagu.data_5 }}</td>
+                <td>{{ $filters.formatUang(pagu.data_5) }}</td>
                 <td>-</td>
-                <td>{{ pagu.data_6 }}</td>                
-                <td>{{ pagu.data_7 }}</td>                
+                <td>{{ $filters.formatUang(pagu.data_6) }}</td>                
+                <td>{{ $filters.formatUang(pagu.data_7) }}</td>                
                 <td class="text-center">
                   <v-icon
                     class="mr-2"
@@ -351,12 +350,20 @@
           href: '#',
         },
       ]
+
+      this.pageStore.addToPages({
+        name: "RelationProgramPagu",
+        BidangID_Selected: "",        
+      });
     },
     mounted() {
       this.fetchOPD()
-      // var BidangID_Selected = this.pageStore.AtributeValueOfPage('RelationProgramPagu', 'BidangID_Selected')      
+      var BidangID_Selected = this.pageStore.AtributeValueOfPage('RelationProgramPagu', 'BidangID_Selected')
+      if(BidangID_Selected.length > 0) {
+        this.BidangID = BidangID_Selected.length;
+      }      
     },
-    data: () => ({
+    data: () => ({      
       btnLoading: false,
       datatableLoading: false,
       //filter form
@@ -379,7 +386,7 @@
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
-        data_1: null,
+        data_1: 0,
         data_2: null,
         data_3: null,
         data_4: null,
@@ -399,7 +406,7 @@
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
-        data_1: null,
+        data_1: 0,
         data_2: null,
         data_3: null,
         data_4: null,
@@ -769,12 +776,13 @@
         return headers
       },
     },
-    watch: {
+    watch: {      
       BidangID(val) {
-        if(val.length > 0) {
-          this.BidangID = val
-          var page = this.pageStore.pages
-          console.log(page)
+        var page = this.pageStore.getPage('RelationProgramPagu')        
+        if (val.length > 0) {
+          this.BidangID = val          
+          page.BidangID_Selected = val
+          this.pageStore.updatePage(page)
           this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
         }        
       },

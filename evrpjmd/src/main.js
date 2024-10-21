@@ -66,4 +66,13 @@ const app = createApp(App)
 
 app.config.globalProperties.$dayjs = dayjs
 
+app.config.globalProperties.$filters = {
+  formatUang(value) {
+    var num = new Number(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1.");
+    var pos = num.lastIndexOf(".");
+    num = num.substring(0, pos) + "," + num.substring(pos + 1);
+    return num;
+  }
+}
+
 app.mount('#app')
