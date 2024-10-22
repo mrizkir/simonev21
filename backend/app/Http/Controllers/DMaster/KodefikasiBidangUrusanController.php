@@ -104,7 +104,7 @@ class KodefikasiBidangUrusanController extends Controller {
     ], 200);
   }
   /**
-   * get all kodefikasi program
+   * get all kodefikasi program rpjmd
    *
    * @return \Illuminate\Http\Response
    */
@@ -113,9 +113,10 @@ class KodefikasiBidangUrusanController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [        
+      'pid' => 'required|in:relasiprogram,realisasiprogram',
       'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
     ]);  
-
+    
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
 
     $ta = $periode->TA_AWAL;
@@ -197,49 +198,59 @@ class KodefikasiBidangUrusanController extends Controller {
       $data = $data->limit($limit);
     }
 
+    $pid = $request->input('pid');
+
     $program = $data
     ->get()
-    ->transform(function($item, $key) 
+    ->transform(function($item, $key) use ($pid)
     {
-      $item->pagu = \DB::table('tmRpjmdRelasiIndikator')->select(\DB::raw('
-        RpjmdRelasiIndikatorID,
-        IndikatorKinerjaID,
-        data_1,
-        data_2,
-        data_3,
-        data_4,
-        data_5,
-        data_6,
-        data_7,
-        data_8,        
-        created_at,
-        updated_at
-      '))
-      ->whereNull('IndikatorKinerjaID')
-      ->where('RpjmdCascadingID', $item->PrgID)
-      ->get();
+      switch($pid)
+      {
+        case 'relasiprogram':
+          $item->pagu = \DB::table('tmRpjmdRelasiIndikator')->select(\DB::raw('
+            RpjmdRelasiIndikatorID,
+            IndikatorKinerjaID,
+            data_1,
+            data_2,
+            data_3,
+            data_4,
+            data_5,
+            data_6,
+            data_7,
+            data_8,        
+            created_at,
+            updated_at
+          '))
+          ->whereNull('IndikatorKinerjaID')
+          ->where('RpjmdCascadingID', $item->PrgID)
+          ->get();
 
-      $item->indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
-        a.RpjmdRelasiIndikatorID,
-        b.IndikatorKinerjaID,
-        b.NamaIndikator,
-        b.Satuan,
-        b.Operasi,
-        data_1,
-        data_2,
-        data_3,
-        data_4,
-        data_5,
-        data_6,
-        data_7,
-        data_8,        
-        a.created_at,
-        a.updated_at
-      '))
-      ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
-      ->where('RpjmdCascadingID', $item->PrgID)
-      ->get();
-
+          $item->indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
+            a.RpjmdRelasiIndikatorID,
+            b.IndikatorKinerjaID,
+            b.NamaIndikator,
+            b.Satuan,
+            b.Operasi,
+            data_1,
+            data_2,
+            data_3,
+            data_4,
+            data_5,
+            data_6,
+            data_7,
+            data_8,        
+            a.created_at,
+            a.updated_at
+          '))
+          ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
+          ->where('RpjmdCascadingID', $item->PrgID)
+          ->get();
+        break;
+        case 'realisasiprogram':
+          $item->pagu = [];
+          $item->indikator = [];
+        break;
+      }
       return $item;
     });    
     
@@ -373,25 +384,25 @@ class KodefikasiBidangUrusanController extends Controller {
     else
     {
       $this->validate($request, [    
-                    'Kd_Bidang'=>[
-                          Rule::unique('tmBidangUrusan')->where(function($query) use ($request,$kodefikasibidangurusan) {  
-                            if ($request->input('Kd_Bidang') == $kodefikasibidangurusan->Kd_Bidang) 
-                            {
-                              return $query->where('Kd_Bidang','ignore')
-                                    ->where('TA', $kodefikasibidangurusan->TA);
-                            }                 
-                            else
-                            {
-                              return $query->where('Kd_Bidang', $request->input('Kd_Bidang'))
-                                  ->where('UrsID', $kodefikasibidangurusan->UrsID)
-                                  ->where('TA', $kodefikasibidangurusan->TA);
-                            }                                                                                    
-                          }),
-                          'required',
-                          'regex:/^[0-9]+$/'
-                        ],
-                    'Nm_Bidang' => 'required',
-                  ]);
+        'Kd_Bidang'=>[
+          Rule::unique('tmBidangUrusan')->where(function($query) use ($request,$kodefikasibidangurusan) {  
+            if ($request->input('Kd_Bidang') == $kodefikasibidangurusan->Kd_Bidang) 
+            {
+              return $query->where('Kd_Bidang','ignore')
+                    ->where('TA', $kodefikasibidangurusan->TA);
+            }                 
+            else
+            {
+              return $query->where('Kd_Bidang', $request->input('Kd_Bidang'))
+                  ->where('UrsID', $kodefikasibidangurusan->UrsID)
+                  ->where('TA', $kodefikasibidangurusan->TA);
+            }                                                                                    
+          }),
+          'required',
+          'regex:/^[0-9]+$/'
+        ],
+        'Nm_Bidang' => 'required',
+      ]);
       
       
       $kodefikasibidangurusan->Kd_Bidang = $request->input('Kd_Bidang');

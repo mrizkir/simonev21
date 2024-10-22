@@ -74,7 +74,7 @@ class KodefikasiProgramController extends Controller
       'message' => 'Fetch data kodefikasi program berhasil.'
     ], 200);
   }
-  public function indikatorprogram(Request $request)
+  public function indikatorprogramopd(Request $request)
   {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 

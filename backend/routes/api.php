@@ -69,7 +69,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //data master - kodefikasi - program
   $router->post('/dmaster/kodefikasi/program', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiProgramController@index','as'=>'kodefikasi-program.index']);
-  $router->post('/dmaster/kodefikasi/program/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@indikatorprogram','as'=>'kodefikasi-program.indikatorprogram']);
+  //endpoint untuk mengetahui indikator dari satu program
+  $router->post('/dmaster/kodefikasi/program/{id}/indikator', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@indikatorprogram','as'=>'kodefikasi-program.indikatorprogram']);
+  //endpoint untuk mengetahui indikator dari program yang dimiliki oleh sebuah opd
+  $router->post('/dmaster/kodefikasi/program/indikatorprogramopd', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@indikatorprogramopd','as'=>'kodefikasi-program.indikatorprogramopd']);
   $router->post('/dmaster/kodefikasi/program/rka', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\KodefikasiProgramController@rka','as'=>'kodefikasi-program.rka']);
   $router->post('/dmaster/kodefikasi/program/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@store','as'=>'kodefikasi-program.store']);
   $router->post('/dmaster/kodefikasi/program/salin', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KodefikasiProgramController@salin','as'=>'kodefikasi-program.salin']);
