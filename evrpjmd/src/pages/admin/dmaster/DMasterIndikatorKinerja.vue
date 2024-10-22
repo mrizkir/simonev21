@@ -244,7 +244,7 @@
                 {{ item.is_iku == 1 ? 'YA' : 'TIDAK' }}
               </template>
               <template v-slot:item.is_ikk="{ item }">
-                {{ item.is_iku == 1 ? 'YA' : 'TIDAK' }}
+                {{ item.is_ikk == 1 ? 'YA' : 'TIDAK' }}
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-icon                                

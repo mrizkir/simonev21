@@ -361,7 +361,7 @@
       ]
     },
     mounted() {
-      this.fetchOPD()
+      this.fetchBidangUrusan()
     },
     data: () => ({
       btnLoading: false,
@@ -441,7 +441,7 @@
       userStore: null,
     }),
     methods: {
-      async fetchOPD() {
+      async fetchBidangUrusan() {
         await this.$ajax
           .post(
             "/dmaster/kodefikasi/bidangurusan",
@@ -463,6 +463,7 @@
           this.datatableLoading = true
          
           var request_param = {
+            pid: 'relasiprogram',
             PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
           }
 

@@ -357,7 +357,7 @@
       });
     },
     mounted() {
-      this.fetchOPD()
+      this.fetchBidangUrusan()
       var BidangID_Selected = this.pageStore.AtributeValueOfPage('RelationProgramPagu', 'BidangID_Selected')
       if(BidangID_Selected.length > 0) {
         this.BidangID = BidangID_Selected.length;
@@ -438,7 +438,7 @@
       pageStore: null,
     }),
     methods: {
-      async fetchOPD() {
+      async fetchBidangUrusan() {
         await this.$ajax
           .post(
             "/dmaster/kodefikasi/bidangurusan",
@@ -460,6 +460,7 @@
           this.datatableLoading = true
          
           var request_param = {
+            pid: 'relasiprogram',
             PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
           }
 
