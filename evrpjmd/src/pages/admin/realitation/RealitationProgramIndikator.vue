@@ -310,11 +310,13 @@
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
+  import { usesPageStore } from '@/stores/PageStore'
   import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RealisasiProgramIndikator',
     created() {
       this.userStore = usesUserStore()
+      this.pageStore = usesPageStore()
       this.breadcrumbs = [
         {
           title: 'HOME',
@@ -331,9 +333,17 @@
           href: '#',
         },
       ]
+      this.pageStore.addToPages({
+        name: "RealisasiProgramIndikator",
+        BidangID_Selected: "",        
+      });
     },
     mounted() {
       this.fetchBidangUrusan()
+      var BidangID_Selected = this.pageStore.AtributeValueOfPage('RealisasiProgramIndikator', 'BidangID_Selected')
+      if(BidangID_Selected.length > 0) {
+        this.BidangID = BidangID_Selected;
+      }      
     },
     data: () => ({
       btnLoading: false,
@@ -411,6 +421,7 @@
       ],
       //pinia
       userStore: null,
+      pageStore: null,
     }),
     methods: {
       async fetchBidangUrusan() {
@@ -772,8 +783,13 @@
     },
     watch: {
       BidangID(val) {
-        this.BidangID = val
-        this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
+        var page = this.pageStore.getPage('RealisasiProgramIndikator')        
+        if (val.length > 0) {
+          this.BidangID = val          
+          page.BidangID_Selected = val
+          this.pageStore.updatePage(page)
+          this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
+        }        
       },
     },
     components: {

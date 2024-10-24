@@ -360,7 +360,7 @@
       this.fetchBidangUrusan()
       var BidangID_Selected = this.pageStore.AtributeValueOfPage('RelationProgramPagu', 'BidangID_Selected')
       if(BidangID_Selected.length > 0) {
-        this.BidangID = BidangID_Selected.length;
+        this.BidangID = BidangID_Selected;
       }      
     },
     data: () => ({      
