@@ -8,6 +8,7 @@ use App\Models\DMaster\KodefikasiProgramModel;
 use App\Models\DMaster\KodefikasiKegiatanModel;
 use App\Models\DMaster\KodefikasiUrusanProgramModel;
 use App\Models\RPJMD\RPJMDPeriodeModel;
+use App\Models\RPJMD\RPJMDRelasiIndikatorModel;
 
 use App\Rules\KodefikasiKodeProgramRule;
 
@@ -72,6 +73,18 @@ class KodefikasiProgramController extends Controller
       'pid' => 'fetchdata',
       'kodefikasiprogram' => $kodefikasiprogram,
       'message' => 'Fetch data kodefikasi program berhasil.'
+    ], 200);
+  }
+  public function indikatorprogram(Request $request, $id)
+  {
+    $daftar_indikator = RPJMDRelasiIndikatorModel::where('RpjmdCascadingID', $id)
+    ->get();
+
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => $daftar_indikator,
+      'message' => 'Fetch data indikator program RPJMD berhasil.'
     ], 200);
   }
   public function indikatorprogramopd(Request $request)

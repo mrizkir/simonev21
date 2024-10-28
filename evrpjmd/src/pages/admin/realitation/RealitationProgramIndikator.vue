@@ -496,11 +496,7 @@
         this.setLabelTahun()
         
         await this.$ajax
-          .post('/rpjmd/indikatorkinerja/program', 
-            {
-              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-              Listed: 1,
-            },
+          .get('/dmaster/kodefikasi/program/' + item.PrgID + '/indikator',             
             {
               headers: {
                 Authorization: this.userStore.Token,
@@ -791,6 +787,7 @@
           this.initialize({page: 1, itemsPerPage: this.itemsPerPage})
         }        
       },
+
     },
     components: {
       'v-main-layout': mainLayout,
