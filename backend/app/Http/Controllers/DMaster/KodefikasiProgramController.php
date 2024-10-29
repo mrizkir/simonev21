@@ -91,7 +91,16 @@ class KodefikasiProgramController extends Controller
         $daftar_indikator = RPJMDRelasiIndikatorModel::from('tmRpjmdRelasiIndikator AS a')
         ->select(\DB::raw("
           a.RpjmdRelasiIndikatorID,
-          REPLACE(REPLACE(b.NamaIndikator, '\r', ''), '\n', '') AS NamaIndikator
+          REPLACE(REPLACE(b.NamaIndikator, '\r', ''), '\n', '') AS NamaIndikator,
+          Satuan,
+          Operasi,
+          data_1,    
+          data_2,    
+          data_3,    
+          data_4,    
+          data_5,    
+          data_6,    
+          data_7
         "))
         ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
         ->where('RpjmdCascadingID', $id)

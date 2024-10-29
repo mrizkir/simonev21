@@ -260,28 +260,28 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->put('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@update','as'=>'rpjmd-strategi.update']);
   $router->delete('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@destroy','as'=>'rpjmd-strategi.destroy']);
 
-  //rpjmd - strategi program 
+  //rpjmd - strategi dengan program 
   $router->post('/rpjmd/relations/strategiprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@index','as'=>'rpjmd-relations-strategi-program.index']);
   $router->post('/rpjmd/relations/strategiprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@store','as'=>'rpjmd-relations-strategi-program.store']);
   $router->get('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@show','as'=>'rpjmd-relations-strategi-program.show']);  
   $router->put('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@update','as'=>'rpjmd-relations-strategi-program.update']);
   $router->delete('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@destroy','as'=>'rpjmd-relations-strategi-program.destroy']);
 
-  //rpjmd - indikator tujuan
+  //rpjmd - indikator dengan tujuan
   $router->post('/rpjmd/relations/indikatortujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@index','as'=>'rpjmd-relations-indikator-tujuan.index']);
   $router->post('/rpjmd/relations/indikatortujuan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@store','as'=>'rpjmd-relations-indikator-tujuan.store']);
   $router->get('/rpjmd/relations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@show','as'=>'rpjmd-relations-indikator-tujuan.show']);  
   $router->put('/rpjmd/relations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@update','as'=>'rpjmd-relations-indikator-tujuan.update']);
   $router->delete('/rpjmd/relations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@destroy','as'=>'rpjmd-relations-indikator-tujuan.destroy']);
   
-  //rpjmd - indikator sasaran
+  //rpjmd - indikator dengan sasaran
   $router->post('/rpjmd/relations/indikatorsasaran', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@index','as'=>'rpjmd-relations-indikator-sasaran.index']);
   $router->post('/rpjmd/relations/indikatorsasaran/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@store','as'=>'rpjmd-relations-indikator-sasaran.store']);
   $router->get('/rpjmd/relations/indikatorsasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@show','as'=>'rpjmd-relations-indikator-sasaran.show']);  
   $router->put('/rpjmd/relations/indikatorsasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@update','as'=>'rpjmd-relations-indikator-sasaran.update']);
   $router->delete('/rpjmd/relations/indikatorsasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorSasaranController@destroy','as'=>'rpjmd-relations-indikator-sasaran.destroy']);
   
-  //rpjmd - indikator program
+  //rpjmd - indikator dengan program
   $router->post('/rpjmd/relations/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@index','as'=>'rpjmd-relations-indikator-program.index']);
   $router->post('/rpjmd/relations/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@store','as'=>'rpjmd-relations-indikator-program.store']);  
   $router->get('/rpjmd/relations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@show','as'=>'rpjmd-relations-indikator-program.show']);  
@@ -291,6 +291,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/rpjmd/relations/paguprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@storepagu','as'=>'rpjmd-relations-pagu-program.store']);
   $router->put('/rpjmd/relations/paguprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@updatepagu','as'=>'rpjmd-relations-pagu-program.update']);
 
+  //rpjmd - realisasi - indikator program
+  $router->post('/rpjmd/realitations/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@index','as'=>'rpjmd-realitations-indikator-program.index']);
+  $router->post('/rpjmd/realitations/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@store','as'=>'rpjmd-realitations-indikator-program.store']);  
+  $router->get('/rpjmd/realitations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@show','as'=>'rpjmd-realitations-indikator-program.show']);  
+  $router->put('/rpjmd/realitations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@update','as'=>'rpjmd-realitations-indikator-program.update']);
+  $router->delete('/rpjmd/realitations/indikatorprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@destroy','as'=>'rpjmd-realitations-indikator-program.destroy']);
 
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);
