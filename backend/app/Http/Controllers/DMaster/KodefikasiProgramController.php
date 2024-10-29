@@ -77,8 +77,30 @@ class KodefikasiProgramController extends Controller
   }
   public function indikatorprogram(Request $request, $id)
   {
-    $daftar_indikator = RPJMDRelasiIndikatorModel::where('RpjmdCascadingID', $id)
-    ->get();
+    $this->validate($request, [        
+      'pid' => 'required|in:array,list',      
+    ]);
+
+    $pid = $request->input('pid');
+    
+    $daftar_indikator = [];
+
+    switch($pid)
+    {
+      case 'array':
+        $daftar_indikator = RPJMDRelasiIndikatorModel::from('tmRpjmdRelasiIndikator AS a')
+        ->select(\DB::raw("
+          a.RpjmdRelasiIndikatorID,
+          REPLACE(REPLACE(b.NamaIndikator, '\r', ''), '\n', '') AS NamaIndikator
+        "))
+        ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
+        ->where('RpjmdCascadingID', $id)
+        ->get();        
+      break;
+      default:
+        $daftar_indikator = RPJMDRelasiIndikatorModel::where('RpjmdCascadingID', $id)
+        ->get();   
+    }    
 
     return Response()->json([
       'status' => 1,

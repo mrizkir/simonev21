@@ -141,7 +141,8 @@ class RPJMDIndikatorKinerjaController extends Controller
       $data = $data->whereNotIn('tmRPJMDIndikatorKinerja.IndikatorKinerjaID', function($query) use($PeriodeRPJMDID) {
         $query->select('IndikatorKinerjaID')
             ->from('tmRpjmdRelasiIndikator')
-            ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
+            ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
+            ->whereNotNull('IndikatorKinerjaID');
       });
     }
 
@@ -178,7 +179,8 @@ class RPJMDIndikatorKinerjaController extends Controller
       $data = $data->whereNotIn('tmRPJMDIndikatorKinerja.IndikatorKinerjaID', function($query) use($PeriodeRPJMDID) {
         $query->select('IndikatorKinerjaID')
             ->from('tmRpjmdRelasiIndikator')
-            ->where('PeriodeRPJMDID', $PeriodeRPJMDID);
+            ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
+            ->whereNotNull('IndikatorKinerjaID');
       });
     }
 

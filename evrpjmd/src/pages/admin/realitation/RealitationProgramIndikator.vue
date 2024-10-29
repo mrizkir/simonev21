@@ -111,6 +111,10 @@
                       prepend-inner-icon="mdi-calendar"
                       class="mr-1"
                       @update:modelValue="indikatorselected"
+                      clearable
+                      return-object
+                      item-value="RpjmdRelasiIndikatorID"
+                      item-title="NamaIndikator"
                     />                    
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
@@ -363,6 +367,7 @@
       //form data
       form_valid: true,
       daftarindikator: [],
+      indikatorprogramselected: null,
       disabledtarget: true,
       formdata: {
         RpjmdRelasiIndikatorID: null,
@@ -496,7 +501,10 @@
         this.setLabelTahun()
         
         await this.$ajax
-          .get('/dmaster/kodefikasi/program/' + item.PrgID + '/indikator',             
+          .post('/dmaster/kodefikasi/program/' + item.PrgID + '/indikator',
+            {
+              'pid': 'array',
+            },
             {
               headers: {
                 Authorization: this.userStore.Token,
@@ -504,7 +512,7 @@
             }
           )
           .then(({ data }) => {
-            let payload = data.payload
+            let payload = data.payload            
             this.daftarindikator = payload
             this.btnLoading = false  
           })
