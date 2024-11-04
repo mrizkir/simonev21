@@ -252,6 +252,7 @@ class KodefikasiBidangUrusanController extends Controller {
           ->select(\DB::raw('
             a.RpjmdRealisasiIndikatorID,
             c.Satuan,
+            c.Operasi,
             c.NamaIndikator,
             b.data_2 AS target_2,
             b.data_3 AS target_3,

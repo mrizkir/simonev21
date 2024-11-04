@@ -404,7 +404,7 @@ export default {
 		},
 		computed: {
 				formTitle() {
-						return this.editedIndex === -1 ? "TAMBAH DATA" : "UBAH DATA";
+					return this.editedIndex === -1 ? "TAMBAH DATA" : "UBAH DATA";
 				},
 		},
 		components: {

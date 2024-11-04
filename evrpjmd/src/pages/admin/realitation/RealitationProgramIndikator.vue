@@ -58,7 +58,7 @@
                 <v-card>
                   <v-card-title>
                     <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                    <span class="headline">TAMBAH REALISASI INDIKATOR PROGRAM</span>
+                    <span class="headline">{{ formTitle }}</span>
                   </v-card-title>
                   <v-card-text>
                     <v-row tag="dl" class="text-body-2" no-gutters>
@@ -115,6 +115,7 @@
                       return-object
                       item-value="RpjmdRelasiIndikatorID"
                       item-title="NamaIndikator"
+                      :disabled="editedIndex > 0"
                     />                    
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
@@ -715,6 +716,9 @@
       },
     },
     computed: {
+      formTitle() {
+        return this.editedIndex === -1 ? 'TAMBAH REALISASI INDIKATOR PROGRAM' : 'UBAH REALISASI INDIKATOR PROGRAM';
+      },
       fetchHeader() {
         let periode = this.userStore.PeriodeRPJMD;
         let TA_AWAL = periode.TA_AWAL
