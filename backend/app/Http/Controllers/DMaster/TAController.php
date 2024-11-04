@@ -65,7 +65,7 @@ class TAController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {        
         $this->hasPermissionTo('DMASTER-TA_UPDATE');
         $ta = TAModel::find($id);
@@ -108,7 +108,7 @@ class TAController extends Controller {
      * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {   
         $this->hasPermissionTo('DMASTER-TA_DESTROY');
         $ta = TAModel::find($id);

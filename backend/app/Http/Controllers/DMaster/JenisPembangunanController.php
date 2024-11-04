@@ -71,7 +71,7 @@ class JenisPembangunanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {        
         $this->hasPermissionTo('DMASTER-JENIS-PEMBANGUNAN_UPDATE');  
         $jenispembangunan = JenisPembangunanModel::find($id);
@@ -98,7 +98,7 @@ class JenisPembangunanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {  
         $this->hasPermissionTo('DMASTER-JENIS-PEMBANGUNAN_DESTROY');  
         $jenispembangunan = JenisPembangunanModel::find($id);

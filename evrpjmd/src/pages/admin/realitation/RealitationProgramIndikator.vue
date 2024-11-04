@@ -247,7 +247,7 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="14">
+            <td colspan="13">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
@@ -269,12 +269,12 @@
             </td>
           </tr>
           <template v-if="item.indikator.length > 0">
-            <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID">
+            <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRealisasiIndikatorID">
               <tr class="bg-green-lighten-5">
                 <td>
                   <v-icon icon="mdi-arrow-right" />
                 </td>
-                <td colspan="14">{{ indikator.NamaIndikator }}</td>
+                <td colspan="13">{{ indikator.NamaIndikator }}</td>
                 <td class="text-center">
                   <v-icon
                     class="mr-2"
@@ -297,26 +297,25 @@
               </tr>
               <tr class="text-center">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td>{{ indikator.Satuan }}</td>
-                <td>{{ indikator.data_1 }}</td>              
-                <td>-</td>
-                <td>{{ indikator.data_2 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_3 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_4 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_5 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_6 }}</td>                
-                <td>{{ indikator.data_7 }}</td>
+                <td class="bg-blue">{{ indikator.Satuan }}</td>                        
+                <td class="bg-blue">{{ indikator.target_2 }}</td>
+                <td class="bg-blue">{{ indikator.realisasi_2 }}</td>
+                <td class="bg-blue">{{ indikator.target_3 }}</td>
+                <td class="bg-blue">{{ indikator.realisasi_3 }}</td>
+                <td class="bg-blue">{{ indikator.target_4 }}</td>
+                <td class="bg-blue">{{ indikator.realisasi_4 }}</td>
+                <td class="bg-blue">{{ indikator.target_5 }}</td>
+                <td class="bg-blue">{{ indikator.realisasi_5 }}</td>
+                <td class="bg-blue">{{ indikator.target_6 }}</td>
+                <td class="bg-blue">{{ indikator.realisasi_6 }}</td>
+                <td class="bg-blue">{{ indikator.target_7 }} / {{ indikator.realisasi_7 }}</td>                
                 <td class="bg-grey">&nbsp;</td>
               </tr>
             </template>
           </template>
           <template v-else>
             <tr class="bg-green-lighten-5">
-              <td colspan="16" class="text-center">Belum ada realisasi indikator. Silahkan tambah</td>
+              <td colspan="15" class="text-center">Belum ada realisasi indikator. Silahkan tambah</td>
             </tr>
           </template>
         </template>
@@ -391,7 +390,9 @@
         data_7: '-',
       },
       formdata: {
+        RpjmdRealisasiIndikatorID: null,
         RpjmdRelasiIndikatorID: null,
+        IndikatorKinerjaID: null,
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
@@ -411,6 +412,7 @@
         Operasi: '-',
       }, 
       formdefault: {
+        RpjmdRealisasiIndikatorID: null,
         RpjmdRelasiIndikatorID: null,
         IndikatorKinerja: null,
         RpjmdCascadingID: null,
@@ -572,7 +574,6 @@
           })
       },
       indikatorselected() {
-        console.log(this.formdata.IndikatorKinerja)
         if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
           this.formdata.Satuan = '-'
           this.formdata.Operasi = '-'
@@ -585,7 +586,7 @@
             data_7: '-',
           }
           this.disabledrealisasi = true          
-        } else {
+        } else {          
           this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
           this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi
           this.data_target.data_2 = this.formdata.IndikatorKinerja.data_2
@@ -603,6 +604,8 @@
         if(valid) {
           this.btnLoading = true
           
+          var RpjmdRelasiIndikatorID = this.formdata.IndikatorKinerja.RpjmdRelasiIndikatorID          
+          var IndikatorKinerjaID = this.formdata.IndikatorKinerja.IndikatorKinerjaID          
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
@@ -640,8 +643,9 @@
               .post(
                 '/rpjmd/realitations/indikatorprogram/store',
                 {
-                  IndikatorKinerjaID: this.formdata.IndikatorKinerja.IndikatorKinerjaID,                
+                  RpjmdRelasiIndikatorID: RpjmdRelasiIndikatorID,                
                   RpjmdCascadingID: this.dataprogram.PrgID,
+                  IndikatorKinerjaID: IndikatorKinerjaID,
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
                   Operasi: this.formdata.Operasi,                  
                   data_2: this.formdata.data_2,
@@ -670,7 +674,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdRelasiIndikatorID + ' ?',
+            'Apakah Anda ingin menghapus data realisasi dengan ID ' + item.RpjmdRealisasiIndikatorID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -681,7 +685,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/relations/indikatorprogram/' + item.RpjmdRelasiIndikatorID,
+                  '/rpjmd/realitations/indikatorprogram/' + item.RpjmdRealisasiIndikatorID,
                   {
                     _method: 'DELETE',
                   },
@@ -723,21 +727,20 @@
 
           var children = [
             {
-              title: 'realisasi',
+              title: 'TARGET',
               value: 'data_' + i,
               headerProps: {
                 class: 'font-weight-bold',
               },
             },
             {
-              title: 'RP',
+              title: 'REALISASI',
               value: 'data_' + next_i,
               headerProps: {
                 class: 'font-weight-bold',
               },
             },
-          ]
-          
+          ]          
           children_realisasi_tahun.push({
             title: tahun,
             children: children,
@@ -776,15 +779,7 @@
             headerProps: {
               class: 'font-weight-bold',
             },
-          },
-          {
-            title: 'KONDISI AWAL ' + TA_AWAL,
-            align: 'center',
-            value: 'data_1',            
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },
+          },          
           {
             title: 'CAPAIAN KINERJA PROGRAM DAN KERANGKA PENDANAAN',
             align: 'center',

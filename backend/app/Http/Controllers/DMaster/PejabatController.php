@@ -98,7 +98,7 @@ class PejabatController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(Request $request,$id)
+	public function destroy(Request $request, $id)
 	{       
 		$riwayat_asn = PejabatModel::find($id);
 		$result = $riwayat_asn->delete();

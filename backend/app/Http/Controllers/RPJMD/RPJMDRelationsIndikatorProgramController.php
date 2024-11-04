@@ -269,7 +269,7 @@ class RPJMDRelationsIndikatorProgramController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
@@ -280,7 +280,7 @@ class RPJMDRelationsIndikatorProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Indikator Sasaran dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Relasi Indikator Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     // else if($visi->misi->count('RpjmdMisiID') > 0)
@@ -298,7 +298,7 @@ class RPJMDRelationsIndikatorProgramController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data Indikator Sasaran dengan ID ($id) berhasil dihapus"
+        'message' => "Data Relasi Indikator Program dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }

@@ -91,6 +91,7 @@ class KodefikasiProgramController extends Controller
         $daftar_indikator = RPJMDRelasiIndikatorModel::from('tmRpjmdRelasiIndikator AS a')
         ->select(\DB::raw("
           a.RpjmdRelasiIndikatorID,
+          a.IndikatorKinerjaID,
           REPLACE(REPLACE(b.NamaIndikator, '\r', ''), '\n', '') AS NamaIndikator,
           Satuan,
           Operasi,
@@ -499,7 +500,7 @@ class KodefikasiProgramController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request,$id)
+  public function update(Request $request, $id)
   {        
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_UPDATE');
 
@@ -603,7 +604,7 @@ class KodefikasiProgramController extends Controller
    * @param  int  $uuid
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   {   
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_DESTROY');
 

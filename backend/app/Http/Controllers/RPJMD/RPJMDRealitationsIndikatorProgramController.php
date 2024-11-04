@@ -30,9 +30,9 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
     $Operasi = $request->input('Operasi');
     
     $rules = [      
+      'RpjmdRelasiIndikatorID' => 'required|exists:tmRpjmdRelasiIndikator,RpjmdRelasiIndikatorID',            
+      'RpjmdCascadingID' => 'required|exists:tmProgram,PrgID',            
       'IndikatorKinerjaID' => 'required|exists:tmRPJMDIndikatorKinerja,IndikatorKinerjaID',      
-      'RpjmdCascadingID' => 'required|exists:tmProgram,PrgID',      
-      'data_1' => 'required|numeric',      
       'data_2' => 'required|numeric',      
       'data_3' => 'required|numeric',      
       'data_4' => 'required|numeric',      
@@ -43,12 +43,13 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
     $this->validate($request, $rules); 
 
     $indikatorprogram = RPJMDRealisasiIndikatorModel::create([
-      'RpjmdRelasiIndikatorID' => Uuid::uuid4()->toString(),
-      'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
+      'RpjmdRealisasiIndikatorID' => Uuid::uuid4()->toString(),
+      'RpjmdRelasiIndikatorID' => $request->input('RpjmdRelasiIndikatorID'),      
       'RpjmdCascadingID' => $request->input('RpjmdCascadingID'),
+      'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
       'PeriodeRPJMDID' => $request->input('PeriodeRPJMDID'),      
       'TipeCascading' => 'program',      
-      'data_1' => $request->input('data_1'),    
+      'data_1' => 0,    
       'data_2' => $request->input('data_2'),    
       'data_3' => $request->input('data_3'),    
       'data_4' => $request->input('data_4'),    
@@ -74,7 +75,7 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
       'status' => 1,
       'pid' => 'store',
       'payload' => $indikatorprogram,                                    
-      'message' => 'Data Indikator Program berhasil disimpan.'
+      'message' => 'Data Realisasi Indikator Program berhasil disimpan.',
     ], 200);
   }
   public function storepagu(Request $request)
@@ -269,7 +270,7 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
@@ -280,7 +281,7 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Indikator Sasaran dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Realisasi Indikator Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     // else if($visi->misi->count('RpjmdMisiID') > 0)
@@ -298,7 +299,7 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data Indikator Sasaran dengan ID ($id) berhasil dihapus"
+        'message' => "Data Realisasi Indikator Program dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }

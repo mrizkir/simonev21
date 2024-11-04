@@ -224,7 +224,7 @@ class KodefikasiKegiatanController extends Controller {
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request,$id)
+  public function update(Request $request, $id)
   {        
     $this->hasPermissionTo('DMASTER-KODEFIKASI-KEGIATAN_UPDATE');
 
@@ -402,7 +402,7 @@ class KodefikasiKegiatanController extends Controller {
    * @param  int  $uuid
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   {   
     $this->hasPermissionTo('DMASTER-KODEFIKASI-KEGIATAN_DESTROY');
 

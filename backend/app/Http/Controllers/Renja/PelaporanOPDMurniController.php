@@ -44,7 +44,7 @@ class PelaporanOPDMurniController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function bulanpelaporan(Request $request,$id)
+	public function bulanpelaporan(Request $request, $id)
 	{ 
 		$this->hasPermissionTo('RENJA-PELAPORAN-OPD_BROWSE');
 

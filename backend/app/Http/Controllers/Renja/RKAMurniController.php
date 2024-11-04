@@ -708,7 +708,7 @@ class RKAMurniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function updatekegiatan(Request $request,$id)
+  public function updatekegiatan(Request $request, $id)
   {
     $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
 
@@ -787,7 +787,7 @@ class RKAMurniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function resetdatakegiatan(Request $request,$id)
+  public function resetdatakegiatan(Request $request, $id)
   {
     $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
 
@@ -826,7 +826,7 @@ class RKAMurniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function updateuraian(Request $request,$id)
+  public function updateuraian(Request $request, $id)
   {
     $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
 
@@ -902,7 +902,7 @@ class RKAMurniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function updatedetailuraian(Request $request,$id)
+  public function updatedetailuraian(Request $request, $id)
   {
     $this->hasPermissionTo('RENJA-RKA-MURNI_UPDATE');
 
@@ -1571,7 +1571,7 @@ class RKAMurniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   { 
     $this->hasPermissionTo('RENJA-RKA-MURNI_DESTROY');
 

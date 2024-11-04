@@ -260,7 +260,7 @@ class RPJMDMisiController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-MISI_DESTROY');
 

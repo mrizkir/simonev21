@@ -90,14 +90,14 @@ class UsersController extends Controller {
   /**
    * digunakan untuk mendapatkan detail user
    */
-  public function show(Request $request,$id)
+  public function show(Request $request, $id)
   {
     
   }
   /**
    * digunakan untuk mendapatkan role user
    */
-  public function roles(Request $request,$id)
+  public function roles(Request $request, $id)
   {
     $user = User::find($id);
     if (is_null($user))
@@ -122,7 +122,7 @@ class UsersController extends Controller {
   /**
    * digunakan untuk mendapatkan permission dari user
    */
-  public function mypermission (Request $request,$id)
+  public function mypermission (Request $request, $id)
   {
     return $this->userpermissions($this->getUserid());
   }
@@ -428,7 +428,7 @@ class UsersController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   { 
     $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_DESTROY');
 
@@ -465,7 +465,7 @@ class UsersController extends Controller {
        
           
   }
-  public function uploadfoto (Request $request,$id)
+  public function uploadfoto (Request $request, $id)
   {
     $user = User::find($id); 
     
@@ -520,7 +520,7 @@ class UsersController extends Controller {
       }
     }
   }
-  public function resetfoto(Request $request,$id)
+  public function resetfoto(Request $request, $id)
   {
     $user = User::find($id); 
     
@@ -556,7 +556,7 @@ class UsersController extends Controller {
                   ], 200); 
     }
   }
-  public function usersopd (Request $request,$id)
+  public function usersopd (Request $request, $id)
   {
     $user = User::find($id); 
 
@@ -580,7 +580,7 @@ class UsersController extends Controller {
                   ], 200); 
     }
   }
-  public function usersunitkerja (Request $request,$id)
+  public function usersunitkerja (Request $request, $id)
   {
     $user = User::find($id); 
 

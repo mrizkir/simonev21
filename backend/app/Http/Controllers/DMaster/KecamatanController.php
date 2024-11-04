@@ -28,7 +28,7 @@ class KecamatanController extends Controller {
                                 'message' => 'Fetch data kecamatan berhasil diperoleh'
                             ], 200);  
     }
-    public function desa (Request $request,$id)
+    public function desa (Request $request, $id)
     {
         
         $desa = DesaModel::where('kecamatan_id', $id)

@@ -137,7 +137,7 @@ class ASNController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request,$id)
+  public function update(Request $request, $id)
   {        
     $this->hasPermissionTo('DMASTER-ASN_UPDATE');
     $asn = ASNModel::find($id);
@@ -180,7 +180,7 @@ class ASNController extends Controller
    * @param  int  $uuid
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request,$id)
+  public function destroy(Request $request, $id)
   {   
     $this->hasPermissionTo('DMASTER-ASN_DESTROY');
     $asn = ASNModel::find($id);

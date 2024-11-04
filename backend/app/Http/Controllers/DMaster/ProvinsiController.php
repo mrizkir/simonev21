@@ -27,7 +27,7 @@ class ProvinsiController extends Controller {
                                 'message' => 'Fetch data provinsi berhasil diperoleh'
                             ], 200);  
     }
-    public function kabupaten (Request $request,$id)
+    public function kabupaten (Request $request, $id)
     {
         
         $kota = KabupatenModel::where('provinsi_id', $id)
