@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        REALISASI INDIKATOR PROGRAM
+        REALISASI PAGU PROGRAM
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -106,7 +106,7 @@
                       v-model="formdata.IndikatorKinerja"
                       density="compact"
                       :items="daftarindikator"
-                      label="DAFTAR INDIKATOR PROGRAM"
+                      label="DAFTAR PAGU PROGRAM"
                       variant="outlined"
                       prepend-inner-icon="mdi-calendar"
                       class="mr-1"
@@ -152,7 +152,7 @@
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-1">Target TA {{ labeltahun[2] }}: {{ data_target.data_3 }}</p>
-                        <p class="mb-3">Realisasi Indikator TA {{ labeltahun[2] }}:</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[2] }}:</p>
                         <v-number-input
                           v-model="formdata.data_3"  
                           density="compact"                          
@@ -166,7 +166,7 @@
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-1">Target TA {{ labeltahun[3] }}: {{ data_target.data_4 }}</p>
-                        <p class="mb-3">Realisasi Indikator TA {{ labeltahun[3] }}:</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[3] }}:</p>
                         <v-number-input
                           v-model="formdata.data_4"  
                           density="compact"                          
@@ -180,7 +180,7 @@
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-1">Target TA {{ labeltahun[4] }}: {{ data_target.data_5 }}</p>
-                        <p class="mb-3">Realisasi Indikator TA {{ labeltahun[4] }}:</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[4] }}:</p>
                         <v-number-input
                           v-model="formdata.data_5"  
                           density="compact"                          
@@ -194,7 +194,7 @@
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-1">Target TA {{ labeltahun[5] }}: {{ data_target.data_6 }}</p>
-                        <p class="mb-3">Realisasi Indikator TA {{ labeltahun[5] }}:</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[5] }}:</p>
                         <v-number-input
                           v-model="formdata.data_6"  
                           density="compact"                          
@@ -258,7 +258,7 @@
             <td>
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Realisasi Indikator'"                
+                v-tooltip:bottom="'Tambah Realisasi Pagu'"                
                 color="primary"
                 variant="outlined"
                 prepend-icon="mdi-plus"
@@ -269,17 +269,17 @@
               </v-btn>
             </td>
           </tr>
-          <template v-if="item.indikator.length > 0">
-            <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRealisasiIndikatorID">
+          <template v-if="item.pagu.length > 0">
+            <template v-for="(pagu, i) in item.pagu" :key="pagu.RpjmdRealisasiIndikatorID">
               <tr class="bg-green-lighten-5">
                 <td>
                   <v-icon icon="mdi-arrow-right" />
                 </td>
-                <td colspan="13">{{ indikator.NamaIndikator }}</td>
+                
                 <td class="text-center">
                   <v-icon
                     class="mr-2"
-                    v-tooltip:bottom="'Ubah Indikator'"
+                    v-tooltip:bottom="'Ubah Pagu'"
                     @click.stop="editItem(item, indikator)"
                     size="small"
                     color="primary"
@@ -287,7 +287,7 @@
                     mdi-pencil
                   </v-icon>
                   <v-icon
-                    v-tooltip:bottom="'Hapus Indikator'"
+                    v-tooltip:bottom="'Hapus Pagu'"
                     @click.stop="deleteItem(indikator)"
                     size="small"
                     color="error"
@@ -316,7 +316,7 @@
           </template>
           <template v-else>
             <tr class="bg-green-lighten-5">
-              <td colspan="15" class="text-center">Belum ada realisasi indikator. Silahkan tambah</td>
+              <td colspan="15" class="text-center">Belum ada realisasi pagu. Silahkan tambah</td>
             </tr>
           </template>
         </template>
@@ -331,7 +331,7 @@
   import { usesPageStore } from '@/stores/PageStore'
   import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
-    name: 'RealisasiIndikatorProgram',
+    name: 'RealisasiPaguProgram',
     created() {
       this.userStore = usesUserStore()
       this.pageStore = usesPageStore()
@@ -346,7 +346,7 @@
           href: '#',
         },
         {
-          title: 'INDIKATOR - PROGRAM',
+          title: 'PAGU - PROGRAM',
           disabled: true,
           href: '#',
         },
@@ -728,7 +728,7 @@
     },
     computed: {
       formTitle() {
-        return this.editedIndex === -1 ? 'TAMBAH REALISASI INDIKATOR PROGRAM' : 'UBAH REALISASI INDIKATOR PROGRAM';
+        return this.editedIndex === -1 ? 'TAMBAH REALISASI PAGU PROGRAM' : 'UBAH REALISASI PAGU PROGRAM';
       },
       fetchHeader() {
         let periode = this.userStore.PeriodeRPJMD;
@@ -779,7 +779,7 @@
             },
           },
           {
-            title: 'NAMA PROGRAM / INDIKATOR',
+            title: 'NAMA PROGRAM / PAGU',
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '200px',
@@ -796,7 +796,7 @@
             },
           },          
           {
-            title: 'CAPAIAN KINERJA INDIKATOR PROGRAM',
+            title: 'CAPAIAN KINERJA PAGU PROGRAM',
             align: 'center',
             children: children_realisasi_tahun,
             headerProps: {

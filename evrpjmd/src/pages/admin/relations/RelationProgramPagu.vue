@@ -217,7 +217,7 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="14">
+            <td colspan="7">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
@@ -243,19 +243,12 @@
             <template v-for="(pagu, i) in item.pagu" :key="pagu.RpjmdRelasiIndikatorID">              
               <tr class="text-center bg-green-lighten-3">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td>-</td>
-                <td>-</td>              
-                <td>-</td>
-                <td>{{ $filters.formatUang(pagu.data_2) }}</td>
-                <td>-</td>
-                <td>{{ $filters.formatUang(pagu.data_3) }}</td>
-                <td>-</td>
-                <td>{{ $filters.formatUang(pagu.data_4) }}</td>
-                <td>-</td>
-                <td>{{ $filters.formatUang(pagu.data_5) }}</td>
-                <td>-</td>
-                <td>{{ $filters.formatUang(pagu.data_6) }}</td>                
-                <td>{{ $filters.formatUang(pagu.data_7) }}</td>                
+                <td class="text-end">{{ $filters.formatUang(pagu.data_2) }}</td>                
+                <td class="text-end">{{ $filters.formatUang(pagu.data_3) }}</td>                
+                <td class="text-end">{{ $filters.formatUang(pagu.data_4) }}</td>                
+                <td class="text-end">{{ $filters.formatUang(pagu.data_5) }}</td>                
+                <td class="text-end">{{ $filters.formatUang(pagu.data_6) }}</td>                
+                <td class="text-end">{{ $filters.formatUang(pagu.data_7) }}</td>                
                 <td class="text-center">
                   <v-icon
                     class="mr-2"
@@ -280,44 +273,9 @@
           </template>
           <template v-else>
             <tr class="bg-green-lighten-3">
-              <td colspan="16" class="text-center">Belum ada pagu. Silahkan tambah</td>
+              <td colspan="9" class="text-center">Belum ada pagu. Silahkan tambah</td>
             </tr>
-          </template>
-          <template v-if="item.indikator.length > 0">
-            <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRelasiIndikatorID">
-              <tr class="bg-green-lighten-5">
-                <td>
-                  <v-icon icon="mdi-arrow-right" />
-                </td>
-                <td colspan="14">{{ indikator.NamaIndikator }}</td>
-                <td class="text-center">
-                  &nbsp;
-                </td>
-              </tr>
-              <tr class="text-center">
-                <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td>{{ indikator.Satuan }}</td>
-                <td>{{ indikator.data_1 }}</td>              
-                <td>{{ indikator.data_2 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_3 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_4 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_5 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_6 }}</td>
-                <td>-</td>
-                <td>{{ indikator.data_7 }}</td>                
-                <td class="bg-grey">&nbsp;</td>
-              </tr>
-            </template>
-          </template>
-          <template v-else>
-            <tr class="bg-green-lighten-5">
-              <td colspan="16" class="text-center">Belum ada indikator. Silahkan tambah</td>
-            </tr>
-          </template>
+          </template>          
         </template>
       </v-data-table-server>
     </v-container>
@@ -682,30 +640,12 @@
         var i = 2        
         var next_i = 3
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
-
-          var children = [
-            {
-              title: 'TARGET',
-              value: 'data_' + i,
-              headerProps: {
-                class: 'font-weight-bold',
-              },
-            },
-            {
-              title: 'RP',
-              value: 'data_' + next_i,
-              headerProps: {
-                class: 'font-weight-bold',
-              },
-            },
-          ]
-          
           children_target_tahun.push({
-            title: tahun,
-            children: children,
+            title: tahun,            
             headerProps: {
               class: 'font-weight-bold',
             },
+            align: 'end',
           });   
           i += 2
           next_i += 2
@@ -725,24 +665,7 @@
           {
             title: 'NAMA PROGRAM / INDIKATOR',
             key: 'Nm_RpjmdProgram',
-            align: 'start',
-            width: '200px',
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },          
-          {
-            title: 'SATUAN',
-            key: 'Nm_RpjmdProgram',
             align: 'start',            
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },
-          {
-            title: 'KONDISI AWAL ' + TA_AWAL,
-            align: 'center',
-            value: 'data_1',            
             headerProps: {
               class: 'font-weight-bold',
             },

@@ -185,9 +185,17 @@ const routes = [
     path: '/admin/realitation/indikatorprogram',
     name: 'RealitationIndikatorProgram',
     meta: {
-      title: 'RELATION - INDIKATOR PROGRAM',
+      title: 'REALITATION - INDIKATOR PROGRAM',
     },
     component: () => import('@/pages/admin/realitation/RealitationProgramIndikator.vue'),
+  },
+  {
+    path: '/admin/realitation/paguprogram',
+    name: 'RealitationPaguProgram',
+    meta: {
+      title: 'REALITATION - PAGU PROGRAM',
+    },
+    component: () => import('@/pages/admin/realitation/RealitationProgramPagu.vue'),
   },
   // other page
   {

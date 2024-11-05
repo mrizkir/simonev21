@@ -308,17 +308,17 @@
               <tr class="text-center">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
                 <td>{{ indikator.Satuan }}</td>
-                <td>{{ indikator.data_1 }}</td>              
-                <td>-</td>
+                <td>{{ indikator.data_1 }}</td>                              
                 <td>{{ indikator.data_2 }}</td>
-                <td>-</td>
+                <td>-</td>                
                 <td>{{ indikator.data_3 }}</td>
-                <td>-</td>
+                <td>-</td>                
                 <td>{{ indikator.data_4 }}</td>
-                <td>-</td>
+                <td>-</td>                
                 <td>{{ indikator.data_5 }}</td>
-                <td>-</td>
+                <td>-</td>                
                 <td>{{ indikator.data_6 }}</td>                
+                <td>-</td>
                 <td>{{ indikator.data_7 }}</td>
                 <td class="bg-grey">&nbsp;</td>
               </tr>
