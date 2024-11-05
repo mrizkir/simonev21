@@ -470,7 +470,7 @@
             this.daftar_bidang_urusan = data.kodefikasibidangurusan;
           });
       },
-      async initialize({ page, itemsPerPage }) {                
+      async initialize({ page, itemsPerPage }) {  
         if (this.BidangID !== null || typeof  BidangID  !== 'undefined') {
           this.datatableLoading = true
          
@@ -561,14 +561,32 @@
           .then(({ data }) => {
             let payload = data.payload
             this.daftarindikator = payload
+            
+            this.formdata.RpjmdRealisasiIndikatorID = item.RpjmdRealisasiIndikatorID
+            this.formdata.Satuan = item.Satuan
+            this.formdata.Operasi = item.Operasi
 
-            this.formdata = Object.assign({}, item)
+            this.formdata.data_2 = item.realisasi_2
+            this.formdata.data_3 = item.realisasi_3
+            this.formdata.data_4 = item.realisasi_4
+            this.formdata.data_5 = item.realisasi_5
+            this.formdata.data_6 = item.realisasi_6
+            this.formdata.data_7 = item.realisasi_7
+            
             this.formdata.IndikatorKinerja = {
               IndikatorKinerjaID: item.IndikatorKinerjaID,
               NamaIndikator: item.NamaIndikator,
               Satuan: item.Satuan,
               Operasi: item.Operasi,
             }
+            
+            this.data_target.data_2 = item.target_2
+            this.data_target.data_3 = item.target_3
+            this.data_target.data_4 = item.target_4
+            this.data_target.data_5 = item.target_5
+            this.data_target.data_6 = item.target_6
+            this.data_target.data_7 = item.target_7
+
             this.dialogfrm = true
             this.disabledrealisasi = false
             this.btnLoading = false  
@@ -587,7 +605,7 @@
             data_7: '-',
           }
           this.disabledrealisasi = true          
-        } else {          
+        } else {   
           this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
           this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi
           this.data_target.data_2 = this.formdata.IndikatorKinerja.data_2
@@ -599,33 +617,24 @@
           this.disabledrealisasi = false          
         }
       },
-      async save() {        
+      async save() { 
         const { valid } = await this.$refs.frmdata.validate()
 
         if(valid) {
           this.btnLoading = true
           
-          var RpjmdRelasiIndikatorID = this.formdata.IndikatorKinerja.RpjmdRelasiIndikatorID          
-          var IndikatorKinerjaID = this.formdata.IndikatorKinerja.IndikatorKinerjaID          
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/rpjmd/realitations/indikatorprogram/' + this.formdata.RpjmdRelasiIndikatorID,
+                '/rpjmd/realitations/indikatorprogram/' + this.formdata.RpjmdRealisasiIndikatorID,
                 {
                   _method: 'PUT',
-                  Operasi: this.formdata.Operasi,
-                  data_1: this.formdata.data_1,
                   data_2: this.formdata.data_2,
                   data_3: this.formdata.data_3,
                   data_4: this.formdata.data_4,
                   data_5: this.formdata.data_5,
                   data_6: this.formdata.data_6,
-                  data_7: this.formdata.data_7,
-                  data_8: this.formdata.data_8,
-                  data_9: this.formdata.data_9,
-                  data_10: this.formdata.data_10,
-                  data_11: this.formdata.data_11,
-                  data_12: this.formdata.data_12,                  
+                  data_7: this.formdata.data_7,                  
                 },
                 {
                   headers: {
@@ -639,7 +648,9 @@
               .catch(() => {
                 this.btnLoading = false
               })
-          } else {            
+          } else {
+            var RpjmdRelasiIndikatorID = this.formdata.IndikatorKinerja.RpjmdRelasiIndikatorID          
+            var IndikatorKinerjaID = this.formdata.IndikatorKinerja.IndikatorKinerjaID               
             this.$ajax
               .post(
                 '/rpjmd/realitations/indikatorprogram/store',

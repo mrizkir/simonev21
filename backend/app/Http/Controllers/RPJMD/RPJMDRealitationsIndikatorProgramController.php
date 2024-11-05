@@ -141,76 +141,37 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Indikator Sasaran dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Realisasi Indikator Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
-      $this->validate($request, [
-        'Operasi' => 'required|in:MAX,MIN,RANGE'
-      ]);
-  
-      $Operasi = $request->input('Operasi');
-      
-      $rules = [
-        'data_1' => 'required|numeric',      
+      $rules = [        
         'data_2' => 'required|numeric',      
         'data_3' => 'required|numeric',      
         'data_4' => 'required|numeric',      
         'data_5' => 'required|numeric',      
         'data_6' => 'required|numeric',      
         'data_7' => 'required|numeric',      
-        'data_8' => 'required|numeric',
       ];
 
-      if($Operasi == 'RANGE')
-      {
-        $rules['data_9'] = 'required|numeric';
-        $rules['data_10'] = 'required|numeric';
-        $rules['data_11'] = 'required|numeric';
-        $rules['data_12'] = 'required|numeric';
-        $rules['data_13'] = 'required|numeric';
-        $rules['data_14'] = 'required|numeric';
-        $rules['data_15'] = 'required|numeric';
+     
+      $this->validate($request, $rules); 
 
-        $this->validate($request, $rules); 
-
-        $indikatorprogram->data_1 = $request->input('data_1');
-        $indikatorprogram->data_2 = $request->input('data_2');
-        $indikatorprogram->data_3 = $request->input('data_3');
-        $indikatorprogram->data_4 = $request->input('data_4');
-        $indikatorprogram->data_5 = $request->input('data_5');
-        $indikatorprogram->data_6 = $request->input('data_6');
-        $indikatorprogram->data_7 = $request->input('data_7');
-        $indikatorprogram->data_8 = $request->input('data_8');
-        $indikatorprogram->data_9 = $request->input('data_9');
-        $indikatorprogram->data_10 = $request->input('data_10');
-        $indikatorprogram->data_11 = $request->input('data_11');
-        $indikatorprogram->data_12 = $request->input('data_12');
-        $indikatorprogram->data_13 = $request->input('data_13');
-        $indikatorprogram->data_14 = $request->input('data_14');
-        $indikatorprogram->data_15 = $request->input('data_15');
-      }
-      else
-      {
-        $this->validate($request, $rules); 
-
-        $indikatorprogram->data_1 = $request->input('data_1');
-        $indikatorprogram->data_2 = $request->input('data_2');
-        $indikatorprogram->data_3 = $request->input('data_3');
-        $indikatorprogram->data_4 = $request->input('data_4');
-        $indikatorprogram->data_5 = $request->input('data_5');
-        $indikatorprogram->data_6 = $request->input('data_6');
-        $indikatorprogram->data_7 = $request->input('data_7');
-        $indikatorprogram->data_8 = $request->input('data_8');
-      }
+      $indikatorprogram->data_2 = $request->input('data_2');
+      $indikatorprogram->data_3 = $request->input('data_3');
+      $indikatorprogram->data_4 = $request->input('data_4');
+      $indikatorprogram->data_5 = $request->input('data_5');
+      $indikatorprogram->data_6 = $request->input('data_6');
+      $indikatorprogram->data_7 = $request->input('data_7');      
+      
       $indikatorprogram->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
         'payload' => $indikatorprogram,                                    
-        'message' => 'Data indikator program berhasil disimpan.'
+        'message' => 'Data realisasi indikator program berhasil disimpan.'
       ], 200); 
     }
   }
@@ -224,35 +185,31 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
     {
       return Response()->json([
         'status' => 0,
-        'pid' => 'fetchdata',
-        'message' => ["Data Indikator Sasaran dengan dengan ($id) gagal diperoleh"]
+        'pid' => 'fetchdata',        
+        'message' => ["Data Realisasi Indikator Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
     {
       
-      $rules = [
-        'data_1' => 'required|numeric',      
+      $rules = [        
         'data_2' => 'required|numeric',      
         'data_3' => 'required|numeric',      
         'data_4' => 'required|numeric',      
         'data_5' => 'required|numeric',      
         'data_6' => 'required|numeric',      
         'data_7' => 'required|numeric',      
-        'data_8' => 'required|numeric',
       ];
 
       
       $this->validate($request, $rules); 
 
-      $indikatorprogram->data_1 = $request->input('data_1');
       $indikatorprogram->data_2 = $request->input('data_2');
       $indikatorprogram->data_3 = $request->input('data_3');
       $indikatorprogram->data_4 = $request->input('data_4');
       $indikatorprogram->data_5 = $request->input('data_5');
       $indikatorprogram->data_6 = $request->input('data_6');
       $indikatorprogram->data_7 = $request->input('data_7');
-      $indikatorprogram->data_8 = $request->input('data_8');
     
       $indikatorprogram->save();
       
@@ -260,7 +217,7 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
         'status' => 1,
         'pid' => 'update',
         'payload' => $indikatorprogram,                                    
-        'message' => 'Data indikator program berhasil disimpan.'
+        'message' => 'Data realisasi indikator program berhasil disimpan.'
       ], 200); 
     }
   }
