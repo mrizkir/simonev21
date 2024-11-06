@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola realisasi indikator program RPJMD.  Data program, bidang urusan, urusan, opd penanggungjawab diperoleh dari SIMONEV Tahun Anggaran {{ this.userStore.PeriodeRPJMD.TA_AWAL }}.
+          Halaman ini digunakan untuk mengelola realisasi pagu program RPJMD.  Data program, bidang urusan, urusan, opd penanggungjawab diperoleh dari SIMONEV Tahun Anggaran {{ this.userStore.PeriodeRPJMD.TA_AWAL }}.
         </v-alert>
       </template>      
     </v-page-header>
@@ -101,57 +101,24 @@
                         {{ dataprogram.Nm_Program }}
                       </v-col>
                     </v-row>
-                    <hr class="mb-3">
-                    <v-select
-                      v-model="formdata.IndikatorKinerja"
-                      density="compact"
-                      :items="daftarindikator"
-                      label="DAFTAR PAGU PROGRAM"
-                      variant="outlined"
-                      prepend-inner-icon="mdi-calendar"
-                      class="mr-1"
-                      @update:modelValue="indikatorselected"
-                      clearable
-                      return-object
-                      item-value="RpjmdRelasiIndikatorID"
-                      item-title="NamaIndikator"
-                      :disabled="editedIndex > 0"
-                    />                    
-                    <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
-                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
-                        SATUAN
-                      </v-col>
-                      <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.Satuan }}
-                      </v-col>
-                    </v-row>
-                    <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
-                      <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">
-                        OPERASI
-                      </v-col>
-                      <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.Operasi }}
-                      </v-col>
-                    </v-row>
                     <hr class="mb-3">                                        
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[1] }}: {{ data_target.data_2 }}</p>
+                        <p class="mb-1">Target TA {{ labeltahun[1] }}: {{ $filters.formatUang(data_target.data_2) }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
                           v-model="formdata.data_2"  
                           density="compact"                          
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
-                          class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          class="mr-1"                          
                         />    
                       </v-col>                      
                     </v-row>
                     <hr class="mb-3">                    
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[2] }}: {{ data_target.data_3 }}</p>
+                        <p class="mb-1">Target TA {{ labeltahun[2] }}: {{ $filters.formatUang(data_target.data_3) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[2] }}:</p>
                         <v-number-input
                           v-model="formdata.data_3"  
@@ -159,13 +126,12 @@
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
                         />    
                       </v-col>                      
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[3] }}: {{ data_target.data_4 }}</p>
+                        <p class="mb-1">Target TA {{ labeltahun[3] }}: {{ $filters.formatUang(data_target.data_4) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[3] }}:</p>
                         <v-number-input
                           v-model="formdata.data_4"  
@@ -173,13 +139,12 @@
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
                         />                            
                       </v-col>                      
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[4] }}: {{ data_target.data_5 }}</p>
+                        <p class="mb-1">Target TA {{ labeltahun[4] }}: {{ $filters.formatUang(data_target.data_5) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[4] }}:</p>
                         <v-number-input
                           v-model="formdata.data_5"  
@@ -187,13 +152,12 @@
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
                         />    
                       </v-col>
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[5] }}: {{ data_target.data_6 }}</p>
+                        <p class="mb-1">Target TA {{ labeltahun[5] }}: {{ $filters.formatUang(data_target.data_6) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[5] }}:</p>
                         <v-number-input
                           v-model="formdata.data_6"  
@@ -201,13 +165,12 @@
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
                         />                            
                       </v-col>                      
                     </v-row>                         
                     <v-row no-gutters>                                         
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target AKhir RPJMD: {{ data_target.data_7 }}</p>
+                        <p class="mb-1">Target AKhir RPJMD: {{ $filters.formatUang(data_target.data_7) }}</p>
                         <p class="mb-3">Realisasi Akhir RPJMD:</p>                    
                         <v-number-input
                           v-model="formdata.data_7"  
@@ -215,7 +178,6 @@
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
                         />                        
                       </v-col>
                     </v-row>               
@@ -248,7 +210,7 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="13">
+            <td colspan="12">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
@@ -263,24 +225,33 @@
                 variant="outlined"
                 prepend-icon="mdi-plus"
                 density="compact"
-                @click.stop="addItem(item)"                
+                @click.stop="addItem(item)"
+                :disabled="item.pagu.length > 0"
               >
                 Tambah
               </v-btn>
             </td>
           </tr>
           <template v-if="item.pagu.length > 0">
-            <template v-for="(pagu, i) in item.pagu" :key="pagu.RpjmdRealisasiIndikatorID">
-              <tr class="bg-green-lighten-5">
-                <td>
-                  <v-icon icon="mdi-arrow-right" />
-                </td>
-                
+            <template v-for="(pagu, i) in item.pagu" :key="pagu.RpjmdRealisasiIndikatorID">              
+              <tr class="text-center">
+                <td colspan="2" class="bg-grey">&nbsp;</td>                                
+                <td class="bg-blue">{{ $filters.formatUang(pagu.target_2) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_2) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.target_3) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_3) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.target_4) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_4) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.target_5) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_5) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.target_6) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_6) }}</td>
+                <td class="bg-blue">{{ $filters.formatUang(pagu.target_7) }} / {{ $filters.formatUang(pagu.realisasi_7) }}</td>                
                 <td class="text-center">
                   <v-icon
                     class="mr-2"
                     v-tooltip:bottom="'Ubah Pagu'"
-                    @click.stop="editItem(item, indikator)"
+                    @click.stop="editItem(item, pagu)"
                     size="small"
                     color="primary"
                   >
@@ -288,29 +259,13 @@
                   </v-icon>
                   <v-icon
                     v-tooltip:bottom="'Hapus Pagu'"
-                    @click.stop="deleteItem(indikator)"
+                    @click.stop="deleteItem(pagu)"
                     size="small"
                     color="error"
                   >
                     mdi-delete
                   </v-icon>
                 </td>
-              </tr>
-              <tr class="text-center">
-                <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td class="bg-blue">{{ indikator.Satuan }}</td>                        
-                <td class="bg-blue">{{ indikator.target_2 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_2 }}</td>
-                <td class="bg-blue">{{ indikator.target_3 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_3 }}</td>
-                <td class="bg-blue">{{ indikator.target_4 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_4 }}</td>
-                <td class="bg-blue">{{ indikator.target_5 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_5 }}</td>
-                <td class="bg-blue">{{ indikator.target_6 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_6 }}</td>
-                <td class="bg-blue">{{ indikator.target_7 }} / {{ indikator.realisasi_7 }}</td>                
-                <td class="bg-grey">&nbsp;</td>
               </tr>
             </template>
           </template>
@@ -380,7 +335,6 @@
       dialogfrm: false,
       //form data
       form_valid: true,
-      daftarindikator: [],      
       disabledrealisasi: true,
       data_target: {
         data_2: '-',
@@ -392,30 +346,6 @@
       },
       formdata: {
         RpjmdRealisasiIndikatorID: null,
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerjaID: null,
-        IndikatorKinerja: null,
-        RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,
-        data_1: null,
-        data_2: null,
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
-        data_8: null,
-        data_9: null,
-        data_10: null,
-        data_11: null,
-        data_12: null,        
-        Satuan: '-',
-        Operasi: '-',
-      }, 
-      formdefault: {
-        RpjmdRealisasiIndikatorID: null,
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerja: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
         data_1: null,
@@ -430,8 +360,23 @@
         data_10: null,
         data_11: null,
         data_12: null,
-        Satuan: '-',
-        Operasi: '-',
+      }, 
+      formdefault: {
+        RpjmdRealisasiIndikatorID: null,        
+        RpjmdCascadingID: null,
+        PeriodeRPJMDID: null,
+        data_1: null,
+        data_2: null,
+        data_3: null,
+        data_4: null,
+        data_5: null,
+        data_6: null,
+        data_7: null,
+        data_8: null,
+        data_9: null,
+        data_10: null,
+        data_11: null,
+        data_12: null,
       }, 
       labeltahun: [],
       editedIndex: -1,
@@ -439,8 +384,8 @@
       rule_kondisi_awal: [
         value => !!value || 'Mohon untuk diisi nilai kondisi awal !!!',
       ],
-      rule_realisasi_indikator: [
-        value => !!value || 'Mohon untuk diisi nilai realisasi indikator !!!',
+      rule_realisasi_pagu: [
+        value => !!value || 'Mohon untuk diisi nilai realisasi pagu !!!',
       ],      
       rule_pagu_indikatif: [
         value => !!value || 'Mohon untuk diisi pagu indikatif program !!!',
@@ -525,33 +470,7 @@
         this.setLabelTahun()
         
         await this.$ajax
-          .post('/dmaster/kodefikasi/program/' + item.PrgID + '/indikator',
-            {
-              'pid': 'array',
-            },
-            {
-              headers: {
-                Authorization: this.userStore.Token,
-              },
-            }
-          )
-          .then(({ data }) => {
-            let payload = data.payload            
-            this.daftarindikator = payload
-            this.btnLoading = false  
-          })
-      },
-      async editItem(dataprogram, item) {
-        this.editedIndex = this.datatable.indexOf(dataprogram)
-        this.setLabelTahun()
-        this.dataprogram = dataprogram
-        
-        await this.$ajax
-          .post('/rpjmd/indikatorkinerja/program', 
-            {
-              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-              Listed: 0,
-            },
+          .get('/rpjmd/relations/paguprogram/' + item.PrgID,            
             {
               headers: {
                 Authorization: this.userStore.Token,
@@ -560,62 +479,19 @@
           )
           .then(({ data }) => {
             let payload = data.payload
-            this.daftarindikator = payload
-            
-            this.formdata.RpjmdRealisasiIndikatorID = item.RpjmdRealisasiIndikatorID
-            this.formdata.Satuan = item.Satuan
-            this.formdata.Operasi = item.Operasi
-
-            this.formdata.data_2 = item.realisasi_2
-            this.formdata.data_3 = item.realisasi_3
-            this.formdata.data_4 = item.realisasi_4
-            this.formdata.data_5 = item.realisasi_5
-            this.formdata.data_6 = item.realisasi_6
-            this.formdata.data_7 = item.realisasi_7
-            
-            this.formdata.IndikatorKinerja = {
-              IndikatorKinerjaID: item.IndikatorKinerjaID,
-              NamaIndikator: item.NamaIndikator,
-              Satuan: item.Satuan,
-              Operasi: item.Operasi,
-            }
-            
-            this.data_target.data_2 = item.target_2
-            this.data_target.data_3 = item.target_3
-            this.data_target.data_4 = item.target_4
-            this.data_target.data_5 = item.target_5
-            this.data_target.data_6 = item.target_6
-            this.data_target.data_7 = item.target_7
-
-            this.dialogfrm = true
-            this.disabledrealisasi = false
+            this.data_target.data_2 = payload.target_2
+            this.data_target.data_3 = payload.target_3
+            this.data_target.data_4 = payload.target_4
+            this.data_target.data_5 = payload.target_5
+            this.data_target.data_6 = payload.target_6
+            this.data_target.data_7 = payload.target_7
             this.btnLoading = false  
           })
       },
-      indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
-          this.formdata.Satuan = '-'
-          this.formdata.Operasi = '-'
-          this.data_target = {
-            data_2: '-',
-            data_3: '-',
-            data_4: '-',
-            data_5: '-',
-            data_6: '-',
-            data_7: '-',
-          }
-          this.disabledrealisasi = true          
-        } else {   
-          this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
-          this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi
-          this.data_target.data_2 = this.formdata.IndikatorKinerja.data_2
-          this.data_target.data_3 = this.formdata.IndikatorKinerja.data_3
-          this.data_target.data_4 = this.formdata.IndikatorKinerja.data_4
-          this.data_target.data_5 = this.formdata.IndikatorKinerja.data_5
-          this.data_target.data_6 = this.formdata.IndikatorKinerja.data_6
-          this.data_target.data_7 = this.formdata.IndikatorKinerja.data_7
-          this.disabledrealisasi = false          
-        }
+      async editItem(dataprogram, item) {
+        this.editedIndex = this.datatable.indexOf(dataprogram)
+        this.setLabelTahun()
+        this.dataprogram = dataprogram        
       },
       async save() { 
         const { valid } = await this.$refs.frmdata.validate()
@@ -626,7 +502,7 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/rpjmd/realitations/indikatorprogram/' + this.formdata.RpjmdRealisasiIndikatorID,
+                '/rpjmd/realitations/paguprogram/' + this.formdata.RpjmdRealisasiIndikatorID,
                 {
                   _method: 'PUT',
                   data_2: this.formdata.data_2,
@@ -648,18 +524,13 @@
               .catch(() => {
                 this.btnLoading = false
               })
-          } else {
-            var RpjmdRelasiIndikatorID = this.formdata.IndikatorKinerja.RpjmdRelasiIndikatorID          
-            var IndikatorKinerjaID = this.formdata.IndikatorKinerja.IndikatorKinerjaID               
+          } else {                                 
             this.$ajax
               .post(
-                '/rpjmd/realitations/indikatorprogram/store',
+                '/rpjmd/realitations/paguprogram/store',
                 {
-                  RpjmdRelasiIndikatorID: RpjmdRelasiIndikatorID,                
-                  RpjmdCascadingID: this.dataprogram.PrgID,
-                  IndikatorKinerjaID: IndikatorKinerjaID,
-                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                  Operasi: this.formdata.Operasi,                  
+                  RpjmdCascadingID: this.dataprogram.PrgID,                  
+                  PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,                                 
                   data_2: this.formdata.data_2,
                   data_3: this.formdata.data_3,
                   data_4: this.formdata.data_4,
@@ -697,7 +568,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/realitations/indikatorprogram/' + item.RpjmdRealisasiIndikatorID,
+                  '/rpjmd/realitations/paguprogram/' + item.RpjmdRealisasiIndikatorID,
                   {
                     _method: 'DELETE',
                   },
@@ -786,15 +657,7 @@
             headerProps: {
               class: 'font-weight-bold',
             },
-          },          
-          {
-            title: 'SATUAN',
-            key: 'Nm_RpjmdProgram',
-            align: 'start',            
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },          
+          },                    
           {
             title: 'CAPAIAN KINERJA PAGU PROGRAM',
             align: 'center',

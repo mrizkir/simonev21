@@ -340,28 +340,7 @@
       form_valid: true,
       daftarindikator: [],      
       formdata: {
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerja: null,
-        RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,
-        data_1: 0,
-        data_2: null,
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
-        data_8: null,
-        data_9: null,
-        data_10: null,
-        data_11: null,
-        data_12: null,        
-        Satuan: '-',
-        Operasi: '-',
-      }, 
-      formdefault: {
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerja: null,
+        RpjmdRelasiIndikatorID: null,        
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
         data_1: 0,
@@ -376,8 +355,23 @@
         data_10: null,
         data_11: null,
         data_12: null,
-        Satuan: '-',
-        Operasi: '-',
+      }, 
+      formdefault: {
+        RpjmdRelasiIndikatorID: null,
+        RpjmdCascadingID: null,
+        PeriodeRPJMDID: null,
+        data_1: 0,
+        data_2: null,
+        data_3: null,
+        data_4: null,
+        data_5: null,
+        data_6: null,
+        data_7: null,
+        data_8: null,
+        data_9: null,
+        data_10: null,
+        data_11: null,
+        data_12: null,        
       }, 
       labeltahun: [],
       editedIndex: -1,
@@ -466,24 +460,6 @@
         this.dataprogram = item
         
         this.setLabelTahun()
-        
-        await this.$ajax
-          .post('/rpjmd/indikatorkinerja/program', 
-            {
-              PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-              Listed: 1,
-            },
-            {
-              headers: {
-                Authorization: this.userStore.Token,
-              },
-            }
-          )
-          .then(({ data }) => {
-            let payload = data.payload
-            this.daftarindikator = payload
-            this.btnLoading = false  
-          })
       },
       async editItem(dataprogram, item) {
         this.editedIndex = this.datatable.indexOf(dataprogram)

@@ -19,6 +19,32 @@ class RPJMDRelationsIndikatorProgramController extends Controller
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_BROWSE');
   }
+  public function showpagu(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_SHOW');
+
+    $pagu = RPJMDRelasiIndikatorModel::select(\DB::raw('
+      RpjmdRelasiIndikatorID,              
+      data_2 AS target_2,
+      data_3 AS target_3,
+      data_4 AS target_4,
+      data_5 AS target_5,
+      data_6 AS target_6,
+      data_7 AS target_7,      
+      created_at,
+      updated_at
+    '))    
+    ->whereNull('IndikatorKinerjaID')
+    ->where('RpjmdCascadingID', $id)
+    ->first();
+    
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => $pagu,                                    
+      'message' => 'Data pagu Program berhasil diperoleh.'
+    ], 200);
+  }
   public function store(Request $request)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_STORE');

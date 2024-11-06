@@ -247,27 +247,27 @@ class KodefikasiBidangUrusanController extends Controller {
           ->get();
         break;
         case 'realisasiprogram':
-          $item->pagu = \DB::table('tmRpjmdRealisasiIndikator AS a')
+          $item->pagu = \DB::table('tmRpjmdRelasiIndikator AS a')
           ->select(\DB::raw('
-            a.RpjmdRealisasiIndikatorID,            
-            b.data_2 AS target_2,
-            b.data_3 AS target_3,
-            b.data_4 AS target_4,
-            b.data_5 AS target_5,
-            b.data_6 AS target_6,
-            b.data_7 AS target_7,	
-            a.data_2 AS realisasi_2,
-            a.data_3 AS realisasi_3,
-            a.data_4 AS realisasi_4,
-            a.data_5 AS realisasi_5,
-            a.data_6 AS realisasi_6,
-            a.data_7 AS realisasi_7,
-            a.created_at,
-            a.updated_at
+            b.RpjmdRealisasiIndikatorID,              
+            a.data_2 AS target_2,
+            a.data_3 AS target_3,
+            a.data_4 AS target_4,
+            a.data_5 AS target_5,
+            a.data_6 AS target_6,
+            a.data_7 AS target_7,
+            b.data_2 AS realisasi_2,
+            b.data_3 AS realisasi_3,
+            b.data_4 AS realisasi_4,
+            b.data_5 AS realisasi_5,
+            b.data_6 AS realisasi_6,
+            b.data_7 AS realisasi_7,
+            b.created_at,
+            b.updated_at
           '))
-          ->join('tmRpjmdRelasiIndikator AS b', 'a.RpjmdRelasiIndikatorID', 'b.RpjmdRelasiIndikatorID')          
+          ->join('tmRpjmdRealisasiIndikator AS b', 'a.RpjmdRelasiIndikatorID', 'b.RpjmdRelasiIndikatorID')          
           ->whereNull('a.IndikatorKinerjaID')
-          ->where('b.RpjmdCascadingID', $item->PrgID)
+          ->where('a.RpjmdCascadingID', $item->PrgID)
           ->get();          
 
           $item->indikator = \DB::table('tmRpjmdRealisasiIndikator AS a')
