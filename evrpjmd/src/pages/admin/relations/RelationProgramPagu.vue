@@ -647,7 +647,7 @@
             },
           },
           {
-            title: 'CAPAIAN KINERJA PROGRAM DAN KERANGKA PENDANAAN',
+            title: 'KERANGKA PENDANAAN',
             align: 'center',
             children: children_target_tahun,
             headerProps: {

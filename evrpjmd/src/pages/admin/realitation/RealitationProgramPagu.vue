@@ -346,6 +346,7 @@
       },
       formdata: {
         RpjmdRealisasiIndikatorID: null,
+        RpjmdRelasiIndikatorID: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
         data_1: null,
@@ -362,7 +363,8 @@
         data_12: null,
       }, 
       formdefault: {
-        RpjmdRealisasiIndikatorID: null,        
+        RpjmdRealisasiIndikatorID: null,
+        RpjmdRelasiIndikatorID: null,
         RpjmdCascadingID: null,
         PeriodeRPJMDID: null,
         data_1: null,
@@ -485,13 +487,47 @@
             this.data_target.data_5 = payload.target_5
             this.data_target.data_6 = payload.target_6
             this.data_target.data_7 = payload.target_7
+            this.formdata.RpjmdRelasiIndikatorID = payload.RpjmdRelasiIndikatorID
             this.btnLoading = false  
           })
       },
       async editItem(dataprogram, item) {
+        this.btnLoading = true
+
         this.editedIndex = this.datatable.indexOf(dataprogram)
         this.setLabelTahun()
-        this.dataprogram = dataprogram        
+        this.dataprogram = dataprogram
+        
+        await this.$ajax
+          .get('/rpjmd/relations/paguprogram/' + dataprogram.PrgID,            
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            let payload = data.payload
+            this.data_target.data_2 = payload.target_2
+            this.data_target.data_3 = payload.target_3
+            this.data_target.data_4 = payload.target_4
+            this.data_target.data_5 = payload.target_5
+            this.data_target.data_6 = payload.target_6
+            this.data_target.data_7 = payload.target_7
+
+            this.formdata.RpjmdRealisasiIndikatorID = item.RpjmdRealisasiIndikatorID
+            this.formdata.data_2 = item.realisasi_2
+            this.formdata.data_3 = item.realisasi_3
+            this.formdata.data_4 = item.realisasi_4
+            this.formdata.data_5 = item.realisasi_5
+            this.formdata.data_6 = item.realisasi_6
+            this.formdata.data_7 = item.realisasi_7
+
+            this.formdata.RpjmdRelasiIndikatorID = payload.RpjmdRelasiIndikatorID
+            this.btnLoading = false  
+            this.dialogfrm = true
+          })
+        
       },
       async save() { 
         const { valid } = await this.$refs.frmdata.validate()
@@ -530,6 +566,7 @@
                 '/rpjmd/realitations/paguprogram/store',
                 {
                   RpjmdCascadingID: this.dataprogram.PrgID,                  
+                  RpjmdRelasiIndikatorID: this.formdata.RpjmdRelasiIndikatorID,                                 
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,                                 
                   data_2: this.formdata.data_2,
                   data_3: this.formdata.data_3,
@@ -568,7 +605,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/realitations/paguprogram/' + item.RpjmdRealisasiIndikatorID,
+                  '/rpjmd/realitations/indikatorprogram/' + item.RpjmdRealisasiIndikatorID,
                   {
                     _method: 'DELETE',
                   },

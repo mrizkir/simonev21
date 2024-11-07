@@ -81,27 +81,26 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
   public function storepagu(Request $request)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_STORE');
-    
-    $rules = [
-      'RpjmdCascadingID' => 'required|exists:tmProgram,PrgID',      
-      'data_1' => 'required|numeric',      
+
+    $rules = [      
+      'RpjmdRelasiIndikatorID' => 'required|exists:tmRpjmdRelasiIndikator,RpjmdRelasiIndikatorID',            
+      'RpjmdCascadingID' => 'required|exists:tmProgram,PrgID',            
       'data_2' => 'required|numeric',      
       'data_3' => 'required|numeric',      
       'data_4' => 'required|numeric',      
       'data_5' => 'required|numeric',      
       'data_6' => 'required|numeric',      
-      'data_7' => 'required|numeric',            
+      'data_7' => 'required|numeric',   
     ];
-
     $this->validate($request, $rules); 
 
     $paguprogram = RPJMDRealisasiIndikatorModel::create([
-      'RpjmdRelasiIndikatorID' => Uuid::uuid4()->toString(),
-      'IndikatorKinerjaID' => null,
-      'RpjmdCascadingID' => $request->input('RpjmdCascadingID'),
+      'RpjmdRealisasiIndikatorID' => Uuid::uuid4()->toString(),
+      'RpjmdRelasiIndikatorID' => $request->input('RpjmdRelasiIndikatorID'),      
+      'RpjmdCascadingID' => $request->input('RpjmdCascadingID'),      
       'PeriodeRPJMDID' => $request->input('PeriodeRPJMDID'),      
       'TipeCascading' => 'program',      
-      'data_1' => $request->input('data_1'),    
+      'data_1' => 0,    
       'data_2' => $request->input('data_2'),    
       'data_3' => $request->input('data_3'),    
       'data_4' => $request->input('data_4'),    
@@ -127,9 +126,9 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
       'status' => 1,
       'pid' => 'store',
       'payload' => $paguprogram,                                    
-      'message' => 'Data Pagu Program berhasil disimpan.'
+      'message' => 'Data Realisasi Pagu Program berhasil disimpan.',
     ], 200);
-  }
+  }  
   public function update(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_UPDATE');
@@ -179,14 +178,14 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_UPDATE');
 
-    $indikatorprogram = RPJMDRealisasiIndikatorModel::find($id);
+    $paguprogram = RPJMDRealisasiIndikatorModel::find($id);
 
-    if(is_null($indikatorprogram))
+    if(is_null($paguprogram))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',        
-        'message' => ["Data Realisasi Indikator Program dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Realisasi pagu Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
@@ -204,20 +203,20 @@ class RPJMDRealitationsIndikatorProgramController extends Controller
       
       $this->validate($request, $rules); 
 
-      $indikatorprogram->data_2 = $request->input('data_2');
-      $indikatorprogram->data_3 = $request->input('data_3');
-      $indikatorprogram->data_4 = $request->input('data_4');
-      $indikatorprogram->data_5 = $request->input('data_5');
-      $indikatorprogram->data_6 = $request->input('data_6');
-      $indikatorprogram->data_7 = $request->input('data_7');
+      $paguprogram->data_2 = $request->input('data_2');
+      $paguprogram->data_3 = $request->input('data_3');
+      $paguprogram->data_4 = $request->input('data_4');
+      $paguprogram->data_5 = $request->input('data_5');
+      $paguprogram->data_6 = $request->input('data_6');
+      $paguprogram->data_7 = $request->input('data_7');
     
-      $indikatorprogram->save();
+      $paguprogram->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'payload' => $indikatorprogram,                                    
-        'message' => 'Data realisasi indikator program berhasil disimpan.'
+        'payload' => $paguprogram,                                    
+        'message' => 'Data realisasi pagu program berhasil disimpan.'
       ], 200); 
     }
   }

@@ -257,7 +257,7 @@
         <template v-slot:item="{ index, item }">
           <tr class="bg-grey-lighten-5">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="14">
+            <td colspan="9">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
@@ -284,7 +284,7 @@
                 <td>
                   <v-icon icon="mdi-arrow-right" />
                 </td>
-                <td colspan="14">{{ indikator.NamaIndikator }}</td>
+                <td colspan="9">{{ indikator.NamaIndikator }}</td>
                 <td class="text-center">
                   <v-icon
                     class="mr-2"
@@ -309,16 +309,11 @@
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
                 <td>{{ indikator.Satuan }}</td>
                 <td>{{ indikator.data_1 }}</td>                              
-                <td>{{ indikator.data_2 }}</td>
-                <td>-</td>                
-                <td>{{ indikator.data_3 }}</td>
-                <td>-</td>                
-                <td>{{ indikator.data_4 }}</td>
-                <td>-</td>                
-                <td>{{ indikator.data_5 }}</td>
-                <td>-</td>                
-                <td>{{ indikator.data_6 }}</td>                
-                <td>-</td>
+                <td>{{ indikator.data_2 }}</td>                
+                <td>{{ indikator.data_3 }}</td>                
+                <td>{{ indikator.data_4 }}</td>                
+                <td>{{ indikator.data_5 }}</td>                
+                <td>{{ indikator.data_6 }}</td>
                 <td>{{ indikator.data_7 }}</td>
                 <td class="bg-grey">&nbsp;</td>
               </tr>
@@ -714,27 +709,8 @@
         var i = 2        
         var next_i = 3
         for(var tahun = parseInt(TA_AWAL) + 1; tahun <= TA_AKHIR; tahun++) {
-
-          var children = [
-            {
-              title: 'TARGET',
-              value: 'data_' + i,
-              headerProps: {
-                class: 'font-weight-bold',
-              },
-            },
-            {
-              title: 'RP',
-              value: 'data_' + next_i,
-              headerProps: {
-                class: 'font-weight-bold',
-              },
-            },
-          ]
-          
           children_target_tahun.push({
-            title: tahun,
-            children: children,
+            title: tahun,            
             headerProps: {
               class: 'font-weight-bold',
             },
@@ -780,7 +756,7 @@
             },
           },
           {
-            title: 'CAPAIAN KINERJA PROGRAM DAN KERANGKA PENDANAAN',
+            title: 'CAPAIAN KINERJA PROGRAM',
             align: 'center',
             children: children_target_tahun,
             headerProps: {

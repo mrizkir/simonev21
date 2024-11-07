@@ -24,7 +24,7 @@ class RPJMDRelationsIndikatorProgramController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_SHOW');
 
     $pagu = RPJMDRelasiIndikatorModel::select(\DB::raw('
-      RpjmdRelasiIndikatorID,              
+      RpjmdRelasiIndikatorID,
       data_2 AS target_2,
       data_3 AS target_3,
       data_4 AS target_4,
