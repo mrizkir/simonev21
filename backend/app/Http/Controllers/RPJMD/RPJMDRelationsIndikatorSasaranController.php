@@ -18,6 +18,7 @@ class RPJMDRelationsIndikatorSasaranController extends Controller
   public function index(Request $request)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-SASARAN_BROWSE');
+    
   }
   public function store(Request $request)
   {

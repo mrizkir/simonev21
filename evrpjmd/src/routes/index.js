@@ -180,7 +180,8 @@ const routes = [
     },
     component: () => import('@/pages/admin/relations/RelationProgramPagu.vue'),
   },
-  // admin - realitation - program
+
+  // admin - realitation - tujuan
   {
     path: '/admin/realitation/indikatortujuan',
     name: 'RealitationIndikatorTujuan',
@@ -189,6 +190,16 @@ const routes = [
     },
     component: () => import('@/pages/admin/realitation/RealitationIndikatorTujuan.vue'),
   },
+  // admin - realitation - sasaran
+  {
+    path: '/admin/realitation/indikatorsasaran',
+    name: 'RealitationIndikatorSasaran',
+    meta: {
+      title: 'REALITATION - INDIKATOR SASARAN',
+    },
+    component: () => import('@/pages/admin/realitation/RealitationIndikatorSasaran.vue'),
+  },
+  // admin - realitation - program
   {
     path: '/admin/realitation/indikatorprogram',
     name: 'RealitationIndikatorProgram',
