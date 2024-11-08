@@ -182,6 +182,14 @@ const routes = [
   },
   // admin - realitation - program
   {
+    path: '/admin/realitation/indikatortujuan',
+    name: 'RealitationIndikatorTujuan',
+    meta: {
+      title: 'REALITATION - INDIKATOR TUJUAN',
+    },
+    component: () => import('@/pages/admin/realitation/RealitationIndikatorTujuan.vue'),
+  },
+  {
     path: '/admin/realitation/indikatorprogram',
     name: 'RealitationIndikatorProgram',
     meta: {

@@ -331,7 +331,7 @@
   import { usesPageStore } from '@/stores/PageStore'
   import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
-    name: 'RealisasiIndikatorProgram',
+    name: 'RealitationIndikatorProgram',
     created() {
       this.userStore = usesUserStore()
       this.pageStore = usesPageStore()
@@ -500,6 +500,9 @@
               let payload = data.payload
               this.datatable = payload.data
               this.totalRecords = payload.totalRecords
+              this.datatableLoading = false
+            })
+            .catch(() => {
               this.datatableLoading = false
             })
         } else {
