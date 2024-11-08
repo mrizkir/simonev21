@@ -292,6 +292,13 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->get('/rpjmd/relations/paguprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@showpagu','as'=>'rpjmd-relations-pagu-program.showpagu']);
   $router->put('/rpjmd/relations/paguprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsIndikatorProgramController@updatepagu','as'=>'rpjmd-relations-pagu-program.update']);
 
+  //rpjmd - realisasi - indikator tujuan
+  $router->post('/rpjmd/realitations/indikatortujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorTujuanController@index','as'=>'rpjmd-realitations-indikator-tujuan.index']);
+  $router->post('/rpjmd/realitations/indikatortujuan/store', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorTujuanController@store','as'=>'rpjmd-realitations-indikator-tujuan.store']);  
+  $router->get('/rpjmd/realitations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorTujuanController@show','as'=>'rpjmd-realitations-indikator-tujuan.show']);  
+  $router->put('/rpjmd/realitations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorTujuanController@update','as'=>'rpjmd-realitations-indikator-tujuan.update']);
+  $router->delete('/rpjmd/realitations/indikatortujuan/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorTujuanController@destroy','as'=>'rpjmd-realitations-indikator-tujuan.destroy']);
+
   //rpjmd - realisasi - indikator program
   $router->post('/rpjmd/realitations/indikatorprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@index','as'=>'rpjmd-realitations-indikator-program.index']);
   $router->post('/rpjmd/realitations/indikatorprogram/store', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@store','as'=>'rpjmd-realitations-indikator-program.store']);  

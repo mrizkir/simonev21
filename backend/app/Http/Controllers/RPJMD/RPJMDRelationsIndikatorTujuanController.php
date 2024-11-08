@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\RPJMD\RPJMDRelasiIndikatorModel;
 use Illuminate\Http\Request;
 
+use App\Models\RPJMD\RPJMDTujuanModel;
+
 use Ramsey\Uuid\Uuid;
 
 class RPJMDRelationsIndikatorTujuanController extends Controller
@@ -18,6 +20,169 @@ class RPJMDRelationsIndikatorTujuanController extends Controller
   public function index(Request $request)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_BROWSE');
+
+    $this->validate($request, [      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
+      'pid' => 'required|in:realisasi',      
+    ]);
+
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
+    $pid = $request->input('pid');
+    
+    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
+    
+    $data = RPJMDTujuanModel::select(\DB::raw('
+      tmRpjmdTujuan.*,
+      CONCAT(b.Kd_RpjmdMisi,".",tmRpjmdTujuan.Kd_RpjmdTujuan) AS kode_tujuan,
+      "{}" AS indikator
+    '))
+    ->join('tmRpjmdMisi AS b', 'b.RpjmdMisiID', 'tmRpjmdTujuan.RpjmdMisiID')
+    ->where('tmRpjmdTujuan.PeriodeRPJMDID', $PeriodeRPJMDID);
+    
+    if($request->filled('offset'))
+    {
+      $this->validate($request, [              
+        'offset' => 'required|numeric',      
+      ]);
+
+      $offset = $request->input('offset');
+      $data = $data->offset($offset);
+    }
+
+    if($request->filled('limit'))
+    {
+      $this->validate($request, [              
+        'limit' => 'required|numeric|gt:0',   
+      ]);
+
+      $limit = $request->input('limit');
+      $data = $data->limit($limit);
+    }
+
+    $indikatorkinerja = $data
+    ->orderBy('kode_tujuan', 'asc')
+    ->get()
+    ->transform(function($item, $key) use ($pid) {
+      switch($pid)
+      {
+        case 'realisasi':
+          $data = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
+            a.RpjmdRelasiIndikatorID,
+            b.IndikatorKinerjaID,
+            b.NamaIndikator,
+            b.Satuan,
+            b.Operasi,
+            a.data_1 AS target_1,
+            a.data_2 AS target_2,
+            a.data_3 AS target_3,
+            a.data_4 AS target_4,
+            a.data_5 AS target_5,
+            a.data_6 AS target_6,
+            a.data_7 AS target_7,
+            a.data_8 AS target_8,
+            a.data_9 AS target_9,
+            a.data_10 AS target_10,
+            a.data_11 AS target_11,
+            a.data_12 AS target_12,
+            a.data_13 AS target_13,
+            a.data_14 AS target_14,
+            a.data_15 AS target_15,
+            a.data_16 AS target_16,
+            c.RpjmdRealisasiIndikatorID,
+            c.data_1 AS realisasi_1,
+            c.data_2 AS realisasi_2,
+            c.data_3 AS realisasi_3,
+            c.data_4 AS realisasi_4,
+            c.data_5 AS realisasi_5,
+            c.data_6 AS realisasi_6,
+            c.data_7 AS realisasi_7,
+            c.data_8 AS realisasi_8,
+            c.data_9 AS realisasi_9,
+            c.data_10 AS realisasi_10,
+            c.data_11 AS realisasi_11,
+            c.data_12 AS realisasi_12,
+            c.data_13 AS realisasi_13,
+            c.data_14 AS realisasi_14,
+            c.data_15 AS realisasi_15,
+            c.data_16 AS realisasi_16,
+            a.created_at AS created_at_target,
+            a.updated_at AS updated_at_target,
+            c.created_at AS created_at_realisasi,
+            c.updated_at AS updated_at_realisasi
+          '))
+          ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
+          ->join('tmRpjmdRealisasiIndikator AS c', 'a.RpjmdRelasiIndikatorID', 'c.RpjmdRelasiIndikatorID');          
+        break;
+        default:
+          $data = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
+            a.RpjmdRelasiIndikatorID,
+            b.IndikatorKinerjaID,
+            b.NamaIndikator,
+            b.Satuan,
+            b.Operasi,
+            a.data_1,
+            a.data_2,
+            a.data_3,
+            a.data_4,
+            a.data_5,
+            a.data_6,
+            a.data_7,
+            a.data_8,
+            a.data_9 ,
+            a.data_10,
+            a.data_11,
+            a.data_12,
+            a.data_13,
+            a.data_14,
+            a.data_15,
+            a.data_16,          
+            a.created_at,
+            a.updated_at
+          '))
+          ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID');          
+      }
+      
+      $item->indikator = $data->where('a.RpjmdCascadingID', $item->RpjmdTujuanID)
+      ->get();
+
+      return $item;
+    });
+
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => [
+        'data' => $indikatorkinerja,
+        'totalRecords' => $totalRecords,
+      ],
+      'message' => 'Fetch data Indikator Tujuan berhasil diperoleh'
+    ], 200);
+  }
+  public function show(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_SHOW');
+
+    $indikatortujuan = [];
+
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'store',
+      'payload' => $indikatortujuan,                                    
+      'message' => 'Data Indikator Tujuan berhasil disimpan.'
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+  }
+  public function indikatortujuan(Request $request, $id)
+  {
+    $this->hasPermissionTo('RPJMD-INDIKASI-TUJUAN_SHOW');
+
+    $indikatortujuan = \DB::table('');
+    
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => $indikatortujuan,                                    
+      'message' => 'Data Indikator Tujuan berhasil diperoleh.'
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
   }
   public function store(Request $request)
   {
