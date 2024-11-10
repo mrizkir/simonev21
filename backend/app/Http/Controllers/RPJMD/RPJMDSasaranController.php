@@ -87,6 +87,44 @@ class RPJMDSasaranController extends Controller
       'message' => 'Fetch data Sasaran berhasil diperoleh'
     ], 200);  
   }
+  public function indikator(Request $request, $id)  
+  {
+    $daftar_indikator = \DB::table('tmRpjmdRelasiIndikator AS a')->select(\DB::raw('
+      a.RpjmdRelasiIndikatorID,
+      b.IndikatorKinerjaID,
+      b.NamaIndikator,
+      b.Satuan,
+      b.Operasi,
+      data_1,
+      data_2,
+      data_3,
+      data_4,
+      data_5,
+      data_6,
+      data_7,
+      data_8,
+      data_9,
+      data_10,
+      data_11,
+      data_12,
+      data_13,
+      data_14,
+      data_15,
+      data_16,
+      a.created_at,
+      a.updated_at
+    '))
+    ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
+    ->where('RpjmdCascadingID', $id)
+    ->get();
+
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => $daftar_indikator,
+      'message' => 'Fetch data Indikator Sasaran berhasil diperoleh'
+    ], 200); 
+  }
   public function indikatorsasaran(Request $request)
   {                
     $this->hasPermissionTo('RPJMD-SASARAN_BROWSE');

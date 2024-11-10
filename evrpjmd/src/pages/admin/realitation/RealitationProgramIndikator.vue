@@ -115,7 +115,7 @@
                       return-object
                       item-value="RpjmdRelasiIndikatorID"
                       item-title="NamaIndikator"
-                      :disabled="editedIndex > 0"
+                      :disabled="editedIndex > -1"
                     />                    
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
                       <v-col cols="auto" md="3" lg="3" tag="dt" class="font-weight-bold">

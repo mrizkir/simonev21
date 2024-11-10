@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\RPJMD;
 
 use App\Http\Controllers\Controller;
-use App\Models\RPJMD\RPJMDRelasiIndikatorModel;
 use Illuminate\Http\Request;
 
 use App\Models\RPJMD\RPJMDTujuanModel;
+use App\Models\RPJMD\RPJMDRelasiIndikatorModel;
 
 use Ramsey\Uuid\Uuid;
 
