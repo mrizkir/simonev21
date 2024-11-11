@@ -101,6 +101,13 @@
                         {{ dataprogram.Nm_Program }}
                       </v-col>
                     </v-row>
+                    <v-row class="mb-3" no-gutters>
+                      <v-col cols="auto" md="12" lg="12">
+                        <v-alert title="Perhatian" type="info">
+                          Nilai N.A (Not Available) diganti dengan -99999.
+                        </v-alert>
+                      </v-col>
+                    </v-row>
                     <hr class="mb-3">
                     <v-autocomplete
                       v-model="formdata.IndikatorKinerja"  
@@ -308,7 +315,7 @@
               <tr class="text-center">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
                 <td>{{ indikator.Satuan }}</td>
-                <td>{{ indikator.data_1 }}</td>                              
+                <td>{{ indikator.data_1 == '-99999' ? 'n.a' :  indikator.data_1 }}</td>                              
                 <td>{{ indikator.data_2 }}</td>                
                 <td>{{ indikator.data_3 }}</td>                
                 <td>{{ indikator.data_4 }}</td>                

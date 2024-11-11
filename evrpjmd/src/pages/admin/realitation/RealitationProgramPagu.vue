@@ -104,8 +104,8 @@
                     <hr class="mb-3">                                        
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[1] }}: {{ $filters.formatUang(data_target.data_2) }}</p>
-                        <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }}:</p>
+                        <p class="mb-1 text-info">Target TA {{ labeltahun[1] }}: {{ $filters.formatUang(data_target.data_2) }}</p>
+                        <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_2) }}</p>
                         <v-number-input
                           v-model="formdata.data_2"  
                           density="compact"                          
@@ -118,8 +118,8 @@
                     <hr class="mb-3">                    
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[2] }}: {{ $filters.formatUang(data_target.data_3) }}</p>
-                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[2] }}:</p>
+                        <p class="mb-1 text-info">Target TA {{ labeltahun[2] }}: {{ $filters.formatUang(data_target.data_3) }}</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[2] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_3) }}</p>
                         <v-number-input
                           v-model="formdata.data_3"  
                           density="compact"                          
@@ -131,8 +131,8 @@
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[3] }}: {{ $filters.formatUang(data_target.data_4) }}</p>
-                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[3] }}:</p>
+                        <p class="mb-1 text-info">Target TA {{ labeltahun[3] }}: {{ $filters.formatUang(data_target.data_4) }}</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[3] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_4) }}</p>
                         <v-number-input
                           v-model="formdata.data_4"  
                           density="compact"                          
@@ -144,8 +144,8 @@
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[4] }}: {{ $filters.formatUang(data_target.data_5) }}</p>
-                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[4] }}:</p>
+                        <p class="mb-1 text-info">Target TA {{ labeltahun[4] }}: {{ $filters.formatUang(data_target.data_5) }}</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[4] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_5) }}</p>
                         <v-number-input
                           v-model="formdata.data_5"  
                           density="compact"                          
@@ -157,8 +157,8 @@
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target TA {{ labeltahun[5] }}: {{ $filters.formatUang(data_target.data_6) }}</p>
-                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[5] }}:</p>
+                        <p class="mb-1 text-info">Target TA {{ labeltahun[5] }}: {{ $filters.formatUang(data_target.data_6) }}</p>
+                        <p class="mb-3">Realisasi Pagu TA {{ labeltahun[5] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_6) }}</p>
                         <v-number-input
                           v-model="formdata.data_6"  
                           density="compact"                          
@@ -170,7 +170,7 @@
                     </v-row>                         
                     <v-row no-gutters>                                         
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1">Target AKhir RPJMD: {{ $filters.formatUang(data_target.data_7) }}</p>
+                        <p class="mb-1 text-info">Target AKhir RPJMD: {{ $filters.formatUang(data_target.data_7) }}</p>
                         <p class="mb-3">Realisasi Akhir RPJMD:</p>                    
                         <v-number-input
                           v-model="formdata.data_7"  
@@ -337,12 +337,20 @@
       form_valid: true,
       disabledrealisasi: true,
       data_target: {
-        data_2: '-',
-        data_3: '-',
-        data_4: '-',
-        data_5: '-',
-        data_6: '-',
-        data_7: '-',
+        data_2: 0,
+        data_3: 0,
+        data_4: 0,
+        data_5: 0,
+        data_6: 0,
+        data_7: 0,
+      },
+      data_realisasi: {
+        data_2: 0,
+        data_3: 0,
+        data_4: 0,
+        data_5: 0,
+        data_6: 0,
+        data_7: 0,
       },
       formdata: {
         RpjmdRealisasiIndikatorID: null,
@@ -473,7 +481,7 @@
         this.dataprogram = item
         
         this.setLabelTahun()
-        
+
         await this.$ajax
           .get('/rpjmd/relations/paguprogram/' + item.PrgID,            
             {
@@ -493,6 +501,42 @@
             this.formdata.RpjmdRelasiIndikatorID = payload.RpjmdRelasiIndikatorID
             this.btnLoading = false  
           })
+
+          await this.$ajax
+          .get('/dmaster/kodefikasi/program/' + item.PrgID,            
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            let payload = data.payload
+            let realisasi = payload.realisasi
+
+            realisasi.forEach(data_r => {
+              if(data_r.TA == this.labeltahun[1]) {
+                this.data_realisasi.data_2 = data_r.total
+                this.formdata.data_2 = data_r.total
+              } else if(data_r.TA == this.labeltahun[2]) {
+                this.data_realisasi.data_3 = data_r.total
+                this.formdata.data_3 = data_r.total
+              } else if(data_r.TA == this.labeltahun[3]) {
+                this.data_realisasi.data_4 = data_r.total
+                this.formdata.data_4 = data_r.total
+              } else if(data_r.TA == this.labeltahun[4]) {
+                this.data_realisasi.data_5 = data_r.total
+                this.formdata.data_5 = data_r.total
+              } else if(data_r.TA == this.labeltahun[5]) {
+                this.data_realisasi.data_6 = data_r.total
+                this.formdata.data_6 = data_r.total
+              } else if(data_r.TA == this.labeltahun[6]) {
+                this.data_realisasi.data_7 = data_r.total
+                this.formdata.data_7 = data_r.total
+              }
+            });		
+          })
+        
       },
       async editItem(dataprogram, item) {
         this.btnLoading = true
@@ -730,7 +774,7 @@
     },
     watch: {
       BidangID(val) {
-        var page = this.pageStore.getPage('RealisasiIndikatorProgram')        
+        var page = this.pageStore.getPage('RealisasiPaguProgram')        
         if (val.length > 0) {
           this.BidangID = val          
           page.BidangID_Selected = val

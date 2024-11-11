@@ -75,6 +75,75 @@ class KodefikasiProgramController extends Controller
       'message' => 'Fetch data kodefikasi program berhasil.'
     ], 200);
   }
+  public function show(Request $request, $id)
+  {
+    $kodefikasiprogram = KodefikasiProgramModel::select(\DB::raw("
+      tmProgram.`PrgID`,
+      tmBidangUrusan.BidangID,
+      tmUrusan.`Kd_Urusan`,
+      tmBidangUrusan.`Kd_Bidang`,			 
+      tmProgram.`Kd_Program`,
+      CASE 
+        WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+          CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
+        ELSE
+          CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+      END AS kode_program,                                        
+      COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
+      COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
+      tmProgram.`Nm_Program`,
+      CASE 
+        WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
+          CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+        ELSE
+          CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+      END AS nama_program,                                        
+      tmProgram.`Jns`,
+      tmProgram.`TA`,                                        
+      tmProgram.`Descr`,
+      tmProgram.`Locked`,
+      '{}' AS 'realisasi',
+      tmProgram.`created_at`,
+      tmProgram.`updated_at`
+    "))
+    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
+    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
+    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
+    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
+    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+    ->where('tmProgram.PrgID', $id)
+    ->first();
+
+    if (is_null($kodefikasiprogram))
+    {
+      return Response()->json([
+        'status'=>0,
+        'pid' => 'update',                
+        'message'=>["Data Kodefikasi Program ($id) gagal diupdate"]
+      ], 422); 
+    }
+    else
+    {   
+      $kodefikasiprogram->realisasi = \DB::table('trRKARealisasiRinc AS a')    
+      ->select(\DB::raw('
+        a.TA,
+        SUM(a.realisasi2) AS total
+      '))
+      ->join('trRKA AS b', 'a.RKAID', 'b.RKAID')
+      ->where('b.kode_program', $kodefikasiprogram->kode_program)
+      ->where('a.EntryLvl', 2)      
+      ->groupBy('a.TA')
+      ->get();
+
+      return Response()->json([
+        'status' => 1,
+        'pid' => 'fetchdata',
+        'payload' => $kodefikasiprogram,
+        'message' => 'Fetch data program berhasil diperoleh.'
+      ], 200);
+    }
+  }
   public function indikatorprogram(Request $request, $id)
   {
     $this->validate($request, [        
