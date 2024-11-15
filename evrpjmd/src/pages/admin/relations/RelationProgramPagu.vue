@@ -375,12 +375,9 @@
       }, 
       labeltahun: [],
       editedIndex: -1,
-      //form rules range
-      rule_kondisi_awal: [
-        value => !!value || 'Mohon untuk diisi nilai kondisi awal !!!',
-      ],      
-      rule_pagu_indikatif: [
-        value => !!value || 'Mohon untuk diisi pagu indikatif program !!!',
+      //form rules range      
+      rule_pagu_indikatif: [        
+        value => value != null || 'Mohon untuk diisi pagu indikatif program !!!',                         
       ],
       rule_kondisi_akhir: [
         value => !!value || 'Mohon untuk diisi nilai target !!!',
@@ -454,8 +451,7 @@
           this.labeltahun.push(tahun);   
         }
       },
-      async addItem(item) {
-        this.btnLoading = true
+      async addItem(item) {        
         this.dialogfrm = true        
         this.dataprogram = item
         
@@ -605,7 +601,7 @@
     },
     computed: {
       formTitle() {
-        return this.editedIndex === -1 ? 'TAMBAH PAGU INDIKATOR' : 'UBAH PAGU INDIKATOR'
+        return this.editedIndex === -1 ? 'TAMBAH PAGU PROGRAM' : 'UBAH PAGU PROGRAM'
       },
       fetchHeader() {
         let periode = this.userStore.PeriodeRPJMD;

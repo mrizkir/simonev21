@@ -1,3 +1,23 @@
 .clickable {
 	cursor: pointer;
 }
+.sangat-rendah {
+	background-color: #b71b1c;
+	color:white;
+}
+.rendah {
+	background-color: #d49dc5;
+	color:white;
+}
+.sedang {
+	background-color: #e1c027;
+	color:white;
+}
+.tinggi {
+	background-color: #8ec189;
+	color:white;
+}
+.sangat-tinggi {
+	background-color: #29af28;
+	color:white;
+}

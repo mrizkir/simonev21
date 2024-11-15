@@ -13,6 +13,10 @@ $router->group(['prefix'=>'v1'], function () use ($router)
   $router->post('/evaluasiperubahan/realisasita', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTAController@front','as'=>'evaluasiperubahanrealisasita.front']);
   $router->post('/evaluasiperubahan/realisasitw', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTWController@front','as'=>'evaluasiperubahanrealisasitw.front']);
   
+  //dashboard - rpjmd - misi
+  $router->post('/rpjmd/dashboard/misi', ['uses'=>'RPJMD\RPJMDDashboardMisiController@index','as'=>'dashboard-rpjmd-misi.index']);
+
+
   //dmaster - kodefikasi - program - realisasi
   $router->get('/dmaster/kodefikasi/program/{id}', ['uses'=>'DMaster\KodefikasiProgramController@show','as'=>'kodefikasi-program.show']);
 
