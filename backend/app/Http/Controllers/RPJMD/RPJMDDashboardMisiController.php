@@ -33,19 +33,21 @@ class RPJMDDashboardMisiController extends Controller
       "SANGAT RENDAH" AS predikat_anggaran,
       "" AS warna_anggaran
     '))
-    ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
+    ->where('PeriodeRPJMDID', $PeriodeRPJMDID)    
     ->orderBy('Kd_RpjmdMisi', 'asc')
     ->get()
     ->transform(function($item, $key) use($PeriodeRPJMDID) {
-      $daftar_tingkat_kinerja = \DB::table('tmRpjmdRealisasiIndikator')
+      $daftar_tingkat_kinerja = \DB::table('tmRpjmdRealisasiIndikator AS a')
       ->select(\DB::raw('
-        ROUND((SUM(data_2 + data_3 + data_4 + data_5 + data_6 + data_7) / 6), 2) AS total
+        COALESCE(ROUND((SUM(a.data_2 + a.data_3 + a.data_4 + a.data_5 + a.data_6 + a.data_7) / 6), 2), 0) AS total
       '))
-      ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
+      ->join('tmRpjmdTujuan AS b', 'a.RpjmdCascadingID', 'b.RpjmdTujuanID')
+      ->where('a.PeriodeRPJMDID', $PeriodeRPJMDID)
+      ->where('b.RpjmdMisiID', $item->RpjmdMisiID)
       ->where('TipeCascading', 'tujuan')
-      ->whereNotNull('IndikatorKinerjaID')
+      ->whereNotNull('IndikatorKinerjaID')      
       ->first();
-
+      
       $tingkat_kinerja = 0;
       if(!is_null($daftar_tingkat_kinerja))
       {
