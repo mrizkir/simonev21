@@ -42,6 +42,8 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="realisasi-indikatorsasaran" to="/admin/realitation/indikatorsasaran" link slim />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="realisasi-indikatorprogram" to="/admin/realitation/indikatorprogram" link slim />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PAGU PROGRAM" value="realisasi-paguprogram" to="/admin/realitation/paguprogram" link slim />        
+        <v-list-subheader title="REPORT" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="FORMULIR E.78" value="report-formulir-e-78" to="/admin/report/formulire78" link slim />
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer

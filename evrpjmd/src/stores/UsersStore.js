@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getActivePinia } from 'pinia'
 
 export const usesUserStore = defineStore('userStore', {
   state: () => ({
@@ -82,11 +83,13 @@ export const usesUserStore = defineStore('userStore', {
     updateFoto() {
 
     },
-    logout() {    
+    logout() {
       this.access_token = null
       this.token_type = null
       this.expires_in = null
       this.user = null
+
+      getActivePinia()._s.forEach(store => store.$reset());
     },
   },
 })

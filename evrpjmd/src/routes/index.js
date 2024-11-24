@@ -216,6 +216,16 @@ const routes = [
     },
     component: () => import('@/pages/admin/realitation/RealitationProgramPagu.vue'),
   },
+  // admin - realitation - program
+  {
+    path: '/admin/report/formulire78',
+    name: 'ReportFormulirE78',
+    meta: {
+      title: 'REPORT - FORMULIR E-78',
+    },
+    component: () => import('@/pages/admin/report/ReportFormulirE78.vue'),
+  },
+
   // other page
   {
     path: '/404',

@@ -376,6 +376,7 @@
       }      
     },
     data: () => ({
+      breadcrumbs: [],
       btnLoading: false,
       datatableLoading: false,
       //filter form
