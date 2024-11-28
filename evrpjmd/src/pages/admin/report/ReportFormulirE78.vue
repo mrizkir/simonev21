@@ -26,11 +26,11 @@
         v-model:items-per-page="itemsPerPage"    
         :headers="fetchHeader"
         :items="datatable"
-        :items-length="totalRecords"
         :loading="datatableLoading"        
         item-value="PrgID"
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
+        hide-default-footer
         disable-sort
       >
         <template v-slot:top>
@@ -39,7 +39,7 @@
               :items="daftar_sasaran_rpjmd"
               density="compact"
               variant="outlined"
-              v-model="BidangID"
+              v-model="RpjmdSasaranID"
               label="SASARAN RPJMD"              
               item-title="Nm_RpjmdSasaran"
               item-value="RpjmdSasaranID"
@@ -119,7 +119,8 @@
             }
           )
           .then(({ data }) => {
-            console.log(data)
+            let payload = data.payload
+            this.daftar_sasaran_rpjmd = payload.data
           })
       },
     },
