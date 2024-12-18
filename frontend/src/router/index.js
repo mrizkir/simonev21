@@ -733,6 +733,16 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjaperubahan/FormBUnitKerjaPerubahan.vue"),
   },
+  {
+    path: "/renjaperubahan/report/formbunitkerja/chart",
+    name: "ReportFormBUnitkerjaChartPerubahan",
+    meta: {
+      title: "BELANJA PERUBAHAN - LAPORAN FORM B UNIT KERJA",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjaperubahan/FormBUnitKerjaChartPerubahan.vue"),
+  },
   //renja perubahan - target kinerja perubahan
   {
     path: "/renjaperubahan/targetkinerja",

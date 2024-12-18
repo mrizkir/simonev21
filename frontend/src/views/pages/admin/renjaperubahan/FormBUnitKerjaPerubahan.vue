@@ -101,8 +101,18 @@
                   color="primary"
                   fab
                   small
+                  to="/renjaperubahan/report/formbunitkerja/chart"
+                  class="ma-2"
+                  :disabled="btnLoading || datatableLoaded"
+                >
+                  <v-icon>mdi-chart-bar</v-icon>
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  fab
+                  small
                   @click.stop="printtoexcel"
-                  :disabled="btnLoading || datatableLoaded | true"
+                  :disabled="btnLoading || datatableLoaded"
                 >
                   <v-icon>mdi-printer</v-icon>
                 </v-btn>
