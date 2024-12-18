@@ -166,7 +166,7 @@
       async initialize() {
         await this.$ajax
           .post(
-            "/renjamurni/report/formbunitkerjamurni/chart",
+            "/renjamurni/report/formbunitkerja/chart",
             {
               tahun: this.tahun_anggaran,
               no_bulan: this.bulan_realisasi,

@@ -389,19 +389,15 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjamurni/report/forma', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAMurniController@index','as'=>'formamurni.index']);
   $router->post('/renjamurni/report/forma/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAMurniController@printtoexcel','as'=>'formamurni.printtoexcel']);    
 
-  //renja - report - form b unit kerja
-  $router->post('/renjamurni/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@index','as'=>'formbunitkerjamurni.index']);
-  $router->post('/renjamurni/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);
-
   //report - form b opd murni
   $router->post('/renjamurni/report/formbopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDMurniController@index','as'=>'formbopdmurni.index']);    
   $router->post('/renjamurni/report/formbopd/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDMurniController@chart','as'=>'formbopdmurni.chart']);    
   $router->post('/renjamurni/report/formbopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDMurniController@printtoexcel','as'=>'formbopdmurni.printtoexcel']);    
   
-  //report - form b unit kerja murni
-  $router->post('/renjamurni/report/formbunitkerjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@index','as'=>'formbunitkerjamurni.index']);    
-  $router->post('/renjamurni/report/formbunitkerjamurni/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@chart','as'=>'formbunitkerjamurni.chart']);    
-  $router->post('/renjamurni/report/formbunitkerjamurni/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);    
+  //renja - report - form b unit kerja
+  $router->post('/renjamurni/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@index','as'=>'formbunitkerjamurni.index']);    
+  $router->post('/renjamurni/report/formbunitkerja/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@chart','as'=>'formbunitkerjamurni.chart']);    
+  $router->post('/renjamurni/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);    
   
   //renja - snapshot murni
   $router->post('/snapshot/rkamurni', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@index','as'=>'snapshotrkamurni.index']);
@@ -452,19 +448,15 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjaperubahan/report/forma', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAPerubahanController@index','as'=>'formaperubahan.index']);
   $router->post('/renjaperubahan/report/forma/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormAPerubahanController@printtoexcel','as'=>'formaperubahan.printtoexcel']);    
 
-  //renja perubahan - report - form b unit kerja
-  $router->post('/renjaperubahan/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@index','as'=>'formbunitkerjaperubahan.index']);
-  $router->post('/renjaperubahan/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerjaperubahan.printtoexcel']);
-
   //renja perubahan - form b opd perubahan
   $router->post('/renjaperubahan/report/formbopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDPerubahanController@index','as'=>'formbopdperubahan.index']);    
   $router->post('/renjaperubahan/report/formbopd/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDPerubahanController@chart','as'=>'formbopdperubahan.chart']);    
   $router->post('/renjaperubahan/report/formbopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBOPDPerubahanController@printtoexcel','as'=>'formbopdperubahan.printtoexcel']);    
   
-  //renja perubahan - form b unit kerja perubahan
-  $router->post('/renjaperubahan/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@index','as'=>'formbunitkerjaperubahan.index']);    
+  //renja perubahan - report - form b unit kerja  perubahan
+  $router->post('/renjaperubahan/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@index','as'=>'formbunitkerjaperubahan.index']);
   $router->post('/renjaperubahan/report/formbunitkerja/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@chart','as'=>'formbunitkerjaperubahan.chart']);    
-  $router->post('/renjaperubahan/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerjaperubahan.printtoexcel']);    
+  $router->post('/renjaperubahan/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerjaperubahan.printtoexcel']);
   
   //renja - snapshot perubahan
   $router->post('/snapshot/rkaperubahan', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@index','as'=>'snapshotrkaperubahan.index']);
