@@ -41,15 +41,15 @@ class FormBOPDPerubahanModel extends ReportModel
       ],
     ]);
     
-    $row=1;        
+    $row = 1;        
     $sheet->mergeCells("A$row:U$row");		
-    $sheet->setCellValue("A$row",'LAPORAN FORM B');         
-    $row+=1;        
+    $sheet->setCellValue("A$row", 'LAPORAN FORM B');         
+    $row += 1;        
     $sheet->mergeCells("A$row:U$row");		
     $sheet->setCellValue("A$row",strtoupper($this->dataReport['Nm_Organisasi']." [$kode_organisasi]"));         
-    $row+=1;        
+    $row += 1;        
     $sheet->mergeCells("A$row:U$row");		
-    $sheet->setCellValue("A$row",'KABUPATEN BINTAN');         
+    $sheet->setCellValue("A$row", 'KABUPATEN BINTAN');         
     
     $styleArray=array( 
       'font' => array('bold' => true,'size'=>'11'),
@@ -58,69 +58,69 @@ class FormBOPDPerubahanModel extends ReportModel
     );   
     $sheet->getStyle("A1:A$row")->applyFromArray($styleArray);
 
-    $row+=1;
-    $sheet->setCellValue("A$row",'BULAN : '.Helper::getNamaBulan($this->dataReport['no_bulan']));                
-    $row+=2;
-    $row_akhir=$row+1;
+    $row += 1;
+    $sheet->setCellValue("A$row", 'BULAN : '.Helper::getNamaBulan($this->dataReport['no_bulan']));                
+    $row += 2;
+    $row_akhir = $row + 1;
     $sheet->mergeCells("A$row:A$row_akhir");
-    $sheet->setCellValue("A$row",'NOMOR');                
+    $sheet->setCellValue("A$row", 'NOMOR');                
     $sheet->mergeCells("B$row:B$row_akhir");
-    $sheet->setCellValue("B$row",'KODE');
+    $sheet->setCellValue("B$row", 'KODE');
     $sheet->mergeCells("C$row:C$row_akhir");
-    $sheet->setCellValue("C$row",'PROGRAM/KEGIATAN');
+    $sheet->setCellValue("C$row", 'PROGRAM/KEGIATAN');
     $sheet->mergeCells("D$row:D$row_akhir");
-    $sheet->setCellValue("D$row",'UNIT KERJA');
+    $sheet->setCellValue("D$row", 'UNIT KERJA');
     $sheet->mergeCells("E$row:E$row_akhir");
-    $sheet->setCellValue("E$row",'PAGU DANA (RP)');
+    $sheet->setCellValue("E$row", 'PAGU DANA (RP)');
     $sheet->mergeCells("F$row:F$row_akhir");
-    $sheet->setCellValue("F$row",'BOBOT (%)');
+    $sheet->setCellValue("F$row", 'BOBOT (%)');
     $sheet->mergeCells("G$row:I$row");
-    $sheet->setCellValue("G$row",'FISIK');                
+    $sheet->setCellValue("G$row", 'FISIK');                
     $sheet->mergeCells("J$row:N$row");
-    $sheet->setCellValue("J$row",'KEUANGAN'); 
+    $sheet->setCellValue("J$row", 'KEUANGAN'); 
     $sheet->mergeCells("O$row:O$row_akhir");
-    $sheet->setCellValue("O$row",'LOKASI');
+    $sheet->setCellValue("O$row", 'LOKASI');
     $sheet->mergeCells("P$row:Q$row");
-    $sheet->setCellValue("P$row",'SISA ANGGARAN');                 
+    $sheet->setCellValue("P$row", 'SISA ANGGARAN');                 
     $sheet->mergeCells("R$row:U$row");
-    $sheet->setCellValue("R$row",'INDIKATOR KINERJA KELUARAN (OUTPUT)');                 
-    $row_akhir=$row+1;                
-    $sheet->setCellValue("G$row_akhir",'TARGET (%)');                
-    $sheet->setCellValue("H$row_akhir",'REALISASI (%)');  
-    $sheet->setCellValue("I$row_akhir",'TTB (%)');
-    $sheet->setCellValue("J$row_akhir",'TARGET (RP)');
-    $sheet->setCellValue("K$row_akhir",'TARGET (%)');
-    $sheet->setCellValue("L$row_akhir",'REALISASI (RP)');
-    $sheet->setCellValue("M$row_akhir",'REALISASI (%)');
-    $sheet->setCellValue("N$row_akhir",'TTB (%)');
-    $sheet->setCellValue("P$row_akhir",'(RP)');
-    $sheet->setCellValue("Q$row_akhir",'(%)');                
-    $sheet->setCellValue("R$row_akhir",'INDIKATOR KINERJA'); 
-    $sheet->setCellValue("S$row_akhir",'TARGET KINERJA'); 
-    $sheet->setCellValue("T$row_akhir",'REALISASI KINERJA'); 
-    $sheet->setCellValue("U$row_akhir",'(%)'); 
-    $row_akhir=$row+2;
-    $sheet->setCellValue("A$row_akhir",'1');                
-    $sheet->setCellValue("B$row_akhir",'2');
-    $sheet->setCellValue("C$row_akhir",'3');
-    $sheet->setCellValue("D$row_akhir",'4');
-    $sheet->setCellValue("E$row_akhir",'5');
-    $sheet->setCellValue("F$row_akhir",'6');
-    $sheet->setCellValue("G$row_akhir",'7');
-    $sheet->setCellValue("H$row_akhir",'8');
-    $sheet->setCellValue("I$row_akhir",'9');
-    $sheet->setCellValue("J$row_akhir",'10');
-    $sheet->setCellValue("K$row_akhir",'11');
-    $sheet->setCellValue("L$row_akhir",'12');
-    $sheet->setCellValue("M$row_akhir",'13');
-    $sheet->setCellValue("N$row_akhir",'14');                          
-    $sheet->setCellValue("O$row_akhir",'15');
-    $sheet->setCellValue("P$row_akhir",'16');
-    $sheet->setCellValue("Q$row_akhir",'17');
-    $sheet->setCellValue("R$row_akhir",'18');
-    $sheet->setCellValue("S$row_akhir",'19');            
-    $sheet->setCellValue("T$row_akhir",'20'); 
-    $sheet->setCellValue("U$row_akhir",'21'); 
+    $sheet->setCellValue("R$row", 'INDIKATOR KINERJA KELUARAN (OUTPUT)');                 
+    $row_akhir = $row + 1;                
+    $sheet->setCellValue("G$row_akhir", 'TARGET (%)');                
+    $sheet->setCellValue("H$row_akhir", 'REALISASI (%)');  
+    $sheet->setCellValue("I$row_akhir", 'TTB (%)');
+    $sheet->setCellValue("J$row_akhir", 'TARGET (RP)');
+    $sheet->setCellValue("K$row_akhir", 'TARGET (%)');
+    $sheet->setCellValue("L$row_akhir", 'REALISASI (RP)');
+    $sheet->setCellValue("M$row_akhir", 'REALISASI (%)');
+    $sheet->setCellValue("N$row_akhir", 'TTB (%)');
+    $sheet->setCellValue("P$row_akhir", '(RP)');
+    $sheet->setCellValue("Q$row_akhir", '(%)');                
+    $sheet->setCellValue("R$row_akhir", 'INDIKATOR KINERJA'); 
+    $sheet->setCellValue("S$row_akhir", 'TARGET KINERJA'); 
+    $sheet->setCellValue("T$row_akhir", 'REALISASI KINERJA'); 
+    $sheet->setCellValue("U$row_akhir", '(%)'); 
+    $row_akhir = $row+2;
+    $sheet->setCellValue("A$row_akhir", '1');                
+    $sheet->setCellValue("B$row_akhir", '2');
+    $sheet->setCellValue("C$row_akhir", '3');
+    $sheet->setCellValue("D$row_akhir", '4');
+    $sheet->setCellValue("E$row_akhir", '5');
+    $sheet->setCellValue("F$row_akhir", '6');
+    $sheet->setCellValue("G$row_akhir", '7');
+    $sheet->setCellValue("H$row_akhir", '8');
+    $sheet->setCellValue("I$row_akhir", '9');
+    $sheet->setCellValue("J$row_akhir", '10');
+    $sheet->setCellValue("K$row_akhir", '11');
+    $sheet->setCellValue("L$row_akhir", '12');
+    $sheet->setCellValue("M$row_akhir", '13');
+    $sheet->setCellValue("N$row_akhir", '14');                          
+    $sheet->setCellValue("O$row_akhir", '15');
+    $sheet->setCellValue("P$row_akhir", '16');
+    $sheet->setCellValue("Q$row_akhir", '17');
+    $sheet->setCellValue("R$row_akhir", '18');
+    $sheet->setCellValue("S$row_akhir", '19');            
+    $sheet->setCellValue("T$row_akhir", '20'); 
+    $sheet->setCellValue("U$row_akhir", '21'); 
     
     $sheet->getColumnDimension('A')->setWidth(10);
     $sheet->getColumnDimension('B')->setWidth(15);                
@@ -170,7 +170,7 @@ class FormBOPDPerubahanModel extends ReportModel
     $total_ttb_fisik=0;
     $totalTargetKeuanganKeseluruhan=0;
     $totalRealisasiKeuanganKeseluruhan=0;
-    $total_ttb_keuangan=0;
+    $total_ttb_keuangan = 0;
     $totalSisaAnggaran=0;
 
     $daftar_program=\DB::table('trRKA')
@@ -350,7 +350,7 @@ class FormBOPDPerubahanModel extends ReportModel
               $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
               $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana2);
 
-              $persen_tertimbang_keuangan=0.00;
+              $persen_tertimbang_keuangan = 0.00;
               if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
               {
                 $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
@@ -360,7 +360,7 @@ class FormBOPDPerubahanModel extends ReportModel
               $sisa_anggaran=$data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;
               $totalSisaAnggaran+=$sisa_anggaran;
 
-              $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);
+              $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);
               
               $sheet->setCellValue("A$row",chr($no_huruf) .'.'.$no_kegiatan.'.'.$no_sub_kegiatan);
               $sheet->setCellValue("B$row",$kode_sub_kegiatan);                              
@@ -399,16 +399,16 @@ class FormBOPDPerubahanModel extends ReportModel
             
             $persen_target_keuangan=Helper::formatPersen($target_keuangan_kegiatan,$pagu_dana_kegiatan);
             $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);
-            $persen_tertimbang_keuangan=0.00;
+            $persen_tertimbang_keuangan = 0.00;
             if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
             }
 
             $sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
-            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
+            $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
 
-            $sheet->setCellValue("D$kegiatan_last_row",'N/A');
+            $sheet->setCellValue("D$kegiatan_last_row", 'N/A');
             $sheet->setCellValue("E$kegiatan_last_row",Helper::formatUang($pagu_dana_kegiatan));  
             $sheet->setCellValue("F$kegiatan_last_row",$persen_bobot);  
             $sheet->setCellValue("G$kegiatan_last_row",$persen_target_fisik);
@@ -419,7 +419,7 @@ class FormBOPDPerubahanModel extends ReportModel
             $sheet->setCellValue("L$program_last_row",Helper::formatUang($realisasi_keuangan_kegiatan));  
             $sheet->setCellValue("M$program_last_row",$persen_realisasi_keuangan);  
             $sheet->setCellValue("N$program_last_row",$persen_tertimbang_keuangan);  
-            $sheet->setCellValue("O$program_last_row",'N/A');  
+            $sheet->setCellValue("O$program_last_row", 'N/A');  
             $sheet->setCellValue("P$program_last_row",Helper::formatUang($sisa_anggaran)); 
             $sheet->setCellValue("Q$program_last_row",$persen_sisa_anggaran);    
           }
@@ -440,16 +440,16 @@ class FormBOPDPerubahanModel extends ReportModel
       
       $persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
       $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);
-      $persen_tertimbang_keuangan=0.00;
+      $persen_tertimbang_keuangan = 0.00;
       if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
       {
         $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
       }
 
       $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
-      $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
+      $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
       
-      $sheet->setCellValue("D$program_last_row",'N/A');
+      $sheet->setCellValue("D$program_last_row", 'N/A');
       $sheet->setCellValue("E$program_last_row",Helper::formatUang($pagu_dana_program));  
       $sheet->setCellValue("F$program_last_row",$persen_bobot);  
       $sheet->setCellValue("G$program_last_row",$persen_target_fisik);  
@@ -460,7 +460,7 @@ class FormBOPDPerubahanModel extends ReportModel
       $sheet->setCellValue("L$program_last_row",Helper::formatUang($realisasi_keuangan_program));  
       $sheet->setCellValue("M$program_last_row",$persen_realisasi_keuangan);  
       $sheet->setCellValue("N$program_last_row",$persen_tertimbang_keuangan);  
-      $sheet->setCellValue("O$program_last_row",'N/A');  
+      $sheet->setCellValue("O$program_last_row", 'N/A');  
       $sheet->setCellValue("P$program_last_row",Helper::formatUang($sisa_anggaran)); 
       $sheet->setCellValue("Q$program_last_row",$persen_sisa_anggaran);  
 
@@ -474,10 +474,10 @@ class FormBOPDPerubahanModel extends ReportModel
     $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
     $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
     $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
-    $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
+    $totalPersenSisaAnggaran = Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
 
     $sheet->mergeCells("A$row:D$row");                
-    $sheet->setCellValue("A$row",'Jumlah');                                       
+    $sheet->setCellValue("A$row", 'Jumlah');                                       
     $sheet->setCellValue("E$row",Helper::formatUang($totalPaguOPD));
     $sheet->setCellValue("F$row",$totalPersenBobot);
 
@@ -519,19 +519,19 @@ class FormBOPDPerubahanModel extends ReportModel
 
     $row+=3;
     $sheet->mergeCells("L$row:N$row");
-    $sheet->setCellValue("L$row",'Kabupaten Bintan, '.Helper::tanggal('d F Y'));
-    $row+=1;
+    $sheet->setCellValue("L$row", 'Kabupaten Bintan, '.Helper::tanggal('d F Y'));
+    $row += 1;
     
     $sheet->mergeCells("L$row:N$row");
-    $sheet->setCellValue("L$row",'Pengguna Anggaran');                                          
+    $sheet->setCellValue("L$row", 'Pengguna Anggaran');                                          
         
     $row+=5;
     $sheet->mergeCells("L$row:N$row");
     $sheet->setCellValue("L$row",$this->dataReport['nama_pengguna_anggaran']);
-    $row+=1;                
+    $row += 1;                
     
     $sheet->mergeCells("L$row:N$row");
-    $sheet->setCellValue("L$row",'Nip.'.Helper::formatNIP($this->dataReport['nip_pengguna_anggaran']));
+    $sheet->setCellValue("L$row", 'Nip.'.Helper::formatNIP($this->dataReport['nip_pengguna_anggaran']));
 
   }
 }

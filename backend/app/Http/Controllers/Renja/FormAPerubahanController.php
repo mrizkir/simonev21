@@ -562,7 +562,7 @@ class FormAPerubahanController extends Controller
       
       $sisa_anggaran = $data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;							
               
-      $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana2);                            
+      $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana2);                            
 
     
       Statistik6Model::create([

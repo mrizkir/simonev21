@@ -49,7 +49,7 @@ class FormBOPDPerubahanController extends Controller
     $total_ttb_fisik=0;
     $totalTargetKeuanganKeseluruhan=0;
     $totalRealisasiKeuanganKeseluruhan=0;
-    $total_ttb_keuangan=0;
+    $total_ttb_keuangan = 0;
 
     $daftar_program=\DB::table('trRKA')
       ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
@@ -229,7 +229,7 @@ class FormBOPDPerubahanController extends Controller
               $totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
               $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana2);  
               
-              $persen_tertimbang_keuangan=0.00;
+              $persen_tertimbang_keuangan = 0.00;
               if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
               {
                 $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
@@ -238,7 +238,7 @@ class FormBOPDPerubahanController extends Controller
 
               $sisa_anggaran = $data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;							
               
-              $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);                            
+              $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);                            
 
               $data[$row]=[
                 'FormBPerubahanID'=>Uuid::uuid4()->toString(),
@@ -278,14 +278,14 @@ class FormBOPDPerubahanController extends Controller
 
             $persen_target_keuangan=Helper::formatPersen($target_keuangan_kegiatan,$pagu_dana_kegiatan);
             $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);  
-            $persen_tertimbang_keuangan=0.00;
+            $persen_tertimbang_keuangan = 0.00;
             if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
             }	
 
             $sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
-            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
+            $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
             
             $data[$kegiatan_last_row]=[
               'FormBPerubahanID'=>Uuid::uuid4()->toString(),
@@ -325,14 +325,14 @@ class FormBOPDPerubahanController extends Controller
 
       $persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
       $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);  
-      $persen_tertimbang_keuangan=0.00;
+      $persen_tertimbang_keuangan = 0.00;
       if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
       {
         $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
       }	
 
       $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
-      $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);                            
+      $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_program);                            
       $data[$program_last_row]=[
         'FormBPerubahanID'=>Uuid::uuid4()->toString(),
         'RKAID'=>null,
@@ -365,7 +365,7 @@ class FormBOPDPerubahanController extends Controller
     $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
     $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
     $totalSisaAnggaran = $totalPaguOPD - $totalRealisasiKeuanganKeseluruhan;
-    $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
+    $totalPersenSisaAnggaran = Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
     $totalPersenBobot=round($totalPersenBobot,2);
     $total_ttb_fisik=round($total_ttb_fisik,2);
     $total_ttb_keuangan=round($total_ttb_keuangan,2);

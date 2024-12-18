@@ -46,7 +46,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 		$total_ttb_fisik=0;
 		$totalTargetKeuanganKeseluruhan=0;
 		$totalRealisasiKeuanganKeseluruhan=0;
-		$total_ttb_keuangan=0;
+		$total_ttb_keuangan = 0;
 		$totalSisaAnggaran=0;
 
 		$daftar_program=\DB::table('trRKA')
@@ -221,7 +221,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 							$totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
 							$persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana2);
 
-							$persen_tertimbang_keuangan=0.00;
+							$persen_tertimbang_keuangan = 0.00;
 							if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
 							{
 								$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
@@ -231,7 +231,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 							$sisa_anggaran = $data_sub_kegiatan->PaguDana2-$totalRealisasiKeuangan;
 							$totalSisaAnggaran+= $sisa_anggaran;
 
-							$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);
+							$persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana2);
 
 							$data[$row]=[
 								'FormBPerubahanID'=>Uuid::uuid4()->toString(),
@@ -269,14 +269,14 @@ class FormBUnitKerjaPerubahanController extends Controller
 						}
 
 						$persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);
-						$persen_tertimbang_keuangan=0.00;
+						$persen_tertimbang_keuangan = 0.00;
 						if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
 						{
 							$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
 						}
 
 						$sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
-						$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
+						$persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
 
 						$data[$kegiatan_last_row]=[
 							'FormBPerubahanID'=>Uuid::uuid4()->toString(),
@@ -314,14 +314,14 @@ class FormBUnitKerjaPerubahanController extends Controller
 			}
 
 			$persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);
-			$persen_tertimbang_keuangan=0.00;
+			$persen_tertimbang_keuangan = 0.00;
 			if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
 			{
 				$persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
 			}
 
 			$sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
-			$persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
+			$persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
 			$data[$program_last_row]=[
 				'FormBPerubahanID'=>Uuid::uuid4()->toString(),
 				'RKAID'=>null,
@@ -352,7 +352,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 		$totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan);
 		$totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);
 		$totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
-		$totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
+		$totalPersenSisaAnggaran = Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
 		$totalPersenBobot=round($totalPersenBobot,2);
 		$total_ttb_fisik=round($total_ttb_fisik,2);
 		$total_ttb_keuangan=round($total_ttb_keuangan,2);

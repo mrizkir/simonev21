@@ -571,7 +571,7 @@ class FormAMurniController extends Controller
       
       $sisa_anggaran = $data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;							
               
-      $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana1);                            
+      $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran, $data_sub_kegiatan->PaguDana1);                            
 
       Statistik6Model::create([
         'Statistik6ID'=>Uuid::uuid4()->toString(),

@@ -46,7 +46,7 @@ class FormBUnitKerjaMurniController extends Controller
     $total_ttb_fisik=0;
     $totalTargetKeuanganKeseluruhan=0;
     $totalRealisasiKeuanganKeseluruhan=0;
-    $total_ttb_keuangan=0;		
+    $total_ttb_keuangan = 0;		
 
     $daftar_program=\DB::table('trRKA')
     ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
@@ -222,7 +222,7 @@ class FormBUnitKerjaMurniController extends Controller
               $totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
               $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$data_sub_kegiatan->PaguDana1);
 
-              $persen_tertimbang_keuangan=0.00;
+              $persen_tertimbang_keuangan = 0.00;
               if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
               {
                 $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
@@ -231,7 +231,7 @@ class FormBUnitKerjaMurniController extends Controller
 
               $sisa_anggaran = $data_sub_kegiatan->PaguDana1-$totalRealisasiKeuangan;							
 
-              $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
+              $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$data_sub_kegiatan->PaguDana1);
 
               $data[$row]=[
                 'FormBMurniID'=>Uuid::uuid4()->toString(),
@@ -271,14 +271,14 @@ class FormBUnitKerjaMurniController extends Controller
 
             $persen_target_keuangan=Helper::formatPersen($target_keuangan_kegiatan,$pagu_dana_kegiatan);
             $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);
-            $persen_tertimbang_keuangan=0.00;
+            $persen_tertimbang_keuangan = 0.00;
             if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
             }
 
             $sisa_anggaran = $pagu_dana_kegiatan - $realisasi_keuangan_kegiatan;
-            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
+            $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_kegiatan);
 
             $data[$kegiatan_last_row]=[
               'FormBMurniID'=>Uuid::uuid4()->toString(),
@@ -318,14 +318,14 @@ class FormBUnitKerjaMurniController extends Controller
 
       $persen_target_keuangan=Helper::formatPersen($target_keuangan_program,$pagu_dana_program);
       $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_program,$pagu_dana_program);
-      $persen_tertimbang_keuangan=0.00;
+      $persen_tertimbang_keuangan = 0.00;
       if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
       {
         $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
       }
 
       $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;
-      $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
+      $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
       $data[$program_last_row]=[
         'FormBMurniID'=>Uuid::uuid4()->toString(),
         'RKAID'=>null,
@@ -358,7 +358,7 @@ class FormBUnitKerjaMurniController extends Controller
     $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);
     $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
     $totalSisaAnggaran = $totalPaguUnit - $totalRealisasiKeuanganKeseluruhan;
-    $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
+    $totalPersenSisaAnggaran = Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
     $totalPersenBobot=round($totalPersenBobot,2);
     $total_ttb_fisik=round($total_ttb_fisik,2);
     $total_ttb_keuangan=round($total_ttb_keuangan,2);
@@ -477,17 +477,17 @@ class FormBUnitKerjaMurniController extends Controller
         'nama_pengguna_anggaran' => $unitkerja->NamaKepalaUnitKerja,
         'nip_pengguna_anggaran' => $unitkerja->NIPKepalaUnitKerja
       ];
-      $report= new \App\Models\Renja\FormBUnitKerjaMurniModel ($data_report);
+      $report= new \App\Models\Renja\FormBUnitKerjaMurniModel($data_report);
       $generate_date=date('Y-m-d_H_m_s');
       return $report->download("form_b_$generate_date.xlsx");
     }
     else
     {
       return Response()->json([
-                  'status'=>0,
-                  'pid' => 'fetchdata',
-                  'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
-                ], 422);
+        'status'=>0,
+        'pid' => 'fetchdata',
+        'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
+      ], 422);
     }
 
   }

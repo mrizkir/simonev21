@@ -14,7 +14,7 @@ class HelperReport
 	/**
 	* posisi row sekarang	
 	*/
-	private $currentRow=1;
+	private $currentrow = 1;
 	
 	/**
 	 * digunakan untuk inisialisasi awal

@@ -371,7 +371,7 @@ class DAKMurniController extends Controller
       $total_ttb_fisik=0;
       $totalTargetKeuanganKeseluruhan=0;
       $totalRealisasiKeuanganKeseluruhan=0;
-      $total_ttb_keuangan=0;
+      $total_ttb_keuangan = 0;
       $totalSisaAnggaran=0;     
       
       $daftar_sub_kegiatan = \DB::table('trRKA')
@@ -430,7 +430,7 @@ class DAKMurniController extends Controller
           $totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
           $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
           
-          $persen_tertimbang_keuangan=0.00;
+          $persen_tertimbang_keuangan = 0.00;
           if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
           {
             $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
@@ -440,7 +440,7 @@ class DAKMurniController extends Controller
           $sisa_anggaran = $nilai_pagu_proyek-$totalRealisasiKeuangan;
           $totalSisaAnggaran+= $sisa_anggaran; 
           
-          $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
+          $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
           $total_sub_kegiatan+=1;
         }
@@ -453,7 +453,7 @@ class DAKMurniController extends Controller
       $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
       $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
       $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
-      $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
+      $totalPersenSisaAnggaran = Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
       $totalPersenBobot=round($totalPersenBobot,2);
       $total_ttb_fisik=round($total_ttb_fisik,2);
       $total_ttb_keuangan=round($total_ttb_keuangan,2);
@@ -528,7 +528,7 @@ class DAKMurniController extends Controller
       $total_ttb_fisik=0;
       $totalTargetKeuanganKeseluruhan=0;
       $totalRealisasiKeuanganKeseluruhan=0;
-      $total_ttb_keuangan=0;
+      $total_ttb_keuangan = 0;
       $totalSisaAnggaran=0; 
     
       for ($i=1;$i<=12;$i++)
@@ -542,7 +542,7 @@ class DAKMurniController extends Controller
         $total_ttb_fisik=0;
         $totalTargetKeuanganKeseluruhan=0;
         $totalRealisasiKeuanganKeseluruhan=0;
-        $total_ttb_keuangan=0;
+        $total_ttb_keuangan = 0;
         $totalSisaAnggaran=0;     
 
         $daftar_sub_kegiatan = \DB::table('trRKA')
@@ -609,7 +609,7 @@ class DAKMurniController extends Controller
             $totalRealisasiKeuanganKeseluruhan+= $totalRealisasiKeuangan;
             $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
             
-            $persen_tertimbang_keuangan=0.00;
+            $persen_tertimbang_keuangan = 0.00;
             if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);                            
@@ -619,7 +619,7 @@ class DAKMurniController extends Controller
             $sisa_anggaran = $nilai_pagu_proyek-$totalRealisasiKeuangan;
             $totalSisaAnggaran+= $sisa_anggaran; 
             
-            $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
+            $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);
 
             $total_sub_kegiatan+=1;
           }
@@ -631,7 +631,7 @@ class DAKMurniController extends Controller
         $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$total_sub_kegiatan); 
         $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguOPD);                
         $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguOPD);
-        $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
+        $totalPersenSisaAnggaran = Helper::formatPersen($totalSisaAnggaran,$totalPaguOPD);
         $totalPersenBobot=round($totalPersenBobot,2);
         $total_ttb_fisik=round($total_ttb_fisik,2);
         $total_ttb_keuangan=round($total_ttb_keuangan,2);
