@@ -11,8 +11,7 @@ use App\Models\RPJMD\RPJMDSasaranModel;
 use Ramsey\Uuid\Uuid;
 
 class RPJMDSasaranController extends Controller 
-{    
-  
+{
   /**
    * Show the form for creating a new resource.
    *

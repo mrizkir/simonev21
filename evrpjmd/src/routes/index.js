@@ -218,12 +218,12 @@ const routes = [
   },
   // admin - realitation - program
   {
-    path: '/admin/report/formulire78',
-    name: 'ReportFormulirE78',
+    path: '/admin/report/formulire78pertahun',
+    name: 'ReportFormulirE78PerTahun',
     meta: {
-      title: 'REPORT - FORMULIR E-78',
+      title: 'REPORT - FORMULIR E-78 PER TAHUN',
     },
-    component: () => import('@/pages/admin/report/ReportFormulirE78.vue'),
+    component: () => import('@/pages/admin/report/ReportFormulirE78PerTahun.vue'),
   },
 
   // other page

@@ -324,6 +324,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->get('/rpjmd/realitations/paguprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@showpagu','as'=>'rpjmd-realitations-pagu-program.showpagu']);
   $router->put('/rpjmd/realitations/paguprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRealitationsIndikatorProgramController@updatepagu','as'=>'rpjmd-realitations-pagu-program.update']);
 
+  //rpjmd - report - formulirE.78
+  $router->post('/rpjmd/report/formulire78', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDReportFormulirE78Controller@index','as'=>'rpjmd-report-formulir-e78.index']);
+
   //renja murni
   $router->post('/renjamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@index','as'=>'renjamurni.index']);
   $router->post('/renjamurni/reloadstatistik1', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RenjaMurniController@reloadstatistik1','as'=>'renjamurni.reloadstatistik1']);
