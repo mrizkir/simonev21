@@ -10,3 +10,4 @@ Homestead.yaml
 .DS_STORE
 .editorconfig
 composer.lock
+phpunit.xml
