@@ -619,7 +619,7 @@ class SnapshotRKAMurniController extends Controller
     ->get();   
 
     $is_locked = 0;
-    $data->transform(function ($item,$key) {                            
+    $data->transform(function ($item, $key) {                            
       $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1, $item->PaguDana1);
       return $item;
     });

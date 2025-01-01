@@ -483,7 +483,7 @@ class RKAMurniController extends Controller
     else
     {
       $is_locked = 0;
-      $data->transform(function ($item,$key) {                            
+      $data->transform(function ($item, $key) {                            
         $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1, $item->PaguDana1);
         return $item;
       });
@@ -1347,7 +1347,7 @@ class RKAMurniController extends Controller
       ->orderBy('trRKARinc.kode_uraian1', 'ASC')
       ->get();
       
-      $data->transform(function ($item,$key) {
+      $data->transform(function ($item, $key) {
         $item->realisasi1 = \DB::table('trRKARealisasiRinc')->where('RKARincID', $item->RKARincID)->sum('realisasi1');    
         $item->fisik1 = \DB::table('trRKARealisasiRinc')->where('RKARincID', $item->RKARincID)->sum('fisik1');
         $item->persen_keuangan1 = Helper::formatPersen($item->realisasi1, $item->PaguUraian1);

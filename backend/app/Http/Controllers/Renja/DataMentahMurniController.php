@@ -48,7 +48,7 @@ class DataMentahMurniController extends Controller
       ->orderBy('kode_kegiatan', 'ASC')
       ->get();        
     
-    $data->transform(function($item,$key) use ($organisasi) 
+    $data->transform(function($item, $key) use ($organisasi) 
     {
       $rka = \DB::table('trRKA')
       ->where('OrgID', $organisasi->OrgID)

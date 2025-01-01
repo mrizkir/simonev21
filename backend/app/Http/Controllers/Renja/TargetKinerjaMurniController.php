@@ -238,7 +238,7 @@ class TargetKinerjaMurniController extends Controller
             ->orderBy('kode_sub_kegiatan', 'ASC')
             ->get();        
     
-    $data->transform(function ($item,$key) {
+    $data->transform(function ($item, $key) {
       $item->TargetKeuangan1 = \DB::table('trRKATargetRinc')
         ->where('RKAID', $item->RKAID)				
         ->sum('target1');

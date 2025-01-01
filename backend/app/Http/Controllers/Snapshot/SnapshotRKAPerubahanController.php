@@ -619,7 +619,7 @@ class SnapshotRKAPerubahanController extends Controller
     ->get();   
 
     $is_locked = 0;
-    $data->transform(function ($item,$key) {                            
+    $data->transform(function ($item, $key) {                            
       $item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2, $item->PaguDana2);
       return $item;
     });

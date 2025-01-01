@@ -34,7 +34,7 @@ class DAKMurniController extends Controller
     ->orderBy('Kd_SumberDana', 'ASC')
     ->get();
 
-    $daftar_sumber_dana->transform(function($item,$key) 
+    $daftar_sumber_dana->transform(function($item, $key) 
     {
       $jumlahuraian = \DB::table('trRKARinc')->where('SumberDanaID', $item->SumberDanaID)->count();	
       $PaguUraian1 = \DB::table('trRKARinc')->where('SumberDanaID', $item->SumberDanaID)->sum('PaguUraian1');	

@@ -73,7 +73,8 @@ class RPJMDSasaranController extends Controller
     {
       $search = $request->input('search');
       $data = $data->where('Nm_RpjmdSasaran', 'LIKE', "%$search%")
-      ->orWhere('Kd_RpjmdSasaran', $search);
+      ->orWhere('Kd_RpjmdSasaran', $search)
+      ->orWhere('RpjmdSasaranID', $search);
     }
 
     return Response()->json([
