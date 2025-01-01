@@ -47,6 +47,12 @@
             />
           </v-toolbar>
         </template>
+        <template v-slot:item="{ index, item }">
+          <tr class="bg-grey-lighten-5">
+            <td>{{ (indexOffset + index) + 1 }}</td>
+            
+          </tr>
+        </template>
       </v-data-table-server>
     </v-container>
   </v-main-layout>
