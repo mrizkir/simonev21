@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola strategi RPJMD dengan program.
+          Halaman ini digunakan untuk mengelola relasi strategi RPJMD dengan program.
         </v-alert>
       </template>      
     </v-page-header>
@@ -31,12 +31,18 @@
             <v-card-text>
               <v-row justify="space-between">
                 <v-col cols="auto" md="12" lg="12">
-                  <v-row tag="dl" class="text-body-2" no-gutters>
-                    <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      ID
+                  <v-row tag="dl" class="text-body-2 mb-2" no-gutters>
+                    <v-col cols="auto" md="12" lg="2" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                      ID STRATEGI
                     </v-col>
-                    <v-col cols="auto" md="12" lg="12" tag="dt">
+                    <v-col cols="auto" md="12" lg="4" tag="dt">
                       {{ data_strategi.RpjmdStrategiID }}
+                    </v-col>
+                    <v-col cols="auto" md="12" lg="2" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                      ID SASARAN
+                    </v-col>
+                    <v-col cols="auto" md="12" lg="4" tag="dt">
+                      <a href="">{{ data_strategi.RpjmdSasaranID }}</a>
                     </v-col>
                   </v-row>                 
                   <v-row tag="dl" class="text-body-2" no-gutters>
@@ -75,7 +81,7 @@
             <v-card>
               <v-card-title>
                 <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                <span class="headline">TAMBAH PROGRAM</span>
+                <span class="headline">TAMBAH PROGRAM UNTUK STRATEGI INI</span>
               </v-card-title>
               <v-card-text>
                 <v-text-field

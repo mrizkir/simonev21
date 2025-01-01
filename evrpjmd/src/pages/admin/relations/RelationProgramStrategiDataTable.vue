@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title class="d-flex align-center pe-2">
           <v-icon icon="mdi-graph"></v-icon> &nbsp;
-          DAFTAR PROGRAM
+          DAFTAR PROGRAM UNTUK STRATEGI INI
           <v-spacer></v-spacer>   
           <v-spacer></v-spacer>
           <v-text-field

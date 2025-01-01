@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola strategi RPJMD dengan program.
+          Halaman ini digunakan untuk mengelola relasi strategi RPJMD dengan program.
         </v-alert>
       </template>      
     </v-page-header>
