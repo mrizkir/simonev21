@@ -327,14 +327,14 @@ class FormAPerubahanModel extends ReportModel
 		$sheet->getRowDimension($row+3)->setRowHeight(24);
 
 		$totalPaguDana=0;
-		$totalTargetSatuKegiatan=0;
-		$totalRealisasiSatuKegiatan=0;
-		$totalPersenBobotSatuKegiatan=0;
-		$totalPersenFisikSatuKegiatan=0;
-		$totalUraian=0;
-		$totalPersenTertimbangFisikSatuKegiatan=0;
-		$totalPersenTargetSatuKegiatan=0;
-		$totalPersenRealisasiSatuKegiatan=0;
+		$totalTargetSatuKegiatan = 0;
+		$totalRealisasiSatuKegiatan = 0;
+		$totalPersenBobotSatuKegiatan = 0;
+		$totalPersenFisikSatuKegiatan = 0;
+		$totalUraian = 0;
+		$totalPersenTertimbangFisikSatuKegiatan = 0;
+		$totalPersenTargetSatuKegiatan = 0;
+		$totalPersenRealisasiSatuKegiatan = 0;
 
 		if (isset($tingkat[1])) {                                        
 			$tingkat_1=$tingkat[1];            
@@ -723,7 +723,7 @@ class FormAPerubahanModel extends ReportModel
 					->select(\DB::raw('bulan2,SUM(target2) AS target'))
 					->where('RKAID',$RKAID)
 					->groupBy('bulan2')
-					->orderBy('bulan2','ASC')
+					->orderBy('bulan2', 'ASC')
 					->get();
 					
 		$triwulan1=0;

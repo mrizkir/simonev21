@@ -43,12 +43,12 @@ class RekeningSubRincianObjekController extends Controller {
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                   ->where('tmROby.TA', $ta)
-                  ->orderBy('Kd_Rek_1','ASC')
-                  ->orderBy('Kd_Rek_2','ASC')
-                  ->orderBy('Kd_Rek_3','ASC')
-                  ->orderBy('Kd_Rek_4','ASC')
-                  ->orderBy('Kd_Rek_5','ASC')
-                  ->orderBy('Kd_Rek_6','ASC')
+                  ->orderBy('Kd_Rek_1', 'ASC')
+                  ->orderBy('Kd_Rek_2', 'ASC')
+                  ->orderBy('Kd_Rek_3', 'ASC')
+                  ->orderBy('Kd_Rek_4', 'ASC')
+                  ->orderBy('Kd_Rek_5', 'ASC')
+                  ->orderBy('Kd_Rek_6', 'ASC')
                   ->get();
 
     return Response()->json([
@@ -190,7 +190,7 @@ class RekeningSubRincianObjekController extends Controller {
     if (is_null($subrincianobjek))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["Data Rekening Rincian Objek ($id) gagal diupdate"]
                 ], 422); 
@@ -263,7 +263,7 @@ class RekeningSubRincianObjekController extends Controller {
     if (is_null($subrincianobjek))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Rekening Rincian Objek ($id) gagal dihapus"]
                 ], 422); 

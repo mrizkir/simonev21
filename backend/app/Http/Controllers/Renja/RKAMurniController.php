@@ -82,7 +82,7 @@ class RKAMurniController extends Controller
       `trRKA`.`updated_at`
       '))
     ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
-    ->where('trRKA.EntryLvl',1)
+    ->where('trRKA.EntryLvl', 1)
     ->find($id);
 
     return $rka;
@@ -99,11 +99,11 @@ class RKAMurniController extends Controller
 
     $data=[
       'datarealisasi'=>[],
-      'totalanggarankas'=>0,
-      'totalrealisasi'=>0,
-      'totaltargetfisik'=>0,
-      'totalfisik'=>0,
-      'sisa_anggaran'=>0,
+      'totalanggarankas' => 0,
+      'totalrealisasi' => 0,
+      'totaltargetfisik' => 0,
+      'totalfisik' => 0,
+      'sisa_anggaran' => 0,
     ];
     if (!is_null($datauraian))        
     {
@@ -121,14 +121,14 @@ class RKAMurniController extends Controller
           `updated_at`
           '))
         ->where('RKARincID', $RKARincID)
-        ->orderBy('bulan1','ASC')
+        ->orderBy('bulan1', 'ASC')
         ->get();
 
       $daftar_realisasi = [];
       $totalanggarankas=0;
       $totalrealisasi=0;
-      $totaltargetfisik=0;
-      $totalfisik=0;
+      $totaltargetfisik = 0;
+      $totalfisik = 0;
 
       foreach ($r as $item)
       {
@@ -464,10 +464,10 @@ class RKAMurniController extends Controller
     ->where('TA', $tahun)
     ->where('EntryLvl', 1)
     ->orderByRaw('kode_urusan="X" DESC')
-    ->orderBy('kode_bidang','ASC')
-    ->orderBy('kode_program','ASC')
-    ->orderBy('kode_kegiatan','ASC')
-    ->orderBy('kode_sub_kegiatan','ASC')
+    ->orderBy('kode_bidang', 'ASC')
+    ->orderBy('kode_program', 'ASC')
+    ->orderBy('kode_kegiatan', 'ASC')
+    ->orderBy('kode_sub_kegiatan', 'ASC')
     ->get();        
     
     if($this->hasRole(['opd', 'unitkerja']))
@@ -639,7 +639,7 @@ class RKAMurniController extends Controller
     catch(Exception $e)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',
         'rka'=>[],                                    
         'message' => $e->getMessage()
@@ -717,7 +717,7 @@ class RKAMurniController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -725,7 +725,7 @@ class RKAMurniController extends Controller
     else if ($kegiatan->Locked)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
@@ -796,7 +796,7 @@ class RKAMurniController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -804,7 +804,7 @@ class RKAMurniController extends Controller
     else if ($kegiatan->Locked)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
@@ -834,7 +834,7 @@ class RKAMurniController extends Controller
     if (is_null($rinciankegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -842,7 +842,7 @@ class RKAMurniController extends Controller
     else if ($rinciankegiatan->Locked)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
@@ -948,7 +948,7 @@ class RKAMurniController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -972,7 +972,7 @@ class RKAMurniController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -1053,10 +1053,10 @@ class RKAMurniController extends Controller
         'RKARincID' => $request->input('RKARincID'),
         'bulan1' => $i+1,
         'bulan2' => $i+1,
-        'target1'=>0,
-        'target2'=>0,
+        'target1' => 0,
+        'target2' => 0,
         'fisik1' => $bulan_fisik[$i],
-        'fisik2'=>0,
+        'fisik2' => 0,
         'EntryLvl' => 1,
         'Descr' => $request->input('Descr'),
         'TA' => $request->input('tahun'),
@@ -1135,10 +1135,10 @@ class RKAMurniController extends Controller
         'RKARincID' => $RKARincID,
         'bulan1' => $item->no_bulan,
         'bulan2' => $item->no_bulan,
-        'fisik1'=>0,
-        'fisik2'=>0,
+        'fisik1' => 0,
+        'fisik2' => 0,
         'target1' => $item->target,
-        'target2'=>0,
+        'target2' => 0,
         'EntryLvl' => 1,
         'Descr' => $request->input('Descr'),
         'TA' => $request->input('tahun'),
@@ -1296,7 +1296,7 @@ class RKAMurniController extends Controller
     if (is_null($rka))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>"Fetch data kegiatan murni dengan id ($id) gagal diperoleh"
       ], 422); 
@@ -1448,7 +1448,7 @@ class RKAMurniController extends Controller
       ->where('RKARincID', $RKARincID)
       ->get();
 
-    $target = ['fisik'=>0,'anggaran'=>0];			
+    $target = ['fisik' => 0,'anggaran' => 0];			
     if ($mode == 'targetfisik')
     {
       $data = \DB::table('trRKATargetRinc')

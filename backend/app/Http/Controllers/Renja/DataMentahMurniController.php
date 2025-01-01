@@ -44,8 +44,8 @@ class DataMentahMurniController extends Controller
       ->where('OrgID', $OrgID)
       ->where('TA', $tahun)
       ->where('EntryLevel', 1)
-      ->orderBy('kode_program','ASC')
-      ->orderBy('kode_kegiatan','ASC')
+      ->orderBy('kode_program', 'ASC')
+      ->orderBy('kode_kegiatan', 'ASC')
       ->get();        
     
     $data->transform(function($item,$key) use ($organisasi) 
@@ -53,7 +53,7 @@ class DataMentahMurniController extends Controller
       $rka = \DB::table('trRKA')
       ->where('OrgID', $organisasi->OrgID)
       ->where('TA', $organisasi->TA)
-      ->where('EntryLvl',1)
+      ->where('EntryLvl', 1)
       ->where('kode_kegiatan', $item->kode_kegiatan)
       ->get();
 
@@ -65,7 +65,7 @@ class DataMentahMurniController extends Controller
         $item->status='SUDAH DICOPY';
       }
       $item->PaguDana1=\DB::table('sipd')
-        ->where('EntryLevel',1)
+        ->where('EntryLevel', 1)
         ->where('TA', $organisasi->TA)
         ->where('kd_keg_gabung', $item->kode_kegiatan)
         ->where('OrgID', $organisasi->OrgID)

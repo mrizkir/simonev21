@@ -36,19 +36,19 @@ class FormBOPDMurniController extends Controller
     $totalPaguOPD = (float)\DB::table('trRKA')
       ->where('OrgID', $opd->OrgID)                                            
       ->where('TA', $tahun)  
-      ->where('EntryLvl',1)
+      ->where('EntryLvl', 1)
       ->sum('PaguDana1');        
     
-    $total_program=0;
-    $total_kegiatan=0;
-    $total_sub_kegiatan=0;
-    $total_uraian=0;
-    $totalPersenBobot=0;
-    $totalPersenTargetFisik=0;
-    $totalPersenRealisasiFisik=0;
-    $total_ttb_fisik=0;
-    $totalTargetKeuanganKeseluruhan=0;
-    $totalRealisasiKeuanganKeseluruhan=0;
+    $total_program = 0;
+    $total_kegiatan = 0;
+    $total_sub_kegiatan = 0;
+    $total_uraian = 0;
+    $totalPersenBobot = 0;
+    $totalPersenTargetFisik = 0;
+    $totalPersenRealisasiFisik = 0;
+    $total_ttb_fisik = 0;
+    $totalTargetKeuanganKeseluruhan = 0;
+    $totalRealisasiKeuanganKeseluruhan = 0;
     $total_ttb_keuangan = 0;
 
     $daftar_program=\DB::table('trRKA')
@@ -56,10 +56,10 @@ class FormBOPDMurniController extends Controller
       ->where('OrgID', $opd->OrgID)
       ->where('EntryLvl', 1)
       ->orderByRaw('kode_urusan="X" DESC')
-      ->orderBy('kode_bidang','ASC')
-      ->orderBy('kode_program','ASC')
-      ->orderBy('kode_kegiatan','ASC')
-      ->orderBy('kode_sub_kegiatan','ASC')                            
+      ->orderBy('kode_bidang', 'ASC')
+      ->orderBy('kode_program', 'ASC')
+      ->orderBy('kode_kegiatan', 'ASC')
+      ->orderBy('kode_sub_kegiatan', 'ASC')                            
       ->get();
     
     $data=[];
@@ -73,8 +73,8 @@ class FormBOPDMurniController extends Controller
         ->where('kode_program', $kode_program)
         ->where('OrgID', $opd->OrgID)
         ->where('EntryLvl', 1)
-        ->orderBy('kode_kegiatan','ASC')
-        ->orderBy('kode_sub_kegiatan','ASC')                            
+        ->orderBy('kode_kegiatan', 'ASC')
+        ->orderBy('kode_sub_kegiatan', 'ASC')                            
         ->get();
 
       if(isset($daftar_kegiatan[0]))
@@ -90,25 +90,25 @@ class FormBOPDMurniController extends Controller
 
         $data[$row]=[
           'FormBMurniID'=>Uuid::uuid4()->toString(),          
-          'RKAID'=>null,      
+          'RKAID' => null,      
           'kode' => $kode_program,
           'nama_uraian' => $data_program->Nm_Program,         
-          'pagu_dana1'=>0,       
-          'bobot1'=>0,
-          'fisik_target1'=>0,
-          'fisik_realisasi1'=>0,
-          'fisik_ttb1'=>0,
-          'keuangan_target1'=>0,
-          'keuangan_target_persen_1'=>0,
-          'keuangan_realisasi1'=>0,
-          'keuangan_realisasi_persen_1'=>0,
-          'keuangan_ttb1'=>0,
-          'lokasi'=>0,
-          'sisa_anggaran'=>0,
-          'sisa_anggaran_persen'=>0,               
-          'isprogram'=>true,
-          'iskegiatan'=>false,
-          'issubkegiatan'=>false,
+          'pagu_dana1' => 0,       
+          'bobot1' => 0,
+          'fisik_target1' => 0,
+          'fisik_realisasi1' => 0,
+          'fisik_ttb1' => 0,
+          'keuangan_target1' => 0,
+          'keuangan_target_persen_1' => 0,
+          'keuangan_realisasi1' => 0,
+          'keuangan_realisasi_persen_1' => 0,
+          'keuangan_ttb1' => 0,
+          'lokasi' => 0,
+          'sisa_anggaran' => 0,
+          'sisa_anggaran_persen' => 0,               
+          'isprogram' => true,
+          'iskegiatan' => false,
+          'issubkegiatan' => false,
         ];   
         $program_last_row = $row;
         $row += 1;
@@ -122,8 +122,8 @@ class FormBOPDMurniController extends Controller
                   ->where('kode_kegiatan', $kode_kegiatan)                                   
                   ->where('OrgID', $opd->OrgID)                                   
                   ->where('TA', $tahun)  
-                  ->where('EntryLvl',1)                                    
-                  ->orderBy('kode_sub_kegiatan','ASC')
+                  ->where('EntryLvl', 1)                                    
+                  ->orderBy('kode_sub_kegiatan', 'ASC')
                   ->get();
 
           if(isset($daftar_sub_kegiatan[0]))
@@ -131,30 +131,30 @@ class FormBOPDMurniController extends Controller
             $pagu_dana_kegiatan = (float)\DB::table('trRKA')
                   ->where('OrgID', $opd->OrgID)                                   
                   ->where('kode_kegiatan', $kode_kegiatan) 
-                  ->where('EntryLvl',1)
+                  ->where('EntryLvl', 1)
                   ->sum('PaguDana1'); 
 
             $data[$row]=[
               'FormBMurniID'=>Uuid::uuid4()->toString(),
-              'RKAID'=>null,
+              'RKAID' => null,
               'kode' => $kode_kegiatan,
               'nama_uraian' => $data_kegiatan->Nm_Kegiatan,
               'pagu_dana1' => $pagu_dana_kegiatan,
-              'bobot1'=>0,
-              'fisik_target1'=>0,
-              'fisik_realisasi1'=>0,
-              'fisik_ttb1'=>0,
-              'keuangan_target1'=>0,
-              'keuangan_target_persen_1'=>0,
-              'keuangan_realisasi1'=>0,
-              'keuangan_realisasi_persen_1'=>0,
-              'keuangan_ttb1'=>0,
-              'lokasi'=>0,
-              'sisa_anggaran'=>0,
-              'sisa_anggaran_persen'=>0,
-              'isprogram'=>false,
-              'iskegiatan'=>true,
-              'issubkegiatan'=>false,
+              'bobot1' => 0,
+              'fisik_target1' => 0,
+              'fisik_realisasi1' => 0,
+              'fisik_ttb1' => 0,
+              'keuangan_target1' => 0,
+              'keuangan_target_persen_1' => 0,
+              'keuangan_realisasi1' => 0,
+              'keuangan_realisasi_persen_1' => 0,
+              'keuangan_ttb1' => 0,
+              'lokasi' => 0,
+              'sisa_anggaran' => 0,
+              'sisa_anggaran_persen' => 0,
+              'isprogram' => false,
+              'iskegiatan' => true,
+              'issubkegiatan' => false,
             ];
             $jumlah_uraian_kegiatan = 0;
 
@@ -209,7 +209,7 @@ class FormBOPDMurniController extends Controller
               $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
               $totalPersenRealisasiFisik+= $persen_realisasi_fisik; 
 
-              $persen_tertimbang_fisik=0.00;
+              $persen_tertimbang_fisik = 0.00;
               if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
               {
                 $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
@@ -258,9 +258,9 @@ class FormBOPDMurniController extends Controller
                 'lokasi' => $data_sub_kegiatan->lokasi_kegiatan1,
                 'sisa_anggaran' => $sisa_anggaran,
                 'sisa_anggaran_persen' => $persen_sisa_anggaran,
-                'isprogram'=>false,
-                'iskegiatan'=>false,
-                'issubkegiatan'=>true,
+                'isprogram' => false,
+                'iskegiatan' => false,
+                'issubkegiatan' => true,
               ];
               $total_sub_kegiatan += 1;
               $row += 1;
@@ -270,7 +270,7 @@ class FormBOPDMurniController extends Controller
             $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
             
             $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_kegiatan,$jumlah_uraian_kegiatan);
-            $persen_tertimbang_fisik=0.00;
+            $persen_tertimbang_fisik = 0.00;
             if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
@@ -289,7 +289,7 @@ class FormBOPDMurniController extends Controller
             
             $data[$kegiatan_last_row]=[
               'FormBMurniID'=>Uuid::uuid4()->toString(),
-              'RKAID'=>null,
+              'RKAID' => null,
               'kode' => $kode_kegiatan,
               'nama_uraian' => $data_kegiatan->Nm_Kegiatan,
               'pagu_dana1' => $pagu_dana_kegiatan,
@@ -305,9 +305,9 @@ class FormBOPDMurniController extends Controller
               'lokasi' => '-',
               'sisa_anggaran' => $sisa_anggaran,
               'sisa_anggaran_persen' => $persen_sisa_anggaran,
-              'isprogram'=>false,
-              'iskegiatan'=>true,
-              'issubkegiatan'=>false,
+              'isprogram' => false,
+              'iskegiatan' => true,
+              'issubkegiatan' => false,
             ];
           }
         }        
@@ -317,7 +317,7 @@ class FormBOPDMurniController extends Controller
       $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
       
       $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_program,$jumlah_uraian_program);
-      $persen_tertimbang_fisik=0.00;
+      $persen_tertimbang_fisik = 0.00;
       if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
       {
         $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
@@ -335,7 +335,7 @@ class FormBOPDMurniController extends Controller
       $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_program);                            
       $data[$program_last_row]=[
         'FormBMurniID'=>Uuid::uuid4()->toString(),
-        'RKAID'=>null,
+        'RKAID' => null,
         'kode' => $kode_program,
         'nama_uraian' => $data_program->Nm_Program,         
         'pagu_dana1' => $pagu_dana_program,
@@ -351,9 +351,9 @@ class FormBOPDMurniController extends Controller
         'lokasi' => '-',
         'sisa_anggaran' => $sisa_anggaran,
         'sisa_anggaran_persen' => $persen_sisa_anggaran,               
-        'isprogram'=>true,
-        'iskegiatan'=>false,
-        'issubkegiatan'=>false,
+        'isprogram' => true,
+        'iskegiatan' => false,
+        'issubkegiatan' => false,
       ];
     }
     
@@ -398,47 +398,47 @@ class FormBOPDMurniController extends Controller
         'kode_organisasi' => $opd->kode_organisasi,
         'OrgNm' => $opd->Nm_Organisasi,
         'PaguDana1' => $totalPaguOPD,
-        'PaguDana2'=>0,            
-        'PaguDana3'=>0,            
+        'PaguDana2' => 0,            
+        'PaguDana3' => 0,            
         'JumlahKegiatan1' => $total_kegiatan,
-        'JumlahKegiatan2'=>0,
-        'JumlahKegiatan3'=>0,
+        'JumlahKegiatan2' => 0,
+        'JumlahKegiatan3' => 0,
         'JumlahUraian1' => $total_uraian,
-        'JumlahUraian2'=>0,
-        'JumlahUraian3'=>0,
+        'JumlahUraian2' => 0,
+        'JumlahUraian3' => 0,
             
         'TargetFisik1' => $totalPersenTargetFisik,
-        'TargetFisik2'=>0,
-        'TargetFisik3'=>0,
+        'TargetFisik2' => 0,
+        'TargetFisik3' => 0,
         'RealisasiFisik1' => $totalPersenRealisasiFisik,
-        'RealisasiFisik2'=>0,
-        'RealisasiFisik3'=>0,
+        'RealisasiFisik2' => 0,
+        'RealisasiFisik3' => 0,
 
         'TargetKeuangan1' => $totalTargetKeuanganKeseluruhan,
-        'TargetKeuangan2'=>0,
-        'TargetKeuangan3'=>0,
+        'TargetKeuangan2' => 0,
+        'TargetKeuangan3' => 0,
         'RealisasiKeuangan1' => $totalRealisasiKeuanganKeseluruhan,
-        'RealisasiKeuangan2'=>0,
-        'RealisasiKeuangan3'=>0,
+        'RealisasiKeuangan2' => 0,
+        'RealisasiKeuangan3' => 0,
 
         'PersenTargetKeuangan1' => $totalPersenTargetKeuangan,
-        'PersenTargetKeuangan2'=>0,
-        'PersenTargetKeuangan3'=>0,
+        'PersenTargetKeuangan2' => 0,
+        'PersenTargetKeuangan3' => 0,
         'PersenRealisasiKeuangan1' => $totalPersenRealisasiKeuangan,
-        'PersenRealisasiKeuangan2'=>0,
-        'PersenRealisasiKeuangan3'=>0,
+        'PersenRealisasiKeuangan2' => 0,
+        'PersenRealisasiKeuangan3' => 0,
             
         'SisaPaguDana1' => $totalSisaAnggaran,
-        'SisaPaguDana2'=>0,
-        'SisaPaguDana3'=>0,
+        'SisaPaguDana2' => 0,
+        'SisaPaguDana3' => 0,
 
         'PersenSisaPaguDana1' => $totalPersenSisaAnggaran,
-        'PersenSisaPaguDana2'=>0,
-        'PersenSisaPaguDana3'=>0,
+        'PersenSisaPaguDana2' => 0,
+        'PersenSisaPaguDana3' => 0,
 
         'Bobot1' => $totalPersenBobot,
-        'Bobot2'=>0,
-        'Bobot3'=>0,
+        'Bobot2' => 0,
+        'Bobot3' => 0,
         
         'Bulan' => $no_bulan,
         'TA' => $tahun,
@@ -558,7 +558,7 @@ class FormBOPDMurniController extends Controller
     $OrgID = $request->input('OrgID');
     
     $opd = OrganisasiModel::find($OrgID);
-    if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl',1)->where('TA', $tahun)->count() > 0)
+    if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl', 1)->where('TA', $tahun)->count() > 0)
     {
       $data_report=[
               'OrgID' => $opd->OrgID,
@@ -576,7 +576,7 @@ class FormBOPDMurniController extends Controller
     else
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'fetchdata',                                                                            
                   'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
                 ], 422); 

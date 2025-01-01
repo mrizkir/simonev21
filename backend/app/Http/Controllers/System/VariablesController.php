@@ -108,7 +108,7 @@ class VariablesController extends Controller
     ->select(\DB::raw('
       OrgID
     '))
-    ->orderBy('kode_organisasi','ASC')
+    ->orderBy('kode_organisasi', 'ASC')
     ->get();   
 
     foreach($daftar_opd as $opd)

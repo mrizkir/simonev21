@@ -32,7 +32,7 @@ class RekeningAkunController extends Controller {
                     `Descr`,
                     `TA`
                   '))
-                  ->orderBy('Kd_Rek_1','ASC')                                    
+                  ->orderBy('Kd_Rek_1', 'ASC')                                    
                   ->where('TA', $ta)
                   ->get();
 
@@ -154,7 +154,7 @@ class RekeningAkunController extends Controller {
     if (is_null($akun))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["Data Rekening Akun ($id) gagal diupdate"]
                 ], 422); 
@@ -211,7 +211,7 @@ class RekeningAkunController extends Controller {
     if (is_null($akun))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Rekening Akun ($id) gagal dihapus"]
                 ], 422); 

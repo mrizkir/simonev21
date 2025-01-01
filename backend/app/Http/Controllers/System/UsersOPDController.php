@@ -44,7 +44,7 @@ class UsersOPDController extends Controller {
         '))
         ->join('usersopd', 'usersopd.user_id', 'users.id')
         ->whereIn('OrgID', $daftar_opd)
-        ->orderBy('username','ASC')
+        ->orderBy('username', 'ASC')
         ->get(); 
     }
     else
@@ -56,7 +56,7 @@ class UsersOPDController extends Controller {
         '))
         ->join('usersopd', 'usersopd.user_id', 'users.id')
         ->where('usersopd.ta', $ta)
-        ->orderBy('username','ASC')
+        ->orderBy('username', 'ASC')
         ->get();       			
     }           
     $role = Role::findByName('opd');
@@ -183,7 +183,7 @@ class UsersOPDController extends Controller {
     else
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',                                           
         'message' => 'Data user OPD gagal disimpan karena Jumlah OPD 0.'
       ], 422);
@@ -211,7 +211,7 @@ class UsersOPDController extends Controller {
     {
       $tahun_dif = $tahun_tujuan - 1;
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',
         'message'=>"Salin relasi user ke OPD dari tahun anggaran $tahun_asal gagal. Harus dari tahun $tahun_dif."
       ], 422);
@@ -275,7 +275,7 @@ class UsersOPDController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',                
         'message'=>["User ID ($id) gagal diperoleh"]
       ], 422); 
@@ -307,7 +307,7 @@ class UsersOPDController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',                
         'message'=>["User ID ($id) gagal diupdate"]
       ], 422); 
@@ -393,7 +393,7 @@ class UsersOPDController extends Controller {
       else
       {
         return Response()->json([
-          'status'=>0,
+          'status' => 0,
           'pid' => 'update',                                           
           'message' => 'Data user OPD gagal diubah karena Jumlah OPD 0.'
         ], 422);
@@ -416,7 +416,7 @@ class UsersOPDController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["User ID ($id) gagal dihapus"]
       ], 422); 

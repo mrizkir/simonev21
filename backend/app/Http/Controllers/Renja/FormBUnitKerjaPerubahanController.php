@@ -38,25 +38,25 @@ class FormBUnitKerjaPerubahanController extends Controller
       ->where('EntryLvl',2)
       ->sum('PaguDana2');
 
-    $total_sub_kegiatan=0;
-    $total_uraian=0;
-    $totalPersenBobot=0;
-    $totalPersenTargetFisik=0;
-    $totalPersenRealisasiFisik=0;
-    $total_ttb_fisik=0;
-    $totalTargetKeuanganKeseluruhan=0;
-    $totalRealisasiKeuanganKeseluruhan=0;
+    $total_sub_kegiatan = 0;
+    $total_uraian = 0;
+    $totalPersenBobot = 0;
+    $totalPersenTargetFisik = 0;
+    $totalPersenRealisasiFisik = 0;
+    $total_ttb_fisik = 0;
+    $totalTargetKeuanganKeseluruhan = 0;
+    $totalRealisasiKeuanganKeseluruhan = 0;
     $total_ttb_keuangan = 0;
-    $totalSisaAnggaran=0;
+    $totalSisaAnggaran = 0;
 
     $daftar_program=\DB::table('trRKA')
     ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
     ->where('SOrgID', $unitkerja->SOrgID)
     ->orderByRaw('kode_urusan="X" DESC')
-    ->orderBy('kode_bidang','ASC')
-    ->orderBy('kode_program','ASC')
-    ->orderBy('kode_kegiatan','ASC')
-    ->orderBy('kode_sub_kegiatan','ASC')
+    ->orderBy('kode_bidang', 'ASC')
+    ->orderBy('kode_program', 'ASC')
+    ->orderBy('kode_kegiatan', 'ASC')
+    ->orderBy('kode_sub_kegiatan', 'ASC')
     ->get();
 
     $data=[];
@@ -69,8 +69,8 @@ class FormBUnitKerjaPerubahanController extends Controller
               ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
               ->where('kode_program', $kode_program)
               ->where('SOrgID', $unitkerja->SOrgID)
-              ->orderBy('kode_kegiatan','ASC')
-              ->orderBy('kode_sub_kegiatan','ASC')
+              ->orderBy('kode_kegiatan', 'ASC')
+              ->orderBy('kode_sub_kegiatan', 'ASC')
               ->get();
 
       if(isset($daftar_kegiatan[0]))
@@ -85,24 +85,24 @@ class FormBUnitKerjaPerubahanController extends Controller
         $realisasi_keuangan_program = 0;
         $data[$row]=[
           'FormBPerubahanID'=>Uuid::uuid4()->toString(),
-          'RKAID'=>null,
+          'RKAID' => null,
           'kode' => $kode_program,
           'nama_uraian' => $data_program->Nm_Program,
-          'pagu_dana2'=>0,
-          'fisik_target2'=>0,
-          'fisik_realisasi2'=>0,
-          'fisik_ttb2'=>0,
-          'keuangan_target2'=>0,
-          'keuangan_target_persen_2'=>0,
-          'keuangan_realisasi2'=>0,
-          'keuangan_realisasi_persen_2'=>0,
-          'keuangan_ttb2'=>0,
-          'lokasi'=>0,
-          'sisa_anggaran'=>0,
-          'sisa_anggaran_persen'=>0,
-          'isprogram'=>true,
-          'iskegiatan'=>false,
-          'issubkegiatan'=>false,
+          'pagu_dana2' => 0,
+          'fisik_target2' => 0,
+          'fisik_realisasi2' => 0,
+          'fisik_ttb2' => 0,
+          'keuangan_target2' => 0,
+          'keuangan_target_persen_2' => 0,
+          'keuangan_realisasi2' => 0,
+          'keuangan_realisasi_persen_2' => 0,
+          'keuangan_ttb2' => 0,
+          'lokasi' => 0,
+          'sisa_anggaran' => 0,
+          'sisa_anggaran_persen' => 0,
+          'isprogram' => true,
+          'iskegiatan' => false,
+          'issubkegiatan' => false,
         ];
         $program_last_row = $row;
         $row += 1;
@@ -116,7 +116,7 @@ class FormBUnitKerjaPerubahanController extends Controller
                   ->where('SOrgID', $unitkerja->SOrgID)
                   ->where('TA', $tahun)
                   ->where('EntryLvl',2)
-                  ->orderBy('kode_sub_kegiatan','ASC')
+                  ->orderBy('kode_sub_kegiatan', 'ASC')
                   ->get();
 
           if(isset($daftar_sub_kegiatan[0]))
@@ -129,24 +129,24 @@ class FormBUnitKerjaPerubahanController extends Controller
 
             $data[$row]=[
               'FormBPerubahanID'=>Uuid::uuid4()->toString(),
-              'RKAID'=>null,
+              'RKAID' => null,
               'kode' => $kode_kegiatan,
               'nama_uraian' => $data_kegiatan->Nm_Kegiatan,
               'pagu_dana2' => $pagu_dana_kegiatan,
-              'fisik_target2'=>0,
-              'fisik_realisasi2'=>0,
-              'fisik_ttb2'=>0,
-              'keuangan_target2'=>0,
-              'keuangan_target_persen_2'=>0,
-              'keuangan_realisasi2'=>0,
-              'keuangan_realisasi_persen_2'=>0,
-              'keuangan_ttb2'=>0,
-              'lokasi'=>0,
-              'sisa_anggaran'=>0,
-              'sisa_anggaran_persen'=>0,
-              'isprogram'=>false,
-              'iskegiatan'=>true,
-              'issubkegiatan'=>false,
+              'fisik_target2' => 0,
+              'fisik_realisasi2' => 0,
+              'fisik_ttb2' => 0,
+              'keuangan_target2' => 0,
+              'keuangan_target_persen_2' => 0,
+              'keuangan_realisasi2' => 0,
+              'keuangan_realisasi_persen_2' => 0,
+              'keuangan_ttb2' => 0,
+              'lokasi' => 0,
+              'sisa_anggaran' => 0,
+              'sisa_anggaran_persen' => 0,
+              'isprogram' => false,
+              'iskegiatan' => true,
+              'issubkegiatan' => false,
             ];
 
             $jumlah_uraian_kegiatan = 0;
@@ -201,7 +201,7 @@ class FormBUnitKerjaPerubahanController extends Controller
               $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
               $totalPersenRealisasiFisik+= $persen_realisasi_fisik;
 
-              $persen_tertimbang_fisik=0.00;
+              $persen_tertimbang_fisik = 0.00;
               if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
               {
                 $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);
@@ -250,9 +250,9 @@ class FormBUnitKerjaPerubahanController extends Controller
                 'lokasi' => $data_sub_kegiatan->lokasi_kegiatan2,
                 'sisa_anggaran' => $sisa_anggaran,
                 'sisa_anggaran_persen' => $persen_sisa_anggaran,
-                'isprogram'=>false,
-                'iskegiatan'=>false,
-                'issubkegiatan'=>true,
+                'isprogram' => false,
+                'iskegiatan' => false,
+                'issubkegiatan' => true,
               ];
               $row += 1;
               $total_sub_kegiatan += 1;
@@ -262,7 +262,7 @@ class FormBUnitKerjaPerubahanController extends Controller
             $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
             $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_kegiatan,$jumlah_uraian_kegiatan);
-            $persen_tertimbang_fisik=0.00;
+            $persen_tertimbang_fisik = 0.00;
             if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);
@@ -280,7 +280,7 @@ class FormBUnitKerjaPerubahanController extends Controller
 
             $data[$kegiatan_last_row]=[
               'FormBPerubahanID'=>Uuid::uuid4()->toString(),
-              'RKAID'=>null,
+              'RKAID' => null,
               'kode' => $kode_kegiatan,
               'nama_uraian' => $data_kegiatan->Nm_Kegiatan,
               'pagu_dana2' => $pagu_dana_kegiatan,
@@ -295,9 +295,9 @@ class FormBUnitKerjaPerubahanController extends Controller
               'lokasi' => '-',
               'sisa_anggaran' => $sisa_anggaran,
               'sisa_anggaran_persen' => $persen_sisa_anggaran,
-              'isprogram'=>false,
-              'iskegiatan'=>true,
-              'issubkegiatan'=>false,
+              'isprogram' => false,
+              'iskegiatan' => true,
+              'issubkegiatan' => false,
             ];
           }
         }
@@ -307,7 +307,7 @@ class FormBUnitKerjaPerubahanController extends Controller
       $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
       $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_program,$jumlah_uraian_program);
-      $persen_tertimbang_fisik=0.00;
+      $persen_tertimbang_fisik = 0.00;
       if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
       {
         $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);
@@ -324,7 +324,7 @@ class FormBUnitKerjaPerubahanController extends Controller
       $persen_sisa_anggaran = Helper::formatPersen($sisa_anggaran,$pagu_dana_program);
       $data[$program_last_row]=[
         'FormBPerubahanID'=>Uuid::uuid4()->toString(),
-        'RKAID'=>null,
+        'RKAID' => null,
         'kode' => $kode_program,
         'nama_uraian' => $data_program->Nm_Program,
         'pagu_dana2' => $pagu_dana_program,
@@ -339,9 +339,9 @@ class FormBUnitKerjaPerubahanController extends Controller
         'lokasi' => '-',
         'sisa_anggaran' => $sisa_anggaran,
         'sisa_anggaran_persen' => $persen_sisa_anggaran,
-        'isprogram'=>true,
-        'iskegiatan'=>false,
-        'issubkegiatan'=>false,
+        'isprogram' => true,
+        'iskegiatan' => false,
+        'issubkegiatan' => false,
       ];
     }
 
@@ -477,7 +477,7 @@ class FormBUnitKerjaPerubahanController extends Controller
     else
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'fetchdata',
                   'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
                 ], 422);

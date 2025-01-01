@@ -356,7 +356,7 @@ class GalleryController extends Controller
     catch(Exception $e)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'media'=>[],                                    
         'daftar_bulan'=>[],                                    
@@ -394,7 +394,7 @@ class GalleryController extends Controller
     catch(Exception $e)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',
         'media'=>[],                                    
         'message' => $e->getMessage()
@@ -461,7 +461,7 @@ class GalleryController extends Controller
     catch(Exception $e)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',				                               
         'message' => $e->getMessage()
       ], 422); 			

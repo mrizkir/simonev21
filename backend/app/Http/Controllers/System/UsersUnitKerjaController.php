@@ -45,7 +45,7 @@ class UsersUnitKerjaController extends Controller {
 				'))
 				->join('usersunitkerja', 'usersunitkerja.user_id', 'users.id')
 				->whereIn('SOrgID', $daftar_unitkerja)
-				->orderBy('username','ASC')
+				->orderBy('username', 'ASC')
 				->get(); 
 
 		}
@@ -58,7 +58,7 @@ class UsersUnitKerjaController extends Controller {
 				'))
 				->join('usersunitkerja', 'usersunitkerja.user_id', 'users.id')
 				->where('usersunitkerja.ta', $ta)
-				->orderBy('username','ASC')
+				->orderBy('username', 'ASC')
 				->get();       			
 		}           
 		$role = Role::findByName('unitkerja');
@@ -204,7 +204,7 @@ class UsersUnitKerjaController extends Controller {
 		else
 		{
 			return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',                                           
         'message' => 'Data user UNIT KERJA gagal disimpan karena Jumlah Unit Kerja 0.'
       ], 422);
@@ -232,7 +232,7 @@ class UsersUnitKerjaController extends Controller {
     {
       $tahun_dif = $tahun_tujuan - 1;
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',
         'message'=>"Salin relasi user ke UNIT KERJA dari tahun anggaran $tahun_asal gagal. Harus dari tahun $tahun_dif."
       ], 422);
@@ -305,7 +305,7 @@ class UsersUnitKerjaController extends Controller {
 		if (is_null($user))
 		{
 			return Response()->json([
-				'status'=>0,
+				'status' => 0,
 				'pid' => 'update',                
 				'message'=>["User ID ($id) gagal diperoleh"]
 			], 422); 
@@ -337,7 +337,7 @@ class UsersUnitKerjaController extends Controller {
 		if (is_null($user))
 		{
 			return Response()->json([
-				'status'=>0,
+				'status' => 0,
 				'pid' => 'update',                
 				'message'=>["User ID ($id) gagal diupdate"]
 			], 422); 
@@ -441,7 +441,7 @@ class UsersUnitKerjaController extends Controller {
 			else
 			{
 				return Response()->json([
-					'status'=>0,
+					'status' => 0,
 					'pid' => 'store',                                           
 					'message' => 'Data user UNIT KERJA gagal disimpan karena Jumlah Unit Kerja 0.'
 				], 422);
@@ -464,7 +464,7 @@ class UsersUnitKerjaController extends Controller {
 		if (is_null($user))
 		{
 			return Response()->json([
-				'status'=>0,
+				'status' => 0,
 				'pid' => 'destroy',                
 				'message'=>["User ID ($id) gagal dihapus"]
 			], 422); 

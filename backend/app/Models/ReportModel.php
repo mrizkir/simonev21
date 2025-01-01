@@ -467,14 +467,14 @@ class ReportModel extends Model
   */
   public static function calculateEachLevel ($dataproyek, $k, $no_rek) {        
     $totalpagu=0;
-    $totaltarget=0;
+    $totaltarget = 0;
     $totalrealisasi=0;        
-    $totalfisik=0;
+    $totalfisik = 0;
     $totalpersenbobot='0.00';
-    $totalpersentarget=0;
+    $totalpersentarget = 0;
     $totalpersenrealisasi=0;
     $totalpersentertimbangrealisasi=0;
-    $totalpersentertimbangfisik=0;
+    $totalpersentertimbangfisik = 0;
     $totalbaris=0;        
     foreach ($dataproyek as $de) 
     {                        

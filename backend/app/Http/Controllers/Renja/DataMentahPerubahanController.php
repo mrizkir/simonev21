@@ -76,12 +76,12 @@ class DataMentahPerubahanController extends Controller
 		'))
 		->where('OrgID', $OrgID)
 		->where('TA', $tahun)
-		->where('EntryLvl',1)
+		->where('EntryLvl', 1)
 		->orderByRaw('kode_urusan="X" DESC')
-		->orderBy('kode_bidang','ASC')
-		->orderBy('kode_program','ASC')
-		->orderBy('kode_kegiatan','ASC')
-		->orderBy('kode_sub_kegiatan','ASC')
+		->orderBy('kode_bidang', 'ASC')
+		->orderBy('kode_program', 'ASC')
+		->orderBy('kode_kegiatan', 'ASC')
+		->orderBy('kode_sub_kegiatan', 'ASC')
 		->get();        
 		
 		$data->transform(function ($item, $key) {                            
@@ -230,7 +230,7 @@ class DataMentahPerubahanController extends Controller
 			\DB::table('trRKARinc')
 				->where('RKAID', $RKAID)
 				->update([
-					'Locked'=>true
+					'Locked' => true
 				]);
 				
 			$sql_target = "INSERT INTO trRKATargetRinc (
@@ -277,7 +277,7 @@ class DataMentahPerubahanController extends Controller
 			\DB::table('trRKATargetRinc')
 				->where('RKAID', $RKAID)
 				->update([
-					'Locked'=>true
+					'Locked' => true
 				]);
 
 			$sql_realisasi = "INSERT INTO trRKARealisasiRinc (
@@ -331,7 +331,7 @@ class DataMentahPerubahanController extends Controller
 			\DB::table('trRKARealisasiRinc')
 				->where('RKAID', $RKAID)
 				->update([
-					'Locked'=>true
+					'Locked' => true
 				]);
 
 		});

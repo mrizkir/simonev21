@@ -20,7 +20,7 @@ class PermissionsController extends Controller {
 		$user = $this->guard()->user();
 		if ($user->hasRole('superadmin'))
 		{
-			$data = Permission::orderBy('name','ASC')
+			$data = Permission::orderBy('name', 'ASC')
 								->get();
 		}
 		else if ($user->hasRole('akademik'))
@@ -107,7 +107,7 @@ class PermissionsController extends Controller {
 		if (is_null($permission))
 		{
 			return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Permission dengan ID ($id) gagal dihapus"]
       ], 422); 

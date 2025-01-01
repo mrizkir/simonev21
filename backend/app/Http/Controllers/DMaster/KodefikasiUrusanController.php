@@ -34,7 +34,7 @@ class KodefikasiUrusanController extends Controller {
             created_at,
             updated_at
         '))
-        ->orderBy('Kd_Urusan','ASC')                                    
+        ->orderBy('Kd_Urusan', 'ASC')                                    
         ->where('TA', $ta)
         ->get();
         
@@ -149,7 +149,7 @@ class KodefikasiUrusanController extends Controller {
         if (is_null($kodefikasiurusan))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'update',                
                                     'message'=>["Data Kodefikasi Urusan ($id) gagal diupdate"]
                                 ], 422); 
@@ -206,7 +206,7 @@ class KodefikasiUrusanController extends Controller {
         if (is_null($kodefikasiurusan))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'destroy',                
                                     'message'=>["Data Kodefikasi Urusan ($id) gagal dihapus"]
                                 ], 422); 

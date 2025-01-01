@@ -20,7 +20,7 @@ class UsersTAPDController extends Controller {
     {           
         $this->hasPermissionTo('SYSTEM-USERS-TAPD_BROWSE');
         $data = User::where('default_role','tapd')
-                    ->orderBy('username','ASC')
+                    ->orderBy('username', 'ASC')
                     ->get();       
                     
         $role = Role::findByName('tapd');
@@ -99,7 +99,7 @@ class UsersTAPDController extends Controller {
         if (is_null($user))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'update',                
                                     'message'=>["User ID ($id) gagal diperoleh"]
                                 ], 422); 
@@ -131,7 +131,7 @@ class UsersTAPDController extends Controller {
         if (is_null($user))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'update',                
                                     'message'=>["User ID ($id) gagal diupdate"]
                                 ], 422); 
@@ -191,7 +191,7 @@ class UsersTAPDController extends Controller {
         if (is_null($user))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'destroy',                
                                     'message'=>["User ID ($id) gagal dihapus"]
                                 ], 422); 

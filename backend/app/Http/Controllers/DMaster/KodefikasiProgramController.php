@@ -62,9 +62,9 @@ class KodefikasiProgramController extends Controller
     ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
     ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
     ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
-    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+    ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
+    ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
+    ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
     ->where('tmProgram.TA', $ta)
     ->get();
 
@@ -109,16 +109,16 @@ class KodefikasiProgramController extends Controller
     ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
     ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
     ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
-    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+    ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
+    ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
+    ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
     ->where('tmProgram.PrgID', $id)
     ->first();
 
     if (is_null($kodefikasiprogram))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',                
         'message'=>["Data Kodefikasi Program ($id) gagal diupdate"]
       ], 422); 
@@ -241,9 +241,9 @@ class KodefikasiProgramController extends Controller
     })
     ->where('tmOrg.OrgID', $OrgID)
     ->where('tmProgram.TA', $periode->TA_AWAL)    
-    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
-    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-    ->orderBy('tmProgram.Kd_Program','ASC');
+    ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
+    ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
+    ->orderBy('tmProgram.Kd_Program', 'ASC');
 
     if($request->filled('offset'))
     {
@@ -335,7 +335,7 @@ class KodefikasiProgramController extends Controller
     '))
     ->where('TA', $ta)
     ->where('Jns',0)
-    ->orderBy('Kd_Program','ASC')                                    
+    ->orderBy('Kd_Program', 'ASC')                                    
     ->get();
 
     $kodefikasiprogram=KodefikasiProgramModel::select(\DB::raw('
@@ -349,9 +349,9 @@ class KodefikasiProgramController extends Controller
     ->where('B.BidangID', $BidangID_1)
     ->orWhere('B.BidangID', $BidangID_2)
     ->orWhere('B.BidangID', $BidangID_3)
-    ->orderBy('D.Kd_Urusan','ASC')                                    
-    ->orderBy('C.Kd_Bidang','ASC')                                    
-    ->orderBy('tmProgram.Kd_Program','ASC')                                    
+    ->orderBy('D.Kd_Urusan', 'ASC')                                    
+    ->orderBy('C.Kd_Bidang', 'ASC')                                    
+    ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
     ->get();
 
     foreach ($kodefikasiprogram as $item)
@@ -385,10 +385,10 @@ class KodefikasiProgramController extends Controller
     ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
     ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
     ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-    ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
-    ->orderBy('tmProgram.Kd_Program','ASC')                                    
-    ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-    ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
+    ->orderBy('tmKegiatan.Kd_Kegiatan', 'ASC')                                    
+    ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
+    ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
+    ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
     ->where('tmKegiatan.PrgID', $id)
     ->get();
 
@@ -578,7 +578,7 @@ class KodefikasiProgramController extends Controller
     if (is_null($kodefikasiprogram))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',                
         'message'=>["Data Kodefikasi Program ($id) gagal diupdate"]
       ], 422); 
@@ -682,7 +682,7 @@ class KodefikasiProgramController extends Controller
     if (is_null($kodefikasiprogram))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Program ($id) gagal dihapus"]
       ], 422); 
@@ -690,7 +690,7 @@ class KodefikasiProgramController extends Controller
     else if ($kodefikasiprogram->Locked == 1)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Program ($id) gagal dihapus karena status terkunci / tidak aktif"]
       ], 422); 

@@ -123,7 +123,7 @@ class PelaporanOPDMurniController extends Controller
 		$OrgID = $request->input('OrgID');
 		
 		$opd = OrganisasiModel::find($OrgID);
-		if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl',1)->where('TA', $tahun)->count() > 0)
+		if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl', 1)->where('TA', $tahun)->count() > 0)
 		{
 			$data_report=[
 							'OrgID' => $opd->OrgID,
@@ -141,7 +141,7 @@ class PelaporanOPDMurniController extends Controller
 		else
 		{
 			return Response()->json([
-									'status'=>0,
+									'status' => 0,
 									'pid' => 'fetchdata',                                                                            
 									'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
 								], 422); 

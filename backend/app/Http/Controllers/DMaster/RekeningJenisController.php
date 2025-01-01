@@ -40,9 +40,9 @@ class RekeningJenisController extends Controller {
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                   ->where('tmKlp.TA', $ta)
-                  ->orderBy('Kd_Rek_1','ASC')
-                  ->orderBy('Kd_Rek_2','ASC')
-                  ->orderBy('Kd_Rek_3','ASC')
+                  ->orderBy('Kd_Rek_1', 'ASC')
+                  ->orderBy('Kd_Rek_2', 'ASC')
+                  ->orderBy('Kd_Rek_3', 'ASC')
                   ->get();
 
     return Response()->json([
@@ -169,7 +169,7 @@ class RekeningJenisController extends Controller {
     if (is_null($jenis))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["Data Rekening Jenis ($id) gagal diupdate"]
                 ], 422); 
@@ -227,10 +227,10 @@ class RekeningJenisController extends Controller {
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                   ->where('tmOby.JnsID', $id)
-                  ->orderBy('Kd_Rek_1','ASC')
-                  ->orderBy('Kd_Rek_2','ASC')
-                  ->orderBy('Kd_Rek_3','ASC')
-                  ->orderBy('Kd_Rek_4','ASC')                                    
+                  ->orderBy('Kd_Rek_1', 'ASC')
+                  ->orderBy('Kd_Rek_2', 'ASC')
+                  ->orderBy('Kd_Rek_3', 'ASC')
+                  ->orderBy('Kd_Rek_4', 'ASC')                                    
                   ->get();
 
     return Response()->json([
@@ -255,7 +255,7 @@ class RekeningJenisController extends Controller {
     if (is_null($jenis))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Rekening Jenis ($id) gagal dihapus"]
                 ], 422); 

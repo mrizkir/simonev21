@@ -42,12 +42,12 @@ class HelperReport
 				$rpt=$this->report;
 				$rpt->Image(Helper::public_path("images/logo.png"),1,null,2.2);
 				
-				$rpt->SetFont ('helvetica','B',12);
+				$rpt->SetFont ('helvetica','B', 12);
 				$rpt->SetXY(3,0.3);
 				$rpt->Cell (0,0.5,$config['HEADER_1'],0,2,'C');	
 				$rpt->Cell (0,0.5,$config['HEADER_2'],0,2,'C');
 				
-				$rpt->SetFont ('helvetica','B',10);                
+				$rpt->SetFont ('helvetica','B', 10);                
 				$rpt->Cell (0,0.5,$config['HEADER_3'],0,2,'C');                
 				$rpt->Cell (0,0.5,$config['HEADER_4'],0,2,'C');
 				$rpt->Cell (0,0.5,$config['HEADER_ADDRESS'],0,2,'C');

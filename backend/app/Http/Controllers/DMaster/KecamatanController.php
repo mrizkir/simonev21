@@ -18,7 +18,7 @@ class KecamatanController extends Controller {
      */
     public function index(Request $request)
     {
-        $data = KecamatanModel::orderBy('nama','ASC')
+        $data = KecamatanModel::orderBy('nama', 'ASC')
                                 ->get();
                                 
         return Response()->json([
@@ -32,7 +32,7 @@ class KecamatanController extends Controller {
     {
         
         $desa = DesaModel::where('kecamatan_id', $id)
-                            ->orderBy('nama','ASC')
+                            ->orderBy('nama', 'ASC')
                             ->get();
 
         return Response()->json([

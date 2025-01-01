@@ -95,11 +95,11 @@ class RKAPerubahanController extends Controller
 
     $data=[
       'datarealisasi'=>[],
-      'totalanggarankas'=>0,
-      'totalrealisasi'=>0,
-      'totaltargetfisik'=>0,
-      'totalfisik'=>0,
-      'sisa_anggaran'=>0,
+      'totalanggarankas' => 0,
+      'totalrealisasi' => 0,
+      'totaltargetfisik' => 0,
+      'totalfisik' => 0,
+      'sisa_anggaran' => 0,
     ];
     if (!is_null($datauraian))        
     {
@@ -117,14 +117,14 @@ class RKAPerubahanController extends Controller
         `updated_at`
       '))
       ->where('RKARincID', $RKARincID)
-      ->orderBy('bulan2','ASC')
+      ->orderBy('bulan2', 'ASC')
       ->get();
 
       $daftar_realisasi = [];
       $totalanggarankas=0;
       $totalrealisasi=0;
-      $totaltargetfisik=0;
-      $totalfisik=0;
+      $totaltargetfisik = 0;
+      $totalfisik = 0;
 
       foreach ($r as $item)
       {
@@ -347,7 +347,7 @@ class RKAPerubahanController extends Controller
         ->where('SOrgID', $unitkerja->SOrgID)
         ->where('EntryLvl', 1)
         ->update([
-          'Locked'=>true
+          'Locked' => true
         ]);
 
     $data = RKAModel::where('SOrgID', $unitkerja->SOrgID)
@@ -479,7 +479,7 @@ class RKAPerubahanController extends Controller
     \DB::table('trRKARinc')				
       ->where('RKAID', $rka->RKAID_Src)
       ->update([
-        'Locked'=>true
+        'Locked' => true
       ]);
 
     $data = RKARincianModel::select(\DB::raw('
@@ -560,7 +560,7 @@ class RKAPerubahanController extends Controller
       \DB::table('trRKATargetRinc')				
         ->where('RKARincID', $v->RKARincID_Src)
         ->update([
-          'Locked'=>true
+          'Locked' => true
         ]);
 
       $sql_insert = '
@@ -623,7 +623,7 @@ class RKAPerubahanController extends Controller
       \DB::table('trRKARealisasiRinc')				
         ->where('RKARincID', $v->RKARincID_Src)
         ->update([
-          'Locked'=>true
+          'Locked' => true
         ]);
 
     }
@@ -701,10 +701,10 @@ class RKAPerubahanController extends Controller
       ->where('TA', $tahun)
       ->where('EntryLvl',2)
       ->orderByRaw('kode_urusan="X" DESC')
-      ->orderBy('kode_bidang','ASC')
-      ->orderBy('kode_program','ASC')
-      ->orderBy('kode_kegiatan','ASC')
-      ->orderBy('kode_sub_kegiatan','ASC')
+      ->orderBy('kode_bidang', 'ASC')
+      ->orderBy('kode_program', 'ASC')
+      ->orderBy('kode_kegiatan', 'ASC')
+      ->orderBy('kode_sub_kegiatan', 'ASC')
       ->get();        
           
     $data->transform(function ($item,$key) {                            
@@ -911,7 +911,7 @@ class RKAPerubahanController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -919,7 +919,7 @@ class RKAPerubahanController extends Controller
     else if ($kegiatan->Locked)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
@@ -991,7 +991,7 @@ class RKAPerubahanController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -999,7 +999,7 @@ class RKAPerubahanController extends Controller
     else if ($kegiatan->Locked)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
@@ -1029,7 +1029,7 @@ class RKAPerubahanController extends Controller
     if (is_null($rinciankegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -1037,7 +1037,7 @@ class RKAPerubahanController extends Controller
     else if ($rinciankegiatan->Locked)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
@@ -1139,7 +1139,7 @@ class RKAPerubahanController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -1163,7 +1163,7 @@ class RKAPerubahanController extends Controller
     if (is_null($kegiatan) )
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
@@ -1243,9 +1243,9 @@ class RKAPerubahanController extends Controller
         'RKARincID' => $request->input('RKARincID'),
         'bulan1' => $i+1,
         'bulan2' => $i+1,
-        'target1'=>0,
-        'target2'=>0,
-        'fisik1'=>0,
+        'target1' => 0,
+        'target2' => 0,
+        'fisik1' => 0,
         'fisik2' => $bulan_fisik[$i],
         'EntryLvl'=>2,
         'Descr' => $request->input('Descr'),
@@ -1326,9 +1326,9 @@ class RKAPerubahanController extends Controller
         'RKARincID' => $RKARincID,
         'bulan1' => $item->no_bulan,
         'bulan2' => $item->no_bulan,
-        'fisik1'=>0,
-        'fisik2'=>0,
-        'target1'=>0,
+        'fisik1' => 0,
+        'fisik2' => 0,
+        'target1' => 0,
         'target2' => $item->target,
         'EntryLvl'=>2,
         'Descr' => $request->input('Descr'),
@@ -1478,7 +1478,7 @@ class RKAPerubahanController extends Controller
     if (is_null($rka))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>"Fetch data kegiatan perubahan dengan id ($id) gagal diperoleh"
       ], 422); 
@@ -1527,7 +1527,7 @@ class RKAPerubahanController extends Controller
         `trRKARinc`.updated_at
       '))                                
       ->where('RKAID', $rka->RKAID)
-      ->orderBy('trRKARinc.kode_uraian2','ASC')
+      ->orderBy('trRKARinc.kode_uraian2', 'ASC')
       ->get();
       
       $data->transform(function ($item,$key) {
@@ -1631,7 +1631,7 @@ class RKAPerubahanController extends Controller
           ->where('RKARincID', $RKARincID)
           ->get();
 
-    $target = ['fisik'=>0,'anggaran'=>0];			
+    $target = ['fisik' => 0,'anggaran' => 0];			
     if ($mode == 'targetfisik')
     {
       $data = \DB::table('trRKATargetRinc')
@@ -1773,22 +1773,22 @@ class RKAPerubahanController extends Controller
           \DB::table('trRKA')
           ->where('RKAID', $RKAID_Src)
           ->update([
-            'Locked'=>0
+            'Locked' => 0
           ]);
           \DB::table('trRKARinc')
           ->where('RKAID', $RKAID_Src)
           ->update([
-            'Locked'=>0
+            'Locked' => 0
           ]);
           \DB::table('trRKATargetRinc')
           ->where('RKAID', $RKAID_Src)
           ->update([
-            'Locked'=>0
+            'Locked' => 0
           ]);
           \DB::table('trRKARealisasiRinc')
           ->where('RKAID', $RKAID_Src)
           ->update([
-            'Locked'=>0
+            'Locked' => 0
           ]);
           $message="data rka perubahan dengan ID ($id) Berhasil di Hapus";                 
         break;  

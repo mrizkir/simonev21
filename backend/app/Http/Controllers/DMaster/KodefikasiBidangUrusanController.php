@@ -39,7 +39,7 @@ class KodefikasiBidangUrusanController extends Controller {
       `tmBidangUrusan`.`updated_at`
     "))
     ->join('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-    ->orderBy('kode_bidang','ASC')                                    
+    ->orderBy('kode_bidang', 'ASC')                                    
     ->where('tmBidangUrusan.TA', $ta)
     ->get();
 
@@ -72,7 +72,7 @@ class KodefikasiBidangUrusanController extends Controller {
       '))
       ->where('TA', $ta)
       ->where('Jns',0)
-      ->orderBy('Kd_Program','ASC')                                    
+      ->orderBy('Kd_Program', 'ASC')                                    
       ->get();
     }
     else
@@ -89,9 +89,9 @@ class KodefikasiBidangUrusanController extends Controller {
       ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
       ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
       ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-      ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
-      ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-      ->orderBy('tmProgram.Kd_Program','ASC')                                    
+      ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
+      ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
+      ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
       ->where('tmBidangUrusan.BidangID', $id)
       ->get();
     }
@@ -422,7 +422,7 @@ class KodefikasiBidangUrusanController extends Controller {
     if (is_null($kodefikasibidangurusan))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',                
         'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
       ], 422); 
@@ -480,7 +480,7 @@ class KodefikasiBidangUrusanController extends Controller {
     if (is_null($kodefikasibidangurusan))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal dihapus"]
                 ], 422); 

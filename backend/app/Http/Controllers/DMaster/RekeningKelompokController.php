@@ -38,8 +38,8 @@ class RekeningKelompokController extends Controller {
                   '))
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                   ->where('tmKlp.TA', $ta)
-                  ->orderBy('Kd_Rek_1','ASC')
-                  ->orderBy('Kd_Rek_2','ASC')
+                  ->orderBy('Kd_Rek_1', 'ASC')
+                  ->orderBy('Kd_Rek_2', 'ASC')
                   ->get();
 
     return Response()->json([
@@ -166,7 +166,7 @@ class RekeningKelompokController extends Controller {
     if (is_null($kelompok))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["Data Rekening Kelompok ($id) gagal diupdate"]
                 ], 422); 
@@ -226,7 +226,7 @@ class RekeningKelompokController extends Controller {
     if (is_null($kelompok))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Rekening Kelompok ($id) gagal dihapus"]
                 ], 422); 

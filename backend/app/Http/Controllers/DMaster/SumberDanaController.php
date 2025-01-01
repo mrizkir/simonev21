@@ -23,7 +23,7 @@ class SumberDanaController extends Controller {
     ]);     
     $tahun = $request->input('tahun');
     $data = SumberDanaModel::where('TA', $tahun)
-      ->orderBy('Nm_SumberDana','ASC')
+      ->orderBy('Nm_SumberDana', 'ASC')
       ->get();
     
     return Response()->json([

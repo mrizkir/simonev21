@@ -31,7 +31,7 @@ class OrganisasiController extends Controller {
     if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $data = OrganisasiModel::where('TA', $tahun)
-        ->orderBy('kode_organisasi','ASC')
+        ->orderBy('kode_organisasi', 'ASC')
         ->get();            
     }       
     else if ($this->hasRole(['opd', 'unitkerja']))
@@ -39,7 +39,7 @@ class OrganisasiController extends Controller {
       $daftar_opd = $this->getUserOrgID($tahun);      
       $data = OrganisasiModel::where('TA', $tahun)
         ->whereIn('OrgID', $daftar_opd)
-        ->orderBy('kode_organisasi','ASC')
+        ->orderBy('kode_organisasi', 'ASC')
         ->get();
     }
     return Response()->json([
@@ -478,7 +478,7 @@ class OrganisasiController extends Controller {
     if (is_null($organisasi))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Data OPD ($id) gagal dihapus"]
       ], 422); 
@@ -669,7 +669,7 @@ class OrganisasiController extends Controller {
       ->select(\DB::raw('
         OrgID
       '))
-      ->orderBy('kode_organisasi','ASC')
+      ->orderBy('kode_organisasi', 'ASC')
       ->get();   
 
     foreach($daftar_opd as $opd)
@@ -709,7 +709,7 @@ class OrganisasiController extends Controller {
     if (is_null($organisasi))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Data OPD ($id) gagal dihapus"]
       ], 422); 
@@ -747,7 +747,7 @@ class OrganisasiController extends Controller {
     }
     else
     {            
-      $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi','ASC')->get();        
+      $unitkerja = $organisasi->unitkerja()->orderBy('kode_sub_organisasi', 'ASC')->get();        
     }
     return Response()->json([
       'status' => 1,

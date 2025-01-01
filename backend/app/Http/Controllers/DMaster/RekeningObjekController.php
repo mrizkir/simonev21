@@ -41,10 +41,10 @@ class RekeningObjekController extends Controller {
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                   ->where('tmOby.TA', $ta)
-                  ->orderBy('Kd_Rek_1','ASC')
-                  ->orderBy('Kd_Rek_2','ASC')
-                  ->orderBy('Kd_Rek_3','ASC')
-                  ->orderBy('Kd_Rek_4','ASC')                                    
+                  ->orderBy('Kd_Rek_1', 'ASC')
+                  ->orderBy('Kd_Rek_2', 'ASC')
+                  ->orderBy('Kd_Rek_3', 'ASC')
+                  ->orderBy('Kd_Rek_4', 'ASC')                                    
                   ->get();
 
     return Response()->json([
@@ -171,7 +171,7 @@ class RekeningObjekController extends Controller {
     if (is_null($objek))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["Data Rekening Objek ($id) gagal diupdate"]
                 ], 422); 
@@ -230,11 +230,11 @@ class RekeningObjekController extends Controller {
                   ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                   ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
                   ->where('tmROby.ObyID', $id)
-                  ->orderBy('Kd_Rek_1','ASC')
-                  ->orderBy('Kd_Rek_2','ASC')
-                  ->orderBy('Kd_Rek_3','ASC')
-                  ->orderBy('Kd_Rek_4','ASC')
-                  ->orderBy('Kd_Rek_5','ASC')
+                  ->orderBy('Kd_Rek_1', 'ASC')
+                  ->orderBy('Kd_Rek_2', 'ASC')
+                  ->orderBy('Kd_Rek_3', 'ASC')
+                  ->orderBy('Kd_Rek_4', 'ASC')
+                  ->orderBy('Kd_Rek_5', 'ASC')
                   ->get();
 
     return Response()->json([
@@ -259,7 +259,7 @@ class RekeningObjekController extends Controller {
     if (is_null($objek))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Rekening Objek ($id) gagal dihapus"]
                 ], 422); 

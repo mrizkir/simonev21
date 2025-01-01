@@ -478,11 +478,11 @@ class SnapshotRKAPerubahanController extends Controller
 
     $data=[
       'datarealisasi'=>[],
-      'totalanggarankas'=>0,
-      'totalrealisasi'=>0,
-      'totaltargetfisik'=>0,
-      'totalfisik'=>0,
-      'sisa_anggaran'=>0,
+      'totalanggarankas' => 0,
+      'totalrealisasi' => 0,
+      'totaltargetfisik' => 0,
+      'totalfisik' => 0,
+      'sisa_anggaran' => 0,
     ];
     if (!is_null($datauraian))        
     {
@@ -502,14 +502,14 @@ class SnapshotRKAPerubahanController extends Controller
           '))
         ->where('RKARincID', $RKARincID)
         ->where('TABULAN', $datauraian->TABULAN)
-        ->orderBy('bulan2','ASC')
+        ->orderBy('bulan2', 'ASC')
         ->get();
 
       $daftar_realisasi = [];
       $totalanggarankas=0;
       $totalrealisasi=0;
-      $totaltargetfisik=0;
-      $totalfisik=0;
+      $totaltargetfisik = 0;
+      $totalfisik = 0;
 
       foreach ($r as $item)
       {
@@ -612,10 +612,10 @@ class SnapshotRKAPerubahanController extends Controller
     ->where('TABULAN', $tahun.$bulan)
     ->where('EntryLvl', 2)
     ->orderByRaw('kode_urusan="X" DESC')
-    ->orderBy('kode_bidang','ASC')
-    ->orderBy('kode_program','ASC')
-    ->orderBy('kode_kegiatan','ASC')
-    ->orderBy('kode_sub_kegiatan','ASC')
+    ->orderBy('kode_bidang', 'ASC')
+    ->orderBy('kode_program', 'ASC')
+    ->orderBy('kode_kegiatan', 'ASC')
+    ->orderBy('kode_sub_kegiatan', 'ASC')
     ->get();   
 
     $is_locked = 0;
@@ -647,7 +647,7 @@ class SnapshotRKAPerubahanController extends Controller
     if (is_null($rka))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',                
         'message'=>"Fetch data kegiatan perubahan dengan id ($id) gagal diperoleh"
       ], 422); 
@@ -808,7 +808,7 @@ class SnapshotRKAPerubahanController extends Controller
       ->where('TABULAN', $data_uraian->TABULAN)
       ->get();
 
-    $target = ['fisik'=>0,'anggaran'=>0];			
+    $target = ['fisik' => 0,'anggaran' => 0];			
     if ($mode == 'targetfisik')
     {
       $data = \DB::table('trSnapshotRKATargetRinc')

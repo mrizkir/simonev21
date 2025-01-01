@@ -35,15 +35,15 @@ class FormAPerubahanController extends Controller
     $tingkat = $forma->getRekeningProyek();
     $data=[];
     $total_data=[
-      'totalPaguDana'=>0,
-      'totalPersenBobot'=>0,
-      'totalRealisasiFisik'=>0,
-      'totalPersenTertimbangFisikSatuKegiatan'=>0,
-      'totalTargetSatuKegiatan'=>0,
-      'totalRealisasiSatuKegiatan'=>0,
-      'total_persen_rata2_realisasi'=>0,
-      'totalPersenTertimbangRealisasiSatuKegiatan'=>0,
-      'sisa_anggaran'=>0
+      'totalPaguDana' => 0,
+      'totalPersenBobot' => 0,
+      'totalRealisasiFisik' => 0,
+      'totalPersenTertimbangFisikSatuKegiatan' => 0,
+      'totalTargetSatuKegiatan' => 0,
+      'totalRealisasiSatuKegiatan' => 0,
+      'total_persen_rata2_realisasi' => 0,
+      'totalPersenTertimbangRealisasiSatuKegiatan' => 0,
+      'sisa_anggaran' => 0
     ];
 
     $chart_keuangan=[
@@ -66,7 +66,7 @@ class FormAPerubahanController extends Controller
     if (is_null($rka))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message' => 'Fetch data form a perubahan gagal diperoleh'
       ], 422);
@@ -80,14 +80,14 @@ class FormAPerubahanController extends Controller
       $tingkat_5 = $tingkat[5];
       $tingkat_6 = $tingkat[6];
       $totalPaguDana=0;
-      $totalUraian=0;
-      $totalTargetSatuKegiatan=0;
-      $totalRealisasiSatuKegiatan=0;
-      $totalPersenBobotSatuKegiatan=0;
-      $totalPersenTargetSatuKegiatan=0;
-      $totalPersenRealisasiSatuKegiatan=0;
-      $totalPersenFisikSatuKegiatan=0;
-      $totalPersenTertimbangFisikSatuKegiatan=0;
+      $totalUraian = 0;
+      $totalTargetSatuKegiatan = 0;
+      $totalRealisasiSatuKegiatan = 0;
+      $totalPersenBobotSatuKegiatan = 0;
+      $totalPersenTargetSatuKegiatan = 0;
+      $totalPersenRealisasiSatuKegiatan = 0;
+      $totalPersenFisikSatuKegiatan = 0;
+      $totalPersenTertimbangFisikSatuKegiatan = 0;
       foreach ($tingkat_1 as $k1=>$v1)
       {
         foreach ($tingkat_6 as $k6=>$v6)
@@ -519,7 +519,7 @@ class FormAPerubahanController extends Controller
     else
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
       ], 422);
@@ -573,53 +573,53 @@ class FormAPerubahanController extends Controller
         'Nm_Kegiatan' => $data_sub_kegiatan->Nm_Kegiatan,
         'Nm_Sub_Kegiatan' => $data_sub_kegiatan->Nm_Sub_Kegiatan,
         
-        'PaguDana1'=>0,
+        'PaguDana1' => 0,
         'PaguDana2' => $data_sub_kegiatan->PaguDana2,            
-        'PaguDana3'=>0,            
-        'JumlahKegiatan1'=>0,
+        'PaguDana3' => 0,            
+        'JumlahKegiatan1' => 0,
         'JumlahKegiatan2' => 1,
-        'JumlahKegiatan3'=>0,
+        'JumlahKegiatan3' => 0,
 
-        'JumlahSubKegiatan1'=>0,
+        'JumlahSubKegiatan1' => 0,
         'JumlahSubKegiatan2' => 1,
-        'JumlahSubKegiatan1'=>0,
+        'JumlahSubKegiatan1' => 0,
 
-        'JumlahUraian1'=>0,
+        'JumlahUraian1' => 0,
         'JumlahUraian2' => $jumlahuraian,
-        'JumlahUraian3'=>0,
+        'JumlahUraian3' => 0,
             
-        'TargetFisik1'=>0,
+        'TargetFisik1' => 0,
         'TargetFisik2' => $target_fisik,
-        'TargetFisik3'=>0,
-        'RealisasiFisik1'=>0,
+        'TargetFisik3' => 0,
+        'RealisasiFisik1' => 0,
         'RealisasiFisik2' => $persen_realisasi_fisik,
-        'RealisasiFisik3'=>0,
+        'RealisasiFisik3' => 0,
 
-        'TargetKeuangan1'=>0,
+        'TargetKeuangan1' => 0,
         'TargetKeuangan2' => $totalTargetKeuangan,
-        'TargetKeuangan3'=>0,
-        'RealisasiKeuangan1'=>0,
+        'TargetKeuangan3' => 0,
+        'RealisasiKeuangan1' => 0,
         'RealisasiKeuangan2' => $totalRealisasiKeuangan,
-        'RealisasiKeuangan3'=>0,
+        'RealisasiKeuangan3' => 0,
 
-        'PersenTargetKeuangan1'=>0,
+        'PersenTargetKeuangan1' => 0,
         'PersenTargetKeuangan2' => $persen_target_keuangan,
-        'PersenTargetKeuangan3'=>0,
-        'PersenRealisasiKeuangan1'=>0,
+        'PersenTargetKeuangan3' => 0,
+        'PersenRealisasiKeuangan1' => 0,
         'PersenRealisasiKeuangan2' => $persen_realisasi_keuangan,
-        'PersenRealisasiKeuangan3'=>0,
+        'PersenRealisasiKeuangan3' => 0,
             
-        'SisaPaguDana1'=>0,
+        'SisaPaguDana1' => 0,
         'SisaPaguDana2' => $sisa_anggaran,
-        'SisaPaguDana3'=>0,
+        'SisaPaguDana3' => 0,
 
-        'PersenSisaPaguDana1'=>0,
+        'PersenSisaPaguDana1' => 0,
         'PersenSisaPaguDana2' => $persen_sisa_anggaran,
-        'PersenSisaPaguDana3'=>0,
+        'PersenSisaPaguDana3' => 0,
 
-        'Bobot1'=>0,
+        'Bobot1' => 0,
         'Bobot2' => 100,
-        'Bobot3'=>0,
+        'Bobot3' => 0,
         
         'Bulan' => $no_bulan,
         'TA' => $data_sub_kegiatan->TA,

@@ -59,7 +59,7 @@ class PeringkatOPDPerubahanController extends Controller {
 				$peringkat_temp[$v->kode_organisasi] = $v;
 			}					
 		}
-		$k=0;
+		$k = 0;
 		$peringkat = [];
 		foreach ($peringkat_temp as $v)
 		{

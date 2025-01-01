@@ -161,26 +161,26 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
       ->sum('PaguDana2');
     
     $no_huruf=ord('A');
-    $total_sub_kegiatan=0;    
-    $total_uraian=0;
-    $totalPersenBobot=0;
-    $totalPersenTargetFisik=0;
-    $totalPersenRealisasiFisik=0;
-    $total_ttb_fisik=0;
-    $totalTargetKeuanganKeseluruhan=0;
-    $totalRealisasiKeuanganKeseluruhan=0;
+    $total_sub_kegiatan = 0;    
+    $total_uraian = 0;
+    $totalPersenBobot = 0;
+    $totalPersenTargetFisik = 0;
+    $totalPersenRealisasiFisik = 0;
+    $total_ttb_fisik = 0;
+    $totalTargetKeuanganKeseluruhan = 0;
+    $totalRealisasiKeuanganKeseluruhan = 0;
     $total_ttb_keuangan = 0;
-    $totalSisaAnggaran=0;
+    $totalSisaAnggaran = 0;
 
     $daftar_program=\DB::table('trRKA')
     ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
     ->where('SOrgID',$SOrgID)
     ->where('EntryLvl', 2)
     ->orderByRaw('kode_urusan="X" DESC')
-    ->orderBy('kode_bidang','ASC')
-    ->orderBy('kode_program','ASC')
-    ->orderBy('kode_kegiatan','ASC')
-    ->orderBy('kode_sub_kegiatan','ASC')
+    ->orderBy('kode_bidang', 'ASC')
+    ->orderBy('kode_program', 'ASC')
+    ->orderBy('kode_kegiatan', 'ASC')
+    ->orderBy('kode_sub_kegiatan', 'ASC')
     ->get();
     
     $row=$row_akhir+1;
@@ -189,7 +189,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
     {
       $styleArray = [
         'font'=>[
-          'bold'=>true,
+          'bold' => true,
         ],
         'fill'=>[
           'fillType'=>Fill::FILL_SOLID,
@@ -210,8 +210,8 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
       ->where('kode_program',$kode_program)
       ->where('SOrgID', $SOrgID)
       ->where('EntryLvl', 2)
-      ->orderBy('kode_kegiatan','ASC')
-      ->orderBy('kode_sub_kegiatan','ASC')
+      ->orderBy('kode_kegiatan', 'ASC')
+      ->orderBy('kode_sub_kegiatan', 'ASC')
       ->get();
 
       
@@ -233,7 +233,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         {
           $styleArray = [
             'font'=>[
-              'italic'=>true,
+              'italic' => true,
             ],
             'fill'=>[
               'fillType'=>Fill::FILL_SOLID,
@@ -265,7 +265,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
           ->where('SOrgID',$SOrgID)
           ->where('TA',$tahun)
           ->where('EntryLvl',2)
-          ->orderBy('kode_sub_kegiatan','ASC')
+          ->orderBy('kode_sub_kegiatan', 'ASC')
           ->get();
           
           if(isset($daftar_sub_kegiatan[0]))
@@ -329,7 +329,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
               $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
               $totalPersenRealisasiFisik+=$persen_realisasi_fisik;
 
-              $persen_tertimbang_fisik=0.00;
+              $persen_tertimbang_fisik = 0.00;
               if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
               {
                 $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);
@@ -391,7 +391,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
             $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
             $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_kegiatan,$jumlah_uraian_kegiatan);
-            $persen_tertimbang_fisik=0.00;
+            $persen_tertimbang_fisik = 0.00;
             if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
             {
               $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);
@@ -431,7 +431,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
       $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
       $persen_realisasi_fisik=Helper::formatPecahan($realisasi_fisik_program,$jumlah_uraian_program);
-      $persen_tertimbang_fisik=0.00;
+      $persen_tertimbang_fisik = 0.00;
       if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
       {
         $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);

@@ -22,7 +22,7 @@ class UsersController extends Controller {
   {           
     $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_BROWSE');
     $data = User::where('default_role','superadmin')
-          ->orderBy('username','ASC')
+          ->orderBy('username', 'ASC')
           ->get();
 
     $role = Role::findByName('superadmin');
@@ -103,7 +103,7 @@ class UsersController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'fetchdata',                
                   'message'=>["User ID ($id) gagal diperoleh"]
                 ], 422); 
@@ -146,7 +146,7 @@ class UsersController extends Controller {
         $permissions = $permission->pluck('name');
         $data = User::role('bapelitbang')
             ->select(\DB::raw('users.id'))                        
-            ->where('active',1)
+            ->where('active', 1)
             ->get();
 
         foreach ($data as $user)
@@ -160,7 +160,7 @@ class UsersController extends Controller {
         $permissions = $permission->pluck('name');
         $data = User::role('opd')
             ->select(\DB::raw('users.id'))                        
-            ->where('active',1)
+            ->where('active', 1)
             ->get();
 
         foreach ($data as $user)
@@ -174,7 +174,7 @@ class UsersController extends Controller {
         $permissions = $permission->pluck('name');
         $data = User::role('pptk')
             ->select(\DB::raw('users.id'))                        
-            ->where('active',1)
+            ->where('active', 1)
             ->get();
 
         foreach ($data as $user)
@@ -188,7 +188,7 @@ class UsersController extends Controller {
         $permissions = $permission->pluck('name');
         $data = User::role('dewan')
             ->select(\DB::raw('users.id'))                        
-            ->where('active',1)
+            ->where('active', 1)
             ->get();
 
         foreach ($data as $user)
@@ -202,7 +202,7 @@ class UsersController extends Controller {
         $permissions = $permission->pluck('name');
         $data = User::role('tapd')
             ->select(\DB::raw('users.id'))                        
-            ->where('active',1)
+            ->where('active', 1)
             ->get();
 
         foreach ($data as $user)
@@ -297,7 +297,7 @@ class UsersController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["User ID ($id) gagal diupdate"]
                 ], 422); 
@@ -358,7 +358,7 @@ class UsersController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'update',                
                   'message'=>["Password User ID ($id) gagal diupdate"]
                 ], 422); 
@@ -413,7 +413,7 @@ class UsersController extends Controller {
     if ($request->ajax()) 
     {
       return response()->json([
-        'success'=>true,
+        'success' => true,
         'message' => 'Data ini telah berhasil diubah.'
       ]);
     }
@@ -438,7 +438,7 @@ class UsersController extends Controller {
     if (is_null($user))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                                      
                   'message'=>["User dengan id ($id) gagal dihapus"]
                 ], 422);    
@@ -472,7 +472,7 @@ class UsersController extends Controller {
     if ($user == null)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',                
         'message'=>["Data User tidak ditemukan."]
       ], 422);         
@@ -504,7 +504,7 @@ class UsersController extends Controller {
           }
         }
         return Response()->json([
-          'status'=>0,
+          'status' => 0,
           'pid' => 'store',
           'user' => $user,                
           'message'=>"Foto User ($username)  berhasil diupload"
@@ -527,7 +527,7 @@ class UsersController extends Controller {
     if ($user == null)
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'store',                
                   'message'=>["Data User tidak ditemukan."]
                 ], 422);         
@@ -563,7 +563,7 @@ class UsersController extends Controller {
     if ($user == null)
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'store',                
                   'message'=>["Data User tidak ditemukan."]
                 ], 422);         
@@ -587,7 +587,7 @@ class UsersController extends Controller {
     if ($user == null)
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'store',                
                   'message'=>["Data User tidak ditemukan."]
                 ], 422);         

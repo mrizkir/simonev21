@@ -17,5 +17,10 @@
     <env name="APP_ENV" value="testing"/>
     <env name="CACHE_DRIVER" value="array"/>
     <env name="QUEUE_CONNECTION" value="sync"/>
+
+    <env name="OrgID" value=""/>
+    <env name="SOrgID" value=""/>
+    <env name="TA" value=""/>
+    <env name="NO_BULAN" value=""/>
   </php>
 </phpunit>

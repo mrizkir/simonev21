@@ -17,7 +17,7 @@ class ProvinsiController extends Controller {
      */
     public function index(Request $request)
     {
-        $data = ProvinsiModel::orderBy('nama','ASC')
+        $data = ProvinsiModel::orderBy('nama', 'ASC')
                                 ->get();
                                 
         return Response()->json([

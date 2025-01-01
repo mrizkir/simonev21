@@ -21,7 +21,7 @@ class RKPDMurniController extends Controller
       `Kd_Urusan`,
       `Nm_Urusan`        
     '))
-    ->orderBy('Kd_Urusan','ASC')                                    
+    ->orderBy('Kd_Urusan', 'ASC')                                    
     ->where('TA', $tahun)
     ->get();
     
@@ -61,7 +61,7 @@ class RKPDMurniController extends Controller
         `Nm_Bidang`        
       '))
       ->where('UrsID', $item_u->UrsID)
-      ->orderBy('Kd_Bidang','ASC')                                    
+      ->orderBy('Kd_Bidang', 'ASC')                                    
       ->get();
 
       if ($bidang_urusan->count() > 0)
@@ -96,9 +96,9 @@ class RKPDMurniController extends Controller
           ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
           ->join('tmUrusan AS D','C.UrsID','D.UrsID')
           ->where('B.BidangID', $item_bu->BidangID)
-          ->orderBy('D.Kd_Urusan','ASC')                                    
-          ->orderBy('C.Kd_Bidang','ASC')                                    
-          ->orderBy('A.Kd_Program','ASC')                                    
+          ->orderBy('D.Kd_Urusan', 'ASC')                                    
+          ->orderBy('C.Kd_Bidang', 'ASC')                                    
+          ->orderBy('A.Kd_Program', 'ASC')                                    
           ->get();
           
           if ($program->count() > 0)
@@ -133,10 +133,10 @@ class RKPDMurniController extends Controller
               ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
               ->join('tmUrusan AS D','C.UrsID','D.UrsID')
               ->where('A.PrgID', $item_p->PrgID)
-              ->orderBy('D.Kd_Urusan','ASC')                                    
-              ->orderBy('C.Kd_Bidang','ASC')                                    
-              ->orderBy('A1.Kd_Program','ASC')                                    
-              ->orderBy('A.Kd_Kegiatan','ASC')                                    
+              ->orderBy('D.Kd_Urusan', 'ASC')                                    
+              ->orderBy('C.Kd_Bidang', 'ASC')                                    
+              ->orderBy('A1.Kd_Program', 'ASC')                                    
+              ->orderBy('A.Kd_Kegiatan', 'ASC')                                    
               ->get();
 
               if ($kegiatan->count() > 0)
@@ -175,11 +175,11 @@ class RKPDMurniController extends Controller
                     ->join('tmBidangUrusan AS E','D.BidangID','E.BidangID')
                     ->join('tmUrusan AS F','F.UrsID','E.UrsID')
                     ->where('A.KgtID', $item_k->KgtID)
-                    ->orderBy('F.Kd_Urusan','ASC')                                    
-                    ->orderBy('E.Kd_Bidang','ASC')                                    
-                    ->orderBy('C.Kd_Program','ASC')                                    
-                    ->orderBy('B.Kd_Kegiatan','ASC')                                    
-                    ->orderBy('A.Kd_SubKegiatan','ASC')                                    
+                    ->orderBy('F.Kd_Urusan', 'ASC')                                    
+                    ->orderBy('E.Kd_Bidang', 'ASC')                                    
+                    ->orderBy('C.Kd_Program', 'ASC')                                    
+                    ->orderBy('B.Kd_Kegiatan', 'ASC')                                    
+                    ->orderBy('A.Kd_SubKegiatan', 'ASC')                                    
                     ->get();
 
                   if ($sub_kegiatan->count() > 0)

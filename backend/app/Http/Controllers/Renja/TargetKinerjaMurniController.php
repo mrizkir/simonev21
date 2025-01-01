@@ -83,7 +83,7 @@ class TargetKinerjaMurniController extends Controller
                       `trRKA`.`updated_at`
                       '))
               ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
-              ->where('trRKA.EntryLvl',1)
+              ->where('trRKA.EntryLvl', 1)
               ->find($id);
 
     return $rka;
@@ -100,11 +100,11 @@ class TargetKinerjaMurniController extends Controller
 
     $data=[
       'datarealisasi'=>[],
-      'totalanggarankas'=>0,
-      'totalrealisasi'=>0,
-      'totaltargetfisik'=>0,
-      'totalfisik'=>0,
-      'sisa_anggaran'=>0,
+      'totalanggarankas' => 0,
+      'totalrealisasi' => 0,
+      'totaltargetfisik' => 0,
+      'totalfisik' => 0,
+      'sisa_anggaran' => 0,
     ];
     if (!is_null($datauraian))        
     {
@@ -122,14 +122,14 @@ class TargetKinerjaMurniController extends Controller
                         `updated_at`
                       '))
               ->where('RKARincID', $RKARincID)
-              ->orderBy('bulan1','ASC')
+              ->orderBy('bulan1', 'ASC')
               ->get();
 
       $daftar_realisasi = [];
       $totalanggarankas=0;
       $totalrealisasi=0;
-      $totaltargetfisik=0;
-      $totalfisik=0;
+      $totaltargetfisik = 0;
+      $totalfisik = 0;
 
       foreach ($r as $item)
       {
@@ -230,12 +230,12 @@ class TargetKinerjaMurniController extends Controller
             '))
             ->where('SOrgID', $unitkerja->SOrgID)
             ->where('TA', $tahun)
-            ->where('EntryLvl',1)
+            ->where('EntryLvl', 1)
             ->orderByRaw('kode_urusan="X" DESC')
-            ->orderBy('kode_bidang','ASC')
-            ->orderBy('kode_program','ASC')
-            ->orderBy('kode_kegiatan','ASC')
-            ->orderBy('kode_sub_kegiatan','ASC')
+            ->orderBy('kode_bidang', 'ASC')
+            ->orderBy('kode_program', 'ASC')
+            ->orderBy('kode_kegiatan', 'ASC')
+            ->orderBy('kode_sub_kegiatan', 'ASC')
             ->get();        
     
     $data->transform(function ($item,$key) {
@@ -323,10 +323,10 @@ class TargetKinerjaMurniController extends Controller
         'RKARincID' => $request->input('RKARincID'),
         'bulan1' => $i+1,
         'bulan2' => $i+1,
-        'target1'=>0,
-        'target2'=>0,
+        'target1' => 0,
+        'target2' => 0,
         'fisik1' => $bulan_fisik[$i],
-        'fisik2'=>0,
+        'fisik2' => 0,
         'EntryLvl' => 1,
         'Descr' => $request->input('Descr'),
         'TA' => $request->input('tahun'),
@@ -365,7 +365,7 @@ class TargetKinerjaMurniController extends Controller
     if ($jumlah_target > 100)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',				
         'message'=>"Rencana target fisik uraian gagal diubah karena jumlah fisik ($jumlah_target) melampaui 100."
       ], 422)->setEncodingOptions(JSON_NUMERIC_CHECK); 
@@ -409,10 +409,10 @@ class TargetKinerjaMurniController extends Controller
         'RKARincID' => $request->input('RKARincID'),
         'bulan1' => $i+1,
         'bulan2' => $i+1,
-        'fisik1'=>0,
-        'fisik2'=>0,
+        'fisik1' => 0,
+        'fisik2' => 0,
         'target1' => $bulan_anggaran[$i],
-        'target2'=>0,
+        'target2' => 0,
         'EntryLvl' => 1,
         'Descr' => $request->input('Descr'),
         'TA' => $request->input('tahun'),
@@ -454,7 +454,7 @@ class TargetKinerjaMurniController extends Controller
     if ($jumlah_target > $uraian->PaguUraian1)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',				
         'message'=>"Rencana target anggaran kas uraian gagal diubah karena jumlah anggaran kas ($jumlah_target) melampaui Pagu Uraian ({$uraian->PaguUraian1})."
       ], 422)->setEncodingOptions(JSON_NUMERIC_CHECK); 
@@ -503,7 +503,7 @@ class TargetKinerjaMurniController extends Controller
     if (is_null($target_kinerja))
     {
       return Response()->json([
-                              'status'=>0,
+                              'status' => 0,
                               'pid' => 'destroy',                
                               'message'=>["Target Kinerja ($id) gagal dihapus"]
                           ], 422); 

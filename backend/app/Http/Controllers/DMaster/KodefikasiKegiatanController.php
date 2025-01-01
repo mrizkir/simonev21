@@ -67,7 +67,7 @@ class KodefikasiKegiatanController extends Controller {
       ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
       ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
       ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
-      ->orderBy('kode_kegiatan','ASC')                                    
+      ->orderBy('kode_kegiatan', 'ASC')                                    
       ->where('tmKegiatan.TA', $ta)
       ->get();
 
@@ -183,7 +183,7 @@ class KodefikasiKegiatanController extends Controller {
     if ($program->Locked == 1)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'store',                
         'message'=>["Data Kodefikasi Kegiatan gagal ditambah karena program ini terkunci / tidak aktif"]
       ], 422);
@@ -233,7 +233,7 @@ class KodefikasiKegiatanController extends Controller {
     if (is_null($kodefikasikegiatan))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'update',                
         'message'=>["Data Kodefikasi Kegiatan ($id) gagal diupdate"]
       ], 422); 
@@ -279,7 +279,7 @@ class KodefikasiKegiatanController extends Controller {
       if ($program->Locked == 1)
       {
         return Response()->json([
-          'status'=>0,
+          'status' => 0,
           'pid' => 'store',                
           'message'=>["Data Kodefikasi Kegiatan gagal ditambah karena program ini terkunci / tidak aktif"]
         ], 422);
@@ -358,11 +358,11 @@ class KodefikasiKegiatanController extends Controller {
                 ->from('trRKA')
                 ->where('SOrgID', $SOrgID);
         })
-        ->orderBy('tmSubKegiatan.Kd_SubKegiatan','ASC')                                    
-        ->orderBy('tmKegiatan.Kd_Kegiatan','ASC')                                    
-        ->orderBy('tmProgram.Kd_Program','ASC')                                    
-        ->orderBy('tmBidangUrusan.Kd_Bidang','ASC')                                    
-        ->orderBy('tmUrusan.Kd_Urusan','ASC')                                    
+        ->orderBy('tmSubKegiatan.Kd_SubKegiatan', 'ASC')                                    
+        ->orderBy('tmKegiatan.Kd_Kegiatan', 'ASC')                                    
+        ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
+        ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
+        ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
         ->get();
 
         return Response()->json([
@@ -411,7 +411,7 @@ class KodefikasiKegiatanController extends Controller {
     if (is_null($kodefikasikegiatan))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Kegiatan ($id) gagal dihapus"]
       ], 422); 
@@ -419,7 +419,7 @@ class KodefikasiKegiatanController extends Controller {
     else if ($kodefikasikegiatan->Locked == 1)
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'destroy',                
         'message'=>["Data Kodefikasi Kegiatan ($id) gagal dihapus karena status terkunci / tidak aktif"]
       ], 422); 

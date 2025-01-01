@@ -35,15 +35,15 @@ class FormAMurniController extends Controller
     $tingkat = $forma->getRekeningProyek();
     $data = [];
     $total_data = [
-      'totalPaguDana'=>0,
-      'totalPersenBobot'=>0,
-      'totalRealisasiFisik'=>0,
-      'totalPersenTertimbangFisikSatuKegiatan'=>0,
-      'totalTargetSatuKegiatan'=>0,
-      'totalRealisasiSatuKegiatan'=>0,
-      'total_persen_rata2_realisasi'=>0,
-      'totalPersenTertimbangRealisasiSatuKegiatan'=>0,
-      'sisa_anggaran'=>0
+      'totalPaguDana' => 0,
+      'totalPersenBobot' => 0,
+      'totalRealisasiFisik' => 0,
+      'totalPersenTertimbangFisikSatuKegiatan' => 0,
+      'totalTargetSatuKegiatan' => 0,
+      'totalRealisasiSatuKegiatan' => 0,
+      'total_persen_rata2_realisasi' => 0,
+      'totalPersenTertimbangRealisasiSatuKegiatan' => 0,
+      'sisa_anggaran' => 0
     ];
 
     $chart_keuangan=[
@@ -66,7 +66,7 @@ class FormAMurniController extends Controller
     if (is_null($rka))
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message' => 'Fetch data form a murni gagal diperoleh'
       ], 422);
@@ -81,14 +81,14 @@ class FormAMurniController extends Controller
       $tingkat_6 = $tingkat[6];
       
       $totalPaguDana=0;
-      $totalUraian=0;
-      $totalTargetSatuKegiatan=0;
-      $totalRealisasiSatuKegiatan=0;
-      $totalPersenBobotSatuKegiatan=0;
-      $totalPersenTargetSatuKegiatan=0;
-      $totalPersenRealisasiSatuKegiatan=0;
-      $totalPersenFisikSatuKegiatan=0;
-      $totalPersenTertimbangFisikSatuKegiatan=0;
+      $totalUraian = 0;
+      $totalTargetSatuKegiatan = 0;
+      $totalRealisasiSatuKegiatan = 0;
+      $totalPersenBobotSatuKegiatan = 0;
+      $totalPersenTargetSatuKegiatan = 0;
+      $totalPersenRealisasiSatuKegiatan = 0;
+      $totalPersenFisikSatuKegiatan = 0;
+      $totalPersenTertimbangFisikSatuKegiatan = 0;
       foreach ($tingkat_1 as $k1=>$v1)
       {
         foreach ($tingkat_6 as $k6 => $v6)
@@ -528,7 +528,7 @@ class FormAMurniController extends Controller
     else
     {
       return Response()->json([
-        'status'=>0,
+        'status' => 0,
         'pid' => 'fetchdata',
         'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
       ], 422);
@@ -582,52 +582,52 @@ class FormAMurniController extends Controller
         'Nm_Sub_Kegiatan' => $data_sub_kegiatan->Nm_Sub_Kegiatan,
         
         'PaguDana1' => $data_sub_kegiatan->PaguDana1,
-        'PaguDana2'=>0,            
-        'PaguDana3'=>0,            
+        'PaguDana2' => 0,            
+        'PaguDana3' => 0,            
         'JumlahKegiatan1' => 1,
-        'JumlahKegiatan2'=>0,
-        'JumlahKegiatan3'=>0,
+        'JumlahKegiatan2' => 0,
+        'JumlahKegiatan3' => 0,
 
         'JumlahSubKegiatan1' => 1,
-        'JumlahSubKegiatan2'=>0,
-        'JumlahSubKegiatan1'=>0,
+        'JumlahSubKegiatan2' => 0,
+        'JumlahSubKegiatan1' => 0,
 
         'JumlahUraian1' => $jumlahuraian,
-        'JumlahUraian2'=>0,
-        'JumlahUraian3'=>0,
+        'JumlahUraian2' => 0,
+        'JumlahUraian3' => 0,
             
         'TargetFisik1' => $target_fisik,
-        'TargetFisik2'=>0,
-        'TargetFisik3'=>0,
+        'TargetFisik2' => 0,
+        'TargetFisik3' => 0,
         'RealisasiFisik1' => $persen_realisasi_fisik,
-        'RealisasiFisik2'=>0,
-        'RealisasiFisik3'=>0,
+        'RealisasiFisik2' => 0,
+        'RealisasiFisik3' => 0,
 
         'TargetKeuangan1' => $totalTargetKeuangan,
-        'TargetKeuangan2'=>0,
-        'TargetKeuangan3'=>0,
+        'TargetKeuangan2' => 0,
+        'TargetKeuangan3' => 0,
         'RealisasiKeuangan1' => $totalRealisasiKeuangan,
-        'RealisasiKeuangan2'=>0,
-        'RealisasiKeuangan3'=>0,
+        'RealisasiKeuangan2' => 0,
+        'RealisasiKeuangan3' => 0,
 
         'PersenTargetKeuangan1' => $persen_target_keuangan,
-        'PersenTargetKeuangan2'=>0,
-        'PersenTargetKeuangan3'=>0,
+        'PersenTargetKeuangan2' => 0,
+        'PersenTargetKeuangan3' => 0,
         'PersenRealisasiKeuangan1' => $persen_realisasi_keuangan,
-        'PersenRealisasiKeuangan2'=>0,
-        'PersenRealisasiKeuangan3'=>0,
+        'PersenRealisasiKeuangan2' => 0,
+        'PersenRealisasiKeuangan3' => 0,
             
         'SisaPaguDana1' => $sisa_anggaran,
-        'SisaPaguDana2'=>0,
-        'SisaPaguDana3'=>0,
+        'SisaPaguDana2' => 0,
+        'SisaPaguDana3' => 0,
 
         'PersenSisaPaguDana1' => $persen_sisa_anggaran,
-        'PersenSisaPaguDana2'=>0,
-        'PersenSisaPaguDana3'=>0,
+        'PersenSisaPaguDana2' => 0,
+        'PersenSisaPaguDana3' => 0,
 
         'Bobot1' => 100,
-        'Bobot2'=>0,
-        'Bobot3'=>0,
+        'Bobot2' => 0,
+        'Bobot3' => 0,
         
         'Bulan' => $no_bulan,
         'TA' => $data_sub_kegiatan->TA,

@@ -50,7 +50,7 @@ class SubOrganisasiController extends Controller {
       $data = SubOrganisasiModel::select($select)
                 ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
                 ->where('tmSOrg.TA', $tahun)
-                ->orderBy('kode_sub_organisasi','ASC')
+                ->orderBy('kode_sub_organisasi', 'ASC')
                 ->get();
     }       
     else if ($this->hasRole('opd'))
@@ -61,7 +61,7 @@ class SubOrganisasiController extends Controller {
         ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
         ->where('tmSOrg.TA', $tahun)
         ->whereIn('tmOrg.OrgID', $daftar_opd)
-        ->orderBy('kode_sub_organisasi','ASC')
+        ->orderBy('kode_sub_organisasi', 'ASC')
         ->get();
     }
     
@@ -380,7 +380,7 @@ class SubOrganisasiController extends Controller {
     if (is_null($sub_organisasi))
     {
       return Response()->json([
-                  'status'=>0,
+                  'status' => 0,
                   'pid' => 'destroy',                
                   'message'=>["Data Unit Kerja dengan ($id) gagal dihapus"]
                 ], 422); 

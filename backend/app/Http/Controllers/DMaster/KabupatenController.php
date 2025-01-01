@@ -17,7 +17,7 @@ class KabupatenController extends Controller {
      */
     public function index(Request $request)
     {
-        $data = KotaModel::orderBy('nama','ASC')
+        $data = KotaModel::orderBy('nama', 'ASC')
                                 ->get();
                                 
         return Response()->json([

@@ -23,12 +23,12 @@ class RenjaPerubahanController extends Controller
     $bulan_realisasi = $request->input('bulan_realisasi');
         
     $statistik1=[
-      'PaguDana2'=>0,             
-      'JumlahProgram2'=>0,             
-      'JumlahKegiatan2'=>0, 
-      'JumlahSubKegiatan2'=>0,
-      'RealisasiKeuangan2'=>0,             
-      'RealisasiFisik2'=>0, 
+      'PaguDana2' => 0,             
+      'JumlahProgram2' => 0,             
+      'JumlahKegiatan2' => 0, 
+      'JumlahSubKegiatan2' => 0,
+      'RealisasiKeuangan2' => 0,             
+      'RealisasiFisik2' => 0, 
     ];
         
     $chart_keuangan=[
@@ -64,13 +64,13 @@ class RenjaPerubahanController extends Controller
       if (is_null($statistik1))
       {
         $statistik1 = [
-          'PaguDana2'=>0,             
-          'JumlahProgram2'=>0,             
-          'JumlahKegiatan2'=>0,             
-          'JumlahSubKegiatan2'=>0,             
-          'RealisasiKeuangan2'=>0,             
-          'RealisasiFisik2'=>0, 
-          'PersenRealisasiKeuangan2'=>0, 	
+          'PaguDana2' => 0,             
+          'JumlahProgram2' => 0,             
+          'JumlahKegiatan2' => 0,             
+          'JumlahSubKegiatan2' => 0,             
+          'RealisasiKeuangan2' => 0,             
+          'RealisasiFisik2' => 0, 
+          'PersenRealisasiKeuangan2' => 0, 	
         ];       
       }
       else
@@ -348,12 +348,12 @@ class RenjaPerubahanController extends Controller
     
     $tahun = $request->input('ta');        
     $statistik1=[
-          'PaguDana2'=>0,             
-          'JumlahProgram2'=>0,             
-          'JumlahKegiatan2'=>0,             
-          'JumlahSubKegiatan2'=>0,             
-          'RealisasiKeuangan2'=>0,             
-          'RealisasiFisik2'=>0, 
+          'PaguDana2' => 0,             
+          'JumlahProgram2' => 0,             
+          'JumlahKegiatan2' => 0,             
+          'JumlahSubKegiatan2' => 0,             
+          'RealisasiKeuangan2' => 0,             
+          'RealisasiFisik2' => 0, 
         ];
     if ($this->hasRole(['superadmin','bapelitbang']))
     {
@@ -619,34 +619,34 @@ class RenjaPerubahanController extends Controller
         
     $opd = OrganisasiModel::find($OrgID); 
     $total_data=[
-      'totalPaguOPD'=>0,
-      'totalPersenBobot'=>0,
-      'totalPersenTargetFisik'=>0,
-      'totalPersenRealisasiFisik'=>0,
-      'total_ttb_fisik'=>0,
-      'totalTargetKeuanganKeseluruhan'=>0,
-      'totalRealisasiKeuanganKeseluruhan'=>0,
-      'totalPersenTargetKeuangan'=>0,
-      'totalPersenRealisasiKeuangan'=>0,
-      'total_ttb_keuangan'=>0,
-      'totalSisaAnggaran'=>0,
-      'totalPersenSisaAnggaran'=>0,
+      'totalPaguOPD' => 0,
+      'totalPersenBobot' => 0,
+      'totalPersenTargetFisik' => 0,
+      'totalPersenRealisasiFisik' => 0,
+      'total_ttb_fisik' => 0,
+      'totalTargetKeuanganKeseluruhan' => 0,
+      'totalRealisasiKeuanganKeseluruhan' => 0,
+      'totalPersenTargetKeuangan' => 0,
+      'totalPersenRealisasiKeuangan' => 0,
+      'total_ttb_keuangan' => 0,
+      'totalSisaAnggaran' => 0,
+      'totalPersenSisaAnggaran' => 0,
     ];
     if (!is_null($opd))
     {
       $totalPaguOPD = $opd->PaguDana2; 
 
-      $total_kegiatan=0;
-      $total_sub_kegiatan=0;
-      $total_uraian=0;
-      $totalPersenBobot=0;
-      $totalPersenTargetFisik=0;
-      $totalPersenRealisasiFisik=0;
-      $total_ttb_fisik=0;
-      $totalTargetKeuanganKeseluruhan=0;
-      $totalRealisasiKeuanganKeseluruhan=0;
+      $total_kegiatan = 0;
+      $total_sub_kegiatan = 0;
+      $total_uraian = 0;
+      $totalPersenBobot = 0;
+      $totalPersenTargetFisik = 0;
+      $totalPersenRealisasiFisik = 0;
+      $total_ttb_fisik = 0;
+      $totalTargetKeuanganKeseluruhan = 0;
+      $totalRealisasiKeuanganKeseluruhan = 0;
       $total_ttb_keuangan = 0;
-      $totalSisaAnggaran=0;     
+      $totalSisaAnggaran = 0;     
       
       $daftar_sub_kegiatan = \DB::table('trRKA')
         ->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
@@ -687,7 +687,7 @@ class RenjaPerubahanController extends Controller
           $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
           $totalPersenRealisasiFisik+= $persen_realisasi_fisik; 
           
-          $persen_tertimbang_fisik=0.00;
+          $persen_tertimbang_fisik = 0.00;
           if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
           {
               $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
@@ -792,31 +792,31 @@ class RenjaPerubahanController extends Controller
   {
     $totalPaguOPD = $opd->PaguDana2;
 
-    $total_kegiatan=0;
-    $total_sub_kegiatan=0;
-    $total_uraian=0;
-    $totalPersenBobot=0;
-    $totalPersenTargetFisik=0;
-    $totalPersenRealisasiFisik=0;
-    $total_ttb_fisik=0;
-    $totalTargetKeuanganKeseluruhan=0;
-    $totalRealisasiKeuanganKeseluruhan=0;
+    $total_kegiatan = 0;
+    $total_sub_kegiatan = 0;
+    $total_uraian = 0;
+    $totalPersenBobot = 0;
+    $totalPersenTargetFisik = 0;
+    $totalPersenRealisasiFisik = 0;
+    $total_ttb_fisik = 0;
+    $totalTargetKeuanganKeseluruhan = 0;
+    $totalRealisasiKeuanganKeseluruhan = 0;
     $total_ttb_keuangan = 0;
-    $totalSisaAnggaran=0;
+    $totalSisaAnggaran = 0;
         
     for ($i=1;$i<=12;$i++)
     {   
-      $total_kegiatan=0;
-      $total_sub_kegiatan=0;
-      $total_uraian=0;
-      $totalPersenBobot=0;
-      $totalPersenTargetFisik=0;
-      $totalPersenRealisasiFisik=0;
-      $total_ttb_fisik=0;
-      $totalTargetKeuanganKeseluruhan=0;
-      $totalRealisasiKeuanganKeseluruhan=0;
+      $total_kegiatan = 0;
+      $total_sub_kegiatan = 0;
+      $total_uraian = 0;
+      $totalPersenBobot = 0;
+      $totalPersenTargetFisik = 0;
+      $totalPersenRealisasiFisik = 0;
+      $total_ttb_fisik = 0;
+      $totalTargetKeuanganKeseluruhan = 0;
+      $totalRealisasiKeuanganKeseluruhan = 0;
       $total_ttb_keuangan = 0;
-      $totalSisaAnggaran=0;
+      $totalSisaAnggaran = 0;
 
       $daftar_sub_kegiatan = \DB::table('trRKA')
         ->select(\DB::raw('`RKAID`,`PaguDana2`'))                                                                             
@@ -869,7 +869,7 @@ class RenjaPerubahanController extends Controller
           $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik2,$jumlahuraian);
           $totalPersenRealisasiFisik+= $persen_realisasi_fisik; 
           
-          $persen_tertimbang_fisik=0.00;
+          $persen_tertimbang_fisik = 0.00;
           if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
           {
             $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100, 2);                            
@@ -925,50 +925,50 @@ class RenjaPerubahanController extends Controller
             'OrgID' => $OrgID,
             'kode_organisasi' => $opd->kode_organisasi,
             'OrgNm' => $opd->Nm_Organisasi,                        
-            'PaguDana1'=>0,            
+            'PaguDana1' => 0,            
             'PaguDana2' => $totalPaguOPD,            
-            'PaguDana3'=>0,                                    
-            'JumlahKegiatan1'=>0,
+            'PaguDana3' => 0,                                    
+            'JumlahKegiatan1' => 0,
             'JumlahKegiatan2' => $total_kegiatan,
-            'JumlahKegiatan3'=>0,
-            'JumlahUraian1'=>0,
+            'JumlahKegiatan3' => 0,
+            'JumlahUraian1' => 0,
             'JumlahUraian2' => $total_uraian,
-            'JumlahUraian3'=>0,
+            'JumlahUraian3' => 0,
                 
-            'TargetFisik1'=>0,
+            'TargetFisik1' => 0,
             'TargetFisik2' => $totalPersenTargetFisik,
-            'TargetFisik3'=>0,
+            'TargetFisik3' => 0,
 
-            'RealisasiFisik1'=>0,
+            'RealisasiFisik1' => 0,
             'RealisasiFisik2' => $totalPersenRealisasiFisik,
-            'RealisasiFisik3'=>0,
+            'RealisasiFisik3' => 0,
 
-            'TargetKeuangan1'=>0,
+            'TargetKeuangan1' => 0,
             'TargetKeuangan2' => $totalTargetKeuanganKeseluruhan,
-            'TargetKeuangan3'=>0,
-            'RealisasiKeuangan1'=>0,
+            'TargetKeuangan3' => 0,
+            'RealisasiKeuangan1' => 0,
             'RealisasiKeuangan2' => $totalRealisasiKeuanganKeseluruhan,
-            'RealisasiKeuangan3'=>0,
+            'RealisasiKeuangan3' => 0,
 
-            'PersenTargetKeuangan1'=>0,
+            'PersenTargetKeuangan1' => 0,
             'PersenTargetKeuangan2' => $totalPersenTargetKeuangan,
-            'PersenTargetKeuangan3'=>0,
+            'PersenTargetKeuangan3' => 0,
 
-            'PersenRealisasiKeuangan1'=>0,
+            'PersenRealisasiKeuangan1' => 0,
             'PersenRealisasiKeuangan2' => $totalPersenRealisasiKeuangan,
-            'PersenRealisasiKeuangan3'=>0,
+            'PersenRealisasiKeuangan3' => 0,
                 
-            'SisaPaguDana1'=>0,
+            'SisaPaguDana1' => 0,
             'SisaPaguDana2' => $totalSisaAnggaran,
-            'SisaPaguDana3'=>0,
+            'SisaPaguDana3' => 0,
 
-            'PersenSisaPaguDana1'=>0,
+            'PersenSisaPaguDana1' => 0,
             'PersenSisaPaguDana2' => $totalPersenSisaAnggaran,
-            'PersenSisaPaguDana3'=>0,
+            'PersenSisaPaguDana3' => 0,
 
-            'Bobot1'=>0,
+            'Bobot1' => 0,
             'Bobot2' => $totalPersenBobot,
-            'Bobot3'=>0,
+            'Bobot3' => 0,
             
             'Bulan' => $i,
             'TA' => $tahun,

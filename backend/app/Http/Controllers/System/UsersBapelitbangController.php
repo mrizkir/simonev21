@@ -20,7 +20,7 @@ class UsersBapelitbangController extends Controller {
     {           
         $this->hasPermissionTo('SYSTEM-USERS-BAPELITBANG_BROWSE');
         $data = User::where('default_role','bapelitbang')
-                    ->orderBy('username','ASC')
+                    ->orderBy('username', 'ASC')
                     ->get();       
                     
         $role = Role::findByName('bapelitbang');
@@ -111,7 +111,7 @@ class UsersBapelitbangController extends Controller {
         if (is_null($user))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'update',                
                                     'message'=>["User ID ($id) gagal diperoleh"]
                                 ], 422); 
@@ -143,7 +143,7 @@ class UsersBapelitbangController extends Controller {
         if (is_null($user))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'update',                
                                     'message'=>["User ID ($id) gagal diupdate"]
                                 ], 422); 
@@ -203,7 +203,7 @@ class UsersBapelitbangController extends Controller {
         if (is_null($user))
         {
             return Response()->json([
-                                    'status'=>0,
+                                    'status' => 0,
                                     'pid' => 'destroy',                
                                     'message'=>["User ID ($id) gagal dihapus"]
                                 ], 422); 
