@@ -50,16 +50,31 @@
         <template v-slot:item="{ index, item }">
           <tr>
             <td>{{ index + 1 }}</td>
-            <td>{{ item.Nm_ProgramRPJMD }}</td>
+            <td colspan="9">{{ item.Nm_ProgramRPJMD }}</td>
           </tr>
+          <template v-if="item.indikator_kinerja.length > 0">
+            <template v-for="(indikator, i) in item.indikator_kinerja" :key="indikator.RpjmdRelasiIndikatorID">
+              <tr class="bg-green-lighten-5">
+                <td colspan="2">
+                  <v-icon icon="mdi-arrow-right" />
+                </td>
+                <td>{{ indikator.NamaIndikator }}</td>
+              </tr>
+            </template>
+          </template>
         </template>
       </v-data-table-server>
     </v-container>
-  </v-main-layout>
+    <template v-slot:filtersidebar>
+      <Filter3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter3" />
+    </template>
+  </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
-  import pageHeader from '@/layouts/PageHeader.vue'  
+  import pageHeader from '@/layouts/PageHeader.vue'
+  import filter3 from '@/layouts/FilterMode3.vue'
+  // import filter3 from '@/components/sidebar/FilterMode3'
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
 
@@ -110,6 +125,14 @@
       pageStore: null,
     }),
     methods: {
+      changeTahunAnggaran(ta) {
+				this.tahun_anggaran = ta;
+				// var page = this.$store.getters["uiadmin/Page"]("rkpdmurni");
+				// page.tahun_anggaran = ta;
+				// this.$store.dispatch("uiadmin/updatePage", page);
+
+				// this.initialize();
+			},
       async fetchSasaranRPJMD() {
         var request_param = {          
           PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
@@ -271,6 +294,7 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
+      'v-filter-3': filter3,
     },
   }
 </script>

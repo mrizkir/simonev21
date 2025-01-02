@@ -316,12 +316,12 @@
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
                 <td>{{ indikator.Satuan }}</td>
                 <td>{{ indikator.data_1 == '-99999' ? 'n.a' :  indikator.data_1 }}</td>                              
-                <td>{{ indikator.data_2 }}</td>                
-                <td>{{ indikator.data_3 }}</td>                
-                <td>{{ indikator.data_4 }}</td>                
-                <td>{{ indikator.data_5 }}</td>                
-                <td>{{ indikator.data_6 }}</td>
-                <td>{{ indikator.data_7 }}</td>
+                <td>{{ indikator.data_2 == '-99999' ? 'n.a' :  indikator.data_2 }}</td>
+                <td>{{ indikator.data_3 == '-99999' ? 'n.a' :  indikator.data_3 }}</td>
+                <td>{{ indikator.data_4 == '-99999' ? 'n.a' :  indikator.data_4 }}</td>
+                <td>{{ indikator.data_5 == '-99999' ? 'n.a' :  indikator.data_5 }}</td>
+                <td>{{ indikator.data_6 == '-99999' ? 'n.a' :  indikator.data_6 }}</td>
+                <td>{{ indikator.data_7 == '-99999' ? 'n.a' :  indikator.data_7 }}</td>                
                 <td class="bg-grey">&nbsp;</td>
               </tr>
             </template>

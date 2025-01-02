@@ -20,7 +20,7 @@
   </v-app>  
 </template>
 <script>
-  import confirm from "@/components/Confirm.vue";
+  import confirm from '@/components/Confirm.vue';
   export default {
     name: 'EvaluasiRPMJD',
     created() {
