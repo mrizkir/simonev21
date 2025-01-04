@@ -142,7 +142,8 @@
                   },
                 })
                 .then(response => {
-                  let user = response.data
+                  var user = response.data
+                  user.tahun_selected = this.formlogin.periode_rpjmd.TA_AWAL
                   Object.assign(user, {
                     periode_rpjmd: this.formlogin.periode_rpjmd,
                   })

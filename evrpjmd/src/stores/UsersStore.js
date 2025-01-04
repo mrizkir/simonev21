@@ -72,6 +72,31 @@ export const usesUserStore = defineStore('userStore', {
         return this.user.tahun_selected
       }
     },
+    DaftarTahunAnggaran() {
+      let periode_rpjmd = this.user.periode_rpjmd
+      let TA_AWAL = periode_rpjmd.TA_AWAL
+      let TA_AKHIR = periode_rpjmd.TA_AKHIR
+
+      var daftar_ta = []
+      for(var i = TA_AWAL; i <= TA_AKHIR; i++) {
+        daftar_ta.push({
+          'value': i,
+          'title': i,
+        })
+      }
+
+      return daftar_ta
+    },
+    TahunAwalPeriodeRPMJD() {
+      let periode_rpjmd = this.user.periode_rpjmd
+      let TA_AWAL = periode_rpjmd.TA_AWAL
+      return TA_AWAL
+    },
+    TahunAkhirPeriodeRPMJD() {
+      let periode_rpjmd = this.user.periode_rpjmd
+      let TA_AKHIR = periode_rpjmd.TA_AKHIR
+      return TA_AKHIR
+    },
   },
   actions: {
     afterLoginSuccess(data_user) {
@@ -79,6 +104,10 @@ export const usesUserStore = defineStore('userStore', {
       this.token_type = data_user.token.token_type
       this.expires_in = data_user.token.expires_in
       this.user = data_user.user
+    },
+    updateTahunAnggaran(tahun) {
+      console.log(tahun)
+      this.user.tahun_selected = tahun
     },
     updateFoto() {
 

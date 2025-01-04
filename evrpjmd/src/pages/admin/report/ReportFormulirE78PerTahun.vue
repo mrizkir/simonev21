@@ -29,6 +29,8 @@
         item-value="PrgID"
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
+        items-per-page="-1"
+        itemsLength="-1"
         hide-default-footer
         disable-sort
       >
@@ -50,15 +52,17 @@
         <template v-slot:item="{ index, item }">
           <tr>
             <td>{{ index + 1 }}</td>
-            <td colspan="9">{{ item.Nm_ProgramRPJMD }}</td>
+            <td colspan="9">{{ item.Nm_ProgramRPJMD }}</td>            
           </tr>
           <template v-if="item.indikator_kinerja.length > 0">
             <template v-for="(indikator, i) in item.indikator_kinerja" :key="indikator.RpjmdRelasiIndikatorID">
               <tr class="bg-green-lighten-5">
-                <td colspan="2">
+                <td colspan="1">
                   <v-icon icon="mdi-arrow-right" />
                 </td>
                 <td>{{ indikator.NamaIndikator }}</td>
+                <td>{{ indikator.data_1 }} {{ indikator.Satuan }}</td>
+                <td>{{ indikator.data_7 }} {{ indikator.Satuan }}</td>
               </tr>
             </template>
           </template>
@@ -66,15 +70,14 @@
       </v-data-table-server>
     </v-container>
     <template v-slot:filtersidebar>
-      <Filter3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter3" />
+      <v-filter-3 v-on:changeTahunAnggaran="changeTahunAnggaran" ref="filter3" />      
     </template>
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
-  import filter3 from '@/layouts/FilterMode3.vue'
-  // import filter3 from '@/components/sidebar/FilterMode3'
+  import filter3 from '@/components/sidebar/FilterMode3.vue'
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
 
@@ -110,6 +113,7 @@
       if(RpjmdSasaranID_Selected.length > 0) {
         this.RpjmdSasaranID = RpjmdSasaranID_Selected;
       }      
+      this.$refs.filter3.setFirstTimeLoading(this.firstloading);
     },
     data: () => ({
       breadcrumbs: [],
@@ -123,6 +127,7 @@
       //pinia
       userStore: null,
       pageStore: null,
+      tahun_anggaran: null,
     }),
     methods: {
       changeTahunAnggaran(ta) {
@@ -195,25 +200,16 @@
             },
           },
           {
-            title: 'PROGRAM',
+            title: 'PROGRAM / INDIKATOR KINERJA',
             key: 'Nm_RpjmdProgram',
             align: 'start',
-            width: '200px',
+            width: '240px',
             headerProps: {
               class: 'font-weight-bold',
             },
-          },
+          },          
           {
-            title: 'INDIKATOR KINERJA',
-            key: 'Nm_RpjmdProgram',
-            align: 'start',
-            width: '100px',
-            headerProps: {
-              class: 'font-weight-bold',
-            },
-          },
-          {
-            title: 'DATA CAPAIAN PADA AWAL TAHUN PERENCANAAN',
+            title: 'DATA CAPAIAN AWAL TAHUN PERENCANAAN ' + this.userStore.TahunAwalPeriodeRPMJD,
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
@@ -222,7 +218,7 @@
             },
           },
           {
-            title: 'TARGET PADA AKHIR TAHUN PERENCANAAN',
+            title: 'TARGET AKHIR TAHUN PERENCANAAN ' + this.userStore.TahunAkhirPeriodeRPMJD,
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
@@ -231,7 +227,7 @@
             },
           },
           {
-            title: 'TARGET RPJMD KAB/KOTA MELALUI PELAKSANAAN RKPD TAHUN KE 2',
+            title: 'TARGET RPJMD TAHUN KE - ' + (this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD),
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
@@ -240,7 +236,7 @@
             },
           },
           {
-            title: 'CAPAIAN TARGET RPJMD KAB/KOTA MELALUI PELAKSANAAN RKPD TAHUN KE 2',
+            title: 'CAPAIAN TARGET',
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
@@ -249,7 +245,7 @@
             },
           },
           {
-            title: 'TINGKAT CAPAIAN TARGET RPJMD KAB/KOTA HASIL PELAKSANAAN RKPD TAHUN KE 2',
+            title: 'TINGKAT CAPAIAN TARGET',
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
@@ -281,7 +277,6 @@
     },
     watch: {
       RpjmdSasaranID(val) {
-        console.log(val)
         var page = this.pageStore.getPage('ReportFormulirE78')        
         if (val.length > 0) {
           this.RpjmdSasaranID = val          
