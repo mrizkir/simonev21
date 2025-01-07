@@ -219,6 +219,15 @@
           },
         },
         {
+          title: 'JUMLAH PROGRAM',
+          key: 'jumlah_program',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+          width: 70,
+        },
+        {
           title: "AKSI",
           key: "actions",
           sortable: false,

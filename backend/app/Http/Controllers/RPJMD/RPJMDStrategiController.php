@@ -32,7 +32,8 @@ class RPJMDStrategiController extends Controller
     
     $data = RPJMDStrategiModel::select(\DB::raw('
       tmRpjmdStrategi.*,
-      CONCAT(d.Kd_RpjmdMisi,".",c.Kd_RpjmdTujuan,".",b.Kd_RpjmdSasaran,".",tmRpjmdStrategi.Kd_RpjmdStrategi) AS kode_strategi
+      CONCAT(d.Kd_RpjmdMisi,".",c.Kd_RpjmdTujuan,".",b.Kd_RpjmdSasaran,".",tmRpjmdStrategi.Kd_RpjmdStrategi) AS kode_strategi,
+      0 AS jumlah_program
     '))
     ->join('tmRpjmdSasaran AS b', 'b.RpjmdSasaranID', 'tmRpjmdStrategi.RpjmdSasaranID')
     ->join('tmRpjmdTujuan AS c', 'b.RpjmdTujuanID', 'c.RpjmdTujuanID')
@@ -78,11 +79,19 @@ class RPJMDStrategiController extends Controller
       ->orWhere('Kd_RpjmdStrategi', $search);
     }
 
+    $daftar_strategi = $data->get()->transform(function($item, $key) {
+      $item->jumlah_program = \DB::table('tmRpjmdRelasiStrategiProgram')          
+      ->where('RpjmdStrategiID', $item->RpjmdStrategiID)
+      ->count('PrgID');
+
+      return $item;
+    });
+
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
       'payload' => [
-        'data' => $data->get(),
+        'data' => $daftar_strategi,
         'totalRecords' => $totalRecords,
       ],
       'message' => 'Fetch data Strategi berhasil diperoleh'
@@ -127,7 +136,13 @@ class RPJMDStrategiController extends Controller
   {
     $this->hasPermissionTo('RPJMD-STRATEGI_SHOW');
 
-    $strategi = RPJMDStrategiModel::find($id);
+    $strategi = RPJMDStrategiModel::select(\DB::raw('
+      tmRpjmdStrategi.*,
+      b.Nm_RpjmdSasaran
+    '))
+    ->join('tmRpjmdSasaran AS b', 'b.RpjmdSasaranID', 'tmRpjmdStrategi.RpjmdSasaranID')    
+    ->where('tmRpjmdStrategi.RpjmdStrategiID', $id)
+    ->first();
 
     if(is_null($strategi))
     {

@@ -153,7 +153,15 @@
           )
           .then(({ data }) => {
             let payload = data.payload
-            this.daftar_sasaran_rpjmd = payload.data
+            let sasaran = payload.data
+
+            sasaran.forEach(data_s => {
+              this.daftar_sasaran_rpjmd.push({
+                'RpjmdSasaranID': data_s.RpjmdSasaranID,
+                'Nm_RpjmdSasaran': data_s.Nm_RpjmdSasaran + ' (' + data_s.jumlah_program + ' Program)',
+              })
+            })
+            // 
           })
       },
       async initialize() {  

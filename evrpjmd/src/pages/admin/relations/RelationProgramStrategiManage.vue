@@ -69,6 +69,14 @@
                       {{ data_strategi.Nm_RpjmdArahKebijakan }}
                     </v-col>
                   </v-row>
+                  <v-row tag="dl" class="text-body-2" no-gutters>
+                    <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                      NAMA SASARAN
+                    </v-col>
+                    <v-col cols="auto" md="12" lg="12" tag="dt">
+                      {{ data_strategi.Nm_RpjmdSasaran }}
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>                
             </v-card-text>

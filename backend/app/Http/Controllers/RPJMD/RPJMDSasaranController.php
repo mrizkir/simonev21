@@ -31,7 +31,8 @@ class RPJMDSasaranController extends Controller
     
     $data = RPJMDSasaranModel::select(\DB::raw('
       tmRpjmdSasaran.*,
-      CONCAT(c.Kd_RpjmdMisi,".",b.Kd_RpjmdTujuan,".",tmRpjmdSasaran.Kd_RpjmdSasaran) AS kode_sasaran
+      CONCAT(c.Kd_RpjmdMisi,".",b.Kd_RpjmdTujuan,".",tmRpjmdSasaran.Kd_RpjmdSasaran) AS kode_sasaran,
+      0 AS jumlah_program
     '))
     ->join('tmRpjmdTujuan AS b', 'b.RpjmdTujuanID', 'tmRpjmdSasaran.RpjmdTujuanID')
     ->join('tmRpjmdMisi AS c', 'c.RpjmdMisiID', 'b.RpjmdMisiID')    
@@ -77,11 +78,20 @@ class RPJMDSasaranController extends Controller
       ->orWhere('RpjmdSasaranID', $search);
     }
 
+    $daftar_sasaran = $data->get()->transform(function($item, $key) {
+      $item->jumlah_program = \DB::table('tmRpjmdRelasiStrategiProgram AS a')    
+      ->join('tmRpjmdStrategi AS b', 'a.RpjmdStrategiID', 'b.RpjmdStrategiID')
+      ->where('b.RpjmdSasaranID', $item->RpjmdSasaranID)
+      ->count('a.PrgID');
+
+      return $item;  
+    });
+
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
       'payload' => [
-        'data' => $data->get(),
+        'data' => $daftar_sasaran,
         'totalRecords' => $totalRecords,
       ],
       'message' => 'Fetch data Sasaran berhasil diperoleh'
