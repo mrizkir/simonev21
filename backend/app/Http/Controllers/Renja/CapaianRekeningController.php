@@ -168,7 +168,7 @@ class CapaianRekeningController extends Controller
       ],
       [
         'rekening_id' => Uuid::uuid4()->toString(),
-        'kode_rekening' => ['5.2.01','5.2.02','5.2.03','5.2.04','5.2.05'],
+        'kode_rekening' => ['5.2.01', '5.2.02', '5.2.03', '5.2.04', '5.2.05'],
         'nama_rekening' => 'Belanja Modal',        
       ],
     ];

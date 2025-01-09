@@ -166,7 +166,7 @@ class RekeningAkunController extends Controller {
                           Rule::unique('tmAkun')->where(function($query) use ($request,$akun) {  
                             if ($request->input('Kd_Rek_1') == $akun->Kd_Rek_1) 
                             {
-                              return $query->where('Kd_Rek_1','ignore')
+                              return $query->where('Kd_Rek_1', 'ignore')
                                     ->where('TA', $akun->TA);
                             }                 
                             else

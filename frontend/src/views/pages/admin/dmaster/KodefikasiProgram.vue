@@ -571,6 +571,7 @@
             "/dmaster/kodefikasi/bidangurusan",
             {
               TA: this.$store.getters["auth/TahunSelected"],
+              pid: "simonev",
             },
             {
               headers: {
@@ -596,6 +597,7 @@
             "/dmaster/kodefikasi/bidangurusan",
             {
               TA: this.$store.getters["auth/TahunSelected"],
+              pid: "simonev",
             },
             {
               headers: {

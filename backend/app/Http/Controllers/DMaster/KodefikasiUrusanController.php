@@ -24,7 +24,7 @@ class KodefikasiUrusanController extends Controller {
             'TA' => 'required'
         ]);    
         $ta = $request->input('TA');
-        $kodefikasiurusan=KodefikasiUrusanModel::select(\DB::raw('
+        $kodefikasiurusan = KodefikasiUrusanModel::select(\DB::raw('
             `UrsID`,                                        
             `Kd_Urusan`,
             `Nm_Urusan`,
@@ -161,7 +161,7 @@ class KodefikasiUrusanController extends Controller {
                                                     Rule::unique('tmUrusan')->where(function($query) use ($request,$kodefikasiurusan) {  
                                                         if ($request->input('Kd_Urusan') == $kodefikasiurusan->Kd_Urusan) 
                                                         {
-                                                            return $query->where('Kd_Urusan','ignore')
+                                                            return $query->where('Kd_Urusan', 'ignore')
                                                                         ->where('TA', $kodefikasiurusan->TA);
                                                         }                 
                                                         else

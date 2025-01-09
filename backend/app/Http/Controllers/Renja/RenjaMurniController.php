@@ -75,7 +75,7 @@ class RenjaMurniController extends Controller
       ],
     ];
     
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $daftar_opd = [];
       $statistik1 = Statistik1Model::select(\DB::raw('
@@ -233,8 +233,8 @@ class RenjaMurniController extends Controller
       //   `tmJns`.`Descr`,
       //   `tmJns`.`TA`
       // '))
-      // ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-      // ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+      // ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+      // ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
       // ->where('tmKlp.TA', $tahun)
       // ->where("Kd_Rek_1", 5)
       // ->whereIn("Kd_Rek_2", [1, 2])
@@ -783,7 +783,7 @@ class RenjaMurniController extends Controller
       'ta' => 'required',          
     ]);
     $tahun = $request->input('ta');  
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $daftar_opd = OrganisasiModel::select('OrgID')
                     ->where('TA', $tahun)
@@ -1091,13 +1091,13 @@ class RenjaMurniController extends Controller
             $data_target=\DB::table('trRKATargetRinc')
                     ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
                     ->where('RKAID', $RKAID)                   
-                    ->where('bulan1','<=', $i)                     
+                    ->where('bulan1', '<=', $i)                     
                     ->get();
 
             $data_realisasi=\DB::table('trRKARealisasiRinc')
                     ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
                     ->where('RKAID', $RKAID)      
-                    ->where('bulan1','<=', $i)                                   
+                    ->where('bulan1', '<=', $i)                                   
                     ->get();
 
             //menghitung persen target fisik         
@@ -1516,13 +1516,13 @@ class RenjaMurniController extends Controller
             $data_target=\DB::table('trRKATargetRinc')
               ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
               ->where('RKAID', $RKAID)                   
-              ->where('bulan1','<=', $i)                     
+              ->where('bulan1', '<=', $i)                     
               ->get();
 
             $data_realisasi=\DB::table('trRKARealisasiRinc')
               ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
               ->where('RKAID', $RKAID)      
-              ->where('bulan1','<=', $i)                                   
+              ->where('bulan1', '<=', $i)                                   
               ->get();
 
             //menghitung persen target fisik         

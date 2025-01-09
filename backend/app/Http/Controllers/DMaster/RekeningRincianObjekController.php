@@ -37,10 +37,10 @@ class RekeningRincianObjekController extends Controller {
                     `tmROby`.`Descr`,
                     `tmROby`.`TA`
                   '))
-                  ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmOby', 'tmOby.ObyID', 'tmROby.ObyID')
+                  ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                  ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmROby.TA', $ta)
                   ->orderBy('Kd_Rek_1', 'ASC')
                   ->orderBy('Kd_Rek_2', 'ASC')
@@ -187,7 +187,7 @@ class RekeningRincianObjekController extends Controller {
                             if ($request->input('Kd_Rek_5') == $rincianobjek->Kd_Rek_5) 
                             {
                               return $query->where('ObyID', $request->input('ObyID'))
-                                    ->where('Kd_Rek_5','ignore')
+                                    ->where('Kd_Rek_5', 'ignore')
                                     ->where('TA', $rincianobjek->TA);
                             }                 
                             else
@@ -229,11 +229,11 @@ class RekeningRincianObjekController extends Controller {
                     CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\',`Kd_Rek_6`,\'] \',`SubRObyNm`) AS `nama_rek6`,
                     `tmSubROby`.`SubRObyNm`
                   '))
-                  ->join('tmROby','tmROby.RObyID','tmSubROby.RObyID')
-                  ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmROby', 'tmROby.RObyID', 'tmSubROby.RObyID')
+                  ->join('tmOby', 'tmOby.ObyID', 'tmROby.ObyID')
+                  ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                  ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmROby.RObyID', $id)
                   ->orderBy('Kd_Rek_1', 'ASC')
                   ->orderBy('Kd_Rek_2', 'ASC')

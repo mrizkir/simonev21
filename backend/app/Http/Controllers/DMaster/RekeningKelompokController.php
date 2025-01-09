@@ -36,7 +36,7 @@ class RekeningKelompokController extends Controller {
                     `tmKlp`.`Descr`,
                     `tmKlp`.`TA`
                   '))
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmKlp.TA', $ta)
                   ->orderBy('Kd_Rek_1', 'ASC')
                   ->orderBy('Kd_Rek_2', 'ASC')
@@ -180,7 +180,7 @@ class RekeningKelompokController extends Controller {
                             if ($request->input('Kd_Rek_2') == $kelompok->Kd_Rek_2) 
                             {
                               return $query->where('AkunID', $request->input('AkunID'))
-                                    ->where('Kd_Rek_2','ignore')
+                                    ->where('Kd_Rek_2', 'ignore')
                                     ->where('TA', $kelompok->TA);
                             }                 
                             else

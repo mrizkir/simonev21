@@ -19,7 +19,7 @@ class UsersDewanController extends Controller {
     public function index(Request $request)
     {           
         $this->hasPermissionTo('SYSTEM-USERS-DEWAN_BROWSE');
-        $data = User::where('default_role','dewan')
+        $data = User::where('default_role', 'dewan')
                     ->orderBy('username', 'ASC')
                     ->get();       
                     
@@ -185,7 +185,7 @@ class UsersDewanController extends Controller {
     { 
         $this->hasPermissionTo('SYSTEM-USERS-DEWAN_DESTROY');
 
-        $user = User::where('isdeleted','1')
+        $user = User::where('isdeleted', '1')
                     ->find($id); 
         
         if (is_null($user))

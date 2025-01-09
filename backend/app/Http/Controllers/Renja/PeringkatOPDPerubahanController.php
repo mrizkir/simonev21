@@ -41,14 +41,14 @@ class PeringkatOPDPerubahanController extends Controller {
 			C.`TA`
 		'))
 		->joinSub($subquery,'B',function($join){
-			$join->on('A.OrgID','=','B.OrgID');
-			$join->on('A.Bulan','=','B.Bulan');
+			$join->on('A.OrgID', '=', 'B.OrgID');
+			$join->on('A.Bulan', '=', 'B.Bulan');
 		})  
 		->join('tmOrg AS C', 'A.OrgID', 'C.OrgID')
 		->where('A.EntryLvl', 2)
 		->where('A.TA', $tahun)
-		->orderBy('A.RealisasiFisik2','DESC')
-		->orderBy('A.PersenRealisasiKeuangan2','DESC')
+		->orderBy('A.RealisasiFisik2', 'DESC')
+		->orderBy('A.PersenRealisasiKeuangan2', 'DESC')
 		->get();
 
 		$peringkat_temp = [];		

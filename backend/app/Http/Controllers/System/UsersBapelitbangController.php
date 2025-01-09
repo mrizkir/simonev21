@@ -19,7 +19,7 @@ class UsersBapelitbangController extends Controller {
     public function index(Request $request)
     {           
         $this->hasPermissionTo('SYSTEM-USERS-BAPELITBANG_BROWSE');
-        $data = User::where('default_role','bapelitbang')
+        $data = User::where('default_role', 'bapelitbang')
                     ->orderBy('username', 'ASC')
                     ->get();       
                     
@@ -197,7 +197,7 @@ class UsersBapelitbangController extends Controller {
     { 
         $this->hasPermissionTo('SYSTEM-USERS-BAPELITBANG_DESTROY');
 
-        $user = User::where('isdeleted','1')
+        $user = User::where('isdeleted', '1')
                     ->find($id); 
         
         if (is_null($user))

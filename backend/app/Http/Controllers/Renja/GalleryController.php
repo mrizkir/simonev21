@@ -92,7 +92,7 @@ class GalleryController extends Controller
     '))
     ->join('trRKA AS B', 'trRKARealisasiRinc.RKAID', 'B.RKAID')
     ->join('trRKARinc AS C', 'trRKARealisasiRinc.RKARincID', 'C.RKARincID')
-    ->leftJoin('tmSumberDana AS D','D.SumberDanaID','B.SumberDanaID')		
+    ->leftJoin('tmSumberDana AS D', 'D.SumberDanaID', 'B.SumberDanaID')		
     ->find($RKARealisasiRincID);		
 
     if (is_null($name))

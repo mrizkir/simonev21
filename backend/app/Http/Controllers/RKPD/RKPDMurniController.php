@@ -92,9 +92,9 @@ class RKPDMurniController extends Controller
             CONCAT(D.`Kd_Urusan`,'.',C.`Kd_Bidang`,'.',A.`Kd_Program`) AS kode_program,        
             A.`Nm_Program`        
           "))
-          ->join('tmUrusanProgram AS B','A.PrgID','B.PrgID')
-          ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
-          ->join('tmUrusan AS D','C.UrsID','D.UrsID')
+          ->join('tmUrusanProgram AS B', 'A.PrgID', 'B.PrgID')
+          ->join('tmBidangUrusan AS C', 'C.BidangID', 'B.BidangID')
+          ->join('tmUrusan AS D', 'C.UrsID', 'D.UrsID')
           ->where('B.BidangID', $item_bu->BidangID)
           ->orderBy('D.Kd_Urusan', 'ASC')                                    
           ->orderBy('C.Kd_Bidang', 'ASC')                                    
@@ -128,10 +128,10 @@ class RKPDMurniController extends Controller
                 CONCAT(D.`Kd_Urusan`,'.',C.`Kd_Bidang`,'.',A1.`Kd_Program`,'.',`A`.`Kd_Kegiatan`) AS kode_kegiatan,
                 A.`Nm_Kegiatan`        
               "))
-              ->join('tmProgram AS A1','A.PrgID','A1.PrgID')
-              ->join('tmUrusanProgram AS B','A1.PrgID','B.PrgID')
-              ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
-              ->join('tmUrusan AS D','C.UrsID','D.UrsID')
+              ->join('tmProgram AS A1', 'A.PrgID', 'A1.PrgID')
+              ->join('tmUrusanProgram AS B', 'A1.PrgID', 'B.PrgID')
+              ->join('tmBidangUrusan AS C', 'C.BidangID', 'B.BidangID')
+              ->join('tmUrusan AS D', 'C.UrsID', 'D.UrsID')
               ->where('A.PrgID', $item_p->PrgID)
               ->orderBy('D.Kd_Urusan', 'ASC')                                    
               ->orderBy('C.Kd_Bidang', 'ASC')                                    
@@ -169,11 +169,11 @@ class RKPDMurniController extends Controller
                       A.RealisasiKeuangan1,
                       A.RealisasiFisik1
                     "))
-                    ->join('tmKegiatan AS B','A.KgtID','B.KgtID')
-                    ->join('tmProgram AS C','B.PrgID','C.PrgID')
-                    ->join('tmUrusanProgram AS D','C.PrgID','D.PrgID')
-                    ->join('tmBidangUrusan AS E','D.BidangID','E.BidangID')
-                    ->join('tmUrusan AS F','F.UrsID','E.UrsID')
+                    ->join('tmKegiatan AS B', 'A.KgtID', 'B.KgtID')
+                    ->join('tmProgram AS C', 'B.PrgID', 'C.PrgID')
+                    ->join('tmUrusanProgram AS D', 'C.PrgID', 'D.PrgID')
+                    ->join('tmBidangUrusan AS E', 'D.BidangID', 'E.BidangID')
+                    ->join('tmUrusan AS F', 'F.UrsID', 'E.UrsID')
                     ->where('A.KgtID', $item_k->KgtID)
                     ->orderBy('F.Kd_Urusan', 'ASC')                                    
                     ->orderBy('E.Kd_Bidang', 'ASC')                                    

@@ -22,24 +22,24 @@
       </template>
       <v-list density="compact" nav>
         <v-list-item prepend-icon="mdi-home-city" title="DASHBOARD" value="dmaster" :to="'/admin/' + token" link slim />
-        <v-list-subheader title="DATA MASTER" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PERIODE RPJMD" value="periode_rpjmd" to="/admin/dmaster/perioderpjmd" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja" link slim />
+        <v-list-subheader title="DATA MASTER" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PERIODE RPJMD" value="periode_rpjmd" to="/admin/dmaster/perioderpjmd" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR KINERJA" value="indikator_kinerja" to="/admin/dmaster/indikatorkinerja" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-divider color="blue-lighten-3" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="VISI" value="visi" to="/admin/dmaster/visi" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="MISI" value="misi" to="/admin/dmaster/misi" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="TUJUAN" value="tujuan" to="/admin/dmaster/tujuan" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="SASARAN" value="sasaran" to="/admin/dmaster/sasaran" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="STRATEGI" value="strategi" to="/admin/dmaster/strategi" link slim />
-        <v-list-subheader title="RELASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM STRATEGI" value="program-strategi" to="/admin/relations/programstrategi" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="indikator-tujuan" to="/admin/relations/indikatortujuan" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="indikator-sasaran" to="/admin/relations/indikatorsasaran" link slim />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim />        
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PAGU INDIKATIF PROGRAM" value="pagu-program" to="/admin/relations/paguprogram" link slim />        
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="VISI" value="visi" to="/admin/dmaster/visi" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="MISI" value="misi" to="/admin/dmaster/misi" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="TUJUAN" value="tujuan" to="/admin/dmaster/tujuan" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="SASARAN" value="sasaran" to="/admin/dmaster/sasaran" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="STRATEGI" value="strategi" to="/admin/dmaster/strategi" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-subheader title="RELASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM STRATEGI" value="program-strategi" to="/admin/relations/programstrategi" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="indikator-tujuan" to="/admin/relations/indikatortujuan" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="indikator-sasaran" to="/admin/relations/indikatorsasaran" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim v-if="userStore.DefaultRole == 'superadmin'" />        
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PAGU INDIKATIF PROGRAM" value="pagu-program" to="/admin/relations/paguprogram" link slim v-if="userStore.DefaultRole == 'superadmin'" />        
         <v-list-subheader title="REALISASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="realisasi-indikatortujuan" to="/admin/realitation/indikatortujuan" link slim />        
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="realisasi-indikatorsasaran" to="/admin/realitation/indikatorsasaran" link slim />        
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="realisasi-indikatortujuan" to="/admin/realitation/indikatortujuan" link sli v-if="userStore.DefaultRole == 'superadmin'"m />        
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="realisasi-indikatorsasaran" to="/admin/realitation/indikatorsasaran" link slim v-if="userStore.DefaultRole == 'superadmin'" />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="realisasi-indikatorprogram" to="/admin/realitation/indikatorprogram" link slim />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PAGU PROGRAM" value="realisasi-paguprogram" to="/admin/realitation/paguprogram" link slim />        
         <v-list-subheader title="REPORT" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />

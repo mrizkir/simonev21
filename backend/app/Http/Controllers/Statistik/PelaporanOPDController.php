@@ -59,8 +59,8 @@ class PelaporanOPDController extends Controller {
     $data = \DB::table('statistik2 AS A')
       ->select(\DB::raw($sql))
       ->joinSub($subquery,'B',function($join){
-        $join->on('A.OrgID','=','B.OrgID');
-        $join->on('A.Bulan','=','B.Bulan');
+        $join->on('A.OrgID', '=', 'B.OrgID');
+        $join->on('A.Bulan', '=', 'B.Bulan');
       })  
       ->join('tmOrg AS C', 'A.OrgID', 'C.OrgID')
       ->where('A.EntryLvl', $EntryLvl)

@@ -37,11 +37,11 @@ class RekeningSubRincianObjekController extends Controller {
                     `tmSubROby`.`Descr`,
                     `tmSubROby`.`TA`
                   '))
-                  ->join('tmROby','tmROby.RObyID','tmSubROby.RObyID')
-                  ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmROby', 'tmROby.RObyID', 'tmSubROby.RObyID')
+                  ->join('tmOby', 'tmOby.ObyID', 'tmROby.ObyID')
+                  ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                  ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmROby.TA', $ta)
                   ->orderBy('Kd_Rek_1', 'ASC')
                   ->orderBy('Kd_Rek_2', 'ASC')
@@ -150,10 +150,10 @@ class RekeningSubRincianObjekController extends Controller {
     $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('                                        
                     CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\') AS `kode_rincian_objek`                                        
                   '))
-                  ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmOby', 'tmOby.ObyID', 'tmROby.ObyID')
+                  ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                  ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmROby.RObyID', $RObyID)                                    
                   ->first();
 
@@ -204,7 +204,7 @@ class RekeningSubRincianObjekController extends Controller {
                             if ($request->input('Kd_Rek_6') == $subrincianobjek->Kd_Rek_6) 
                             {
                               return $query->where('RObyID', $request->input('RObyID'))
-                                    ->where('Kd_Rek_6','ignore')
+                                    ->where('Kd_Rek_6', 'ignore')
                                     ->where('TA', $subrincianobjek->TA);
                             }                 
                             else
@@ -225,10 +225,10 @@ class RekeningSubRincianObjekController extends Controller {
       $rincianobjek=RekeningRincianObjekModel::select(\DB::raw('                                        
                       CONCAT(`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'.\',`Kd_Rek_5`,\'.\') AS `kode_rincian_objek`                                        
                     '))
-                    ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
-                    ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                    ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                    ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                    ->join('tmOby', 'tmOby.ObyID', 'tmROby.ObyID')
+                    ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                    ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                    ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                     ->where('tmROby.RObyID', $RObyID)                                    
                     ->first();
                     

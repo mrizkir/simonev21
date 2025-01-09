@@ -336,7 +336,7 @@ class OrganisasiController extends Controller {
           CONCAT(t2.Kd_Urusan,"-",t1.Kd_Bidang) AS `kode_bidang_2`,         
           t1.`Nm_Bidang`
         '))
-        ->join('tmUrusan AS t2','t2.UrsID', 't1.UrsID')
+        ->join('tmUrusan AS t2', 't2.UrsID', 't1.UrsID')
         ->where('t1.BidangID_Src', $item->BidangID_2)
         ->first();
         
@@ -360,7 +360,7 @@ class OrganisasiController extends Controller {
           CONCAT(t2.Kd_Urusan,"-",t1.Kd_Bidang) AS `kode_bidang_3`,         
           t1.`Nm_Bidang`
         '))
-        ->join('tmUrusan AS t2','t2.UrsID', 't1.UrsID')
+        ->join('tmUrusan AS t2', 't2.UrsID', 't1.UrsID')
         ->where('t1.BidangID_Src', $item->BidangID_3)
         ->first();
 
@@ -740,7 +740,7 @@ class OrganisasiController extends Controller {
     {
       $unitkerja = \DB::table('usersunitkerja')
         ->select(\DB::raw('tmSOrg.*'))
-        ->join('tmSOrg','tmSOrg.SOrgID','usersunitkerja.SOrgID')
+        ->join('tmSOrg', 'tmSOrg.SOrgID', 'usersunitkerja.SOrgID')
         ->where('usersunitkerja.user_id', $this->getUserid())
         ->where('tmSOrg.TA', $organisasi->TA)
         ->get();
@@ -768,7 +768,7 @@ class OrganisasiController extends Controller {
   {
     $pejabat = \DB::table('tmASN')
       ->select(\DB::raw('`trRiwayatJabatanASN`.`ASNID`,`tmASN`.`Nm_ASN`,`Jenis_Jabatan`'))
-      ->join('trRiwayatJabatanASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+      ->join('trRiwayatJabatanASN', 'trRiwayatJabatanASN.ASNID', 'tmASN.ASNID')
       ->where('trRiwayatJabatanASN.OrgID', $id)
       ->get();
 

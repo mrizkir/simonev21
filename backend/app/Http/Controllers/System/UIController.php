@@ -33,7 +33,7 @@ class UIController extends Controller {
 			'V-LIST-ITEM-ACTIVE-CSS-CLASS' => $config['V-LIST-ITEM-ACTIVE-CSS-CLASS'],            
 		];
 		$daftar_ta=TAModel::select(\DB::raw('tahun AS value,tahun AS text'))
-			->orderBy('tahun','asc')
+			->orderBy('tahun', 'asc')
 			->get();
 
 		$bulan=Helper::getNamaBulan();

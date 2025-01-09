@@ -52,7 +52,7 @@ class PermissionsController extends Controller {
 			'name'=>[
           'required',
           function ($attribute,$value,$fail) {
-            if(Permission::where('name','like',"%$value%")->exists())
+            if(Permission::where('name', 'like',"%$value%")->exists())
             {
               $fail('Nama Permission telah tersedia, mohon ganti dengan yang lain');
             }
@@ -70,17 +70,17 @@ class PermissionsController extends Controller {
     if ($group == true)
     {
       $permission->insert([
-        ['name'=>"{$nama}_GROUP", 'guard_name' => 'api','created_at' => $now, 'updated_at' => $now],        
+        ['name'=>"{$nama}_GROUP", 'guard_name' => 'api', 'created_at' => $now, 'updated_at' => $now],        
       ]);
     }
     else
     {
       $permission->insert([
-        ['name'=>"{$nama}_BROWSE", 'guard_name' => 'api','created_at' => $now, 'updated_at' => $now],
-        ['name'=>"{$nama}_SHOW", 'guard_name' => 'api','created_at' => $now, 'updated_at' => $now],
-        ['name'=>"{$nama}_STORE", 'guard_name' => 'api','created_at' => $now, 'updated_at' => $now],
-        ['name'=>"{$nama}_UPDATE", 'guard_name' => 'api','created_at' => $now, 'updated_at' => $now],
-        ['name'=>"{$nama}_DESTROY", 'guard_name' => 'api','created_at' => $now, 'updated_at' => $now],
+        ['name'=>"{$nama}_BROWSE", 'guard_name' => 'api', 'created_at' => $now, 'updated_at' => $now],
+        ['name'=>"{$nama}_SHOW", 'guard_name' => 'api', 'created_at' => $now, 'updated_at' => $now],
+        ['name'=>"{$nama}_STORE", 'guard_name' => 'api', 'created_at' => $now, 'updated_at' => $now],
+        ['name'=>"{$nama}_UPDATE", 'guard_name' => 'api', 'created_at' => $now, 'updated_at' => $now],
+        ['name'=>"{$nama}_DESTROY", 'guard_name' => 'api', 'created_at' => $now, 'updated_at' => $now],
       ]);
     }
 		app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();

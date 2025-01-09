@@ -82,7 +82,7 @@ class DAKMurniController extends Controller
           'RealisasiKeuangan1' => 0,             
           'RealisasiFisik1' => 0, 
         ];
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $str_jumlah_pagudana="
         UPDATE 
@@ -279,7 +279,7 @@ class DAKMurniController extends Controller
       'ta' => 'required',          
     ]);
     $tahun = $request->input('ta');  
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $daftar_opd = OrganisasiModel::select('OrgID')
                     ->where('TA', $tahun)
@@ -575,13 +575,13 @@ class DAKMurniController extends Controller
             $data_target=\DB::table('trRKATargetRinc')
                     ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
                     ->where('RKAID', $RKAID)                   
-                    ->where('bulan1','<=', $i)                     
+                    ->where('bulan1', '<=', $i)                     
                     ->get();
 
             $data_realisasi=\DB::table('trRKARealisasiRinc')
                     ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
                     ->where('RKAID', $RKAID)      
-                    ->where('bulan1','<=', $i)                                   
+                    ->where('bulan1', '<=', $i)                                   
                     ->get();
 
             //menghitung persen target fisik         

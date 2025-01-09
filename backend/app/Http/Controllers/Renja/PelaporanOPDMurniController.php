@@ -52,7 +52,7 @@ class PelaporanOPDMurniController extends Controller
 		$bulan_realisasi = Statistik3Model::select('BulanLaporan')
 			->where('OrgID', $id)
 			->get()
-			->pluck('BulanLaporan','BulanLaporan')
+			->pluck('BulanLaporan', 'BulanLaporan')
 			->toArray();
 		$data = [];
 		foreach($bulan as $k=>$v)

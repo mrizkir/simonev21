@@ -58,7 +58,7 @@ class AuthController extends Controller
 		$user = $this->guard()->user()->toArray();
 		$user['role'] = $this->getRoleNames();
 		$user['issuperadmin'] = $this->hasRole('superadmin');
-		$user['permissions'] = $this->guard()->user()->permissions->pluck('id','name')->toArray();
+		$user['permissions'] = $this->guard()->user()->permissions->pluck('id', 'name')->toArray();
 		return response()->json($user);
 	}   
 	/**

@@ -41,8 +41,8 @@ class PeringkatOPDMurniController extends Controller {
         C.`TA`
       '))
       ->joinSub($subquery,'B',function($join){
-        $join->on('A.OrgID','=','B.OrgID');
-        $join->on('A.Bulan','=','B.Bulan');
+        $join->on('A.OrgID', '=', 'B.OrgID');
+        $join->on('A.Bulan', '=', 'B.Bulan');
       })  
       ->join('tmOrg AS C', 'A.OrgID', 'C.OrgID')
       ->where('A.EntryLvl', 1)

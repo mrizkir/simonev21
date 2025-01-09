@@ -45,10 +45,10 @@ class SubOrganisasiController extends Controller {
       tmSOrg.created_at,
       tmSOrg.updated_at
     ');
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $data = SubOrganisasiModel::select($select)
-                ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
+                ->join('tmOrg', 'tmOrg.OrgID', 'tmSOrg.OrgID')
                 ->where('tmSOrg.TA', $tahun)
                 ->orderBy('kode_sub_organisasi', 'ASC')
                 ->get();
@@ -58,7 +58,7 @@ class SubOrganisasiController extends Controller {
       $daftar_opd = $this->getUserOrgID($tahun);
       
       $data = SubOrganisasiModel::select($select)
-        ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
+        ->join('tmOrg', 'tmOrg.OrgID', 'tmSOrg.OrgID')
         ->where('tmSOrg.TA', $tahun)
         ->whereIn('tmOrg.OrgID', $daftar_opd)
         ->orderBy('kode_sub_organisasi', 'ASC')

@@ -26,7 +26,7 @@ class KodefikasiKegiatanController extends Controller {
           'TA' => 'required'
       ]);    
       $ta = $request->input('TA');
-      $kodefikasikegiatan=KodefikasiKegiatanModel::select(\DB::raw("
+      $kodefikasikegiatan = KodefikasiKegiatanModel::select(\DB::raw("
         tmKegiatan.`KgtID`,
         tmKegiatan.`PrgID`,
         tmBidangUrusan.BidangID,
@@ -38,19 +38,19 @@ class KodefikasiKegiatanController extends Controller {
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
             CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
           ELSE
-            CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+            CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
         END AS kode_program,
         CASE 
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
             CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
           ELSE
-            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+            CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
         END AS kode_kegiatan,
         CASE 
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
             CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
           ELSE
-            CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+            CONCAT('[', 'X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
         END AS nama_kegiatan,
         COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
         COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -63,10 +63,10 @@ class KodefikasiKegiatanController extends Controller {
         tmKegiatan.`created_at`,
         tmKegiatan.`updated_at`
       "))
-      ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-      ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-      ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-      ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+      ->join('tmProgram', 'tmKegiatan.PrgID', 'tmProgram.PrgID')
+      ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+      ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+      ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
       ->orderBy('kode_kegiatan', 'ASC')                                    
       ->where('tmKegiatan.TA', $ta)
       ->get();
@@ -170,13 +170,13 @@ class KodefikasiKegiatanController extends Controller {
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.')
         ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.')
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.')
       END AS kode_program,
       tmProgram.`Locked`
     "))                                    
-    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+    ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+    ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+    ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')                                                                       
     ->where('tmProgram.PrgID', $PrgID)
     ->first();
 
@@ -245,7 +245,7 @@ class KodefikasiKegiatanController extends Controller {
           Rule::unique('tmKegiatan')->where(function($query) use ($request,$kodefikasikegiatan) {  
             if ($request->input('Kd_Kegiatan') == $kodefikasikegiatan->Kd_Kegiatan) 
             {
-              return $query->where('Kd_Kegiatan','ignore')
+              return $query->where('Kd_Kegiatan', 'ignore')
               ->where('TA', $kodefikasikegiatan->TA);
             }                 
             else
@@ -266,13 +266,13 @@ class KodefikasiKegiatanController extends Controller {
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.')
             ELSE
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.')
+              CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.')
           END AS kode_program,
           `Locked`
         "))                                    
-        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                                                       
+        ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+        ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+        ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')                                                                       
         ->where('tmProgram.PrgID', $PrgID)
         ->first();
 
@@ -332,26 +332,26 @@ class KodefikasiKegiatanController extends Controller {
         ]);   
         $SOrgID = $request->input('SOrgID');
 
-        $kodefikasisubkegiatan=KodefikasiSubKegiatanModel::select(\DB::raw("
+        $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::select(\DB::raw("
           tmSubKegiatan.`SubKgtID`,
           CASE 
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
             ELSE
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+              CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
           END AS kode_sub_kegiatan,
           CASE 
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT('[', tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
             ELSE
-              CONCAT('[', 'X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
+              CONCAT('[', 'X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`,'] ',`tmSubKegiatan`.`Nm_SubKegiatan`)
           END AS nama_sub_kegiatan
         "))
-        ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
-        ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
+        ->join('tmKegiatan', 'tmKegiatan.KgtID', 'tmSubKegiatan.KgtID')
+        ->join('tmProgram', 'tmKegiatan.PrgID', 'tmProgram.PrgID')
+        ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+        ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+        ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')                                    
         ->where('tmSubKegiatan.KgtID', $id)
         ->whereNotIn('tmSubKegiatan.kode_sub_kegiatan',function($query) use($SOrgID) {
             $query->select('kode_sub_kegiatan')
@@ -382,7 +382,7 @@ class KodefikasiKegiatanController extends Controller {
           CASE WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN 
             CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
           ELSE 
-            CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
+            CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`) 
           END AS kode_kegiatan
         from `tmKegiatan` 
         inner join `tmProgram` on `tmKegiatan`.`PrgID` = `tmProgram`.`PrgID` 

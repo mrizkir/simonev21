@@ -81,7 +81,7 @@ class RKAMurniController extends Controller
       `trRKA`.`created_at`,
       `trRKA`.`updated_at`
       '))
-    ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
+    ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKA.SumberDanaID')
     ->where('trRKA.EntryLvl', 1)
     ->find($id);
 
@@ -134,7 +134,7 @@ class RKAMurniController extends Controller
       {
         $sum_realisasi = \DB::table('trRKARealisasiRinc')
           ->where('RKARincID', $RKARincID)
-          ->where('bulan1','<=', $item->bulan1)
+          ->where('bulan1', '<=', $item->bulan1)
           ->sum('realisasi1');
 
         $sisa_anggaran = $datauraian->PaguUraian1-$sum_realisasi;            
@@ -541,11 +541,11 @@ class RKAMurniController extends Controller
         tmOrg.kode_organisasi,
         tmOrg.Nm_Organisasi
       '))
-      ->join('tmOrg','tmOrg.OrgID','tmSOrg.OrgID')
+      ->join('tmOrg', 'tmOrg.OrgID', 'tmSOrg.OrgID')
       ->where('tmSOrg.SOrgID', $request->input('SOrgID'))                                
       ->first();			
       
-      $kodefikasisubkegiatan=KodefikasiSubKegiatanModel::select(\DB::raw("
+      $kodefikasisubkegiatan = KodefikasiSubKegiatanModel::select(\DB::raw("
         tmSubKegiatan.`SubKgtID`,
         tmKegiatan.`KgtID`,
         tmKegiatan.`PrgID`,                                      
@@ -555,26 +555,26 @@ class RKAMurniController extends Controller
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`)
           ELSE
-          CONCAT('X.','XX.')
+          CONCAT('X.', 'XX.')
         END AS kode_bidang,                                      
         `tmBidangUrusan`.`Nm_Bidang`,
         CASE 
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
           ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
         END AS kode_program,
         CASE 
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
           ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`)
         END AS kode_kegiatan,
         CASE 
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
           ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'.',`tmSubKegiatan`.`Kd_SubKegiatan`)
         END AS kode_sub_kegiatan,
         COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
         COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -583,11 +583,11 @@ class RKAMurniController extends Controller
         `tmSubKegiatan`.`Nm_SubKegiatan`,
         `tmSubKegiatan`.`TA`
       "))
-      ->join('tmKegiatan','tmKegiatan.KgtID','tmSubKegiatan.KgtID')
-      ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-      ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-      ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-      ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')                                    
+      ->join('tmKegiatan', 'tmKegiatan.KgtID', 'tmSubKegiatan.KgtID')
+      ->join('tmProgram', 'tmKegiatan.PrgID', 'tmProgram.PrgID')
+      ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+      ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+      ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')                                    
       ->where('tmSubKegiatan.SubKgtID', $SubKgtID)
       ->first();			
 
@@ -1007,7 +1007,7 @@ class RKAMurniController extends Controller
     $bulan_realisasi=RKARealisasiModel::select('bulan1')
       ->where('RKARincID', $id)
       ->get()
-      ->pluck('bulan1','bulan1')
+      ->pluck('bulan1', 'bulan1')
       ->toArray();
       
     $data = [];
@@ -1355,9 +1355,9 @@ class RKAMurniController extends Controller
         {
           case 'desa' :
             $lokasi=\App\Models\DMaster\DesaModel::select(\DB::raw('`wilayah_desa`.`id` AS desa_id, `wilayah_kecamatan`.`id` AS kecamatan_id, `wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))
-                              ->join('wilayah_kecamatan','wilayah_kecamatan.id','wilayah_desa.kecamatan_id')
-                              ->join('wilayah_kabupaten','wilayah_kecamatan.kabupaten_id','wilayah_kabupaten.id')
-                              ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
+                              ->join('wilayah_kecamatan', 'wilayah_kecamatan.id', 'wilayah_desa.kecamatan_id')
+                              ->join('wilayah_kabupaten', 'wilayah_kecamatan.kabupaten_id', 'wilayah_kabupaten.id')
+                              ->join('wilayah_provinsi', 'wilayah_provinsi.id', 'wilayah_kabupaten.provinsi_id')                                                            
                               ->find($item->idlok);
             
             if (!is_null($lokasi))
@@ -1370,8 +1370,8 @@ class RKAMurniController extends Controller
           break;
           case 'kecamatan' :
             $lokasi=\App\Models\DMaster\KecamatanModel::select(\DB::raw('`wilayah_kecamatan`.`id` AS kecamatan_id, `wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))                                                            
-                              ->join('wilayah_kabupaten','wilayah_kecamatan.kabupaten_id','wilayah_kabupaten.id')
-                              ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
+                              ->join('wilayah_kabupaten', 'wilayah_kecamatan.kabupaten_id', 'wilayah_kabupaten.id')
+                              ->join('wilayah_provinsi', 'wilayah_provinsi.id', 'wilayah_kabupaten.provinsi_id')                                                            
                               ->find($item->idlok);
 
             if (!is_null($lokasi))
@@ -1383,7 +1383,7 @@ class RKAMurniController extends Controller
           break;
           case 'kota' :
             $lokasi=\App\Models\DMaster\KabupatenModel::select(\DB::raw('`wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))                                                                                                                        
-                              ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
+                              ->join('wilayah_provinsi', 'wilayah_provinsi.id', 'wilayah_kabupaten.provinsi_id')                                                            
                               ->find($item->idlok);
 
             if (!is_null($lokasi))

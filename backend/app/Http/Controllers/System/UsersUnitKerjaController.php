@@ -38,7 +38,7 @@ class UsersUnitKerjaController extends Controller {
 			->get()
 			->pluck('SOrgID');
 
-			$data = User::where('default_role','unitkerja')
+			$data = User::where('default_role', 'unitkerja')
 				->select(\DB::raw('
 					users.*,
 					"" AS unitkerja
@@ -51,7 +51,7 @@ class UsersUnitKerjaController extends Controller {
 		}
 		else
 		{
-			$data = User::where('default_role','unitkerja')
+			$data = User::where('default_role', 'unitkerja')
 				->select(\DB::raw('
 					users.*,
 					"" AS unitkerja
@@ -458,7 +458,7 @@ class UsersUnitKerjaController extends Controller {
 	{ 
 		$this->hasPermissionTo('SYSTEM-USERS-UNIT-KERJA_DESTROY');
 
-		$user = User::where('isdeleted','1')
+		$user = User::where('isdeleted', '1')
 					->find($id); 
 		
 		if (is_null($user))

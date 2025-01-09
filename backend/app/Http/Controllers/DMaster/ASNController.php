@@ -147,7 +147,7 @@ class ASNController extends Controller
         Rule::unique('tmASN')->where(function($query) use ($request,$asn) {  
           if ($request->input('NIP_ASN') == $asn->NIP_ASN) 
           {
-            return $query->where('NIP_ASN','ignore');
+            return $query->where('NIP_ASN', 'ignore');
           }                 
           else
           {

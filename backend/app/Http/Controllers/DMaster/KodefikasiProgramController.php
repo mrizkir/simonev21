@@ -41,7 +41,7 @@ class KodefikasiProgramController extends Controller
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
         ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
       END AS kode_program,                                        
       COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
       COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -50,7 +50,7 @@ class KodefikasiProgramController extends Controller
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
         ELSE
-          CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+          CONCAT('[X.', 'XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
       END AS nama_program,                                        
       tmProgram.`Jns`,
       tmProgram.`TA`,                                        
@@ -59,9 +59,9 @@ class KodefikasiProgramController extends Controller
       tmProgram.`created_at`,
       tmProgram.`updated_at`
     "))
-    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+    ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+    ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
     ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
     ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
     ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
@@ -87,7 +87,7 @@ class KodefikasiProgramController extends Controller
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
         ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
       END AS kode_program,                                        
       COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
       COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -96,7 +96,7 @@ class KodefikasiProgramController extends Controller
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
         ELSE
-          CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+          CONCAT('[X.', 'XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
       END AS nama_program,                                        
       tmProgram.`Jns`,
       tmProgram.`TA`,                                        
@@ -106,9 +106,9 @@ class KodefikasiProgramController extends Controller
       tmProgram.`created_at`,
       tmProgram.`updated_at`
     "))
-    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+    ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+    ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
     ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
     ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
     ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
@@ -212,7 +212,7 @@ class KodefikasiProgramController extends Controller
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
         ELSE
-          CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+          CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
       END AS kode_program,                                        
       COALESCE(tmUrusan.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
       COALESCE(tmBidangUrusan.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -221,7 +221,7 @@ class KodefikasiProgramController extends Controller
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
         ELSE
-          CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+          CONCAT('[X.', 'XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
       END AS nama_program,                                        
       tmProgram.`Jns`,
       tmProgram.`TA`,                                        
@@ -231,9 +231,9 @@ class KodefikasiProgramController extends Controller
       tmProgram.`updated_at`,
       '{}' AS indikator
     "))
-    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+    ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+    ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
     ->leftJoin('tmOrg', function($join) {      
       $join->on('tmOrg.BidangID_1', '=', 'tmBidangUrusan.BidangID');
       $join->orOn('tmOrg.BidangID_2', '=', 'tmBidangUrusan.BidangID');
@@ -342,9 +342,9 @@ class KodefikasiProgramController extends Controller
       `tmProgram`.`PrgID`,
       CONCAT("[",D.Kd_Urusan,".",C.Kd_Bidang,".",tmProgram.Kd_Program,"] ",tmProgram.Nm_Program) AS nama_program	
     '))
-    ->join('tmUrusanProgram AS B','tmProgram.PrgID','B.PrgID')
-    ->join('tmBidangUrusan AS C','C.BidangID','B.BidangID')
-    ->join('tmUrusan AS D','D.UrsID','D.UrsID')                                    
+    ->join('tmUrusanProgram AS B', 'tmProgram.PrgID', 'B.PrgID')
+    ->join('tmBidangUrusan AS C', 'C.BidangID', 'B.BidangID')
+    ->join('tmUrusan AS D', 'D.UrsID', 'D.UrsID')                                    
     ->where('tmProgram.TA', $ta)
     ->where('B.BidangID', $BidangID_1)
     ->orWhere('B.BidangID', $BidangID_2)
@@ -372,19 +372,19 @@ class KodefikasiProgramController extends Controller
   {       
     $this->hasPermissionTo('DMASTER-KODEFIKASI-KEGIATAN_BROWSE');
 
-    $programkegiatan=KodefikasiKegiatanModel::select(\DB::raw("
+    $programkegiatan = KodefikasiKegiatanModel::select(\DB::raw("
       tmKegiatan.`KgtID`,                                      
       CASE 
         WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
         CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
         ELSE
-        CONCAT('[','X.','XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
+        CONCAT('[', 'X.', 'XX.',tmProgram.`Kd_Program`,'.',`tmKegiatan`.`Kd_Kegiatan`,'] ',`tmKegiatan`.`Nm_Kegiatan`)
       END AS nama_kegiatan
     "))
-    ->join('tmProgram','tmKegiatan.PrgID','tmProgram.PrgID')
-    ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-    ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-    ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->join('tmProgram', 'tmKegiatan.PrgID', 'tmProgram.PrgID')
+    ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+    ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+    ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
     ->orderBy('tmKegiatan.Kd_Kegiatan', 'ASC')                                    
     ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
     ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
@@ -447,13 +447,13 @@ class KodefikasiProgramController extends Controller
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
             ELSE
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+              CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
           END AS kode_program,
           tmProgram.`TA`
         "))
-        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')			                                
+        ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+        ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+        ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')			                                
         ->where('tmProgram.PrgID', $kodefikasiprogram->PrgID)
         ->first();
 
@@ -637,13 +637,13 @@ class KodefikasiProgramController extends Controller
             WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
               CONCAT(tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`)
             ELSE
-              CONCAT('X.','XX.',tmProgram.`Kd_Program`)
+              CONCAT('X.', 'XX.',tmProgram.`Kd_Program`)
           END AS kode_program,
           tmProgram.`TA`
         "))
-        ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-        ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-        ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')			                                
+        ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+        ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+        ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')			                                
         ->where('tmProgram.PrgID', $kodefikasiprogram->PrgID)
         ->first();
 

@@ -82,7 +82,7 @@ class TargetKinerjaMurniController extends Controller
                       `trRKA`.`created_at`,
                       `trRKA`.`updated_at`
                       '))
-              ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trRKA.SumberDanaID')
+              ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKA.SumberDanaID')
               ->where('trRKA.EntryLvl', 1)
               ->find($id);
 
@@ -135,7 +135,7 @@ class TargetKinerjaMurniController extends Controller
       {
         $sum_realisasi = \DB::table('trRKARealisasiRinc')
                 ->where('RKARincID', $RKARincID)
-                ->where('bulan1','<=', $item->bulan1)
+                ->where('bulan1', '<=', $item->bulan1)
                 ->sum('realisasi1');
 
         $sisa_anggaran = $datauraian->PaguUraian1-$sum_realisasi;            

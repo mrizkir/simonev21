@@ -40,7 +40,7 @@ class RPJMDRelationsStrategiProgramController extends Controller
         WHEN e.`UrsID` IS NOT NULL OR e.`BidangID` IS NOT NULL THEN
           CONCAT(f.`Kd_Urusan`,'.',e.`Kd_Bidang`,'.',c.`Kd_Program`)
         ELSE
-          CONCAT('X.','XX.',c.`Kd_Program`)
+          CONCAT('X.', 'XX.',c.`Kd_Program`)
       END AS kode_program,                                        
       COALESCE(f.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
       COALESCE(e.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -49,7 +49,7 @@ class RPJMDRelationsStrategiProgramController extends Controller
         WHEN e.`UrsID` IS NOT NULL OR e.`BidangID` IS NOT NULL THEN
           CONCAT('[',f.`Kd_Urusan`,'.',e.`Kd_Bidang`,'.',c.`Kd_Program`,'] ',c.Nm_Program)
         ELSE
-          CONCAT('[X.','XX.',c.`Kd_Program`,'] ',c.Nm_Program)
+          CONCAT('[X.', 'XX.',c.`Kd_Program`,'] ',c.Nm_Program)
       END AS nama_program,
       tmRpjmdRelasiStrategiProgram.Kd_ProgramRPJMD,
       tmRpjmdRelasiStrategiProgram.Nm_ProgramRPJMD,
@@ -64,7 +64,7 @@ class RPJMDRelationsStrategiProgramController extends Controller
     ->join('tmProgram AS c', 'c.PrgID', 'tmRpjmdRelasiStrategiProgram.PrgID')
     ->leftJoin('tmUrusanProgram AS d', 'c.PrgID', 'd.PrgID')
     ->leftJoin('tmBidangUrusan AS e', 'e.BidangID' ,'d.BidangID')
-    ->leftJoin('tmUrusan AS f','e.UrsID','f.UrsID')
+    ->leftJoin('tmUrusan AS f', 'e.UrsID', 'f.UrsID')
     ->where('b.PeriodeRPJMDID', $PeriodeRPJMDID); 
     
     if($request->filled('offset'))

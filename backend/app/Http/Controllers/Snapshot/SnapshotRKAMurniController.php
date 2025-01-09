@@ -51,7 +51,7 @@ class SnapshotRKAMurniController extends Controller
       `trSnapshotRKA`.`created_at`,
       `trSnapshotRKA`.`updated_at`
       '))
-    ->leftJoin('tmSumberDana','tmSumberDana.SumberDanaID','trSnapshotRKA.SumberDanaID')
+    ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trSnapshotRKA.SumberDanaID')
     ->where('trSnapshotRKA.EntryLvl', 1)
     ->find($id);
 
@@ -515,7 +515,7 @@ class SnapshotRKAMurniController extends Controller
       {
         $sum_realisasi = \DB::table('trSnapshotRKARealisasiRinc')
           ->where('RKARincID', $RKARincID)
-          ->where('bulan1','<=', $item->bulan1)
+          ->where('bulan1', '<=', $item->bulan1)
           ->where('TABULAN', $item->TABULAN)
           ->sum('realisasi1');
 
@@ -714,9 +714,9 @@ class SnapshotRKAMurniController extends Controller
         {
           case 'desa' :
             $lokasi=\App\Models\DMaster\DesaModel::select(\DB::raw('`wilayah_desa`.`id` AS desa_id, `wilayah_kecamatan`.`id` AS kecamatan_id, `wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))
-                              ->join('wilayah_kecamatan','wilayah_kecamatan.id','wilayah_desa.kecamatan_id')
-                              ->join('wilayah_kabupaten','wilayah_kecamatan.kabupaten_id','wilayah_kabupaten.id')
-                              ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
+                              ->join('wilayah_kecamatan', 'wilayah_kecamatan.id', 'wilayah_desa.kecamatan_id')
+                              ->join('wilayah_kabupaten', 'wilayah_kecamatan.kabupaten_id', 'wilayah_kabupaten.id')
+                              ->join('wilayah_provinsi', 'wilayah_provinsi.id', 'wilayah_kabupaten.provinsi_id')                                                            
                               ->find($item->idlok);
             
             if (!is_null($lokasi))
@@ -729,8 +729,8 @@ class SnapshotRKAMurniController extends Controller
           break;
           case 'kecamatan' :
             $lokasi=\App\Models\DMaster\KecamatanModel::select(\DB::raw('`wilayah_kecamatan`.`id` AS kecamatan_id, `wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))                                                            
-                              ->join('wilayah_kabupaten','wilayah_kecamatan.kabupaten_id','wilayah_kabupaten.id')
-                              ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
+                              ->join('wilayah_kabupaten', 'wilayah_kecamatan.kabupaten_id', 'wilayah_kabupaten.id')
+                              ->join('wilayah_provinsi', 'wilayah_provinsi.id', 'wilayah_kabupaten.provinsi_id')                                                            
                               ->find($item->idlok);
 
             if (!is_null($lokasi))
@@ -742,7 +742,7 @@ class SnapshotRKAMurniController extends Controller
           break;
           case 'kota' :
             $lokasi=\App\Models\DMaster\KabupatenModel::select(\DB::raw('`wilayah_kabupaten`.`id` AS kabupaten_id, `wilayah_provinsi`.`id` AS provinsi_id'))                                                                                                                        
-                              ->join('wilayah_provinsi','wilayah_provinsi.id','wilayah_kabupaten.provinsi_id')                                                            
+                              ->join('wilayah_provinsi', 'wilayah_provinsi.id', 'wilayah_kabupaten.provinsi_id')                                                            
                               ->find($item->idlok);
 
             if (!is_null($lokasi))

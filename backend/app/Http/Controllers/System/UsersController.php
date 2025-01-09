@@ -21,7 +21,7 @@ class UsersController extends Controller {
   public function index(Request $request)
   {           
     $this->hasPermissionTo('SYSTEM-USERS-SUPERADMIN_BROWSE');
-    $data = User::where('default_role','superadmin')
+    $data = User::where('default_role', 'superadmin')
           ->orderBy('username', 'ASC')
           ->get();
 
@@ -497,7 +497,7 @@ class UsersController extends Controller {
 
         if ($old_file != 'storages/images/users/no_photo.png')
         {
-          $old_file=str_replace('storages/','', $old_file);
+          $old_file=str_replace('storages/', '', $old_file);
           if (is_file(Helper::public_path($old_file)))
           {
             unlink(Helper::public_path($old_file));
@@ -541,7 +541,7 @@ class UsersController extends Controller {
 
       if ($old_file != 'storages/images/users/no_photo.png')
       {
-        $old_file=str_replace('storages/','', $old_file);
+        $old_file=str_replace('storages/', '', $old_file);
         if (is_file(Helper::public_path($old_file)))
         {
           unlink(Helper::public_path($old_file));

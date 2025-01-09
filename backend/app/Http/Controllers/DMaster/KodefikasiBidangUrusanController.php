@@ -21,12 +21,18 @@ class KodefikasiBidangUrusanController extends Controller {
   public function index (Request $request)
   {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-BIDANG-URUSAN_BROWSE');
+    
+    $default_role = $this->getDefaultRole();
 
     $this->validate($request, [        
-      'TA' => 'required'
+      'TA' => 'required',
+      'pid' => 'required|in:simonev,evrpjmd',
     ]);    
+    
     $ta = $request->input('TA');
-    $kodefikasibidangurusan=KodefikasiBidangUrusanModel::select(\DB::raw("
+    $pid = $request->input('pid');
+
+    $kodefikasibidangurusan = KodefikasiBidangUrusanModel::select(\DB::raw("
       `BidangID`,
       `tmBidangUrusan`.`UrsID`,
       `Kd_Bidang`,
@@ -38,10 +44,16 @@ class KodefikasiBidangUrusanController extends Controller {
       `tmBidangUrusan`.`created_at`,
       `tmBidangUrusan`.`updated_at`
     "))
-    ->join('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+    ->join('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
     ->orderBy('kode_bidang', 'ASC')                                    
-    ->where('tmBidangUrusan.TA', $ta)
-    ->get();
+    ->where('tmBidangUrusan.TA', $ta);
+
+    if($pid == 'evrpjmd' && $default_role == 'superadmin')
+    {
+
+    }
+
+    $kodefikasibidangurusan = $kodefikasibidangurusan->get();
 
     return Response()->json([
       'status' => 1,
@@ -83,12 +95,12 @@ class KodefikasiBidangUrusanController extends Controller {
           WHEN tmBidangUrusan.`UrsID` IS NOT NULL OR tmBidangUrusan.`BidangID` IS NOT NULL THEN
           CONCAT('[',tmUrusan.`Kd_Urusan`,'.',tmBidangUrusan.`Kd_Bidang`,'.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
           ELSE
-          CONCAT('[X.','XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
+          CONCAT('[X.', 'XX.',tmProgram.`Kd_Program`,'] ',tmProgram.Nm_Program)
         END AS nama_program
       "))
-      ->leftJoin('tmUrusanProgram','tmProgram.PrgID','tmUrusanProgram.PrgID')
-      ->leftJoin('tmBidangUrusan','tmBidangUrusan.BidangID','tmUrusanProgram.BidangID')
-      ->leftJoin('tmUrusan','tmBidangUrusan.UrsID','tmUrusan.UrsID')
+      ->leftJoin('tmUrusanProgram', 'tmProgram.PrgID', 'tmUrusanProgram.PrgID')
+      ->leftJoin('tmBidangUrusan', 'tmBidangUrusan.BidangID', 'tmUrusanProgram.BidangID')
+      ->leftJoin('tmUrusan', 'tmBidangUrusan.UrsID', 'tmUrusan.UrsID')
       ->orderBy('tmUrusan.Kd_Urusan', 'ASC')                                    
       ->orderBy('tmBidangUrusan.Kd_Bidang', 'ASC')                                    
       ->orderBy('tmProgram.Kd_Program', 'ASC')                                    
@@ -146,7 +158,7 @@ class KodefikasiBidangUrusanController extends Controller {
           WHEN c.`UrsID` IS NOT NULL OR c.`BidangID` IS NOT NULL THEN 
             CONCAT(d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',a.`Kd_Program`) 
           ELSE 
-            CONCAT('X.','XX.',a.`Kd_Program`) 
+            CONCAT('X.', 'XX.',a.`Kd_Program`) 
         END AS kode_program, 
         COALESCE(d.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan, 
         COALESCE(c.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
@@ -155,7 +167,7 @@ class KodefikasiBidangUrusanController extends Controller {
           WHEN c.`UrsID` IS NOT NULL OR c.`BidangID` IS NOT NULL THEN 
             CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',a.`Kd_Program`,'] ',a.Nm_Program) 
           ELSE 
-            CONCAT('[X.','XX.',a.`Kd_Program`,'] ',a.Nm_Program) 
+            CONCAT('[X.', 'XX.',a.`Kd_Program`,'] ',a.Nm_Program) 
         END AS nama_program,
         a.`Jns`, 
         a.`TA`, 
@@ -434,7 +446,7 @@ class KodefikasiBidangUrusanController extends Controller {
           Rule::unique('tmBidangUrusan')->where(function($query) use ($request,$kodefikasibidangurusan) {  
             if ($request->input('Kd_Bidang') == $kodefikasibidangurusan->Kd_Bidang) 
             {
-              return $query->where('Kd_Bidang','ignore')
+              return $query->where('Kd_Bidang', 'ignore')
                     ->where('TA', $kodefikasibidangurusan->TA);
             }                 
             else

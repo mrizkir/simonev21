@@ -19,7 +19,7 @@ class UsersTAPDController extends Controller {
     public function index(Request $request)
     {           
         $this->hasPermissionTo('SYSTEM-USERS-TAPD_BROWSE');
-        $data = User::where('default_role','tapd')
+        $data = User::where('default_role', 'tapd')
                     ->orderBy('username', 'ASC')
                     ->get();       
                     
@@ -185,7 +185,7 @@ class UsersTAPDController extends Controller {
     { 
         $this->hasPermissionTo('SYSTEM-USERS-TAPD_DESTROY');
 
-        $user = User::where('isdeleted','1')
+        $user = User::where('isdeleted', '1')
                     ->find($id); 
         
         if (is_null($user))

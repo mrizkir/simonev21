@@ -179,13 +179,13 @@ class FormBUnitKerjaPerubahanController extends Controller
               $data_target=\DB::table('trRKATargetRinc')
                       ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
                       ->where('RKAID', $RKAID)
-                      ->where('bulan2','<=', $no_bulan)
+                      ->where('bulan2', '<=', $no_bulan)
                       ->get();
 
               $data_realisasi=\DB::table('trRKARealisasiRinc')
                     ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                     ->where('RKAID', $RKAID)
-                    ->where('bulan2','<=', $no_bulan)
+                    ->where('bulan2', '<=', $no_bulan)
                     ->get();
 
               //menghitung persen target fisik
@@ -415,7 +415,7 @@ class FormBUnitKerjaPerubahanController extends Controller
       $data_target=\DB::table('trRKATargetRinc')
         ->select(\DB::raw('COALESCE(SUM(target2), 0) AS totaltarget, COALESCE(SUM(fisik2), 0) AS jumlah_fisik'))
         ->where('RKAID', $item->RKAID)
-        ->where('bulan2','<=', $no_bulan)
+        ->where('bulan2', '<=', $no_bulan)
         ->get();
 
       $target_fisik = Helper::formatPecahan($data_target[0]->jumlah_fisik, $jumlahuraian);                            

@@ -47,7 +47,7 @@ class RenjaPerubahanController extends Controller
         0,0,0,0,0,0,0,0,0,0,0,0
       ]
     ];
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $daftar_opd = [];
 
@@ -355,7 +355,7 @@ class RenjaPerubahanController extends Controller
           'RealisasiKeuangan2' => 0,             
           'RealisasiFisik2' => 0, 
         ];
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $str_jumlah_pagudana="
         UPDATE 
@@ -553,7 +553,7 @@ class RenjaPerubahanController extends Controller
       'ta' => 'required',          
     ]);
     $tahun = $request->input('ta');  
-    if ($this->hasRole(['superadmin','bapelitbang']))
+    if ($this->hasRole(['superadmin', 'bapelitbang']))
     {
       $daftar_opd = OrganisasiModel::select('OrgID')
       ->where('TA', $tahun)
@@ -851,13 +851,13 @@ class RenjaPerubahanController extends Controller
           $data_target=\DB::table('trRKATargetRinc')
                           ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
                           ->where('RKAID', $RKAID)                   
-                          ->where('bulan2','<=', $i)                     
+                          ->where('bulan2', '<=', $i)                     
                           ->get();
 
           $data_realisasi=\DB::table('trRKARealisasiRinc')
                           ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                           ->where('RKAID', $RKAID)      
-                          ->where('bulan2','<=', $i)                                   
+                          ->where('bulan2', '<=', $i)                                   
                           ->get();
 
           //menghitung persen target fisik         

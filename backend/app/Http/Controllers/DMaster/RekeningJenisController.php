@@ -37,8 +37,8 @@ class RekeningJenisController extends Controller {
                     `tmJns`.`Descr`,
                     `tmJns`.`TA`
                   '))
-                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmKlp.TA', $ta)
                   ->orderBy('Kd_Rek_1', 'ASC')
                   ->orderBy('Kd_Rek_2', 'ASC')
@@ -183,7 +183,7 @@ class RekeningJenisController extends Controller {
                             if ($request->input('Kd_Rek_3') == $jenis->Kd_Rek_3) 
                             {
                               return $query->where('KlpID', $request->input('KlpID'))
-                                    ->where('Kd_Rek_3','ignore')
+                                    ->where('Kd_Rek_3', 'ignore')
                                     ->where('TA', $jenis->TA);
                             }                 
                             else
@@ -223,9 +223,9 @@ class RekeningJenisController extends Controller {
                     `tmOby`.`ObyID`,                                        
                     CONCAT(\'[\',`Kd_Rek_1`,\'.\',`Kd_Rek_2`,\'.\',`Kd_Rek_3`,\'.\',`Kd_Rek_4`,\'] \',`ObyNm`) AS `nama_rek4`                                        
                   '))                                    
-                  ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
-                  ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
-                  ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
+                  ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                  ->join('tmKlp', 'tmJns.KlpID', 'tmKlp.KlpID')
+                  ->join('tmAkun', 'tmAkun.AkunID', 'tmKlp.AkunID')
                   ->where('tmOby.JnsID', $id)
                   ->orderBy('Kd_Rek_1', 'ASC')
                   ->orderBy('Kd_Rek_2', 'ASC')

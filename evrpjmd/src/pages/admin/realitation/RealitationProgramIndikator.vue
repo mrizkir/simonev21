@@ -352,8 +352,8 @@
         },
       ]
       this.pageStore.addToPages({
-        name: "RealisasiIndikatorProgram",
-        BidangID_Selected: "",        
+        name: 'RealisasiIndikatorProgram',
+        BidangID_Selected: '',        
       });
     },
     mounted() {
@@ -456,9 +456,10 @@
       async fetchBidangUrusan() {
         await this.$ajax
           .post(
-            "/dmaster/kodefikasi/bidangurusan",
+            '/dmaster/kodefikasi/bidangurusan',
             {
               TA: this.userStore.PeriodeRPJMD.TA_AWAL,
+              pid: 'evrpjmd',
             },
             {
               headers: {
@@ -815,8 +816,8 @@
             },
           },
           {
-            title: "AKSI",
-            key: "actions",
+            title: 'AKSI',
+            key: 'actions',
             align: 'center',
             sortable: false,
             width: 110,

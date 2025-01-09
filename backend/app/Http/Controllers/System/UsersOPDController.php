@@ -37,7 +37,7 @@ class UsersOPDController extends Controller {
         ->get()
         ->pluck('OrgID');
 
-      $data = User::where('default_role','opd')
+      $data = User::where('default_role', 'opd')
         ->select(\DB::raw('
           users.*,
           "" AS opd
@@ -49,7 +49,7 @@ class UsersOPDController extends Controller {
     }
     else
     {
-      $data = User::where('default_role','opd')
+      $data = User::where('default_role', 'opd')
         ->select(\DB::raw('
           users.*,
           "" AS opd
@@ -410,7 +410,7 @@ class UsersOPDController extends Controller {
   { 
     $this->hasPermissionTo('SYSTEM-USERS-OPD_DESTROY');
 
-    $user = User::where('isdeleted','1')
+    $user = User::where('isdeleted', '1')
           ->find($id); 
     
     if (is_null($user))

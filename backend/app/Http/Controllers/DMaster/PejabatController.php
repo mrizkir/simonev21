@@ -29,7 +29,7 @@ class PejabatController extends Controller
 		$tahun = $request->input('tahun');
 		$OrgID= $request->input('OrgID');
 
-		$data = PejabatModel::join('tmASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+		$data = PejabatModel::join('tmASN', 'trRiwayatJabatanASN.ASNID', 'tmASN.ASNID')
 				->select(\DB::raw('
 					`RiwayatJabatanASNID`,
 					`trRiwayatJabatanASN`.`ASNID`,
