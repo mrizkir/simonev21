@@ -166,7 +166,7 @@ class ReportModel extends Model
             if (array_key_exists ($no_rek6, $dataAkhir)) 
             {
               $persenbobot=Helper::formatPersen($v->PaguUraian1,$totalPaguUraian); 
-              $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
+              $persen_target=Helper::formatPersen($target, $totalPaguUraian);   
               $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
               $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
@@ -204,7 +204,7 @@ class ReportModel extends Model
             else
             {
               $persenbobot=Helper::formatPersen($v->PaguUraian1,$totalPaguUraian); 
-              $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
+              $persen_target=Helper::formatPersen($target, $totalPaguUraian);   
               $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
               $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
@@ -351,7 +351,7 @@ class ReportModel extends Model
             if (array_key_exists ($no_rek6, $dataAkhir)) 
             {
               $persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
-              $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
+              $persen_target=Helper::formatPersen($target, $totalPaguUraian);   
               $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
               $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
@@ -389,7 +389,7 @@ class ReportModel extends Model
             else
             {
               $persenbobot=Helper::formatPersen($v->PaguUraian2,$totalPaguUraian); 
-              $persen_target=Helper::formatPersen($target,$totalPaguUraian);   
+              $persen_target=Helper::formatPersen($target, $totalPaguUraian);   
               $persen_realisasi=Helper::formatPersen($realisasi,$totalPaguUraian);
               $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100, 2);   
               $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100, 2);
@@ -506,7 +506,7 @@ class ReportModel extends Model
         }
       }
     }         
-    $totalpersentarget=Helper::formatPersen($totaltarget,$totalpagu);                
+    $totalpersentarget=Helper::formatPersen($totaltarget, $totalpagu);                
     $totalpersenrealisasi=Helper::formatPersen($totalrealisasi,$totalpagu);            
     $totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100, 2);
     $result=['totalpagu' => $totalpagu,

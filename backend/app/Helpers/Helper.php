@@ -211,7 +211,7 @@ class Helper {
       'Desember'
     ], $result);
   }  
-  public static function nextDay($format,$date,$next=1)
+  public static function nextDay($format, $date,$next=1)
   {
     Carbon::setLocale(app()->getLocale());
     $start = new Carbon($date,$next);

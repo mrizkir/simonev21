@@ -99,7 +99,7 @@ class TargetKinerjaPerubahanController extends Controller
 		$datauraian = RKARincianModel::find($RKARincID);
 
 		$data=[
-			'datarealisasi'=>[],
+			'datarealisasi' => [],
 			'totalanggarankas' => 0,
 			'totalrealisasi' => 0,
 			'totaltargetfisik' => 0,
@@ -506,7 +506,7 @@ class TargetKinerjaPerubahanController extends Controller
 			return Response()->json([
 															'status' => 0,
 															'pid' => 'destroy',                
-															'message'=>["Target Kinerja ($id) gagal dihapus"]
+															'message' => ["Target Kinerja ($id) gagal dihapus"]
 													], 422); 
 		}
 		else

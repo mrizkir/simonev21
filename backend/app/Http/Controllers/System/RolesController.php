@@ -131,7 +131,7 @@ class RolesController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'fetchdata',                
-                                    'message'=>["Role ID ($id) gagal diperoleh"]
+                                    'message' => ["Role ID ($id) gagal diperoleh"]
                                 ], 422); 
         }
         else
@@ -159,7 +159,7 @@ class RolesController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'fetchdata',                
-                                    'message'=>["Role ID ($id) gagal diperoleh"]
+                                    'message' => ["Role ID ($id) gagal diperoleh"]
                                 ], 422); 
         }
         else
@@ -186,7 +186,7 @@ class RolesController extends Controller {
         $role = Role::find($id);
 
         $this->validate($request, [                                
-            'name'=>[
+            'name' => [
                 'required',
                 Rule::unique('roles')->ignore($role->name,'name')
             ],                     

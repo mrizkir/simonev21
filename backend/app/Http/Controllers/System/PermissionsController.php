@@ -49,7 +49,7 @@ class PermissionsController extends Controller {
 		$this->hasPermissionTo('SYSTEM-SETTING-PERMISSIONS_STORE');
 
 		$this->validate($request, [
-			'name'=>[
+			'name' => [
           'required',
           function ($attribute,$value,$fail) {
             if(Permission::where('name', 'like',"%$value%")->exists())
@@ -109,7 +109,7 @@ class PermissionsController extends Controller {
 			return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Permission dengan ID ($id) gagal dihapus"]
+        'message' => ["Permission dengan ID ($id) gagal dihapus"]
       ], 422); 
 		}
 		else

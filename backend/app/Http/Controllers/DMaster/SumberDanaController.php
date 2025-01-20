@@ -97,8 +97,8 @@ class SumberDanaController extends Controller {
     $sumberdana = SumberDanaModel::find($id);        
     $this->validate($request,
     [
-      'Kd_SumberDana'=>['required',
-            Rule::unique('tmSumberDana')->where(function($query) use ($request,$sumberdana) {  
+      'Kd_SumberDana' => ['required',
+            Rule::unique('tmSumberDana')->where(function($query) use ($request, $sumberdana) {  
               if ($request->input('Kd_SumberDana') == $sumberdana->Kd_SumberDana) 
               {
                 return $query->where('Kd_SumberDana',0);

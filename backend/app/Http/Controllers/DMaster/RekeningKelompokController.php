@@ -168,15 +168,15 @@ class RekeningKelompokController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'update',                
-                  'message'=>["Data Rekening Kelompok ($id) gagal diupdate"]
+                  'message' => ["Data Rekening Kelompok ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
                     'AkunID' => 'required|exists:tmAkun,AkunID',
-                    'Kd_Rek_2'=>[
-                          Rule::unique('tmKlp')->where(function($query) use ($request,$kelompok) {  
+                    'Kd_Rek_2' => [
+                          Rule::unique('tmKlp')->where(function($query) use ($request, $kelompok) {  
                             if ($request->input('Kd_Rek_2') == $kelompok->Kd_Rek_2) 
                             {
                               return $query->where('AkunID', $request->input('AkunID'))
@@ -228,7 +228,7 @@ class RekeningKelompokController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                
-                  'message'=>["Data Rekening Kelompok ($id) gagal dihapus"]
+                  'message' => ["Data Rekening Kelompok ($id) gagal dihapus"]
                 ], 422); 
     }
     else

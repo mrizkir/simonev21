@@ -151,14 +151,14 @@ class KodefikasiUrusanController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'update',                
-                                    'message'=>["Data Kodefikasi Urusan ($id) gagal diupdate"]
+                                    'message' => ["Data Kodefikasi Urusan ($id) gagal diupdate"]
                                 ], 422); 
         }
         else
         {
             $this->validate($request, [    
-                                        'Kd_Urusan'=>[
-                                                    Rule::unique('tmUrusan')->where(function($query) use ($request,$kodefikasiurusan) {  
+                                        'Kd_Urusan' => [
+                                                    Rule::unique('tmUrusan')->where(function($query) use ($request, $kodefikasiurusan) {  
                                                         if ($request->input('Kd_Urusan') == $kodefikasiurusan->Kd_Urusan) 
                                                         {
                                                             return $query->where('Kd_Urusan', 'ignore')
@@ -208,7 +208,7 @@ class KodefikasiUrusanController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'destroy',                
-                                    'message'=>["Data Kodefikasi Urusan ($id) gagal dihapus"]
+                                    'message' => ["Data Kodefikasi Urusan ($id) gagal dihapus"]
                                 ], 422); 
         }
         else

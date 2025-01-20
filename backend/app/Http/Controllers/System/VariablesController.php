@@ -82,7 +82,7 @@ class VariablesController extends Controller
 
     $this->validate($request, [ 
       'pid' => 'required',                               
-      'setting'=>[
+      'setting' => [
         'required',                
       ],                     
     ],

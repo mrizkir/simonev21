@@ -171,15 +171,15 @@ class RekeningJenisController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'update',                
-                  'message'=>["Data Rekening Jenis ($id) gagal diupdate"]
+                  'message' => ["Data Rekening Jenis ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
                     'KlpID' => 'required|exists:tmKlp,KlpID',
-                    'Kd_Rek_3'=>[
-                          Rule::unique('tmJns')->where(function($query) use ($request,$jenis) {  
+                    'Kd_Rek_3' => [
+                          Rule::unique('tmJns')->where(function($query) use ($request, $jenis) {  
                             if ($request->input('Kd_Rek_3') == $jenis->Kd_Rek_3) 
                             {
                               return $query->where('KlpID', $request->input('KlpID'))
@@ -257,7 +257,7 @@ class RekeningJenisController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                
-                  'message'=>["Data Rekening Jenis ($id) gagal dihapus"]
+                  'message' => ["Data Rekening Jenis ($id) gagal dihapus"]
                 ], 422); 
     }
     else

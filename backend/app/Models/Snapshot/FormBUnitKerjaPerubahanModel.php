@@ -13,7 +13,7 @@ use App\Models\ReportModel;
 
 class FormBUnitKerjaPerubahanModel extends ReportModel
 {   
-    public function __construct($dataReport,$print=true)
+    public function __construct($dataReport, $print=true)
     {
         parent::__construct($dataReport); 
         $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);
@@ -182,12 +182,12 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         foreach ($daftar_program as $data_program)
         {
             $styleArray = [
-				'font'=>[
+				'font' => [
 					'bold' => true,
 				],
-				'fill'=>[
+				'fill' => [
 					'fillType'=>Fill::FILL_SOLID,
-					'startColor'=>[
+					'startColor' => [
 						'argb'=>'FFF0F8FF',
 					],
 				],
@@ -226,12 +226,12 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
                 foreach ($daftar_kegiatan as $data_kegiatan)
                 {
                     $styleArray = [
-						'font'=>[
+						'font' => [
 							'italic' => true,
 						],
-						'fill'=>[
+						'fill' => [
 							'fillType'=>Fill::FILL_SOLID,
-							'startColor'=>[
+							'startColor' => [
 								'argb'=>'FFE6E6FA',
 							],
 						],

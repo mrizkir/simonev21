@@ -113,7 +113,7 @@ class UsersBapelitbangController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'update',                
-                                    'message'=>["User ID ($id) gagal diperoleh"]
+                                    'message' => ["User ID ($id) gagal diperoleh"]
                                 ], 422); 
         }
         else
@@ -145,13 +145,13 @@ class UsersBapelitbangController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'update',                
-                                    'message'=>["User ID ($id) gagal diupdate"]
+                                    'message' => ["User ID ($id) gagal diupdate"]
                                 ], 422); 
         }
         else
         {
             $this->validate($request, [
-                                        'username'=>[
+                                        'username' => [
                                                         'required',
                                                         'unique:users,username,'.$user->id
                                                     ],           
@@ -159,7 +159,7 @@ class UsersBapelitbangController extends Controller {
                                         'email' => 'required|string|email|unique:users,email,'.$user->id,
                                         'nomor_hp' => 'required|string|unique:users,nomor_hp,'.$user->id,                                                    
                                     ]); 
-            $user = \DB::transaction(function () use ($request,$user) {
+            $user = \DB::transaction(function () use ($request, $user) {
                 $user->name = $request->input('name');
                 $user->email = $request->input('email');
                 $user->nomor_hp = $request->input('nomor_hp');
@@ -205,7 +205,7 @@ class UsersBapelitbangController extends Controller {
             return Response()->json([
                                     'status' => 0,
                                     'pid' => 'destroy',                
-                                    'message'=>["User ID ($id) gagal dihapus"]
+                                    'message' => ["User ID ($id) gagal dihapus"]
                                 ], 422); 
         }
         else

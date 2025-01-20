@@ -436,14 +436,14 @@ class KodefikasiBidangUrusanController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'update',                
-        'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
+        'message' => ["Data Kodefikasi Bidang Urusan ($id) gagal diupdate"]
       ], 422); 
     }
     else
     {
       $this->validate($request, [    
-        'Kd_Bidang'=>[
-          Rule::unique('tmBidangUrusan')->where(function($query) use ($request,$kodefikasibidangurusan) {  
+        'Kd_Bidang' => [
+          Rule::unique('tmBidangUrusan')->where(function($query) use ($request, $kodefikasibidangurusan) {  
             if ($request->input('Kd_Bidang') == $kodefikasibidangurusan->Kd_Bidang) 
             {
               return $query->where('Kd_Bidang', 'ignore')
@@ -494,7 +494,7 @@ class KodefikasiBidangUrusanController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                
-                  'message'=>["Data Kodefikasi Bidang Urusan ($id) gagal dihapus"]
+                  'message' => ["Data Kodefikasi Bidang Urusan ($id) gagal dihapus"]
                 ], 422); 
     }
     else

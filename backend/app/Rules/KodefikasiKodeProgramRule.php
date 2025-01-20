@@ -18,7 +18,7 @@ class KodefikasiKodeProgramRule implements Rule
    * proses apakah unique, exists, dan lain sebagainya
    */
   private $pid = 'unique';
-  public function __construct($request,$pid,$oldvalue=null)
+  public function __construct($request, $pid,$oldvalue=null)
   {
     $this->request = $request;    
     $this->pid = $pid;

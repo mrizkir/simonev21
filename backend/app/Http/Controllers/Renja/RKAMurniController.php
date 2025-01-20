@@ -98,7 +98,7 @@ class RKAMurniController extends Controller
     $datauraian = RKARincianModel::find($RKARincID);
 
     $data=[
-      'datarealisasi'=>[],
+      'datarealisasi' => [],
       'totalanggarankas' => 0,
       'totalrealisasi' => 0,
       'totaltargetfisik' => 0,
@@ -641,7 +641,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'store',
-        'rka'=>[],                                    
+        'rka' => [],                                    
         'message' => $e->getMessage()
       ], 422); 			
     }
@@ -719,7 +719,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',                
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else if ($kegiatan->Locked)
@@ -727,7 +727,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',                
-        'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+        'message' => ["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
     }
     else
@@ -798,7 +798,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',                
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else if ($kegiatan->Locked)
@@ -806,7 +806,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',                
-        'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+        'message' => ["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
     }
     else
@@ -836,7 +836,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',                
-        'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else if ($rinciankegiatan->Locked)
@@ -844,7 +844,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',                
-        'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+        'message' => ["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
     }
     else
@@ -857,7 +857,7 @@ class RKAMurniController extends Controller
         'SumberDanaID' => 'required',
       ]);
       
-      $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
+      $rinciankegiatan = \DB::transaction(function () use ($request, $rinciankegiatan) {
         $rinciankegiatan->volume1 = $request->input('volume1');
         $rinciankegiatan->volume2 = $request->input('volume1');
         $rinciankegiatan->satuan1 = $request->input('satuan1');
@@ -950,7 +950,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
@@ -974,7 +974,7 @@ class RKAMurniController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else

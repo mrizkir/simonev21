@@ -156,14 +156,14 @@ class RekeningAkunController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'update',                
-                  'message'=>["Data Rekening Akun ($id) gagal diupdate"]
+                  'message' => ["Data Rekening Akun ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
-                    'Kd_Rek_1'=>[
-                          Rule::unique('tmAkun')->where(function($query) use ($request,$akun) {  
+                    'Kd_Rek_1' => [
+                          Rule::unique('tmAkun')->where(function($query) use ($request, $akun) {  
                             if ($request->input('Kd_Rek_1') == $akun->Kd_Rek_1) 
                             {
                               return $query->where('Kd_Rek_1', 'ignore')
@@ -213,7 +213,7 @@ class RekeningAkunController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                
-                  'message'=>["Data Rekening Akun ($id) gagal dihapus"]
+                  'message' => ["Data Rekening Akun ($id) gagal dihapus"]
                 ], 422); 
     }
     else

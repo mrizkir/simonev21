@@ -190,7 +190,7 @@ class KodefikasiSubKegiatanController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'store',                
-        'message'=>["Data Kodefikasi Sub Kegiatan gagal ditambah karena kegiatan ini terkunci / tidak aktif"]
+        'message' => ["Data Kodefikasi Sub Kegiatan gagal ditambah karena kegiatan ini terkunci / tidak aktif"]
       ], 422);
     } 
     else
@@ -241,14 +241,14 @@ class KodefikasiSubKegiatanController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'update',                
-        'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal diupdate"]
+        'message' => ["Data Kodefikasi Sub Kegiatan ($id) gagal diupdate"]
       ], 422); 
     }
     else
     {
       $this->validate($request, [    
-        'Kd_SubKegiatan'=>[
-          Rule::unique('tmSubKegiatan')->where(function($query) use ($request,$kodefikasisubkegiatan) {  
+        'Kd_SubKegiatan' => [
+          Rule::unique('tmSubKegiatan')->where(function($query) use ($request, $kodefikasisubkegiatan) {  
             if ($request->input('Kd_SubKegiatan') == $kodefikasisubkegiatan->Kd_SubKegiatan) 
             {
               return $query->where('Kd_SubKegiatan', 'ignore')
@@ -290,7 +290,7 @@ class KodefikasiSubKegiatanController extends Controller {
         return Response()->json([
           'status' => 0,
           'pid' => 'store',                
-          'message'=>["Data Kodefikasi Sub Kegiatan gagal ditambah karena kegiatan ini terkunci / tidak aktif"]
+          'message' => ["Data Kodefikasi Sub Kegiatan gagal ditambah karena kegiatan ini terkunci / tidak aktif"]
         ], 422);
       } 
       else
@@ -362,7 +362,7 @@ class KodefikasiSubKegiatanController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus"]
+        'message' => ["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus"]
       ], 422); 
     }
     else if ($kodefikasisubkegiatan->Locked == 1)
@@ -370,7 +370,7 @@ class KodefikasiSubKegiatanController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus karena status terkunci / tidak aktif"]
+        'message' => ["Data Kodefikasi Sub Kegiatan ($id) gagal dihapus karena status terkunci / tidak aktif"]
       ], 422); 
     }
     else

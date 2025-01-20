@@ -120,7 +120,7 @@ class KodefikasiProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'update',                
-        'message'=>["Data Kodefikasi Program ($id) gagal diupdate"]
+        'message' => ["Data Kodefikasi Program ($id) gagal diupdate"]
       ], 422); 
     }
     else
@@ -580,13 +580,13 @@ class KodefikasiProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'update',                
-        'message'=>["Data Kodefikasi Program ($id) gagal diupdate"]
+        'message' => ["Data Kodefikasi Program ($id) gagal diupdate"]
       ], 422); 
     }
     else
     {
       $this->validate($request, [    
-        'Kd_Program'=>[                                                    
+        'Kd_Program' => [                                                    
               'required',
               'regex:/^[0-9]+$/',
               new KodefikasiKodeProgramRule($request,'ignore', $kodefikasiprogram)
@@ -684,7 +684,7 @@ class KodefikasiProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Data Kodefikasi Program ($id) gagal dihapus"]
+        'message' => ["Data Kodefikasi Program ($id) gagal dihapus"]
       ], 422); 
     }
     else if ($kodefikasiprogram->Locked == 1)
@@ -692,7 +692,7 @@ class KodefikasiProgramController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Data Kodefikasi Program ($id) gagal dihapus karena status terkunci / tidak aktif"]
+        'message' => ["Data Kodefikasi Program ($id) gagal dihapus karena status terkunci / tidak aktif"]
       ], 422); 
     }
     else

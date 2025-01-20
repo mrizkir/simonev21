@@ -175,15 +175,15 @@ class RekeningRincianObjekController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'update',                
-                  'message'=>["Data Rekening Rincian Objek ($id) gagal diupdate"]
+                  'message' => ["Data Rekening Rincian Objek ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
       $this->validate($request, [    
                     'ObyID' => 'required|exists:tmOby,ObyID',
-                    'Kd_Rek_5'=>[
-                          Rule::unique('tmROby')->where(function($query) use ($request,$rincianobjek) {  
+                    'Kd_Rek_5' => [
+                          Rule::unique('tmROby')->where(function($query) use ($request, $rincianobjek) {  
                             if ($request->input('Kd_Rek_5') == $rincianobjek->Kd_Rek_5) 
                             {
                               return $query->where('ObyID', $request->input('ObyID'))
@@ -268,7 +268,7 @@ class RekeningRincianObjekController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                
-                  'message'=>["Data Rekening Rincian Objek ($id) gagal dihapus"]
+                  'message' => ["Data Rekening Rincian Objek ($id) gagal dihapus"]
                 ], 422); 
     }
     else

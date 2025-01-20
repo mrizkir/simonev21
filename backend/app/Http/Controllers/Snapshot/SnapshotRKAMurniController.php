@@ -477,7 +477,7 @@ class SnapshotRKAMurniController extends Controller
     $datauraian = SnapshotRKARincianModel::find($RKARincID);
 
     $data=[
-      'datarealisasi'=>[],
+      'datarealisasi' => [],
       'totalanggarankas' => 0,
       'totalrealisasi' => 0,
       'totaltargetfisik' => 0,

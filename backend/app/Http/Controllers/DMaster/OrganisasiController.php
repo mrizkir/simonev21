@@ -480,7 +480,7 @@ class OrganisasiController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Data OPD ($id) gagal dihapus"]
+        'message' => ["Data OPD ($id) gagal dihapus"]
       ], 422); 
     }
     else
@@ -711,7 +711,7 @@ class OrganisasiController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'destroy',                
-        'message'=>["Data OPD ($id) gagal dihapus"]
+        'message' => ["Data OPD ($id) gagal dihapus"]
       ], 422); 
     }
     else
@@ -809,7 +809,7 @@ class OrganisasiController extends Controller {
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',                                    
-      'pejabat'=>[
+      'pejabat' => [
         'pa' => $pa,
         'kpa' => $kpa,
         'ppk' => $ppk,

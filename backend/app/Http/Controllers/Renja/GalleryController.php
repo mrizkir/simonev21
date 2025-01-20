@@ -358,8 +358,8 @@ class GalleryController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'media'=>[],                                    
-        'daftar_bulan'=>[],                                    
+        'media' => [],                                    
+        'daftar_bulan' => [],                                    
         'message' => $e->getMessage()
       ], 422); 			
     }
@@ -396,7 +396,7 @@ class GalleryController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'store',
-        'media'=>[],                                    
+        'media' => [],                                    
         'message' => $e->getMessage()
       ], 422); 			
     }

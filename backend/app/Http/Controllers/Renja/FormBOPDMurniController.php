@@ -578,7 +578,7 @@ class FormBOPDMurniController extends Controller
       return Response()->json([
                   'status' => 0,
                   'pid' => 'fetchdata',                                                                            
-                  'message'=>['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
+                  'message' => ['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
                 ], 422); 
     }
   }

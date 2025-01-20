@@ -143,8 +143,8 @@ class ASNController extends Controller
     $asn = ASNModel::find($id);
     
     $this->validate($request, [    
-      'NIP_ASN'=>[
-        Rule::unique('tmASN')->where(function($query) use ($request,$asn) {  
+      'NIP_ASN' => [
+        Rule::unique('tmASN')->where(function($query) use ($request, $asn) {  
           if ($request->input('NIP_ASN') == $asn->NIP_ASN) 
           {
             return $query->where('NIP_ASN', 'ignore');

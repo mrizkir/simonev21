@@ -38,7 +38,7 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim v-if="userStore.DefaultRole == 'superadmin'" />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PAGU INDIKATIF PROGRAM" value="pagu-program" to="/admin/relations/paguprogram" link slim v-if="userStore.DefaultRole == 'superadmin'" />        
         <v-list-subheader title="REALISASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="realisasi-indikatortujuan" to="/admin/realitation/indikatortujuan" link sli v-if="userStore.DefaultRole == 'superadmin'"m />        
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="realisasi-indikatortujuan" to="/admin/realitation/indikatortujuan" link sli v-if="userStore.DefaultRole == 'superadmin'" />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="realisasi-indikatorsasaran" to="/admin/realitation/indikatorsasaran" link slim v-if="userStore.DefaultRole == 'superadmin'" />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="realisasi-indikatorprogram" to="/admin/realitation/indikatorprogram" link slim />        
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PAGU PROGRAM" value="realisasi-paguprogram" to="/admin/realitation/paguprogram" link slim />        

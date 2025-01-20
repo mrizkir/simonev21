@@ -382,7 +382,7 @@ class SubOrganisasiController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                
-                  'message'=>["Data Unit Kerja dengan ($id) gagal dihapus"]
+                  'message' => ["Data Unit Kerja dengan ($id) gagal dihapus"]
                 ], 422); 
     }
     else

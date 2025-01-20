@@ -105,7 +105,7 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'fetchdata',                
-                  'message'=>["User ID ($id) gagal diperoleh"]
+                  'message' => ["User ID ($id) gagal diperoleh"]
                 ], 422); 
     }
     else
@@ -299,13 +299,13 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'update',                
-                  'message'=>["User ID ($id) gagal diupdate"]
+                  'message' => ["User ID ($id) gagal diupdate"]
                 ], 422); 
     }
     else
     {
        $this->validate($request, [
-                    'username'=>[
+                    'username' => [
                             'required',
                             'unique:users,username,'.$user->id
                           ],           
@@ -314,7 +314,7 @@ class UsersController extends Controller {
                     'nomor_hp' => 'required|string|unique:users,nomor_hp,'.$user->id,                                                   
                   ]);  
       
-      $user = \DB::transaction(function () use ($request,$user) {
+      $user = \DB::transaction(function () use ($request, $user) {
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->username = $request->input('username');                        
@@ -360,7 +360,7 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'update',                
-                  'message'=>["Password User ID ($id) gagal diupdate"]
+                  'message' => ["Password User ID ($id) gagal diupdate"]
                 ], 422); 
     }
     else
@@ -440,7 +440,7 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'destroy',                                      
-                  'message'=>["User dengan id ($id) gagal dihapus"]
+                  'message' => ["User dengan id ($id) gagal dihapus"]
                 ], 422);    
     }
     else
@@ -474,7 +474,7 @@ class UsersController extends Controller {
       return Response()->json([
         'status' => 0,
         'pid' => 'store',                
-        'message'=>["Data User tidak ditemukan."]
+        'message' => ["Data User tidak ditemukan."]
       ], 422);         
     }
     else
@@ -515,7 +515,7 @@ class UsersController extends Controller {
         return Response()->json([
           'status' => 1,
           'pid' => 'store',
-          'message'=>["Extensi file yang diupload bukan jpg atau png."]
+          'message' => ["Extensi file yang diupload bukan jpg atau png."]
         ], 422); 
       }
     }
@@ -529,7 +529,7 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'store',                
-                  'message'=>["Data User tidak ditemukan."]
+                  'message' => ["Data User tidak ditemukan."]
                 ], 422);         
     }
     else
@@ -565,7 +565,7 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'store',                
-                  'message'=>["Data User tidak ditemukan."]
+                  'message' => ["Data User tidak ditemukan."]
                 ], 422);         
     }
     else
@@ -589,7 +589,7 @@ class UsersController extends Controller {
       return Response()->json([
                   'status' => 0,
                   'pid' => 'store',                
-                  'message'=>["Data User tidak ditemukan."]
+                  'message' => ["Data User tidak ditemukan."]
                 ], 422);         
     }
     else

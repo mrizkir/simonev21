@@ -94,7 +94,7 @@ class RKAPerubahanController extends Controller
     $datauraian = RKARincianModel::find($RKARincID);
 
     $data=[
-      'datarealisasi'=>[],
+      'datarealisasi' => [],
       'totalanggarankas' => 0,
       'totalrealisasi' => 0,
       'totaltargetfisik' => 0,
@@ -913,7 +913,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else if ($kegiatan->Locked)
@@ -921,7 +921,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+        'message' => ["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
     }
     else
@@ -993,7 +993,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else if ($kegiatan->Locked)
@@ -1001,7 +1001,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+        'message' => ["Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
     }
     else
@@ -1031,7 +1031,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Rincian Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else if ($rinciankegiatan->Locked)
@@ -1039,7 +1039,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
+        'message' => ["Rincian Kegiatan dengan dengan ($id) tidak bisa diubah karena sudah dikunci, saat copy data ke Perubahan."]
       ], 422); 
     }
     else
@@ -1052,7 +1052,7 @@ class RKAPerubahanController extends Controller
         'SumberDanaID' => 'required',
       ]);
       
-      $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
+      $rinciankegiatan = \DB::transaction(function () use ($request, $rinciankegiatan) {
         $rinciankegiatan->volume2 = $request->input('volume2');
         $rinciankegiatan->satuan2 = $request->input('satuan2');
         $rinciankegiatan->harga_satuan2 = $request->input('harga_satuan2');
@@ -1141,7 +1141,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
@@ -1165,7 +1165,7 @@ class RKAPerubahanController extends Controller
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message'=>["Kegiatan dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Kegiatan dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
