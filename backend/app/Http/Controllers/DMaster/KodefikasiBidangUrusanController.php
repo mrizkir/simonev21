@@ -125,11 +125,12 @@ class KodefikasiBidangUrusanController extends Controller {
     $this->hasPermissionTo('DMASTER-KODEFIKASI-PROGRAM_BROWSE');
 
     $this->validate($request, [        
-      'pid' => 'required|in:relasiprogram,realisasiprogram',
+      'pid' => 'required|in:relasiprogram,realisasiprogram,realisasiprogram2', //realisasiprogram,realisasiprogram2[tanpa program semua urusan]
       'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',
     ]);  
     
     $periode = RPJMDPeriodeModel::find($request->input('PeriodeRPJMDID'));
+    $pid = $request->input('pid');
 
     $ta = $periode->TA_AWAL;
 
@@ -210,7 +211,10 @@ class KodefikasiBidangUrusanController extends Controller {
       $data = $data->limit($limit);
     }
 
-    $pid = $request->input('pid');
+    if($pid == 'realisasiprogram2') //tanpa semua urusan
+    {
+      $data = $data->whereNotNull('c.UrsID');
+    }
 
     $program = $data
     ->get()
@@ -259,6 +263,7 @@ class KodefikasiBidangUrusanController extends Controller {
           ->get();
         break;
         case 'realisasiprogram':
+        case 'realisasiprogram2':
           $item->pagu = \DB::table('tmRpjmdRelasiIndikator AS a')
           ->select(\DB::raw('
             b.RpjmdRealisasiIndikatorID,              
