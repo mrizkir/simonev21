@@ -201,20 +201,20 @@ const routes = [
   },
   // admin - realitation - program
   {
-    path: '/admin/realitation/indikatorprogram',
-    name: 'RealitationIndikatorProgram',
+    path: '/admin/realitation/indikatorprogramperurusan',
+    name: 'RealitationIndikatorProgramPerUrusan',
     meta: {
-      title: 'REALITATION - INDIKATOR PROGRAM',
+      title: 'REALITATION - INDIKATOR PROGRAM PER URUSAN',
     },
-    component: () => import('@/pages/admin/realitation/RealitationProgramIndikator.vue'),
+    component: () => import('@/pages/admin/realitation/RealitationProgramIndikatorPerUrusan.vue'),
   },
   {
-    path: '/admin/realitation/paguprogram',
-    name: 'RealitationPaguProgram',
+    path: '/admin/realitation/paguprogramperurusan',
+    name: 'RealitationPaguProgramPerUrusan',
     meta: {
-      title: 'REALITATION - PAGU PROGRAM',
+      title: 'REALITATION - PAGU PROGRAM PER URUSAN',
     },
-    component: () => import('@/pages/admin/realitation/RealitationProgramPagu.vue'),
+    component: () => import('@/pages/admin/realitation/RealitationProgramPaguPerUrusan.vue'),
   },
   // admin - realitation - program
   {

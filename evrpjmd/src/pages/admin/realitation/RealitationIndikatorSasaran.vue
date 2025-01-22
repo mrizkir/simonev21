@@ -109,11 +109,11 @@
                     <hr class="mb-3">                                        
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target TA {{ labeltahun[1] }}: {{ data_target.data_2 }} s.d {{ data_target.data_3 }}
+                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }} s.d {{ data_target.data_3 }}
                         </p>
-                        <p class="mb-1" v-else>
-                          Target TA {{ labeltahun[1] }}: {{ data_target.data_2 }}
+                        <p class="mb-1 text-info" v-else>
+                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
@@ -129,11 +129,11 @@
                     <hr class="mb-3">                    
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">                        
-                        <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target TA {{ labeltahun[2] }}: {{ data_target.data_4 }} s.d {{ data_target.data_5 }}
+                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_4 }} s.d {{ data_target.data_5 }}
                         </p>
-                        <p class="mb-1" v-else>
-                          Target TA {{ labeltahun[2] }}: {{ data_target.data_3 }}
+                        <p class="mb-1 text-info" v-else>
+                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_3 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[2] }}:</p>
                         <v-number-input
@@ -148,11 +148,11 @@
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">                        
-                        <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target TA {{ labeltahun[3] }}: {{ data_target.data_5 }} s.d {{ data_target.data_6 }}
+                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_5 }} s.d {{ data_target.data_6 }}
                         </p>
-                        <p class="mb-1" v-else>
-                          Target TA {{ labeltahun[3] }}: {{ data_target.data_4 }}
+                        <p class="mb-1 text-info" v-else>
+                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_4 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[3] }}:</p>
                         <v-number-input
@@ -167,11 +167,11 @@
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target TA {{ labeltahun[4] }}: {{ data_target.data_7 }} s.d {{ data_target.data_8 }}
+                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_7 }} s.d {{ data_target.data_8 }}
                         </p>
-                        <p class="mb-1" v-else>
-                          Target TA {{ labeltahun[4] }}: {{ data_target.data_5 }}
+                        <p class="mb-1 text-info" v-else>
+                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_5 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[4] }}:</p>
                         <v-number-input
@@ -186,11 +186,11 @@
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target TA {{ labeltahun[5] }}: {{ data_target.data_9 }} s.d {{ data_target.data_10 }}
+                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_9 }} s.d {{ data_target.data_10 }}
                         </p>
-                        <p class="mb-1" v-else>
-                          Target TA {{ labeltahun[5] }}: {{ data_target.data_6 }}
+                        <p class="mb-1 text-info" v-else>
+                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_6 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[5] }}:</p>
                         <v-number-input
@@ -602,6 +602,12 @@
           this.data_target.data_10 = this.formdata.IndikatorKinerja.data_10
           this.data_target.data_11 = this.formdata.IndikatorKinerja.data_11
           this.data_target.data_12 = this.formdata.IndikatorKinerja.data_12
+          this.formdata.data_2 = 0
+          this.formdata.data_3 = 0
+          this.formdata.data_4 = 0
+          this.formdata.data_5 = 0
+          this.formdata.data_6 = 0
+          this.formdata.data_7 = 0
           this.disabledrealisasi = false          
         }
       },
