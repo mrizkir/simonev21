@@ -216,6 +216,22 @@ const routes = [
     },
     component: () => import('@/pages/admin/realitation/RealitationProgramPaguPerUrusan.vue'),
   },
+  {
+    path: '/admin/realitation/indikatorprogramperopd',
+    name: 'RealitationIndikatorProgramPerOPD',
+    meta: {
+      title: 'REALITATION - INDIKATOR PROGRAM PER OPD',
+    },
+    component: () => import('@/pages/admin/realitation/RealitationProgramIndikatorPerOPD.vue'),
+  },
+  {
+    path: '/admin/realitation/paguprogramperopd',
+    name: 'RealitationPaguProgramPerOPD',
+    meta: {
+      title: 'REALITATION - PAGU PROGRAM PER OPD',
+    },
+    component: () => import('@/pages/admin/realitation/RealitationProgramPaguPerOPD.vue'),
+  },
   // admin - realitation - program
   {
     path: '/admin/report/formulire78pertahun',

@@ -307,7 +307,7 @@
         },
       ]
       this.pageStore.addToPages({
-        name: "RealisasiPaguProgram",
+        name: "RealisasiPaguProgramPerUrusan",
         BidangID_Selected: "",        
       });
     },

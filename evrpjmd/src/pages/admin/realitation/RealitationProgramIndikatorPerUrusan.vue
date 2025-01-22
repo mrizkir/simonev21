@@ -352,7 +352,7 @@
         },
       ]
       this.pageStore.addToPages({
-        name: 'RealisasiIndikatorProgram',
+        name: 'RealisasiIndikatorProgramPerUrusan',
         BidangID_Selected: '',        
       });
     },
