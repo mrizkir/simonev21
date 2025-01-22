@@ -309,7 +309,7 @@
                         <v-btn
                           color="blue darken-1"
                           text
-                          @click.stop="salinopd"
+                          @click.stop="salinsumberdana"
                           :disabled="!form_salin_valid || btnLoading"
                         >
                           SALIN

@@ -49,12 +49,12 @@ class SumberDanaController extends Controller {
     $this->validate($request,
       [
         'Kd_SumberDana' => [                                
-                Rule::unique('tmSumberDana')->where(function($query) use ($request) {
-                  return $query->where('TA', $request->input('TA'));
-                }),
-                'required',
-                'min:1',
-                'regex:/^[0-9]+$/'
+          Rule::unique('tmSumberDana')->where(function($query) use ($request) {
+            return $query->where('TA', $request->input('TA'));
+          }),
+          'required',
+          'min:1',
+          'regex:/^[0-9]+$/'
         ],               
         'Nm_SumberDana' => 'required', 
       ],
@@ -68,20 +68,73 @@ class SumberDanaController extends Controller {
     );
     
     $sumberdana = SumberDanaModel::create ([
-                        'SumberDanaID'=> uniqid ('uid'),
-                        'Kd_SumberDana' => $request->input('Kd_SumberDana'),        
-                        'Nm_SumberDana' => $request->input('Nm_SumberDana'),
-                        'Descr' => $request->input('Descr'),
-                        'TA' => $tahun,
-                      ]);
+      'SumberDanaID'=> uniqid ('uid'),
+      'Kd_SumberDana' => $request->input('Kd_SumberDana'),        
+      'Nm_SumberDana' => $request->input('Nm_SumberDana'),
+      'Descr' => $request->input('Descr'),
+      'TA' => $tahun,
+    ]);
 
-     return Response()->json([
-                'status' => 1,
-                'pid' => 'store',
-                'sumberdana' => $sumberdana,                                    
-                'message' => 'Data Sumber Dana berhasil disimpan.'
-              ], 200); 
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'store',
+      'sumberdana' => $sumberdana,                                    
+      'message' => 'Data Sumber Dana berhasil disimpan.'
+    ], 200); 
 
+  }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function salin(Request $request)
+  {       
+    $this->validate($request, [            
+      'tahun_asal' => 'required|numeric',
+      'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
+    ]);
+
+    $tahun_asal = $request->input('tahun_asal');
+    $tahun_tujuan = $request->input('tahun_tujuan');
+
+    \DB::table('tmSumberDana')
+    ->where('TA', $tahun_tujuan)
+    ->whereRaw('SumberDanaID_Src IS NOT NULL')
+    ->delete();
+
+    $str_insert = '
+      INSERT INTO `tmSumberDana` (
+        `SumberDanaID`,
+        `Kd_SumberDana`,        
+        `Nm_SumberDana`,
+        `Descr`,
+        `TA`,
+        `SumberDanaID_Src`,			
+        created_at,
+        updated_at
+      )		
+      SELECT
+        uuid() AS id,        
+        Kd_SumberDana,
+        Nm_SumberDana,
+        "DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+        '.$tahun_tujuan.' AS `TA`,
+        SumberDanaID AS SumberDanaID_Src,
+        NOW() AS created_at,
+        NOW() AS updated_at
+      FROM tmSumberDana
+      WHERE TA='.$tahun_asal.'        
+    ';    
+
+    \DB::statement($str_insert); 
+
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'store',            
+      'message'=>"Salin sumber dana dari tahun anggaran $tahun_asal berhasil."
+    ], 200);
   }
   /**
    * Update the specified resource in storage.

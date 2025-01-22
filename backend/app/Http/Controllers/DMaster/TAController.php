@@ -76,7 +76,7 @@ class TAController extends Controller {
         Rule::unique('ta')->where(function($query) use ($request, $ta) {  
           if ($request->input('tahun') == $ta->tahun) 
           {
-            return $query->where('tahun',0);
+            return $query->where('tahun', 0);
           }                 
           else
           {

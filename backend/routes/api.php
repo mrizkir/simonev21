@@ -189,6 +189,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   //data master - Sumber Dana
   $router->post('/dmaster/sumberdana', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\SumberDanaController@index','as'=>'sumberdana.index']);
   $router->post('/dmaster/sumberdana/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SumberDanaController@store','as'=>'sumberdana.store']);
+  $router->post('/dmaster/sumberdana/salin', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SumberDanaController@salin','as'=>'sumberdana.salin']);
   $router->put('/dmaster/sumberdana/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SumberDanaController@update','as'=>'sumberdana.update']);
   $router->delete('/dmaster/sumberdana/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SumberDanaController@destroy','as'=>'sumberdana.destroy']);
 
