@@ -300,7 +300,7 @@
           request_param.limit = itemsPerPage
         }
 
-        if (this.RpjmdStrategiID === null || typeof this.RpjmdStrategiID === "undefined") {       
+        if (this.RpjmdStrategiID === null && typeof this.RpjmdStrategiID === "undefined") {       
           await this.$ajax
             .post('/rpjmd/relations/strategiprogram',
               request_param,

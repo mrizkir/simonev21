@@ -165,7 +165,7 @@
           })
       },
       async initialize() {  
-        if (this.RpjmdSasaranID !== null || typeof  RpjmdSasaranID  !== 'undefined') {
+        if (this.RpjmdSasaranID !== null && typeof this.RpjmdSasaranID !== 'undefined') {
           var request_param = {           
             PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
             RpjmdSasaranID: this.RpjmdSasaranID,            

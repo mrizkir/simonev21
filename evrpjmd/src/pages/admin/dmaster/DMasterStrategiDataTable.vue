@@ -303,7 +303,7 @@
           request_param.limit = itemsPerPage
         }
 
-        if (this.RpjmdSasaranID === null || typeof this.RpjmdSasaranID === "undefined") {       
+        if (this.RpjmdSasaranID === null && typeof this.RpjmdSasaranID === "undefined") {       
           await this.$ajax
             .post('/rpjmd/strategi', 
               request_param,

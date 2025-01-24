@@ -11,8 +11,8 @@ use App\Helpers\Helper;
 
 use Ramsey\Uuid\Uuid;
 
-class OrganisasiController extends Controller {     
-  
+class OrganisasiController extends Controller 
+{     
   /**
    * Show the form for creating a new resource.
    *
@@ -758,6 +758,104 @@ class OrganisasiController extends Controller {
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);  
   }
   /**
+   * digunakan untuk mendapat program opd berdasarkan OrgID
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function opdprogram ($id)
+  {
+    $data_opd = OrganisasiModel::find($id);
+
+    $program = [];
+
+    if(!is_null($data_opd))
+    {    
+      $program_1 = \DB::table('tmOrg AS a')
+      ->select(\DB::raw("
+        b.PrgID,
+        CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',e.`Kd_Program`,'] ',e.Nm_Program) AS Nm_Program,
+        '{}' AS detail
+      "))
+      ->leftJoin('tmUrusanProgram AS b', 'a.BidangID_1', 'b.BidangID')
+      ->leftJoin('tmBidangUrusan AS c', 'a.BidangID_1', 'c.BidangID')
+      ->leftJoin('tmUrusan AS d', 'd.UrsID', 'c.UrsID')
+      ->leftJoin('tmProgram AS e', 'e.PrgID', 'b.PrgID')
+      ->where('a.OrgID', $id)
+      ->orderBy('e.Kd_Program', 'asc')
+      ->get();
+
+      foreach($program_1 as $v)
+      {
+        if(!is_null($v->PrgID))
+        {        
+          $v->detail = json_encode($this->detailprogramrpjmd($v));
+          $program[] = $v;
+        }
+      }
+
+      $program_2 = \DB::table('tmOrg AS a')
+      ->select(\DB::raw("
+        b.PrgID,
+        CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',e.`Kd_Program`,'] ',e.Nm_Program) AS Nm_Program,
+        '{}' AS detail
+      "))
+      ->leftJoin('tmUrusanProgram AS b', 'a.BidangID_2', 'b.BidangID')
+      ->leftJoin('tmBidangUrusan AS c', 'a.BidangID_2', 'c.BidangID')
+      ->leftJoin('tmUrusan AS d', 'd.UrsID', 'c.UrsID')
+      ->leftJoin('tmProgram AS e', 'e.PrgID', 'b.PrgID')
+      ->where('a.OrgID', $id)
+      ->orderBy('e.Kd_Program', 'asc')
+      ->get();
+
+      foreach($program_2 as $v)
+      {
+        if(!is_null($v->PrgID))
+        {        
+          $v->detail = json_encode($this->detailprogramrpjmd($v));
+          $program[] = $v;
+        }
+      }
+
+      $program_3 = \DB::table('tmOrg AS a')
+      ->select(\DB::raw("
+        b.PrgID,
+        CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',e.`Kd_Program`,'] ',e.Nm_Program) AS Nm_Program,
+        '{}' AS detail
+      "))
+      ->leftJoin('tmUrusanProgram AS b', 'a.BidangID_3', 'b.BidangID')
+      ->leftJoin('tmBidangUrusan AS c', 'a.BidangID_3', 'c.BidangID')
+      ->leftJoin('tmUrusan AS d', 'd.UrsID', 'c.UrsID')
+      ->leftJoin('tmProgram AS e', 'e.PrgID', 'b.PrgID')
+      ->where('a.OrgID', $id)
+      ->orderBy('e.Kd_Program', 'asc')
+      ->get();
+
+      foreach($program_3 as $v)
+      {
+        if(!is_null($v->PrgID))
+        {        
+          $v->detail = json_encode($this->detailprogramrpjmd($v));
+          $program[] = $v;
+        }
+      }
+    }
+    
+    $totalRecords = count($program);
+    
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => [
+        'data' => $program,
+        'totalRecords' => $totalRecords,
+      ],
+      'message' => 'Fetch data program rpjmd berhasil.'
+    ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+  }
+  
+  /**
    * digunakan untuk mendapat pejabat  berdasarkan OrgID
    *
    * @param  \Illuminate\Http\Request  $request
@@ -817,5 +915,14 @@ class OrganisasiController extends Controller {
       ],                                    
       'message' => 'Data unit kerja berdasarkan id '.$id.' berhasil diperoleh.'
     ], 200); 
+  }
+
+  /**
+   * digunakan untuk mendapatkan detail dari program rpjmd 
+   * @param $data_program object program
+  */
+  private function detailprogramrpjmd($data_program)
+  {
+    return [];
   }
 }

@@ -358,7 +358,7 @@
     },
     mounted() {
       this.fetchBidangUrusan()
-      var BidangID_Selected = this.pageStore.AtributeValueOfPage('RealisasiIndikatorProgram', 'BidangID_Selected')
+      var BidangID_Selected = this.pageStore.AtributeValueOfPage('RealisasiIndikatorProgramPerUrusan', 'BidangID_Selected')
       if(BidangID_Selected.length > 0) {
         this.BidangID = BidangID_Selected;
       }      
@@ -472,7 +472,7 @@
           });
       },
       async initialize({ page, itemsPerPage }) {  
-        if (this.BidangID !== null || typeof  BidangID  !== 'undefined') {
+        if (this.BidangID !== null && typeof this.BidangID !== 'undefined') {
           this.datatableLoading = true
          
           var request_param = {
@@ -597,7 +597,7 @@
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
+        if(this.formdata.IndikatorKinerja == null && typeof this.formdata.IndikatorKinerja == 'undefined') {
           this.formdata.Satuan = '-'
           this.formdata.Operasi = '-'
           this.data_target = {
@@ -837,7 +837,7 @@
     },
     watch: {
       BidangID(val) {
-        var page = this.pageStore.getPage('RealisasiIndikatorProgram')        
+        var page = this.pageStore.getPage('RealisasiIndikatorProgramPerUrusan')        
         if (val.length > 0) {
           this.BidangID = val          
           page.BidangID_Selected = val

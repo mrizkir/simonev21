@@ -33,3 +33,5 @@ sftp.sh
 *.njsproj
 *.sln
 *.sw?
+
+simonev.rest

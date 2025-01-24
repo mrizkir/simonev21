@@ -572,7 +572,7 @@
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
+        if(this.formdata.IndikatorKinerja == null && typeof this.formdata.IndikatorKinerja == 'undefined') {
           this.formdata.Satuan = '-'
           this.formdata.Operasi = '-'
           this.data_target = {

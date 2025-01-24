@@ -474,7 +474,7 @@
           });
       },
       async initialize({ page, itemsPerPage }) {                
-        if (this.BidangID !== null || typeof  BidangID  !== 'undefined') {
+        if (this.BidangID !== null && typeof this.BidangID !== 'undefined') {
           this.datatableLoading = true
          
           var request_param = {
@@ -579,7 +579,7 @@
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
+        if(this.formdata.IndikatorKinerja == null && typeof this.formdata.IndikatorKinerja == 'undefined') {
           this.formdata.Satuan = '-'
           this.formdata.Operasi = '-'
           this.disabledtarget = true

@@ -427,7 +427,7 @@
           })
       },
       async initialize({ page, itemsPerPage }) {  
-        if (this.BidangID !== null || typeof  BidangID  !== 'undefined') {
+        if (this.BidangID !== null && typeof this.BidangID !== 'undefined') {
           this.datatableLoading = true
          
           var request_param = {

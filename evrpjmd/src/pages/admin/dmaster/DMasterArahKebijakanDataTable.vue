@@ -4,13 +4,13 @@
       <v-card>
         <v-card-title class="d-flex align-center pe-2">
           <v-icon icon="mdi-graph"></v-icon> &nbsp;
-          DAFTAR MISI
+          DAFTAR ARAH KEBIJAKAN
           <v-spacer></v-spacer>   
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             density="compact"
-            label="Cari Misi"
+            label="Cari Arah Kebijakan"
             prepend-inner-icon="mdi-magnify"
             variant="solo-filled"
             flat
@@ -30,7 +30,7 @@
           :items-length="totalRecords"
           :loading="datatableLoading"
           :search="searchTrigger"
-          item-value="RpjmdMisiID"
+          item-value="RpjmdArahKebijakanID"
           @update:options="initialize"
           :expand-on-click="true"
           items-per-page-text="Jumlah record per halaman"
@@ -39,7 +39,9 @@
             <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
           </template>
           <template v-slot:top>
-            <v-toolbar flat>
+            <v-toolbar flat>                  
+              <v-spacer></v-spacer>
+              <v-divider class="mx-4" inset vertical></v-divider>
               <v-dialog
                 v-model="dialogfrm"
                 max-width="600px"
@@ -49,28 +51,28 @@
                   <v-card>
                     <v-card-title>
                       <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                      <span class="headline">UBAH MISI</span>
+                      <span class="headline">UBAH ARAH KEBIJAKAN</span>
                     </v-card-title>
                     <v-card-text>
                       <v-text-field
-                        v-model="formdata.Kd_RpjmdMisi"                  
+                        v-model="formdata.Kd_RpjmdArahKebijakan"                  
                         density="compact"        
-                        label="KODE MISI"
+                        label="KODE ARAH KEBIJAKAN"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan kode / nomor misi dari rpjmd"
-                        :rules="rule_kode_misi"
+                        hint="Masukan kode / nomor arah kebijakan dari rpjmd"
+                        :rules="rule_kode_arah_kebijakan"
                         auto-grow
-                      />    
+                      />                          
                       <v-textarea
-                        v-model="formdata.Nm_RpjmdMisi"
+                        v-model="formdata.Nm_RpjmdArahKebijakan"
                         rows="1"
                         density="compact"        
-                        label="NAMA MISI"
+                        label="NAMA ARAH KEBIJAKAN"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan misi dari rpjmd"
-                        :rules="rule_nama_misi"
+                        hint="Masukan arah kebijakan dari rpjmd"
+                        :rules="rule_nama_arah_kebijakan"
                         auto-grow
                       />
                     </v-card-text>
@@ -105,8 +107,8 @@
           <template v-slot:item.actions="{ item }">
             <v-btn
               class="mr-2"
-              v-tooltip:bottom="'Tambah Tujuan'"
-              :to="'/admin/dmaster/tujuan/' + item.RpjmdMisiID + '/manage'"
+              v-tooltip:bottom="'Tambah Program'"
+              :to="'/admin/relations/programarahkebijakan/' + item.RpjmdArahKebijakanID + '/manage'"
               size="small"
               color="primary"
               variant="text"
@@ -115,7 +117,7 @@
             />
             <v-icon
               class="mr-2"
-              v-tooltip:bottom="'Ubah Misi'"
+              v-tooltip:bottom="'Ubah Arah Kebijakan'"
               @click.stop="editItem(item)"
               size="small"
               color="primary"
@@ -123,7 +125,7 @@
               mdi-pencil
             </v-icon>
             <v-icon
-              v-tooltip:bottom="'Hapus Misi'"
+              v-tooltip:bottom="'Hapus Arah Kebijakan'"
               @click.stop="deleteItem(item)"
               size="small"
               color="error"
@@ -134,7 +136,7 @@
           <template v-slot:expanded-row="{ columns, item }">
             <tr class="bg-grey-lighten-4">
               <td :colspan="columns.length" class="text-center">
-                <span class="font-weight-bold">ID: </span> {{ item.RpjmdMisiID }} 
+                <span class="font-weight-bold">ID: </span> {{ item.RpjmdArahKebijakanID }} 
                 <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
               </td>
             </tr>
@@ -151,12 +153,12 @@
 <script>
   import { usesUserStore } from '@/stores/UsersStore'
   export default {
-		name: "DMasterMisiDataTable",
+		name: "DMasterArahKebijakanDataTable",
 		created() {
       this.userStore = usesUserStore()
     },
     props: {
-      RpjmdVisiID: {
+      RpjmdStrategiID: {
         type: String,
         default: null,
       },
@@ -181,22 +183,31 @@
           },
         },
         {
-          title: 'KODE MISI',
-          key: 'Kd_RpjmdMisi',
+          title: 'KODE ARAH KEBIJAKAN',
+          key: 'kode_arah_kebijakan',
           align: 'start',
           width: 130,
           headerProps: {
             class: 'font-weight-bold',
           },
-        },
+        },        
         {
-          title: 'NAMA MISI',
-          key: 'Nm_RpjmdMisi',
+          title: 'NAMA ARAH KEBIJAKAN',
+          key: 'Nm_RpjmdArahKebijakan',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
-        },        
+        },
+        {
+          title: 'JUMLAH PROGRAM',
+          key: 'jumlah_program',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+          width: 70,
+        },
         {
           title: "AKSI",
           key: "actions",
@@ -214,30 +225,29 @@
       //form data
       form_valid: true,      
       formdata: {
-        RpjmdMisiID: null,
-        RpjmdVisiID: null,
+        RpjmdArahKebijakanID: null,
+        RpjmdStrategiID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdMisi: null,  
-        Nm_RpjmdMisi: null,  
+        Kd_RpjmdArahKebijakan: null,          
+        Nm_RpjmdArahKebijakan: null,  
         created_at: null,
         updated_at: null,
       },
       formdefault: {
-        RpjmdMisiID: null,
-        RpjmdVisiID: null,
+        RpjmdArahKebijakanID: null,
+        RpjmdStrategiID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdMisi: null,  
-        Nm_RpjmdMisi: null,  
+        Kd_RpjmdArahKebijakan: null,          
+        Nm_RpjmdArahKebijakan: null,   
         created_at: null,
         updated_at: null,
       },
-      editedIndex: -1,
       //form rules
-      rule_kode_misi: [
-        value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',
+      rule_kode_arah_kebijakan: [
+        value => !!value || 'Mohon untuk di isi nama arah kebijakan dari RPJMD !!!',
       ],
-      rule_nama_misi: [
-        value => !!value || 'Mohon untuk di isi nama misi dari RPJMD !!!',
+      rule_nama_arah_kebijakan: [
+        value => !!value || 'Mohon untuk di isi arah kebijakan arahkebijakan  dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
@@ -245,11 +255,11 @@
     methods: {
       async initialize({ page, itemsPerPage, sortBy }) {  
         this.datatableLoading = true
-
+        
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'Kd_RpjmdMisi',
+              'key': 'kode_arah_kebijakan',
               'order': 'asc'
             },
           ]
@@ -269,9 +279,9 @@
           request_param.limit = itemsPerPage
         }
 
-        if (this.RpjmdVisiID === null && typeof this.RpjmdVisiID === "undefined") {       
+        if (this.RpjmdStrategiID === null && typeof this.RpjmdStrategiID === "undefined") {       
           await this.$ajax
-            .post('/rpjmd/misi', 
+            .post('/rpjmd/arahkebijakan', 
               request_param,
               {
                 headers: {
@@ -288,7 +298,7 @@
         } else {
           await this.$ajax
             .post(
-              '/rpjmd/visi/' + this.RpjmdVisiID + '/misi', 
+              '/rpjmd/arahkebijakan/' + this.RpjmdStrategiID + '/arahkebijakan', 
               request_param,
               {
                 headers: {
@@ -315,11 +325,12 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/misi/' + this.formdata.RpjmdMisiID,
+              '/rpjmd/arahkebijakan/' + this.formdata.RpjmdArahKebijakanID,
               {
                 _method: 'PUT',
-                Kd_RpjmdMisi: this.formdata.Kd_RpjmdMisi,
-                Nm_RpjmdMisi: this.formdata.Nm_RpjmdMisi,                  
+                Kd_RpjmdArahKebijakan: this.formdata.Kd_RpjmdArahKebijakan,
+                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,
+                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,
               },
               {
                 headers: {
@@ -340,7 +351,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdMisiID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdArahKebijakanID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -351,7 +362,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/misi/' + item.RpjmdMisiID,
+                  '/rpjmd/arahkebijakan/' + item.RpjmdArahKebijakanID,
                   {
                     _method: 'DELETE',
                   },
