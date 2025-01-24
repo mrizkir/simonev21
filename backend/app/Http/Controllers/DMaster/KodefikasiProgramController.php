@@ -147,7 +147,7 @@ class KodefikasiProgramController extends Controller
   public function indikatorprogram(Request $request, $id)
   {
     $this->validate($request, [        
-      'pid' => 'required|in:array,list',      
+      'pid' => 'required|in:array,arraynotexist,list',      
     ]);
 
     $pid = $request->input('pid');
@@ -175,6 +175,30 @@ class KodefikasiProgramController extends Controller
         ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
         ->where('RpjmdCascadingID', $id)
         ->get();        
+      break;
+      case 'arraynotexist':
+        $daftar_indikator = RPJMDRelasiIndikatorModel::from('tmRpjmdRelasiIndikator AS a')
+        ->select(\DB::raw("
+          a.RpjmdRelasiIndikatorID,
+          a.IndikatorKinerjaID,
+          REPLACE(REPLACE(b.NamaIndikator, '\r', ''), '\n', '') AS NamaIndikator,
+          Satuan,
+          Operasi,
+          data_1,    
+          data_2,    
+          data_3,    
+          data_4,    
+          data_5,    
+          data_6,    
+          data_7
+        "))
+        ->join('tmRPJMDIndikatorKinerja AS b', 'a.IndikatorKinerjaID', 'b.IndikatorKinerjaID')
+        ->whereNotIn('a.RpjmdRelasiIndikatorID', function($query) {
+          $query->select('RpjmdRelasiIndikatorID')
+          ->from('tmRpjmdRealisasiIndikator');
+        })
+        ->where('RpjmdCascadingID', $id)
+        ->get();
       break;
       default:
         $daftar_indikator = RPJMDRelasiIndikatorModel::where('RpjmdCascadingID', $id)

@@ -99,7 +99,7 @@ class FormAPerubahanController extends Controller
 
             $totalPaguDana_Rek1=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$k1,'Kd_Rek_1');
             $totalPaguDana = $totalPaguDana_Rek1['totalpagu'];
-            $data[]=[
+            $data[] = [
               'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
               'tingkat' => 1,
               'kode' => $k1,
@@ -130,7 +130,7 @@ class FormAPerubahanController extends Controller
               {
                 $totalPaguDana_Rek2=\App\Models\Renja\FormAPerubahanModel::calculateEachLevel($rka,$a,'Kd_Rek_2');
                 $no_=explode ('.', $a);
-                $data[]=[
+                $data[] = [
                   'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                   'tingkat'=>2,
                   'kode' => $no_[0].'.'.$no_[1],
@@ -160,7 +160,7 @@ class FormAPerubahanController extends Controller
                     $persen_rata2_fisik_rek3=Helper::formatPecahan($totalPaguDana_Rek3['totalfisik'],$totalPaguDana_Rek3['totalbaris']);
                     $persen_tertimbang_fisik_rek3=Helper::formatPecahan($totalPaguDana_Rek3['totalpersentertimbangfisik'],1);
 
-                    $data[]=[
+                    $data[] = [
                       'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                       'tingkat'=>3,
                       'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2],
@@ -188,7 +188,7 @@ class FormAPerubahanController extends Controller
                         $persen_rata2_fisik_rek4=Helper::formatPecahan($totalPaguDana_Rek4['totalfisik'],$totalPaguDana_Rek4['totalbaris']);
                         $persen_tertimbang_fisik_rek4=Helper::formatPecahan($totalPaguDana_Rek4['totalpersentertimbangfisik'],1);
 
-                        $data[]=[
+                        $data[] = [
                           'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                           'tingkat'=>4,
                           'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3],
@@ -216,7 +216,7 @@ class FormAPerubahanController extends Controller
                             $persen_rata2_fisik_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalfisik'],$totalPaguDana_Rek5['totalbaris']);
                             $persen_tertimbang_fisik_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalpersentertimbangfisik'],1);
 
-                            $data[]=[
+                            $data[] = [
                               'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                               'tingkat'=>5,
                               'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4],
@@ -249,7 +249,7 @@ class FormAPerubahanController extends Controller
                                 $persen_rata2_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalfisik'],$totalPaguDana_Rek6['totalbaris']);
                                 $persen_tertimbang_fisik_rek6=Helper::formatPecahan($totalPaguDana_Rek6['totalpersentertimbangfisik'],1);
 
-                                $data[]=[
+                                $data[] = [
                                   'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                                   'tingkat'=>6,
                                   'kode' => $no_[0].'.'.$no_[1].'.'.$no_[2].'.'.$no_[3].'.'.$no_[4].'.'.$no_6[0],
@@ -313,7 +313,7 @@ class FormAPerubahanController extends Controller
                                     $totalPersenTertimbangFisikSatuKegiatan+= $persen_tertimbang_fisik;
                                     $sisa_anggaran = $nilaiuraian-$realisasi;
 
-                                    $data[]=[
+                                    $data[] = [
                                       'FormAPerubahanDetailID'=>Uuid::uuid4()->toString(),
                                       'tingkat'=>7,
                                       'kode' => '',

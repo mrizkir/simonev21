@@ -203,7 +203,7 @@ class GalleryController extends Controller
     $daftar_bulan = [];
     foreach($bulan_realisasi as $k=>$v)
     {
-      $daftar_bulan[]=['value' => $k,'text' => $bulan[$v]];			
+      $daftar_bulan[] = ['value' => $k,'text' => $bulan[$v]];			
     }
     
     return $daftar_bulan;

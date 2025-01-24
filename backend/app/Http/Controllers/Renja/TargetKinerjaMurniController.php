@@ -139,7 +139,7 @@ class TargetKinerjaMurniController extends Controller
                 ->sum('realisasi1');
 
         $sisa_anggaran = $datauraian->PaguUraian1-$sum_realisasi;            
-        $daftar_realisasi[]=[
+        $daftar_realisasi[] = [
           'RKARealisasiRincID' => $item->RKARealisasiRincID,
           'bulan1' => $item->bulan1,
           'NamaBulan'=>Helper::getNamaBulan($item->bulan1),
@@ -317,7 +317,7 @@ class TargetKinerjaMurniController extends Controller
     $now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
     for ($i=0;$i < 12; $i+=1)
     {
-      $data[]=[
+      $data[] = [
         'RKATargetRincID'=>Uuid::uuid4()->toString(),
         'RKAID' => $request->input('RKAID'),
         'RKARincID' => $request->input('RKARincID'),
@@ -403,7 +403,7 @@ class TargetKinerjaMurniController extends Controller
     $now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
     for ($i=0;$i < 12; $i+=1)
     {
-      $data[]=[
+      $data[] = [
         'RKATargetRincID'=>Uuid::uuid4()->toString(),
         'RKAID' => $request->input('RKAID'),
         'RKARincID' => $request->input('RKARincID'),

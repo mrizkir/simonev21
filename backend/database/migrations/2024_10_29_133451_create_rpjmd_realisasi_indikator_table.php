@@ -19,7 +19,7 @@ class CreateRpjmdRealisasiIndikatorTable extends Migration
       $table->uuid('RpjmdCascadingID');     //merujuk pada tujuan,sasaran,program id 
       $table->uuid('PeriodeRPJMDID');
       $table->uuid('IndikatorKinerjaID')->nullable();
-      $table->string('TipeCascading', 20); //merujuk pada tujuan,sasarab,program id
+      $table->string('TipeCascading', 20); //merujuk pada tujuan,sasaran,program
       $table->string('data_1');
       $table->string('data_2');
       $table->string('data_3');

@@ -764,7 +764,7 @@ class OrganisasiController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function opdprogram ($id)
+  public function opdprogramrpjmd($id)
   {
     $data_opd = OrganisasiModel::find($id);
 
@@ -775,8 +775,13 @@ class OrganisasiController extends Controller
       $program_1 = \DB::table('tmOrg AS a')
       ->select(\DB::raw("
         b.PrgID,
+        d.Kd_Urusan,
+        d.Nm_Urusan,
+        c.Kd_Bidang,
+        c.Nm_Bidang,
         CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',e.`Kd_Program`,'] ',e.Nm_Program) AS Nm_Program,
-        '{}' AS detail
+        '{}' AS pagu,
+        '{}' AS indikator
       "))
       ->leftJoin('tmUrusanProgram AS b', 'a.BidangID_1', 'b.BidangID')
       ->leftJoin('tmBidangUrusan AS c', 'a.BidangID_1', 'c.BidangID')
@@ -790,7 +795,8 @@ class OrganisasiController extends Controller
       {
         if(!is_null($v->PrgID))
         {        
-          $v->detail = json_encode($this->detailprogramrpjmd($v));
+          $v->indikator = $this->detailprogramrpjmd($v, 'indikator');
+          $v->pagu = $this->detailprogramrpjmd($v, 'pagu');
           $program[] = $v;
         }
       }
@@ -799,7 +805,8 @@ class OrganisasiController extends Controller
       ->select(\DB::raw("
         b.PrgID,
         CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',e.`Kd_Program`,'] ',e.Nm_Program) AS Nm_Program,
-        '{}' AS detail
+        '{}' AS pagu,
+        '{}' AS indikator
       "))
       ->leftJoin('tmUrusanProgram AS b', 'a.BidangID_2', 'b.BidangID')
       ->leftJoin('tmBidangUrusan AS c', 'a.BidangID_2', 'c.BidangID')
@@ -813,7 +820,8 @@ class OrganisasiController extends Controller
       {
         if(!is_null($v->PrgID))
         {        
-          $v->detail = json_encode($this->detailprogramrpjmd($v));
+          $v->indikator = $this->detailprogramrpjmd($v, 'indikator');
+          $v->pagu = $this->detailprogramrpjmd($v, 'pagu');
           $program[] = $v;
         }
       }
@@ -822,7 +830,8 @@ class OrganisasiController extends Controller
       ->select(\DB::raw("
         b.PrgID,
         CONCAT('[',d.`Kd_Urusan`,'.',c.`Kd_Bidang`,'.',e.`Kd_Program`,'] ',e.Nm_Program) AS Nm_Program,
-        '{}' AS detail
+        '{}' AS pagu,
+        '{}' AS indikator
       "))
       ->leftJoin('tmUrusanProgram AS b', 'a.BidangID_3', 'b.BidangID')
       ->leftJoin('tmBidangUrusan AS c', 'a.BidangID_3', 'c.BidangID')
@@ -836,7 +845,8 @@ class OrganisasiController extends Controller
       {
         if(!is_null($v->PrgID))
         {        
-          $v->detail = json_encode($this->detailprogramrpjmd($v));
+          $v->indikator = $this->detailprogramrpjmd($v, 'indikator');
+          $v->pagu = $this->detailprogramrpjmd($v, 'pagu');
           $program[] = $v;
         }
       }
@@ -870,34 +880,34 @@ class OrganisasiController extends Controller
       ->where('trRiwayatJabatanASN.OrgID', $id)
       ->get();
 
-    $pa=[];
-    $kpa=[];
-    $ppk=[];
-    $pptk=[];
+    $pa = [];
+    $kpa = [];
+    $ppk = [];
+    $pptk = [];
     foreach ($pejabat as $item)
     {
       switch ($item->Jenis_Jabatan)
       {
         case 'pa' :
-          $pa[]=[
+          $pa[] = [
             'text' => $item->Nm_ASN,
             'value' => $item->ASNID
           ];
         break;                    
         case 'kpa' :
-          $kpa[]=[
+          $kpa[] = [
             'text' => $item->Nm_ASN,
             'value' => $item->ASNID
           ];;
         break;                    
         case 'ppk' :
-          $ppk[]=[
+          $ppk[] = [
             'text' => $item->Nm_ASN,
             'value' => $item->ASNID
           ];
         break;                    
         case 'pptk' :
-          $pptk[]=[
+          $pptk[] = [
             'text' => $item->Nm_ASN,
             'value' => $item->ASNID
           ];
@@ -920,9 +930,46 @@ class OrganisasiController extends Controller
   /**
    * digunakan untuk mendapatkan detail dari program rpjmd 
    * @param $data_program object program
+   * @param $jenis diisi dengang pagu atau indikator
   */
-  private function detailprogramrpjmd($data_program)
+  private function detailprogramrpjmd($data_program, $jenis)
   {
-    return [];
+    switch($jenis)
+    {
+      case 'pagu':
+        $pagu = [];
+        return $pagu;
+      break;
+      case 'indikator':
+        $indikator = \DB::table('tmRpjmdRealisasiIndikator AS a')
+        ->select(\DB::raw('
+          a.RpjmdRealisasiIndikatorID,
+          c.Satuan,
+          c.Operasi,
+          c.NamaIndikator,          
+          b.data_3 AS target_3,
+          b.data_4 AS target_4,
+          b.data_5 AS target_5,
+          b.data_6 AS target_6,
+          b.data_7 AS target_7,	
+          b.data_8 AS target_8,	
+          a.data_2 AS realisasi_2,
+          a.data_3 AS realisasi_3,
+          a.data_4 AS realisasi_4,
+          a.data_5 AS realisasi_5,
+          a.data_6 AS realisasi_6,
+          a.data_7 AS realisasi_7,
+          a.created_at,
+          a.updated_at
+        '))
+        ->join('tmRpjmdRelasiIndikator AS b', 'a.RpjmdRelasiIndikatorID', 'b.RpjmdRelasiIndikatorID')
+        ->join('tmRPJMDIndikatorKinerja AS c', 'a.IndikatorKinerjaID', 'c.IndikatorKinerjaID')
+        ->where('b.RpjmdCascadingID', $data_program->PrgID)
+        ->get();
+        return $indikator;
+      break;
+      default:
+        return [];
+    }    
   }
 }

@@ -40,7 +40,7 @@ class UIController extends Controller {
 		$daftar_bulan = [];
 		foreach ($bulan as $k=>$v)
 		{
-			$daftar_bulan[]=[
+			$daftar_bulan[] = [
 				'text' => $v,
 				'value' => $k,
 			];

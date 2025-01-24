@@ -520,7 +520,7 @@ class SnapshotRKAPerubahanController extends Controller
           ->sum('realisasi2');
 
         $sisa_anggaran = $datauraian->PaguUraian2-$sum_realisasi;            
-        $daftar_realisasi[]=[
+        $daftar_realisasi[] = [
           'RKARealisasiRincID' => $item->RKARealisasiRincID,
           'bulan2' => $item->bulan2,
           'NamaBulan'=>Helper::getNamaBulan($item->bulan2),

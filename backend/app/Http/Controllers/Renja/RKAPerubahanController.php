@@ -134,7 +134,7 @@ class RKAPerubahanController extends Controller
                 ->sum('realisasi2');
 
         $sisa_anggaran = $datauraian->PaguUraian2-$sum_realisasi;            
-        $daftar_realisasi[]=[
+        $daftar_realisasi[] = [
           'RKARealisasiRincID' => $item->RKARealisasiRincID,
           'bulan2' => $item->bulan2,
           'NamaBulan'=>Helper::getNamaBulan($item->bulan2),
@@ -1237,7 +1237,7 @@ class RKAPerubahanController extends Controller
     $now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
     for ($i=0;$i < 12; $i+=1)
     {
-      $data[]=[
+      $data[] = [
         'RKATargetRincID'=>Uuid::uuid4()->toString(),
         'RKAID' => $request->input('RKAID'),
         'RKARincID' => $request->input('RKARincID'),
@@ -1320,7 +1320,7 @@ class RKAPerubahanController extends Controller
     $now = \Carbon\Carbon::now('Asia/Jakarta')->toDateTimeString();
     foreach($bulan_anggaran as $item)
     {
-      $data[]=[
+      $data[] = [
         'RKATargetRincID'=>Uuid::uuid4()->toString(),
         'RKAID' => $request->input('RKAID'),
         'RKARincID' => $RKARincID,
