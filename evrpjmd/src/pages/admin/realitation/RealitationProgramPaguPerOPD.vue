@@ -415,7 +415,7 @@
 
         await this.$ajax
           .post(
-            "/dmaster/opd",
+            '/dmaster/opd',
             {
               tahun: TA_AWAL,
             },
@@ -759,8 +759,8 @@
             },
           },
           {
-            title: "AKSI",
-            key: "actions",
+            title: 'AKSI',
+            key: 'actions',
             align: 'center',
             sortable: false,
             width: 110,

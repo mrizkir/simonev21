@@ -32,6 +32,7 @@
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
         disable-sort
+        class="border-thin"
       >
         <template v-slot:loading>
           <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
@@ -113,7 +114,7 @@
                           Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }} s.d {{ data_target.data_3 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }}
+                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_3 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
@@ -133,7 +134,7 @@
                           Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_4 }} s.d {{ data_target.data_5 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_3 }}
+                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_4 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[2] }}:</p>
                         <v-number-input
@@ -149,10 +150,10 @@
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">                        
                         <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_5 }} s.d {{ data_target.data_6 }}
+                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_6 }} s.d {{ data_target.data_7 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_4 }}
+                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_5 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[3] }}:</p>
                         <v-number-input
@@ -168,10 +169,10 @@
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_7 }} s.d {{ data_target.data_8 }}
+                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_8 }} s.d {{ data_target.data_9 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_5 }}
+                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_6 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[4] }}:</p>
                         <v-number-input
@@ -187,10 +188,10 @@
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_9 }} s.d {{ data_target.data_10 }}
+                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_10 }} s.d {{ data_target.data_11 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_6 }}
+                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_7 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[5] }}:</p>
                         <v-number-input
@@ -206,10 +207,10 @@
                     <v-row no-gutters>                                         
                       <v-col cols="auto" md="12" lg="12">                        
                         <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target AKhir RPJMD: {{ data_target.data_11 }} s.d {{ data_target.data_12 }}
+                          Target AKhir RPJMD: {{ data_target.data_12 }} s.d {{ data_target.data_13 }}
                         </p>
                         <p class="mb-1" v-else>
-                          Target AKhir RPJMD: {{ data_target.data_7 }}
+                          Target AKhir RPJMD: {{ data_target.data_8 }}
                         </p>
                         <p class="mb-3">Realisasi Akhir RPJMD:</p>                    
                         <v-number-input
@@ -249,10 +250,10 @@
           </v-toolbar>
         </template>
         <template v-slot:item="{ index, item }">
-          <tr class="bg-grey-lighten-5">
+          <tr class="bg-grey-lighten-5 border-thin">
             <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="13">[{{ item.kode_sasaran }}] {{ item.Nm_RpjmdSasaran }}</td>
-            <td>
+            <td colspan="13" class="border-thin">[{{ item.kode_sasaran }}] {{ item.Nm_RpjmdSasaran }}</td>
+            <td class="border-thin">
               <v-btn
                 class="mr-2"
                 v-tooltip:bottom="'Tambah Realisasi Sasaran'"                
@@ -268,12 +269,12 @@
           </tr>
           <template v-if="item.indikator.length > 0">
             <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRealisasiIndikatorID">
-              <tr class="bg-green-lighten-5">
-                <td>
+              <tr class="bg-green-lighten-5 border-thin">
+                <td class="border-thin">
                   <v-icon icon="mdi-arrow-right" />
                 </td>
-                <td colspan="13">{{ indikator.NamaIndikator }}</td>
-                <td class="text-center">
+                <td colspan="13" class="border-thin">{{ indikator.NamaIndikator }}</td>
+                <td class="text-center border-thin">
                   <v-icon
                     class="mr-2"
                     v-tooltip:bottom="'Ubah Indikator'"
@@ -295,19 +296,19 @@
               </tr>
               <tr class="text-center">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td class="bg-blue">{{ indikator.Satuan }}</td>                        
-                <td class="bg-blue">{{ indikator.target_2 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_2 }}</td>
+                <td class="bg-yellow">{{ indikator.Satuan }}</td>                        
                 <td class="bg-blue">{{ indikator.target_3 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_3 }}</td>
+                <td class="bg-green">{{ indikator.realisasi_2 }}</td>
                 <td class="bg-blue">{{ indikator.target_4 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_4 }}</td>
+                <td class="bg-green">{{ indikator.realisasi_3 }}</td>
                 <td class="bg-blue">{{ indikator.target_5 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_5 }}</td>
+                <td class="bg-green">{{ indikator.realisasi_4 }}</td>
                 <td class="bg-blue">{{ indikator.target_6 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_6 }}</td>
-                <td class="bg-blue">{{ indikator.target_7 }} / {{ indikator.realisasi_7 }}</td>                
-                <td class="bg-grey">&nbsp;</td>
+                <td class="bg-green">{{ indikator.realisasi_5 }}</td>
+                <td class="bg-blue">{{ indikator.target_7 }}</td>
+                <td class="bg-green">{{ indikator.realisasi_6 }}</td>
+                <td class="bg-lime-lighten-2">{{ indikator.target_8 }} / {{ indikator.realisasi_7 }}</td>                
+                <td class="bg-grey border-thin">&nbsp;</td>
               </tr>
             </template>
           </template>
@@ -739,14 +740,14 @@
               title: 'TARGET',
               value: 'data_' + i,
               headerProps: {
-                class: 'font-weight-bold',
+                class: 'font-weight-bold bg-blue border-thin',
               },
             },
             {
               title: 'REALISASI',
               value: 'data_' + next_i,
               headerProps: {
-                class: 'font-weight-bold',
+                class: 'font-weight-bold bg-green border-thin',
               },
             },
           ]          
@@ -754,7 +755,7 @@
             title: tahun,
             children: children,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           });   
           i += 2
@@ -769,7 +770,7 @@
             key: 'no',
             width: 50,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -778,7 +779,7 @@
             align: 'start',
             width: '200px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },          
           {
@@ -786,7 +787,7 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',            
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },          
           {
@@ -794,7 +795,7 @@
             align: 'center',
             children: children_realisasi_tahun,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -802,7 +803,7 @@
             key: 'Nm_RpjmdProgram',
             align: 'center',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold bg-lime-lighten-2 border-thin',
             },
           },
           {
@@ -812,7 +813,7 @@
             sortable: false,
             width: 110,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
         ]

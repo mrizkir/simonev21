@@ -32,6 +32,7 @@
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
         disable-sort
+        class="border-thin"
       >
         <template v-slot:loading>
           <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
@@ -47,7 +48,7 @@
               item-title="bidangurusan"
               item-value="BidangID"
               class="pa-3 mt-4"
-              clearable              
+              clearable
             />
             <v-dialog
               v-model="dialogfrm"
@@ -208,16 +209,16 @@
           </v-toolbar>
         </template>
         <template v-slot:item="{ index, item }">
-          <tr class="bg-grey-lighten-5">
-            <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="12">
+          <tr class="bg-grey-lighten-5 border-thin">
+            <td class="border-thin">{{ (indexOffset + index) + 1 }}</td>
+            <td colspan="12" class="border-thin">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
               <br>
               <strong>[{{ item.kode_program }}] {{ item.Nm_Program }}</strong>
             </td>
-            <td>
+            <td class="border-thin">
               <v-btn
                 class="mr-2"
                 v-tooltip:bottom="'Tambah Realisasi Pagu'"                
@@ -234,20 +235,20 @@
           </tr>
           <template v-if="item.pagu.length > 0">
             <template v-for="(pagu, i) in item.pagu" :key="pagu.RpjmdRealisasiIndikatorID">              
-              <tr class="text-center">
-                <td colspan="2" class="bg-grey">&nbsp;</td>                                
-                <td class="bg-blue">{{ $filters.formatUang(pagu.target_2) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_2) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.target_3) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_3) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.target_4) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_4) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.target_5) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_5) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.target_6) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.realisasi_6) }}</td>
-                <td class="bg-blue">{{ $filters.formatUang(pagu.target_7) }} / {{ $filters.formatUang(pagu.realisasi_7) }}</td>                
-                <td class="text-center">
+              <tr class="text-center border-thin">
+                <td colspan="2" class="bg-grey border-thin">&nbsp;</td>                                
+                <td class="bg-blue border-thin">{{ $filters.formatUang(pagu.target_2) }}</td>
+                <td class="bg-green border-thin">{{ $filters.formatUang(pagu.realisasi_2) }}</td>
+                <td class="bg-blue border-thin">{{ $filters.formatUang(pagu.target_3) }}</td>
+                <td class="bg-green border-thin">{{ $filters.formatUang(pagu.realisasi_3) }}</td>
+                <td class="bg-blue border-thin">{{ $filters.formatUang(pagu.target_4) }}</td>
+                <td class="bg-green border-thin">{{ $filters.formatUang(pagu.realisasi_4) }}</td>
+                <td class="bg-blue border-thin">{{ $filters.formatUang(pagu.target_5) }}</td>
+                <td class="bg-green border-thin">{{ $filters.formatUang(pagu.realisasi_5) }}</td>
+                <td class="bg-blue border-thin">{{ $filters.formatUang(pagu.target_6) }}</td>
+                <td class="bg-green border-thin">{{ $filters.formatUang(pagu.realisasi_6) }}</td>
+                <td class="bg-lime-lighten-2">{{ $filters.formatUang(pagu.target_7) }} / {{ $filters.formatUang(pagu.realisasi_7) }}</td>                
+                <td class="text-center border-thin">
                   <v-icon
                     class="mr-2"
                     v-tooltip:bottom="'Ubah Pagu'"
@@ -270,7 +271,7 @@
             </template>
           </template>
           <template v-else>
-            <tr class="bg-green-lighten-5">
+            <tr class="bg-green-lighten-5 border-thin">
               <td colspan="15" class="text-center">Belum ada realisasi pagu. Silahkan tambah</td>
             </tr>
           </template>
@@ -307,13 +308,13 @@
         },
       ]
       this.pageStore.addToPages({
-        name: "RealisasiPaguProgramPerUrusan",
-        BidangID_Selected: "",        
+        name: 'RealisasiPaguProgramPerUrusan',
+        BidangID_Selected: '',        
       });
     },
     mounted() {
       this.fetchBidangUrusan()
-      var BidangID_Selected = this.pageStore.AtributeValueOfPage('RealisasiPaguProgram', 'BidangID_Selected')
+      var BidangID_Selected = this.pageStore.AtributeValueOfPage('RealisasiPaguProgramPerUrusan', 'BidangID_Selected')
       if(BidangID_Selected.length > 0) {
         this.BidangID = BidangID_Selected;
       }      
@@ -411,7 +412,7 @@
       async fetchBidangUrusan() {
         await this.$ajax
           .post(
-            "/dmaster/kodefikasi/bidangurusan",
+            '/dmaster/kodefikasi/bidangurusan',
             {
               TA: this.userStore.PeriodeRPJMD.TA_AWAL,
               pid: 'evrpjmd',
@@ -708,14 +709,14 @@
               title: 'TARGET',
               value: 'data_' + i,
               headerProps: {
-                class: 'font-weight-bold',
+                class: 'font-weight-bold border-thin bg-blue',
               },
             },
             {
               title: 'REALISASI',
               value: 'data_' + next_i,
               headerProps: {
-                class: 'font-weight-bold',
+                class: 'font-weight-bold border-thin bg-green',
               },
             },
           ]          
@@ -723,7 +724,7 @@
             title: tahun,
             children: children,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           });   
           i += 2
@@ -738,7 +739,7 @@
             key: 'no',
             width: 50,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -747,7 +748,7 @@
             align: 'start',
             width: '200px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },                    
           {
@@ -755,7 +756,7 @@
             align: 'center',
             children: children_realisasi_tahun,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -763,17 +764,17 @@
             key: 'Nm_RpjmdProgram',
             align: 'center',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin bg-lime-lighten-2',
             },
           },
           {
-            title: "AKSI",
-            key: "actions",
+            title: 'AKSI',
+            key: 'actions',
             align: 'center',
             sortable: false,
             width: 110,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
         ]
@@ -782,7 +783,7 @@
     },
     watch: {
       BidangID(val) {
-        var page = this.pageStore.getPage('RealisasiPaguProgram')        
+        var page = this.pageStore.getPage('RealisasiPaguProgramPerUrusan')        
         if (val.length > 0) {
           this.BidangID = val          
           page.BidangID_Selected = val
