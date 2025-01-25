@@ -937,7 +937,28 @@ class OrganisasiController extends Controller
     switch($jenis)
     {
       case 'pagu':
-        $pagu = [];
+        $pagu = \DB::table('tmRpjmdRelasiIndikator AS a')
+        ->select(\DB::raw('
+          b.RpjmdRealisasiIndikatorID,              
+          a.data_2 AS target_2,
+          a.data_3 AS target_3,
+          a.data_4 AS target_4,
+          a.data_5 AS target_5,
+          a.data_6 AS target_6,
+          a.data_7 AS target_7,
+          b.data_2 AS realisasi_2,
+          b.data_3 AS realisasi_3,
+          b.data_4 AS realisasi_4,
+          b.data_5 AS realisasi_5,
+          b.data_6 AS realisasi_6,
+          b.data_7 AS realisasi_7,
+          b.created_at,
+          b.updated_at
+        '))
+        ->join('tmRpjmdRealisasiIndikator AS b', 'a.RpjmdRelasiIndikatorID', 'b.RpjmdRelasiIndikatorID')          
+        ->whereNull('a.IndikatorKinerjaID')
+        ->where('a.RpjmdCascadingID', $data_program->PrgID)
+        ->get();
         return $pagu;
       break;
       case 'indikator':

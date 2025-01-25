@@ -33,7 +33,7 @@
         items-per-page-text="Jumlah record per halaman"
         disable-sort
       >
-      <template v-slot:loading>
+        <template v-slot:loading>
           <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
         </template>
         <template v-slot:top>
@@ -365,9 +365,7 @@
       btnLoading: false,      
       //filter form
       daftar_opd: [],
-      OrgID: null,
-      //Organisasi
-      DataOPD: null,
+      OrgID: null,      
       //data table
       datatableLoading: false,
       datatableLoaded: true,
