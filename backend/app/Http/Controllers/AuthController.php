@@ -21,10 +21,10 @@ class AuthController extends Controller
 			'password' => 'required',                        
 		]);
 		$credentials = $request->only('username', 'password');
-		$credentials['active']=1;
+		$credentials['active'] = 1;
 		
 		$config = ConfigurationModel::getCache();
-		$ttl_expire=60;
+		$ttl_expire = 60;
 
 		if ($config['TOKEN_TTL_EXPIRE'])
 		{

@@ -32,6 +32,7 @@
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
         disable-sort
+        class="border-thin"
       >
         <template v-slot:loading>
           <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
@@ -47,7 +48,7 @@
               item-title="bidangurusan"
               item-value="BidangID"
               class="pa-3 mt-4"
-              clearable              
+              clearable
             />
             <v-dialog
               v-model="dialogfrm"
@@ -246,16 +247,16 @@
           </v-toolbar>
         </template>
         <template v-slot:item="{ index, item }">
-          <tr class="bg-grey-lighten-5">
-            <td>{{ (indexOffset + index) + 1 }}</td>
-            <td colspan="13">
+          <tr class="bg-grey-lighten-5 border-thin">
+            <td class="border-thin">{{ (indexOffset + index) + 1 }}</td>
+            <td colspan="13" class="border-thin">
               [{{ item.Kd_Urusan }}] {{ item.Nm_Urusan }}
               <br>
               [{{ item.Kd_Urusan + '.' + item.Kd_Bidang }}] {{ item.Nm_Bidang }}
               <br>
               <strong>[{{ item.kode_program }}] {{ item.Nm_Program }}</strong>
             </td>
-            <td>
+            <td class="border-thin">
               <v-btn
                 class="mr-2"
                 v-tooltip:bottom="'Tambah Realisasi Indikator'"                
@@ -272,11 +273,11 @@
           <template v-if="item.indikator.length > 0">
             <template v-for="(indikator, i) in item.indikator" :key="indikator.RpjmdRealisasiIndikatorID">
               <tr class="bg-green-lighten-5">
-                <td>
+                <td class="border-thin">
                   <v-icon icon="mdi-arrow-right" />
                 </td>
-                <td colspan="13">{{ indikator.NamaIndikator }}</td>
-                <td class="text-center">
+                <td colspan="13" class="border-thin">{{ indikator.NamaIndikator }}</td>
+                <td class="text-center border-thin">
                   <v-icon
                     class="mr-2"
                     v-tooltip:bottom="'Ubah Indikator'"
@@ -296,27 +297,27 @@
                   </v-icon>
                 </td>
               </tr>
-              <tr class="text-center">
+              <tr class="text-center border-thin">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td class="bg-blue">{{ indikator.Satuan }}</td>                        
-                <td class="bg-blue">{{ indikator.target_2 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_2 }}</td>
-                <td class="bg-blue">{{ indikator.target_3 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_3 }}</td>
-                <td class="bg-blue">{{ indikator.target_4 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_4 }}</td>
-                <td class="bg-blue">{{ indikator.target_5 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_5 }}</td>
-                <td class="bg-blue">{{ indikator.target_6 }}</td>
-                <td class="bg-blue">{{ indikator.realisasi_6 }}</td>
-                <td class="bg-blue">{{ indikator.target_7 }} / {{ indikator.realisasi_7 }}</td>                
-                <td class="bg-grey">&nbsp;</td>
+                <td class="bg-blue border-thin">{{ indikator.Satuan }}</td>                        
+                <td class="bg-blue border-thin">{{ indikator.target_3 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_2 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_4 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_3 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_5 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_4 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_6 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_5 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_7 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_6 }}</td>
+                <td class="bg-lime-lighten-2 border-thin">{{ indikator.target_8 }} / {{ indikator.realisasi_7 }}</td>                
+                <td class="bg-grey border-thin">&nbsp;</td>
               </tr>
             </template>
           </template>
           <template v-else>
-            <tr class="bg-green-lighten-5">
-              <td colspan="15" class="text-center">Belum ada realisasi indikator. Silahkan tambah</td>
+            <tr class="bg-green-lighten-5 border-thin">
+              <td colspan="15" class="text-center border-thin">Belum ada realisasi indikator. Silahkan tambah</td>
             </tr>
           </template>
         </template>
@@ -755,14 +756,14 @@
               title: 'TARGET',
               value: 'data_' + i,
               headerProps: {
-                class: 'font-weight-bold',
+                class: 'font-weight-bold bg-blue border-thin',
               },
             },
             {
               title: 'REALISASI',
               value: 'data_' + next_i,
               headerProps: {
-                class: 'font-weight-bold',
+                class: 'font-weight-bold bg-green border-thin',
               },
             },
           ]          
@@ -770,7 +771,7 @@
             title: tahun,
             children: children,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           });   
           i += 2
@@ -785,7 +786,7 @@
             key: 'no',
             width: 50,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -794,7 +795,7 @@
             align: 'start',
             width: '200px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },          
           {
@@ -802,7 +803,7 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',            
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },          
           {
@@ -810,7 +811,7 @@
             align: 'center',
             children: children_realisasi_tahun,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -818,7 +819,7 @@
             key: 'Nm_RpjmdProgram',
             align: 'center',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold bg-lime-lighten-2 border-thin',
             },
           },
           {
@@ -828,7 +829,7 @@
             sortable: false,
             width: 110,
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
         ]
