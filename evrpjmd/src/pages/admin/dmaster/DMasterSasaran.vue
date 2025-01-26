@@ -2,7 +2,7 @@
   <v-main-layout :token="userStore.AccessToken">
     <v-page-header>
       <template v-slot:icon>
-        mdi-graph
+        mdi-bullseye
       </template>
       <template v-slot:name>
         SASARAN

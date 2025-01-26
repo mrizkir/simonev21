@@ -380,7 +380,7 @@
         value => value != null || 'Mohon untuk diisi pagu indikatif program !!!',                         
       ],
       rule_kondisi_akhir: [
-        value => !!value || 'Mohon untuk diisi nilai target !!!',
+        value => value != null || 'Mohon untuk diisi pagu indikatif program !!!',
       ],
       //pinia
       userStore: null,

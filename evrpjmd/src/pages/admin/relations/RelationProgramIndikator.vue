@@ -443,9 +443,6 @@
       ],
       rule_target_indikator: [
         value => !!value || 'Mohon untuk diisi nilai target indikator !!!',
-      ],      
-      rule_pagu_indikatif: [
-        value => !!value || 'Mohon untuk diisi pagu indikatif program !!!',
       ],
       rule_kondisi_akhir: [
         value => !!value || 'Mohon untuk diisi nilai target !!!',
