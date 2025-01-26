@@ -3,7 +3,7 @@
     <v-col cols="12">          
       <v-card>
         <v-card-title class="d-flex align-center pe-2">
-          <v-icon icon="mdi-graph"></v-icon> &nbsp;
+          <v-icon icon="mdi-format-list-bulleted"></v-icon> &nbsp;
           DAFTAR ARAH KEBIJAKAN
           <v-spacer></v-spacer>   
           <v-spacer></v-spacer>

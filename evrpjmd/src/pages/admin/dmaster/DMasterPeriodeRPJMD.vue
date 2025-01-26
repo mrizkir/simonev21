@@ -25,7 +25,7 @@
         <v-col cols="12">          
           <v-card>
             <v-card-title class="d-flex align-center pe-2">
-              <v-icon icon="mdi-calendar"></v-icon> &nbsp;
+              <v-icon icon="mdi-format-list-bulleted"></v-icon> &nbsp;
               DAFTAR PERIODE
               <v-spacer></v-spacer>              
               <template v-slot:append>

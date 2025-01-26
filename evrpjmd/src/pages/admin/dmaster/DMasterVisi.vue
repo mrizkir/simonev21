@@ -2,7 +2,7 @@
   <v-main-layout :token="userStore.AccessToken">
     <v-page-header>
       <template v-slot:icon>
-        mdi-graph
+        mdi-lighthouse
       </template>
       <template v-slot:name>
         VISI
@@ -25,7 +25,7 @@
         <v-col cols="12">          
           <v-card>
             <v-card-title class="d-flex align-center pe-2">
-              <v-icon icon="mdi-graph"></v-icon> &nbsp;
+              <v-icon icon="mdi-format-list-bulleted"></v-icon> &nbsp;
               DAFTAR VISI
               <v-spacer></v-spacer>              
               <template v-slot:append>
