@@ -51,7 +51,7 @@ class FormBOPDPerubahanModel extends ReportModel
     $sheet->mergeCells("A$row:U$row");		
     $sheet->setCellValue("A$row", 'KABUPATEN BINTAN');         
     
-    $styleArray=array( 
+    $styleArray = array( 
       'font' => array('bold' => true,'size'=>'11'),
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                  'vertical'=>Alignment::HORIZONTAL_CENTER),								
@@ -99,7 +99,7 @@ class FormBOPDPerubahanModel extends ReportModel
     $sheet->setCellValue("S$row_akhir", 'TARGET KINERJA'); 
     $sheet->setCellValue("T$row_akhir", 'REALISASI KINERJA'); 
     $sheet->setCellValue("U$row_akhir", '(%)'); 
-    $row_akhir = $row+2;
+    $row_akhir = $row + 2;
     $sheet->setCellValue("A$row_akhir", '1');                
     $sheet->setCellValue("B$row_akhir", '2');
     $sheet->setCellValue("C$row_akhir", '3');
@@ -144,7 +144,7 @@ class FormBOPDPerubahanModel extends ReportModel
     $sheet->getColumnDimension('T')->setWidth(13);
     $sheet->getColumnDimension('U')->setWidth(9);
     
-    $styleArray=array(
+    $styleArray = array(
             'font' => array('bold' => true),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                       'vertical'=>Alignment::HORIZONTAL_CENTER),
@@ -492,7 +492,7 @@ class FormBOPDPerubahanModel extends ReportModel
     $sheet->setCellValue("P$row",Helper::formatUang($totalSisaAnggaran));
     $sheet->setCellValue("Q$row",$totalPersenSisaAnggaran);
 
-    $styleArray=array(								
+    $styleArray = array(								
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                  'vertical'=>Alignment::HORIZONTAL_CENTER),
       'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
@@ -500,14 +500,14 @@ class FormBOPDPerubahanModel extends ReportModel
     $sheet->getStyle("A$row_awal:U$row")->applyFromArray($styleArray);
     $sheet->getStyle("A$row_awal:U$row")->getAlignment()->setWrapText(true);
 
-    $styleArray=array(								
+    $styleArray = array(								
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
     );																					 
     $sheet->getStyle("B$row_awal:D$row")->applyFromArray($styleArray);
     $sheet->getStyle("O$row_awal:O$row")->applyFromArray($styleArray);
     $sheet->getStyle("R$row_awal:S$row")->applyFromArray($styleArray);
 
-    $styleArray=array(								
+    $styleArray = array(								
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
     );																					 
     $sheet->getStyle("E$row_awal:N$row")->applyFromArray($styleArray);               

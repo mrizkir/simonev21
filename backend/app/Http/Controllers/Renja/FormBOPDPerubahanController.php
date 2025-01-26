@@ -565,8 +565,8 @@ class FormBOPDPerubahanController extends Controller
         'nama_pengguna_anggaran' => $opd->NamaKepalaOPD,
         'nip_pengguna_anggaran' => $opd->NIPKepalaOPD
       ];
-      $report= new \App\Models\Renja\FormBOPDPerubahanModel ($data_report);
-      $generate_date=date('Y-m-d_H_m_s');
+      $report = new \App\Models\Renja\FormBOPDPerubahanModel($data_report);
+      $generate_date = date('Y-m-d_H_m_s');
       return $report->download("form_b_$generate_date.xlsx");
     }
     else

@@ -521,8 +521,8 @@ class FormAMurniController extends Controller
         'nama_pengguna_anggaran' => $unitkerja->NamaKepalaUnitKerja,
         'nip_pengguna_anggaran' => $unitkerja->NIPKepalaUnitKerja
       ];
-      $report= new \App\Models\Renja\FormAMurniModel ($data_report);
-      $generate_date=date('Y-m-d_H_m_s');
+      $report = new \App\Models\Renja\FormAMurniModel($data_report);
+      $generate_date = date('Y-m-d_H_m_s');
       return $report->download("forma_a_$generate_date.xlsx");
     }
     else

@@ -42,6 +42,15 @@
             <v-toolbar flat>                  
               <v-spacer></v-spacer>
               <v-divider class="mx-4" inset vertical></v-divider>
+              <v-btn                
+                color="primary"
+                rounded="sm"
+                prepend-icon="mdi-printer"
+                @click.stop="printcascading"
+                :disabled="btnLoading || datatableLoaded"
+              >
+                Cetak Cascading
+              </v-btn>
               <v-dialog
                 v-model="dialogfrm"
                 max-width="600px"
@@ -166,6 +175,7 @@
     data: () => ({
       btnLoading: false,
       datatableLoading: false,
+      datatableLoaded: true,
       //data table
       datatable: [],
       itemsPerPage: 10,
@@ -296,7 +306,8 @@
               let payload = data.payload
               this.datatable = payload.data
               this.totalRecords = payload.totalRecords
-              this.datatableLoading = false    
+              this.datatableLoading = false
+              this.datatableLoaded = false
             })
         } else {
           await this.$ajax
@@ -398,6 +409,38 @@
           this.formdata = Object.assign({}, this.formdefault);
           this.editedIndex = -1;
         }, 300);
+      },
+      async printcascading() {
+        this.btnLoading = true
+        
+        var request_param = {
+          PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,          
+        }
+
+        await this.$ajax
+          .post(
+            "/rpjmd/arahkebijakan/printcascading",
+            request_param,
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+              responseType: "arraybuffer",
+            }
+          )
+          .then(({ data }) => {
+            const url = window.URL.createObjectURL(new Blob([data]));
+            const link = document.createElement("a");
+            link.href = url;
+
+            link.setAttribute("download", "arah_kebijakan_cascding_" + Date.now() + ".xlsx");
+            document.body.appendChild(link);
+            link.click();
+            this.btnLoading = false;
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });      
       },
     },
     computed: {      

@@ -276,6 +276,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/rpjmd/arahkebijakan/{id}/program', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@program','as'=>'rpjmd-arah-kebijakan.program']);
   $router->put('/rpjmd/arahkebijakan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@update','as'=>'rpjmd-arah-kebijakan.update']);
   $router->delete('/rpjmd/arahkebijakan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@destroy','as'=>'rpjmd-arah-kebijakan.destroy']);
+  $router->post('/rpjmd/arahkebijakan/printcascading', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@printcascading','as'=>'rpjmd-arah-kebijakan.printcascading']);
 
   //rpjmd - arah kebijakan dengan program 
   $router->post('/rpjmd/relations/arahkebijakanprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@index','as'=>'rpjmd-relations-program-arah-kebijakan.index']);

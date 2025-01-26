@@ -288,7 +288,7 @@ class FormBUnitKerjaPerubahanController extends Controller
               'fisik_realisasi2' => $persen_realisasi_fisik,
               'fisik_ttb2' => $persen_tertimbang_fisik,
               'keuangan_target2' => $target_keuangan_kegiatan,
-              'keuangan_target_persen_2' => $kegiatan_last_row+1,
+              'keuangan_target_persen_2' => $kegiatan_last_row + 1,
               'keuangan_realisasi2' => $realisasi_keuangan_kegiatan,
               'keuangan_realisasi_persen_2' => $persen_realisasi_keuangan,
               'keuangan_ttb2' => $persen_tertimbang_keuangan,
@@ -332,7 +332,7 @@ class FormBUnitKerjaPerubahanController extends Controller
         'fisik_realisasi2' => $persen_realisasi_fisik,
         'fisik_ttb2' => $persen_tertimbang_fisik,
         'keuangan_target2' => $target_keuangan_program,
-        'keuangan_target_persen_2' => $program_last_row+1,
+        'keuangan_target_persen_2' => $program_last_row + 1,
         'keuangan_realisasi2' => $realisasi_keuangan_program,
         'keuangan_realisasi_persen_2' => $persen_realisasi_keuangan,
         'keuangan_ttb2' => $persen_tertimbang_keuangan,
@@ -462,25 +462,25 @@ class FormBUnitKerjaPerubahanController extends Controller
     if (\DB::table('trRKA')->where('kode_sub_organisasi', $unitkerja->kode_sub_organisasi)->where('EntryLvl',2)->where('TA', $tahun)->count() > 0)
     {
       $data_report=[
-              'kode_sub_organisasi' => $unitkerja->kode_sub_organisasi,
-              'SOrgID' => $unitkerja->SOrgID,
-              'Nm_Sub_Organisasi' => $unitkerja->Nm_Sub_Organisasi,
-              'tahun' => $tahun,
-              'no_bulan' => $no_bulan,
-              'nama_pengguna_anggaran' => $unitkerja->NamaKepalaUnitKerja,
-              'nip_pengguna_anggaran' => $unitkerja->NIPKepalaUnitKerja
-            ];
-      $report= new \App\Models\Renja\FormBUnitKerjaPerubahanModel ($data_report);
-      $generate_date=date('Y-m-d_H_m_s');
+        'kode_sub_organisasi' => $unitkerja->kode_sub_organisasi,
+        'SOrgID' => $unitkerja->SOrgID,
+        'Nm_Sub_Organisasi' => $unitkerja->Nm_Sub_Organisasi,
+        'tahun' => $tahun,
+        'no_bulan' => $no_bulan,
+        'nama_pengguna_anggaran' => $unitkerja->NamaKepalaUnitKerja,
+        'nip_pengguna_anggaran' => $unitkerja->NIPKepalaUnitKerja
+      ];
+      $report = new \App\Models\Renja\FormBUnitKerjaPerubahanModel($data_report);
+      $generate_date = date('Y-m-d_H_m_s');
       return $report->download("form_b_$generate_date.xlsx");
     }
     else
     {
       return Response()->json([
-                  'status' => 0,
-                  'pid' => 'fetchdata',
-                  'message' => ['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
-                ], 422);
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ['Print excel gagal dilakukan karena tidak ada belum ada Uraian pada kegiatan ini']
+      ], 422);
     }
 
   }

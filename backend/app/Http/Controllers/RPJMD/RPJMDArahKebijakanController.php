@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\RPJMD\RPJMDStrategiModel;
 use App\Models\RPJMD\RPJMDArahKebijakanModel;
+use App\Models\RPJMD\RPJMDReportArahKebijakanModel;
 
 use Ramsey\Uuid\Uuid;
 
@@ -314,5 +315,22 @@ class RPJMDArahKebijakanController extends Controller
         'message' => "Data RPJMD Arah Kebijakan dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
+  }
+  public function printcascading(Request $request)
+  {
+    $this->validate($request, [      
+      'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
+    ]);
+
+    $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
+    
+    $data_report = [
+      'PeriodeRPJMDID' => $PeriodeRPJMDID,
+    ];
+
+    $report = new RPJMDReportArahKebijakanModel($data_report);
+    $report->printCascading();
+    $generate_date = date('Y-m-d_H_m_s');
+    return $report->download("arah_kebijakan_cascading_$generate_date.xlsx");
   }
 }

@@ -56,7 +56,7 @@ class FormAMurniModel extends ReportModel
     $sheet->mergeCells("A$row:Z$row");		
     $sheet->setCellValue("A$row", 'FISIK DAN KEUANGAN DOKUMEN PELAKSANAAN ANGGARAN'); 
     
-    $styleArray=array( 
+    $styleArray = array( 
       'font' => array('bold' => true,'size'=>'11'),
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
       'vertical'=>Alignment::HORIZONTAL_CENTER),								
@@ -214,7 +214,7 @@ class FormAMurniModel extends ReportModel
     $sheet->mergeCells("H$row:J$row");                
     $sheet->setCellValue("H$row",": $tahun");
 
-    $styleArray=array(								                                
+    $styleArray = array(								                                
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT,
                  'vertical'=>Alignment::HORIZONTAL_CENTER),								
     );
@@ -223,18 +223,18 @@ class FormAMurniModel extends ReportModel
     for ($i=$row_awal_sekali;$i <= $row;$i++) {                    
       $sheet->getRowDimension($i)->setRowHeight(20);
     }
-    $styleArray=array(								
+    $styleArray = array(								
           'font' => array('bold' => true),
           );
     $sheet->getStyle("G$row_awal_sekali:F$row")->applyFromArray($styleArray);
     $sheet->getStyle("G$row_awal_sekali:Z$row")->getAlignment()->setWrapText(true);
 
     $row += 1;
-    $row_akhir = $row+2;                            
+    $row_akhir = $row + 2;                            
     $sheet->mergeCells("A$row:F$row_akhir");		
     $sheet->setCellValue("A$row", 'KODE REKENING');
     
-    $row_akhir = $row+2;                                     
+    $row_akhir = $row + 2;                                     
     $sheet->mergeCells("G$row:I$row_akhir");
     $sheet->setCellValue("G$row", 'URAIAN');                
     
@@ -242,7 +242,7 @@ class FormAMurniModel extends ReportModel
     $sheet->mergeCells("J$row:L$row");
     $sheet->setCellValue("J$row", 'RINCIAN PERHITUNGAN');
     $row_awal=$row + 1;                     
-    $row_akhir = $row+2;        
+    $row_akhir = $row + 2;        
     $sheet->mergeCells("J$row_awal:J$row_akhir");         
     $sheet->setCellValue("J$row_awal", 'VOLUME');
     $sheet->mergeCells("K$row_awal:K$row_akhir");         
@@ -259,7 +259,7 @@ class FormAMurniModel extends ReportModel
     $row_akhir = $row + 1;                               
     $sheet->mergeCells("O$row:P$row_akhir");                
     $sheet->setCellValue("O$row", 'REALISASI FISIK');
-    $row_akhir = $row+2;                                                            
+    $row_akhir = $row + 2;                                                            
     $sheet->setCellValue("O$row_akhir", '% REALISASI');
     $sheet->setCellValue("P$row_akhir", '% Tertimbang');
             
@@ -272,23 +272,23 @@ class FormAMurniModel extends ReportModel
     $sheet->setCellValue("Q$row_akhir", 'TARGET (ANGGARAN KAS) KOMULATIF');
     $sheet->mergeCells("S$row_akhir:U$row_akhir");
     $sheet->setCellValue("S$row_akhir", 'REALISASI (SPJ) SAMPAI DENGAN BULAN INI');               
-    $row_akhir = $row+2;                                            
+    $row_akhir = $row + 2;                                            
     $sheet->setCellValue("Q$row_akhir", 'Rp.');
     $sheet->setCellValue("R$row_akhir", '% Target');
     $sheet->setCellValue("S$row_akhir", 'Rp.');
     $sheet->setCellValue("T$row_akhir", '% Realisasi');
     $sheet->setCellValue("U$row_akhir", '% Tertimbang');
     
-    $row_akhir = $row+2;               
+    $row_akhir = $row + 2;               
     $sheet->mergeCells("V$row:V$row_akhir");                
     $sheet->setCellValue("V$row", 'SISA ANGGARAN');                
-    $row_akhir = $row+2;                               
+    $row_akhir = $row + 2;                               
     $sheet->mergeCells("W$row:W$row_akhir");
     $sheet->setCellValue("W$row", 'REKANAN');
-    $row_akhir = $row+2;                               
+    $row_akhir = $row + 2;                               
     $sheet->mergeCells("X$row:X$row_akhir");
     $sheet->setCellValue("X$row", 'MASA PELAKSANAAN');
-    $row_akhir = $row+2;                               
+    $row_akhir = $row + 2;                               
     $sheet->mergeCells("Y$row:Y$row_akhir");
     $sheet->setCellValue("Y$row", 'LOKASI');                
     
@@ -314,7 +314,7 @@ class FormAMurniModel extends ReportModel
     $sheet->setCellValue("X$row_akhir", '17');                               
     $sheet->setCellValue("Y$row_akhir", '18');                                                                            
     
-    $styleArray=array(
+    $styleArray = array(
             'font' => array('bold' => true),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                       'vertical'=>Alignment::HORIZONTAL_CENTER),
@@ -674,7 +674,7 @@ class FormAMurniModel extends ReportModel
 
     }
 
-    $styleArray=array(								
+    $styleArray = array(								
       'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                  'vertical'=>Alignment::HORIZONTAL_CENTER),
       'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
@@ -682,13 +682,13 @@ class FormAMurniModel extends ReportModel
     $sheet->getStyle("A$row_awal:Y$row")->applyFromArray($styleArray);
     $sheet->getStyle("A$row_awal:Y$row")->getAlignment()->setWrapText(true);
     
-    $styleArray=array(								
+    $styleArray = array(								
               'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
             );																					 
     $sheet->getStyle("G$row_awal:G$row")->applyFromArray($styleArray);
     $sheet->getStyle("W$row_awal:Y$row")->applyFromArray($styleArray);
 
-    $styleArray=array(								
+    $styleArray = array(								
               'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
             );																					 
     $sheet->getStyle("L$row_awal:M$row")->applyFromArray($styleArray);
@@ -785,7 +785,7 @@ class FormAMurniModel extends ReportModel
     $sheet->setCellValue("G$row", 'TRIWULAN IV');
     $sheet->mergeCells("H$row:I$row");
     $sheet->setCellValue("H$row",Helper::formatUang($triwulan4));
-    $styleArray=array(  
+    $styleArray = array(  
               'borders' => array('bottom' => array('style' => Border::BORDER_THIN))
             );																					 
     $sheet->getStyle("G$row:I$row")->applyFromArray($styleArray);
@@ -795,7 +795,7 @@ class FormAMurniModel extends ReportModel
     $sheet->mergeCells("H$row:I$row");
     $sheet->setCellValue("H$row",Helper::formatUang($totalalltriwulan));
     
-    $styleArray=array(								
+    $styleArray = array(								
               'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
             );																					 
     $sheet->getStyle("H$row_awal:H$row")->applyFromArray($styleArray);

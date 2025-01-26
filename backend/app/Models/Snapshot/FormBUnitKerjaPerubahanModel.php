@@ -51,7 +51,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         $sheet->mergeCells("A$row:T$row");		
         $sheet->setCellValue("A$row", 'KABUPATEN BINTAN');         
         
-        $styleArray=array( 
+        $styleArray = array( 
             'font' => array('bold' => true,'size'=>'11'),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),								
@@ -97,7 +97,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         $sheet->setCellValue("R$row_akhir", 'TARGET KINERJA'); 
         $sheet->setCellValue("S$row_akhir", 'REALISASI KINERJA'); 
         $sheet->setCellValue("T$row_akhir", '(%)'); 
-        $row_akhir = $row+2;
+        $row_akhir = $row + 2;
         $sheet->setCellValue("A$row_akhir", '1');                
         $sheet->setCellValue("B$row_akhir", '2');
         $sheet->setCellValue("C$row_akhir", '3');
@@ -138,7 +138,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         $sheet->getColumnDimension('S')->setWidth(11);
         $sheet->getColumnDimension('T')->setWidth(9);
         
-        $styleArray=array(
+        $styleArray = array(
                         'font' => array('bold' => true),
                         'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                             'vertical'=>Alignment::HORIZONTAL_CENTER),
@@ -476,7 +476,7 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         $sheet->setCellValue("O$row",Helper::formatUang($totalSisaAnggaran));
         $sheet->setCellValue("P$row",$totalPersenSisaAnggaran);
 
-        $styleArray=array(								
+        $styleArray = array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
@@ -484,14 +484,14 @@ class FormBUnitKerjaPerubahanModel extends ReportModel
         $sheet->getStyle("A$row_awal:T$row")->applyFromArray($styleArray);
         $sheet->getStyle("A$row_awal:T$row")->getAlignment()->setWrapText(true);
 
-        $styleArray=array(								
+        $styleArray = array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
         );																					 
         $sheet->getStyle("A$row_awal:C$row")->applyFromArray($styleArray);        
         $sheet->getStyle("N$row_awal:N$row")->applyFromArray($styleArray);
         $sheet->getStyle("Q$row_awal:R$row")->applyFromArray($styleArray);
 
-        $styleArray=array(								
+        $styleArray = array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
         );																					 
         $sheet->getStyle("D$row_awal:D$row")->applyFromArray($styleArray);
