@@ -120,6 +120,8 @@
                 {{ (indexOffset + index) + 1 }}
               </td>
               <td colspan="5" class="border-thin">
+                <span class="font-weight-bold">Sasaran:</span> <i>{{ (typeof item.Nm_RpjmdSasaran === 'undefined' || item.Nm_RpjmdSasaran === null) ? '-' :  item.Nm_RpjmdSasaran }}</i><br>
+                <span class="font-weight-bold">Strategi:</span> <i>{{ (typeof item.Nm_RpjmdStrategi === 'undefined' || item.Nm_RpjmdStrategi === null) ? '-' :  item.Nm_RpjmdStrategi }}</i><br>
                 <span class="font-weight-bold">Arah Kebijakan:</span> <i>{{ (typeof item.Nm_RpjmdArahKebijakan === 'undefined' || item.Nm_RpjmdArahKebijakan === null) ? '-' :  item.Nm_RpjmdArahKebijakan }}</i>
               </td>
               <td class="border-thin" rowspan="2">

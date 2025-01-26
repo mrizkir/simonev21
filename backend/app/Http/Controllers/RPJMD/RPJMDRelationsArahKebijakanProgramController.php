@@ -55,6 +55,8 @@ class RPJMDRelationsArahKebijakanProgramController extends Controller
       a.Kd_ProgramRPJMD,
       a.Nm_ProgramRPJMD,
       b.Nm_RpjmdArahKebijakan,
+      c.Nm_RpjmdStrategi,
+      c1.Nm_RpjmdSasaran,
       d.`Jns`,
       d.`TA`,                                        
       d.`Descr`,
@@ -64,6 +66,7 @@ class RPJMDRelationsArahKebijakanProgramController extends Controller
     "))
     ->join('tmRpjmdArahKebijakan AS b', 'b.RpjmdArahKebijakanID', 'a.RpjmdArahKebijakanID')
     ->join('tmRpjmdStrategi AS c', 'c.RpjmdStrategiID', 'b.RpjmdStrategiID')
+    ->join('tmRpjmdSasaran AS c1', 'c.RpjmdSasaranID', 'c1.RpjmdSasaranID')
     ->join('tmProgram AS d', 'd.PrgID', 'a.PrgID')
     ->leftJoin('tmUrusanProgram AS e', 'e.PrgID', 'd.PrgID')
     ->leftJoin('tmBidangUrusan AS f', 'f.BidangID' ,'e.BidangID')

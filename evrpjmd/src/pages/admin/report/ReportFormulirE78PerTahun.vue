@@ -213,7 +213,7 @@
             align: 'start',
             width: '240px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },          
           {
@@ -222,7 +222,7 @@
             align: 'start',
             width: '70px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -231,7 +231,7 @@
             align: 'start',
             width: '70px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {
@@ -240,7 +240,7 @@
             align: 'start',
             width: '70px',
             headerProps: {
-              class: 'font-weight-bold',
+              class: 'font-weight-bold border-thin',
             },
           },
           {

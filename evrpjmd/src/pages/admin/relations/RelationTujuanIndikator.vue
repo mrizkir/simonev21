@@ -2,7 +2,7 @@
   <v-main-layout :token="userStore.AccessToken" :temporaryleftsidebar="true">
     <v-page-header>
       <template v-slot:icon>
-        mdi-graph
+        mdi-ruler-square-compass
       </template>
       <template v-slot:name>
         INDIKATOR TUJUAN
