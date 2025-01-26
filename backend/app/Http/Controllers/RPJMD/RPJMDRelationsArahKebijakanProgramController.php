@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\RPJMD;
 
 use App\Http\Controllers\Controller;
-use App\Models\RPJMD\RPJMDRelasiStrategiProgramModel;
+use App\Models\RPJMD\RPJMDArahKebijakanModel;
+use App\Models\RPJMD\RPJMDRelasiArahKebijakanProgramModel;
 use Illuminate\Http\Request;
 
 use Ramsey\Uuid\Uuid;
 
-class RPJMDRelationsStrategiProgramController extends Controller
+class RPJMDRelationsArahKebijakanProgramController extends Controller
 {
   /**
    * mendapatkan daftar seluruh indikator
@@ -25,46 +26,48 @@ class RPJMDRelationsStrategiProgramController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDRelasiStrategiProgramModel::join('tmRpjmdStrategi AS b', 'b.RpjmdStrategiID', 'tmRpjmdRelasiStrategiProgram.RpjmdStrategiID')
+    $totalRecords = RPJMDRelasiArahKebijakanProgramModel::join('tmRpjmdArahKebijakan AS b', 'b.RpjmdArahKebijakanID', 'tmRpjmdRelasiArahKebijakanProgram.RpjmdArahKebijakanID')
     ->where('b.PeriodeRPJMDID', $PeriodeRPJMDID)
-    ->count('StrategiProgramID');
+    ->count('ArahKebijakanProgramID');
 
-    $data = RPJMDRelasiStrategiProgramModel::select(\DB::raw("
-      tmRpjmdRelasiStrategiProgram.`StrategiProgramID`,
-      tmRpjmdRelasiStrategiProgram.`PrgID`,
-      e.BidangID,
-      f.`Kd_Urusan`,
-      e.`Kd_Bidang`,			 
-      c.`Kd_Program`,
+    $data = RPJMDRelasiArahKebijakanProgramModel::from('tmRpjmdRelasiArahKebijakanProgram AS a')->select(\DB::raw("
+      a.`ArahKebijakanProgramID`,
+      a.`PrgID`,
+      f.BidangID,
+      g.`Kd_Urusan`,
+      f.`Kd_Bidang`,			 
+      d.`Kd_Program`,
       CASE 
-        WHEN e.`UrsID` IS NOT NULL OR e.`BidangID` IS NOT NULL THEN
-          CONCAT(f.`Kd_Urusan`,'.',e.`Kd_Bidang`,'.',c.`Kd_Program`)
+        WHEN f.`UrsID` IS NOT NULL OR f.`BidangID` IS NOT NULL THEN
+          CONCAT(g.`Kd_Urusan`,'.',f.`Kd_Bidang`,'.',d.`Kd_Program`)
         ELSE
-          CONCAT('X.', 'XX.',c.`Kd_Program`)
+          CONCAT('X.', 'XX.',d.`Kd_Program`)
       END AS kode_program,                                        
-      COALESCE(f.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
-      COALESCE(e.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
-      c.`Nm_Program`,
+      COALESCE(g.`Nm_Urusan`,'SEMUA URUSAN') AS Nm_Urusan,
+      COALESCE(f.`Nm_Bidang`,'SEMUA BIDANG URUSAN') AS Nm_Bidang,
+      d.`Nm_Program`,
       CASE 
-        WHEN e.`UrsID` IS NOT NULL OR e.`BidangID` IS NOT NULL THEN
-          CONCAT('[',f.`Kd_Urusan`,'.',e.`Kd_Bidang`,'.',c.`Kd_Program`,'] ',c.Nm_Program)
+        WHEN f.`UrsID` IS NOT NULL OR f.`BidangID` IS NOT NULL THEN
+          CONCAT('[',g.`Kd_Urusan`,'.',f.`Kd_Bidang`,'.',d.`Kd_Program`,'] ',d.Nm_Program)
         ELSE
-          CONCAT('[X.', 'XX.',c.`Kd_Program`,'] ',c.Nm_Program)
+          CONCAT('[X.', 'XX.',d.`Kd_Program`,'] ',d.Nm_Program)
       END AS nama_program,
-      tmRpjmdRelasiStrategiProgram.Kd_ProgramRPJMD,
-      tmRpjmdRelasiStrategiProgram.Nm_ProgramRPJMD,
-      c.`Jns`,
-      c.`TA`,                                        
-      c.`Descr`,
-      c.`Locked`,
-      tmRpjmdRelasiStrategiProgram.`created_at`,
-      tmRpjmdRelasiStrategiProgram.`updated_at`
+      a.Kd_ProgramRPJMD,
+      a.Nm_ProgramRPJMD,
+      b.Nm_RpjmdArahKebijakan,
+      d.`Jns`,
+      d.`TA`,                                        
+      d.`Descr`,
+      d.`Locked`,
+      a.`created_at`,
+      a.`updated_at`
     "))
-    ->join('tmRpjmdStrategi AS b', 'b.RpjmdStrategiID', 'tmRpjmdRelasiStrategiProgram.RpjmdStrategiID')
-    ->join('tmProgram AS c', 'c.PrgID', 'tmRpjmdRelasiStrategiProgram.PrgID')
-    ->leftJoin('tmUrusanProgram AS d', 'c.PrgID', 'd.PrgID')
-    ->leftJoin('tmBidangUrusan AS e', 'e.BidangID' ,'d.BidangID')
-    ->leftJoin('tmUrusan AS f', 'e.UrsID', 'f.UrsID')
+    ->join('tmRpjmdArahKebijakan AS b', 'b.RpjmdArahKebijakanID', 'a.RpjmdArahKebijakanID')
+    ->join('tmRpjmdStrategi AS c', 'c.RpjmdStrategiID', 'b.RpjmdStrategiID')
+    ->join('tmProgram AS d', 'd.PrgID', 'a.PrgID')
+    ->leftJoin('tmUrusanProgram AS e', 'e.PrgID', 'd.PrgID')
+    ->leftJoin('tmBidangUrusan AS f', 'f.BidangID' ,'e.BidangID')
+    ->leftJoin('tmUrusan AS g', 'g.UrsID', 'f.UrsID')
     ->where('b.PeriodeRPJMDID', $PeriodeRPJMDID); 
     
     if($request->filled('offset'))
@@ -113,7 +116,7 @@ class RPJMDRelationsStrategiProgramController extends Controller
         'data' => $data->get(),
         'totalRecords' => $totalRecords,
       ],
-      'message' => 'Fetch data Program Strategi berhasil diperoleh'
+      'message' => 'Fetch data Program Arah Kebijakan berhasil diperoleh'
     ], 200);  
   }
   public function store(Request $request)
@@ -121,18 +124,21 @@ class RPJMDRelationsStrategiProgramController extends Controller
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_STORE');
 
     $rules = [      
-      'RpjmdStrategiID' => 'required|exists:tmRpjmdStrategi,RpjmdStrategiID',      
+      'RpjmdArahKebijakanID' => 'required|exists:tmRpjmdArahKebijakan,RpjmdArahKebijakanID',      
       'PrgID' => 'required|exists:tmProgram,PrgID',            
       'Kd_ProgramRPJMD' => 'required',            
       'Nm_ProgramRPJMD' => 'required',            
     ];
 
     $this->validate($request, $rules);
+    
+    $arah_kebijakan = RPJMDArahKebijakanModel::find($request->input('RpjmdArahKebijakanID'));
 
-    $strategiprogram = RPJMDRelasiStrategiProgramModel::create([
-      'StrategiProgramID' => Uuid::uuid4()->toString(),
+    $arahkebijakanprogram = RPJMDRelasiArahKebijakanProgramModel::create([
+      'ArahKebijakanProgramID' => Uuid::uuid4()->toString(),
+      'PeriodeRPJMDID' => $arah_kebijakan->PeriodeRPJMDID,
       'PrgID' => $request->input('PrgID'),
-      'RpjmdStrategiID' => $request->input('RpjmdStrategiID'),   
+      'RpjmdArahKebijakanID' => $request->input('RpjmdArahKebijakanID'),   
       'Kd_ProgramRPJMD' => $request->input('Kd_ProgramRPJMD'),   
       'Nm_ProgramRPJMD' => $request->input('Nm_ProgramRPJMD'),   
     ]);
@@ -140,22 +146,22 @@ class RPJMDRelationsStrategiProgramController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'store',
-      'payload' => $strategiprogram,                                    
-      'message' => 'Data Program Strategi berhasil disimpan.'
+      'payload' => $arahkebijakanprogram,                                    
+      'message' => 'Data Program Arah Kebijakan berhasil disimpan.'
     ], 200);
   }
   public function update(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_UPDATE');
 
-    $strategiprogram = RPJMDRelasiStrategiProgramModel::find($id);
+    $arahkebijakanprogram = RPJMDRelasiArahKebijakanProgramModel::find($id);
 
-    if(is_null($strategiprogram))
+    if(is_null($arahkebijakanprogram))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Strategi Program dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Arah Kebijakan Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     else
@@ -168,16 +174,16 @@ class RPJMDRelationsStrategiProgramController extends Controller
 
       $this->validate($request, $rules);
       
-      $strategiprogram->PrgID = $request->input('PrgID');
-      $strategiprogram->Kd_ProgramRPJMD = $request->input('Kd_ProgramRPJMD');
-      $strategiprogram->Nm_ProgramRPJMD = $request->input('Nm_ProgramRPJMD');
-      $strategiprogram->save();
+      $arahkebijakanprogram->PrgID = $request->input('PrgID');
+      $arahkebijakanprogram->Kd_ProgramRPJMD = $request->input('Kd_ProgramRPJMD');
+      $arahkebijakanprogram->Nm_ProgramRPJMD = $request->input('Nm_ProgramRPJMD');
+      $arahkebijakanprogram->save();
       
       return Response()->json([
         'status' => 1,
         'pid' => 'update',
-        'payload' => $strategiprogram,                                    
-        'message' => 'Data indikator sasaran berhasil disimpan.'
+        'payload' => $arahkebijakanprogram,                                    
+        'message' => 'Data Arah Kebijakan Program berhasil disimpan.'
       ], 200); 
     }
   }
@@ -191,14 +197,14 @@ class RPJMDRelationsStrategiProgramController extends Controller
   {
     $this->hasPermissionTo('RPJMD-INDIKASI-PROGRAM_DESTROY');
 
-    $strategiprogram = RPJMDRelasiStrategiProgramModel::find($id);
+    $arahkebijakanprogram = RPJMDRelasiArahKebijakanProgramModel::find($id);
 
-    if(is_null($strategiprogram))
+    if(is_null($arahkebijakanprogram))
     {
       return Response()->json([
         'status' => 0,
         'pid' => 'fetchdata',
-        'message' => ["Data Strategi Program dengan dengan ($id) gagal diperoleh"]
+        'message' => ["Data Arah Kebijakan Program dengan dengan ($id) gagal diperoleh"]
       ], 422); 
     }
     // else if($visi->misi->count('RpjmdMisiID') > 0)
@@ -211,12 +217,12 @@ class RPJMDRelationsStrategiProgramController extends Controller
     // }
     else
     {
-      $strategiprogram->delete();
+      $arahkebijakanprogram->delete();
 
       return Response()->json([
         'status' => 1,
         'pid' => 'destroy',                
-        'message' => "Data Strategi Program dengan ID ($id) berhasil dihapus"
+        'message' => "Data Arah Kebijakan Program dengan ID ($id) berhasil dihapus"
       ], 200);
     }    
   }

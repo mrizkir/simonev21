@@ -28,7 +28,7 @@ class RPJMDMisiController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDMisiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdVisiID');
+    $totalRecords = RPJMDMisiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
     
     $data = RPJMDMisiModel::select(\DB::raw('*'))
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID);

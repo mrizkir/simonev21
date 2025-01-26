@@ -4,23 +4,24 @@ namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RPJMDRelasiStrategiProgramModel extends Model 
+class RPJMDRelasiArahKebijakanProgramModel extends Model 
 {  
   /**
    * nama tabel model ini.
    *
    * @var string
    */
-  protected $table = 'tmRpjmdRelasiStrategiProgram';
+  protected $table = 'tmRpjmdRelasiArahKebijakanProgram';
   /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
   protected $fillable = [
-    'StrategiProgramID',
+    'ArahKebijakanProgramID',
+    'PeriodeRPJMDID',
     'PrgID',
-    'RpjmdStrategiID',    
+    'RpjmdArahKebijakanID',    
     'Kd_ProgramRPJMD',    
     'Nm_ProgramRPJMD',    
   ];
@@ -29,7 +30,7 @@ class RPJMDRelasiStrategiProgramModel extends Model
    *
    * @var string
    */
-  protected $primaryKey = 'StrategiProgramID';
+  protected $primaryKey = 'ArahKebijakanProgramID';
   /**
    * enable auto_increment.
    *

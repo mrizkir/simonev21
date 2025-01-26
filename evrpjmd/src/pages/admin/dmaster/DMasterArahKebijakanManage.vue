@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        STRATEGI
+        ARAH KEBIJAKAN
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola strategi.
+          Halaman ini digunakan untuk mengelola arah kebijakan.
         </v-alert>
       </template>      
     </v-page-header>
@@ -26,7 +26,7 @@
           <v-card>
             <v-card-title>
               <v-icon icon="mdi-eye"></v-icon> &nbsp;
-              <span class="headline">DATA TUJUAN</span>
+              <span class="headline">DATA STRATEGI</span>
             </v-card-title>
             <v-card-text>
               <v-row justify="space-between">
@@ -36,31 +36,31 @@
                       ID
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_sasaran.RpjmdSasaranID }}
+                      {{ data_strategi.RpjmdStrategiID }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      MISI
+                      SASARAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_sasaran.misi.Kd_RpjmdMisi }}. {{ data_sasaran.misi.Nm_RpjmdMisi }}
+                      {{ data_strategi.sasaran.Kd_RpjmdSasaran }}. {{ data_strategi.sasaran.Nm_RpjmdSasaran }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      KODE TUJUAN
+                      KODE STRATEGI
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_sasaran.Kd_RpjmdSasaran }}
+                      {{ data_strategi.Kd_RpjmdStrategi }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      NAMA TUJUAN
+                      NAMA STRATEGI
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_sasaran.Nm_RpjmdSasaran }}
+                      {{ data_strategi.Nm_RpjmdStrategi }}
                     </v-col>
                   </v-row>
                 </v-col>
@@ -75,28 +75,28 @@
             <v-card>
               <v-card-title>
                 <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                <span class="headline">TAMBAH STRATEGI</span>
+                <span class="headline">TAMBAH ARAH KEBIJAKAN</span>
               </v-card-title>
               <v-card-text>
                 <v-text-field
-                  v-model="formdata.Kd_RpjmdStrategi"                  
+                  v-model="formdata.Kd_RpjmdArahKebijakan"                  
                   density="compact"        
-                  label="KODE STRATEGI"
+                  label="KODE ARAH KEBIJAKAN"
                   variant="outlined"
                   prepend-inner-icon="mdi-graph"
-                  hint="Masukan kode / nomor strategi dari rpjmd"
-                  :rules="rule_kode_strategi"
+                  hint="Masukan kode / nomor arah kebijakan dari rpjmd"
+                  :rules="rule_kode_arah_kebijakan"
                   auto-grow
                 />    
                 <v-textarea
-                  v-model="formdata.Nm_RpjmdStrategi"
+                  v-model="formdata.Nm_RpjmdArahKebijakan"
                   rows="1"
                   density="compact"        
-                  label="NAMA STRATEGI"
+                  label="NAMA ARAH KEBIJAKAN"
                   variant="outlined"
                   prepend-inner-icon="mdi-graph"
-                  hint="Masukan strategi dari rpjmd"
-                  :rules="rule_nama_strategi"
+                  hint="Masukan arah kebijakan dari rpjmd"
+                  :rules="rule_nama_arah_kebijakan"
                   auto-grow
                 />
               </v-card-text>
@@ -116,18 +116,18 @@
           </v-form>
         </v-col>
       </v-row>
-      <v-strategi-data-table :RpjmdSasaranID="RpjmdSasaranID" />
+      <v-arah-kebijakan-data-table :RpjmdStrategiID="RpjmdStrategiID" />
     </v-container>
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
-  import dataTable from '@/pages/admin/dmaster/DMasterStrategiDataTable.vue'
+  import dataTable from '@/pages/admin/dmaster/DMasterArahKebijakanDataTable.vue'
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'DMasterStrategiManage',
+    name: 'DMasterArahKebijakanManage',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -141,8 +141,8 @@
           href: '#',
         },
         {
-          title: 'STRATEGI',    
-          href: '/admin/dmaster/strategi',
+          title: 'ARAH KEBIJAKAN',    
+          href: '/admin/dmaster/arahkebijakan',
         },
         {
           title: 'KELOLA',
@@ -150,59 +150,59 @@
           href: '#',
         },
       ]
-      this.RpjmdSasaranID = this.$route.params.RpjmdSasaranID;
+      this.RpjmdStrategiID = this.$route.params.RpjmdStrategiID;
     },
     mounted() {
-      this.fetchSasaran()
+      this.fetchStrategi()
     },
     data: () => ({
-      RpjmdSasaranID: null,
+      RpjmdStrategiID: null,
       btnLoading: false,
       breadcrumbs: [],
-      data_sasaran: {
-        tujuan: {},
+      data_strategi: {
+        sasaran: {},
       },
       //form data
       form_valid: true,
       formdata: {
+        RpjmdArahKebijakanID: null,
         RpjmdStrategiID: null,
-        RpjmdSasaranID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdStrategi: null,  
-        Nm_RpjmdStrategi: null,  
+        Kd_RpjmdArahKebijakan: null,  
+        Nm_RpjmdArahKebijakan: null,   
         created_at: null,
         updated_at: null,
       },
       formdefault: {
+        RpjmdArahKebijakanID: null,
         RpjmdStrategiID: null,
-        RpjmdSasaranID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdStrategi: null,  
-        Nm_RpjmdStrategi: null,  
+        Kd_RpjmdArahKebijakan: null,  
+        Nm_RpjmdArahKebijakan: null,   
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_kode_strategi: [
-        value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
+      rule_kode_arah_kebijakan: [
+        value => !!value || 'Mohon untuk di isi nama arah kebijakan dari RPJMD !!!',
       ],
-      rule_nama_strategi: [
-        value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
+      rule_nama_arah_kebijakan: [
+        value => !!value || 'Mohon untuk di isi nama arah kebijakan dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
     }),
     methods: {      
-      async fetchSasaran() {
+      async fetchStrategi() {
         await this.$ajax
-          .get('/rpjmd/sasaran/' + this.RpjmdSasaranID, {
+          .get('/rpjmd/strategi/' + this.RpjmdStrategiID, {
               headers: {
                 Authorization: this.userStore.Token,
               },
             }
           )
           .then(({ data }) => {
-            this.data_sasaran = data.payload            
+            this.data_strategi = data.payload
           })
       },
       async save() {
@@ -212,11 +212,11 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/strategi/store',
+              '/rpjmd/arahkebijakan/store',
               {
-                RpjmdSasaranID: this.RpjmdSasaranID,                
-                Kd_RpjmdStrategi: this.formdata.Kd_RpjmdStrategi,
-                Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,                  
+                RpjmdStrategiID: this.RpjmdStrategiID,                
+                Kd_RpjmdArahKebijakan: this.formdata.Kd_RpjmdArahKebijakan,
+                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,                  
               },
               {
                 headers: {
@@ -236,7 +236,7 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-strategi-data-table': dataTable,
+      'v-arah-kebijakan-data-table': dataTable,
     }
   }
 </script>

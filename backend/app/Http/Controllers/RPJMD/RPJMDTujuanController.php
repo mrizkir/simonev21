@@ -135,7 +135,7 @@ class RPJMDTujuanController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdMisiID');
+    $totalRecords = RPJMDTujuanModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdTujuanID');
     
     $data = RPJMDTujuanModel::select(\DB::raw('
       tmRpjmdTujuan.*,

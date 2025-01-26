@@ -269,7 +269,7 @@
           request_param.limit = itemsPerPage
         }
 
-        if (this.RpjmdVisiID === null && typeof this.RpjmdVisiID === "undefined") {       
+        if (this.RpjmdVisiID === null || typeof this.RpjmdVisiID === "undefined") {       
           await this.$ajax
             .post('/rpjmd/misi', 
               request_param,

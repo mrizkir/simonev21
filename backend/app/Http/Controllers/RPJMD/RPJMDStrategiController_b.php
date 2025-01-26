@@ -28,11 +28,12 @@ class RPJMDStrategiController extends Controller
 
     $PeriodeRPJMDID = $request->input('PeriodeRPJMDID');
     
-    $totalRecords = RPJMDStrategiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdStrategiID');
+    $totalRecords = RPJMDStrategiModel::where('PeriodeRPJMDID', $PeriodeRPJMDID)->count('RpjmdSasaranID');
     
     $data = RPJMDStrategiModel::select(\DB::raw('
       tmRpjmdStrategi.*,
-      CONCAT(d.Kd_RpjmdMisi,".",c.Kd_RpjmdTujuan,".",b.Kd_RpjmdSasaran,".",tmRpjmdStrategi.Kd_RpjmdStrategi) AS kode_strategi      
+      CONCAT(d.Kd_RpjmdMisi,".",c.Kd_RpjmdTujuan,".",b.Kd_RpjmdSasaran,".",tmRpjmdStrategi.Kd_RpjmdStrategi) AS kode_strategi,
+      0 AS jumlah_program
     '))
     ->join('tmRpjmdSasaran AS b', 'b.RpjmdSasaranID', 'tmRpjmdStrategi.RpjmdSasaranID')
     ->join('tmRpjmdTujuan AS c', 'b.RpjmdTujuanID', 'c.RpjmdTujuanID')
@@ -78,7 +79,13 @@ class RPJMDStrategiController extends Controller
       ->orWhere('Kd_RpjmdStrategi', $search);
     }
 
-    $daftar_strategi = $data->get();
+    $daftar_strategi = $data->get()->transform(function($item, $key) {
+      $item->jumlah_program = \DB::table('tmRpjmdRelasiStrategiProgram')          
+      ->where('RpjmdStrategiID', $item->RpjmdStrategiID)
+      ->count('PrgID');
+
+      return $item;
+    });
 
     return Response()->json([
       'status' => 1,
@@ -103,17 +110,19 @@ class RPJMDStrategiController extends Controller
     $this->validate($request, [      
       'RpjmdSasaranID' => 'required|exists:tmRpjmdSasaran,RpjmdSasaranID',      
       'Kd_RpjmdStrategi' => 'required',      
-      'Nm_RpjmdStrategi' => 'required',                 
+      'Nm_RpjmdStrategi' => 'required',      
+      'Nm_RpjmdArahKebijakan' => 'required',      
     ]);         
 
-    $strategi = RPJMDSasaranModel::find($request->input('RpjmdSasaranID'));
+    $sasaran = RPJMDSasaranModel::find($request->input('RpjmdSasaranID'));
 
     $strategi = RPJMDStrategiModel::create([
       'RpjmdStrategiID'=> Uuid::uuid4()->toString(),
-      'PeriodeRPJMDID' => $strategi->PeriodeRPJMDID,
+      'PeriodeRPJMDID' => $sasaran->PeriodeRPJMDID,
       'RpjmdSasaranID' => $request->input('RpjmdSasaranID'),      
       'Kd_RpjmdStrategi' => $request->input('Kd_RpjmdStrategi'),
-      'Nm_RpjmdStrategi' => $request->input('Nm_RpjmdStrategi')     
+      'Nm_RpjmdStrategi' => $request->input('Nm_RpjmdStrategi'),      
+      'Nm_RpjmdArahKebijakan' => $request->input('Nm_RpjmdArahKebijakan'),      
     ]);        
     
     return Response()->json([
@@ -127,7 +136,13 @@ class RPJMDStrategiController extends Controller
   {
     $this->hasPermissionTo('RPJMD-STRATEGI_SHOW');
 
-    $strategi = RPJMDStrategiModel::find($id);
+    $strategi = RPJMDStrategiModel::select(\DB::raw('
+      tmRpjmdStrategi.*,
+      b.Nm_RpjmdSasaran
+    '))
+    ->join('tmRpjmdSasaran AS b', 'b.RpjmdSasaranID', 'tmRpjmdStrategi.RpjmdSasaranID')    
+    ->where('tmRpjmdStrategi.RpjmdStrategiID', $id)
+    ->first();
 
     if(is_null($strategi))
     {
@@ -139,8 +154,6 @@ class RPJMDStrategiController extends Controller
     }
     else
     {
-      $payload = $strategi;
-      $payload->sasaran;
       
       return Response()->json([
         'status' => 1,
@@ -150,7 +163,7 @@ class RPJMDStrategiController extends Controller
       ], 200); 
     }
   }
-  public function arahkebijakan(Request $request, $id)
+  public function program(Request $request, $id)
   {
     $this->hasPermissionTo('RPJMD-STRATEGI_SHOW');
 
@@ -166,9 +179,9 @@ class RPJMDStrategiController extends Controller
     }
     else
     {
-      $data = $strategi->arahkebijakan();
+      $data = $strategi->program();
 
-      $totalRecords = $data->count('RpjmdArahKebijakanID');
+      $totalRecords = $data->count('StrategiProgramID');
 
       if($request->filled('offset'))
       {
@@ -245,11 +258,13 @@ class RPJMDStrategiController extends Controller
     {
       $this->validate($request, [              
         'Kd_RpjmdStrategi' => 'required',      
-        'Nm_RpjmdStrategi' => 'required',       
+        'Nm_RpjmdStrategi' => 'required',      
+        'Nm_RpjmdArahKebijakan' => 'required',      
       ]);         
 
       $strategi->Kd_RpjmdStrategi = $request->input('Kd_RpjmdStrategi');
       $strategi->Nm_RpjmdStrategi = $request->input('Nm_RpjmdStrategi');
+      $strategi->Nm_RpjmdArahKebijakan = $request->input('Nm_RpjmdArahKebijakan');
       $strategi->save();
       
       return Response()->json([

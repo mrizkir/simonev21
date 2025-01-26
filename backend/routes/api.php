@@ -261,20 +261,28 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->put('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@update','as'=>'rpjmd-sasaran.update']);
   $router->delete('/rpjmd/sasaran/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDSasaranController@destroy','as'=>'rpjmd-sasaran.destroy']);
   
-  //rpjmd - strategi dan arah kebijakan
+  //rpjmd - strategi
   $router->post('/rpjmd/strategi', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDStrategiController@index','as'=>'rpjmd-strategi.index']);
   $router->post('/rpjmd/strategi/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@store','as'=>'rpjmd-strategi.store']);
   $router->get('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@show','as'=>'rpjmd-strategi.show']);
-  $router->post('/rpjmd/strategi/{id}/program', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@program','as'=>'rpjmd-strategi.program']);
+  $router->post('/rpjmd/strategi/{id}/arahkebijakan', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@arahkebijakan','as'=>'rpjmd-strategi.arahkebijakan']);
   $router->put('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@update','as'=>'rpjmd-strategi.update']);
   $router->delete('/rpjmd/strategi/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDStrategiController@destroy','as'=>'rpjmd-strategi.destroy']);
+  
+  //rpjmd - arah kebijakan
+  $router->post('/rpjmd/arahkebijakan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDArahKebijakanController@index','as'=>'rpjmd-arah-kebijakan.index']);
+  $router->post('/rpjmd/arahkebijakan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@store','as'=>'rpjmd-arah-kebijakan.store']);
+  $router->get('/rpjmd/arahkebijakan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@show','as'=>'rpjmd-arah-kebijakan.show']);
+  $router->post('/rpjmd/arahkebijakan/{id}/program', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@program','as'=>'rpjmd-arah-kebijakan.program']);
+  $router->put('/rpjmd/arahkebijakan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@update','as'=>'rpjmd-arah-kebijakan.update']);
+  $router->delete('/rpjmd/arahkebijakan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDArahKebijakanController@destroy','as'=>'rpjmd-arah-kebijakan.destroy']);
 
-  //rpjmd - strategi dengan program 
-  $router->post('/rpjmd/relations/strategiprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@index','as'=>'rpjmd-relations-strategi-program.index']);
-  $router->post('/rpjmd/relations/strategiprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@store','as'=>'rpjmd-relations-strategi-program.store']);
-  $router->get('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@show','as'=>'rpjmd-relations-strategi-program.show']);  
-  $router->put('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@update','as'=>'rpjmd-relations-strategi-program.update']);
-  $router->delete('/rpjmd/relations/strategiprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsStrategiProgramController@destroy','as'=>'rpjmd-relations-strategi-program.destroy']);
+  //rpjmd - arah kebijakan dengan program 
+  $router->post('/rpjmd/relations/arahkebijakanprogram', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@index','as'=>'rpjmd-relations-program-arah-kebijakan.index']);
+  $router->post('/rpjmd/relations/arahkebijakanprogram/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@store','as'=>'rpjmd-relations-program-arah-kebijakan.store']);
+  $router->get('/rpjmd/relations/arahkebijakanprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@show','as'=>'rpjmd-relations-program-arah-kebijakan.show']);  
+  $router->put('/rpjmd/relations/arahkebijakanprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@update','as'=>'rpjmd-relations-program-arah-kebijakan.update']);
+  $router->delete('/rpjmd/relations/arahkebijakanprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@destroy','as'=>'rpjmd-relations-program-arah-kebijakan.destroy']);
 
   //rpjmd - indikator dengan tujuan
   $router->post('/rpjmd/relations/indikatortujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@index','as'=>'rpjmd-relations-indikator-tujuan.index']);

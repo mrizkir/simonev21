@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        PROGRAM STRATEGI
+        STRATEGI
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,23 +16,23 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola relasi strategi RPJMD dengan program.
+          Halaman ini digunakan untuk mengelola strategi.
         </v-alert>
       </template>      
     </v-page-header>
     <v-container fluid>
-      <v-strategi-program-data-table />
+      <v-strategi-data-table />
     </v-container>
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
-  import dataTable from '@/pages/admin/relations/RelationProgramStrategiDataTable.vue'
+  import dataTable from '@/pages/admin/dmaster/DMasterStrategiDataTable.vue'
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'RelationProgramStrategi',
+    name: 'DMasterStrategi',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -41,12 +41,12 @@
           href: '/admin/' + this.userStore.AccessToken,
         },
         {
-          title: 'RELASI',
+          title: 'DATA MASTER',
           disabled: false,
           href: '#',
         },
         {
-          title: 'STRATEGI - PROGRAM',
+          title: 'STRATEGI',
           disabled: true,
           href: '#',
         },
@@ -55,7 +55,7 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-strategi-program-data-table': dataTable,
+      'v-strategi-data-table': dataTable,
     }
   }
 </script>

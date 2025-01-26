@@ -75,17 +75,6 @@
                         :rules="rule_nama_strategi"
                         auto-grow
                       />
-                      <v-textarea
-                        v-model="formdata.Nm_RpjmdArahKebijakan"
-                        rows="1"
-                        density="compact"        
-                        label="ARAH KEBIJAKAN"
-                        variant="outlined"
-                        prepend-inner-icon="mdi-graph"
-                        hint="Masukan arah kebijakan strategi dari rpjmd"
-                        :rules="rule_nama_arah_kebijakan"
-                        auto-grow
-                      />
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -118,8 +107,8 @@
           <template v-slot:item.actions="{ item }">
             <v-btn
               class="mr-2"
-              v-tooltip:bottom="'Tambah Program'"
-              :to="'/admin/relations/programstrategi/' + item.RpjmdStrategiID + '/manage'"
+              v-tooltip:bottom="'Tambah Arah Kebijakan'"
+              :to="'/admin/dmaster/arahkebijakan/' + item.RpjmdStrategiID + '/manage'"
               size="small"
               color="primary"
               variant="text"
@@ -209,24 +198,7 @@
           headerProps: {
             class: 'font-weight-bold',
           },
-        },
-        {
-          title: 'ARAH KEBIJAKAN',
-          key: 'Nm_RpjmdArahKebijakan',
-          align: 'start',
-          headerProps: {
-            class: 'font-weight-bold',
-          },
-        },
-        {
-          title: 'JUMLAH PROGRAM',
-          key: 'jumlah_program',
-          align: 'start',
-          headerProps: {
-            class: 'font-weight-bold',
-          },
-          width: 70,
-        },
+        },        
         {
           title: "AKSI",
           key: "actions",
@@ -249,7 +221,6 @@
         PeriodeRPJMDID: null,
         Kd_RpjmdStrategi: null,  
         Nm_RpjmdStrategi: null,  
-        Nm_RpjmdArahKebijakan: null,  
         created_at: null,
         updated_at: null,
       },
@@ -258,8 +229,7 @@
         RpjmdSasaranID: null,
         PeriodeRPJMDID: null,
         Kd_RpjmdStrategi: null,  
-        Nm_RpjmdStrategi: null, 
-        Nm_RpjmdArahKebijakan: null,   
+        Nm_RpjmdStrategi: null,  
         created_at: null,
         updated_at: null,
       },
@@ -269,9 +239,6 @@
       ],
       rule_nama_strategi: [
         value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
-      ],
-      rule_nama_arah_kebijakan: [
-        value => !!value || 'Mohon untuk di isi arah kebijakan strategi  dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
@@ -303,7 +270,7 @@
           request_param.limit = itemsPerPage
         }
 
-        if (this.RpjmdSasaranID === null && typeof this.RpjmdSasaranID === "undefined") {       
+        if (this.RpjmdSasaranID === null || typeof this.RpjmdSasaranID === "undefined") {       
           await this.$ajax
             .post('/rpjmd/strategi', 
               request_param,
@@ -353,8 +320,7 @@
               {
                 _method: 'PUT',
                 Kd_RpjmdStrategi: this.formdata.Kd_RpjmdStrategi,
-                Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,
-                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,
+                Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,                  
               },
               {
                 headers: {

@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        PROGRAM STRATEGI
+        PROGRAM ARAH KEBIJAKAN
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola relasi strategi RPJMD dengan program.
+          Halaman ini digunakan untuk mengelola relasi arah kebijakan RPJMD dengan program.
         </v-alert>
       </template>      
     </v-page-header>
@@ -26,57 +26,49 @@
           <v-card>
             <v-card-title>
               <v-icon icon="mdi-eye"></v-icon> &nbsp;
-              <span class="headline">DATA STRATEGI</span>
+              <span class="headline">DATA ARAH KEBIJAKAN</span>
             </v-card-title>
             <v-card-text>
               <v-row justify="space-between">
                 <v-col cols="auto" md="12" lg="12">
                   <v-row tag="dl" class="text-body-2 mb-2" no-gutters>
                     <v-col cols="auto" md="12" lg="2" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
+                      ID ARAH KEBIJAKAN
+                    </v-col>
+                    <v-col cols="auto" md="12" lg="4" tag="dt">
+                      {{ data_arah_kebijakan.RpjmdArahKebijakanID }}
+                    </v-col>
+                    <v-col cols="auto" md="12" lg="2" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
                       ID STRATEGI
                     </v-col>
                     <v-col cols="auto" md="12" lg="4" tag="dt">
-                      {{ data_strategi.RpjmdStrategiID }}
-                    </v-col>
-                    <v-col cols="auto" md="12" lg="2" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      ID SASARAN
-                    </v-col>
-                    <v-col cols="auto" md="12" lg="4" tag="dt">
-                      <a href="">{{ data_strategi.RpjmdSasaranID }}</a>
+                      <a href="">{{ data_arah_kebijakan.RpjmdStrategiID }}</a>
                     </v-col>
                   </v-row>                 
-                  <v-row tag="dl" class="text-body-2" no-gutters>
-                    <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      KODE STRATEGI
-                    </v-col>
-                    <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_strategi.Kd_RpjmdStrategi }}
-                    </v-col>
-                  </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
                       NAMA STRATEGI
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_strategi.Nm_RpjmdStrategi }}
+                      {{ data_arah_kebijakan.Nm_RpjmdStrategi }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      ARAH KEBIJAKAN
+                      KODE ARAH KEBIJAKAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_strategi.Nm_RpjmdArahKebijakan }}
+                      {{ data_arah_kebijakan.Kd_RpjmdArahKebijakan }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      NAMA SASARAN
+                      NAMA ARAH KEBIJAKAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_strategi.Nm_RpjmdSasaran }}
+                      {{ data_arah_kebijakan.Nm_RpjmdArahKebijakan }}
                     </v-col>
-                  </v-row>
+                  </v-row>                                    
                 </v-col>
               </v-row>                
             </v-card-text>
@@ -89,7 +81,7 @@
             <v-card>
               <v-card-title>
                 <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                <span class="headline">TAMBAH PROGRAM UNTUK STRATEGI INI</span>
+                <span class="headline">TAMBAH PROGRAM UNTUK ARAH KEBIJAKAN INI</span>
               </v-card-title>
               <v-card-text>
                 <v-text-field
@@ -119,7 +111,7 @@
                   variant="outlined"
                   v-model="formdata.PrgID"
                   prepend-inner-icon="mdi-graph"
-                  label="PROGRAM PERMENDARI 90 Tahun 2019"              
+                  label="PROGRAM DI SIMONEV"              
                   item-title="nama_program"
                   item-value="PrgID"
                   :rules="rule_program"
@@ -142,18 +134,18 @@
           </v-form>
         </v-col>
       </v-row>
-      <v-strategi-data-table :RpjmdStrategiID="RpjmdStrategiID" />
+      <v-arah-kebijakan-data-table :RpjmdArahKebijakanID="RpjmdArahKebijakanID" />
     </v-container>
   </v-main-layout>  
 </template>
 <script>
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'
-  import dataTable from '@/pages/admin/relations/RelationProgramStrategiDataTable.vue'
+  import dataTable from '@/pages/admin/relations/RelationProgramArahKebijakanDataTable.vue'
   import { usesUserStore } from '@/stores/UsersStore'
 
   export default {
-    name: 'RelationProgramStrategiManage',
+    name: 'RelationProgramArahKebijakanManage',
     created() {
       this.userStore = usesUserStore()
       this.breadcrumbs = [
@@ -167,8 +159,8 @@
           href: '#',
         },
         {
-          title: 'STRATEGI - PROGRAM',
-          href: '/admin/relations/programstrategi',
+          title: 'ARAH KEBIJAKAN - PROGRAM',
+          href: '/admin/relations/programarahkebijakan',
         },
         {
           title: 'KELOLA',
@@ -176,18 +168,18 @@
           href: '#',
         },
       ]
-      this.RpjmdStrategiID = this.$route.params.RpjmdStrategiID;
+      this.RpjmdArahKebijakanID = this.$route.params.RpjmdArahKebijakanID;
     },
     mounted() {
-      this.fetchStrategi()
+      this.fetchArahKebijakan()
       this.fetchProgram()
     },
     data: () => ({
-      RpjmdStrategiID: null,
+      RpjmdArahKebijakanID: null,
       btnLoading: false,
       breadcrumbs: [],
-      data_strategi: {
-        sasaran: {},
+      data_arah_kebijakan: {
+        strategi: {},
       },
       //form data
       daftar_program: [],
@@ -203,7 +195,7 @@
         value => !!value || 'Mohon untuk di isi kode program dari RPJMD !!!',
       ],
       rule_nama_program: [
-        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
+        value => !!value || 'Mohon untuk di isi nama program dari RPJMD !!!',
       ],
       rule_program: [
         value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 90 TAHUN 2019 !!!',
@@ -212,16 +204,16 @@
       userStore: null,
     }),
     methods: {      
-      async fetchStrategi() {
+      async fetchArahKebijakan() {
         await this.$ajax
-          .get('/rpjmd/strategi/' + this.RpjmdStrategiID, {
+          .get('/rpjmd/arahkebijakan/' + this.RpjmdArahKebijakanID, {
               headers: {
                 Authorization: this.userStore.Token,
               },
             }
           )
           .then(({ data }) => {
-            this.data_strategi = data.payload
+            this.data_arah_kebijakan = data.payload
           })
       },
       async fetchProgram() {
@@ -247,9 +239,9 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/relations/strategiprogram/store',
+              '/rpjmd/relations/arahkebijakanprogram/store',
               {
-                RpjmdStrategiID: this.RpjmdStrategiID,
+                RpjmdArahKebijakanID: this.RpjmdArahKebijakanID,
                 PrgID: this.formdata.PrgID,
                 Kd_ProgramRPJMD: this.formdata.Kd_ProgramRPJMD,          
                 Nm_ProgramRPJMD: this.formdata.Nm_ProgramRPJMD,          
@@ -272,7 +264,7 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-strategi-data-table': dataTable,
+      'v-arah-kebijakan-data-table': dataTable,
     }
   }
 </script>

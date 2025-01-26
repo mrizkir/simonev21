@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mengelola strategi.
+          Halaman ini digunakan untuk mengelola strategi dan arah kebijakan.
         </v-alert>
       </template>      
     </v-page-header>
@@ -26,7 +26,7 @@
           <v-card>
             <v-card-title>
               <v-icon icon="mdi-eye"></v-icon> &nbsp;
-              <span class="headline">DATA TUJUAN</span>
+              <span class="headline">DATA SASARAN</span>
             </v-card-title>
             <v-card-text>
               <v-row justify="space-between">
@@ -41,15 +41,15 @@
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      MISI
+                      TUJUAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
-                      {{ data_sasaran.misi.Kd_RpjmdMisi }}. {{ data_sasaran.misi.Nm_RpjmdMisi }}
+                      {{ data_sasaran.tujuan.Kd_RpjmdTujuan }}. {{ data_sasaran.tujuan.Nm_RpjmdTujuan }}
                     </v-col>
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      KODE TUJUAN
+                      KODE SASARAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
                       {{ data_sasaran.Kd_RpjmdSasaran }}
@@ -57,7 +57,7 @@
                   </v-row>
                   <v-row tag="dl" class="text-body-2" no-gutters>
                     <v-col cols="auto" md="12" lg="12" tag="dt" class="font-weight-bold bg-deep-purple-lighten-5">
-                      NAMA TUJUAN
+                      NAMA SASARAN
                     </v-col>
                     <v-col cols="auto" md="12" lg="12" tag="dt">
                       {{ data_sasaran.Nm_RpjmdSasaran }}
@@ -97,6 +97,17 @@
                   prepend-inner-icon="mdi-graph"
                   hint="Masukan strategi dari rpjmd"
                   :rules="rule_nama_strategi"
+                  auto-grow
+                />
+                <v-textarea
+                  v-model="formdata.Nm_RpjmdArahKebijakan"
+                  rows="1"
+                  density="compact"        
+                  label="ARAH KEBIJAKAN"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-graph"
+                  hint="Masukan arah kebijakan strategi dari rpjmd"
+                  :rules="rule_nama_arah_kebijakan"
                   auto-grow
                 />
               </v-card-text>
@@ -170,6 +181,7 @@
         PeriodeRPJMDID: null,
         Kd_RpjmdStrategi: null,  
         Nm_RpjmdStrategi: null,  
+        Nm_RpjmdArahKebijakan: null,   
         created_at: null,
         updated_at: null,
       },
@@ -179,6 +191,7 @@
         PeriodeRPJMDID: null,
         Kd_RpjmdStrategi: null,  
         Nm_RpjmdStrategi: null,  
+        Nm_RpjmdArahKebijakan: null,   
         created_at: null,
         updated_at: null,
       },
@@ -188,6 +201,9 @@
       ],
       rule_nama_strategi: [
         value => !!value || 'Mohon untuk di isi nama strategi dari RPJMD !!!',
+      ],
+      rule_nama_arah_kebijakan: [
+        value => !!value || 'Mohon untuk di isi arah kebijakan strategi  dari RPJMD !!!',
       ],
       //pinia
       userStore: null,
@@ -202,7 +218,7 @@
             }
           )
           .then(({ data }) => {
-            this.data_sasaran = data.payload            
+            this.data_sasaran = data.payload
           })
       },
       async save() {
@@ -217,6 +233,7 @@
                 RpjmdSasaranID: this.RpjmdSasaranID,                
                 Kd_RpjmdStrategi: this.formdata.Kd_RpjmdStrategi,
                 Nm_RpjmdStrategi: this.formdata.Nm_RpjmdStrategi,                  
+                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,                  
               },
               {
                 headers: {

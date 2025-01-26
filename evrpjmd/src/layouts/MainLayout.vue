@@ -31,8 +31,9 @@
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="TUJUAN" value="tujuan" to="/admin/dmaster/tujuan" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="SASARAN" value="sasaran" to="/admin/dmaster/sasaran" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="STRATEGI" value="strategi" to="/admin/dmaster/strategi" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="ARAH KEBIJAKAN" value="arahkebijakan" to="/admin/dmaster/arahkebijakan" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-list-subheader title="RELASI" color="purple accent-5 bg-red-lighten-5 text-red-ligthen-5" v-if="userStore.DefaultRole == 'superadmin'" />
-        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM STRATEGI" value="program-strategi" to="/admin/relations/programstrategi" link slim v-if="userStore.DefaultRole == 'superadmin'" />
+        <v-list-item prepend-icon="mdi-arrow-collapse-right" title="PROGRAM KEBIJAKAN" value="program-arah-kebijakan" to="/admin/relations/programarahkebijakan" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR TUJUAN" value="indikator-tujuan" to="/admin/relations/indikatortujuan" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR SASARAN" value="indikator-sasaran" to="/admin/relations/indikatorsasaran" link slim v-if="userStore.DefaultRole == 'superadmin'" />
         <v-list-item prepend-icon="mdi-arrow-collapse-right" title="INDIKATOR PROGRAM" value="indikator-program" to="/admin/relations/indikatorprogram" link slim v-if="userStore.DefaultRole == 'superadmin'" />        

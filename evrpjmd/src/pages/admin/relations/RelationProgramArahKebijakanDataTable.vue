@@ -4,13 +4,13 @@
       <v-card>
         <v-card-title class="d-flex align-center pe-2">
           <v-icon icon="mdi-graph"></v-icon> &nbsp;
-          DAFTAR ARAH KEBIJAKAN
+          {{ datatableTitle }}
           <v-spacer></v-spacer>   
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             density="compact"
-            label="Cari Arah Kebijakan"
+            label="Cari Program"
             prepend-inner-icon="mdi-magnify"
             variant="solo-filled"
             flat
@@ -30,10 +30,11 @@
           :items-length="totalRecords"
           :loading="datatableLoading"
           :search="searchTrigger"
-          item-value="RpjmdArahKebijakanID"
+          item-value="ArahKebijakanProgramID"
           @update:options="initialize"
           :expand-on-click="true"
           items-per-page-text="Jumlah record per halaman"
+          class="border-thin"
         >
           <template v-slot:loading>
             <v-skeleton-loader :type="'table-row@' + itemsPerPage"></v-skeleton-loader>
@@ -51,29 +52,41 @@
                   <v-card>
                     <v-card-title>
                       <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                      <span class="headline">UBAH ARAH KEBIJAKAN</span>
+                      <span class="headline">UBAH PROGRAM</span>
                     </v-card-title>
-                    <v-card-text>
+                    <v-card-text>                      
                       <v-text-field
-                        v-model="formdata.Kd_RpjmdArahKebijakan"                  
+                        v-model="formdata.Kd_ProgramRPJMD"                  
                         density="compact"        
-                        label="KODE ARAH KEBIJAKAN"
+                        label="KODE PROGRAM"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan kode / nomor arah kebijakan dari rpjmd"
-                        :rules="rule_kode_arah_kebijakan"
+                        hint="Masukan kode / nomor sasaran dari rpjmd"
+                        :rules="rule_kode_sasaran"
                         auto-grow
                       />    
                       <v-textarea
-                        v-model="formdata.Nm_RpjmdArahKebijakan"
+                        v-model="formdata.Nm_ProgramRPJMD"
                         rows="1"
                         density="compact"        
-                        label="NAMA ARAH KEBIJAKAN"
+                        label="NAMA PROGRAM"
                         variant="outlined"
                         prepend-inner-icon="mdi-graph"
-                        hint="Masukan arah kebijakan dari rpjmd"
-                        :rules="rule_nama_arah_kebijakan"
+                        hint="Masukan sasaran dari rpjmd"
+                        :rules="rule_nama_sasaran"
                         auto-grow
+                      />
+                      <v-autocomplete
+                        :items="daftar_program"
+                        density="compact"
+                        variant="outlined"
+                        prepend-inner-icon="mdi-graph"
+                        v-model="formdata.PrgID"
+                        label="PROGRAM DI SIMONEV"              
+                        item-title="nama_program"
+                        item-value="PrgID"
+                        :rules="rule_program"
+                        clearable                  
                       />
                     </v-card-text>
                     <v-card-actions>
@@ -101,42 +114,46 @@
               </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:item.no="{ index }">
-            {{ (indexOffset + index) + 1 }}
-          </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn
-              class="mr-2"
-              v-tooltip:bottom="'Tambah Program'"
-              :to="'/admin/relations/programarahkebijakan/' + item.RpjmdArahKebijakanID + '/manage'"
-              size="small"
-              color="primary"
-              variant="text"
-              icon="mdi-plus"
-              density="compact"
-            />
-            <v-icon
-              class="mr-2"
-              v-tooltip:bottom="'Ubah Arah Kebijakan'"
-              @click.stop="editItem(item)"
-              size="small"
-              color="primary"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon
-              v-tooltip:bottom="'Hapus Arah Kebijakan'"
-              @click.stop="deleteItem(item)"
-              size="small"
-              color="error"
-            >
-              mdi-delete
-            </v-icon>
-          </template>
+          <template v-slot:item="{ index, item }">
+            <tr class="border-thin">
+              <td rowspan="2" class="border-thin">
+                {{ (indexOffset + index) + 1 }}
+              </td>
+              <td colspan="5" class="border-thin">
+                <span class="font-weight-bold">Arah Kebijakan:</span> <i>{{ (typeof item.Nm_RpjmdArahKebijakan === 'undefined' || item.Nm_RpjmdArahKebijakan === null) ? '-' :  item.Nm_RpjmdArahKebijakan }}</i>
+              </td>
+              <td class="border-thin" rowspan="2">
+                <v-icon
+                  class="mr-2"
+                  v-tooltip:bottom="'Ubah Program'"
+                  @click.stop="editItem(item)"
+                  size="small"
+                  color="primary"
+                >
+                  mdi-pencil
+                </v-icon>
+                <v-icon
+                  v-tooltip:bottom="'Hapus Program'"
+                  @click.stop="deleteItem(item)"
+                  size="small"
+                  color="error"
+                >
+                  mdi-delete
+                </v-icon>
+              </td>
+            </tr>
+            <tr>
+              <td class="border-thin">{{ item.Kd_ProgramRPJMD }}</td>
+              <td class="border-thin">{{ item.Nm_ProgramRPJMD }}</td>
+              <td class="border-thin">{{ item.Nm_Bidang }}</td>
+              <td class="border-thin">{{ item.Nm_Urusan }}</td>
+              <td class="border-thin">{{ item.nama_program }}</td>                            
+            </tr>
+          </template>                    
           <template v-slot:expanded-row="{ columns, item }">
             <tr class="bg-grey-lighten-4">
               <td :colspan="columns.length" class="text-center">
-                <span class="font-weight-bold">ID: </span> {{ item.RpjmdArahKebijakanID }} 
+                <span class="font-weight-bold">ID: </span> {{ item.ArahKebijakanProgramID }} 
                 <span class="font-weight-bold">UPDATED_AT: </span> {{ $dayjs(item.updated_at).format("DD/MM/YYYY HH:mm") }}
               </td>
             </tr>
@@ -153,12 +170,12 @@
 <script>
   import { usesUserStore } from '@/stores/UsersStore'
   export default {
-		name: "DMasterArahKebijakanDataTable",
+		name: "RelationProgramArahKebijakanDataTable",
 		created() {
       this.userStore = usesUserStore()
     },
     props: {
-      RpjmdStrategiID: {
+      RpjmdArahKebijakanID: {
         type: String,
         default: null,
       },
@@ -183,8 +200,8 @@
           },
         },
         {
-          title: 'KODE ARAH KEBIJAKAN',
-          key: 'kode_arah_kebijakan',
+          title: 'KODE PROGRAM RPJMD',
+          key: 'Kd_ProgramRPJMD',
           align: 'start',
           width: 130,
           headerProps: {
@@ -192,22 +209,37 @@
           },
         },
         {
-          title: 'NAMA ARAH KEBIJAKAN',
-          key: 'Nm_RpjmdArahKebijakan',
+          title: 'NAMA PROGRAM RPJMD',
+          key: 'Nm_ProgramRPJMD',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
         },        
         {
-          title: 'JUMLAH PROGRAM',
-          key: 'jumlah_program',
+          title: 'NAMA BIDANG DI SIMONEV',
+          key: 'Nm_Bidang',
           align: 'start',
           headerProps: {
             class: 'font-weight-bold',
           },
-          width: 70,
-        },
+        },        
+        {
+          title: 'NAMA URUSAN DI SIMONEV',
+          key: 'Nm_Urusan',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },        
+        {
+          title: 'NAMA PROGRAM DI SIMONEV',
+          key: 'nama_program',
+          align: 'start',
+          headerProps: {
+            class: 'font-weight-bold',
+          },
+        },        
         {
           title: "AKSI",
           key: "actions",
@@ -223,34 +255,37 @@
       dialogfrm: false,
       dialogdetailitem: false,
       //form data
-      form_valid: true,      
+      form_valid: true, 
+      daftar_program: [],     
       formdata: {
-        RpjmdArahKebijakanID: null,
-        RpjmdStrategiID: null,
+        ArahKebijakanProgramID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdArahKebijakan: null,  
-        Nm_RpjmdArahKebijakan: null,  
+        RpjmdArahKebijakanID: null,        
+        PrgID: null,          
+        Kd_ProgramRPJMD: null,          
+        Nm_ProgramRPJMD: null,          
         created_at: null,
         updated_at: null,
       },
       formdefault: {
-        RpjmdArahKebijakanID: null,
-        RpjmdStrategiID: null,
+        ArahKebijakanProgramID: null,
         PeriodeRPJMDID: null,
-        Kd_RpjmdArahKebijakan: null,  
-        Nm_RpjmdArahKebijakan: null, 
+        RpjmdArahKebijakanID: null,        
+        PrgID: null,          
+        Kd_ProgramRPJMD: null,          
+        Nm_ProgramRPJMD: null,          
         created_at: null,
         updated_at: null,
       },
       //form rules
-      rule_kode_arah_kebijakan: [
-        value => !!value || 'Mohon untuk di isi nama arah kebijakan dari RPJMD !!!',
+      rule_kode_program: [
+        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
-      rule_nama_arah_kebijakan: [
-        value => !!value || 'Mohon untuk di isi nama arah kebijakan dari RPJMD !!!',
+      rule_nama_program: [
+        value => !!value || 'Mohon untuk di isi nama sasaran dari RPJMD !!!',
       ],
-      rule_nama_arah_kebijakan: [
-        value => !!value || 'Mohon untuk di isi arah kebijakan arah kebijakan  dari RPJMD !!!',
+      rule_program: [
+        value => !!value || 'Mohon untuk dipilih nama program yang berelasi dengan permendagri 90 TAHUN 2019 !!!',
       ],
       //pinia
       userStore: null,
@@ -262,7 +297,7 @@
         if(sortBy.length == 0) {
           sortBy = [
             {
-              'key': 'kode_arah_kebijakan',
+              'key': 'kode_program',
               'order': 'asc'
             },
           ]
@@ -282,9 +317,9 @@
           request_param.limit = itemsPerPage
         }
 
-        if (this.RpjmdStrategiID === null || typeof this.RpjmdStrategiID === "undefined") {       
+        if (this.RpjmdArahKebijakanID === null || typeof this.RpjmdArahKebijakanID === "undefined") {       
           await this.$ajax
-            .post('/rpjmd/arahkebijakan', 
+            .post('/rpjmd/relations/arahkebijakanprogram',
               request_param,
               {
                 headers: {
@@ -301,7 +336,7 @@
         } else {
           await this.$ajax
             .post(
-              '/rpjmd/strategi/' + this.RpjmdStrategiID + '/arahkebijakan', 
+              '/rpjmd/arahkebijakan/' + this.RpjmdArahKebijakanID + '/program', 
               request_param,
               {
                 headers: {
@@ -317,9 +352,23 @@
             })
         }
       },
-      editItem(item) {        
-        this.formdata = Object.assign({}, item)
-        this.dialogfrm = true        
+      async editItem(item) {        
+        await this.$ajax
+          .post('/dmaster/kodefikasi/program', 
+            {
+              TA: this.userStore.PeriodeRPJMD.TA_AWAL,            
+            },
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.daftar_program = data.kodefikasiprogram
+            this.formdata = Object.assign({}, item)
+            this.dialogfrm = true        
+          })        
       },
       async save() {
         const { valid } = await this.$refs.frmdata.validate()
@@ -328,11 +377,12 @@
           this.btnLoading = true
           this.$ajax
             .post(
-              '/rpjmd/arahkebijakan/' + this.formdata.RpjmdArahKebijakanID,
+              '/rpjmd/relations/arahkebijakanprogram/' + this.formdata.ArahKebijakanProgramID,
               {
                 _method: 'PUT',
-                Kd_RpjmdArahKebijakan: this.formdata.Kd_RpjmdArahKebijakan,
-                Nm_RpjmdArahKebijakan: this.formdata.Nm_RpjmdArahKebijakan,
+                PrgID: this.formdata.PrgID,
+                Kd_ProgramRPJMD: this.formdata.Kd_ProgramRPJMD,          
+                Nm_ProgramRPJMD: this.formdata.Nm_ProgramRPJMD,                          
               },
               {
                 headers: {
@@ -353,7 +403,7 @@
         this.$root.$confirm
           .open(
             'Delete',
-            'Apakah Anda ingin menghapus data dengan ID ' + item.RpjmdArahKebijakanID + ' ?',
+            'Apakah Anda ingin menghapus data dengan ID ' + item.ArahKebijakanProgramID + ' ?',
             {
               color: 'red',
               width: '400px',
@@ -364,7 +414,7 @@
               this.btnLoading = true
               this.$ajax
                 .post(
-                  '/rpjmd/arahkebijakan/' + item.RpjmdArahKebijakanID,
+                  '/rpjmd/relations/arahkebijakanprogram/' + item.ArahKebijakanProgramID,
                   {
                     _method: 'DELETE',
                   },
@@ -400,7 +450,10 @@
         }, 300);
       },
     },
-    computed: {      
+    computed: {
+      datatableTitle() {
+        return (this.RpjmdArahKebijakanID === null || typeof this.RpjmdArahKebijakanID === "undefined") ? 'DAFTAR RELASI PROGRAM DENGAN ARAH KEBIJAKAN' : 'DAFTAR PROGRAM UNTUK ARAH KEBIJAKAN INI'
+      },
       searchTrigger () {
         if (this.search.length >= 3) {
           return this.search

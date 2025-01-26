@@ -108,7 +108,7 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterSasaranManage.vue'),
   },
-  // admin - dmaster sasaran
+  // admin - dmaster strategi
   {
     path: '/admin/dmaster/strategi',
     name: 'DMasterStrategi',
@@ -117,7 +117,7 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterStrategi.vue'),
   },
-  // admin - dmaster sasaran - kelola
+  // admin - dmaster strategi - kelola
   {
     path: '/admin/dmaster/strategi/:RpjmdSasaranID/manage',
     name: 'DMasterStrategiManage',
@@ -126,23 +126,41 @@ const routes = [
     },
     component: () => import('@/pages/admin/dmaster/DMasterStrategiManage.vue'),
   },
-  // admin - relation - strategi - program
+  // admin - dmaster arah kebijakan
   {
-    path: '/admin/relations/programstrategi',
-    name: 'RelationProgramStrategi',
+    path: '/admin/dmaster/arahkebijakan',
+    name: 'DMasterArahKebijakan',
     meta: {
-      title: 'RELATION - PROGRAM STRATEGI',
+      title: 'DATA MASTER - ARAH KEBIJAKAN',
     },
-    component: () => import('@/pages/admin/relations/RelationProgramStrategi.vue'),
+    component: () => import('@/pages/admin/dmaster/DMasterArahKebijakan.vue'),
   },
-  // admin - relation - strategi - program - manage
+  // admin - dmaster arah kebijakan - kelola
   {
-    path: '/admin/relations/programstrategi/:RpjmdStrategiID/manage',
-    name: 'RelationProgramStrategiManage',
+    path: '/admin/dmaster/arahkebijakan/:RpjmdStrategiID/manage',
+    name: 'DMasterArahKebijakanManage',
     meta: {
-      title: 'RELATION - PROGRAM STRATEGI',
+      title: 'DATA MASTER - ARAH KEBIJAKAN',
     },
-    component: () => import('@/pages/admin/relations/RelationProgramStrategiManage.vue'),
+    component: () => import('@/pages/admin/dmaster/DMasterArahKebijakanManage.vue'),
+  },
+  // admin - relation - arah kebijakan - program
+  {
+    path: '/admin/relations/programarahkebijakan',
+    name: 'RelationProgramArahKebijakan',
+    meta: {
+      title: 'RELATION - PROGRAM ARAH KEBIJAKAN',
+    },
+    component: () => import('@/pages/admin/relations/RelationProgramArahKebijakan.vue'),
+  },
+  // admin - relation - arah kebijakan - program - manage
+  {
+    path: '/admin/relations/programarahkebijakan/:RpjmdArahKebijakanID/manage',
+    name: 'RelationProgramArahKebijakanManage',
+    meta: {
+      title: 'RELATION - PROGRAM ARAH KEBIJAKAN',
+    },
+    component: () => import('@/pages/admin/relations/RelationProgramArahKebijakanManage.vue'),
   },
   // admin - relation - indikator - tujuan
   {
