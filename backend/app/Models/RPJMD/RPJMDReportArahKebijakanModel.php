@@ -50,6 +50,7 @@ class RPJMDReportArahKebijakanModel extends ReportModel
 
     $daftar_misi = \DB::table('tmRpjmdMisi')
     ->where('PeriodeRPJMDID', $PeriodeRPJMDID)
+    ->orderBy('Kd_RpjmdMisi', 'asc')
     ->get();
     
     $row += 1;
@@ -60,6 +61,7 @@ class RPJMDReportArahKebijakanModel extends ReportModel
 
       $daftar_tujuan = \DB::table('tmRpjmdTujuan')
       ->where('RpjmdMisiID', $data_misi->RpjmdMisiID)
+      ->orderBy('Kd_RpjmdTujuan', 'asc')
       ->get();
 
       if(is_null($daftar_tujuan))
@@ -74,6 +76,7 @@ class RPJMDReportArahKebijakanModel extends ReportModel
 
           $daftar_sasaran = \DB::table('tmRpjmdSasaran')
           ->where('RpjmdTujuanID', $data_tujuan->RpjmdTujuanID)
+          ->orderBy('Kd_RpjmdSasaran', 'asc')
           ->get();
 
           if(is_null($daftar_sasaran))
@@ -85,13 +88,46 @@ class RPJMDReportArahKebijakanModel extends ReportModel
             foreach($daftar_sasaran as $data_sasaran)
             {
               $sheet->setCellValue("C$row", $data_sasaran->Nm_RpjmdSasaran);
-              $row += 1;
+
+              $daftar_strategi = \DB::table('tmRpjmdStrategi')
+              ->where('RpjmdSasaranID', $data_sasaran->RpjmdSasaranID)
+              ->orderBy('Kd_RpjmdStrategi', 'asc')
+              ->get();
+
+              if(is_null($daftar_strategi))
+              {
+                $row += 1;
+              }
+              else
+              {
+                foreach($daftar_strategi as $data_strategi)
+                {
+                  $sheet->setCellValue("D$row", $data_strategi->Nm_RpjmdStrategi);
+
+                  $daftar_arah_kebijakan = \DB::table('tmRpjmdArahKebijakan')
+                  ->where('RpjmdStrategiID', $data_strategi->RpjmdStrategiID)
+                  ->orderBy('Kd_RpjmdArahKebijakan', 'asc')
+                  ->get();
+
+                  if(is_null($daftar_arah_kebijakan))
+                  {
+                    $row += 1;
+                  }
+                  else
+                  {
+                    foreach($daftar_arah_kebijakan as $data_arah_kebijakan)
+                    {
+                      $sheet->setCellValue("E$row", $data_arah_kebijakan->Nm_RpjmdArahKebijakan);
+
+                      $row += 1;
+                    }
+                  }
+                }                
+              }              
             }            
           }
-          
         }
       }
-      
     }
     $row = $row - 1;
     $styleArray = array(								    

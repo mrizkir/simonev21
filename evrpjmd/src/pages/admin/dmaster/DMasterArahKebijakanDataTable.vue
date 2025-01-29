@@ -433,7 +433,7 @@
             const link = document.createElement("a");
             link.href = url;
 
-            link.setAttribute("download", "arah_kebijakan_cascding_" + Date.now() + ".xlsx");
+            link.setAttribute("download", "arah_kebijakan_cascading_" + Date.now() + ".xlsx");
             document.body.appendChild(link);
             link.click();
             this.btnLoading = false;
