@@ -43,6 +43,15 @@
             <v-toolbar flat>                  
               <v-spacer></v-spacer>
               <v-divider class="mx-4" inset vertical></v-divider>
+              <v-btn
+                color="primary"
+                rounded="sm"
+                prepend-icon="mdi-printer"
+                @click.stop="printcascading"
+                :disabled="btnLoading || datatableLoaded"
+              >
+                Cetak Cascading
+              </v-btn>
               <v-dialog
                 v-model="dialogfrm"
                 max-width="600px"
@@ -450,6 +459,38 @@
           this.formdata = Object.assign({}, this.formdefault);
           this.editedIndex = -1;
         }, 300);
+      },
+      async printcascading() {
+        this.btnLoading = true
+        
+        var request_param = {
+          PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,          
+        }
+
+        await this.$ajax
+          .post(
+            "/rpjmd/relations/arahkebijakanprogram/printcascading",
+            request_param,
+            {
+              headers: {
+                Authorization: this.userStore.Token,
+              },
+              responseType: "arraybuffer",
+            }
+          )
+          .then(({ data }) => {
+            const url = window.URL.createObjectURL(new Blob([data]));
+            const link = document.createElement("a");
+            link.href = url;
+
+            link.setAttribute("download", "arah_kebijakan_cascading_" + Date.now() + ".xlsx");
+            document.body.appendChild(link);
+            link.click();
+            this.btnLoading = false;
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });      
       },
     },
     computed: {

@@ -42,7 +42,7 @@
             <v-toolbar flat>                  
               <v-spacer></v-spacer>
               <v-divider class="mx-4" inset vertical></v-divider>
-              <v-btn                
+              <v-btn
                 color="primary"
                 rounded="sm"
                 prepend-icon="mdi-printer"

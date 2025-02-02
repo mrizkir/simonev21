@@ -318,6 +318,8 @@ class RPJMDArahKebijakanController extends Controller
   }
   public function printcascading(Request $request)
   {
+    $this->hasPermissionTo('RPJMD-ARAH-KEBIJAKAN_BROWSE');
+    
     $this->validate($request, [      
       'PeriodeRPJMDID' => 'required|exists:tmRPJMDPeriode,PeriodeRPJMDID',      
     ]);

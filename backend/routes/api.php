@@ -284,6 +284,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->get('/rpjmd/relations/arahkebijakanprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@show','as'=>'rpjmd-relations-program-arah-kebijakan.show']);  
   $router->put('/rpjmd/relations/arahkebijakanprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@update','as'=>'rpjmd-relations-program-arah-kebijakan.update']);
   $router->delete('/rpjmd/relations/arahkebijakanprogram/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@destroy','as'=>'rpjmd-relations-program-arah-kebijakan.destroy']);
+  $router->post('/rpjmd/relations/arahkebijakanprogram/printcascading', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'RPJMD\RPJMDRelationsArahKebijakanProgramController@printcascading','as'=>'rpjmd-relations-program-arah-kebijakan.printcascading']);
 
   //rpjmd - indikator dengan tujuan
   $router->post('/rpjmd/relations/indikatortujuan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'RPJMD\RPJMDRelationsIndikatorTujuanController@index','as'=>'rpjmd-relations-indikator-tujuan.index']);

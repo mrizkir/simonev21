@@ -5,7 +5,7 @@
       :temporary="temporaryleftsidebar"
       width="300"
     >
-      test
+    &nbsp;
     </v-navigation-drawer>
     <v-navigation-drawer
       v-model="drawerRight"
@@ -14,7 +14,7 @@
       temporary
       v-if="showrightsidebar"
     >
-      test
+      &nbsp;
     </v-navigation-drawer>
     <v-app-bar class="white" elevation="0">
       <template v-slot:prepend>

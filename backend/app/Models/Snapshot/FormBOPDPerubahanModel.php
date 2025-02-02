@@ -53,8 +53,8 @@ class FormBOPDPerubahanModel extends ReportModel
     
     $styleArray = array( 
       'font' => array('bold' => true,'size'=>'11'),
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                 'vertical'=>Alignment::HORIZONTAL_CENTER),								
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+                 'vertical' => Alignment::HORIZONTAL_CENTER),								
     );   
     $sheet->getStyle("A1:A$row")->applyFromArray($styleArray);
 
@@ -146,9 +146,9 @@ class FormBOPDPerubahanModel extends ReportModel
     
     $styleArray = array(
             'font' => array('bold' => true),
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                      'vertical'=>Alignment::HORIZONTAL_CENTER),
-            'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+            'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+                      'vertical' => Alignment::HORIZONTAL_CENTER),
+            'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
           );
     $sheet->getStyle("A$row:U$row_akhir")->applyFromArray($styleArray);
     $sheet->getStyle("A$row:U$row_akhir")->getAlignment()->setWrapText(true);
@@ -493,22 +493,22 @@ class FormBOPDPerubahanModel extends ReportModel
     $sheet->setCellValue("Q$row",$totalPersenSisaAnggaran);
 
     $styleArray = array(								
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                 'vertical'=>Alignment::HORIZONTAL_CENTER),
-      'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+                 'vertical' => Alignment::HORIZONTAL_CENTER),
+      'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
     );   																					 
     $sheet->getStyle("A$row_awal:U$row")->applyFromArray($styleArray);
     $sheet->getStyle("A$row_awal:U$row")->getAlignment()->setWrapText(true);
 
     $styleArray = array(								
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_LEFT)
     );																					 
     $sheet->getStyle("B$row_awal:D$row")->applyFromArray($styleArray);
     $sheet->getStyle("O$row_awal:O$row")->applyFromArray($styleArray);
     $sheet->getStyle("R$row_awal:S$row")->applyFromArray($styleArray);
 
     $styleArray = array(								
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_RIGHT)
     );																					 
     $sheet->getStyle("E$row_awal:N$row")->applyFromArray($styleArray);               
     $sheet->getStyle("P$row_awal:Q$row")->applyFromArray($styleArray);

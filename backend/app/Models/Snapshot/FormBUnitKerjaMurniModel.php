@@ -53,8 +53,8 @@ class FormBUnitKerjaMurniModel extends ReportModel
 		
 		$styleArray = array( 
 			'font' => array('bold' => true,'size'=>'11'),
-			'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-							   'vertical'=>Alignment::HORIZONTAL_CENTER),								
+			'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+							   'vertical' => Alignment::HORIZONTAL_CENTER),								
 		);   
 		$sheet->getStyle("A1:A$row")->applyFromArray($styleArray);
 
@@ -140,9 +140,9 @@ class FormBUnitKerjaMurniModel extends ReportModel
 		
 		$styleArray = array(
 						'font' => array('bold' => true),
-						'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-											'vertical'=>Alignment::HORIZONTAL_CENTER),
-						'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+						'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+											'vertical' => Alignment::HORIZONTAL_CENTER),
+						'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
 					);
 		$sheet->getStyle("A$row:T$row_akhir")->applyFromArray($styleArray);
 		$sheet->getStyle("A$row:T$row_akhir")->getAlignment()->setWrapText(true);
@@ -479,22 +479,22 @@ class FormBUnitKerjaMurniModel extends ReportModel
 		$sheet->setCellValue("P$row",$totalPersenSisaAnggaran);
 
 		$styleArray = array(								
-			'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-							   'vertical'=>Alignment::HORIZONTAL_CENTER),
-			'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+			'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+							   'vertical' => Alignment::HORIZONTAL_CENTER),
+			'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
 		);   																					 
 		$sheet->getStyle("A$row_awal:T$row")->applyFromArray($styleArray);
 		$sheet->getStyle("A$row_awal:T$row")->getAlignment()->setWrapText(true);
 
 		$styleArray = array(								
-			'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+			'alignment' => array('horizontal' => Alignment::HORIZONTAL_LEFT)
 		);																					 
 		$sheet->getStyle("A$row_awal:C$row")->applyFromArray($styleArray);        
 		$sheet->getStyle("N$row_awal:N$row")->applyFromArray($styleArray);
 		$sheet->getStyle("Q$row_awal:R$row")->applyFromArray($styleArray);
 
 		$styleArray = array(								
-			'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+			'alignment' => array('horizontal' => Alignment::HORIZONTAL_RIGHT)
 		);																					 
 		$sheet->getStyle("D$row_awal:D$row")->applyFromArray($styleArray);
 		$sheet->getStyle("I$row_awal:I$row")->applyFromArray($styleArray);

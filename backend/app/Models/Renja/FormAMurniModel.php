@@ -58,8 +58,8 @@ class FormAMurniModel extends ReportModel
     
     $styleArray = array( 
       'font' => array('bold' => true,'size'=>'11'),
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-      'vertical'=>Alignment::HORIZONTAL_CENTER),								
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+      'vertical' => Alignment::HORIZONTAL_CENTER),								
     );                
     
     $sheet->getStyle("A1:A$row")->applyFromArray($styleArray);
@@ -215,8 +215,8 @@ class FormAMurniModel extends ReportModel
     $sheet->setCellValue("H$row",": $tahun");
 
     $styleArray = array(								                                
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT,
-                 'vertical'=>Alignment::HORIZONTAL_CENTER),								
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_LEFT,
+                 'vertical' => Alignment::HORIZONTAL_CENTER),								
     );
     $sheet->getStyle("A$row_awal:T$row")->applyFromArray($styleArray);                
     $row += 1;                             
@@ -316,9 +316,9 @@ class FormAMurniModel extends ReportModel
     
     $styleArray = array(
             'font' => array('bold' => true),
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                      'vertical'=>Alignment::HORIZONTAL_CENTER),
-            'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+            'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+                      'vertical' => Alignment::HORIZONTAL_CENTER),
+            'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
           );
     $sheet->getStyle("A$row:Y$row_akhir")->applyFromArray($styleArray);
     $sheet->getStyle("A$row:Y$row_akhir")->getAlignment()->setWrapText(true);
@@ -675,21 +675,21 @@ class FormAMurniModel extends ReportModel
     }
 
     $styleArray = array(								
-      'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                 'vertical'=>Alignment::HORIZONTAL_CENTER),
-      'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+      'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
+                 'vertical' => Alignment::HORIZONTAL_CENTER),
+      'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
     );   																					 
     $sheet->getStyle("A$row_awal:Y$row")->applyFromArray($styleArray);
     $sheet->getStyle("A$row_awal:Y$row")->getAlignment()->setWrapText(true);
     
     $styleArray = array(								
-              'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+              'alignment' => array('horizontal' => Alignment::HORIZONTAL_LEFT)
             );																					 
     $sheet->getStyle("G$row_awal:G$row")->applyFromArray($styleArray);
     $sheet->getStyle("W$row_awal:Y$row")->applyFromArray($styleArray);
 
     $styleArray = array(								
-              'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+              'alignment' => array('horizontal' => Alignment::HORIZONTAL_RIGHT)
             );																					 
     $sheet->getStyle("L$row_awal:M$row")->applyFromArray($styleArray);
     $sheet->getStyle("Q$row_awal:Q$row")->applyFromArray($styleArray);
@@ -796,7 +796,7 @@ class FormAMurniModel extends ReportModel
     $sheet->setCellValue("H$row",Helper::formatUang($totalalltriwulan));
     
     $styleArray = array(								
-              'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+              'alignment' => array('horizontal' => Alignment::HORIZONTAL_RIGHT)
             );																					 
     $sheet->getStyle("H$row_awal:H$row")->applyFromArray($styleArray);
     
