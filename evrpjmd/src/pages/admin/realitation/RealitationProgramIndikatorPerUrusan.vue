@@ -299,7 +299,7 @@
               </tr>
               <tr class="text-center border-thin">
                 <td colspan="2" class="bg-grey">&nbsp;</td>                
-                <td class="bg-blue border-thin">{{ indikator.Satuan }}</td>                        
+                <td class="bg-yellow border-thin">{{ indikator.Satuan }}</td>                        
                 <td class="bg-blue border-thin">{{ indikator.target_3 }}</td>
                 <td class="bg-green border-thin">{{ indikator.realisasi_2 }}</td>
                 <td class="bg-blue border-thin">{{ indikator.target_4 }}</td>
