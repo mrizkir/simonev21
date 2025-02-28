@@ -36,7 +36,34 @@
                 item-value="OrgID"
               >
               </v-autocomplete>
+              <v-autocomplete
+                :items="daftar_unitkerja"
+                v-model="SOrgID_Selected"
+                label="UNIT KERJA"
+                item-text="Nm_Sub_Organisasi"
+                item-value="SOrgID"
+              >
+              </v-autocomplete>
             </v-card-text>
+            <v-card-actions>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    color="secondary"
+                    icon
+                    outlined
+                    small
+                    class="ma-2"
+                    @click.stop="resetFilter"
+                  >
+                    <v-icon>mdi-reload</v-icon>
+                  </v-btn>
+                </template>
+                <span>Reset Filter</span>
+              </v-tooltip>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -236,6 +263,7 @@
       this.$store.dispatch("uiadmin/addToPages", {
         name: "datamentahmurni",
         OrgID_Selected: "",
+        SOrgID_Selected: "",
       });
     },
     mounted() {
@@ -244,8 +272,16 @@
         "datamentahmurni",
         "OrgID_Selected"
       );
+      var SOrgID_Selected = this.$store.getters["uiadmin/AtributeValueOfPage"](
+        "datamentahmurni",
+        "SOrgID_Selected"
+      );
       if (OrgID_Selected.length > 0) {
         this.OrgID_Selected = OrgID_Selected;
+      }
+      if (SOrgID_Selected.length > 0) {
+        this.OrgID_Selected = OrgID_Selected;
+        this.SOrgID_Selected = SOrgID_Selected;
       }
       this.firstloading = false;
     },
@@ -275,7 +311,8 @@
         //filter form
         daftar_opd: [],
         OrgID_Selected: "",
-
+        daftar_unitkerja: [],
+        SOrgID_Selected: "",
         //form data
         form_valid: true,
         data_rka: {},
@@ -325,6 +362,17 @@
             }
           });
       },
+      loadunitkerja: async function() {
+        await this.$ajax
+          .get("/dmaster/opd/" + this.OrgID_Selected + "/unitkerja", {
+            headers: {
+              Authorization: this.$store.getters["auth/Token"],
+            },
+          })
+          .then(({ data }) => {
+            this.daftar_unitkerja = data.unitkerja;
+          });
+      },
       loaddatakegiatan: async function() {
         this.datatableLoading = true;
         await this.$ajax
@@ -333,6 +381,7 @@
             {
               tahun: this.$store.getters["auth/TahunSelected"],
               OrgID: this.OrgID_Selected,
+              SOrgID: this.SOrgID_Selected,
             },
             {
               headers: {
@@ -379,6 +428,14 @@
             });
         }
       },
+      resetFilter() {        
+        this.datatable = [];
+        var page = this.$store.getters["uiadmin/Page"]("datamentahmurni");
+        page.OrgID_Selected = "";
+        page.SOrgID_Selected = "";
+        this.$store.dispatch("uiadmin/updatePage", page);
+        this.$router.go();
+      },
     },
     components: {
       RenjaMurniLayout,
@@ -388,11 +445,20 @@
       OrgID_Selected(val) {
         var page = this.$store.getters["uiadmin/Page"]("datamentahmurni");
         if (this.firstloading == false && val.length > 0) {
+          this.loadunitkerja();
           this.datatableLoaded = false;
         }
         page.OrgID_Selected = val;
         this.$store.dispatch("uiadmin/updatePage", page);
         this.loaddatakegiatan();
+      },
+      SOrgID_Selected(val) {
+        var page = this.$store.getters["uiadmin/Page"]("datamentahmurni");
+        page.SOrgID_Selected = val;
+        this.$store.dispatch("uiadmin/updatePage", page);
+        if (this.firstloading == false && val.length > 0) {
+          this.loaddatakegiatan();
+        }
       },
     },
   };

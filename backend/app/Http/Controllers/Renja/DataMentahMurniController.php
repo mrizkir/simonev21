@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use App\Models\DMaster\OrganisasiModel;
+use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\DMaster\SIPDModel;
 
 class DataMentahMurniController extends Controller 
@@ -21,8 +22,20 @@ class DataMentahMurniController extends Controller
     
     $this->validate($request, [            
       'tahun' => 'required',            
-      'OrgID' => 'required|exists:tmOrg,OrgID',            
+      'OrgID' => 'required|exists:tmOrg,OrgID',
     ]);
+
+    $SOrgID = null;
+    $unitkerja = null;
+    if($request->filled('SOrgID'))
+    {
+      $this->validate($request, [         
+        'SOrgID' => 'required|exists:tmSOrg,SOrgID',
+      ]);
+
+      $SOrgID = $request->input('SOrgID');
+      $unitkerja = SubOrganisasiModel::find($SOrgID);
+    }    
     $tahun = $request->input('tahun');
     $OrgID = $request->input('OrgID');
     $organisasi = OrganisasiModel::find($OrgID);
@@ -43,16 +56,28 @@ class DataMentahMurniController extends Controller
       '))
       ->where('OrgID', $OrgID)
       ->where('TA', $tahun)
-      ->where('EntryLevel', 1)
-      ->orderBy('kode_program', 'ASC')
+      ->where('EntryLevel', 1);
+      
+      if(!is_null($SOrgID))
+      {
+        $data = $data->where('SOrgID', $SOrgID);
+      }
+
+      $data = $data->orderBy('kode_program', 'ASC')
       ->orderBy('kode_kegiatan', 'ASC')
       ->get();        
     
-    $data->transform(function($item, $key) use ($organisasi) 
+    $data->transform(function($item, $key) use ($organisasi, $unitkerja) 
     {
       $rka = \DB::table('trRKA')
-      ->where('OrgID', $organisasi->OrgID)
-      ->where('TA', $organisasi->TA)
+      ->where('OrgID', $organisasi->OrgID);
+
+      if(!is_null($unitkerja))
+      {
+        $rka = $rka->where('SOrgID', $unitkerja->SOrgID);
+      }
+      
+      $rka = $rka->where('TA', $organisasi->TA)
       ->where('EntryLvl', 1)
       ->where('kode_kegiatan', $item->kode_kegiatan)
       ->get();
@@ -78,6 +103,7 @@ class DataMentahMurniController extends Controller
       'status' => 1,
       'pid' => 'fetchdata',
       'organisasi' => $organisasi,
+      'unitkerja' => $unitkerja,
       'rka' => $data,
       'message' => 'Fetch data rka perubahan berhasil diperoleh'
     ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);              

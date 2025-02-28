@@ -513,7 +513,7 @@
         //salin sub kegiatan
         tahunasal: null,
         daftar_ta: [],
-        lpad: 2,
+        lpad: 4,
         //form rules
         rule_kegiatan: [
           value => !!value || "Mohon untuk di pilih Kegiatan !!!",
