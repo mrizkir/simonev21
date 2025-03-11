@@ -226,6 +226,7 @@ class KodefikasiBidangUrusanController extends Controller {
           $item->pagu = \DB::table('tmRpjmdRelasiIndikator')->select(\DB::raw('
             RpjmdRelasiIndikatorID,
             IndikatorKinerjaID,
+            Operasi,
             data_1,
             data_2,
             data_3,
@@ -267,6 +268,7 @@ class KodefikasiBidangUrusanController extends Controller {
           $item->pagu = \DB::table('tmRpjmdRelasiIndikator AS a')
           ->select(\DB::raw('
             b.RpjmdRealisasiIndikatorID,              
+            a.data_1 AS target_1,
             a.data_2 AS target_2,
             a.data_3 AS target_3,
             a.data_4 AS target_4,
@@ -293,6 +295,7 @@ class KodefikasiBidangUrusanController extends Controller {
             c.Satuan,
             c.Operasi,
             c.NamaIndikator,
+            b.data_2 AS target_2,
             b.data_3 AS target_3,
             b.data_4 AS target_4,
             b.data_5 AS target_5,

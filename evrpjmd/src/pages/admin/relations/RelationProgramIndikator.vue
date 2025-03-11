@@ -313,7 +313,7 @@
                 </td>
               </tr>
               <tr class="text-center">
-                <td colspan="2" class="bg-grey">&nbsp;</td>                
+                <td colspan="2" class="bg-grey">{{ indikator.Operasi }}</td>                
                 <td>{{ indikator.Satuan }}</td>
                 <td>{{ indikator.data_1 == '-99999' ? 'n.a' :  indikator.data_1 }}</td>                              
                 <td>{{ indikator.data_2 == '-99999' ? 'n.a' :  indikator.data_2 }}</td>

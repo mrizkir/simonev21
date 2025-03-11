@@ -295,20 +295,36 @@
                   </v-icon>
                 </td>
               </tr>
-              <tr class="text-center border-thin">
-                <td colspan="2" class="bg-grey border-thin">&nbsp;</td>                
+              <tr class="text-center border-thin" v-if="indikator.Operasi == 'RANGE'">
+                <td colspan="2" class="bg-grey border-thin">{{ indikator.Operasi }}</td>                
                 <td class="bg-yellow border-thin">{{ indikator.Satuan }}</td>                        
-                <td class="bg-blue border-thin">{{ indikator.target_3 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_2 }} s.d {{ indikator.target_3 }}</td>
                 <td class="bg-green border-thin">{{ indikator.realisasi_2 }}</td>
-                <td class="bg-blue border-thin">{{ indikator.target_4 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_4 }} s.d {{ indikator.target_5 }}</td>
                 <td class="bg-green border-thin">{{ indikator.realisasi_3 }}</td>
-                <td class="bg-blue border-thin">{{ indikator.target_5 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_6 }} s.d {{ indikator.target_7 }}</td>
                 <td class="bg-green border-thin">{{ indikator.realisasi_4 }}</td>
-                <td class="bg-blue border-thin">{{ indikator.target_6 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_8 }} s.d {{ indikator.target_9 }}</td>
                 <td class="bg-green border-thin">{{ indikator.realisasi_5 }}</td>
-                <td class="bg-blue border-thin">{{ indikator.target_7 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_10 }} s.d {{ indikator.target_11 }}</td>
                 <td class="bg-green border-thin">{{ indikator.realisasi_6 }}</td>
-                <td class="bg-lime-lighten-2 border-thin">{{ indikator.target_8 }} / {{ indikator.realisasi_7 }}</td>                
+                <td class="bg-lime-lighten-2 border-thin">{{ indikator.target_12 }} / {{ indikator.realisasi_7 }}</td>                
+                <td class="bg-grey border-thin">&nbsp;</td>
+              </tr>
+              <tr class="text-center border-thin" v-else>
+                <td colspan="2" class="bg-grey border-thin">{{ indikator.Operasi }}</td>                
+                <td class="bg-yellow border-thin">{{ indikator.Satuan }}</td>                        
+                <td class="bg-blue border-thin">{{ indikator.target_2 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_2 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_3 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_3 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_4 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_4 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_5 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_5 }}</td>
+                <td class="bg-blue border-thin">{{ indikator.target_6 }}</td>
+                <td class="bg-green border-thin">{{ indikator.realisasi_6 }}</td>
+                <td class="bg-lime-lighten-2 border-thin">{{ indikator.target_7 }} / {{ indikator.realisasi_7 }}</td>                
                 <td class="bg-grey border-thin">&nbsp;</td>
               </tr>
             </template>

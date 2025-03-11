@@ -242,7 +242,7 @@
           <template v-if="item.pagu.length > 0">
             <template v-for="(pagu, i) in item.pagu" :key="pagu.RpjmdRelasiIndikatorID">              
               <tr class="text-center bg-green-lighten-3">
-                <td colspan="2" class="bg-grey">&nbsp;</td>                
+                <td colspan="2" class="bg-grey">{{ pagu.Operasi }}</td>                
                 <td class="text-end">{{ $filters.formatUang(pagu.data_2) }}</td>                
                 <td class="text-end">{{ $filters.formatUang(pagu.data_3) }}</td>                
                 <td class="text-end">{{ $filters.formatUang(pagu.data_4) }}</td>                
