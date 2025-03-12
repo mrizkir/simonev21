@@ -560,15 +560,15 @@ class FormBOPDMurniController extends Controller
     $opd = OrganisasiModel::find($OrgID);
     if (\DB::table('trRKA')->where('OrgID', $opd->OrgID)->where('EntryLvl', 1)->where('TA', $tahun)->count() > 0)
     {
-      $data_report=[
-              'OrgID' => $opd->OrgID,
-              'kode_organisasi' => $opd->kode_organisasi,
-              'Nm_Organisasi' => $opd->Nm_Organisasi,
-              'tahun' => $tahun,
-              'no_bulan' => $no_bulan,
-              'nama_pengguna_anggaran' => $opd->NamaKepalaOPD,
-              'nip_pengguna_anggaran' => $opd->NIPKepalaOPD
-            ];
+      $data_report = [
+        'OrgID' => $opd->OrgID,
+        'kode_organisasi' => $opd->kode_organisasi,
+        'Nm_Organisasi' => $opd->Nm_Organisasi,
+        'tahun' => $tahun,
+        'no_bulan' => $no_bulan,
+        'nama_pengguna_anggaran' => $opd->NamaKepalaOPD,
+        'nip_pengguna_anggaran' => $opd->NIPKepalaOPD
+      ];
       $report = new \App\Models\Renja\FormBOPDMurniModel($data_report);
       $generate_date = date('Y-m-d_H_m_s');
       return $report->download("form_b_$generate_date.xlsx");

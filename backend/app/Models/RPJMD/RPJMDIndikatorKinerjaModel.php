@@ -4,27 +4,28 @@ namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RPJMDIndikatorKinerjaModel extends Model {    
-	 /**
-	 * nama tabel model ini.
-	 *
-	 * @var string
-	 */
-	protected $table = 'tmRPJMDIndikatorKinerja';
-	/**
-	 * primary key tabel ini.
-	 *
-	 * @var string
-	 */
-	protected $primaryKey = 'IndikatorKinerjaID';
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'IndikatorKinerjaID',
-		'PeriodeRPJMDID',
+class RPJMDIndikatorKinerjaModel extends Model
+{    
+  /**
+   * nama tabel model ini.
+   *
+   * @var string
+   */
+  protected $table = 'tmRPJMDIndikatorKinerja';
+  /**
+   * primary key tabel ini.
+   *
+   * @var string
+   */
+  protected $primaryKey = 'IndikatorKinerjaID';
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+    'IndikatorKinerjaID',
+    'PeriodeRPJMDID',
     'NamaIndikator',
     'TipeIndikator',
     'Satuan',
@@ -33,17 +34,17 @@ class RPJMDIndikatorKinerjaModel extends Model {
     'is_ikk',
     'TA_AWAL',
     'TA_AKHIR',
-	];
-	/**
-	 * enable auto_increment.
-	 *
-	 * @var string
-	 */
-	public $incrementing = false;
-	/**
-	 * activated timestamps.
-	 *
-	 * @var string
-	 */
-	public $timestamps = true;
+  ];
+  /**
+   * enable auto_increment.
+   *
+   * @var string
+   */
+  public $incrementing = false;
+  /**
+   * activated timestamps.
+   *
+   * @var string
+   */
+  public $timestamps = true;
 }
