@@ -48,7 +48,7 @@
                 <v-card>
                   <v-card-title>
                     <v-icon icon="mdi-pencil"></v-icon> &nbsp;
-                    <span class="headline">TAMBAH INDIKATOR TUJUAN</span>
+                    <span class="headline">{{ formTitle }}</span>
                   </v-card-title>
                   <v-card-text>
                     <v-row tag="dl" class="text-body-2" no-gutters>
@@ -84,7 +84,7 @@
                     </v-row>
                     <hr class="mb-3">
                     <v-autocomplete
-                      v-model="formdata.IndikatorKinerja"  
+                      v-model="formdata_IndikatorKinerja"  
                       label="INDIKATOR"
                       density="compact"
                       variant="outlined"
@@ -103,7 +103,7 @@
                         SATUAN
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.Satuan }}
+                        {{ formdata_Satuan }}
                       </v-col>
                     </v-row>
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
@@ -111,14 +111,15 @@
                         OPERASI
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.Operasi }}
+                        {{ formdata_Operasi }}
                       </v-col>
                     </v-row>
-                    <hr class="mb-3"> 
+                    <hr class="mb-3">
                     <v-row no-gutters>
                       <v-col cols="auto" md="9" lg="9">
                         <v-number-input
-                          v-model="formdata.data_1"  
+                          v-model="formdata_data_1"
+                          :precision="2"
                           density="compact"
                           :label="'KONDISI AWAL ' + labeltahun[0]"
                           variant="outlined"
@@ -136,13 +137,14 @@
                           hide-details
                           :disabled="disabledtarget"
                         />
-                      </v-col>
+                      </v-col>                      
                     </v-row>
-                    <template v-if="formdata.Operasi == 'RANGE'">                                         
+                    <template v-if="formdata_Operasi == 'RANGE'">
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_2"  
+                            v-model="formdata_data_2"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -154,7 +156,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_3"  
+                            v-model="formdata_data_3"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -163,14 +166,15 @@
                             :disabled="disabledtarget"
                             :rules="rule_range_akhir"
                           />
-                        </v-col>                      
+                        </v-col>    
                       </v-row>
                       <hr class="mb-3">
                       <p class="mb-3">Target Tahun {{ labeltahun[2] }}:</p>
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_4"  
+                            v-model="formdata_data_4"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -182,7 +186,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_5"  
+                            v-model="formdata_data_5"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -197,7 +202,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_6"  
+                            v-model="formdata_data_6"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -209,7 +215,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_7"  
+                            v-model="formdata_data_7"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -224,7 +231,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_8"  
+                            v-model="formdata_data_8"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -236,7 +244,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_9"  
+                            v-model="formdata_data_9"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -251,7 +260,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_10"  
+                            v-model="formdata_data_10"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -263,7 +273,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_11"  
+                            v-model="formdata_data_11"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -278,7 +289,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_12"  
+                            v-model="formdata_data_12"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -290,7 +302,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_13"  
+                            v-model="formdata_data_13"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -305,7 +318,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_14"  
+                            v-model="formdata_data_14"  
+                            :precision="2"
                             density="compact"
                             label="AWAL RANGE"
                             variant="outlined"
@@ -316,7 +330,8 @@
                         </v-col>
                         <v-col cols="auto" md="6" lg="6">
                           <v-number-input
-                            v-model="formdata.data_15"  
+                            v-model="formdata_data_15"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RANGE"
                             variant="outlined"
@@ -332,7 +347,8 @@
                       <v-row no-gutters>                      
                         <v-col cols="auto" md="9" lg="9">
                           <v-number-input
-                            v-model="formdata.data_2"  
+                            v-model="formdata_data_2"  
+                            :precision="2"
                             density="compact"
                             :label="'KONDISI AWAL ' + labeltahun[1]"
                             variant="outlined"
@@ -355,7 +371,8 @@
                       <v-row no-gutters>                      
                         <v-col cols="auto" md="9" lg="9">
                           <v-number-input
-                            v-model="formdata.data_3"  
+                            v-model="formdata_data_3"  
+                            :precision="2"
                             density="compact"
                             :label="'TARGET TAHUN ' + labeltahun[2]"
                             variant="outlined"
@@ -378,7 +395,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="9" lg="9">
                           <v-number-input
-                            v-model="formdata.data_4"  
+                            v-model="formdata_data_4"  
+                            :precision="2"
                             density="compact"
                             :label="'TARGET TAHUN ' + labeltahun[3]"
                             variant="outlined"
@@ -401,7 +419,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="9" lg="9">
                           <v-number-input
-                            v-model="formdata.data_5"  
+                            v-model="formdata_data_5"  
+                            :precision="2"
                             density="compact"
                             :label="'TARGET TAHUN ' + labeltahun[4]"
                             variant="outlined"
@@ -424,7 +443,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="9" lg="9">                      
                           <v-number-input
-                            v-model="formdata.data_6"  
+                            v-model="formdata_data_6"  
+                            :precision="2"
                             density="compact"
                             :label="'TARGET TAHUN ' + labeltahun[5]"
                             variant="outlined"
@@ -447,7 +467,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="9" lg="9">                       
                           <v-number-input
-                            v-model="formdata.data_7"  
+                            v-model="formdata_data_7"  
+                            :precision="2"
                             density="compact"
                             :label="'TARGET TAHUN ' + labeltahun[6]"
                             variant="outlined"
@@ -470,7 +491,8 @@
                       <v-row no-gutters>
                         <v-col cols="auto" md="9" lg="9">                      
                           <v-number-input
-                            v-model="formdata.data_8"  
+                            v-model="formdata_data_8"  
+                            :precision="2"
                             density="compact"
                             label="AKHIR RPJMD"
                             variant="outlined"
@@ -617,7 +639,6 @@
   import mainLayout from '@/layouts/MainLayout.vue'
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
-  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RelationTujuanIndikator',
     created() {
@@ -653,7 +674,7 @@
       dialogfrm: false,
       //form data
       formdata_old: {},
-      form_valid: true,
+      form_valid: true,      
       daftarindikator: [],
       disabledtarget: true,
       data_1_na: null,
@@ -664,72 +685,44 @@
       data_6_na: null,
       data_7_na: null,
       data_8_na: null,
-      formdata: {
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerja: null,
-        RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,  
-        data_1: null,  
-        data_2: null,  
-        data_3: null,  
-        data_4: null,  
-        data_5: null,  
-        data_6: null,  
-        data_7: null,  
-        data_8: null,  
-        data_9: null,  
-        data_10: null,  
-        data_11: null,  
-        data_12: null,  
-        data_13: null,  
-        data_14: null,  
-        data_15: null,  
-        Satuan: '-',
-        Operasi: '-',
-      }, 
-      formdefault: {
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerja: null,
-        RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,  
-        data_1: null,  
-        data_2: null,  
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
-        data_8: null,
-        data_9: null,
-        data_10: null,
-        data_11: null,
-        data_12: null,
-        data_13: null,
-        data_14: null,
-        data_15: null, 
-        Satuan: '-',
-        Operasi: '-',
-      }, 
+      formdata_IndikatorKinerja: null,
+      formdata_Satuan: '-',
+      formdata_Operasi: '-',
+      formdata_data_1: null,
+      formdata_data_2: null,
+      formdata_data_3: null,
+      formdata_data_4: null,
+      formdata_data_5: null,
+      formdata_data_6: null,
+      formdata_data_7: null,
+      formdata_data_8: null,
+      formdata_data_9: null,
+      formdata_data_10: null,
+      formdata_data_11: null,
+      formdata_data_12: null,
+      formdata_data_13: null,
+      formdata_data_14: null,
+      formdata_data_15: null,
       labeltahun: [],
       editedIndex: -1,
       //form rules range
       rule_kondisi_awal: [
-        value => !!value || 'Mohon untuk diisi nilai kondisi awal !!!',
+        value => value === 0 || value !== null || 'Mohon untuk diisi nilai kondisi awal !!!',
       ],
       rule_range_awal: [
-        value => !!value || 'Mohon untuk diisi nilai awal target !!!',
+        value => value === 0 || value !== null || 'Mohon untuk diisi nilai awal target !!!',
       ],
       rule_range_akhir: [
-        value => !!value || 'Mohon untuk diisi nilai akhir target !!!',
+        value => value === 0 || value !== null || 'Mohon untuk diisi nilai akhir target !!!',
       ],
       rule_target: [
-        value => !!value || 'Mohon untuk diisi nilai target !!!',
+        value => value === 0 || value !== null || 'Mohon untuk diisi nilai target !!!',
       ],
       //pinia
       userStore: null,
     }),
     methods: {
-      async initialize({ page, itemsPerPage }) {        
+      async initialize({ page, itemsPerPage }) {
         this.datatableLoading = true
         
         var request_param = {
@@ -794,13 +787,15 @@
           .then(({ data }) => {
             let payload = data.payload
             this.daftarindikator = payload
-            this.btnLoading = false  
+            this.btnLoading = false
           })
       },
       async editItem(datatujuan, item) {
         this.editedIndex = this.datatable.indexOf(datatujuan)
         this.setLabelTahun()
         this.datatujuan = datatujuan
+
+        this.btnLoading = true
 
         await this.$ajax
           .post('/rpjmd/indikatorkinerja/tujuan', 
@@ -818,40 +813,57 @@
             let payload = data.payload
             this.daftarindikator = payload
 
-            this.formdata = Object.assign({}, item)
-            this.formdata_old = Object.assign({}, item)
-            this.formdata.IndikatorKinerja = {
+            this.formdata_IndikatorKinerja = {
               IndikatorKinerjaID: item.IndikatorKinerjaID,
               NamaIndikator: item.NamaIndikator,
               Satuan: item.Satuan,
               Operasi: item.Operasi,
             }
-            this.data_1_na = this.formdata.data_1 == '-99999';
-            this.data_2_na = this.formdata.data_2 == '-99999';
-            this.data_3_na = this.formdata.data_3 == '-99999';
-            this.data_4_na = this.formdata.data_4 == '-99999';
-            this.data_5_na = this.formdata.data_5 == '-99999';
-            this.data_6_na = this.formdata.data_6 == '-99999';
-            this.data_7_na = this.formdata.data_7 == '-99999';
-            this.data_8_na = this.formdata.data_8 == '-99999';
-            
+            this.formdata_Satuan = item.Satuan
+            this.formdata_Operasi = item.Operasi
+
+            this.formdata_data_1 = parseFloat(item.data_1)
+            this.formdata_data_2 = parseFloat(item.data_2)
+            this.formdata_data_3 = parseFloat(item.data_3)
+            this.formdata_data_4 = parseFloat(item.data_4)
+            this.formdata_data_5 = parseFloat(item.data_5)
+            this.formdata_data_6 = parseFloat(item.data_6)
+            this.formdata_data_7 = parseFloat(item.data_7)
+            this.formdata_data_8 = parseFloat(item.data_8)
+            this.formdata_data_9 = parseFloat(item.data_9)
+            this.formdata_data_10 = parseFloat(item.data_10)
+            this.formdata_data_11 = parseFloat(item.data_11)
+            this.formdata_data_12 = parseFloat(item.data_12)
+            this.formdata_data_13 = parseFloat(item.data_13)
+            this.formdata_data_14 = parseFloat(item.data_14)
+            this.formdata_data_15 = parseFloat(item.data_15)
+
+            this.data_1_na = this.formdata_data_1 == '-99999'
+            this.data_2_na = this.formdata_data_2 == '-99999'
+            this.data_3_na = this.formdata_data_3 == '-99999'
+            this.data_4_na = this.formdata_data_4 == '-99999'
+            this.data_5_na = this.formdata_data_5 == '-99999'
+            this.data_6_na = this.formdata_data_6 == '-99999'
+            this.data_7_na = this.formdata_data_7 == '-99999'
+            this.data_8_na = this.formdata_data_8 == '-99999'
+
             this.dialogfrm = true
             this.disabledtarget = false
-            this.btnLoading = false  
+            this.btnLoading = false            
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null && typeof this.formdata.IndikatorKinerja == 'undefined') {
-          this.formdata.Satuan = '-'
-          this.formdata.Operasi = '-'
+        if(this.formdata_IndikatorKinerja == null || typeof this.formdata_IndikatorKinerja === 'undefined') {
+          this.formdata_Satuan = '-'
+          this.formdata_Operasi = '-'
           this.disabledtarget = true
         } else {
-          this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
-          this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi
+          this.formdata_Satuan = this.formdata_IndikatorKinerja.Satuan
+          this.formdata_Operasi = this.formdata_IndikatorKinerja.Operasi
           this.disabledtarget = false
         }
       },
-      async save() {        
+      async save() {
         const { valid } = await this.$refs.frmdata.validate()
 
         if(valid) {
@@ -864,21 +876,21 @@
                 {
                   _method: 'PUT',
                   Operasi: this.formdata.Operasi,
-                  data_1: this.formdata.data_1,
-                  data_2: this.formdata.data_2,
-                  data_3: this.formdata.data_3,
-                  data_4: this.formdata.data_4,
-                  data_5: this.formdata.data_5,
-                  data_6: this.formdata.data_6,
-                  data_7: this.formdata.data_7,
-                  data_8: this.formdata.data_8,
-                  data_9: this.formdata.data_9,
-                  data_10: this.formdata.data_10,
-                  data_11: this.formdata.data_11,
-                  data_12: this.formdata.data_12,
-                  data_13: this.formdata.data_13,
-                  data_14: this.formdata.data_14,
-                  data_15: this.formdata.data_15,
+                  data_1: this.formdata_data_1,
+                  data_2: this.formdata_data_2,
+                  data_3: this.formdata_data_3,
+                  data_4: this.formdata_data_4,
+                  data_5: this.formdata_data_5,
+                  data_6: this.formdata_data_6,
+                  data_7: this.formdata_data_7,
+                  data_8: this.formdata_data_8,
+                  data_9: this.formdata_data_9,
+                  data_10: this.formdata_data_10,
+                  data_11: this.formdata_data_11,
+                  data_12: this.formdata_data_12,
+                  data_13: this.formdata_data_13,
+                  data_14: this.formdata_data_14,
+                  data_15: this.formdata_data_15,
                 },
                 {
                   headers: {
@@ -892,30 +904,30 @@
               .catch(() => {
                 this.btnLoading = false
               })
-          } else {            
+          } else {    
             this.$ajax
               .post(
                 '/rpjmd/relations/indikatortujuan/store',
                 {
-                  IndikatorKinerjaID: this.formdata.IndikatorKinerja.IndikatorKinerjaID,    
+                  IndikatorKinerjaID: this.formdata_IndikatorKinerja.IndikatorKinerjaID,    
                   RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                  Operasi: this.formdata.Operasi,
-                  data_1: this.formdata.data_1,
-                  data_2: this.formdata.data_2,
-                  data_3: this.formdata.data_3,
-                  data_4: this.formdata.data_4,
-                  data_5: this.formdata.data_5,
-                  data_6: this.formdata.data_6,
-                  data_7: this.formdata.data_7,
-                  data_8: this.formdata.data_8,
-                  data_9: this.formdata.data_9,
-                  data_10: this.formdata.data_10,
-                  data_11: this.formdata.data_11,
-                  data_12: this.formdata.data_12,
-                  data_13: this.formdata.data_13,
-                  data_14: this.formdata.data_14,
-                  data_15: this.formdata.data_15,
+                  Operasi: this.formdata_Operasi,
+                  data_1: this.data_1_na ? -99999 : this.formdata_data_1,
+                  data_2: this.data_2_na ? -99999 : this.formdata_data_2,
+                  data_3: this.data_3_na ? -99999 : this.formdata_data_3,
+                  data_4: this.data_4_na ? -99999 : this.formdata_data_4,
+                  data_5: this.data_5_na ? -99999 : this.formdata_data_5,
+                  data_6: this.data_6_na ? -99999 : this.formdata_data_6,
+                  data_7: this.data_7_na ? -99999 : this.formdata_data_7,
+                  data_8: this.data_8_na ? -99999 : this.formdata_data_8,
+                  data_9: this.data_9_na ? -99999 : this.formdata_data_9,
+                  data_10: this.data_10_na ? -99999 : this.formdata_data_10,
+                  data_11: this.data_11_na ? -99999 : this.formdata_data_11,
+                  data_12: this.data_12_na ? -99999 : this.formdata_data_12,
+                  data_13: this.data_13_na ? -99999 : this.formdata_data_13,
+                  data_14: this.data_14_na ? -99999 : this.formdata_data_14,
+                  data_15: this.data_15_na ? -99999 : this.formdata_data_15,
                 },
                 {
                   headers: {
@@ -968,9 +980,7 @@
       },
       closedialogfrm() {
         this.btnLoading = false
-        setTimeout(() => {
-          this.formdata = Object.assign({}, this.formdefault)  
-          this.formdata_old = {}
+        setTimeout(() => {          
           this.editedIndex = -1        
           this.$refs.frmdata.reset()
           this.dialogfrm = false
@@ -978,6 +988,9 @@
       },
     },
     computed: {
+      formTitle() {
+        return this.editedIndex === -1 ? 'TAMBAH INDIKATOR TUJUAN' : 'UBAH INDIKATOR TUJUAN'
+      },
       searchTrigger () {
         if (this.search.length >= 3) {
           return this.search
@@ -1081,83 +1094,108 @@
       },
     },
     watch: {
-      data_1_na(val) {        
+      data_1_na(val, oldVal) {   
+        if(oldVal == null) {
+          return
+        }
+
         if(val) {
-          this.formdata.data_1 = -99999
+          this.formdata_data_1 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata.data_1 = this.formdata_old.data_1
+          this.formdata_data_1 = this.formdata_old.data_1
         } else {
-          this.formdata.data_1 = null
+          this.formdata_data_1 = null
         }
       },
-      data_2_na(val) {
+      data_2_na(val, oldVal) {
+        if(oldVal == null) {
+          return
+        }
+
         if(val) {
-          this.formdata.data_2 = -99999
+          this.formdata_data_2 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata.data_2 = this.formdata_old.data_2
+          this.formdata_data_2 = this.formdata_old.data_2
         } else {
-          this.formdata.data_2 = null
+          this.formdata_data_2 = null
         }
       },
-      data_3_na(val) {
+      data_3_na(val, oldVal) {
+        if(oldVal == null) {
+          return
+        }
+
         if(val) {
-          this.formdata.data_3 = -99999
+          this.formdata_data_3 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata.data_3 = this.formdata_old.data_3
+          this.formdata_data_3 = this.formdata_old.data_3
         } else {
-          this.formdata.data_3 = null
+          this.formdata_data_3 = null
         }
       },
-      data_4_na(val) {
+      data_4_na(val, oldVal) {  
+        if(oldVal == null) {
+          return
+        }
+
         if(val) {
-          this.formdata.data_4 = -99999
+          this.formdata_data_4 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata.data_4 = this.formdata_old.data_4
+          this.formdata_data_4 = this.formdata_old.data_4
         } else {
-          this.formdata.data_4 = null
+          this.formdata_data_4 = null
         }
       },
-      data_5_na(val) {
+      data_5_na(val, oldVal) { 
+        if(oldVal == null) {
+          return
+        }
+
         if(val) {
-          this.formdata.data_5 = -99999
+          this.formdata_data_5 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata.data_5 = this.formdata_old.data_5
+          this.formdata_data_5 = this.formdata_old.data_5
         } else {
-          this.formdata.data_5 = null
+          this.formdata_data_5 = null
         }
       },
-      data_6_na(val) {
+      data_6_na(val, oldVal) {        
         if(val) {
-          this.formdata.data_6 = -99999
+          this.formdata_data_6 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata.data_6 = this.formdata_old.data_6
+          this.formdata_data_6 = this.formdata_old.data_6
         } else {
-          this.formdata.data_6 = null
+          this.formdata_data_6 = null
+        }        
+      },
+      data_7_na(val, oldVal) {
+        if(oldVal == null) {
+          return
+        }
+        if(val) {
+          this.formdata_data_7 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata_data_7 = this.formdata_old.data_7
+        } else {
+          this.formdata_data_7 = null
+        }        
+      },
+      data_8_na(val, oldVal) {
+        if(oldVal == null) {
+          return
+        }        
+        if(val) {
+          this.formdata_data_8 = -99999
+        } else if (this.editedIndex > -1) {
+          this.formdata_data_8 = this.formdata_old.data_8
+        } else {
+          this.formdata_data_8 = null
         }
       },
-      data_7_na(val) {
-        if(val) {
-          this.formdata.data_7 = -99999
-        } else if (this.editedIndex > -1) {
-          this.formdata.data_7 = this.formdata_old.data_7
-        } else {
-          this.formdata.data_7 = null
-        }
-      },
-      data_8_na(val) {
-        if(val) {
-          this.formdata.data_8 = -99999
-        } else if (this.editedIndex > -1) {
-          this.formdata.data_8 = this.formdata_old.data_8
-        } else {
-          this.formdata.data_8 = null
-        }
-      },      
     },
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-number-input': VNumberInput,
     },
   }
 </script>
