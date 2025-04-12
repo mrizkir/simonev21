@@ -226,7 +226,7 @@ class KodefikasiBidangUrusanController extends Controller {
           $item->pagu = \DB::table('tmRpjmdRelasiIndikator')->select(\DB::raw('
             RpjmdRelasiIndikatorID,
             IndikatorKinerjaID,
-            Operasi,
+            "-" AS Operasi,
             data_1,
             data_2,
             data_3,

@@ -286,7 +286,6 @@
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
-  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RelationProgramPagu',
     created() {
@@ -687,7 +686,6 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-number-input': VNumberInput,
     },
   }
 </script>

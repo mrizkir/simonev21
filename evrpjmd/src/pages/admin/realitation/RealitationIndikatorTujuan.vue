@@ -23,11 +23,11 @@
     <v-container fluid>
       <v-data-table-server
         density="compact"
-        v-model:items-per-page="itemsPerPage"    
+        v-model:items-per-page="itemsPerPage"
         :headers="fetchHeader"
         :items="datatable"
         :items-length="totalRecords"
-        :loading="datatableLoading"        
+        :loading="datatableLoading"
         item-value="RpjmdTujuanID"
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
@@ -77,7 +77,7 @@
                     </v-row>                    
                     <hr class="mb-3">
                     <v-select
-                      v-model="formdata.IndikatorKinerja"
+                      v-model="formdata_IndikatorKinerja"
                       density="compact"
                       :items="daftarindikator"
                       label="DAFTAR INDIKATOR TUJUAN"
@@ -96,7 +96,7 @@
                         SATUAN
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.Satuan }}
+                        {{ formdata_Satuan }}
                       </v-col>
                     </v-row>
                     <v-row tag="dl" class="text-body-2 mb-3" no-gutters>
@@ -104,122 +104,128 @@
                         OPERASI
                       </v-col>
                       <v-col cols="auto" md="9" lg="9" tag="dt">
-                        {{ formdata.Operasi }}
+                        {{ formdata_Operasi }}
                       </v-col>
                     </v-row>
                     <hr class="mb-3">                                        
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }} s.d {{ data_target.data_3 }}
+                        <p class="mb-1 text-info" v-if="formdata_Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target_data_2 }} s.d {{ data_target_data_3 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }}
+                          Target RPJMD TA {{ labeltahun[1] }}: {{ data_target_data_2 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_2"  
-                          density="compact"                          
+                          v-model="formdata_data_2"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />    
                       </v-col>                      
                     </v-row>
                     <hr class="mb-3">                    
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">                        
-                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_4 }} s.d {{ data_target.data_5 }}
+                        <p class="mb-1 text-info" v-if="formdata_Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target_data_4 }} s.d {{ data_target_data_5 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_3 }}
+                          Target RPJMD TA {{ labeltahun[2] }}: {{ data_target_data_3 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[2] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_3"  
-                          density="compact"                          
+                          v-model="formdata_data_3"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />    
                       </v-col>                      
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">                        
-                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_5 }} s.d {{ data_target.data_6 }}
+                        <p class="mb-1 text-info" v-if="formdata_Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target_data_5 }} s.d {{ data_target_data_6 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_4 }}
+                          Target RPJMD TA {{ labeltahun[3] }}: {{ data_target_data_4 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[3] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_4"  
-                          density="compact"                          
+                          v-model="formdata_data_4"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />                            
                       </v-col>                      
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_7 }} s.d {{ data_target.data_8 }}
+                        <p class="mb-1 text-info" v-if="formdata_Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target_data_7 }} s.d {{ data_target_data_8 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_5 }}
+                          Target RPJMD TA {{ labeltahun[4] }}: {{ data_target_data_5 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[4] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_5"  
-                          density="compact"                          
+                          v-model="formdata_data_5"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />    
                       </v-col>
                     </v-row>                    
                     <v-row no-gutters>
                       <v-col cols="auto" md="12" lg="12">
-                        <p class="mb-1 text-info" v-if="formdata.Operasi == 'RANGE'">
-                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_9 }} s.d {{ data_target.data_10 }}
+                        <p class="mb-1 text-info" v-if="formdata_Operasi == 'RANGE'">
+                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target_data_9 }} s.d {{ data_target_data_10 }}
                         </p>
                         <p class="mb-1 text-info" v-else>
-                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_6 }}
+                          Target RPJMD TA {{ labeltahun[5] }}: {{ data_target_data_6 }}
                         </p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[5] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_6"  
-                          density="compact"                          
+                          v-model="formdata_data_6"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />                            
                       </v-col>                      
                     </v-row>                         
                     <v-row no-gutters>                                         
                       <v-col cols="auto" md="12" lg="12">                        
-                        <p class="mb-1" v-if="formdata.Operasi == 'RANGE'">
-                          Target AKhir RPJMD: {{ data_target.data_11 }} s.d {{ data_target.data_12 }}
+                        <p class="mb-1" v-if="formdata_Operasi == 'RANGE'">
+                          Target AKhir RPJMD: {{ data_target_data_11 }} s.d {{ data_target_data_12 }}
                         </p>
                         <p class="mb-1" v-else>
-                          Target AKhir RPJMD: {{ data_target.data_7 }}
+                          Target AKhir RPJMD: {{ data_target_data_7 }}
                         </p>
                         <p class="mb-3">Realisasi Akhir RPJMD:</p>                    
                         <v-number-input
-                          v-model="formdata.data_7"  
-                          density="compact"                          
+                          v-model="formdata_data_7"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />                        
                       </v-col>
                     </v-row>               
@@ -256,12 +262,12 @@
             <td class="border-thin">
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Realisasi Tujuan'"                
+                v-tooltip:bottom="'Tambah Realisasi Tujuan'"
                 color="primary"
                 variant="outlined"
                 prepend-icon="mdi-plus"
                 density="compact"
-                @click.stop="addItem(item)"                
+                @click.stop="addItem(item)"
               >
                 Tambah
               </v-btn>
@@ -327,7 +333,6 @@
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
-  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RealitationIndikatorTujuan',
     created() {
@@ -369,63 +374,39 @@
       form_valid: true,
       daftarindikator: [],      
       disabledrealisasi: true,
-      data_target: {
-        Operasi: '-',
-        data_2: '-',
-        data_3: '-',
-        data_4: '-',
-        data_5: '-',
-        data_6: '-',
-        data_7: '-',
-        data_8: '-',
-        data_9: '-',
-        data_10: '-',
-        data_11: '-',
-        data_12: '-',
-      },
-      formdata: {
-        RpjmdRealisasiIndikatorID: null,
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerjaID: null,
-        IndikatorKinerja: null,
-        RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,
-        data_1: null,
-        data_2: null,
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
-        data_8: null,
-        data_9: null,
-        data_10: null,
-        data_11: null,
-        data_12: null,        
-        Satuan: '-',
-        Operasi: '-',
-      }, 
-      formdefault: {
-        RpjmdRealisasiIndikatorID: null,
-        RpjmdRelasiIndikatorID: null,
-        IndikatorKinerja: null,
-        RpjmdCascadingID: null,
-        PeriodeRPJMDID: null,
-        data_1: null,
-        data_2: null,
-        data_3: null,
-        data_4: null,
-        data_5: null,
-        data_6: null,
-        data_7: null,
-        data_8: null,
-        data_9: null,
-        data_10: null,
-        data_11: null,
-        data_12: null,
-        Satuan: '-',
-        Operasi: '-',
-      }, 
+      data_target_Operasi: null,
+      data_target_data_2: null,
+      data_target_data_3: null,
+      data_target_data_4: null,
+      data_target_data_5: null,
+      data_target_data_6: null,
+      data_target_data_7: null,
+      data_target_data_8: null,
+      data_target_data_9: null,
+      data_target_data_10: null,
+      data_target_data_11: null,
+      data_target_data_12: null,
+      formdata_RpjmdRealisasiIndikatorID: null,
+      formdata_RpjmdRelasiIndikatorID: null,
+      formdata_IndikatorKinerjaID: null,
+      formdata_IndikatorKinerja: null,
+      formdata_RpjmdCascadingID: null,
+      formdata_PeriodeRPJMDID: null,
+      formdata_data_1: null,
+      formdata_data_2: null,
+      formdata_data_3: null,
+      formdata_data_4: null,
+      formdata_data_5: null,
+      formdata_data_6: null,
+      formdata_data_7: null,
+      formdata_data_8: null,
+      formdata_data_9: null,
+      formdata_data_10: null,
+      formdata_data_11: null,
+      formdata_data_12: null,
+      formdata_Satuan: null,
+      formdata_Operasi: null,
+      
       labeltahun: [],
       editedIndex: -1,
       //pinia
@@ -507,7 +488,7 @@
         this.editedIndex = this.datatable.indexOf(datatujuan)
         this.setLabelTahun()
         this.datatujuan = datatujuan
-        
+        console.log(item)
         await this.$ajax
           .post('/rpjmd/indikatorkinerja/program', 
             {
@@ -524,35 +505,35 @@
             let payload = data.payload
             this.daftarindikator = payload
             
-            this.formdata.RpjmdRealisasiIndikatorID = item.RpjmdRealisasiIndikatorID
-            this.formdata.Satuan = item.Satuan
-            this.formdata.Operasi = item.Operasi
+            this.formdata_RpjmdRealisasiIndikatorID = item.RpjmdRealisasiIndikatorID
+            this.formdata_Satuan = item.Satuan
+            this.formdata_Operasi = item.Operasi
 
-            this.formdata.data_2 = item.realisasi_2
-            this.formdata.data_3 = item.realisasi_3
-            this.formdata.data_4 = item.realisasi_4
-            this.formdata.data_5 = item.realisasi_5
-            this.formdata.data_6 = item.realisasi_6
-            this.formdata.data_7 = item.realisasi_7
+            this.formdata_data_2 = parseFloat(item.realisasi_2)
+            this.formdata_data_3 = parseFloat(item.realisasi_3)
+            this.formdata_data_4 = parseFloat(item.realisasi_4)
+            this.formdata_data_5 = parseFloat(item.realisasi_5)
+            this.formdata_data_6 = parseFloat(item.realisasi_6)
+            this.formdata_data_7 = parseFloat(item.realisasi_7)
             
-            this.formdata.IndikatorKinerja = {
+            this.formdata_IndikatorKinerja = {
               IndikatorKinerjaID: item.IndikatorKinerjaID,
               NamaIndikator: item.NamaIndikator,
               Satuan: item.Satuan,
               Operasi: item.Operasi,
             }
             
-            this.data_target.data_2 = item.target_2
-            this.data_target.data_3 = item.target_3
-            this.data_target.data_4 = item.target_4
-            this.data_target.data_5 = item.target_5
-            this.data_target.data_6 = item.target_6
-            this.data_target.data_7 = item.target_7
-            this.data_target.data_8 = item.target_8
-            this.data_target.data_9 = item.target_9
-            this.data_target.data_10 = item.target_10
-            this.data_target.data_11 = item.target_11
-            this.data_target.data_12 = item.target_12
+            this.data_target_data_2 = item.target_2
+            this.data_target_data_3 = item.target_3
+            this.data_target_data_4 = item.target_4
+            this.data_target_data_5 = item.target_5
+            this.data_target_data_6 = item.target_6
+            this.data_target_data_7 = item.target_7
+            this.data_target_data_8 = item.target_8
+            this.data_target_data_9 = item.target_9
+            this.data_target_data_10 = item.target_10
+            this.data_target_data_11 = item.target_11
+            this.data_target_data_12 = item.target_12
 
             this.dialogfrm = true
             this.disabledrealisasi = false
@@ -560,43 +541,42 @@
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null && typeof this.formdata.IndikatorKinerja == 'undefined') {
-          this.formdata.Satuan = '-'
-          this.formdata.Operasi = '-'
-          this.data_target = {
-            data_2: '-',
-            data_3: '-',
-            data_4: '-',
-            data_5: '-',
-            data_6: '-',
-            data_7: '-',
-            data_8: '-',
-            data_9: '-',
-            data_10: '-',
-            data_11: '-',
-            data_12: '-',
-          }
+        if(this.formdata_IndikatorKinerja == null || typeof this.formdata_IndikatorKinerja == 'undefined') {
+          this.formdata_Satuan = '-'
+          this.formdata_Operasi = '-'
+
+          this.data_target_data_2 = '-'
+          this.data_target_data_3 = '-'
+          this.data_target_data_4 = '-'
+          this.data_target_data_5 = '-'
+          this.data_target_data_6 = '-'
+          this.data_target_data_7 = '-'
+          this.data_target_data_8 = '-'
+          this.data_target_data_9 = '-'
+          this.data_target_data_10 = '-'
+          this.data_target_data_11 = '-'
+          this.data_target_data_12 = '-'          
           this.disabledrealisasi = true          
         } else {
-          this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
-          this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi          
-          this.data_target.data_2 = this.formdata.IndikatorKinerja.data_2
-          this.data_target.data_3 = this.formdata.IndikatorKinerja.data_3
-          this.data_target.data_4 = this.formdata.IndikatorKinerja.data_4
-          this.data_target.data_5 = this.formdata.IndikatorKinerja.data_5
-          this.data_target.data_6 = this.formdata.IndikatorKinerja.data_6
-          this.data_target.data_7 = this.formdata.IndikatorKinerja.data_7
-          this.data_target.data_8 = this.formdata.IndikatorKinerja.data_8
-          this.data_target.data_9 = this.formdata.IndikatorKinerja.data_9
-          this.data_target.data_10 = this.formdata.IndikatorKinerja.data_10
-          this.data_target.data_11 = this.formdata.IndikatorKinerja.data_11
-          this.data_target.data_12 = this.formdata.IndikatorKinerja.data_12
-          this.formdata.data_2 = 0
-          this.formdata.data_3 = 0
-          this.formdata.data_4 = 0
-          this.formdata.data_5 = 0
-          this.formdata.data_6 = 0
-          this.formdata.data_7 = 0
+          this.formdata_Satuan = this.formdata_IndikatorKinerja.Satuan
+          this.formdata_Operasi = this.formdata_IndikatorKinerja.Operasi          
+          this.data_target_data_2 = this.formdata_IndikatorKinerja.data_2
+          this.data_target_data_3 = this.formdata_IndikatorKinerja.data_3
+          this.data_target_data_4 = this.formdata_IndikatorKinerja.data_4
+          this.data_target_data_5 = this.formdata_IndikatorKinerja.data_5
+          this.data_target_data_6 = this.formdata_IndikatorKinerja.data_6
+          this.data_target_data_7 = this.formdata_IndikatorKinerja.data_7
+          this.data_target_data_8 = this.formdata_IndikatorKinerja.data_8
+          this.data_target_data_9 = this.formdata_IndikatorKinerja.data_9
+          this.data_target_data_10 = this.formdata_IndikatorKinerja.data_10
+          this.data_target_data_11 = this.formdata_IndikatorKinerja.data_11
+          this.data_target_data_12 = this.formdata_IndikatorKinerja.data_12
+          this.formdata_data_2 = 0
+          this.formdata_data_3 = 0
+          this.formdata_data_4 = 0
+          this.formdata_data_5 = 0
+          this.formdata_data_6 = 0
+          this.formdata_data_7 = 0
           this.disabledrealisasi = false          
         }
       },
@@ -609,15 +589,15 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/rpjmd/realitations/indikatorprogram/' + this.formdata.RpjmdRealisasiIndikatorID,
+                '/rpjmd/realitations/indikatorprogram/' + this.formdata_RpjmdRealisasiIndikatorID,
                 {
                   _method: 'PUT',
-                  data_2: this.formdata.data_2,
-                  data_3: this.formdata.data_3,
-                  data_4: this.formdata.data_4,
-                  data_5: this.formdata.data_5,
-                  data_6: this.formdata.data_6,
-                  data_7: this.formdata.data_7,                  
+                  data_2: this.formdata_data_2,
+                  data_3: this.formdata_data_3,
+                  data_4: this.formdata_data_4,
+                  data_5: this.formdata_data_5,
+                  data_6: this.formdata_data_6,
+                  data_7: this.formdata_data_7,                  
                 },
                 {
                   headers: {
@@ -632,8 +612,8 @@
                 this.btnLoading = false
               })
           } else {
-            var RpjmdRelasiIndikatorID = this.formdata.IndikatorKinerja.RpjmdRelasiIndikatorID          
-            var IndikatorKinerjaID = this.formdata.IndikatorKinerja.IndikatorKinerjaID               
+            var RpjmdRelasiIndikatorID = this.formdata_IndikatorKinerja.RpjmdRelasiIndikatorID          
+            var IndikatorKinerjaID = this.formdata_IndikatorKinerja.IndikatorKinerjaID               
             this.$ajax
               .post(
                 '/rpjmd/realitations/indikatortujuan/store',
@@ -642,13 +622,13 @@
                   RpjmdCascadingID: this.datatujuan.RpjmdTujuanID,
                   IndikatorKinerjaID: IndikatorKinerjaID,
                   PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,
-                  Operasi: this.formdata.Operasi,                  
-                  data_2: this.formdata.data_2,
-                  data_3: this.formdata.data_3,
-                  data_4: this.formdata.data_4,
-                  data_5: this.formdata.data_5,
-                  data_6: this.formdata.data_6,
-                  data_7: this.formdata.data_7,                  
+                  Operasi: this.formdata_Operasi,                  
+                  data_2: this.formdata_data_2,
+                  data_3: this.formdata_data_3,
+                  data_4: this.formdata_data_4,
+                  data_5: this.formdata_data_5,
+                  data_6: this.formdata_data_6,
+                  data_7: this.formdata_data_7,                  
                 },
                 {
                   headers: {
@@ -701,8 +681,7 @@
       },
       closedialogfrm() {
         this.btnLoading = false
-        setTimeout(() => {
-          this.formdata = Object.assign({}, this.formdefault)
+        setTimeout(() => {          
           this.editedIndex = -1        
           this.$refs.frmdata.reset()          
           this.dialogfrm = false
@@ -811,7 +790,6 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-number-input': VNumberInput,
     },
   }
 </script>

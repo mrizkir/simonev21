@@ -23,11 +23,11 @@
     <v-container fluid>
       <v-data-table-server
         density="compact"
-        v-model:items-per-page="itemsPerPage"    
+        v-model:items-per-page="itemsPerPage"
         :headers="fetchHeader"
         :items="datatable"
         :items-length="totalRecords"
-        :loading="datatableLoading"        
+        :loading="datatableLoading"
         item-value="PrgID"
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
@@ -43,7 +43,7 @@
               density="compact"
               variant="outlined"
               v-model="BidangID"
-              label="BIDANG URUSAN"              
+              label="BIDANG URUSAN"
               item-title="bidangurusan"
               item-value="BidangID"
               class="pa-3 mt-4"
@@ -110,7 +110,7 @@
                     </v-row>
                     <hr class="mb-3">
                     <v-autocomplete
-                      v-model="formdata.IndikatorKinerja"  
+                      v-model="formdata.IndikatorKinerja"
                       label="INDIKATOR"
                       density="compact"
                       variant="outlined"
@@ -142,7 +142,8 @@
                     </v-row>
                     <hr class="mb-3">                    
                     <v-number-input
-                      v-model="formdata.data_1"  
+                      v-model="formdata.data_1"
+                      :precision="2"
                       density="compact"
                       :label="'KONDISI KINERJA AWAL RPJMD ' + labeltahun[0]"
                       variant="outlined"
@@ -154,8 +155,9 @@
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Target Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_2"  
-                          density="compact"                          
+                          v-model="formdata.data_2"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -169,8 +171,9 @@
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Target Indikator TA {{ labeltahun[2] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_3"  
-                          density="compact"                          
+                          v-model="formdata.data_3"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -183,8 +186,9 @@
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Target Indikator TA {{ labeltahun[3] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_4"  
-                          density="compact"                          
+                          v-model="formdata.data_4"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -197,8 +201,9 @@
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Target Indikator TA {{ labeltahun[4] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_5"  
-                          density="compact"                          
+                          v-model="formdata.data_5"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -211,8 +216,9 @@
                       <v-col cols="auto" md="12" lg="12">
                         <p class="mb-3">Target Indikator TA {{ labeltahun[5] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_6"  
-                          density="compact"                          
+                          v-model="formdata.data_6"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -225,8 +231,9 @@
                     <v-row no-gutters>                      
                       <v-col cols="auto" md="12" lg="12">
                         <v-number-input
-                          v-model="formdata.data_7"  
-                          density="compact"                          
+                          v-model="formdata.data_7"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -274,12 +281,12 @@
             <td>
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Target Indikator'"                
+                v-tooltip:bottom="'Tambah Target Indikator'"
                 color="primary"
                 variant="outlined"
                 prepend-icon="mdi-plus"
                 density="compact"
-                @click.stop="addItem(item)"                
+                @click.stop="addItem(item)"
               >
                 Tambah
               </v-btn>
@@ -341,7 +348,6 @@
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
-  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RelationProgramIndikator',
     created() {
@@ -805,7 +811,6 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-number-input': VNumberInput,
     },
   }
 </script>

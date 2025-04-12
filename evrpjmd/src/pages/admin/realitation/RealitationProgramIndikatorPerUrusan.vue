@@ -23,11 +23,11 @@
     <v-container fluid>
       <v-data-table-server
         density="compact"
-        v-model:items-per-page="itemsPerPage"    
+        v-model:items-per-page="itemsPerPage"
         :headers="fetchHeader"
         :items="datatable"
         :items-length="totalRecords"
-        :loading="datatableLoading"        
+        :loading="datatableLoading"
         item-value="PrgID"
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
@@ -44,7 +44,7 @@
               density="compact"
               variant="outlined"
               v-model="BidangID"
-              label="BIDANG URUSAN"              
+              label="BIDANG URUSAN"
               item-title="bidangurusan"
               item-value="BidangID"
               class="pa-3 mt-4"
@@ -140,12 +140,13 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[1] }}: {{ data_target.data_2 }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_2"  
-                          density="compact"                          
+                          v-model="formdata.data_2"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />    
                       </v-col>                      
                     </v-row>
@@ -155,12 +156,13 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[2] }}: {{ data_target.data_3 }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[2] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_3"  
-                          density="compact"                          
+                          v-model="formdata.data_3"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />    
                       </v-col>                      
                     </v-row>                    
@@ -169,12 +171,13 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[3] }}: {{ data_target.data_4 }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[3] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_4"  
-                          density="compact"                          
+                          v-model="formdata.data_4"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />                            
                       </v-col>                      
                     </v-row>                    
@@ -183,12 +186,13 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[4] }}: {{ data_target.data_5 }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[4] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_5"  
-                          density="compact"                          
+                          v-model="formdata.data_5"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />    
                       </v-col>
                     </v-row>                    
@@ -197,12 +201,13 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[5] }}: {{ data_target.data_6 }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[5] }}:</p>
                         <v-number-input
-                          v-model="formdata.data_6"  
-                          density="compact"                          
+                          v-model="formdata.data_6"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />                            
                       </v-col>                      
                     </v-row>                         
@@ -211,12 +216,13 @@
                         <p class="mb-1 text-info">Target AKhir RPJMD: {{ data_target.data_7 }}</p>
                         <p class="mb-3">Realisasi Akhir RPJMD:</p>                    
                         <v-number-input
-                          v-model="formdata.data_7"  
-                          density="compact"                          
+                          v-model="formdata.data_7"
+                          :precision="2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
-                          :disabled="disabledrealisasi"                          
+                          :disabled="disabledrealisasi"
                         />                        
                       </v-col>
                     </v-row>               
@@ -259,12 +265,12 @@
             <td class="border-thin">
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Realisasi Indikator'"                
+                v-tooltip:bottom="'Tambah Realisasi Indikator'"
                 color="primary"
                 variant="outlined"
                 prepend-icon="mdi-plus"
                 density="compact"
-                @click.stop="addItem(item)"                
+                @click.stop="addItem(item)"
               >
                 Tambah
               </v-btn>
@@ -346,7 +352,6 @@
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
-  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RealitationIndikatorProgramPerUrusan',
     created() {
@@ -588,12 +593,12 @@
             this.formdata.Satuan = item.Satuan
             this.formdata.Operasi = item.Operasi
 
-            this.formdata.data_2 = item.realisasi_2
-            this.formdata.data_3 = item.realisasi_3
-            this.formdata.data_4 = item.realisasi_4
-            this.formdata.data_5 = item.realisasi_5
-            this.formdata.data_6 = item.realisasi_6
-            this.formdata.data_7 = item.realisasi_7
+            this.formdata.data_2 = parseFloat(item.realisasi_2)
+            this.formdata.data_3 = parseFloat(item.realisasi_3)
+            this.formdata.data_4 = parseFloat(item.realisasi_4)
+            this.formdata.data_5 = parseFloat(item.realisasi_5)
+            this.formdata.data_6 = parseFloat(item.realisasi_6)
+            this.formdata.data_7 = parseFloat(item.realisasi_7)
             
             this.formdata.IndikatorKinerja = {
               IndikatorKinerjaID: item.IndikatorKinerjaID,
@@ -616,7 +621,7 @@
           })
       },
       indikatorselected() {
-        if(this.formdata.IndikatorKinerja == null && typeof this.formdata.IndikatorKinerja == 'undefined') {
+        if(this.formdata.IndikatorKinerja == null || typeof this.formdata.IndikatorKinerja == 'undefined') {
           this.formdata.Satuan = '-'
           this.formdata.Operasi = '-'
           this.data_target = {
@@ -628,7 +633,7 @@
             data_6: '-',
             data_7: '-',
           }
-          this.disabledrealisasi = true          
+          this.disabledrealisasi = true
         } else {   
           this.formdata.Satuan = this.formdata.IndikatorKinerja.Satuan
           this.formdata.Operasi = this.formdata.IndikatorKinerja.Operasi
@@ -871,7 +876,6 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-number-input': VNumberInput,
     },
   }
 </script>

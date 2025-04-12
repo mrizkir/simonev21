@@ -672,8 +672,7 @@
       //dialog
       datatujuan: {},
       dialogfrm: false,
-      //form data
-      formdata_old: {},
+      //form data      
       form_valid: true,      
       daftarindikator: [],
       disabledtarget: true,
@@ -685,6 +684,7 @@
       data_6_na: null,
       data_7_na: null,
       data_8_na: null,
+      formdata_RpjmdRelasiIndikatorID: null,
       formdata_IndikatorKinerja: null,
       formdata_Satuan: '-',
       formdata_Operasi: '-',
@@ -703,6 +703,21 @@
       formdata_data_13: null,
       formdata_data_14: null,
       formdata_data_15: null,
+      formdata_old_data_1: null,
+      formdata_old_data_2: null,
+      formdata_old_data_3: null,
+      formdata_old_data_4: null,
+      formdata_old_data_5: null,
+      formdata_old_data_6: null,
+      formdata_old_data_7: null,
+      formdata_old_data_8: null,
+      formdata_old_data_9: null,
+      formdata_old_data_10: null,
+      formdata_old_data_11: null,
+      formdata_old_data_12: null,
+      formdata_old_data_13: null,
+      formdata_old_data_14: null,
+      formdata_old_data_15: null,
       labeltahun: [],
       editedIndex: -1,
       //form rules range
@@ -797,6 +812,8 @@
 
         this.btnLoading = true
 
+        this.formdata_RpjmdRelasiIndikatorID = item.RpjmdRelasiIndikatorID
+        
         await this.$ajax
           .post('/rpjmd/indikatorkinerja/tujuan', 
             {
@@ -838,6 +855,22 @@
             this.formdata_data_14 = parseFloat(item.data_14)
             this.formdata_data_15 = parseFloat(item.data_15)
 
+            this.formdata_old_data_1 = this.formdata_data_1
+            this.formdata_old_data_2 = this.formdata_data_2
+            this.formdata_old_data_3 = this.formdata_data_3
+            this.formdata_old_data_4 = this.formdata_data_4
+            this.formdata_old_data_5 = this.formdata_data_5
+            this.formdata_old_data_6 = this.formdata_data_6
+            this.formdata_old_data_7 = this.formdata_data_7
+            this.formdata_old_data_8 = this.formdata_data_8
+            this.formdata_old_data_9 = this.formdata_data_9
+            this.formdata_old_data_10 = this.formdata_data_10
+            this.formdata_old_data_11 = this.formdata_data_11
+            this.formdata_old_data_12 = this.formdata_data_12
+            this.formdata_old_data_13 = this.formdata_data_13
+            this.formdata_old_data_14 = this.formdata_data_14
+            this.formdata_old_data_15 = this.formdata_data_15
+            
             this.data_1_na = this.formdata_data_1 == '-99999'
             this.data_2_na = this.formdata_data_2 == '-99999'
             this.data_3_na = this.formdata_data_3 == '-99999'
@@ -872,25 +905,25 @@
           if (this.editedIndex > -1) {
             this.$ajax
               .post(
-                '/rpjmd/relations/indikatortujuan/' + this.formdata.RpjmdRelasiIndikatorID,
+                '/rpjmd/relations/indikatortujuan/' + this.formdata_RpjmdRelasiIndikatorID,
                 {
                   _method: 'PUT',
-                  Operasi: this.formdata.Operasi,
-                  data_1: this.formdata_data_1,
-                  data_2: this.formdata_data_2,
-                  data_3: this.formdata_data_3,
-                  data_4: this.formdata_data_4,
-                  data_5: this.formdata_data_5,
-                  data_6: this.formdata_data_6,
-                  data_7: this.formdata_data_7,
-                  data_8: this.formdata_data_8,
-                  data_9: this.formdata_data_9,
-                  data_10: this.formdata_data_10,
-                  data_11: this.formdata_data_11,
-                  data_12: this.formdata_data_12,
-                  data_13: this.formdata_data_13,
-                  data_14: this.formdata_data_14,
-                  data_15: this.formdata_data_15,
+                  Operasi: this.formdata_Operasi,
+                  data_1: this.data_1_na ? -99999 : this.formdata_data_1,
+                  data_2: this.data_2_na ? -99999 : this.formdata_data_2,
+                  data_3: this.data_3_na ? -99999 : this.formdata_data_3,
+                  data_4: this.data_4_na ? -99999 : this.formdata_data_4,
+                  data_5: this.data_5_na ? -99999 : this.formdata_data_5,
+                  data_6: this.data_6_na ? -99999 : this.formdata_data_6,
+                  data_7: this.data_7_na ? -99999 : this.formdata_data_7,
+                  data_8: this.data_8_na ? -99999 : this.formdata_data_8,
+                  data_9: this.data_9_na ? -99999 : this.formdata_data_9,
+                  data_10: this.data_10_na ? -99999 : this.formdata_data_10,
+                  data_11: this.data_11_na ? -99999 : this.formdata_data_11,
+                  data_12: this.data_12_na ? -99999 : this.formdata_data_12,
+                  data_13: this.data_13_na ? -99999 : this.formdata_data_13,
+                  data_14: this.data_14_na ? -99999 : this.formdata_data_14,
+                  data_15: this.data_15_na ? -99999 : this.formdata_data_15,
                 },
                 {
                   headers: {
@@ -1102,7 +1135,7 @@
         if(val) {
           this.formdata_data_1 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_1 = this.formdata_old.data_1
+          this.formdata_data_1 = this.formdata_old_data_1
         } else {
           this.formdata_data_1 = null
         }
@@ -1115,7 +1148,7 @@
         if(val) {
           this.formdata_data_2 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_2 = this.formdata_old.data_2
+          this.formdata_data_2 = this.formdata_old_data_2
         } else {
           this.formdata_data_2 = null
         }
@@ -1128,7 +1161,7 @@
         if(val) {
           this.formdata_data_3 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_3 = this.formdata_old.data_3
+          this.formdata_data_3 = this.formdata_old_data_3
         } else {
           this.formdata_data_3 = null
         }
@@ -1141,7 +1174,7 @@
         if(val) {
           this.formdata_data_4 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_4 = this.formdata_old.data_4
+          this.formdata_data_4 = this.formdata_old_data_4
         } else {
           this.formdata_data_4 = null
         }
@@ -1154,7 +1187,7 @@
         if(val) {
           this.formdata_data_5 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_5 = this.formdata_old.data_5
+          this.formdata_data_5 = this.formdata_old_data_5
         } else {
           this.formdata_data_5 = null
         }
@@ -1163,7 +1196,7 @@
         if(val) {
           this.formdata_data_6 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_6 = this.formdata_old.data_6
+          this.formdata_data_6 = this.formdata_old_data_6
         } else {
           this.formdata_data_6 = null
         }        
@@ -1175,7 +1208,7 @@
         if(val) {
           this.formdata_data_7 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_7 = this.formdata_old.data_7
+          this.formdata_data_7 = this.formdata_old_data_7
         } else {
           this.formdata_data_7 = null
         }        
@@ -1187,7 +1220,7 @@
         if(val) {
           this.formdata_data_8 = -99999
         } else if (this.editedIndex > -1) {
-          this.formdata_data_8 = this.formdata_old.data_8
+          this.formdata_data_8 = this.formdata_old_data_8
         } else {
           this.formdata_data_8 = null
         }

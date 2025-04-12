@@ -23,11 +23,11 @@
     <v-container fluid>
       <v-data-table-server
         density="compact"
-        v-model:items-per-page="itemsPerPage"    
+        v-model:items-per-page="itemsPerPage"
         :headers="fetchHeader"
         :items="datatable"
         :items-length="totalRecords"
-        :loading="datatableLoading"        
+        :loading="datatableLoading"
         item-value="PrgID"
         @update:options="initialize"
         items-per-page-text="Jumlah record per halaman"
@@ -44,7 +44,7 @@
               density="compact"
               variant="outlined"
               v-model="BidangID"
-              label="BIDANG URUSAN"              
+              label="BIDANG URUSAN"
               item-title="bidangurusan"
               item-value="BidangID"
               class="pa-3 mt-4"
@@ -108,11 +108,11 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[1] }}: {{ $filters.formatUang(data_target.data_2) }}</p>
                         <p class="mb-3">Realisasi Indikator TA {{ labeltahun[1] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_2) }}</p>
                         <v-number-input
-                          v-model="formdata.data_2"  
-                          density="compact"                          
+                          v-model="formdata.data_2"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
-                          class="mr-1"                          
+                          class="mr-1"
                         />    
                       </v-col>                      
                     </v-row>
@@ -122,8 +122,8 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[2] }}: {{ $filters.formatUang(data_target.data_3) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[2] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_3) }}</p>
                         <v-number-input
-                          v-model="formdata.data_3"  
-                          density="compact"                          
+                          v-model="formdata.data_3"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -135,8 +135,8 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[3] }}: {{ $filters.formatUang(data_target.data_4) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[3] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_4) }}</p>
                         <v-number-input
-                          v-model="formdata.data_4"  
-                          density="compact"                          
+                          v-model="formdata.data_4"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -148,8 +148,8 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[4] }}: {{ $filters.formatUang(data_target.data_5) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[4] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_5) }}</p>
                         <v-number-input
-                          v-model="formdata.data_5"  
-                          density="compact"                          
+                          v-model="formdata.data_5"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -161,8 +161,8 @@
                         <p class="mb-1 text-info">Target RPJMD TA {{ labeltahun[5] }}: {{ $filters.formatUang(data_target.data_6) }}</p>
                         <p class="mb-3">Realisasi Pagu TA {{ labeltahun[5] }} dari SIMONEV: {{ $filters.formatUang(data_realisasi.data_6) }}</p>
                         <v-number-input
-                          v-model="formdata.data_6"  
-                          density="compact"                          
+                          v-model="formdata.data_6"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -174,8 +174,8 @@
                         <p class="mb-1 text-info">Target AKhir RPJMD: {{ $filters.formatUang(data_target.data_7) }}</p>
                         <p class="mb-3">Realisasi Akhir RPJMD:</p>                    
                         <v-number-input
-                          v-model="formdata.data_7"  
-                          density="compact"                          
+                          v-model="formdata.data_7"
+                          density="compact"
                           variant="outlined"
                           prepend-inner-icon="mdi-graph"
                           class="mr-1"
@@ -221,7 +221,7 @@
             <td class="border-thin">
               <v-btn
                 class="mr-2"
-                v-tooltip:bottom="'Tambah Realisasi Pagu'"                
+                v-tooltip:bottom="'Tambah Realisasi Pagu'"
                 color="primary"
                 variant="outlined"
                 prepend-icon="mdi-plus"
@@ -285,7 +285,6 @@
   import pageHeader from '@/layouts/PageHeader.vue'  
   import { usesUserStore } from '@/stores/UsersStore'
   import { usesPageStore } from '@/stores/PageStore'
-  import { VNumberInput } from 'vuetify/labs/VNumberInput'
   export default {
     name: 'RealitationPaguProgramPerUrusan',
     created() {
@@ -796,7 +795,6 @@
     components: {
       'v-main-layout': mainLayout,
       'v-page-header': pageHeader,
-      'v-number-input': VNumberInput,
     },
   }
 </script>
