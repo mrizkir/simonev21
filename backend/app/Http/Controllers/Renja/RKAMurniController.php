@@ -1519,8 +1519,16 @@ class RKAMurniController extends Controller
       {
         $fisik1 = json_decode($data[0]->fisik1, true);
         $anggaran1 = json_decode($data[0]->anggaran1, true);                
-        $target['fisik'] = is_null($fisik1) ? 0 : $fisik1["fisik_$bulan1"];
-        $target['anggaran'] = is_null($anggaran1) ? 0 : $anggaran1["anggaran_$bulan1"];                
+        $target['fisik'] = 0;
+        if(!is_null($fisik1))
+        {
+          $target['fisik'] = isset($fisik1["fisik_$bulan1"]) ? $fisik1["fisik_$bulan1"] : 0;
+        }
+        $target['anggaran'] = 0;
+        if(!is_null($anggaran1))
+        {
+          $target['anggaran'] = isset($anggaran1["anggaran_$bulan1"]) ? $anggaran1["anggaran_$bulan1"] : 0;
+        }        
       }            
     }
     

@@ -1705,9 +1705,18 @@ class RKAPerubahanController extends Controller
       {
         $fisik2 = json_decode($data[0]->fisik2, true);
         $anggaran2 = json_decode($data[0]->anggaran2, true);                
+        $target['fisik'] = 0;
         
-        $target['fisik'] = is_null($fisik2) ? 0 : $fisik2["fisik_$bulan2"];
-        $target['anggaran'] = is_null($anggaran2) ? 0 : $anggaran2["anggaran_$bulan2"];                
+        if(!is_null($fisik2))
+        {
+          $target['fisik'] = isset($fisik2["fisik_$bulan2"]) ? $fisik2["fisik_$bulan2"] : 0;
+        }
+        
+        $target['anggaran'] = 0;
+        if(!is_null($anggaran2))
+        {
+          $target['anggaran'] = isset($anggaran2["anggaran_$bulan2"]) ? $anggaran2["anggaran_$bulan2"] : 0;                
+        }
       }            
     }
     
