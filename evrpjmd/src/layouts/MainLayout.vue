@@ -126,7 +126,7 @@
     </v-main>
     <v-footer app padless fixed dark>
       <div class="px-4 py-2 bg-black text-center w-100">
-        Evaluasi RPJMD
+        Evaluasi RPJMD dikembangkan oleh TIM IT Badan Perencanaan Pembangunan, Riset dan Inovasi Daerah (BAPPERIDA) Kabupaten Bintan
       </div>
     </v-footer>
   </v-app>

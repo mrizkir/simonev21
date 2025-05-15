@@ -5,7 +5,7 @@
         mdi-graph
       </template>
       <template v-slot:name>
-        LAPORAN FORMULIR E.78 PER TAHUN
+        LAPORAN FORMULIR E.78 PER TAHUN ({{ userStore.TahunSelected }})
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -16,7 +16,7 @@
       </template>
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
-          Halaman ini digunakan untuk mencetak formulir E.78 per tahun anggaran
+          Halaman ini digunakan untuk mencetak formulir E.78 per tahun anggaran. Pada pilihan sasaran RPJMD hanya menampilkan sasaran yang memiliki jumlah program lebih dari 1.
         </v-alert>
       </template>      
     </v-page-header>
@@ -33,6 +33,7 @@
         itemsLength="-1"
         hide-default-footer
         disable-sort
+        class="report-table"
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -52,7 +53,17 @@
         <template v-slot:item="{ index, item }">
           <tr>
             <td>{{ index + 1 }}</td>
-            <td colspan="9">{{ item.Nm_ProgramRPJMD }}</td>            
+            <td colspan="3">{{ item.Nm_ProgramRPJMD }}</td>                        
+            <td>{{ $filters.formatUang(item.target_pagu_7) }}</td>
+            <td></td>
+            <td>{{ $filters.formatUang(getRealisasiPaguRpjmdTahunKe(item)) }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <template v-if="item.indikator_kinerja.length > 0">
             <template v-for="(indikator, i) in item.indikator_kinerja" :key="indikator.RpjmdRelasiIndikatorID">
@@ -61,8 +72,19 @@
                   <v-icon icon="mdi-arrow-right" />
                 </td>
                 <td>{{ indikator.NamaIndikator }}</td>
-                <td>{{ indikator.data_1 }} {{ indikator.Satuan }}</td>
-                <td>{{ indikator.data_7 }} {{ indikator.Satuan }}</td>
+                <td>{{ indikator.target_fisik_1 }} {{ indikator.Satuan }}</td>                
+                <td>{{ indikator.target_fisik_7 }} {{ indikator.Satuan }}</td>
+                <td></td>                
+                <td>{{ getTargetFisikRpjmdTahunKe(indikator) }}</td>
+                <td></td>
+                <td>{{ getRealisasiFisikRpjmdTahunKe(indikator) }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>                
+                <td></td>                
               </tr>
             </template>
           </template>
@@ -131,7 +153,8 @@
     }),
     methods: {
       changeTahunAnggaran(ta) {
-				this.tahun_anggaran = ta;
+				this.tahun_anggaran = ta
+        console.log(this.tahun_anggaran)
 				// var page = this.$store.getters["uiadmin/Page"]("rkpdmurni");
 				// page.tahun_anggaran = ta;
 				// this.$store.dispatch("uiadmin/updatePage", page);
@@ -156,10 +179,12 @@
             let sasaran = payload.data
 
             sasaran.forEach(data_s => {
-              this.daftar_sasaran_rpjmd.push({
-                'RpjmdSasaranID': data_s.RpjmdSasaranID,
-                'Nm_RpjmdSasaran': data_s.Nm_RpjmdSasaran + ' (' + data_s.jumlah_program + ' Program)',
-              })
+              if(data_s.jumlah_program > 0) {
+                this.daftar_sasaran_rpjmd.push({
+                  'RpjmdSasaranID': data_s.RpjmdSasaranID,
+                  'Nm_RpjmdSasaran': data_s.Nm_RpjmdSasaran + ' (' + data_s.jumlah_program + ' Program)',
+                })
+              }
             })
             // 
           })
@@ -168,7 +193,8 @@
         if (this.RpjmdSasaranID !== null && typeof this.RpjmdSasaranID !== 'undefined') {
           var request_param = {           
             PeriodeRPJMDID: this.userStore.PeriodeRPJMD.PeriodeRPJMDID,            
-            RpjmdSasaranID: this.RpjmdSasaranID,            
+            RpjmdSasaranID: this.RpjmdSasaranID,
+            ta: this.userStore.TahunSelected,
           }
 
           await this.$ajax
@@ -192,6 +218,26 @@
         } else {
           this.datatableLoading = false    
         }
+      },
+      getTargetFisikRpjmdTahunKe(item) {
+        let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
+        const value = item['target_fisik_' + tahun_ke]
+        return value !== null && value !== undefined ? value + ' ' + item.Satuan : 'N.A'
+      },
+      getTargetPaguRpjmdTahunKe(item) {
+        let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
+        const value = item['target_pagu_' + tahun_ke]        
+        return value !== null && value !== undefined ? value : 'N.A'
+      },
+      getRealisasiFisikRpjmdTahunKe(item) {
+        let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
+        const value = item['realisasi_fisik_' + tahun_ke]
+        return value !== null && value !== undefined ? value + ' ' + item.Satuan : 'N.A'
+      },
+      getRealisasiPaguRpjmdTahunKe(item) {
+        let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
+        const value = item['realisasi_pagu_' + tahun_ke]
+        return value !== null && value !== undefined ? value : 'N.A'
       },
     },
     computed: {
@@ -230,6 +276,20 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
+            children: [
+              {
+                title: 'K',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+              {
+                title: 'Rp. ',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+            ],
             headerProps: {
               class: 'font-weight-bold border-thin',
             },
@@ -239,6 +299,20 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
+            children: [
+              {
+                title: 'K',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+              {
+                title: 'Rp. ',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+            ],
             headerProps: {
               class: 'font-weight-bold border-thin',
             },
@@ -248,6 +322,20 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
+            children: [
+              {
+                title: 'K',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+              {
+                title: 'Rp. ',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+            ],
             headerProps: {
               class: 'font-weight-bold',
             },
@@ -257,6 +345,20 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
+            children: [
+              {
+                title: 'K',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+              {
+                title: 'Rp. ',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+            ],
             headerProps: {
               class: 'font-weight-bold',
             },
@@ -266,6 +368,20 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
+            children: [
+              {
+                title: 'K',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+              {
+                title: 'Rp. ',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+            ],
             headerProps: {
               class: 'font-weight-bold',
             },
@@ -275,6 +391,20 @@
             key: 'Nm_RpjmdProgram',
             align: 'start',
             width: '70px',
+            children: [
+              {
+                title: 'K',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+              {
+                title: 'Rp. ',                
+                headerProps: {
+                  class: 'font-weight-bold border-thin',
+                },
+              },
+            ],
             headerProps: {
               class: 'font-weight-bold',
             },
