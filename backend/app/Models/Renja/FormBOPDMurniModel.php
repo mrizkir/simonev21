@@ -13,7 +13,7 @@ use App\Models\ReportModel;
 
 class FormBOPDMurniModel extends ReportModel
 {   
-  public function __construct($dataReport, $print=true)
+  public function __construct($dataReport, $print = true)
   {
     parent::__construct($dataReport); 
     $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);
@@ -440,7 +440,7 @@ class FormBOPDMurniModel extends ReportModel
       $persen_tertimbang_keuangan = 0.00;
       if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
       {
-        $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100, 2);
+        $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan * $persen_bobot)/100, 2);
       }
 
       $sisa_anggaran = $pagu_dana_program - $realisasi_keuangan_program;

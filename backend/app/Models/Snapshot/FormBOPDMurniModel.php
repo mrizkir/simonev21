@@ -13,7 +13,7 @@ use App\Models\ReportModel;
 
 class FormBOPDMurniModel extends ReportModel
 {   
-  public function __construct($dataReport, $print=true)
+  public function __construct($dataReport, $print = true)
   {
     parent::__construct($dataReport); 
     $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);

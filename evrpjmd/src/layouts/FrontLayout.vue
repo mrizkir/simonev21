@@ -4,6 +4,7 @@
       v-model="drawer"
       :temporary="temporaryleftsidebar"
       width="300"
+      v-if="!isLoginPage"
     >
     &nbsp;
     </v-navigation-drawer>
@@ -12,13 +13,13 @@
       width="300"
       location="right"
       temporary
-      v-if="showrightsidebar"
+      v-if="showrightsidebar && !isLoginPage"
     >
       &nbsp;
     </v-navigation-drawer>
     <v-app-bar class="white" elevation="0">
       <template v-slot:prepend>
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="drawer = !drawer" v-if="!isLoginPage"></v-app-bar-nav-icon>
       </template>
       <v-app-bar-title>Evaluasi RPJMD</v-app-bar-title>
       <v-spacer />      
@@ -45,8 +46,8 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-divider class="mx-4" inset vertical></v-divider>
-      <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight">
+      <v-divider class="mx-4" inset vertical v-if="!isLoginPage"></v-divider>
+      <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight" v-if="!isLoginPage">
         <v-icon>mdi-menu-open</v-icon>
       </v-app-bar-nav-icon>
     </v-app-bar>
@@ -77,5 +78,10 @@
       drawer: null,
       drawerRight: null,
     }),
+    computed: {
+      isLoginPage() {
+        return this.$route.path === '/login'
+      }
+    }
   }
 </script>

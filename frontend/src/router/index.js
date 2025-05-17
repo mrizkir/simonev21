@@ -536,6 +536,16 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjamurni/FormBUnitKerjaChartMurni.vue"),
   },
+  //renja murni - lra opd
+  {
+    path: "/renjamurni/lraopd",
+    name: "FormLRAOPDMurni",
+    meta: {
+      title: "LAPORAN REALISASI ANGGARAN MURNI",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjamurni/FormLRAOPDMurni.vue"),
+  },
   //renja murni - target kinerja murni
   {
     path: "/renjamurni/targetkinerja",

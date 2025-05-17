@@ -17,6 +17,7 @@
       <template v-slot:desc>
         <v-alert color="cyan" border="start" colored-border type="info">
           Halaman ini digunakan untuk mencetak formulir E.78 per tahun anggaran. Pada pilihan sasaran RPJMD hanya menampilkan sasaran yang memiliki jumlah program lebih dari 1.
+          Silahkan merujuk pada Permendagri No. 86 Tahun 2017 Hal. 618
         </v-alert>
       </template>      
     </v-page-header>
@@ -55,12 +56,12 @@
             <td>{{ index + 1 }}</td>
             <td colspan="3">{{ item.Nm_ProgramRPJMD }}</td>                        
             <td>{{ $filters.formatUang(item.target_pagu_7) }}</td>
+            <td></td>            
+            <td>{{ getTargetPagujmdTahunKe(item) == 'N.A' ? 'N.A' : $filters.formatUang(getTargetPagujmdTahunKe(item)) }}</td>
             <td></td>
-            <td>{{ $filters.formatUang(getRealisasiPaguRpjmdTahunKe(item)) }}</td>
+            <td>{{ getRealisasiPagujmdTahunKe(item) == 'N.A' ? 'N.A' : $filters.formatUang(getRealisasiPagujmdTahunKe(item)) }}</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ item.tingkat_capaian_target_pagu }} %</td>
             <td></td>
             <td></td>
             <td></td>
@@ -72,8 +73,8 @@
                   <v-icon icon="mdi-arrow-right" />
                 </td>
                 <td>{{ indikator.NamaIndikator }}</td>
-                <td>{{ indikator.target_fisik_1 }} {{ indikator.Satuan }}</td>                
-                <td>{{ indikator.target_fisik_7 }} {{ indikator.Satuan }}</td>
+                <td>{{ indikator.target_fisik_1 === '-99999' ? 'N.A' : indikator.target_fisik_1 + ' ' + indikator.Satuan }}</td>                
+                <td>{{ indikator.target_fisik_7 === '-99999' ? 'N.A' : indikator.target_fisik_7 + ' ' + indikator.Satuan }}</td>
                 <td></td>                
                 <td>{{ getTargetFisikRpjmdTahunKe(indikator) }}</td>
                 <td></td>
@@ -88,7 +89,7 @@
               </tr>
             </template>
           </template>
-        </template>
+        </template>       
       </v-data-table-server>
     </v-container>
     <template v-slot:filtersidebar>
@@ -222,10 +223,10 @@
       getTargetFisikRpjmdTahunKe(item) {
         let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
         const value = item['target_fisik_' + tahun_ke]
-        return value !== null && value !== undefined ? value + ' ' + item.Satuan : 'N.A'
+        return value !== null && value !== undefined && value !== '-99999' ? value + ' ' + item.Satuan : 'N.A'
       },
-      getTargetPaguRpjmdTahunKe(item) {
-        let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
+      getTargetPagujmdTahunKe(item) {
+        let tahun_ke = (this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD) + 1
         const value = item['target_pagu_' + tahun_ke]        
         return value !== null && value !== undefined ? value : 'N.A'
       },
@@ -234,10 +235,19 @@
         const value = item['realisasi_fisik_' + tahun_ke]
         return value !== null && value !== undefined ? value + ' ' + item.Satuan : 'N.A'
       },
-      getRealisasiPaguRpjmdTahunKe(item) {
-        let tahun_ke = this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD
+      getRealisasiPagujmdTahunKe(item) {
+        let tahun_ke = (this.userStore.TahunSelected - this.userStore.TahunAwalPeriodeRPMJD) + 1
         const value = item['realisasi_pagu_' + tahun_ke]
         return value !== null && value !== undefined ? value : 'N.A'
+      },
+      calculateTotal(column) {
+        let total = 0;
+        this.datatable.forEach(item => {
+          if (item[column] !== null && item[column] !== undefined && item[column] !== '-99999') {
+            total += parseFloat(item[column]);
+          }
+        });
+        return total;
       },
     },
     computed: {

@@ -12,7 +12,7 @@ use App\Helpers\Helper;
 
 class FormAPerubahanModel extends ReportModel
 {   
-	public function __construct($dataReport, $print=true)
+	public function __construct($dataReport, $print = true)
 	{
 		parent::__construct($dataReport);         
 		if ($print)
