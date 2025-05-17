@@ -86,10 +86,12 @@
           >
             <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="item in items" v-bind:key="item.FormLRAMurniDetailID">
+                <tr v-for="item in items" v-bind:key="item.FormLRAMurniDetailID" :class="color_tingkat(item.tingkat)">
                   <td>{{ item.kode }}</td>
                   <td>{{ item.nama_uraian }}</td>
                   <td class="text-right">{{ item.pagu_uraian | formatUang }}</td>
+                  <td class="text-right">{{ item.realisasi | formatUang }}</td>
+                  <td class="text-center">{{ item.persen_realisasi }}</td>
                 </tr>
               </tbody>
             </template>
@@ -185,11 +187,40 @@
             align: "right",
             sortable: false,
           },
+          {
+            text: "REALISASI",
+            value: "realisasi",
+            width: 150,      
+            align: "right",      
+            sortable: false,
+          },
+          {
+            text: "%",
+            value: "persen_realisasi",
+            width: 150,      
+            align: "center",      
+            sortable: false,
+          },
         ],
         search: "",        
       };
     },
     methods: {
+      color_tingkat: function(tingkat) {
+        if(tingkat == 1) {
+          return "tingkat-1";
+        } else if(tingkat == 2) {
+          return "tingkat-2";
+        } else if(tingkat == 3) {
+          return "tingkat-3";
+        } else if(tingkat == 4) {
+          return "tingkat-4";
+        } else if(tingkat == 5) {
+          return "tingkat-5";
+        } else if(tingkat == 6) {
+          return "tingkat-6";
+        }
+      },
       changeBulanRealisasi(bulan_realisasi) {
         this.bulan_realisasi = bulan_realisasi;
         this.nama_bulan = this.$store.getters["uifront/getNamaBulan"](
@@ -268,7 +299,7 @@
             this.btnLoading = false;
           });
       },
-    },
+    },    
     watch: {
       OrgID_Selected(val) {
         var page = this.$store.getters["uiadmin/Page"]("lraopdmurni");

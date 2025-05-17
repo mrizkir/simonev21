@@ -488,6 +488,7 @@ class ReportModel extends Model
           ->get();
 
           $realisasi = (float)$data_realisasi[0]->realisasi1;      
+          $persen_realisasi=Helper::formatPersen($realisasi, $v->PaguUraian1);
 
           if(array_key_exists($v->Kd_Rek_6, $dataAkhir))
           {
@@ -511,6 +512,8 @@ class ReportModel extends Model
               'SubRObyNm' => $v->SubRObyNm,
               'nama_uraian' => $v->NamaUraian1,                                        
               'pagu_uraian' => $v->PaguUraian1,
+              'realisasi' => $realisasi,
+              'persen_realisasi' => $persen_realisasi,
             ];
           }
         }
@@ -616,8 +619,7 @@ class ReportModel extends Model
   */
   public static function calculateEachLevelLRA ($dataproyek, $k, $no_rek) {        
     $totalpagu = 0;    
-    $totalrealisasi=0;        
-    $totalfisik = 0;
+    $totalrealisasi = 0;            
     $totalpersenbobot='0.00';
     $totalpersentarget = 0;
     $totalpersenrealisasi=0;
@@ -629,8 +631,7 @@ class ReportModel extends Model
       if ($k == $de[$no_rek]) 
       {
         $totalpagu += $de['pagu_uraian'];        
-        // $totalrealisasi+=$de['realisasi'];
-        // $totalfisik+=$de['persen_fisik'];
+        $totalrealisasi += $de['realisasi'];        
         // $totalpersenbobot+=$de['persen_bobot'];
         // $totalpersentarget+=$de['persen_target'];
         // $totalpersenrealisasi+=$de['persen_realisasi'];
@@ -644,8 +645,7 @@ class ReportModel extends Model
     // $totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100, 2);
     $result=[
       'totalpagu' => $totalpagu,      
-      'totalrealisasi' => $totalrealisasi,
-      // 'totalfisik' => $totalfisik,
+      'totalrealisasi' => $totalrealisasi,      
       // 'totalpersenbobot' => $totalpersenbobot,
       // 'totalpersentarget' => $totalpersentarget,
       // 'totalpersenrealisasi' => $totalpersenrealisasi,

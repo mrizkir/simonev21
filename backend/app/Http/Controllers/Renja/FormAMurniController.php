@@ -97,7 +97,7 @@ class FormAMurniController extends Controller
           if ($rek1 == $k1)
           {
             //tingkat i
-            $totalPaguDana_Rek1=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k1, 'Kd_Rek_1');
+            $totalPaguDana_Rek1 = \App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k1, 'Kd_Rek_1');
             $totalPaguDana = $totalPaguDana_Rek1['totalpagu'];
             $data[] = [
               'FormAMurniDetailID'=>Uuid::uuid4()->toString(),
