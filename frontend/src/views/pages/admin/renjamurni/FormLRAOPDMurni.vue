@@ -177,7 +177,7 @@
           { text: "KODE REKENING", value: "kode", width: 80, sortable: false },
           {
             text: "URAIAN",
-            value: "nama_uraian",            
+            value: "nama_uraian",
             sortable: false,
           },
           {
@@ -190,34 +190,34 @@
           {
             text: "REALISASI",
             value: "realisasi",
-            width: 150,      
-            align: "right",      
+            width: 150,
+            align: "right",
             sortable: false,
           },
           {
             text: "%",
             value: "persen_realisasi",
-            width: 150,      
-            align: "center",      
+            width: 150,
+            align: "center",
             sortable: false,
           },
         ],
-        search: "",        
+        search: "",
       };
     },
     methods: {
       color_tingkat: function(tingkat) {
-        if(tingkat == 1) {
+        if (tingkat == 1) {
           return "tingkat-1";
-        } else if(tingkat == 2) {
+        } else if (tingkat == 2) {
           return "tingkat-2";
-        } else if(tingkat == 3) {
+        } else if (tingkat == 3) {
           return "tingkat-3";
-        } else if(tingkat == 4) {
+        } else if (tingkat == 4) {
           return "tingkat-4";
-        } else if(tingkat == 5) {
+        } else if (tingkat == 5) {
           return "tingkat-5";
-        } else if(tingkat == 6) {
+        } else if (tingkat == 6) {
           return "tingkat-6";
         }
       },
@@ -263,11 +263,11 @@
             }
           )
           .then(({ data }) => {
-            this.datatable = data.lra;            
+            this.datatable = data.lra;
             this.datatableLoaded = false;
             this.datatableLoading = false;
           });
-      },      
+      },
       printtoexcel: async function() {
         this.btnLoading = true;
         await this.$ajax
@@ -299,7 +299,7 @@
             this.btnLoading = false;
           });
       },
-    },    
+    },
     watch: {
       OrgID_Selected(val) {
         var page = this.$store.getters["uiadmin/Page"]("lraopdmurni");
