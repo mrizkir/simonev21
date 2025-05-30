@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 use App\Models\ReportModel;
 use App\Helpers\Helper;
@@ -79,7 +80,7 @@ class FormLRAMurniOPDModel extends ReportModel
     $sheet->setCellValue("D$row", '4');
     $sheet->setCellValue("E$row", '5');
 
-    $sheet->getColumnDimension('A')->setWidth(40);
+    $sheet->getColumnDimension('A')->setWidth(20);
     $sheet->getColumnDimension('B')->setWidth(80);                
     $sheet->getColumnDimension('C')->setWidth(24);
     $sheet->getColumnDimension('D')->setWidth(24);                
@@ -198,11 +199,6 @@ class FormLRAMurniOPDModel extends ReportModel
                         $sheet->setCellValue("E$row", $persen_realisasi_rek5);
                         $row += 1;                
 
-                        $styleArray = array(
-                          'font' => array('bold' => true),          
-                        );
-                        $sheet->getStyle("A$row:E$row")->applyFromArray($styleArray);
-                        
                         foreach($tingkat_6 as $k6 => $v6)
                         {
                           $rek5_level6 = substr($k6, 0, 12);
@@ -231,10 +227,47 @@ class FormLRAMurniOPDModel extends ReportModel
                 }
               }
             }
+
+            $sheet->setCellValue("B$row", "JUMLAH $v2");
+            $sheet->setCellValue("C$row", Helper::formatUang($totalPaguRealisasi_Rek2['totalpagu']));
+            $sheet->setCellValue("D$row", Helper::formatUang($totalPaguRealisasi_Rek2['totalrealisasi']));
+            $sheet->setCellValue("E$row", $persen_realisasi_rek2);
+
+            $styleArray = [
+              'font' => [
+                'bold' => true,
+              ],
+              'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                  'argb'=>'FFF0F8FF',
+                ],
+              ],
+            ];
+            $sheet->getStyle("A$row:E$row")->applyFromArray($styleArray);
+            $row += 2;
           }
         }
+
+        $sheet->setCellValue("B$row", "JUMLAH BELANJA");
+        $sheet->setCellValue("C$row", Helper::formatUang($totalPaguRealisasi_Rek1['totalpagu']));
+        $sheet->setCellValue("D$row", Helper::formatUang($totalPaguRealisasi_Rek1['totalrealisasi']));
+        $sheet->setCellValue("E$row", $persen_realisasi_rek1);
+
+        $styleArray = [
+          'font' => [
+            'bold' => true,
+          ],
+          'fill' => [
+            'fillType'=>Fill::FILL_SOLID,
+            'startColor' => [
+              'argb'=>'FFF0F8FF',
+            ],
+          ],
+        ];
+        $sheet->getStyle("A$row:E$row")->applyFromArray($styleArray);        
       }
-      $row -= 1;
+      
 
       $styleArray = array(								
         'alignment' => array('horizontal' => Alignment::HORIZONTAL_RIGHT,

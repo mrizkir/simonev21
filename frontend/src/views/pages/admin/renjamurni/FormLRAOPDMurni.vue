@@ -125,6 +125,9 @@
             <v-card-title>
               DAFTAR KODE REKENING YANG TIDAK ADA DI DATA MASTER
             </v-card-title>
+            <v-card-text>
+              {{ daftar_rek_tidak_terdaftar }}
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -232,6 +235,7 @@
             sortable: false,
           },
         ],
+        daftar_rek_tidak_terdaftar: [],
         search: "",
       };
     },
@@ -294,6 +298,7 @@
           )
           .then(({ data }) => {
             this.datatable = data.lra;
+            this.daftar_rek_tidak_terdaftar = data.daftar_rek_tidak_terdaftar;
             this.datatableLoaded = false;
             this.datatableLoading = false;
           });

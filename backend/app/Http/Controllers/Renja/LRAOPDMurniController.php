@@ -162,11 +162,28 @@ class LRAOPDMurniController extends Controller
       }
     }
 
+    $daftar_rek_tidak_terdaftar = \DB::table('trRKARinc as a')
+    ->select(\DB::raw('
+      DISTINCT a.kode_uraian1,
+      a.NamaUraian1'
+    ))
+    ->join('trRKA as b', 'a.RKAID', '=', 'b.RKAID')
+    ->where('b.OrgID', $OrgID)
+    ->where('a.TA', $tahun)
+    ->whereNotIn('a.kode_uraian1', function($query) use ($tahun) {
+      $query->select('kode_rek_6 as kode_uraian1')
+        ->from('tmSubROby')
+        ->where('TA', $tahun);
+    })
+    ->orderBy('a.kode_uraian1', 'ASC')
+    ->get();
+  
     return Response()->json([
       'status' => 1,
       'pid' => 'fetchdata',
       'opd' => $opd,
       'lra' => $data,
+      'daftar_rek_tidak_terdaftar' => $daftar_rek_tidak_terdaftar,
       'message' => 'Fetch data lra opd murni berhasil diperoleh'
     ], 200);    
   }  
