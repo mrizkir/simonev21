@@ -119,7 +119,7 @@
                   </v-icon>
                 </template>
                 <span>detail uraian kegiatan</span>
-              </v-tooltip>                           
+              </v-tooltip>
             </template>
             <template v-slot:item.PaguDana2="{ item }">
               {{ item.PaguDana2 | formatUang }}

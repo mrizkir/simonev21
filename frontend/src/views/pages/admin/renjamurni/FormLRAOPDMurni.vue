@@ -85,7 +85,7 @@
             :hide-default-footer="true"
           >
             <template v-slot:top>
-              <v-toolbar flat color="white">                                
+              <v-toolbar flat color="white">
                 <v-spacer></v-spacer>
                 <v-btn
                   color="primary"
@@ -100,20 +100,27 @@
             </template>
             <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="item in items" v-bind:key="item.FormLRAMurniDetailID" :class="color_tingkat(item.tingkat)">
+                <tr
+                  v-for="item in items"
+                  v-bind:key="item.FormLRAMurniDetailID"
+                  :class="color_tingkat(item.tingkat)"
+                  @click="expand(item)"
+                >
                   <td>{{ item.kode }}</td>
                   <td>{{ item.nama_uraian }}</td>
-                  <td class="text-right">{{ item.pagu_uraian | formatUang }}</td>
+                  <td class="text-right">
+                    {{ item.pagu_uraian | formatUang }}
+                  </td>
                   <td class="text-right">{{ item.realisasi | formatUang }}</td>
                   <td class="text-center">{{ item.persen_realisasi }}</td>
                 </tr>
               </tbody>
             </template>
           </v-data-table>
-        </v-col>        
+        </v-col>
       </v-row>
       <v-row class="mb-4" no-gutters>
-        <v-col cols="12"> 
+        <v-col cols="12">
           <v-card>
             <v-card-title>
               DAFTAR KODE REKENING YANG TIDAK ADA DI DATA MASTER
@@ -313,7 +320,10 @@
             const link = document.createElement("a");
             link.href = url;
 
-            link.setAttribute("download", "lra_opd_murni_" + Date.now() + ".xlsx");
+            link.setAttribute(
+              "download",
+              "lra_opd_murni_" + Date.now() + ".xlsx"
+            );
             document.body.appendChild(link);
             link.click();
             this.btnLoading = false;

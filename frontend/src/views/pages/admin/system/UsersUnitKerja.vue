@@ -323,7 +323,7 @@
                   v-model="dialogUserPermission"
                   max-width="800px"
                   persistent
-                >                
+                >
                   <UserPermissions
                     :user="dataUser"
                     v-on:closeUserPermissions="closeUserPermissions"

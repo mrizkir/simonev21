@@ -112,7 +112,7 @@
       </v-row>
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
-          <v-bottom-navigation color="purple lighten-1">            
+          <v-bottom-navigation color="purple lighten-1">
             <v-btn @click.stop="exitrealisasi">
               <span>Keluar</span>
               <v-icon>mdi-close</v-icon>

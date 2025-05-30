@@ -112,7 +112,7 @@
       </v-row>
       <v-row class="mb-4" no-gutters>
         <v-col cols="12">
-          <v-bottom-navigation color="purple lighten-1">            
+          <v-bottom-navigation color="purple lighten-1">
             <v-btn @click.stop="showdialogtargetfisik">
               <span>Target Fisik</span>
               <v-icon>mdi-history</v-icon>
@@ -626,7 +626,7 @@
                   </v-icon>
                 </template>
                 <span>Realisasi Uraian</span>
-              </v-tooltip>              
+              </v-tooltip>
             </template>
             <template v-slot:item.PaguUraian2="{ item }">
               {{ item.PaguUraian2 | formatUang }}
