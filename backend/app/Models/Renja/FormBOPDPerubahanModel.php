@@ -15,11 +15,11 @@ class FormBOPDPerubahanModel extends ReportModel
 {   
   public function __construct($dataReport, $print = true)
   {
-    parent::__construct($dataReport); 
-    $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);
-    $this->spreadsheet->getProperties()->setSubject("Laporan Form B Tahun ".$this->dataReport['tahun']); 
+    parent::__construct($dataReport);     
     if ($print)
     {
+      $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);
+      $this->spreadsheet->getProperties()->setSubject("Laporan Form B Tahun ".$this->dataReport['tahun']); 
       $this->print();             
     }        
   }    

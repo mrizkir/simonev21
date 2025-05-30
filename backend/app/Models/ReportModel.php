@@ -476,7 +476,7 @@ class ReportModel extends Model
         ->where('a.EntryLvl', $entryLvl)
         ->orderBy('b.kode_uraian1', 'ASC')
         ->get();
-
+        
         foreach($data as $k => $v)
         {
           $RKARincID = $v->RKARincID;
@@ -488,34 +488,27 @@ class ReportModel extends Model
           ->get();
 
           $realisasi = (float)$data_realisasi[0]->realisasi1;      
-          $persen_realisasi=Helper::formatPersen($realisasi, $v->PaguUraian1);
+          $persen_realisasi = Helper::formatPersen($realisasi, $v->PaguUraian1);
 
-          if(array_key_exists($v->Kd_Rek_6, $dataAkhir))
-          {
-            $dataAkhir[$v->Kd_Rek_6]['pagu_uraian'] += (float)$data_realisasi[0]->realisasi1;
-          }
-          else
-          {
-            $dataAkhir[$v->Kd_Rek_6] = [
-              'RKARincID' => $v->RKARincID,
-              'Kd_Rek_1' => $v->Kd_Rek_1,
-              'Nm_Akun' => $v->Nm_AKun,
-              'Kd_Rek_2' => $v->Kd_Rek_2,
-              'KlpNm' => $v->KlpNm,
-              'Kd_Rek_3' => $v->Kd_Rek_3,
-              'JnsNm' => $v->JnsNm,
-              'Kd_Rek_4' => $v->Kd_Rek_4,
-              'ObyNm' => $v->ObyNm,
-              'Kd_Rek_5' => $v->Kd_Rek_5,
-              'RObyNm' => $v->RObyNm,
-              'Kd_Rek_6' => $v->Kd_Rek_6,
-              'SubRObyNm' => $v->SubRObyNm,
-              'nama_uraian' => $v->NamaUraian1,                                        
-              'pagu_uraian' => $v->PaguUraian1,
-              'realisasi' => $realisasi,
-              'persen_realisasi' => $persen_realisasi,
-            ];
-          }
+          $dataAkhir[$v->Kd_Rek_6][] = [
+            'RKARincID' => $v->RKARincID,
+            'Kd_Rek_1' => $v->Kd_Rek_1,
+            'Nm_Akun' => $v->Nm_AKun,
+            'Kd_Rek_2' => $v->Kd_Rek_2,
+            'KlpNm' => $v->KlpNm,
+            'Kd_Rek_3' => $v->Kd_Rek_3,
+            'JnsNm' => $v->JnsNm,
+            'Kd_Rek_4' => $v->Kd_Rek_4,
+            'ObyNm' => $v->ObyNm,
+            'Kd_Rek_5' => $v->Kd_Rek_5,
+            'RObyNm' => $v->RObyNm,
+            'Kd_Rek_6' => $v->Kd_Rek_6,
+            'SubRObyNm' => $v->SubRObyNm,
+            'nama_uraian' => $v->NamaUraian1,                                        
+            'pagu_uraian' => $v->PaguUraian1,
+            'realisasi' => $realisasi,
+            'persen_realisasi' => $persen_realisasi,
+          ];
         }
       break;
     }
@@ -538,18 +531,18 @@ class ReportModel extends Model
     
     $tingkat = [];
     foreach ($a as $v) {					
-      $tingkat[1][$v['Kd_Rek_1']] = $v['Nm_Akun'];
-      $tingkat[2][$v['Kd_Rek_2']] = $v['KlpNm'];
-      $tingkat[3][$v['Kd_Rek_3']] = $v['JnsNm'];
-      $tingkat[4][$v['Kd_Rek_4']] = $v['ObyNm'];
-      $tingkat[5][$v['Kd_Rek_5']] = $v['RObyNm'];
+      $tingkat[1][$v[0]['Kd_Rek_1']] = $v[0]['Nm_Akun'];
+      $tingkat[2][$v[0]['Kd_Rek_2']] = $v[0]['KlpNm'];
+      $tingkat[3][$v[0]['Kd_Rek_3']] = $v[0]['JnsNm'];
+      $tingkat[4][$v[0]['Kd_Rek_4']] = $v[0]['ObyNm'];
+      $tingkat[5][$v[0]['Kd_Rek_5']] = $v[0]['RObyNm'];
       
-      $rek1 = substr($v['Kd_Rek_6'], 0, 1);
-      if($rek1 != $v['Kd_Rek_1'])
+      $rek1 = substr($v[0]['Kd_Rek_6'], 0, 1);
+      if($rek1 != $v[0]['Kd_Rek_1'])      
       {
         throw new Exception("Kode Rekening Sub Rincian Objek tidak ada pada {$v['SubRObyNm']}");
       }
-      $tingkat[6][$v['Kd_Rek_6']] = $v['SubRObyNm'];
+      $tingkat[6][$v[0]['Kd_Rek_6']] = $v[0]['SubRObyNm'];
     }
     
     return $tingkat;
@@ -620,39 +613,25 @@ class ReportModel extends Model
   public static function calculateEachLevelLRA ($dataproyek, $k, $no_rek) {        
     $totalpagu = 0;    
     $totalrealisasi = 0;            
-    $totalpersenbobot='0.00';
-    $totalpersentarget = 0;
-    $totalpersenrealisasi=0;
-    $totalpersentertimbangrealisasi=0;
-    $totalpersentertimbangfisik = 0;
-    $totalbaris=0;        
+    $totalbaris = 0;        
     foreach ($dataproyek as $de) 
-    {                        
-      if ($k == $de[$no_rek]) 
-      {
-        $totalpagu += $de['pagu_uraian'];        
-        $totalrealisasi += $de['realisasi'];        
-        // $totalpersenbobot+=$de['persen_bobot'];
-        // $totalpersentarget+=$de['persen_target'];
-        // $totalpersenrealisasi+=$de['persen_realisasi'];
-        // $totalpersentertimbangrealisasi+=$de['persen_tertimbang_realisasi'];
-        // $totalpersentertimbangfisik+=$de['persen_tertimbang_fisik'];
-        $totalbaris += 1;        
-      }
+    {                    
+      foreach ($de as $d) {
+        if ($k == $d[$no_rek]) 
+        {
+          $totalpagu += $d['pagu_uraian'];        
+          $totalrealisasi += $d['realisasi'];                
+          $totalbaris += 1;        
+        }
+      }    
     }         
-                  
-    // $totalpersenrealisasi=Helper::formatPersen($totalrealisasi,$totalpagu);            
-    // $totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100, 2);
-    $result=[
+
+    $result = [
       'totalpagu' => $totalpagu,      
-      'totalrealisasi' => $totalrealisasi,      
-      // 'totalpersenbobot' => $totalpersenbobot,
-      // 'totalpersentarget' => $totalpersentarget,
-      // 'totalpersenrealisasi' => $totalpersenrealisasi,
-      // 'totalpersentertimbangrealisasi' => $totalpersentertimbangrealisasi,
-      // 'totalpersentertimbangfisik' => $totalpersentertimbangfisik,
+      'totalrealisasi' => $totalrealisasi,            
       'totalbaris' => $totalbaris
     ];        
+    
     return $result;
   }
 }

@@ -15,11 +15,11 @@ class FormBOPDMurniModel extends ReportModel
 {   
   public function __construct($dataReport, $print = true)
   {
-    parent::__construct($dataReport); 
-    $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);
-    $this->spreadsheet->getProperties()->setSubject("Laporan Form B Tahun ".$this->dataReport['tahun']); 
+    parent::__construct($dataReport);     
     if ($print)
     {
+      $this->spreadsheet->getProperties()->setTitle("Laporan Form B Tahun ".$this->dataReport['tahun']);
+      $this->spreadsheet->getProperties()->setSubject("Laporan Form B Tahun ".$this->dataReport['tahun']); 
       $this->print();             
     }        
   }    
@@ -46,7 +46,7 @@ class FormBOPDMurniModel extends ReportModel
     $sheet->setCellValue("A$row", 'LAPORAN FORM B');         
     $row += 1;        
     $sheet->mergeCells("A$row:U$row");		
-    $sheet->setCellValue("A$row",strtoupper($this->dataReport['Nm_Organisasi']." [$kode_organisasi]"));         
+    $sheet->setCellValue("A$row", strtoupper($this->dataReport['Nm_Organisasi']." [$kode_organisasi]"));         
     $row += 1;        
     $sheet->mergeCells("A$row:U$row");		
     $sheet->setCellValue("A$row", 'KABUPATEN BINTAN');         

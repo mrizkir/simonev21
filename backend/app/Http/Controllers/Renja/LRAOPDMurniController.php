@@ -131,14 +131,23 @@ class LRAOPDMurniController extends Controller
                           $rek5_level6 = substr($k6, 0, 12);
                           if($rek5_level6 == $k5)
                           {
+                            $data_lra_detail = $data_lra[$k6];
+                            $total_pagu_uraian_6 = 0;
+                            $total_realisasi_6 = 0;
+                            foreach($data_lra_detail as $d)
+                            {
+                              $total_pagu_uraian_6 += $d['pagu_uraian'];
+                              $total_realisasi_6 += $d['realisasi'];
+                            }
+                            $persen_realisasi_6 = Helper::formatPersen($total_realisasi_6, $total_pagu_uraian_6);
                             $data[] = [
                               'FormLRAMurniDetailID' => Uuid::uuid4()->toString(),
                               'tingkat' => 6,
                               'kode' => $k6,
                               'nama_uraian' => $v6,                              
-                              'pagu_uraian' => $data_lra[$k6]['pagu_uraian'],    
-                              'realisasi' => $data_lra[$k6]['realisasi'],
-                              'persen_realisasi' => $data_lra[$k6]['persen_realisasi'],                          
+                              'pagu_uraian' => $total_pagu_uraian_6,    
+                              'realisasi' => $total_realisasi_6,
+                              'persen_realisasi' => $persen_realisasi_6,                          
                             ];
                           }
                         }
@@ -186,9 +195,9 @@ class LRAOPDMurniController extends Controller
         'nama_pengguna_anggaran' => $opd->NamaKepalaOPD,
         'nip_pengguna_anggaran' => $opd->NIPKepalaOPD
       ];
-      $report = new \App\Models\Renja\FormBOPDMurniModel($data_report);
+      $report = new \App\Models\Renja\FormLRAMurniOPDModel($data_report);
       $generate_date = date('Y-m-d_H_m_s');
-      return $report->download("form_b_$generate_date.xlsx");
+      return $report->download("lra_opd_murni_$generate_date.xlsx");
     }
     else
     {

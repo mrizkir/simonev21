@@ -84,6 +84,20 @@
             :disable-pagination="true"
             :hide-default-footer="true"
           >
+            <template v-slot:top>
+              <v-toolbar flat color="white">                                
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  fab
+                  small
+                  @click.stop="printtoexcel"
+                  :disabled="btnLoading || datatableLoaded"
+                >
+                  <v-icon>mdi-printer</v-icon>
+                </v-btn>
+              </v-toolbar>
+            </template>
             <template v-slot:body="{ items }">
               <tbody>
                 <tr v-for="item in items" v-bind:key="item.FormLRAMurniDetailID" :class="color_tingkat(item.tingkat)">
@@ -96,6 +110,15 @@
               </tbody>
             </template>
           </v-data-table>
+        </v-col>        
+      </v-row>
+      <v-row class="mb-4" no-gutters>
+        <v-col cols="12"> 
+          <v-card>
+            <v-card-title>
+              DAFTAR KODE REKENING YANG TIDAK ADA DI DATA MASTER
+            </v-card-title>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -290,7 +313,7 @@
             const link = document.createElement("a");
             link.href = url;
 
-            link.setAttribute("download", "form_b_" + Date.now() + ".xlsx");
+            link.setAttribute("download", "lra_opd_murni_" + Date.now() + ".xlsx");
             document.body.appendChild(link);
             link.click();
             this.btnLoading = false;
