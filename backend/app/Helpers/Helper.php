@@ -152,7 +152,8 @@ class Helper {
    * @param type $date
    * @return type date
    */
-  public static function tanggal($format, $date=null) {
+  public static function tanggal($format, $date=null)
+  {
     Carbon::setLocale(app()->getLocale());
     if ($date == null)
     {
@@ -217,54 +218,57 @@ class Helper {
     $start = new Carbon($date,$next);
     $tanggal = $start->addDays($next)->format($format);        
     
-    $result = str_replace([
-                'Sunday',
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday'
-              ],
-              [
-                'Minggu',
-                'Senin',
-                'Selasa',
-                'Rabu',
-                'Kamis',
-                'Jumat',
-                'Sabtu'
-              ],
-              $tanggal);
+    $result = str_replace(
+      [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ],
+      [
+        'Minggu',
+        'Senin',
+        'Selasa',
+        'Rabu',
+        'Kamis',
+        'Jumat',
+        'Sabtu'
+      ],
+      $tanggal
+    );
 
     return str_replace([
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November' ,
-              'December'
-            ],
-            [
-              'Januari',
-              'Februari',
-              'Maret',
-              'April',
-              'Mei',
-              'Juni',
-              'Juli',
-              'Agustus',
-              'September',
-              'Oktober',
-              'November',
-              'Desember'
-            ], $result);
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November' ,
+        'December'
+      ],
+      [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+      ], $result
+    );
   } 
   /**
    * digunakan untuk mengecek format tanggal valid
