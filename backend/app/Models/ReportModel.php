@@ -524,9 +524,32 @@ class ReportModel extends Model
     return $this->dataKegiatan;
   }
   /**
-  * digunakan untuk mendapatkan tingkat rekening Form A	 dan LRA
+  * digunakan untuk mendapatkan tingkat rekening Form A
   */
   public function getRekeningProyek() {		 
+    $a = $this->dataRKA;   
+    $tingkat = [];
+    foreach ($a as $v) {					
+      $tingkat[1][$v['Kd_Rek_1']] = $v['Nm_Akun'];
+      $tingkat[2][$v['Kd_Rek_2']] = $v['KlpNm'];
+      $tingkat[3][$v['Kd_Rek_3']] = $v['JnsNm'];
+      $tingkat[4][$v['Kd_Rek_4']] = $v['ObyNm'];
+      $tingkat[5][$v['Kd_Rek_5']] = $v['RObyNm'];
+      
+      $rek1 = substr($v['Kd_Rek_6'], 0, 1);
+      if($rek1 != $v['Kd_Rek_1'])
+      {
+        throw new Exception("Kode Rekening Sub Rincian Objek tidak ada pada {$v['SubRObyNm']}");
+      }
+      $tingkat[6][$v['Kd_Rek_6']] = $v['SubRObyNm'];
+    }
+    
+    return $tingkat;
+  }
+  /**
+  * digunakan untuk mendapatkan tingkat rekening LRA
+  */
+  public function getRekeningProyekLRA() {		 
     $a = $this->dataRKA;   
     
     $tingkat = [];

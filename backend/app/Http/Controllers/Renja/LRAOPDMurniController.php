@@ -37,7 +37,7 @@ class LRAOPDMurniController extends Controller
 
     $form_lra_opd = new FormLRAMurniOPDModel([], false);
     $data_lra = $form_lra_opd->getDataLRA($OrgID, $no_bulan, $tahun, 1);
-    $tangkat_lra = $form_lra_opd->getRekeningProyek();    
+    $tangkat_lra = $form_lra_opd->getRekeningProyekLRA();    
     $data = [];
 
     if(isset($tangkat_lra[1]))

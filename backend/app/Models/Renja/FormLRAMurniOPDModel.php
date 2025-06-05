@@ -100,7 +100,7 @@ class FormLRAMurniOPDModel extends ReportModel
     $row_awal = $row;
 
     $data_lra = $this->getDataLRA($OrgID, $no_bulan, $tahun, 1);
-    $tangkat_lra = $this->getRekeningProyek();    
+    $tangkat_lra = $this->getRekeningProyekLRA();    
     $data = [];
 
     if(isset($tangkat_lra[1]))
