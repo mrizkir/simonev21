@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\SumberDanaModel;
+use App\Models\DMaster\JenisSumberDanaModel;
 use Illuminate\Validation\Rule;
 
 class SumberDanaController extends Controller {      
@@ -35,6 +36,17 @@ class SumberDanaController extends Controller {
 
   }
   
+  public function jenis(Request $request)
+  {
+    $data = JenisSumberDanaModel::all();
+    
+    return Response()->json([
+      'status' => 1,
+      'pid' => 'fetchdata',
+      'payload' => $data,
+      'message' => 'Fetch data Jenis Sumber Dana berhasil diperoleh'
+    ], 200);  
+  }
   /**
    * Store a newly created resource in storage.
    *
@@ -150,23 +162,23 @@ class SumberDanaController extends Controller {
     $sumberdana = SumberDanaModel::find($id);        
     $this->validate($request,
     [
-      'Kd_SumberDana' => ['required',
-            Rule::unique('tmSumberDana')->where(function($query) use ($request, $sumberdana) {  
-              if ($request->input('Kd_SumberDana') == $sumberdana->Kd_SumberDana) 
-              {
-                return $query->where('Kd_SumberDana',0);
-              }                 
-              else
-              {
-                return $query->where('Kd_SumberDana', $request->input('Kd_SumberDana'))
-                        ->where('TA', $sumberdana->TA);
-              }                                                                                    
-            }),
-            'min:1',
-            'regex:/^[0-9]+$/'
+      'Kd_SumberDana' => [
+        'required',
+        Rule::unique('tmSumberDana')->where(function($query) use ($request, $sumberdana) {  
+          if ($request->input('Kd_SumberDana') == $sumberdana->Kd_SumberDana) 
+          {
+            return $query->where('Kd_SumberDana',0);
+          }                 
+          else
+          {
+            return $query->where('Kd_SumberDana', $request->input('Kd_SumberDana'))
+                    ->where('TA', $sumberdana->TA);
+          }                                                                                    
+        }),
+        'min:1',
+        'regex:/^[0-9]+$/'
 
-          ],   
-       
+      ],   
       'Nm_SumberDana' => 'required', 
     ],
     [            
@@ -185,11 +197,11 @@ class SumberDanaController extends Controller {
     $sumberdana->save();
 
     return Response()->json([
-              'status' => 1,
-              'pid' => 'update',
-              'sumberdana' => $sumberdana,                                    
-              'message' => 'Data Sumber Dana '.$sumberdana->Nm_SumberDana.' berhasil diubah.'
-            ], 200);
+      'status' => 1,
+      'pid' => 'update',
+      'sumberdana' => $sumberdana,                                    
+      'message' => 'Data Sumber Dana '.$sumberdana->Nm_SumberDana.' berhasil diubah.'
+    ], 200);
 
   }
 
@@ -206,11 +218,10 @@ class SumberDanaController extends Controller {
     $sumberdana = SumberDanaModel::find($id);        
     $result = $sumberdana->delete();
       
-    
     return Response()->json([
-                'status' => 1,
-                'pid' => 'destroy',                
-                'message'=>"Data Sumber Dana dengan ID ($id) berhasil dihapus"
-              ], 200);
+      'status' => 1,
+      'pid' => 'destroy',                
+      'message'=>"Data Sumber Dana dengan ID ($id) berhasil dihapus"
+    ], 200);
   }
 }

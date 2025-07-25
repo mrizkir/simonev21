@@ -108,6 +108,14 @@
                         <span class="headline">{{ formtitle }}</span>
                       </v-card-title>
                       <v-card-text>
+                        <v-select
+                          label="JENIS SUMBER DANA"
+                          v-model="formdata.Id_Jenis_SumberDana"
+                          :items="daftar_jenis_sumber_dana"
+                          :rules="rule_jenis_sumber_dana"
+                          outlined
+                          dense
+                        />
                         <v-text-field
                           v-model="formdata.Kd_SumberDana"
                           label="KODE"
@@ -435,10 +443,12 @@
         dialogdetailitem: false,
         dialogcopyfrm: false,
         //form data
+        daftar_jenis_sumber_dana: [],
         form_valid: true,
         form_salin_valid: true,
         formdata: {
           SumberDanaID: "",
+          Id_Jenis_SumberDana: "",
           Kd_SumberDana: "",
           Nm_SumberDana: "",
           Descr: "",
@@ -447,6 +457,7 @@
         },
         formdefault: {
           SumberDanaID: "",
+          Id_Jenis_SumberDana: "",
           Kd_SumberDana: "",
           Nm_SumberDana: "",
           Descr: "",
@@ -499,6 +510,18 @@
             this.datatable = data.sumberdana;
             this.datatableLoading = false;
           });
+
+        await this.$ajax
+          .get(
+            "/dmaster/sumberdana/jenis", {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.daftar_jenis_sumber_dana = data.payload;
+          });
       },
       dataTableRowClicked(item) {
         if (item === this.expanded[0]) {
@@ -507,9 +530,9 @@
           this.expanded = [item];
         }
       },
-      editItem(item) {
+      async editItem(item) {
         this.editedIndex = this.datatable.indexOf(item);
-        this.formdata = Object.assign({}, item);
+        this.formdata = Object.assign({}, item);        
         this.dialogfrm = true;
       },
       copyItem() {
