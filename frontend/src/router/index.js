@@ -538,13 +538,23 @@ const routes = [
   },
   //renja murni - lra opd
   {
-    path: "/renjamurni/lraopd",
+    path: "/renjamurni/report/lraopd",
     name: "FormLRAOPDMurni",
     meta: {
       title: "LAPORAN REALISASI ANGGARAN MURNI",
       requiresAuth: true,
     },
     component: () => import("../views/pages/admin/renjamurni/FormLRAOPDMurni.vue"),
+  },
+  //renja murni - rekap lra belanja
+  {
+    path: "/renjamurni/report/rekaplra",
+    name: "FormRekapLRAMurni",
+    meta: {
+      title: "LAPORAN REKAPITULASI LRA BELANJA MURNI",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjamurni/FormRekapLRAMurni.vue"),
   },
   //renja murni - target kinerja murni
   {

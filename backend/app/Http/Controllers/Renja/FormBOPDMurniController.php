@@ -277,7 +277,7 @@ class FormBOPDMurniController extends Controller
             }
 
             $persen_target_keuangan=Helper::formatPersen($target_keuangan_kegiatan,$pagu_dana_kegiatan);
-            $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan,$pagu_dana_kegiatan);  
+            $persen_realisasi_keuangan=Helper::formatPersen($realisasi_keuangan_kegiatan, $pagu_dana_kegiatan);  
             $persen_tertimbang_keuangan = 0.00;
             if ($persen_realisasi_keuangan > 0 && $persen_bobot > 0)
             {

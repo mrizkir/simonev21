@@ -420,6 +420,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjamurni/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@index','as'=>'lraopdmurni.index']);    
   $router->post('/renjamurni/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@printtoexcel','as'=>'lraopdmurni.printtoexcel']);      
   
+  //renja - report - rekap lra belanja murni
+  $router->post('/renjamurni/report/rekaplra', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RekapLRAMurniController@index','as'=>'rekaplramurni.index']);    
+  $router->post('/renjamurni/report/rekaplra/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RekapLRAMurniController@printtoexcel','as'=>'rekaplramurni.printtoexcel']);      
+
   //renja - snapshot murni
   $router->post('/snapshot/rkamurni', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@index','as'=>'snapshotrkamurni.index']);
   $router->get('/snapshot/rkamurni/{id}', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAMurniController@show','as'=>'snapshotrkamurni.show']);
