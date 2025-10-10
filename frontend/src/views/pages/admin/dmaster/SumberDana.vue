@@ -113,6 +113,8 @@
                           v-model="formdata.Id_Jenis_SumberDana"
                           :items="daftar_jenis_sumber_dana"
                           :rules="rule_jenis_sumber_dana"
+                          item-text="Nm_Jenis_SumberDana"
+                          item-value="Id_Jenis_SumberDana"
                           outlined
                           dense
                         />
@@ -431,8 +433,9 @@
         expanded: [],
         datatable: [],
         headers: [
-          { text: "KODE", value: "Kd_SumberDana", width: 150 },
+          { text: "KODE", value: "Kd_SumberDana", width: 70 },
           { text: "SUMBER DANA", value: "Nm_SumberDana" },
+          { text: "JENIS SUMBER DANA", value: "Nm_Jenis_SumberDana", width: 200 },
           { text: "KET.", value: "Descr" },
           { text: "AKSI", value: "actions", sortable: false, width: 100 },
         ],
@@ -469,6 +472,11 @@
         tahunasal: null,
         daftar_ta: [],
         //form rules
+        rule_jenis_sumber_dana: [
+          value => !!value || "Mohon untuk di isi Jenis Sumber Dana !!!",          
+          value =>
+            value > 0 || "Mohon untuk dipilih Jenis Sumber Dana !!!",
+        ],
         rule_kd_sumberdana: [
           value => !!value || "Mohon untuk di isi Kode Sumber Dana !!!",
           value =>
@@ -576,6 +584,7 @@
                 "/dmaster/sumberdana/" + this.formdata.SumberDanaID,
                 {
                   _method: "PUT",
+                  Id_Jenis_SumberDana: this.formdata.Id_Jenis_SumberDana,
                   Kd_SumberDana: this.formdata.Kd_SumberDana,
                   Nm_SumberDana: this.formdata.Nm_SumberDana,
                   Descr: this.formdata.Descr,
@@ -586,12 +595,8 @@
                   },
                 }
               )
-              .then(({ data }) => {
-                Object.assign(
-                  this.datatable[this.editedIndex],
-                  data.sumberdana
-                );
-                this.closedialogfrm();
+              .then(() => {
+                this.$router.go();
               })
               .catch(() => {
                 this.btnLoading = false;
@@ -601,6 +606,7 @@
               .post(
                 "/dmaster/sumberdana/store",
                 {
+                  Id_Jenis_SumberDana: this.formdata.Id_Jenis_SumberDana,
                   Kd_SumberDana: this.formdata.Kd_SumberDana,
                   Nm_SumberDana: this.formdata.Nm_SumberDana,
                   Descr: this.formdata.Descr,
@@ -612,9 +618,8 @@
                   },
                 }
               )
-              .then(({ data }) => {
-                this.datatable.push(data.sumberdana);
-                this.closedialogfrm();
+              .then(() => {
+                this.$router.go();
               })
               .catch(() => {
                 this.btnLoading = false;

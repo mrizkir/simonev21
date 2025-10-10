@@ -24,6 +24,11 @@ class SumberDanaController extends Controller {
     ]);     
     $tahun = $request->input('tahun');
     $data = SumberDanaModel::where('TA', $tahun)
+      ->select(\DB::raw("
+        tmSumberDana.*,
+        COALESCE(tmJenisSumberDana.Nm_Jenis_SumberDana, 'N/A') AS Nm_Jenis_SumberDana
+      "))
+      ->leftJoin('tmJenisSumberDana', 'tmSumberDana.Id_Jenis_SumberDana', '=', 'tmJenisSumberDana.Id_Jenis_SumberDana')
       ->orderBy('Nm_SumberDana', 'ASC')
       ->get();
     
@@ -60,6 +65,7 @@ class SumberDanaController extends Controller {
     $tahun = $request->input('TA');
     $this->validate($request,
       [
+        'Id_Jenis_SumberDana' => 'required|exists:tmJenisSumberDana,Id_Jenis_SumberDana',
         'Kd_SumberDana' => [                                
           Rule::unique('tmSumberDana')->where(function($query) use ($request) {
             return $query->where('TA', $request->input('TA'));
@@ -71,6 +77,9 @@ class SumberDanaController extends Controller {
         'Nm_SumberDana' => 'required', 
       ],
       [   
+        'Id_Jenis_SumberDana.required' => 'Mohon Jenis Sumber Dana untuk di isi karena ini diperlukan',
+        'Id_Jenis_SumberDana.exists' => 'Jenis Sumber Dana tidak ditemukan',
+
         'Kd_SumberDana.required' => 'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
         'Kd_SumberDana.min' => 'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
 
@@ -81,6 +90,7 @@ class SumberDanaController extends Controller {
     
     $sumberdana = SumberDanaModel::create ([
       'SumberDanaID'=> uniqid ('uid'),
+      'Id_Jenis_SumberDana' => $request->input('Id_Jenis_SumberDana'),        
       'Kd_SumberDana' => $request->input('Kd_SumberDana'),        
       'Nm_SumberDana' => $request->input('Nm_SumberDana'),
       'Descr' => $request->input('Descr'),
@@ -119,6 +129,7 @@ class SumberDanaController extends Controller {
     $str_insert = '
       INSERT INTO `tmSumberDana` (
         `SumberDanaID`,
+        `Id_Jenis_SumberDana`,
         `Kd_SumberDana`,        
         `Nm_SumberDana`,
         `Descr`,
@@ -129,6 +140,7 @@ class SumberDanaController extends Controller {
       )		
       SELECT
         uuid() AS id,        
+        Id_Jenis_SumberDana,
         Kd_SumberDana,
         Nm_SumberDana,
         "DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
@@ -162,6 +174,7 @@ class SumberDanaController extends Controller {
     $sumberdana = SumberDanaModel::find($id);        
     $this->validate($request,
     [
+      'Id_Jenis_SumberDana' => 'required|exists:tmJenisSumberDana,Id_Jenis_SumberDana',
       'Kd_SumberDana' => [
         'required',
         Rule::unique('tmSumberDana')->where(function($query) use ($request, $sumberdana) {  
@@ -182,6 +195,9 @@ class SumberDanaController extends Controller {
       'Nm_SumberDana' => 'required', 
     ],
     [            
+      'Id_Jenis_SumberDana.required' => 'Mohon Jenis Sumber Dana untuk di isi karena ini diperlukan',
+      'Id_Jenis_SumberDana.exists' => 'Jenis Sumber Dana tidak ditemukan',
+
       'Kd_SumberDana.required' => 'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
       'Kd_SumberDana.min' => 'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
 
@@ -190,6 +206,7 @@ class SumberDanaController extends Controller {
     ]
     );
 
+    $sumberdana->Id_Jenis_SumberDana = $request->input('Id_Jenis_SumberDana');
     $sumberdana->Kd_SumberDana = $request->input('Kd_SumberDana');
     $sumberdana->Nm_SumberDana = $request->input('Nm_SumberDana');
     $sumberdana->Descr = $request->input('Descr');

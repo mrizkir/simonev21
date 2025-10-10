@@ -18,6 +18,7 @@ class SumberDanaModel extends Model {
    */
   protected $fillable = [
     'SumberDanaID',
+    'Id_Jenis_SumberDana',
     'Kd_SumberDana',
     'Nm_SumberDana',
     'Descr',
