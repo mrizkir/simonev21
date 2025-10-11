@@ -439,6 +439,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   $router->post('/renjaperubahan/statistik/peringkatopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\PeringkatOPDPerubahanController@index','as'=>'renjaperubahan-peringkatopdperubahan.index']);
   
+  //renja - statistik - capaian rekening perubahan
+  $router->post('/renjaperubahan/statistik/capaianrek', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\CapaianRekeningPerubahanController@index','as'=>'renjaperubahan-capaian-rekening.index']);
+  $router->post('/renjaperubahan/statistik/reloadcapaianrek', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\CapaianRekeningPerubahanController@reloadcapaianrek','as'=>'renjaperubahan-capaian-rekening.reloadcapaianrek']);
+
   //renja - data mentah perubahan
   $router->post('/renja/datamentahperubahan', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\DataMentahPerubahanController@index','as'=>'v1.datamentahperubahan.index']);
   $router->post('/renja/datamentahperubahan/copyrka', ['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Renja\DataMentahPerubahanController@copyrka','as'=>'v1.datamentahperubahan.copyrka']);
@@ -482,6 +486,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjaperubahan/report/formbunitkerja', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@index','as'=>'formbunitkerjaperubahan.index']);
   $router->post('/renjaperubahan/report/formbunitkerja/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@chart','as'=>'formbunitkerjaperubahan.chart']);    
   $router->post('/renjaperubahan/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerjaperubahan.printtoexcel']);
+  
+  //renja - report - lra opd perubahan
+  $router->post('/renjaperubahan/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@index','as'=>'lraopdperubahan.index']);    
+  $router->post('/renjaperubahan/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@printtoexcel','as'=>'lraopdperubahan.printtoexcel']);      
+  
+  //renja - report - rekap lra belanja perubahan
+  $router->post('/renjaperubahan/report/rekaplra', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RekapLRAPerubahanController@index','as'=>'rekaplraperubahan.index']);    
+  $router->post('/renjaperubahan/report/rekaplra/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RekapLRAPerubahanController@printtoexcel','as'=>'rekaplraperubahan.printtoexcel']);      
   
   //renja - snapshot perubahan
   $router->post('/snapshot/rkaperubahan', ['middleware'=>['role:superadmin'],'uses'=>'Snapshot\SnapshotRKAPerubahanController@index','as'=>'snapshotrkaperubahan.index']);

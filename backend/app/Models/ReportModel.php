@@ -511,6 +511,72 @@ class ReportModel extends Model
           ];
         }
       break;
+      case 2:
+        $data = \DB::table('trRKA AS a')
+        ->select(\DB::raw("
+          `b`.`RKARincID`,
+          `b`.`RKAID`,
+          `h`.`Kd_Rek_1`,
+          `h`.`Nm_AKun`,
+          CONCAT(`h`.`Kd_Rek_1`,'.',`g`.`Kd_Rek_2`) AS `Kd_Rek_2`, `g`.`KlpNm`, 
+          CONCAT(`h`.`Kd_Rek_1`,'.',`g`.`Kd_Rek_2`,'.',`f`.`Kd_Rek_3`) AS `Kd_Rek_3`, `f`.`JnsNm`, 
+          CONCAT(`h`.`Kd_Rek_1`,'.',`g`.`Kd_Rek_2`,'.',`f`.`Kd_Rek_3`,'.',`e`.`Kd_Rek_4`) AS `Kd_Rek_4`, `e`.`ObyNm`,
+          CONCAT(`h`.`Kd_Rek_1`,'.',`g`.`Kd_Rek_2`,'.',`f`.`Kd_Rek_3`,'.',`e`.`Kd_Rek_4`,'.',`d`.`Kd_Rek_5`) AS `Kd_Rek_5`, `d`.`RObyNm`, 
+          CONCAT(`h`.`Kd_Rek_1`,'.',`g`.`Kd_Rek_2`,'.',`f`.`Kd_Rek_3`,'.',`e`.`Kd_Rek_4`,'.',`d`.`Kd_Rek_5`,'.',`c`.`Kd_Rek_6`) AS `Kd_Rek_6`,
+          `c`.`SubRObyNm`,
+          `b`.`NamaUraian2`,
+          `b`.`PaguUraian2`
+        "))
+        ->join('trRKARinc AS b', 'a.RKAID', 'b.RKAID')
+        ->join('tmSubROby AS c', function($join) use ($ta) {
+          $join->on('b.kode_uraian2', 'c.kode_rek_6');
+          $join->on('c.TA', '=', \DB::raw($ta));
+        })
+        ->join('tmROby AS d', 'c.RobyID', 'd.RobyID')
+        ->join('tmOby AS e', 'd.ObyID', 'e.ObyID')
+        ->join('tmJns AS f', 'f.JnsID', 'e.JnsID')
+        ->join('tmKlp AS g', 'g.KlpID', 'f.KlpID')
+        ->join('tmAkun AS h', 'h.AkunID', 'g.AkunID')
+        ->where('a.OrgID', $id)
+        ->where('a.TA', $ta)
+        ->where('a.EntryLvl', $entryLvl)
+        ->orderBy('b.kode_uraian2', 'ASC')
+        ->get();
+        
+        foreach($data as $k => $v)
+        {
+          $RKARincID = $v->RKARincID;
+          
+          $data_realisasi=\DB::table('trRKARealisasiRinc')
+          ->select(\DB::raw('COALESCE(SUM(realisasi2), 0) AS realisasi2'))
+          ->where('RKARincID', $RKARincID)
+          ->where('bulan2', '<=', $no_bulan)
+          ->get();
+
+          $realisasi = (float)$data_realisasi[0]->realisasi2;      
+          $persen_realisasi = Helper::formatPersen($realisasi, $v->PaguUraian2);
+
+          $dataAkhir[$v->Kd_Rek_6][] = [
+            'RKARincID' => $v->RKARincID,
+            'Kd_Rek_1' => $v->Kd_Rek_1,
+            'Nm_Akun' => $v->Nm_AKun,
+            'Kd_Rek_2' => $v->Kd_Rek_2,
+            'KlpNm' => $v->KlpNm,
+            'Kd_Rek_3' => $v->Kd_Rek_3,
+            'JnsNm' => $v->JnsNm,
+            'Kd_Rek_4' => $v->Kd_Rek_4,
+            'ObyNm' => $v->ObyNm,
+            'Kd_Rek_5' => $v->Kd_Rek_5,
+            'RObyNm' => $v->RObyNm,
+            'Kd_Rek_6' => $v->Kd_Rek_6,
+            'SubRObyNm' => $v->SubRObyNm,
+            'nama_uraian' => $v->NamaUraian2,                                        
+            'pagu_uraian' => $v->PaguUraian2,
+            'realisasi' => $realisasi,
+            'persen_realisasi' => $persen_realisasi,
+          ];
+        }
+      break;
     }
     $this->dataRKA = $dataAkhir;
     

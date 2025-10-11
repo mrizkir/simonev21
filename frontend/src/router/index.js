@@ -763,6 +763,26 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjaperubahan/FormBUnitKerjaChartPerubahan.vue"),
   },
+  //renja perubahan - lra opd
+  {
+    path: "/renjaperubahan/report/lraopd",
+    name: "FormLRAOPDPerubahan",
+    meta: {
+      title: "LAPORAN REALISASI ANGGARAN PERUBAHAN",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjaperubahan/FormLRAOPDPerubahan.vue"),
+  },
+  //renja murni - rekap lra belanja
+  {
+    path: "/renjaperubahan/report/rekaplra",
+    name: "FormRekapLRAPerubahan",
+    meta: {
+      title: "LAPORAN REKAPITULASI LRA BELANJA PERUBAHAN",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjaperubahan/FormRekapLRAPerubahan.vue"),
+  },
   //renja perubahan - target kinerja perubahan
   {
     path: "/renjaperubahan/targetkinerja",
@@ -842,6 +862,18 @@ const routes = [
     component: () =>
       import(
         "../views/pages/admin/renjaperubahan/StatistikPeringkatOPDPerubahan.vue"
+      ),
+  },
+  {
+    path: "/renjaperubahan/statistik/capaianrek",
+    name: "RenjaPerubahanCapaianRekening",
+    meta: {
+      title: "BELANJA PERUBAHAN - STATISTIK CAPAIAN PER REKENING",
+      requiresAuth: true,
+    },
+    component: () =>
+      import(
+        "../views/pages/admin/renjaperubahan/StatistikCapaianRekeningPerubahan.vue"
       ),
   },
   //system

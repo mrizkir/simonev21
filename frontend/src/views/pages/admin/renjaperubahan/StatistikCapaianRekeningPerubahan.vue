@@ -1,11 +1,11 @@
 <template>
-  <RenjaMurniLayout :showrightsidebar="true" :temporaryleftsidebar="true">
+  <RenjaPerubahanLayout :showrightsidebar="true" :temporaryleftsidebar="true">
     <ModuleHeader>
       <template v-slot:icon>
         mdi-chart-timeline-variant
       </template>
       <template v-slot:name>
-        CAPAIAN REKENING MURNI
+        CAPAIAN REKENING PERUBAHAN
       </template>
       <template v-slot:breadcrumbs>
         <v-breadcrumbs :items="breadcrumbs" class="pa-0">
@@ -23,34 +23,34 @@
     <v-container fluid>
       <v-row dense>
         <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="1" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="1" />
+          <card-capaian-rekening :tw="1" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="2" />
         </v-col>
         <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="1" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="1" />
-        </v-col>
-      </v-row>
-      <v-row dense>
-        <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="2" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="1" />
-        </v-col>
-        <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="2" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="1" />
+          <card-capaian-rekening :tw="1" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="2" />
         </v-col>
       </v-row>
       <v-row dense>
         <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="3" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="1" />
+          <card-capaian-rekening :tw="2" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="2" />
         </v-col>
         <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="3" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="1" />
+          <card-capaian-rekening :tw="2" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="2" />
         </v-col>
       </v-row>
       <v-row dense>
         <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="4" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="1" />
+          <card-capaian-rekening :tw="3" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="2" />
         </v-col>
         <v-col xs="12" sm="6" md="6">
-          <card-capaian-rekening :tw="4" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="1" />
+          <card-capaian-rekening :tw="3" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="2" />
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col xs="12" sm="6" md="6">
+          <card-capaian-rekening :tw="4" v-bind:tahun_anggaran="tahun_anggaran" :mode="'keuangan'" :entryLvl="2" />
+        </v-col>
+        <v-col xs="12" sm="6" md="6">
+          <card-capaian-rekening :tw="4" v-bind:tahun_anggaran="tahun_anggaran" :mode="'fisik'" :entryLvl="2" />
         </v-col>
       </v-row>
     </v-container>
@@ -60,15 +60,15 @@
         ref="filter5"
       />
     </template>
-  </RenjaMurniLayout>
+  </RenjaPerubahanLayout>
 </template>
 <script>
-  import RenjaMurniLayout from "@/views/layouts/RenjaMurniLayout";
+  import RenjaPerubahanLayout from "@/views/layouts/RenjaPerubahanLayout";
   import ModuleHeader from "@/components/ModuleHeader";
   import CardCapaianRekening from "@/components/rekening/CardCapaianRekening";
   import Filter5 from "@/components/sidebar/FilterMode5";
   export default {
-    name: "StatistikCapaianRekeningMurni",
+    name: "StatistikCapaianRekeningPerubahan",
     created() {      
       this.breadcrumbs = [
         {
@@ -77,9 +77,9 @@
           href: "/dashboard/" + this.$store.getters["auth/AccessToken"],
         },
         {
-          text: "RENCANA KERJA MURNI",
+          text: "RENCANA KERJA PERUBAHAN",
           disabled: false,
-          href: "/renjamurni",
+          href: "/renjaperubahan",
         },
         {
           text: "STATISTIK",
@@ -114,7 +114,7 @@
       },
     },
     components: {
-      RenjaMurniLayout,
+      RenjaPerubahanLayout,
       ModuleHeader,
       "card-capaian-rekening": CardCapaianRekening,
       Filter5,

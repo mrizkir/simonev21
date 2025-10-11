@@ -55,6 +55,10 @@
         type: String,
         required: true,
       },
+      entryLvl: {
+        type: Number,
+        required: true,
+      },
     },
     mounted() {
       this.initialized();
@@ -171,9 +175,13 @@
     methods: {
       async initialized() {
         this.datatableLoading = true;
+        const endpoint = this.entryLvl == 1 
+          ? "/renjamurni/statistik/capaianrek"
+          : "/renjaperubahan/statistik/capaianrek";
+        
         await this.$ajax
           .post(
-            "/renjamurni/statistik/capaianrek",
+            endpoint,
             {
               ta: this.tahun_anggaran,
               tw: this.tw,
@@ -285,9 +293,13 @@
       async loadstatistik7() {
         this.datatable = [];
         this.btnLoading = true;
+        const endpoint = this.entryLvl == 1 
+          ? "/renjamurni/statistik/reloadcapaianrek"
+          : "/renjaperubahan/statistik/reloadcapaianrek";
+        
         await this.$ajax
           .post(
-            "/renjamurni/statistik/reloadcapaianrek",
+            endpoint,
             {
               ta: this.tahun_anggaran,
               tw: this.tw,
