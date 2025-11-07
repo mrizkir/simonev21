@@ -492,6 +492,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjaperubahan/report/formbunitkerja/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@chart','as'=>'formbunitkerjaperubahan.chart']);    
   $router->post('/renjaperubahan/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaPerubahanController@printtoexcel','as'=>'formbunitkerjaperubahan.printtoexcel']);
   
+  //renja perubahan - report - realisasi indikator sub kegiatan perubahan
+  $router->post('/renjaperubahan/report/realisasiindikatorsubkegiatan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanPerubahanController@index','as'=>'realisasiindikatorsubkegiatanperubahan.index']);    
+  $router->post('/renjaperubahan/report/realisasiindikatorsubkegiatan/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanPerubahanController@printtoexcel','as'=>'realisasiindikatorsubkegiatanperubahan.printtoexcel']);    
+  
   //renja - report - lra opd perubahan
   $router->post('/renjaperubahan/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@index','as'=>'lraopdperubahan.index']);    
   $router->post('/renjaperubahan/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@printtoexcel','as'=>'lraopdperubahan.printtoexcel']);      

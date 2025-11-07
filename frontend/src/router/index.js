@@ -774,6 +774,17 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjaperubahan/FormBUnitKerjaChartPerubahan.vue"),
   },
+  //renja perubahan - realisasi indikator sub kegiatan perubahan
+  {
+    path: "/renjaperubahan/report/realisasiindikatorsubkegiatan",
+    name: "RealisasiIndikatorSubKegiatanPerubahan",
+    meta: {
+      title: "BELANJA PERUBAHAN - LAPORAN REALISASI INDIKATOR SUB KEGIATAN",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjaperubahan/RealisasiIndikatorSubKegiatanPerubahan.vue"),
+  },
   //renja perubahan - lra opd
   {
     path: "/renjaperubahan/report/lraopd",
