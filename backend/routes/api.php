@@ -416,6 +416,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjamurni/report/formbunitkerja/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@chart','as'=>'formbunitkerjamurni.chart']);    
   $router->post('/renjamurni/report/formbunitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\FormBUnitKerjaMurniController@printtoexcel','as'=>'formbunitkerjamurni.printtoexcel']);    
   
+  //renja - report - realisasi indikator sub kegiatan murni
+  $router->post('/renjamurni/report/realisasiindikatorsubkegiatan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanMurniController@index','as'=>'realisasiindikatorsubkegiatanmurni.index']);    
+  $router->post('/renjamurni/report/realisasiindikatorsubkegiatan/chart', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanMurniController@chart','as'=>'realisasiindikatorsubkegiatanmurni.chart']);    
+  $router->post('/renjamurni/report/realisasiindikatorsubkegiatan/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanMurniController@printtoexcel','as'=>'realisasiindikatorsubkegiatanmurni.printtoexcel']);    
+  
   //renja - report - lra opd murni
   $router->post('/renjamurni/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@index','as'=>'lraopdmurni.index']);    
   $router->post('/renjamurni/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@printtoexcel','as'=>'lraopdmurni.printtoexcel']);      

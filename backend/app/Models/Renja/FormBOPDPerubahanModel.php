@@ -155,9 +155,9 @@ class FormBOPDPerubahanModel extends ReportModel
     
     
     $totalPaguOPD = (float)\DB::table('trRKA')
-                  ->where('OrgID',$OrgID)                                            
-                  ->where('TA',$tahun)  
-                  ->where('EntryLvl',2)
+                  ->where('OrgID', $OrgID)                                            
+                  ->where('TA', $tahun)  
+                  ->where('EntryLvl', 2)
                   ->sum('PaguDana2');        
     
     
@@ -174,15 +174,15 @@ class FormBOPDPerubahanModel extends ReportModel
     $totalSisaAnggaran = 0;
 
     $daftar_program=\DB::table('trRKA')
-              ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
-              ->where('OrgID',$OrgID)
-              ->where('EntryLvl', 2)
-              ->orderByRaw('kode_urusan="X" DESC')
-              ->orderBy('kode_bidang', 'ASC')
-              ->orderBy('kode_program', 'ASC')
-              ->orderBy('kode_kegiatan', 'ASC')
-              ->orderBy('kode_sub_kegiatan', 'ASC')
-              ->get();
+    ->select(\DB::raw('DISTINCT(kode_program), `Nm_Program`'))
+    ->where('OrgID', $OrgID)
+    ->where('EntryLvl', 2)
+    ->orderByRaw('kode_urusan="X" DESC')
+    ->orderBy('kode_bidang', 'ASC')
+    ->orderBy('kode_program', 'ASC')
+    ->orderBy('kode_kegiatan', 'ASC')
+    ->orderBy('kode_sub_kegiatan', 'ASC')
+    ->get();
     
     $row=$row_akhir+1;
     $row_awal=$row;        
@@ -208,7 +208,7 @@ class FormBOPDPerubahanModel extends ReportModel
 
       $daftar_kegiatan=\DB::table('trRKA')
               ->select(\DB::raw('DISTINCT(kode_kegiatan), `Nm_Kegiatan`'))
-              ->where('kode_program',$kode_program)
+              ->where('kode_program', $kode_program)
               ->where('OrgID', $OrgID)
               ->where('EntryLvl', 2)
               ->orderBy('kode_kegiatan', 'ASC')
@@ -251,31 +251,31 @@ class FormBOPDPerubahanModel extends ReportModel
           $sheet->setCellValue("C$row",ucwords(strtolower($data_kegiatan->Nm_Kegiatan)));  
 
           $daftar_sub_kegiatan = \DB::table('trRKA')
-                  ->select(\DB::raw('
-                    `RKAID`,
-                    `kode_sub_kegiatan`,
-                    `Nm_Sub_Kegiatan`,
-                    `PaguDana2`,
-                    `lokasi_kegiatan2`,
-                    `Nm_Sub_Organisasi`,
-                    keluaran2,
-                    tk_keluaran2,
-                    RealisasiKinerja
-                  '))
-                  ->where('kode_kegiatan',$kode_kegiatan)
-                  ->where('OrgID',$OrgID)
-                  ->where('TA',$tahun)
-                  ->where('EntryLvl',2)
-                  ->orderBy('kode_sub_kegiatan', 'ASC')
-                  ->get();
+          ->select(\DB::raw('
+            `RKAID`,
+            `kode_sub_kegiatan`,
+            `Nm_Sub_Kegiatan`,
+            `PaguDana2`,
+            `lokasi_kegiatan2`,
+            `Nm_Sub_Organisasi`,
+            keluaran2,
+            tk_keluaran2,
+            RealisasiKinerja
+          '))
+          ->where('kode_kegiatan', $kode_kegiatan)
+          ->where('OrgID', $OrgID)
+          ->where('TA', $tahun)
+          ->where('EntryLvl', 2)
+          ->orderBy('kode_sub_kegiatan', 'ASC')
+          ->get();
           
           if(isset($daftar_sub_kegiatan[0]))
           {
             $pagu_dana_kegiatan = (float)\DB::table('trRKA')
-                  ->where('OrgID',$OrgID)
-                  ->where('kode_kegiatan',$kode_kegiatan)
-                  ->where('EntryLvl',2)
-                  ->sum('PaguDana2');
+            ->where('OrgID', $OrgID)
+            ->where('kode_kegiatan', $kode_kegiatan)
+            ->where('EntryLvl', 2)
+            ->sum('PaguDana2');
 
             $jumlah_uraian_kegiatan = 0;
 
@@ -297,24 +297,24 @@ class FormBOPDPerubahanModel extends ReportModel
               $RKAID=$data_sub_kegiatan->RKAID;
               $kode_sub_kegiatan = $data_sub_kegiatan->kode_sub_kegiatan;
 
-              $persen_bobot=Helper::formatPersen($data_sub_kegiatan->PaguDana2,$totalPaguOPD);
-              $totalPersenBobot+=$persen_bobot;
+              $persen_bobot = Helper::formatPersen($data_sub_kegiatan->PaguDana2,$totalPaguOPD);
+              $totalPersenBobot += $persen_bobot;
 
               //jumlah baris uraian
-              $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();
+              $jumlahuraian = \DB::table('trRKARinc')->where('RKAID', $RKAID)->count();
               $jumlah_uraian_program += $jumlahuraian;
               $jumlah_uraian_kegiatan += $jumlahuraian;
 
               $data_target=\DB::table('trRKATargetRinc')
                       ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
-                      ->where('RKAID',$RKAID)
-                      ->where('bulan2','<=',$no_bulan)
+                      ->where('RKAID', $RKAID)
+                      ->where('bulan2','<=', $no_bulan)
                       ->get();
 
               $data_realisasi=\DB::table('trRKARealisasiRinc')
                     ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
-                    ->where('RKAID',$RKAID)
-                    ->where('bulan2','<=',$no_bulan)
+                    ->where('RKAID', $RKAID)
+                    ->where('bulan2','<=', $no_bulan)
                     ->get();
 
               //menghitung persen target fisik
@@ -386,7 +386,7 @@ class FormBOPDPerubahanModel extends ReportModel
               $no_sub_kegiatan += 1; 
               $total_sub_kegiatan += 1;
             }
-            $persen_bobot=Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
+            $persen_bobot = Helper::formatPersen($pagu_dana_kegiatan,$totalPaguOPD);
             $target_fisik=Helper::formatPecahan($target_fisik_kegiatan,$jumlah_uraian_kegiatan);
             $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 
@@ -427,7 +427,7 @@ class FormBOPDPerubahanModel extends ReportModel
         }
         $no_huruf+=1;                
       }
-      $persen_bobot=Helper::formatPersen($pagu_dana_program,$totalPaguOPD);
+      $persen_bobot = Helper::formatPersen($pagu_dana_program,$totalPaguOPD);
       $target_fisik=Helper::formatPecahan($target_fisik_program,$jumlah_uraian_program);
       $persen_target_fisik= $target_fisik > 100 ? 100.00 : $target_fisik;
 

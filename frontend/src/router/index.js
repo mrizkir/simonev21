@@ -536,6 +536,17 @@ const routes = [
     component: () =>
       import("../views/pages/admin/renjamurni/FormBUnitKerjaChartMurni.vue"),
   },
+  //renja murni - realisasi indikator sub kegiatan murni
+  {
+    path: "/renjamurni/report/realisasiindikatorsubkegiatan",
+    name: "RealisasiIndikatorSubKegiatanMurni",
+    meta: {
+      title: "BELANJA MURNI - LAPORAN REALISASI INDIKATOR SUB KEGIATAN",
+      requiresAuth: true,
+    },
+    component: () =>
+      import("../views/pages/admin/renjamurni/RealisasiIndikatorSubKegiatanMurni.vue"),
+  },
   //renja murni - lra opd
   {
     path: "/renjamurni/report/lraopd",
