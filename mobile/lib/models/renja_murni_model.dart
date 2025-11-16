@@ -43,32 +43,46 @@ class RenjaMurniStatistik1 {
 }
 
 class RenjaMurniChart {
-  final List<dynamic> labels; // Array of labels
-  final List<dynamic> data; // Array of data values
+  final List<dynamic> target; // Array of target values
+  final List<dynamic> realisasi; // Array of realisasi values
 
   RenjaMurniChart({
-    required this.labels,
-    required this.data,
+    required this.target,
+    required this.realisasi,
   });
 
-  factory RenjaMurniChart.fromJson(List<dynamic> json) {
-    if (json.length >= 2) {
+  factory RenjaMurniChart.fromJson(List<dynamic>? json) {
+    if (json == null || json.length < 2) {
       return RenjaMurniChart(
-        labels: json[0] ?? [],
-        data: json[1] ?? [],
+        target: [],
+        realisasi: [],
       );
     }
+    
+    // Ensure target and realisasi are lists
+    final targetData = json[0];
+    final realisasiData = json[1];
+    
     return RenjaMurniChart(
-      labels: [],
-      data: [],
+      target: targetData is List ? targetData : [],
+      realisasi: realisasiData is List ? realisasiData : [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'labels': labels,
-      'data': data,
+      'target': target,
+      'realisasi': realisasi,
     };
+  }
+
+  // Generate labels based on data length (bulan 1-12)
+  List<String> get labels {
+    if (target.isEmpty && realisasi.isEmpty) {
+      return [];
+    }
+    final length = target.length > realisasi.length ? target.length : realisasi.length;
+    return List.generate(length, (index) => (index + 1).toString());
   }
 }
 

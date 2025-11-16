@@ -4,6 +4,7 @@ import 'providers/auth_provider.dart';
 import 'providers/dashboard_provider.dart';
 import 'providers/ui_front_provider.dart';
 import 'providers/renja_murni_provider.dart';
+import 'providers/rka_murni_provider.dart';
 import 'services/api_service.dart';
 import 'services/storage_service.dart';
 import 'screens/splash_screen.dart';
@@ -11,6 +12,7 @@ import 'screens/auth/login_screen.dart';
 import 'screens/home/dashboard_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/renjamurni/renja_murni_screen.dart';
+import 'screens/renjamurni/rka_murni_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => RenjaMurniProvider(apiService: ApiService()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RKAMurniProvider(apiService: ApiService()),
         ),
       ],
       child: MaterialApp(
@@ -77,6 +82,7 @@ class MyApp extends StatelessWidget {
           '/dashboard': (context) => const DashboardScreen(),
           '/profile': (context) => const ProfileScreen(),
           '/renjamurni': (context) => const RenjaMurniScreen(),
+          '/renjamurni/rka': (context) => const RKAMurniScreen(),
         },
       ),
     );

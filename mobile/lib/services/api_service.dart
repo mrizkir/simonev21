@@ -235,6 +235,117 @@ class ApiService {
     }
   }
 
+  // RKA Murni endpoints
+  Future<Response> getOPDList(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/dmaster/opd', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> getUnitKerjaList(String orgID) async {
+    try {
+      final response = await _dio.get('/dmaster/opd/$orgID/unitkerja');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> getRKAMurniList(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/renja/rkamurni', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> loadDataKegiatanFirstTime(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/renja/rkamurni/loaddatakegiatanfirsttime', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> loadDataUraianFirstTime(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/renja/rkamurni/loaddatauraianfirsttime', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> storeKegiatan(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/renja/rkamurni/storekegiatan', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> deleteRKA(String rkaID) async {
+    try {
+      final response = await _dio.post(
+        '/renja/rkamurni/$rkaID',
+        data: {
+          '_method': 'DELETE',
+          'pid': 'datarka',
+        },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> resetDataKegiatan(String rkaID) async {
+    try {
+      final response = await _dio.post(
+        '/renja/rkamurni/resetdatakegiatan/$rkaID',
+        data: {
+          '_method': 'PUT',
+        },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> getProgramList(String bidangID, Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/dmaster/kodefikasi/bidangurusan/$bidangID/program', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> getKegiatanList(String prgID) async {
+    try {
+      final response = await _dio.get('/dmaster/kodefikasi/program/$prgID/kegiatan');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> getSubKegiatanList(String kgtID, Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/dmaster/kodefikasi/kegiatan/$kgtID/subkegiatanrka', data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Gallery endpoints
   Future<Response> getGalleryPembangunan(Map<String, dynamic> data) async {
     try {

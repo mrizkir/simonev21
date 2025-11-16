@@ -13,7 +13,10 @@ class UIFrontProvider with ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
-  UIFrontProvider({required this.apiService});
+  UIFrontProvider({required this.apiService}) {
+    // Set default bulan realisasi ke bulan sekarang saat inisialisasi
+    _bulanRealisasi = DateTime.now().month.toString();
+  }
 
   List<TahunAnggaranModel> get daftarTA => _daftarTA;
   String? get tahunAnggaran => _tahunAnggaran;
@@ -50,6 +53,11 @@ class UIFrontProvider with ChangeNotifier {
         // Set bulan realisasi dan masa pelaporan jika ada
         _bulanRealisasi = data['bulan_realisasi']?.toString();
         _masaPelaporan = data['masa_pelaporan']?.toString();
+        
+        // Set default bulan realisasi ke bulan sekarang jika tidak ada
+        if (_bulanRealisasi == null || _bulanRealisasi!.isEmpty) {
+          _bulanRealisasi = DateTime.now().month.toString();
+        }
 
         _isLoading = false;
         _errorMessage = null;
@@ -68,6 +76,11 @@ class UIFrontProvider with ChangeNotifier {
 
   void setTahunAnggaran(String tahun) {
     _tahunAnggaran = tahun;
+    notifyListeners();
+  }
+
+  void setBulanRealisasi(String bulan) {
+    _bulanRealisasi = bulan;
     notifyListeners();
   }
 

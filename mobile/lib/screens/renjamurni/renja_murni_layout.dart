@@ -313,32 +313,58 @@ class _RenjaMurniLayoutState extends State<RenjaMurniLayout> {
                           ],
                         ),
                       ),
-                      // BOARD DATA RENJA
-                      if (user.can('RENJA-GROUP'))
-                        _buildMenuItem(
-                          title: 'BOARD DATA RENJA',
-                          icon: Icons.dashboard,
-                          route: '/renjamurni',
-                          isActive: true,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      // DATA MENTAH
-                      if (user.can('RENJA-RKA-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'DATA MENTAH',
-                          icon: Icons.storage,
-                          route: '/renjamurni/datamentah',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/datamentah');
-                            }
-                          },
-                        ),
-                      const Divider(color: Colors.white24),
+                      // BOARD DATA RENJA - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-GROUP'))
+                      //   _buildMenuItem(
+                      //     title: 'BOARD DATA RENJA',
+                      //     icon: Icons.dashboard,
+                      //     route: '/renjamurni',
+                      //     isActive: true,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //   ),
+                      // DATA MENTAH - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-RKA-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'DATA MENTAH',
+                      //     icon: Icons.storage,
+                      //     route: '/renjamurni/datamentah',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/datamentah');
+                      //       }
+                      //     },
+                      //   ),
+                      // const Divider(color: Colors.white24),
+                      // TRANSAKSI Section - DISEMBUNYIKAN SEMENTARA
+                      // const Padding(
+                      //   padding: EdgeInsets.all(16.0),
+                      //   child: Text(
+                      //     'TRANSAKSI',
+                      //     style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      // TARGET KINERJA - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-RKA-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'TARGET KINERJA',
+                      //     icon: Icons.track_changes,
+                      //     route: '/renjamurni/targetkinerja',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/targetkinerja');
+                      //       }
+                      //     },
+                      //   ),
                       // TRANSAKSI Section
                       const Padding(
                         padding: EdgeInsets.all(16.0),
@@ -351,21 +377,7 @@ class _RenjaMurniLayoutState extends State<RenjaMurniLayout> {
                           ),
                         ),
                       ),
-                      // TARGET KINERJA
-                      if (user.can('RENJA-RKA-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'TARGET KINERJA',
-                          icon: Icons.track_changes,
-                          route: '/renjamurni/targetkinerja',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/targetkinerja');
-                            }
-                          },
-                        ),
-                      // RKA MURNI
+                      // RKA MURNI - TETAP DITAMPILKAN
                       if (user.can('RENJA-RKA-MURNI_BROWSE'))
                         _buildMenuItem(
                           title: 'RKA MURNI',
@@ -379,199 +391,199 @@ class _RenjaMurniLayoutState extends State<RenjaMurniLayout> {
                             }
                           },
                         ),
-                      // PELAPORAN OPD
-                      if (user.can('RENJA-PELAPORAN-OPD_BROWSE'))
-                        _buildMenuItem(
-                          title: 'PELAPORAN OPD',
-                          icon: Icons.description,
-                          route: '/renjamurni/pelaporanopd',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/pelaporanopd');
-                            }
-                          },
-                        ),
-                      // PROGRES SP2D (only for superadmin)
-                      if (user.can('RENJA-PELAPORAN-OPD_BROWSE') && user.isSuperAdmin)
-                        _buildMenuItem(
-                          title: 'PROGRES SP2D',
-                          icon: Icons.trending_up,
-                          route: '/renjamurni/progressp2d',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/progressp2d');
-                            }
-                          },
-                        ),
-                      const Divider(color: Colors.white24),
-                      // LAPORAN Section
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'LAPORAN',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      // FORM A
-                      if (user.can('RENJA-FORM-A-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'FORM A',
-                          icon: Icons.description,
-                          route: '/renjamurni/report/forma',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/report/forma');
-                            }
-                          },
-                        ),
-                      // FORM B OPD
-                      if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'FORM B OPD',
-                          icon: Icons.description,
-                          route: '/renjamurni/report/formbopd',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/report/formbopd');
-                            }
-                          },
-                        ),
-                      // FORM B UNIT KERJA
-                      if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'FORM B UNIT KERJA',
-                          icon: Icons.description,
-                          route: '/renjamurni/report/formbunitkerja',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/report/formbunitkerja');
-                            }
-                          },
-                        ),
-                      // REALISASI INDIKATOR SUB KEGIATAN
-                      if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'REALISASI INDIKATOR SUB KEGIATAN',
-                          icon: Icons.assessment,
-                          route: '/renjamurni/report/realisasiindikatorsubkegiatan',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/report/realisasiindikatorsubkegiatan');
-                            }
-                          },
-                        ),
-                      // LRA OPD
-                      if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'LRA OPD',
-                          icon: Icons.receipt,
-                          route: '/renjamurni/report/lraopd',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/report/lraopd');
-                            }
-                          },
-                        ),
-                      // REKAP. LRA BELANJA
-                      if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'REKAP. LRA BELANJA',
-                          icon: Icons.summarize,
-                          route: '/renjamurni/report/rekaplra',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/report/rekaplra');
-                            }
-                          },
-                        ),
-                      const Divider(color: Colors.white24),
-                      // STATISTIK Section
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'STATISTIK',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      // PERINGKAT OPD
-                      if (user.can('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE'))
-                        _buildMenuItem(
-                          title: 'PERINGKAT OPD',
-                          icon: Icons.leaderboard,
-                          route: '/renjamurni/statistik/peringkatopd',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/statistik/peringkatopd');
-                            }
-                          },
-                        ),
-                      // CAPAIAN PER REKENING
-                      if (user.can('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE'))
-                        _buildMenuItem(
-                          title: 'CAPAIAN PER REKENING',
-                          icon: Icons.account_tree,
-                          route: '/renjamurni/statistik/capaianrek',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/statistik/capaianrek');
-                            }
-                          },
-                        ),
-                      const Divider(color: Colors.white24),
-                      // SNAPSHOT Section
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'SNAPSHOT',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      // SNAPSHOT RKA
-                      if (user.can('RENJA-SNAPSHOT-RKA-MURNI_BROWSE'))
-                        _buildMenuItem(
-                          title: 'SNAPSHOT RKA',
-                          icon: Icons.camera_alt,
-                          route: '/renjamurni/snapshot/rka',
-                          isActive: false,
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (widget.onMenuItemSelected != null) {
-                              widget.onMenuItemSelected!('/renjamurni/snapshot/rka');
-                            }
-                          },
-                        ),
+                      // PELAPORAN OPD - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-PELAPORAN-OPD_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'PELAPORAN OPD',
+                      //     icon: Icons.description,
+                      //     route: '/renjamurni/pelaporanopd',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/pelaporanopd');
+                      //       }
+                      //     },
+                      //   ),
+                      // PROGRES SP2D (only for superadmin) - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-PELAPORAN-OPD_BROWSE') && user.isSuperAdmin)
+                      //   _buildMenuItem(
+                      //     title: 'PROGRES SP2D',
+                      //     icon: Icons.trending_up,
+                      //     route: '/renjamurni/progressp2d',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/progressp2d');
+                      //       }
+                      //     },
+                      //   ),
+                      // const Divider(color: Colors.white24),
+                      // LAPORAN Section - DISEMBUNYIKAN SEMENTARA
+                      // const Padding(
+                      //   padding: EdgeInsets.all(16.0),
+                      //   child: Text(
+                      //     'LAPORAN',
+                      //     style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      // FORM A - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-FORM-A-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'FORM A',
+                      //     icon: Icons.description,
+                      //     route: '/renjamurni/report/forma',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/report/forma');
+                      //       }
+                      //     },
+                      //   ),
+                      // FORM B OPD - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'FORM B OPD',
+                      //     icon: Icons.description,
+                      //     route: '/renjamurni/report/formbopd',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/report/formbopd');
+                      //       }
+                      //     },
+                      //   ),
+                      // FORM B UNIT KERJA - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'FORM B UNIT KERJA',
+                      //     icon: Icons.description,
+                      //     route: '/renjamurni/report/formbunitkerja',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/report/formbunitkerja');
+                      //       }
+                      //     },
+                      //   ),
+                      // REALISASI INDIKATOR SUB KEGIATAN - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'REALISASI INDIKATOR SUB KEGIATAN',
+                      //     icon: Icons.assessment,
+                      //     route: '/renjamurni/report/realisasiindikatorsubkegiatan',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/report/realisasiindikatorsubkegiatan');
+                      //       }
+                      //     },
+                      //   ),
+                      // LRA OPD - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'LRA OPD',
+                      //     icon: Icons.receipt,
+                      //     route: '/renjamurni/report/lraopd',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/report/lraopd');
+                      //       }
+                      //     },
+                      //   ),
+                      // REKAP. LRA BELANJA - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-FORM-B-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'REKAP. LRA BELANJA',
+                      //     icon: Icons.summarize,
+                      //     route: '/renjamurni/report/rekaplra',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/report/rekaplra');
+                      //       }
+                      //     },
+                      //   ),
+                      // const Divider(color: Colors.white24),
+                      // STATISTIK Section - DISEMBUNYIKAN SEMENTARA
+                      // const Padding(
+                      //   padding: EdgeInsets.all(16.0),
+                      //   child: Text(
+                      //     'STATISTIK',
+                      //     style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      // PERINGKAT OPD - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'PERINGKAT OPD',
+                      //     icon: Icons.leaderboard,
+                      //     route: '/renjamurni/statistik/peringkatopd',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/statistik/peringkatopd');
+                      //       }
+                      //     },
+                      //   ),
+                      // CAPAIAN PER REKENING - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-STATISTIK-PERINGKAT-OPD_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'CAPAIAN PER REKENING',
+                      //     icon: Icons.account_tree,
+                      //     route: '/renjamurni/statistik/capaianrek',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/statistik/capaianrek');
+                      //       }
+                      //     },
+                      //   ),
+                      // const Divider(color: Colors.white24),
+                      // SNAPSHOT Section - DISEMBUNYIKAN SEMENTARA
+                      // const Padding(
+                      //   padding: EdgeInsets.all(16.0),
+                      //   child: Text(
+                      //     'SNAPSHOT',
+                      //     style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      // SNAPSHOT RKA - DISEMBUNYIKAN SEMENTARA
+                      // if (user.can('RENJA-SNAPSHOT-RKA-MURNI_BROWSE'))
+                      //   _buildMenuItem(
+                      //     title: 'SNAPSHOT RKA',
+                      //     icon: Icons.camera_alt,
+                      //     route: '/renjamurni/snapshot/rka',
+                      //     isActive: false,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //       if (widget.onMenuItemSelected != null) {
+                      //         widget.onMenuItemSelected!('/renjamurni/snapshot/rka');
+                      //       }
+                      //     },
+                      //   ),
                     ],
                   )
                 : const Center(
