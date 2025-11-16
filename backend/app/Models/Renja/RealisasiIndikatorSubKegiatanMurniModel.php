@@ -33,7 +33,7 @@ class RealisasiIndikatorSubKegiatanMurniModel extends ReportModel
     $tahun = $this->dataReport['tahun'];
 
     $sheet = $this->spreadsheet->getActiveSheet();
-    $sheet->setTitle('LAPORAN REALISASI INDIKATOR SUB KEGIATAN');
+    $sheet->setTitle('LAPORAN INDIKATOR SUB KEGIATAN');
 
     $sheet->getParent()->getDefaultStyle()->applyFromArray([
       'font' => [
