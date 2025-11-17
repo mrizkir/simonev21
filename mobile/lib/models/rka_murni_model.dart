@@ -2,6 +2,7 @@ class OPDModel {
   final String OrgID;
   final String Nm_Organisasi;
   final String? kode_organisasi;
+  final String? Alias_Organisasi;
   final String? BidangID_1;
   final String? kode_bidang_1;
   final String? Nm_Bidang_1;
@@ -16,6 +17,7 @@ class OPDModel {
     required this.OrgID,
     required this.Nm_Organisasi,
     this.kode_organisasi,
+    this.Alias_Organisasi,
     this.BidangID_1,
     this.kode_bidang_1,
     this.Nm_Bidang_1,
@@ -32,6 +34,7 @@ class OPDModel {
       OrgID: json['OrgID']?.toString() ?? '',
       Nm_Organisasi: json['Nm_Organisasi']?.toString() ?? '',
       kode_organisasi: json['kode_organisasi']?.toString(),
+      Alias_Organisasi: json['Alias_Organisasi']?.toString(),
       BidangID_1: json['BidangID_1']?.toString(),
       kode_bidang_1: json['kode_bidang_1']?.toString(),
       Nm_Bidang_1: json['Nm_Bidang_1']?.toString(),
@@ -49,6 +52,7 @@ class OPDModel {
       'OrgID': OrgID,
       'Nm_Organisasi': Nm_Organisasi,
       'kode_organisasi': kode_organisasi,
+      'Alias_Organisasi': Alias_Organisasi,
       'BidangID_1': BidangID_1,
       'kode_bidang_1': kode_bidang_1,
       'Nm_Bidang_1': Nm_Bidang_1,
@@ -60,11 +64,15 @@ class OPDModel {
       'Nm_Bidang_3': Nm_Bidang_3,
     };
   }
+
+  // Getter untuk mendapatkan display name (Alias jika ada, fallback ke Nm_Organisasi)
+  String get displayName => Alias_Organisasi ?? Nm_Organisasi;
 }
 
 class UnitKerjaModel {
   final String SOrgID;
   final String Nm_Sub_Organisasi;
+  final String? Alias_Sub_Organisasi;
   final String? kode_sub_organisasi;
   final double? PaguDana1;
   final double? RealisasiKeuangan1;
@@ -73,6 +81,7 @@ class UnitKerjaModel {
   UnitKerjaModel({
     required this.SOrgID,
     required this.Nm_Sub_Organisasi,
+    this.Alias_Sub_Organisasi,
     this.kode_sub_organisasi,
     this.PaguDana1,
     this.RealisasiKeuangan1,
@@ -83,6 +92,7 @@ class UnitKerjaModel {
     return UnitKerjaModel(
       SOrgID: json['SOrgID']?.toString() ?? '',
       Nm_Sub_Organisasi: json['Nm_Sub_Organisasi']?.toString() ?? '',
+      Alias_Sub_Organisasi: json['Alias_Sub_Organisasi']?.toString(),
       kode_sub_organisasi: json['kode_sub_organisasi']?.toString(),
       PaguDana1: (json['PaguDana1'] ?? 0).toDouble(),
       RealisasiKeuangan1: (json['RealisasiKeuangan1'] ?? 0).toDouble(),
@@ -90,10 +100,14 @@ class UnitKerjaModel {
     );
   }
 
+  // Getter untuk mendapatkan display name (Alias jika ada, fallback ke Nm_Sub_Organisasi)
+  String get displayName => Alias_Sub_Organisasi ?? Nm_Sub_Organisasi;
+
   Map<String, dynamic> toJson() {
     return {
       'SOrgID': SOrgID,
       'Nm_Sub_Organisasi': Nm_Sub_Organisasi,
+      'Alias_Sub_Organisasi': Alias_Sub_Organisasi,
       'kode_sub_organisasi': kode_sub_organisasi,
       'PaguDana1': PaguDana1,
       'RealisasiKeuangan1': RealisasiKeuangan1,

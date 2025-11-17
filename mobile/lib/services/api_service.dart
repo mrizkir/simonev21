@@ -239,8 +239,18 @@ class ApiService {
   Future<Response> getOPDList(Map<String, dynamic> data) async {
     try {
       final response = await _dio.post('/dmaster/opd', data: data);
+      
+      // Handle 304 Not Modified
+      if (response.statusCode == 304) {
+        return response;
+      }
+      
       return response;
     } catch (e) {
+      // Handle DioError untuk 304
+      if (e is DioException && e.response?.statusCode == 304) {
+        return e.response!;
+      }
       rethrow;
     }
   }

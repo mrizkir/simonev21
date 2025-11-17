@@ -43,13 +43,13 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
     ]);
 
     $row = 1;
-    $sheet->mergeCells("A$row:J$row");
+    $sheet->mergeCells("A$row:I$row");
     $sheet->setCellValue("A$row", 'LAPORAN REALISASI INDIKATOR SUB KEGIATAN');
     $row += 1;
-    $sheet->mergeCells("A$row:J$row");
+    $sheet->mergeCells("A$row:I$row");
     $sheet->setCellValue("A$row", strtoupper($this->dataReport['Nm_Sub_Organisasi']." [$kode_sub_organisasi]"));
     $row += 1;
-    $sheet->mergeCells("A$row:J$row");
+    $sheet->mergeCells("A$row:I$row");
     $sheet->setCellValue("A$row", 'KABUPATEN BINTAN');
 
     $styleArray = array(
@@ -68,23 +68,21 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
     $sheet->setCellValue("B$row", 'NAMA SUB KEGIATAN');
     $sheet->setCellValue("C$row", 'INDIKATOR KEGIATAN');
     $sheet->setCellValue("D$row", 'KOMPONEN');
-    $sheet->setCellValue("E$row", 'TARGET');
-    $sheet->setCellValue("F$row", 'REALISASI');
-    $sheet->setCellValue("G$row", 'PENCAPAIAN (%)');
-    $sheet->setCellValue("H$row", 'PAGU');
-    $sheet->setCellValue("I$row", 'REALISASI PAGU');
-    $sheet->setCellValue("J$row", 'RASIO REALISASI (%)');
+    $sheet->setCellValue("E$row", 'REALISASI');
+    $sheet->setCellValue("F$row", 'PENCAPAIAN (%)');
+    $sheet->setCellValue("G$row", 'PAGU');
+    $sheet->setCellValue("H$row", 'REALISASI PAGU');
+    $sheet->setCellValue("I$row", 'RASIO REALISASI (%)');
 
     $sheet->getColumnDimension('A')->setWidth(8);
     $sheet->getColumnDimension('B')->setWidth(50);
     $sheet->getColumnDimension('C')->setWidth(40);
     $sheet->getColumnDimension('D')->setWidth(40);
     $sheet->getColumnDimension('E')->setWidth(20);
-    $sheet->getColumnDimension('F')->setWidth(20);
-    $sheet->getColumnDimension('G')->setWidth(15);
+    $sheet->getColumnDimension('F')->setWidth(15);
+    $sheet->getColumnDimension('G')->setWidth(20);
     $sheet->getColumnDimension('H')->setWidth(20);
-    $sheet->getColumnDimension('I')->setWidth(20);
-    $sheet->getColumnDimension('J')->setWidth(18);
+    $sheet->getColumnDimension('I')->setWidth(18);
 
     $styleArray = array(
       'font' => array('bold' => true),
@@ -96,8 +94,8 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
         'startColor' => array('argb' => 'FFE0E0E0'),
       ),
     );
-    $sheet->getStyle("A$row:J$row")->applyFromArray($styleArray);
-    $sheet->getStyle("A$row:J$row")->getAlignment()->setWrapText(true);
+    $sheet->getStyle("A$row:I$row")->applyFromArray($styleArray);
+    $sheet->getStyle("A$row:I$row")->getAlignment()->setWrapText(true);
 
     $row += 1;
     $row_awal = $row;
@@ -109,8 +107,6 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
       ->sum('PaguDana1');
 
     $no = 1;
-    $total_target = 0;
-    $total_realisasi = 0;
     $total_pagu = 0;
     $total_realisasi_pagu = 0;
 
@@ -139,125 +135,76 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
     {
       $RKAID = $data_sub_kegiatan->RKAID;
 
-      // Get components (uraian) for this sub kegiatan
-      $daftar_komponen = \DB::table('trRKARinc')
-        ->select(\DB::raw('
-          `RKARincID`,
-          `NamaUraian1`,
-          `PaguUraian1`
-        '))
+      // Get realisasi dana for the sub kegiatan
+      $data_realisasi = \DB::table('trRKARealisasiRinc')
+        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1'))
         ->where('RKAID', $RKAID)
-        ->orderBy('kode_uraian1', 'ASC')
-        ->get();
+        ->where('bulan1', '<=', $no_bulan)
+        ->first();
 
-      // If no components, still show the sub kegiatan row
-      if (count($daftar_komponen) == 0)
-      {
-        // Get target and realisasi for the sub kegiatan
-        $data_target = \DB::table('trRKATargetRinc')
-          ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget'))
-          ->where('RKAID', $RKAID)
-          ->where('bulan1', '<=', $no_bulan)
-          ->first();
+      $realisasi_dana = $data_realisasi->realisasi1 ?? 0;
+      $realisasi_pagu = $realisasi_dana;
+      $rasio_realisasi = Helper::formatPersen($realisasi_dana, $data_sub_kegiatan->PaguDana1);
 
-        $data_realisasi = \DB::table('trRKARealisasiRinc')
-          ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1'))
-          ->where('RKAID', $RKAID)
-          ->where('bulan1', '<=', $no_bulan)
-          ->first();
-
-        $target = $data_target->totaltarget ?? 0;
-        $realisasi = $data_realisasi->realisasi1 ?? 0;
-        $pencapaian = $target > 0 ? Helper::formatPersen($realisasi, $target) : 0;
-        $realisasi_pagu = $realisasi;
-        $rasio_realisasi = Helper::formatPersen($realisasi, $data_sub_kegiatan->PaguDana1);
-
-        $sheet->setCellValue("A$row", $no++);
-        $sheet->setCellValue("B$row", $data_sub_kegiatan->Nm_Sub_Kegiatan);
-        $sheet->setCellValue("C$row", $data_sub_kegiatan->keluaran1 ?? '-');
-        $sheet->setCellValue("D$row", '-');
-        $sheet->setCellValue("E$row", Helper::formatUang($target));
-        $sheet->setCellValue("F$row", Helper::formatUang($realisasi));
-        $sheet->setCellValue("G$row", $pencapaian);
-        $sheet->setCellValue("H$row", Helper::formatUang($data_sub_kegiatan->PaguDana1));
-        $sheet->setCellValue("I$row", Helper::formatUang($realisasi_pagu));
-        $sheet->setCellValue("J$row", $rasio_realisasi);
-
-        $total_target += $target;
-        $total_realisasi += $realisasi;
-        $total_pagu += $data_sub_kegiatan->PaguDana1;
-        $total_realisasi_pagu += $realisasi_pagu;
-
-        $row += 1;
-      }
-      else
-      {
-        // For each component, create a row
-        foreach ($daftar_komponen as $komponen)
-        {
-          // Get target and realisasi for this component
-          $data_target = \DB::table('trRKATargetRinc')
-            ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget'))
-            ->where('RKAID', $RKAID)
-            ->where('RKARincID', $komponen->RKARincID)
-            ->where('bulan1', '<=', $no_bulan)
-            ->first();
-
-          $data_realisasi = \DB::table('trRKARealisasiRinc')
-            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1'))
-            ->where('RKAID', $RKAID)
-            ->where('RKARincID', $komponen->RKARincID)
-            ->where('bulan1', '<=', $no_bulan)
-            ->first();
-
-          $target = $data_target->totaltarget ?? 0;
-          $realisasi = $data_realisasi->realisasi1 ?? 0;
-          $pencapaian = $target > 0 ? Helper::formatPersen($realisasi, $target) : 0;
-          $realisasi_pagu = $realisasi;
-          $rasio_realisasi = $komponen->PaguUraian1 > 0 ? Helper::formatPersen($realisasi, $komponen->PaguUraian1) : 0;
-
-          $sheet->setCellValue("A$row", $no++);
-          $sheet->setCellValue("B$row", $data_sub_kegiatan->Nm_Sub_Kegiatan);
-          $sheet->setCellValue("C$row", $data_sub_kegiatan->keluaran1 ?? '-');
-          $sheet->setCellValue("D$row", $komponen->NamaUraian1);
-          $sheet->setCellValue("E$row", Helper::formatUang($target));
-          $sheet->setCellValue("F$row", Helper::formatUang($realisasi));
-          $sheet->setCellValue("G$row", $pencapaian);
-          $sheet->setCellValue("H$row", Helper::formatUang($komponen->PaguUraian1));
-          $sheet->setCellValue("I$row", Helper::formatUang($realisasi_pagu));
-          $sheet->setCellValue("J$row", $rasio_realisasi);
-
-          $total_target += $target;
-          $total_realisasi += $realisasi;
-          $total_pagu += $komponen->PaguUraian1;
-          $total_realisasi_pagu += $realisasi_pagu;
-
-          $row += 1;
+      // Extract number from tk_keluaran1 for komponen
+      $tk_keluaran1 = '-';
+      if (!empty($data_sub_kegiatan->keluaran1)) {
+        $numberString = filter_var($data_sub_kegiatan->tk_keluaran1, FILTER_SANITIZE_NUMBER_INT);
+        if (!empty($numberString)) {
+          $tk_keluaran1 = (int)$numberString;
         }
       }
+
+      // Extract number from RealisasiKinerja for realisasi
+      $realisasi = '-';
+      if (!empty($data_sub_kegiatan->RealisasiKinerja)) {
+        $numberString = filter_var($data_sub_kegiatan->RealisasiKinerja, FILTER_SANITIZE_NUMBER_INT);
+        if (!empty($numberString)) {
+          $realisasi = (int)$numberString;
+        }
+      }
+
+      // Calculate pencapaian: ($realisasi / $tk_keluaran1) * 100
+      $pencapaian = 0;
+      if (is_numeric($realisasi) && is_numeric($tk_keluaran1) && $tk_keluaran1 != 0) {
+        $pencapaian = Helper::formatPersen($realisasi, $tk_keluaran1);
+      }
+
+      $sheet->setCellValue("A$row", $no++);
+      $sheet->setCellValue("B$row", $data_sub_kegiatan->Nm_Sub_Kegiatan);
+      $sheet->setCellValue("C$row", $data_sub_kegiatan->keluaran1 ?? '-');
+      $sheet->setCellValue("D$row", $tk_keluaran1);
+      $sheet->setCellValue("E$row", $realisasi);
+      $sheet->setCellValue("F$row", $pencapaian);
+      $sheet->setCellValue("G$row", Helper::formatUang($data_sub_kegiatan->PaguDana1));
+      $sheet->setCellValue("H$row", Helper::formatUang($realisasi_pagu));
+      $sheet->setCellValue("I$row", $rasio_realisasi);
+
+      $total_pagu += $data_sub_kegiatan->PaguDana1;
+      $total_realisasi_pagu += $realisasi_pagu;
+
+      $row += 1;
     }
 
     // Calculate totals
-    $total_pencapaian = $total_target > 0 ? Helper::formatPersen($total_realisasi, $total_target) : 0;
     $total_rasio_realisasi = $total_pagu > 0 ? Helper::formatPersen($total_realisasi_pagu, $total_pagu) : 0;
 
     // Total row
     $sheet->mergeCells("A$row:D$row");
     $sheet->setCellValue("A$row", 'JUMLAH');
-    $sheet->setCellValue("E$row", Helper::formatUang($total_target));
-    $sheet->setCellValue("F$row", Helper::formatUang($total_realisasi));
-    $sheet->setCellValue("G$row", $total_pencapaian);
-    $sheet->setCellValue("H$row", Helper::formatUang($total_pagu));
-    $sheet->setCellValue("I$row", Helper::formatUang($total_realisasi_pagu));
-    $sheet->setCellValue("J$row", $total_rasio_realisasi);
+    $sheet->setCellValue("E$row", '');
+    $sheet->setCellValue("F$row", '');
+    $sheet->setCellValue("G$row", Helper::formatUang($total_pagu));
+    $sheet->setCellValue("H$row", Helper::formatUang($total_realisasi_pagu));
+    $sheet->setCellValue("I$row", $total_rasio_realisasi);
 
     $styleArray = array(
       'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER,
         'vertical' => Alignment::HORIZONTAL_CENTER),
       'borders' => array('allBorders' => array('borderStyle' => Border::BORDER_THIN))
     );
-    $sheet->getStyle("A$row_awal:J$row")->applyFromArray($styleArray);
-    $sheet->getStyle("A$row_awal:J$row")->getAlignment()->setWrapText(true);
+    $sheet->getStyle("A$row_awal:I$row")->applyFromArray($styleArray);
+    $sheet->getStyle("A$row_awal:I$row")->getAlignment()->setWrapText(true);
 
     $styleArray = array(
       'alignment' => array('horizontal' => Alignment::HORIZONTAL_LEFT)
@@ -269,32 +216,32 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
       'alignment' => array('horizontal' => Alignment::HORIZONTAL_CENTER)
     );
     $sheet->getStyle("A$row_awal:A$row")->applyFromArray($styleArray);
-    $sheet->getStyle("G$row_awal:G$row")->applyFromArray($styleArray);
-    $sheet->getStyle("J$row_awal:J$row")->applyFromArray($styleArray);
+    $sheet->getStyle("F$row_awal:F$row")->applyFromArray($styleArray);
+    $sheet->getStyle("I$row_awal:I$row")->applyFromArray($styleArray);
 
     $styleArray = array(
       'alignment' => array('horizontal' => Alignment::HORIZONTAL_RIGHT)
     );
-    $sheet->getStyle("E$row_awal:F$row")->applyFromArray($styleArray);
-    $sheet->getStyle("H$row_awal:I$row")->applyFromArray($styleArray);
+    $sheet->getStyle("E$row_awal:E$row")->applyFromArray($styleArray);
+    $sheet->getStyle("G$row_awal:H$row")->applyFromArray($styleArray);
 
-    $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);
+    $sheet->getStyle("A$row:I$row")->getFont()->setBold(true);
 
     $row += 3;
-    $sheet->mergeCells("H$row:J$row");
-    $sheet->setCellValue("H$row", 'Kabupaten Bintan, '.Helper::tanggal('d F Y'));
+    $sheet->mergeCells("G$row:I$row");
+    $sheet->setCellValue("G$row", 'Kabupaten Bintan, '.Helper::tanggal('d F Y'));
     $row += 1;
 
-    $sheet->mergeCells("H$row:J$row");
-    $sheet->setCellValue("H$row", 'Pengguna Anggaran');
+    $sheet->mergeCells("G$row:I$row");
+    $sheet->setCellValue("G$row", 'Pengguna Anggaran');
 
     $row += 5;
-    $sheet->mergeCells("H$row:J$row");
-    $sheet->setCellValue("H$row", $this->dataReport['nama_pengguna_anggaran']);
+    $sheet->mergeCells("G$row:I$row");
+    $sheet->setCellValue("G$row", $this->dataReport['nama_pengguna_anggaran']);
     $row += 1;
 
-    $sheet->mergeCells("H$row:J$row");
-    $sheet->setCellValue("H$row", 'Nip.'.Helper::formatNIP($this->dataReport['nip_pengguna_anggaran']));
+    $sheet->mergeCells("G$row:I$row");
+    $sheet->setCellValue("G$row", 'Nip.'.Helper::formatNIP($this->dataReport['nip_pengguna_anggaran']));
   }
 }
 

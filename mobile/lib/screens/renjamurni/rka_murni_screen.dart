@@ -189,7 +189,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                           items: rkaProvider.daftarOPD.map((opd) {
                             return DropdownMenuItem<String>(
                               value: opd.OrgID,
-                              child: Text(opd.Nm_Organisasi),
+                              child: Text(opd.displayName),
                             );
                           }).toList(),
                           onChanged: (String? orgID) {
@@ -205,11 +205,14 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                             labelText: 'UNIT KERJA',
                             border: OutlineInputBorder(),
                           ),
-                          value: rkaProvider.sOrgIDSelected,
+                          value: rkaProvider.sOrgIDSelected != null &&
+                                  rkaProvider.daftarUnitKerja.any((unit) => unit.SOrgID == rkaProvider.sOrgIDSelected)
+                              ? rkaProvider.sOrgIDSelected
+                              : null,
                           items: rkaProvider.daftarUnitKerja.map((unit) {
                             return DropdownMenuItem<String>(
                               value: unit.SOrgID,
-                              child: Text(unit.Nm_Sub_Organisasi),
+                              child: Text(unit.displayName),
                             );
                           }).toList(),
                           onChanged: (String? sOrgID) {
@@ -334,12 +337,10 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                                   cells: [
                                     DataCell(Text(item.kode_sub_kegiatan)),
                                     DataCell(
-                                      Expanded(
-                                        child: Text(
-                                          item.Nm_Sub_Kegiatan,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                      Text(
+                                        item.Nm_Sub_Kegiatan,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     DataCell(Text(_formatCurrency(item.PaguDana1))),

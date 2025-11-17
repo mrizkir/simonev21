@@ -5,8 +5,10 @@ import 'providers/dashboard_provider.dart';
 import 'providers/ui_front_provider.dart';
 import 'providers/renja_murni_provider.dart';
 import 'providers/rka_murni_provider.dart';
+import 'providers/data_master_provider.dart';
 import 'services/api_service.dart';
 import 'services/storage_service.dart';
+import 'services/hive_service.dart';
 import 'screens/splash_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home/dashboard_screen.dart';
@@ -16,7 +18,10 @@ import 'screens/renjamurni/rka_murni_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize storage services
   await StorageService.init();
+  await HiveService.init();
   
   runApp(const MyApp());
 }
@@ -48,6 +53,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => RKAMurniProvider(apiService: ApiService()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DataMasterProvider(apiService: ApiService()),
         ),
       ],
       child: MaterialApp(

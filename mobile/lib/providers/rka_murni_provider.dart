@@ -132,6 +132,13 @@ class RKAMurniProvider with ChangeNotifier {
     try {
       _errorMessage = null;
       _orgIDSelected = orgID;
+      
+      // Clear Unit Kerja data first
+      _daftarUnitKerja = [];
+      _sOrgIDSelected = null;
+      _dataUnitKerja = null;
+      _dataTable = [];
+      _dataTableLoaded = false;
       notifyListeners();
 
       final response = await apiService.getUnitKerjaList(orgID);
@@ -142,9 +149,25 @@ class RKAMurniProvider with ChangeNotifier {
           _dataOPD = OPDModel.fromJson(data['organisasi']);
         }
         if (data['unitkerja'] != null) {
-          _daftarUnitKerja = (data['unitkerja'] as List)
+          // Remove duplicates by SOrgID
+          final unitKerjaList = (data['unitkerja'] as List)
               .map((item) => UnitKerjaModel.fromJson(item))
               .toList();
+          
+          // Remove duplicates based on SOrgID and filter out invalid items
+          final seen = <String>{};
+          _daftarUnitKerja = unitKerjaList.where((unit) {
+            // Filter out items with empty SOrgID
+            if (unit.SOrgID.isEmpty) {
+              return false;
+            }
+            // Remove duplicates
+            if (seen.contains(unit.SOrgID)) {
+              return false;
+            }
+            seen.add(unit.SOrgID);
+            return true;
+          }).toList();
         }
         _dataTableLoaded = false;
         _errorMessage = null;
