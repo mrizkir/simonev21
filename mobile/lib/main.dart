@@ -5,6 +5,7 @@ import 'providers/dashboard_provider.dart';
 import 'providers/ui_front_provider.dart';
 import 'providers/renja_murni_provider.dart';
 import 'providers/rka_murni_provider.dart';
+import 'providers/uraian_rka_murni_provider.dart';
 import 'providers/data_master_provider.dart';
 import 'services/api_service.dart';
 import 'services/storage_service.dart';
@@ -15,6 +16,8 @@ import 'screens/home/dashboard_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/renjamurni/renja_murni_screen.dart';
 import 'screens/renjamurni/rka_murni_screen.dart';
+import 'screens/renjamurni/uraian_rka_murni_screen.dart';
+import 'models/rka_murni_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +58,9 @@ class MyApp extends StatelessWidget {
           create: (_) => RKAMurniProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider(
+          create: (_) => UraianRKAMurniProvider(apiService: ApiService()),
+        ),
+        ChangeNotifierProvider(
           create: (_) => DataMasterProvider(apiService: ApiService()),
         ),
       ],
@@ -91,6 +97,17 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const ProfileScreen(),
           '/renjamurni': (context) => const RenjaMurniScreen(),
           '/renjamurni/rka': (context) => const RKAMurniScreen(),
+          '/renjamurni/rka/uraian': (context) {
+            final args = ModalRoute.of(context)!.settings.arguments;
+            if (args is RKAItem) {
+              return UraianRKAMurniScreen(rkaItem: args);
+            } else if (args is String) {
+              return UraianRKAMurniScreen(rkaID: args);
+            }
+            return const Scaffold(
+              body: Center(child: Text('RKAID tidak ditemukan')),
+            );
+          },
         },
       ),
     );

@@ -357,8 +357,11 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                                             color: Colors.blue,
                                             tooltip: 'Detail uraian kegiatan',
                                             onPressed: () {
-                                              // Navigate to uraian screen
-                                              debugPrint('View uraian: ${item.RKAID}');
+                                              Navigator.pushNamed(
+                                                context,
+                                                '/renjamurni/rka/uraian',
+                                                arguments: item,
+                                              );
                                             },
                                           ),
                                           IconButton(

@@ -329,6 +329,48 @@ class ApiService {
     }
   }
 
+  // Get Uraian RKA
+  Future<Response> getRKAUraian(String rkaID) async {
+    try {
+      final response = await _dio.get('/renja/rkamurni/$rkaID');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Update Uraian
+  Future<Response> updateUraian(String rkarincID, Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post(
+        '/renja/rkamurni/updateuraian/$rkarincID',
+        data: {
+          ...data,
+          '_method': 'PUT',
+        },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Delete Uraian
+  Future<Response> deleteUraian(String rkarincID) async {
+    try {
+      final response = await _dio.post(
+        '/renja/rkamurni/$rkarincID',
+        data: {
+          '_method': 'DELETE',
+          'pid': 'datauraian',
+        },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Response> getProgramList(String bidangID, Map<String, dynamic> data) async {
     try {
       final response = await _dio.post('/dmaster/kodefikasi/bidangurusan/$bidangID/program', data: data);
