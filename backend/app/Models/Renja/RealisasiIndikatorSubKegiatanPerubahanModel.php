@@ -104,7 +104,7 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
       ->where('SOrgID', $SOrgID)
       ->where('TA', $tahun)
       ->where('EntryLvl', 2)
-      ->sum('PaguDana1');
+      ->sum('PaguDana2');
 
     $no = 1;
     $total_pagu = 0;
@@ -116,9 +116,9 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
         `RKAID`,
         `kode_sub_kegiatan`,
         `Nm_Sub_Kegiatan`,
-        `PaguDana1`,
-        `keluaran1`,
-        `tk_keluaran1`,
+        `PaguDana2`,
+        `keluaran2`,
+        `tk_keluaran2`,
         `RealisasiKinerja`
       '))
       ->where('SOrgID', $SOrgID)
@@ -137,21 +137,21 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
 
       // Get realisasi dana for the sub kegiatan
       $data_realisasi = \DB::table('trRKARealisasiRinc')
-        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1'))
+        ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2'))
         ->where('RKAID', $RKAID)
-        ->where('bulan1', '<=', $no_bulan)
+        ->where('bulan2', '<=', $no_bulan)
         ->first();
 
-      $realisasi_dana = $data_realisasi->realisasi1 ?? 0;
+      $realisasi_dana = $data_realisasi->realisasi2 ?? 0;
       $realisasi_pagu = $realisasi_dana;
-      $rasio_realisasi = Helper::formatPersen($realisasi_dana, $data_sub_kegiatan->PaguDana1);
+      $rasio_realisasi = Helper::formatPersen($realisasi_dana, $data_sub_kegiatan->PaguDana2);
 
-      // Extract number from tk_keluaran1 for komponen
-      $tk_keluaran1 = '-';
-      if (!empty($data_sub_kegiatan->keluaran1)) {
-        $numberString = filter_var($data_sub_kegiatan->tk_keluaran1, FILTER_SANITIZE_NUMBER_INT);
+      // Extract number from tk_keluaran2 for komponen
+      $tk_keluaran2 = '-';
+      if (!empty($data_sub_kegiatan->keluaran2)) {
+        $numberString = filter_var($data_sub_kegiatan->tk_keluaran2, FILTER_SANITIZE_NUMBER_INT);
         if (!empty($numberString)) {
-          $tk_keluaran1 = (int)$numberString;
+          $tk_keluaran2 = (int)$numberString;
         }
       }
 
@@ -164,23 +164,23 @@ class RealisasiIndikatorSubKegiatanPerubahanModel extends ReportModel
         }
       }
 
-      // Calculate pencapaian: ($realisasi / $tk_keluaran1) * 100
+      // Calculate pencapaian: ($realisasi / $tk_keluaran2) * 100
       $pencapaian = 0;
-      if (is_numeric($realisasi) && is_numeric($tk_keluaran1) && $tk_keluaran1 != 0) {
-        $pencapaian = Helper::formatPersen($realisasi, $tk_keluaran1);
+      if (is_numeric($realisasi) && is_numeric($tk_keluaran2) && $tk_keluaran2 != 0) {
+        $pencapaian = Helper::formatPersen($realisasi, $tk_keluaran2);
       }
 
       $sheet->setCellValue("A$row", $no++);
       $sheet->setCellValue("B$row", $data_sub_kegiatan->Nm_Sub_Kegiatan);
-      $sheet->setCellValue("C$row", $data_sub_kegiatan->keluaran1 ?? '-');
-      $sheet->setCellValue("D$row", $tk_keluaran1);
+      $sheet->setCellValue("C$row", $data_sub_kegiatan->keluaran2 ?? '-');
+      $sheet->setCellValue("D$row", $tk_keluaran2);
       $sheet->setCellValue("E$row", $realisasi);
       $sheet->setCellValue("F$row", $pencapaian);
-      $sheet->setCellValue("G$row", Helper::formatUang($data_sub_kegiatan->PaguDana1));
+      $sheet->setCellValue("G$row", Helper::formatUang($data_sub_kegiatan->PaguDana2));
       $sheet->setCellValue("H$row", Helper::formatUang($realisasi_pagu));
       $sheet->setCellValue("I$row", $rasio_realisasi);
 
-      $total_pagu += $data_sub_kegiatan->PaguDana1;
+      $total_pagu += $data_sub_kegiatan->PaguDana2;
       $total_realisasi_pagu += $realisasi_pagu;
 
       $row += 1;

@@ -36,7 +36,7 @@ class RealisasiIndikatorSubKegiatanPerubahanController extends Controller
     ->where('SOrgID', $unitkerja->SOrgID)
     ->where('TA', $tahun)
     ->where('EntryLvl', 2)
-    ->sum('PaguDana1');
+    ->sum('PaguDana2');
 
     $data = [];
     $no = 1;
@@ -47,10 +47,10 @@ class RealisasiIndikatorSubKegiatanPerubahanController extends Controller
         `RKAID`,
         `kode_sub_kegiatan`,
         `Nm_Sub_Kegiatan`,
-        `PaguDana1`,
-        `keluaran1`,
-        `tk_keluaran1`,
-        `tk_capaian1`,
+        `PaguDana2`,
+        `keluaran2`,
+        `tk_keluaran2`,
+        `tk_capaian2`,
         `RealisasiKinerja`
       '))
       ->where('SOrgID', $unitkerja->SOrgID)
@@ -71,29 +71,29 @@ class RealisasiIndikatorSubKegiatanPerubahanController extends Controller
       $daftar_komponen = \DB::table('trRKARinc')
         ->select(\DB::raw('
           `RKARincID`,
-          `NamaUraian1`,
-          `PaguUraian1`
+          `NamaUraian2`,
+          `PaguUraian2`
         '))
         ->where('RKAID', $RKAID)
-        ->orderBy('kode_uraian1', 'ASC')
+        ->orderBy('kode_uraian2', 'ASC')
         ->get();
 
       // Get realisasi for the sub kegiatan
       $data_realisasi = \DB::table('trRKARealisasiRinc')
-        ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1'))
+        ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2'))
         ->where('RKAID', $RKAID)
         ->where('bulan1', '<=', $no_bulan)
         ->first();
 
-      $realisasi_dana = $data_realisasi->realisasi1 ?? 0;      
+      $realisasi_dana = $data_realisasi->realisasi2 ?? 0;      
       $realisasi_pagu = $realisasi_dana;
-      $rasio_realisasi = Helper::formatPersen($realisasi_dana, $data_sub_kegiatan->PaguDana1);
+      $rasio_realisasi = Helper::formatPersen($realisasi_dana, $data_sub_kegiatan->PaguDana2);
 
-      $tk_keluaran1 = '-';
-      if (!empty($data_sub_kegiatan->keluaran1)) {
-        $numberString = filter_var($data_sub_kegiatan->tk_keluaran1, FILTER_SANITIZE_NUMBER_INT);
+      $tk_keluaran2 = '-';
+      if (!empty($data_sub_kegiatan->keluaran2)) {
+        $numberString = filter_var($data_sub_kegiatan->tk_keluaran2, FILTER_SANITIZE_NUMBER_INT);
         if (!empty($numberString)) {
-          $tk_keluaran1 = (int)$numberString;
+          $tk_keluaran2 = (int)$numberString;
         }
       }
 
@@ -106,20 +106,20 @@ class RealisasiIndikatorSubKegiatanPerubahanController extends Controller
         }
       }
       
-      // Calculate pencapaian: ($realisasi / $tk_keluaran1) * 100
+      // Calculate pencapaian: ($realisasi / $tk_keluaran2) * 100
       $pencapaian = 0;
-      if (is_numeric($realisasi) && is_numeric($tk_keluaran1) && $tk_keluaran1 != 0) {
-        $pencapaian = Helper::formatPersen($realisasi, $tk_keluaran1);
+      if (is_numeric($realisasi) && is_numeric($tk_keluaran2) && $tk_keluaran2 != 0) {
+        $pencapaian = Helper::formatPersen($realisasi, $tk_keluaran2);
       }
       
       $data[] = [
         'no' => $no++,
         'nama_sub_kegiatan' => $data_sub_kegiatan->Nm_Sub_Kegiatan,
-        'indikator_kegiatan' => $data_sub_kegiatan->keluaran1 ?? '-',
-        'komponen' => $tk_keluaran1,
+        'indikator_kegiatan' => $data_sub_kegiatan->keluaran2 ?? '-',
+        'komponen' => $tk_keluaran2,
         'realisasi' => $realisasi,
         'pencapaian' => $pencapaian,
-        'pagu' => $data_sub_kegiatan->PaguDana1,
+        'pagu' => $data_sub_kegiatan->PaguDana2,
         'realisasi_pagu' => $realisasi_pagu,
         'rasio_realisasi' => $rasio_realisasi,
       ];      
