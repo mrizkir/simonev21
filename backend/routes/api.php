@@ -10,8 +10,10 @@ $router->group(['prefix'=>'v1'], function () use ($router)
   $router->post('/dashboard/pelaporanopd', ['uses'=>'Statistik\PelaporanOPDController@front','as'=>'pelaporanopd.front']);
   $router->post('/evaluasimurni/realisasita', ['uses'=>'Statistik\EvaluasiMurniRealisasiTAController@front','as'=>'evaluasimurnirealisasita.front']);
   $router->post('/evaluasimurni/realisasitw', ['uses'=>'Statistik\EvaluasiMurniRealisasiTWController@front','as'=>'evaluasimurnirealisasitw.front']);
+  $router->post('/evaluasimurni/realisasitw/printtoexcel', ['uses'=>'Statistik\EvaluasiMurniRealisasiTWController@printtoexcel','as'=>'evaluasimurnirealisasitw.printtoexcel']);
   $router->post('/evaluasiperubahan/realisasita', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTAController@front','as'=>'evaluasiperubahanrealisasita.front']);
   $router->post('/evaluasiperubahan/realisasitw', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTWController@front','as'=>'evaluasiperubahanrealisasitw.front']);
+  $router->post('/evaluasiperubahan/realisasitw/printtoexcel', ['uses'=>'Statistik\EvaluasiPerubahanRealisasiTWController@printtoexcel','as'=>'evaluasiperubahanrealisasitw.printtoexcel']);
   
   //dashboard - rpjmd
   $router->post('/rpjmd/dashboard/statistik', ['uses'=>'RPJMD\RPJMDDashboardController@statistik','as'=>'dashboard-rpjmd.statistik']);  

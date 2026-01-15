@@ -267,7 +267,7 @@
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
         "
         :color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-        v-if="CAN_ACCESS('RENJA-FORM-B-MURNI_BROWSE')"
+        v-if="CAN_ACCESS('RENJA-FORM-B-PERUBAHAN_BROWSE')"
       >
         <v-list-item-icon class="mr-2">
           <v-icon>mdi-arrow-collapse-right</v-icon>
@@ -285,7 +285,7 @@
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
         "
         :color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
-        v-if="CAN_ACCESS('RENJA-FORM-B-MURNI_BROWSE')"
+        v-if="CAN_ACCESS('RENJA-FORM-B-PERUBAHAN_BROWSE')"
       >
         <v-list-item-icon class="mr-2">
           <v-icon>mdi-arrow-collapse-right</v-icon>
@@ -293,6 +293,24 @@
         <v-list-item-content>
           <v-list-item-title>
             REKAP. LRA BELANJA
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        link
+        to="/renjaperubahan/report/realisasitw"
+        :active-class="
+          $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+        "
+        :color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+        v-if="CAN_ACCESS('RENJA-FORM-B-PERUBAHAN_BROWSE')"
+      >
+        <v-list-item-icon class="mr-2">
+          <v-icon>mdi-arrow-collapse-right</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            REALISASI PER T.W
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

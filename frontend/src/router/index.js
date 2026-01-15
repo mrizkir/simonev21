@@ -567,6 +567,16 @@ const routes = [
     },
     component: () => import("../views/pages/admin/renjamurni/FormRekapLRAMurni.vue"),
   },
+  //renja murni - realisasi per tw
+  {
+    path: "/renjamurni/report/realisasitw",
+    name: "EvaluasiRealisasiMurniTW",
+    meta: {
+      title: "LAPORAN REALISASI PER T.W",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjamurni/EvaluasiRealisasiMurniTW.vue"),
+  },
   //renja murni - target kinerja murni
   {
     path: "/renjamurni/targetkinerja",
@@ -795,7 +805,7 @@ const routes = [
     },
     component: () => import("../views/pages/admin/renjaperubahan/FormLRAOPDPerubahan.vue"),
   },
-  //renja murni - rekap lra belanja
+  //renja perubahan - rekap lra belanja
   {
     path: "/renjaperubahan/report/rekaplra",
     name: "FormRekapLRAPerubahan",
@@ -833,7 +843,7 @@ const routes = [
     path: "/renjaperubahan/snapshot/rka",
     name: "RenjaPerubahanSnapshotRKA",
     meta: {
-      title: "RENCANA KERJA MURNI - SNAPSHOT",
+      title: "RKA PERUBAHAN - SNAPSHOT",
       requiresAuth: true,
     },
     component: () =>
@@ -843,7 +853,7 @@ const routes = [
     path: "/renjaperubahan/snapshot/rka/uraian/:rkaid",
     name: "RenjaPerubahanSnapshotUraianRKA",
     meta: {
-      title: "RKA MURNI - URAIAN",
+      title: "RKA PERUBAHAN - URAIAN",
       requiresAuth: true,
     },
     component: () =>
@@ -855,13 +865,23 @@ const routes = [
     path: "/renjaperubahan/snapshot/rka/realisasi/:rkarincid",
     name: "RenjaPerubahanSnapshotRealisasiRKAPerubahan",
     meta: {
-      title: "RKA MURNI - REALISASI",
+      title: "RKA PERUBAHAN - REALISASI",
       requiresAuth: true,
     },
     component: () =>
       import(
         "../views/pages/admin/renjaperubahan/SnapshotRealisasiRKAPerubahan.vue"
       ),
+  },
+  //renja perubahan - realisasi per tw
+  {
+    path: "/renjaperubahan/report/realisasitw",
+    name: "EvaluasiRealisasiPerubahanTW",
+    meta: {
+      title: "LAPORAN REALISASI PER T.W",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjaperubahan/EvaluasiRealisasiPerubahanTW.vue"),
   },
   //dak murni
   {

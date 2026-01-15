@@ -124,4 +124,37 @@ class EvaluasiPerubahanRealisasiTWController extends Controller {
       'message' => 'Fetch data untuk laporan realisasi berhasil diperoleh'
     ], 200);
   }
+
+  public function printtoexcel(Request $request)
+  {
+    $rule = [            
+      'tahun' => 'required|digits:4|integer|min:2020|max:'. (date('Y')),
+      'tw_realisasi' => 'required|in:1,2,3,4',
+    ];
+        
+    $this->validate($request, $rule);
+    
+    $tahun = $request->input('tahun');
+    $tw_realisasi = $request->input('tw_realisasi');
+    
+    // Check if there's any data
+    if (\DB::table('statistik2')->where('TA', $tahun)->where('EntryLvl', 2)->count() > 0)
+    {
+      $data_report = [
+        'tahun' => $tahun,
+        'tw_realisasi' => $tw_realisasi,
+      ];
+      $report = new \App\Models\Statistik\EvaluasiPerubahanRealisasiTWModel($data_report);
+      $generate_date = date('Y-m-d_H_i_s');
+      return $report->download("evaluasi_realisasi_tw_$generate_date.xlsx");
+    }
+    else
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',                                                                            
+        'message' => ['Print excel gagal dilakukan karena tidak ada data statistik pada tahun ini']
+      ], 422); 
+    }
+  }
 }
