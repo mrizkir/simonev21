@@ -68,6 +68,24 @@
                       outlined
                       small
                       class="ma-2"
+                      @click.stop="printtoexcel"
+                      :disabled="btnLoading || datatableLoading"
+                    >
+                      <v-icon>mdi-printer</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Cetak Daftar Sumber Dana</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="primary"
+                      icon
+                      outlined
+                      small
+                      class="ma-2"
                       @click.stop="copyItem"
                       :disabled="
                         !$store.getters['auth/can'](
@@ -529,6 +547,37 @@
           )
           .then(({ data }) => {
             this.daftar_jenis_sumber_dana = data.payload;
+          });
+      },
+      printtoexcel: async function() {
+        this.btnLoading = true;
+        await this.$ajax
+          .post(
+            "/dmaster/sumberdana/printtoexcel",
+            {
+              tahun: this.$store.getters["auth/TahunSelected"],
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+              responseType: "arraybuffer",
+            }
+          )
+          .then(({ data }) => {
+            const url = window.URL.createObjectURL(new Blob([data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute(
+              "download",
+              "daftar_sumber_dana_" + Date.now() + ".xlsx"
+            );
+            document.body.appendChild(link);
+            link.click();
+            this.btnLoading = false;
+          })
+          .catch(() => {
+            this.btnLoading = false;
           });
       },
       dataTableRowClicked(item) {

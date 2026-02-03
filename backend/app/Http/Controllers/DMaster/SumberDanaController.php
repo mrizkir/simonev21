@@ -10,6 +10,41 @@ use Illuminate\Validation\Rule;
 
 class SumberDanaController extends Controller {      
   /**
+   * Cetak daftar sumber dana ke Excel
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function printtoexcel(Request $request)
+  {
+    $this->hasPermissionTo('DMASTER-SUMBER-DANA_BROWSE');
+
+    $this->validate($request, [
+      'tahun' => 'required',
+    ]);
+
+    $tahun = $request->input('tahun');
+
+    $data = SumberDanaModel::where('TA', $tahun)
+      ->select(\DB::raw("
+        tmSumberDana.*,
+        COALESCE(tmJenisSumberDana.Nm_Jenis_SumberDana, 'N/A') AS Nm_Jenis_SumberDana
+      "))
+      ->leftJoin('tmJenisSumberDana', 'tmSumberDana.Id_Jenis_SumberDana', '=', 'tmJenisSumberDana.Id_Jenis_SumberDana')
+      ->orderBy('Nm_SumberDana', 'ASC')
+      ->get();
+
+    $data_report = [
+      'tahun' => $tahun,
+      'sumberdana' => $data,
+    ];
+
+    $report = new \App\Models\DMaster\DaftarSumberDanaModel($data_report);
+    $generate_date = date('Y-m-d_H_m_s');
+    return $report->download("daftar_sumber_dana_$generate_date.xlsx");
+  }
+
+  /**
    * mendapatkan daftar seluruh ASN
    *
    * @return \Illuminate\Http\Response

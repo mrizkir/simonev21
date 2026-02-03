@@ -114,6 +114,24 @@
                       outlined
                       small
                       class="ma-2"
+                      @click.stop="printtoexcel"
+                      :disabled="btnLoading || !datatableLoaded"
+                    >
+                      <v-icon>mdi-printer</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Cetak Daftar OPD</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="primary"
+                      icon
+                      outlined
+                      small
+                      class="ma-2"
                       @click.stop="addItem"
                       :disabled="
                         !$store.getters['auth/can']('DMASTER-OPD_STORE')
@@ -784,6 +802,37 @@
         } else {
           this.expanded = [item];
         }
+      },
+      printtoexcel: async function() {
+        this.btnLoading = true;
+        await this.$ajax
+          .post(
+            "/dmaster/opd/printtoexcel",
+            {
+              tahun: this.$store.getters["auth/TahunSelected"],
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+              responseType: "arraybuffer",
+            }
+          )
+          .then(({ data }) => {
+            const url = window.URL.createObjectURL(new Blob([data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute(
+              "download",
+              "daftar_opd_" + Date.now() + ".xlsx"
+            );
+            document.body.appendChild(link);
+            link.click();
+            this.btnLoading = false;
+          })
+          .catch(() => {
+            this.btnLoading = false;
+          });
       },
       loadPaguAPBDP() {
         this.btnLoading = true;

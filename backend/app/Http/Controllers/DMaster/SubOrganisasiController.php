@@ -9,8 +9,80 @@ use App\Models\DMaster\OrganisasiModel;
 
 use Ramsey\Uuid\Uuid;
 
-class SubOrganisasiController extends Controller {     
+class SubOrganisasiController extends Controller 
+{     
   
+  /**
+   * Cetak daftar unit kerja ke Excel
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function printtoexcel(Request $request)
+  {
+    $this->hasPermissionTo('DMASTER-UNIT-KERJA_BROWSE');
+
+    $this->validate($request, [
+      'tahun' => 'required',
+    ]);
+
+    $tahun = $request->input('tahun');
+
+    $select = \DB::raw('
+      tmSOrg.SOrgID,
+      tmOrg.OrgID,
+      tmOrg.Nm_Organisasi,
+      tmSOrg.kode_sub_organisasi,
+      tmSOrg.Kd_Sub_Organisasi,
+      tmSOrg.Nm_Sub_Organisasi,
+      tmSOrg.Alias_Sub_Organisasi,
+      tmSOrg.Alamat,
+      tmSOrg.NamaKepalaUnitKerja,
+      tmSOrg.NIPKepalaUnitKerja,
+      tmOrg.Nm_Bidang_1,
+      tmOrg.Nm_Bidang_2,
+      tmOrg.Nm_Bidang_3,
+      tmSOrg.PaguDana1,
+      tmSOrg.PaguDana2,
+      tmSOrg.Descr,
+      tmSOrg.created_at,
+      tmSOrg.updated_at
+    ');
+
+    if ($this->hasRole(['superadmin', 'bapelitbang'])) {
+      $data = SubOrganisasiModel::select($select)
+        ->join('tmOrg', 'tmOrg.OrgID', 'tmSOrg.OrgID')
+        ->where('tmSOrg.TA', $tahun)
+        ->orderBy('kode_sub_organisasi', 'ASC')
+        ->get();
+    } else if ($this->hasRole('opd')) {
+      $daftar_opd = $this->getUserOrgID($tahun);
+      $data = SubOrganisasiModel::select($select)
+        ->join('tmOrg', 'tmOrg.OrgID', 'tmSOrg.OrgID')
+        ->where('tmSOrg.TA', $tahun)
+        ->whereIn('tmOrg.OrgID', $daftar_opd)
+        ->orderBy('kode_sub_organisasi', 'ASC')
+        ->get();
+    } else {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ['Unauthorized']
+      ], 403);
+    }
+
+    $data_report = [
+      'tahun' => $tahun,
+      'unitkerja' => $data,
+      'jumlah_apbd' => $data->sum('PaguDana1'),
+      'jumlah_apbdp' => $data->sum('PaguDana2'),
+    ];
+
+    $report = new \App\Models\DMaster\DaftarUnitKerjaModel($data_report);
+    $generate_date = date('Y-m-d_H_m_s');
+    return $report->download("daftar_unit_kerja_$generate_date.xlsx");
+  }
+
   /**
    * Show the form for creating a newx resource.
    *

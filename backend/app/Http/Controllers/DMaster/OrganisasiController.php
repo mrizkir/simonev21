@@ -928,6 +928,56 @@ class OrganisasiController extends Controller
   }
 
   /**
+   * Cetak daftar OPD ke Excel
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function printtoexcel(Request $request)
+  {
+    $this->hasPermissionTo('DMASTER-OPD_BROWSE');
+
+    $this->validate($request, [
+      'tahun' => 'required',
+    ]);
+
+    $tahun = $request->input('tahun');
+
+    if ($this->hasRole(['superadmin', 'bapelitbang'])) 
+    {
+      $data = OrganisasiModel::where('TA', $tahun)
+        ->orderBy('kode_organisasi', 'ASC')
+        ->get();
+    } else if ($this->hasRole(['opd', 'unitkerja'])) 
+    {
+      $daftar_opd = $this->getUserOrgID($tahun);
+      $data = OrganisasiModel::where('TA', $tahun)
+        ->whereIn('OrgID', $daftar_opd)
+        ->orderBy('kode_organisasi', 'ASC')
+        ->get();
+    } 
+    else 
+    {
+      return Response()->json([
+        'status' => 0,
+        'pid' => 'fetchdata',
+        'message' => ['Unauthorized']
+      ], 403);
+    }
+
+    $data_report = [
+      'tahun' => $tahun,
+      'opd' => $data,
+      'jumlah_apbd' => $data->sum('PaguDana1'),
+      'jumlah_apbdp' => $data->sum('PaguDana2'),
+    ];
+
+    $report = new \App\Models\DMaster\DaftarOPDModel($data_report);
+    $generate_date = date('Y-m-d_H_m_s');
+    return $report->download("daftar_opd_$generate_date.xlsx");
+  }
+
+  /**
    * digunakan untuk mendapatkan detail dari program rpjmd 
    * @param $data_program object program
    * @param $jenis diisi dengang pagu atau indikator

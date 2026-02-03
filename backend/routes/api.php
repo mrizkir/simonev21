@@ -153,6 +153,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //data master - opd
   $router->post('/dmaster/opd', ['uses'=>'DMaster\OrganisasiController@index','as'=>'opd.index']);
+  $router->post('/dmaster/opd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\OrganisasiController@printtoexcel','as'=>'opd.printtoexcel']);
   $router->post('/dmaster/opd/loadopd', ['middleware'=>['role:superadmin'],'uses'=>'DMaster\OrganisasiController@loadopd','as'=>'opd.loadopd']);
   $router->post('/dmaster/opd/loadpaguapbdp', ['middleware'=>['role:superadmin'],'uses'=>'DMaster\OrganisasiController@loadpaguapbdp','as'=>'opd.loadpaguapbdp']);
   $router->post('/dmaster/opd/store', ['middleware'=>['role:superadmin'],'uses'=>'DMaster\OrganisasiController@store','as'=>'opd.store']);
@@ -169,6 +170,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //data master - unit kerja
   $router->post('/dmaster/unitkerja', ['uses'=>'DMaster\SubOrganisasiController@index','as'=>'unitkerja.index']);
+  $router->post('/dmaster/unitkerja/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\SubOrganisasiController@printtoexcel','as'=>'unitkerja.printtoexcel']);
   $router->post('/dmaster/unitkerja/loadunitkerja', ['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadunitkerja','as'=>'unitkerja.loadunitkerja']);
   $router->post('/dmaster/unitkerja/loadpaguapbdp', ['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadpaguapbdp','as'=>'unitkerja.loadpaguapbdp']);
   $router->post('/dmaster/unitkerja/store', ['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@store','as'=>'unitkerja.store']);
@@ -191,6 +193,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
   //data master - Sumber Dana
   $router->post('/dmaster/sumberdana', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\SumberDanaController@index','as'=>'sumberdana.index']);
+  $router->post('/dmaster/sumberdana/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\SumberDanaController@printtoexcel','as'=>'sumberdana.printtoexcel']);
   //data master - Jenis Sumber Dana
   $router->get('/dmaster/sumberdana/jenis', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\SumberDanaController@jenis','as'=>'sumberdana.jenis']);
   $router->post('/dmaster/sumberdana/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\SumberDanaController@store','as'=>'sumberdana.store']);
