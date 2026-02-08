@@ -415,7 +415,7 @@
         <v-divider></v-divider>
         <v-card-text class="py-2 white--text text-center">
           <strong>{{ $store.getters["uifront/getNamaAPP"] }} (2022)</strong>
-          dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
+          dikembangkan oleh TIM IT Sekretariat Daerah KAB. Bintan.
           <v-btn dark icon href="https://github.com/mrizkir/simonev21">
             <v-icon>mdi-github</v-icon>
           </v-btn>

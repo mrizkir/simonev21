@@ -187,8 +187,8 @@
       </v-list-item>
       <v-list-item
         link
-        v-if="CAN_ACCESS('SYSTEM-USERS-BAPELITBANG_BROWSE')"
-        to="/system-users/bapelitbang"
+        v-if="CAN_ACCESS('SYSTEM-USERS-Sekretariat Daerah_BROWSE')"
+        to="/system-users/Sekretariat Daerah"
         :active-class="
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
         "
@@ -336,7 +336,7 @@
           <strong>
             {{ $store.getters["uifront/getNamaAPP"] }} (2022)
           </strong>
-          dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan.
+          dikembangkan oleh TIM IT Sekretariat Daerah KAB. Bintan.
           <v-btn dark icon href="https://github.com/mrizkir/simonev21">
             <v-icon>mdi-github</v-icon>
           </v-btn>

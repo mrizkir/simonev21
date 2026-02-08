@@ -361,6 +361,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   //renja - data mentah murni
   $router->post('/renja/datamentahmurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\DataMentahMurniController@index','as'=>'v1.datamentahmurni.index']);
   $router->post('/renja/datamentahmurni/copyrka', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\DataMentahMurniController@copyrka','as'=>'v1.datamentahmurni.copyrka']);
+  $router->post('/renja/datamentahmurni/updaterekening', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'Renja\DataMentahMurniController@updaterekening','as'=>'v1.datamentahmurni.updaterekening']);
 
   //renja - rka murni
   $router->post('/renja/rkamurni', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk|dewan|tapd'],'uses'=>'Renja\RKAMurniController@index','as'=>'rkamurni.index']);
