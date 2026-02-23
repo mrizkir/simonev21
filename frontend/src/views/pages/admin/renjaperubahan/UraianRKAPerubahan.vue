@@ -446,6 +446,8 @@
                           label="Januari"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[0]"
                         >
@@ -456,6 +458,8 @@
                           label="Februari"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[1]"
                         >
@@ -466,6 +470,8 @@
                           label="Maret"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[2]"
                         >
@@ -476,6 +482,8 @@
                           label="April"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[3]"
                         >
@@ -486,6 +494,8 @@
                           label="Mei"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[4]"
                         >
@@ -496,6 +506,8 @@
                           label="Juni"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[5]"
                         >
@@ -506,6 +518,8 @@
                           label="Juli"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[6]"
                         >
@@ -516,6 +530,8 @@
                           label="Agustus"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[7]"
                         >
@@ -526,6 +542,8 @@
                           label="September"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[8]"
                         >
@@ -536,6 +554,8 @@
                           label="Oktober"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[9]"
                         >
@@ -546,6 +566,8 @@
                           label="November"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[10]"
                         >
@@ -556,6 +578,8 @@
                           label="Desember"
                           :min="null"
                           :max="null"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="formtarget.targetanggarankas[11]"
                         >
@@ -566,6 +590,8 @@
                           label="Total Isian Anggaran"
                           :rules="rule_totalanggarankas"
                           :readonly="true"
+                          :decimal-length="2"
+                          :value-as-integer="false"
                           filled
                           v-model="totalTargetAnggaranKas"
                         >
@@ -1494,6 +1520,18 @@
             this.dialogtargetfisik == true
               ? "targetfisik"
               : "targetanggarankas";
+          // Reset form dulu agar data uraian sebelumnya tidak tertinggal
+          this.formtarget.paguuraian2 = 0;
+          if (mode === "targetfisik") {
+            this.formtarget.targetfisik = [
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ];
+          } else {
+            this.formtarget.targetanggarankas = [
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ];
+          }
+          this.editedIndex = -1;
           await this.$ajax
             .post(
               "/renja/rkaperubahan/rencanatarget",
@@ -1578,6 +1616,20 @@
                   this.editedIndex = -1;
                 }
               }
+            })
+            .catch(() => {
+              // Reset form jika API gagal agar tidak menampilkan data lama
+              this.formtarget.paguuraian2 = 0;
+              if (mode === "targetfisik") {
+                this.formtarget.targetfisik = [
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                ];
+              } else {
+                this.formtarget.targetanggarankas = [
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                ];
+              }
+              this.editedIndex = -1;
             });
         }
       },
