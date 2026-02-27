@@ -205,6 +205,8 @@
                         :max="null"
                         filled
                         outlined
+                        :decimal-length="2"
+                        :value-as-integer="false"
                         v-model="formdata.harga_satuan1"
                       >
                       </v-currency-field>

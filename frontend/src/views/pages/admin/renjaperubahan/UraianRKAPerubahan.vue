@@ -183,6 +183,8 @@
                         :max="null"
                         filled
                         outlined
+                        :decimal-length="2"
+                        :value-as-integer="false"
                         v-model="formdata.harga_satuan2"
                       >
                       </v-currency-field>

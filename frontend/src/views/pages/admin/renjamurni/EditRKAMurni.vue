@@ -108,6 +108,8 @@
                   :max="null"
                   outlined
                   filled
+                  :decimal-length="2"
+                  :value-as-integer="false"
                   v-model="formdata.PaguDana1"
                   :disabled="datakegiatan.Locked == 1"
                 >
