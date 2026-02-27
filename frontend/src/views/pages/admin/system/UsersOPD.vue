@@ -304,6 +304,40 @@
                     role_default="opd"
                   />
                 </v-dialog>
+                <v-dialog v-model="dialogDaftarOPD" max-width="500px" persistent>
+                  <v-card v-if="itemOPDSelected">
+                    <v-card-title class="headline grey lighten-2">
+                      Daftar OPD - {{ itemOPDSelected.name }}
+                    </v-card-title>
+                    <v-card-text class="pt-4">
+                      <v-simple-table v-if="itemOPDSelected.opd && itemOPDSelected.opd.length">
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-left">No</th>
+                              <th class="text-left">Nama OPD</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="(opd, index) in (itemOPDSelected.opd || [])"
+                              :key="opd.OrgID"
+                            >
+                              <td>{{ index + 1 }}</td>
+                              <td>{{ opd.Nm_Organisasi }}</td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="closeDialogDaftarOPD">
+                        TUTUP
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
                 <v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
                   <v-form
                     ref="frmcopydata"
@@ -356,6 +390,21 @@
               </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    class="mr-2"
+                    :disabled="btnLoading"
+                    @click.stop="showDialogDaftarOPD(item)"
+                  >
+                    mdi-office-building
+                  </v-icon>
+                </template>
+                <span>Daftar OPD</span>
+              </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -473,7 +522,8 @@
           { text: "NAME", value: "name", sortable: true },
           { text: "EMAIL", value: "email", sortable: true },
           { text: "NOMOR HP", value: "nomor_hp", sortable: true },
-          { text: "AKSI", value: "actions", sortable: false, width: 120 },
+          { text: "JUMLAH OPD", value: "jumlah_opd", sortable: true },
+          { text: "AKSI", value: "actions", sortable: false, width: 150 },
         ],
         expanded: [],
         search: "",
@@ -485,6 +535,8 @@
         dialog: false,
         dialogEdit: false,
         dialogcopyfrm: false,
+        dialogDaftarOPD: false,
+        itemOPDSelected: null,
         dialogUserPermission: false,
         editedIndex: -1,
         daftar_opd: [],
@@ -764,6 +816,14 @@
         this.dialogUserPermission = false;
         this.dataUser = {};
       },
+      showDialogDaftarOPD(item) {
+        this.itemOPDSelected = item;
+        this.dialogDaftarOPD = true;
+      },
+      closeDialogDaftarOPD() {
+        this.dialogDaftarOPD = false;
+        this.itemOPDSelected = null;
+      },
       salinuseropd() {
         if (this.$refs.frmcopydata.validate()) {
           this.$ajax
@@ -913,6 +973,9 @@
       },
       dialogEdit(val) {
         val || this.close();
+      },
+      dialogDaftarOPD(val) {
+        val || this.closeDialogDaftarOPD();
       },
     },
     components: {

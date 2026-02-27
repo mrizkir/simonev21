@@ -26,41 +26,41 @@ class UsersOPDController extends Controller {
     ]);    
     $ta = $request->input('TA');
 
-    if ($this->hasRole('opd')) 
+    if ($this->hasRole('opd'))
     {
-      $daftar_opd = UserOPD::select(\DB::raw('
-          `OrgID`									
-        '))
+      $daftar_opd = UserOPD::select(\DB::raw('`OrgID`'))
         ->where('ta', $ta)
         ->where('user_id', $this->getUserid())
         ->where('locked', 0)
         ->get()
         ->pluck('OrgID');
 
-      $data = User::where('default_role', 'opd')
-        ->select(\DB::raw('
-          users.*,
-          "" AS opd
-        '))
-        ->join('usersopd', 'usersopd.user_id', 'users.id')
+      $userIds = \DB::table('usersopd')
+        ->where('ta', $ta)
         ->whereIn('OrgID', $daftar_opd)
+        ->distinct()
+        ->pluck('user_id');
+
+      $data = User::where('default_role', 'opd')
+        ->whereIn('id', $userIds)
         ->orderBy('username', 'ASC')
-        ->get(); 
+        ->get();
     }
     else
     {
+      $userIds = \DB::table('usersopd')
+        ->where('ta', $ta)
+        ->distinct()
+        ->pluck('user_id');
+
       $data = User::where('default_role', 'opd')
-        ->select(\DB::raw('
-          users.*,
-          "" AS opd
-        '))
-        ->join('usersopd', 'usersopd.user_id', 'users.id')
-        ->where('usersopd.ta', $ta)
+        ->whereIn('id', $userIds)
         ->orderBy('username', 'ASC')
-        ->get();       			
-    }           
+        ->get();
+    }
+
     $role = Role::findByName('opd');
-    
+
     $data->transform(function ($item, $key) use ($ta) {
       $daftar_opd = UserOPD::select(\DB::raw('
                 `OrgID`,
@@ -71,8 +71,9 @@ class UsersOPDController extends Controller {
               ->where('ta', $ta)
               ->where('user_id', $item->id)
               ->get();
-              
+
       $item->opd = $daftar_opd;
+      $item->jumlah_opd = $daftar_opd->count();
       return $item;
     });
 
