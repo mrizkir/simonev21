@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use App\Helpers\Helper;
+use App\Helpers\HelperKegiatan;
 use Exception;
 
 class ReportModel extends Model
@@ -140,7 +141,7 @@ class ReportModel extends Model
           ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
           ->join('tmAkun','tmAkun.AkunID','tmKlp.AkunID')
           ->leftJoin('tmSumberDana', 'tmSumberDana.SumberDanaID', 'trRKARinc.SumberDanaID')
-          ->where('RKAID',$rka->RKAID)
+          ->where('RKAID', $rka->RKAID)
           ->orderBy('kode_uraian1', 'ASC')
           ->get();   
           
@@ -602,8 +603,8 @@ class ReportModel extends Model
       $tingkat[4][$v['Kd_Rek_4']] = $v['ObyNm'];
       $tingkat[5][$v['Kd_Rek_5']] = $v['RObyNm'];
       
-      $rek1 = substr($v['Kd_Rek_6'], 0, 1);
-      if($rek1 != $v['Kd_Rek_1'])
+      $rek1 = HelperKegiatan::getRekeningPrefixByLevel($v['Kd_Rek_6'], 1);
+      if(HelperKegiatan::normalizeRekeningForCompare($rek1) != HelperKegiatan::normalizeRekeningForCompare($v['Kd_Rek_1']))
       {
         throw new Exception("Kode Rekening Sub Rincian Objek tidak ada pada {$v['SubRObyNm']}");
       }
@@ -626,8 +627,8 @@ class ReportModel extends Model
       $tingkat[4][$v[0]['Kd_Rek_4']] = $v[0]['ObyNm'];
       $tingkat[5][$v[0]['Kd_Rek_5']] = $v[0]['RObyNm'];
       
-      $rek1 = substr($v[0]['Kd_Rek_6'], 0, 1);
-      if($rek1 != $v[0]['Kd_Rek_1'])      
+      $rek1 = HelperKegiatan::getRekeningPrefixByLevel($v[0]['Kd_Rek_6'], 1);
+      if(HelperKegiatan::normalizeRekeningForCompare($rek1) != HelperKegiatan::normalizeRekeningForCompare($v[0]['Kd_Rek_1']))      
       {
         throw new Exception("Kode Rekening Sub Rincian Objek tidak ada pada {$v['SubRObyNm']}");
       }

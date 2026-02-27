@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 //models
 use App\Helpers\Helper;
+use App\Helpers\HelperKegiatan;
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\Renja\FormLRAPerubahanOPDModel;
 
@@ -64,8 +65,8 @@ class LRAOPDPerubahanController extends Controller
         ];
         foreach($tingkat_2 as $k2 => $v2)
         {
-          $rek1_level2 = substr($k2, 0, 1);          
-          if($rek1_level2 == $k1)
+          $rek1_level2 = HelperKegiatan::getRekeningPrefixByLevel($k2, 1);          
+          if(HelperKegiatan::normalizeRekeningForCompare($rek1_level2) === HelperKegiatan::normalizeRekeningForCompare($k1))
           {
             $totalPaguRealisasi_Rek2 = \App\Models\Renja\FormLRAPerubahanOPDModel::calculateEachLevelLRA($data_lra, $k2, 'Kd_Rek_2');
             $persen_realisasi_rek2 = Helper::formatPersen($totalPaguRealisasi_Rek2['totalrealisasi'], $totalPaguRealisasi_Rek2['totalpagu']);
@@ -80,8 +81,8 @@ class LRAOPDPerubahanController extends Controller
             ];            
             foreach($tingkat_3 as $k3 => $v3)
             {
-              $rek2_level3 = substr($k3, 0, 3);              
-              if($rek2_level3 == $k2)
+              $rek2_level3 = HelperKegiatan::getRekeningPrefixByLevel($k3, 2);              
+              if(HelperKegiatan::normalizeRekeningForCompare($rek2_level3) === HelperKegiatan::normalizeRekeningForCompare($k2))
               {
                 $totalPaguRealisasi_Rek3 = \App\Models\Renja\FormLRAPerubahanOPDModel::calculateEachLevelLRA($data_lra, $k3, 'Kd_Rek_3');
                 $persen_realisasi_rek3 = Helper::formatPersen($totalPaguRealisasi_Rek3['totalrealisasi'], $totalPaguRealisasi_Rek3['totalpagu']);
@@ -96,8 +97,8 @@ class LRAOPDPerubahanController extends Controller
                 ];
                 foreach($tingkat_4 as $k4 => $v4)
                 {
-                  $rek3_level4 = substr($k4, 0, 6);
-                  if($rek3_level4 == $k3)
+                  $rek3_level4 = HelperKegiatan::getRekeningPrefixByLevel($k4, 3);
+                  if(HelperKegiatan::normalizeRekeningForCompare($rek3_level4) === HelperKegiatan::normalizeRekeningForCompare($k3))
                   {
                     $totalPaguRealisasi_Rek4 = \App\Models\Renja\FormLRAPerubahanOPDModel::calculateEachLevelLRA($data_lra, $k4, 'Kd_Rek_4');
                     $persen_realisasi_rek4 = Helper::formatPersen($totalPaguRealisasi_Rek4['totalrealisasi'], $totalPaguRealisasi_Rek4['totalpagu']);
@@ -112,8 +113,8 @@ class LRAOPDPerubahanController extends Controller
                     ];
                     foreach($tingkat_5 as $k5 => $v5)
                     {
-                      $rek4_level5 = substr($k5, 0, 9);
-                      if($rek4_level5 == $k4)
+                      $rek4_level5 = HelperKegiatan::getRekeningPrefixByLevel($k5, 4);
+                      if(HelperKegiatan::normalizeRekeningForCompare($rek4_level5) === HelperKegiatan::normalizeRekeningForCompare($k4))
                       {
                         $totalPaguRealisasi_Rek5 = \App\Models\Renja\FormLRAPerubahanOPDModel::calculateEachLevelLRA($data_lra, $k5, 'Kd_Rek_5');
                         $persen_realisasi_rek5 = Helper::formatPersen($totalPaguRealisasi_Rek5['totalrealisasi'], $totalPaguRealisasi_Rek5['totalpagu']);
@@ -128,8 +129,8 @@ class LRAOPDPerubahanController extends Controller
                         ];
                         foreach($tingkat_6 as $k6 => $v6)
                         {
-                          $rek5_level6 = substr($k6, 0, 12);
-                          if($rek5_level6 == $k5)
+                          $rek5_level6 = HelperKegiatan::getRekeningPrefixByLevel($k6, 5);
+                          if(HelperKegiatan::normalizeRekeningForCompare($rek5_level6) === HelperKegiatan::normalizeRekeningForCompare($k5))
                           {
                             $data_lra_detail = $data_lra[$k6];
                             $total_pagu_uraian_6 = 0;

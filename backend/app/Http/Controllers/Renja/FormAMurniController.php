@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Renja;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
+use App\Helpers\HelperKegiatan;
 use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\Renja\RKAModel;
 use App\Models\Renja\FormAMurniModel;
@@ -45,7 +46,7 @@ class FormAMurniController extends Controller
       'totalPersenTertimbangRealisasiSatuKegiatan' => 0,
       'sisa_anggaran' => 0
     ];
-
+    
     $chart_keuangan=[
       [
         0,0,0,0,0,0,0,0,0,0,0,0
@@ -93,8 +94,8 @@ class FormAMurniController extends Controller
       {
         foreach ($tingkat_6 as $k6 => $v6)
         {
-          $rek1 = substr($k6, 0, 1);
-          if ($rek1 == $k1)
+          $rek1 = HelperKegiatan::getRekeningPrefixByLevel($k6, 1);
+          if (HelperKegiatan::normalizeRekeningForCompare($rek1) === HelperKegiatan::normalizeRekeningForCompare($k1))
           {
             //tingkat i
             $totalPaguDana_Rek1 = \App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k1, 'Kd_Rek_1');
@@ -119,8 +120,8 @@ class FormAMurniController extends Controller
             {
               $rek2_tampil=[];
               foreach ($tingkat_5 as $k5_level2=>$v5_level2) {
-                $rek2=substr($k5_level2,0,3);
-                if ($rek2 == $k2) {
+                $rek2 = HelperKegiatan::getRekeningPrefixByLevel($k5_level2, 2);
+                if (HelperKegiatan::normalizeRekeningForCompare($rek2) === HelperKegiatan::normalizeRekeningForCompare($k2)) {
                   if (!array_key_exists($k2,$rek2_tampil)) {
                     $rek2_tampil[$rek2] = $v2;
                   }
@@ -148,8 +149,8 @@ class FormAMurniController extends Controller
                 //tingkat iii
                 foreach ($tingkat_3 as $k3 => $v3)
                 {
-                  $rek3 = substr($k3, 0, 3);                  
-                  if ($a == $rek3)
+                  $rek3 = HelperKegiatan::getRekeningPrefixByLevel($k3, 2);
+                  if (HelperKegiatan::normalizeRekeningForCompare($a) === HelperKegiatan::normalizeRekeningForCompare($rek3))
                   {
                     $totalPaguDana_Rek3=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka, $k3, 'Kd_Rek_3');
                     $no_=explode (".",$k3);
@@ -178,7 +179,7 @@ class FormAMurniController extends Controller
                     //tingkat iv
                     foreach ($tingkat_4 as $k4=>$v4)
                     {
-                      if (preg_match("/^$k3/", $k4))
+                      if (HelperKegiatan::rekeningIsAnakOf($k4, $k3))
                       {
                         $totalPaguDana_Rek4=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k4,'Kd_Rek_4');
                         $no_=explode (".",$k4);
@@ -207,7 +208,7 @@ class FormAMurniController extends Controller
                         //tingkat v
                         foreach ($tingkat_5 as $k5=>$v5)
                         {
-                          if (preg_match("/^$k4/", $k5))
+                          if (HelperKegiatan::rekeningIsAnakOf($k5, $k4))
                           {
                             $totalPaguDana_Rek5=\App\Models\Renja\FormAMurniModel::calculateEachLevel($rka,$k5,'Kd_Rek_5');
                             $no_=explode (".",$k5);
@@ -236,7 +237,7 @@ class FormAMurniController extends Controller
                             //tingkat vi                            
                             foreach ($tingkat_6 as $k6=>$v6)
                             {
-                              if (preg_match("/^$k5/", $k6))
+                              if (HelperKegiatan::rekeningIsAnakOf($k6, $k5))
                               {	
                                 if (isset($rka[$k6]['child'][0]))
                                 {

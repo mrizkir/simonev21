@@ -167,4 +167,49 @@ class HelperKegiatan
     
     return $jumlah_terhapus;
   }
+
+  /**
+   * Ambil prefix kode rekening sampai level (jumlah segment).
+   * Parsing berbasis segment (split by '.') agar tidak bergantung panjang digit per tahun.
+   * Contoh: getRekeningPrefixByLevel("5.1.01.01.001.00001", 1) => "5"
+   * @param string $kode Kode rekening (mis. 5.1.01.01.01.0001 atau 5.1.01.01.001.00001)
+   * @param int $level Jumlah segment (1=Akun, 2=Kelompok, 3=Jenis, 4=Objek, 5=Rincian, 6=Sub Rincian)
+   * @return string
+   */
+  public static function getRekeningPrefixByLevel($kode, $level)
+  {
+    $segments = explode('.', (string) $kode);
+    $slice = array_slice($segments, 0, max(1, (int) $level));
+    return implode('.', $slice);
+  }
+
+  /**
+   * Normalisasi kode rekening untuk perbandingan (hilangkan leading zero per segment).
+   * Agar "5" dan "05", "5.1" dan "05.01" dianggap sama (mis. beda tahun/master).
+   * @param string $kode
+   * @return string
+   */
+  public static function normalizeRekeningForCompare($kode)
+  {
+    $segments = explode('.', (string) $kode);
+    $normalized = array_map(function ($s) {
+      $s = trim($s);
+      return $s === '' ? '0' : (ltrim($s, '0') ?: '0');
+    }, $segments);
+    return implode('.', $normalized);
+  }
+
+  /**
+   * Cek apakah kode anak diawali oleh kode induk (prefix by segment).
+   * Pakai normalisasi agar leading zero tidak mempengaruhi (tahun 2025 vs 2026).
+   * @param string $kodeAnak Kode rekening anak (lebih rinci)
+   * @param string $kodeInduk Kode rekening induk
+   * @return bool
+   */
+  public static function rekeningIsAnakOf($kodeAnak, $kodeInduk)
+  {
+    $level = count(explode('.', (string) $kodeInduk));
+    $prefixAnak = self::getRekeningPrefixByLevel($kodeAnak, $level);
+    return self::normalizeRekeningForCompare($prefixAnak) === self::normalizeRekeningForCompare($kodeInduk);
+  }
 }
