@@ -186,6 +186,14 @@
                           filled
                         >
                         </v-autocomplete>
+                        <v-switch
+                          :input-value="Number(editedItem.active) === 1"
+                          label="USER AKTIF"
+                          inset
+                          hide-details
+                          class="mt-0"
+                          @change="v => (editedItem.active = v ? 1 : 0)"
+                        />
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -274,6 +282,14 @@
                           filled
                         >
                         </v-autocomplete>
+                        <v-switch
+                          :input-value="Number(editedItem.active) === 1"
+                          label="USER AKTIF"
+                          inset
+                          hide-details
+                          class="mt-0"
+                          @change="v => (editedItem.active = v ? 1 : 0)"
+                        />
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -388,6 +404,21 @@
                   </v-form>
                 </v-dialog>
               </v-toolbar>
+            </template>
+            <template v-slot:item.active="{ item }">
+              <div @click.stop>
+                <v-switch
+                  :input-value="Number(item.active) === 1"
+                  hide-details
+                  dense
+                  inset
+                  :disabled="
+                    btnLoading ||
+                      !$store.getters['auth/can']('SYSTEM-USERS-OPD_UPDATE')
+                  "
+                  @change="val => setUserActive(item, val)"
+                />
+              </div>
             </template>
             <template v-slot:item.actions="{ item }">
               <v-tooltip bottom>
@@ -523,6 +554,7 @@
           { text: "EMAIL", value: "email", sortable: true },
           { text: "NOMOR HP", value: "nomor_hp", sortable: true },
           { text: "JUMLAH OPD", value: "jumlah_opd", sortable: true },
+          { text: "AKTIF", value: "active", sortable: false, width: 90 },
           { text: "AKSI", value: "actions", sortable: false, width: 150 },
         ],
         expanded: [],
@@ -550,7 +582,7 @@
           nomor_hp: "",
           org_id: [],
           role_id: ["opd"],
-          active: "",
+          active: 1,
           created_at: "",
           updated_at: "",
         },
@@ -563,7 +595,7 @@
           nomor_hp: "",
           org_id: [],
           role_id: ["opd"],
-          active: "",
+          active: 1,
           created_at: "",
           updated_at: "",
         },
@@ -650,6 +682,35 @@
         } else {
           this.expanded = [item];
         }
+      },
+      setUserActive(item, val) {
+        const next = val ? 1 : 0;
+        const prev = item.active;
+        item.active = next;
+        this.btnLoading = true;
+        this.$ajax
+          .post(
+            "/system/usersopd/" + item.id + "/active",
+            {
+              _method: "PUT",
+              active: next,
+            },
+            {
+              headers: {
+                Authorization: this.TOKEN,
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.btnLoading = false;
+            if (data.user) {
+              Object.assign(item, data.user);
+            }
+          })
+          .catch(() => {
+            this.btnLoading = false;
+            item.active = prev;
+          });
       },
       copyItem() {
         this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
@@ -868,6 +929,7 @@
                   role_id: JSON.stringify(
                     Object.assign({}, this.editedItem.role_id)
                   ),
+                  active: this.editedItem.active,
                 },
                 {
                   headers: {
@@ -899,6 +961,7 @@
                   role_id: JSON.stringify(
                     Object.assign({}, this.editedItem.role_id)
                   ),
+                  active: this.editedItem.active,
                 },
                 {
                   headers: {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 use App\Models\System\ConfigurationModel;
@@ -22,6 +23,18 @@ class AuthController extends Controller
 		]);
 		$credentials = $request->only('username', 'password');
 		$credentials['active'] = 1;
+
+		$user = User::where('username', $credentials['username'])->first();
+		if (
+			$user
+			&& Hash::check($request->password, $user->password)
+			&& (int) $user->active === 0
+		) {
+			return response()->json([
+				'page' => 'login',
+				'error' => 'Maaf user ini tidak bisa login karena sudah tidak aktif',
+			], 401);
+		}
 		
 		$config = ConfigurationModel::getCache();
 		$ttl_expire = 60;

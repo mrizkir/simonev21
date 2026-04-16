@@ -5,12 +5,14 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\System\Concerns\UpdatesUserActive;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 
-class UsersTAPDController extends Controller {         
+class UsersTAPDController extends Controller {
+    use UpdatesUserActive;
     /**
      * Show the form for creating a new resource.
      *
@@ -58,7 +60,8 @@ class UsersTAPDController extends Controller {
                 'username'=> $request->input('username'),
                 'password'=>Hash::make($request->input('password')),                        
                 'theme' => 'default',
-                'default_role' => 'tapd',            
+                'default_role' => 'tapd',
+                'active' => ((int) $request->input('active', 1)) === 0 ? 0 : 1,
                 'foto'=> 'storages/images/users/no_photo.png',
                 'created_at' => $now, 
                 'updated_at' => $now
@@ -151,7 +154,8 @@ class UsersTAPDController extends Controller {
                 $user->name = $request->input('name');
                 $user->email = $request->input('email');
                 $user->nomor_hp = $request->input('nomor_hp');
-                $user->username = $request->input('username');        
+                $user->username = $request->input('username');
+                $user->active = ((int) $request->input('active', $user->active)) === 0 ? 0 : 1;
                 if (!empty(trim($request->input('password')))) {
                     $user->password = Hash::make($request->input('password'));
                 }    
@@ -215,5 +219,15 @@ class UsersTAPDController extends Controller {
                                     ], 200);         
         }
                   
+    }
+
+    protected function usersActiveUpdatePermission(): string
+    {
+        return 'SYSTEM-USERS-TAPD_UPDATE';
+    }
+
+    protected function usersActiveExpectedDefaultRole(): string
+    {
+        return 'tapd';
     }
 }

@@ -5,13 +5,15 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\System\Concerns\UpdatesUserActive;
 use App\Models\User;
 use App\Models\UserOPD;
 use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 
-class UsersOPDController extends Controller {         
+class UsersOPDController extends Controller {
+  use UpdatesUserActive;
   /**
    * Show the form for creating a new resource.
    *
@@ -117,7 +119,8 @@ class UsersOPDController extends Controller {
           'username'=> $request->input('username'),
           'password'=>Hash::make($request->input('password')),                        
           'theme' => 'default',
-          'default_role' => 'opd',                    
+          'default_role' => 'opd',
+          'active' => ((int) $request->input('active', 1)) === 0 ? 0 : 1,
           'foto'=> 'storages/images/users/no_photo.png',
           'created_at' => $now, 
           'updated_at' => $now
@@ -332,7 +335,8 @@ class UsersOPDController extends Controller {
           $user->name = $request->input('name');
           $user->email = $request->input('email');
           $user->nomor_hp = $request->input('nomor_hp');
-          $user->username = $request->input('username');        
+          $user->username = $request->input('username');
+          $user->active = ((int) $request->input('active', $user->active)) === 0 ? 0 : 1;
           if (!empty(trim($request->input('password')))) {
             $user->password = Hash::make($request->input('password'));
           }    
@@ -441,5 +445,15 @@ class UsersOPDController extends Controller {
       ], 200);         
     }
           
+  }
+
+  protected function usersActiveUpdatePermission(): string
+  {
+    return 'SYSTEM-USERS-OPD_UPDATE';
+  }
+
+  protected function usersActiveExpectedDefaultRole(): string
+  {
+    return 'opd';
   }
 }

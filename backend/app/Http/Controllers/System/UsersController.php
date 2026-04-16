@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\System\Concerns\UpdatesUserActive;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
 use App\Helpers\Helper;
@@ -12,7 +13,8 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
-class UsersController extends Controller {         
+class UsersController extends Controller {
+  use UpdatesUserActive;
   /**
    * Show the form for creating a new resource.
    *
@@ -62,7 +64,8 @@ class UsersController extends Controller {
         'password'=>Hash::make($request->input('password')),
         'email_verified_at'=>\Carbon\Carbon::now(),
         'theme' => 'default',            
-        'default_role' => 'superadmin',            
+        'default_role' => 'superadmin',
+        'active' => ((int) $request->input('active', 1)) === 0 ? 0 : 1,
         'foto'=> 'storages/images/users/no_photo.png',
         'created_at' => $now, 
         'updated_at' => $now
@@ -314,11 +317,12 @@ class UsersController extends Controller {
                     'nomor_hp' => 'required|string|unique:users,nomor_hp,'.$user->id,                                                   
                   ]);  
       
-      $user = \DB::transaction(function () use ($request, $user) {
+      return \DB::transaction(function () use ($request, $user) {
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->username = $request->input('username');                        
-        $user->nomor_hp = $request->input('nomor_hp');                        
+        $user->nomor_hp = $request->input('nomor_hp');
+        $user->active = ((int) $request->input('active', $user->active)) === 0 ? 0 : 1;
         if (!empty(trim($request->input('password')))) {
           $user->password = Hash::make($request->input('password'));
         }    
@@ -609,5 +613,15 @@ class UsersController extends Controller {
                     'message'=>"Daftar Unit Kerja dari username ($username)  berhasil diperoleh"
                   ], 200); 
     }
+  }
+
+  protected function usersActiveUpdatePermission(): string
+  {
+    return 'SYSTEM-USERS-SUPERADMIN_UPDATE';
+  }
+
+  protected function usersActiveExpectedDefaultRole(): string
+  {
+    return 'superadmin';
   }
 }

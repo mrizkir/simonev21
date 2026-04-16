@@ -123,6 +123,13 @@
                 label="URAIAN"
               >
               </v-autocomplete>
+              <span
+                v-if="RKARincID_Selected && paguUraianTerpilih !== null"
+                class="deep-purple--text mt-2 d-block"
+              >
+                PAGU URAIAN:
+                {{ paguUraianTerpilih | formatUang }}
+              </span>
             </v-card-text>
           </v-card>
         </v-col>
@@ -235,12 +242,25 @@
               </td>
             </template>
             <template v-slot:no-data>
-              <span v-if="RKARincID_Selected">
-                BELUM ADA DATA SILAHKAN TAMBAH
-              </span>
-              <span v-else>
-                BELUM ADA DATA SILAHKAN PILIH URAIAN
-              </span>
+              <div class="text-center py-2">
+                <span v-if="RKARincID_Selected">
+                  BELUM ADA DATA SILAHKAN TAMBAH
+                </span>
+                <span v-else>
+                  BELUM ADA DATA SILAHKAN PILIH URAIAN
+                </span>
+                <div v-if="RKARincID_Selected" class="mt-2">
+                  <v-btn
+                    small
+                    color="primary"
+                    :loading="btnLoading"
+                    :disabled="datakegiatan.Locked == 1"
+                    @click.stop="tambahTargetNol"
+                  >
+                    Tambah
+                  </v-btn>
+                </div>
+              </div>
             </template>
           </v-data-table>
         </v-col>
@@ -341,6 +361,20 @@
         ],
       };
     },
+    computed: {
+      paguUraianTerpilih() {
+        if (!this.RKARincID_Selected) {
+          return null;
+        }
+        var found = this.daftar_uraian.find(
+          u => u.value === this.RKARincID_Selected
+        );
+        if (!found || typeof found.PaguUraian1 === "undefined") {
+          return null;
+        }
+        return found.PaguUraian1;
+      },
+    },
     methods: {
       initialize: async function() {
         this.datatableLoading = true;
@@ -357,6 +391,7 @@
               uraian.push({
                 text: "[" + item.kode_uraian + "] " + item.nama_uraian,
                 value: item.RKARincID,
+                PaguUraian1: item.PaguUraian1,
               });
             });		
             this.daftar_uraian = uraian;
@@ -381,6 +416,35 @@
           .then(({ data }) => {
             this.datatable = data.targetkinerja;
             this.footersummary();
+          });
+      },
+      tambahTargetNol() {
+        if (!this.RKARincID_Selected || !this.datakegiatan.RKAID) {
+          return;
+        }
+        this.btnLoading = true;
+        var bulanNol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        this.$ajax
+          .post(
+            "/renja/rkamurni/savetargetfisik",
+            {
+              RKARincID: this.RKARincID_Selected,
+              RKAID: this.datakegiatan.RKAID,
+              bulan_fisik: bulanNol,
+              tahun: this.$store.getters["auth/TahunSelected"],
+            },
+            {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+              },
+            }
+          )
+          .then(() => {
+            this.btnLoading = false;
+            this.fetchTargetKinerja(this.RKARincID_Selected);
+          })
+          .catch(() => {
+            this.btnLoading = false;
           });
       },
       savetargetanggarankas(item) {				
