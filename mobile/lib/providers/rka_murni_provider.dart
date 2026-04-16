@@ -34,7 +34,7 @@ class RKAMurniProvider with ChangeNotifier {
   bool _dialogFormOpen = false;
   bool _formValid = true;
   bool _btnLoading = false;
-  bool _locked = true;
+  final bool _locked = true;
 
   // Form Data
   List<BidangUrusanModel> _daftarBidang = [];

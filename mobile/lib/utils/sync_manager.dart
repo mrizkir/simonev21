@@ -51,7 +51,7 @@ class SyncManager {
           return false;
         }
         debugPrint('⚠️ Sync failed, retrying... ($retries/$maxRetries)');
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
       }
     }
     

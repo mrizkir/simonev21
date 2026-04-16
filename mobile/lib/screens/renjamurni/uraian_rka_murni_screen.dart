@@ -662,7 +662,7 @@ class _UraianRKAMurniScreenState extends State<UraianRKAMurniScreen> {
                               }),
                               // Footer Row
                               DataRow(
-                                color: MaterialStateProperty.all(Colors.amber.shade100),
+                                color: WidgetStateProperty.all(Colors.amber.shade100),
                                 cells: [
                                   const DataCell(Text('TOTAL', style: TextStyle(fontWeight: FontWeight.bold))),
                                   const DataCell(SizedBox.shrink()),

@@ -183,6 +183,8 @@
                       label="ANGGARAN KAS"
                       :min="null"
                       :max="null"
+                      :decimal-length="2"
+                      :value-as-integer="false"
                       outlined
                       autofocus
                       v-model="props.item.target1"

@@ -185,7 +185,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                             labelText: 'OPD / SKPD',
                             border: OutlineInputBorder(),
                           ),
-                          value: rkaProvider.orgIDSelected,
+                          initialValue: rkaProvider.orgIDSelected,
                           items: rkaProvider.daftarOPD.map((opd) {
                             return DropdownMenuItem<String>(
                               value: opd.OrgID,
@@ -205,7 +205,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                             labelText: 'UNIT KERJA',
                             border: OutlineInputBorder(),
                           ),
-                          value: rkaProvider.sOrgIDSelected != null &&
+                          initialValue: rkaProvider.sOrgIDSelected != null &&
                                   rkaProvider.daftarUnitKerja.any((unit) => unit.SOrgID == rkaProvider.sOrgIDSelected)
                               ? rkaProvider.sOrgIDSelected
                               : null,
@@ -395,7 +395,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                               }),
                               // Footer Row
                               DataRow(
-                                color: MaterialStateProperty.all(Colors.amber.shade100),
+                                color: WidgetStateProperty.all(Colors.amber.shade100),
                                 cells: [
                                   const DataCell(Text('TOTAL', style: TextStyle(fontWeight: FontWeight.bold))),
                                   const DataCell(SizedBox.shrink()),
@@ -500,7 +500,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
   ) {
     final user = authProvider.user;
     final tahun = user?.tahunSelected ?? '';
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     rkaProvider.openDialogForm();
 
@@ -514,7 +514,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -543,7 +543,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                           labelText: 'BIDANG URUSAN',
                           border: OutlineInputBorder(),
                         ),
-                        value: provider.formBidangID,
+                        initialValue: provider.formBidangID,
                         items: provider.daftarBidang.map((bidang) {
                           return DropdownMenuItem<String>(
                             value: bidang.BidangID,
@@ -564,7 +564,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                           labelText: 'PROGRAM',
                           border: OutlineInputBorder(),
                         ),
-                        value: provider.formPrgID,
+                        initialValue: provider.formPrgID,
                         items: provider.daftarProgram.map((program) {
                           return DropdownMenuItem<String>(
                             value: program.PrgID,
@@ -585,7 +585,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                           labelText: 'KEGIATAN',
                           border: OutlineInputBorder(),
                         ),
-                        value: provider.formKgtID,
+                        initialValue: provider.formKgtID,
                         items: provider.daftarKegiatan.map((kegiatan) {
                           return DropdownMenuItem<String>(
                             value: kegiatan.KgtID,
@@ -606,7 +606,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                           labelText: 'SUB KEGIATAN *',
                           border: OutlineInputBorder(),
                         ),
-                        value: provider.formSubKgtID,
+                        initialValue: provider.formSubKgtID,
                         items: provider.daftarSubKegiatan.map((subKgt) {
                           return DropdownMenuItem<String>(
                             value: subKgt.SubKgtID,
@@ -646,7 +646,7 @@ class _RKAMurniScreenState extends State<RKAMurniScreen> {
                                     provider.formSubKgtID!.isEmpty
                                 ? null
                                 : () async {
-                                    if (_formKey.currentState!.validate()) {
+                                    if (formKey.currentState!.validate()) {
                                       final success = await provider.saveKegiatan();
                                       if (success && mounted) {
                                         final bulan = uiFrontProvider.bulanRealisasi ?? DateTime.now().month.toString();

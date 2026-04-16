@@ -74,7 +74,7 @@ class RenjaMurniProvider with ChangeNotifier {
       });
       
       // Reload data setelah reload statistik
-      final bulanRealisasi = '';
+      const bulanRealisasi = '';
       await init(tahunAnggaran, bulanRealisasi);
     } catch (e) {
       _errorMessage = _getErrorMessage(e);
@@ -90,7 +90,7 @@ class RenjaMurniProvider with ChangeNotifier {
       });
       
       // Reload data setelah reload statistik
-      final bulanRealisasi = '';
+      const bulanRealisasi = '';
       await init(tahunAnggaran, bulanRealisasi);
     } catch (e) {
       _errorMessage = _getErrorMessage(e);

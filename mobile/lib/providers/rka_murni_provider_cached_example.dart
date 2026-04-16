@@ -19,7 +19,7 @@ class RKAMurniProviderCachedExample with ChangeNotifier {
       notifyListeners();
 
       // 1. Cek cache dulu
-      final cacheKey = '/dmaster/opd';
+      const cacheKey = '/dmaster/opd';
       final cachedData = await CacheService.getCache(
         cacheKey,
         params: {'tahun': tahun},
@@ -94,7 +94,7 @@ class RKAMurniProviderCachedExample with ChangeNotifier {
       notifyListeners();
 
       // 1. Cek cache
-      final cacheKey = '/renja/rkamurni';
+      const cacheKey = '/renja/rkamurni';
       final cachedData = await CacheService.getCache(
         cacheKey,
         params: {
