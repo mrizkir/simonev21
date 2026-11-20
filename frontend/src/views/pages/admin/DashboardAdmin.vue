@@ -78,18 +78,17 @@
     </v-app-bar>
     <v-main>
       <v-container fluid>
-        <v-row>
+        <v-row class="dashboard-card-row">
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('DMASTER-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/dmaster')"
             >
@@ -98,11 +97,13 @@
                   <v-icon color="#DA4453">mdi-monitor-multiple</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 DATA MASTER
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Pengaturan berbagai parameter sebagai referensi dari modul-modul
                 lain dalam sistem.
@@ -110,16 +111,15 @@
             </v-card>
           </v-col>
           <!-- <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('RPJMD-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/rpjmd')"
             >
@@ -128,27 +128,28 @@
                   <v-icon color="#DA4453">mdi-currency-brl</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 RPJMD
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Rencana Pembangunan Jangka Menengah
               </v-card-subtitle>
             </v-card>
           </v-col> -->
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('RKPD-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/rkpdmurni')"
             >
@@ -157,27 +158,28 @@
                   <v-icon color="#DA4453">mdi-currency-brl</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 RKPD MURNI
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Rencana Kerja Pemerintah Daerah Murni
               </v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('RENJA-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/renjamurni')"
             >
@@ -186,27 +188,28 @@
                   <v-icon color="#DA4453">mdi-currency-brl</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 RENJA MURNI
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Rencana Kerja APBD Murni OPD / Unit Kerja
               </v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('RENJA-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/renjaperubahan')"
               :disabled="$store.getters['uiadmin/getMasaPelaporan'] == 'murni'"
@@ -216,27 +219,28 @@
                   <v-icon color="#DA4453">mdi-currency-brl</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 RENJA PERUBAHAN
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Rencana Kerja APBD Perubahan OPD / Unit Kerja
               </v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('DAK-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/dakmurni')"
             >
@@ -245,26 +249,23 @@
                   <v-icon color="#DA4453">mdi-currency-brl</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 DAK MURNI
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Rencana Kerja DAK Perubahan OPD / Unit Kerja
               </v-card-subtitle>
             </v-card>
           </v-col>
-          <v-col
-            xs="12"
-            sm="4"
-            md="3"
-          >
+          <v-col cols="12" sm="6" md="3">
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/gallerypembangunan1')"
             >
@@ -273,27 +274,28 @@
                   <v-icon color="#DA4453">mdi-image</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 GALLERY PEMBANGUNAN
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Modul ini digunakan untuk melihat gallery pembangunan.
               </v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('SYSTEM-USERS-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/system-users')"
             >
@@ -302,27 +304,28 @@
                   <v-icon color="#DA4453">mdi-account</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 USER SISTEM
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Modul ini digunakan untuk mengelola user sistem.
               </v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
-            xs="12"
-            sm="4"
+            cols="12"
+            sm="6"
             md="3"
             v-if="$store.getters['auth/can']('SYSTEM-SETTING-GROUP')"
           >
             <v-card
               elevation="0"
-              class="mx-auto clickable deep-purple darken-1"
-              max-width="344"
-              min-height="230"
+              class="mx-auto clickable deep-purple darken-1 dashboard-card"
+              min-height="210"
               color="#385F73"
               @click.native="$router.push('/system-setting')"
             >
@@ -331,18 +334,19 @@
                   <v-icon color="#DA4453">mdi-cog</v-icon>
                 </v-btn>
               </div>
-              <v-card-title class="white--text font-weight-bold justify-center">
+              <v-card-title
+                class="white--text font-weight-bold text-center dashboard-card-title"
+              >
                 KONFIGURASI SISTEM
               </v-card-title>
               <v-card-subtitle
-                class="white--text font-weight-medium text-center"
+                class="white--text font-weight-medium text-center dashboard-card-subtitle"
               >
                 Modul ini digunakan untuk mengatur berbagai macam konfigurasi
                 sistem.
               </v-card-subtitle>
             </v-card>
           </v-col>
-          <v-responsive width="100%" v-if="$vuetify.breakpoint.xsOnly" />
         </v-row>
       </v-container>
     </v-main>
@@ -450,3 +454,47 @@
     },
   };
 </script>
+<style scoped>
+  .dashboard-card-row > .col {
+    display: flex;
+    flex-direction: column;
+  }
+  .v-card.dashboard-card {
+    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .v-card.dashboard-card .dashboard-card-title {
+    display: block;
+    flex: 0 0 auto;
+    line-height: 1.35;
+    word-break: normal;
+    overflow-wrap: break-word;
+    white-space: normal;
+    padding-top: 12px;
+    padding-bottom: 0;
+  }
+  .v-card.dashboard-card .dashboard-card-subtitle {
+    flex: 1 1 auto;
+    margin-top: 0;
+    padding-top: 8px;
+    line-height: 1.45;
+    word-break: normal;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+  @media (max-width: 599px) {
+    .v-card.dashboard-card .dashboard-card-title {
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .v-card.dashboard-card .dashboard-card-subtitle {
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 16px;
+    }
+  }
+</style>
