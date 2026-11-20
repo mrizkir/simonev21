@@ -64,7 +64,58 @@ class JenisPelaksanaanController extends Controller
                                 'message' => 'Data Jenis Pelaksanaan berhasil disimpan.'
                             ], 200); 
                
-    } 
+    }
+    /**
+     * Salin jenis pelaksanaan dari tahun anggaran asal ke tahun tujuan.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function salin(Request $request)
+    {
+        $this->validate($request, [
+            'tahun_asal' => 'required|numeric',
+            'tahun_tujuan' => 'required|numeric|gt:tahun_asal',
+        ]);
+
+        $tahun_asal = $request->input('tahun_asal');
+        $tahun_tujuan = $request->input('tahun_tujuan');
+
+        \DB::table('tmJenisPelaksanaan')
+            ->where('TA', $tahun_tujuan)
+            ->whereRaw('JenisPelaksanaanID_Src IS NOT NULL')
+            ->delete();
+
+        $str_insert = '
+            INSERT INTO `tmJenisPelaksanaan` (
+                `JenisPelaksanaanID`,
+                `NamaJenis`,
+                `Descr`,
+                `TA`,
+                `JenisPelaksanaanID_Src`,
+                created_at,
+                updated_at
+            )
+            SELECT
+                uuid() AS id,
+                NamaJenis,
+                "DI IMPOR DARI TAHUN '.$tahun_asal.'" AS `Descr`,
+                '.$tahun_tujuan.' AS `TA`,
+                JenisPelaksanaanID AS JenisPelaksanaanID_Src,
+                NOW() AS created_at,
+                NOW() AS updated_at
+            FROM tmJenisPelaksanaan
+            WHERE TA='.$tahun_asal.'
+        ';
+
+        \DB::statement($str_insert);
+
+        return Response()->json([
+            'status' => 1,
+            'pid' => 'store',
+            'message' => "Salin jenis pelaksanaan dari tahun anggaran $tahun_asal berhasil."
+        ], 200);
+    }
     /**
      * Store a newly created resource in storage.
      *

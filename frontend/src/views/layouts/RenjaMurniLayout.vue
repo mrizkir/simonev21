@@ -316,6 +316,24 @@
       </v-list-item>
       <v-list-item
         link
+        to="/renjamurni/report/lra2opd"
+        :active-class="
+          $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')
+        "
+        :color="$store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-COLOR')"
+        v-if="CAN_ACCESS('RENJA-LRA2-MURNI_BROWSE')"
+      >
+        <v-list-item-icon class="mr-2">
+          <v-icon>mdi-arrow-collapse-right</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            LRA OPD 2
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        link
         to="/renjamurni/report/rekaplra"
         :active-class="
           $store.getters['uifront/getTheme']('V-LIST-ITEM-BOARD-CSS-CLASS')

@@ -211,6 +211,15 @@
                   type="text"
                   filled
                 />
+                <v-currency-field
+                  v-model="formdata.nilai_kontrak"
+                  label="NILAI KONTRAK"
+                  :min="null"
+                  :max="null"
+                  filled
+                  :decimal-length="2"
+                  :value-as-integer="false"
+                />
                 <v-menu
                   ref="menuTanggalKontrak"
                   v-model="menuTanggalKontrak"
@@ -605,6 +614,7 @@
           nama_direktur: "",
           npwp: "",
           no_kontrak: "",
+          nilai_kontrak: 0,
           tgl_kontrak: "",
           tgl_mulai_pelaksanaan: "",
           tgl_selesai_pelaksanaan: "",
@@ -732,6 +742,7 @@
                 nama_direktur: this.formdata.nama_direktur,
                 npwp: this.formdata.npwp,
                 no_kontrak: this.formdata.no_kontrak,
+                nilai_kontrak: this.formdata.nilai_kontrak,
                 tgl_kontrak: this.formdata.tgl_kontrak,
                 tgl_mulai_pelaksanaan: this.formdata.tgl_mulai_pelaksanaan,
                 tgl_selesai_pelaksanaan: this.formdata.tgl_selesai_pelaksanaan,
@@ -763,6 +774,7 @@
               page.datauraian.nama_direktur = this.formdata.nama_direktur;
               page.datauraian.npwp = this.formdata.npwp;
               page.datauraian.no_kontrak = this.formdata.no_kontrak;
+              page.datauraian.nilai_kontrak = this.formdata.nilai_kontrak;
               page.datauraian.tgl_kontrak = this.formdata.tgl_kontrak;
               page.datauraian.tgl_mulai_pelaksanaan = this.formdata.tgl_mulai_pelaksanaan;
               page.datauraian.tgl_selesai_pelaksanaan = this.formdata.tgl_selesai_pelaksanaan;

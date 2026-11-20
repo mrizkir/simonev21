@@ -609,29 +609,36 @@
       save() {
         if (this.$refs.frmdata.validate()) {
           this.btnLoading = true;
+          var payload = new FormData();
+          payload.append("OrgID", this.OrgID_Selected);
+          payload.append(
+            "kode_organisasi",
+            this.DataOPD ? this.DataOPD.kode_organisasi : ""
+          );
+          payload.append("OrgNm", this.DataOPD ? this.DataOPD.Nm_Organisasi : "");
+          payload.append("TA", this.$store.getters["auth/TahunSelected"]);
+          payload.append("BulanLaporan", this.formdata.BulanLaporan);
+          payload.append("PaguDana", this.formdata.PaguDana);
+          payload.append("RealisasiKeuangan", this.formdata.RealisasiKeuangan);
+          payload.append("RealisasiFisik", this.formdata.RealisasiFisik);
+          payload.append("Kontrak", this.formdata.Kontrak);
+          payload.append("PekerjaanSelesai", this.formdata.PekerjaanSelesai);
+          payload.append("PekerjaanBerjalan", this.formdata.PekerjaanBerjalan);
+          payload.append("PekerjaanTerhenti", this.formdata.PekerjaanTerhenti);
+          payload.append(
+            "PekerjaanBelumBerjalan",
+            this.formdata.PekerjaanBelumBerjalan
+          );
+          if (this.formdata.bukti_cetak) {
+            payload.append("BuktiCetak", this.formdata.bukti_cetak);
+          }
           this.$ajax
-            .post(
-              "/renja/pelaporanopdmurni/store",
-              {
-                OrgID: this.OrgID_Selected,
-                BulanLaporan: this.formdata.BulanLaporan,
-                PaguDana: this.formdata.PaguDana,
-                RealisasiKeuangan: this.formdata.RealisasiKeuangan,
-                RealisasiFisik: this.formdata.RealisasiFisik,
-                Kontrak: this.formdata.Kontrak,
-                PekerjaanSelesai: this.formdata.PekerjaanSelesai,
-                PekerjaanBerjalan: this.formdata.PekerjaanBerjalan,
-                PekerjaanTerhenti: this.formdata.PekerjaanTerhenti,
-                PekerjaanBelumBerjalan: this.formdata.PekerjaanBelumBerjalan,
-                bukti_cetak: this.formdata.bukti_cetak,
+            .post("/renja/pelaporanopdmurni/store", payload, {
+              headers: {
+                Authorization: this.$store.getters["auth/Token"],
+                "Content-Type": "multipart/form-data",
               },
-              {
-                headers: {
-                  Authorization: this.$store.getters["auth/Token"],
-                  "Content-Type": "multipart/form-data; boundary=---------------------------974767299852498929531610575",
-                },
-              }
-            )
+            })
             .then(() => {
               this.initialize();
               this.closedialogfrm();

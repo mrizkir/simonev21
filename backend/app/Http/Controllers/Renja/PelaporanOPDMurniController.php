@@ -74,40 +74,65 @@ class PelaporanOPDMurniController extends Controller
 		$this->hasPermissionTo('RENJA-PELAPORAN-OPD_STORE');
 
 		$this->validate($request, [
-			'BulanLaporan' => 'required',
+			'BulanLaporan' => 'required|numeric',
 			'BuktiCetak' => 'required|mimetypes:application/pdf',
+			'OrgID' => 'required|exists:tmOrg,OrgID',
+			'kode_organisasi' => 'required',
+			'OrgNm' => 'required',
+			'TA' => 'required|numeric',
+			'PaguDana' => 'required|numeric',
+			'RealisasiKeuangan' => 'required|numeric',
+			'RealisasiFisik' => 'required|numeric',
+			'Kontrak' => 'required|numeric',
+			'PekerjaanSelesai' => 'required|numeric',
+			'PekerjaanBerjalan' => 'required|numeric',
+			'PekerjaanTerhenti' => 'required|numeric',
+			'PekerjaanBelumBerjalan' => 'required|numeric',
 		]);
-		
-		$bukti_laporan = $request->input('BulanLaporan');
-		$bukti_cetak = $request->file('BuktiCetak');
 
-		$mime_type = $foto->getMimeType();
-		if ($mime_type=='image/png' || $mime_type=='image/jpeg')
+		$bukti_cetak = $request->file('BuktiCetak');
+		$mime_type = $bukti_cetak->getMimeType();
+		if ($mime_type == 'application/pdf')
 		{
-			Statistik3Model::create([				
+			$folder = Helper::public_path('documents/pelaporanopd/');
+			if (!is_dir($folder))
+			{
+				mkdir($folder, 0775, true);
+			}
+			$file_name = uniqid('bukti_').'.'.$bukti_cetak->getClientOriginalExtension();
+			$bukti_cetak->move($folder, $file_name);
+
+			Statistik3Model::create([
 				'Statistik3ID' => Uuid::uuid4()->toString(),
 				'OrgID' => $request->input('OrgID'),
 				'kode_organisasi' => $request->input('kode_organisasi'),
 				'OrgNm' => $request->input('OrgNm'),
-				'PaguDana' => $request->input('OrgNm'),
-				'RealisasiKeuangan' => $request->input('OrgNm'),
-				'RealisasiFisik' => $request->input('OrgNm'),
-				'Kontrak' => $request->input('OrgNm'),
-				'PekerjaanSelesai' => $request->input('OrgNm'),
-				'PekerjaanBerjalan' => $request->input('OrgNm'),
-				'PekerjaanTerhenti' => $request->input('OrgNm'),
-				'PekerjaanBelumBerjalan' => $request->input('OrgNm'),
-				'BulanLaporan' => $request->input('OrgNm'),
-				'BuktiCetak' => $request->input('OrgNm'),
-				'TA' => $request->input('OrgNm'),
+				'PaguDana' => $request->input('PaguDana'),
+				'RealisasiKeuangan' => $request->input('RealisasiKeuangan'),
+				'RealisasiFisik' => $request->input('RealisasiFisik'),
+				'Kontrak' => $request->input('Kontrak'),
+				'PekerjaanSelesai' => $request->input('PekerjaanSelesai'),
+				'PekerjaanBerjalan' => $request->input('PekerjaanBerjalan'),
+				'PekerjaanTerhenti' => $request->input('PekerjaanTerhenti'),
+				'PekerjaanBelumBerjalan' => $request->input('PekerjaanBelumBerjalan'),
+				'BulanLaporan' => $request->input('BulanLaporan'),
+				'BuktiCetak' => 'storages/documents/pelaporanopd/'.$file_name,
+				'TA' => $request->input('TA'),
 				'isverified' => 0,
 			]);
+
+			return Response()->json([
+				'status' => 1,
+				'pid' => 'store',
+				'message' => 'Pelaporan OPD Renja Murni berhasil disimpan'
+			], 200);
 		}
+
 		return Response()->json([
-			'status' => 1,
+			'status' => 0,
 			'pid' => 'store',
-			'message' => 'Pelaporan OPD Renja Murni berhasil disimpan'
-		], 200);
+			'message' => ['Bukti cetak harus berupa file PDF.']
+		], 422);
 	}
 	public function printtoexcel (Request $request)
 	{

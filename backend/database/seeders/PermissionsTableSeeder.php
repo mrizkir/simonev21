@@ -212,6 +212,18 @@ class PermissionsTableSeeder extends Seeder
       'updated_at'=>Carbon::now()
     ]);
     \DB::table('permissions')->insert([
+      'name'=>"RENJA-LRA2-MURNI_BROWSE",
+      'guard_name'=>'api',
+      'created_at'=>Carbon::now(),
+      'updated_at'=>Carbon::now()
+    ]);
+    \DB::table('permissions')->insert([
+      'name'=>"RENJA-LRA2-PERUBAHAN_BROWSE",
+      'guard_name'=>'api',
+      'created_at'=>Carbon::now(),
+      'updated_at'=>Carbon::now()
+    ]);
+    \DB::table('permissions')->insert([
       'name'=>"RENJA-EVALUASI-MURNI_BROWSE",
       'guard_name'=>'api',
       'created_at'=>Carbon::now(),

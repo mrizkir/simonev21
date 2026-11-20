@@ -283,6 +283,9 @@ class RolesTableSeeder extends Seeder
             'RENJA-FORM-B-MURNI_BROWSE',
             'RENJA-FORM-B-PERUBAHAN_BROWSE',
 
+            'RENJA-LRA2-MURNI_BROWSE',
+            'RENJA-LRA2-PERUBAHAN_BROWSE',
+
             'RENJA-STATISTIK-PERINGKAT-OPD_BROWSE',
 
             'RKPD-EVALUASI-MURNI_BROWSE',
@@ -476,6 +479,9 @@ class RolesTableSeeder extends Seeder
             'RENJA-FORM-B-MURNI_BROWSE',
             'RENJA-FORM-B-PERUBAHAN_BROWSE',
 
+            'RENJA-LRA2-MURNI_BROWSE',
+            'RENJA-LRA2-PERUBAHAN_BROWSE',
+
             'RENJA-STATISTIK-PERINGKAT-OPD_BROWSE',
 
             'RKPD-EVALUASI-MURNI_BROWSE',
@@ -648,6 +654,9 @@ class RolesTableSeeder extends Seeder
             'RENJA-FORM-B-MURNI_BROWSE',
             'RENJA-FORM-B-PERUBAHAN_BROWSE',
 
+            'RENJA-LRA2-MURNI_BROWSE',
+            'RENJA-LRA2-PERUBAHAN_BROWSE',
+
             'RENJA-STATISTIK-PERINGKAT-OPD_BROWSE',
 
             'RKPD-EVALUASI-MURNI_BROWSE',
@@ -800,6 +809,9 @@ class RolesTableSeeder extends Seeder
             'RENJA-FORM-B-MURNI_BROWSE',
             'RENJA-FORM-B-PERUBAHAN_BROWSE',
 
+            'RENJA-LRA2-MURNI_BROWSE',
+            'RENJA-LRA2-PERUBAHAN_BROWSE',
+
             'RENJA-STATISTIK-PERINGKAT-OPD_BROWSE',
 
             'RKPD-EVALUASI-MURNI_BROWSE',
@@ -879,6 +891,9 @@ class RolesTableSeeder extends Seeder
             'RENJA-FORM-B-MURNI_BROWSE',
             'RENJA-FORM-B-PERUBAHAN_BROWSE',
 
+            'RENJA-LRA2-MURNI_BROWSE',
+            'RENJA-LRA2-PERUBAHAN_BROWSE',
+
             'RENJA-STATISTIK-PERINGKAT-OPD_BROWSE',
 
             'RKPD-EVALUASI-MURNI_BROWSE',
@@ -957,6 +972,9 @@ class RolesTableSeeder extends Seeder
 
             'RENJA-FORM-B-MURNI_BROWSE',
             'RENJA-FORM-B-PERUBAHAN_BROWSE',
+
+            'RENJA-LRA2-MURNI_BROWSE',
+            'RENJA-LRA2-PERUBAHAN_BROWSE',
 
             'RENJA-STATISTIK-PERINGKAT-OPD_BROWSE',
 

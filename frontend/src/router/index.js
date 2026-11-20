@@ -557,6 +557,16 @@ const routes = [
     },
     component: () => import("../views/pages/admin/renjamurni/FormLRAOPDMurni.vue"),
   },
+  //renja murni - lra opd 2
+  {
+    path: "/renjamurni/report/lra2opd",
+    name: "FormLRA2OPDMurni",
+    meta: {
+      title: "LRA OPD 2",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjamurni/FormLRA2OPDMurni.vue"),
+  },
   //renja murni - rekap lra belanja
   {
     path: "/renjamurni/report/rekaplra",
@@ -804,6 +814,16 @@ const routes = [
       requiresAuth: true,
     },
     component: () => import("../views/pages/admin/renjaperubahan/FormLRAOPDPerubahan.vue"),
+  },
+  //renja perubahan - lra opd 2
+  {
+    path: "/renjaperubahan/report/lra2opd",
+    name: "FormLRA2OPDPerubahan",
+    meta: {
+      title: "LRA OPD 2",
+      requiresAuth: true,
+    },
+    component: () => import("../views/pages/admin/renjaperubahan/FormLRA2OPDPerubahan.vue"),
   },
   //renja perubahan - rekap lra belanja
   {

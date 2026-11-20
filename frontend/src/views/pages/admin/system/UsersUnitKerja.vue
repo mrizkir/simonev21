@@ -111,7 +111,12 @@
                       outlined
                       small
                       class="ma-2"
-                      :disabled="btnLoading || !$store.getters['auth/can']('SYSTEM-USERS-UNIT-KERJA_STORE')"
+                      :disabled="
+                        btnLoading ||
+                          !$store.getters['auth/can'](
+                            'SYSTEM-USERS-UNIT-KERJA_STORE'
+                          )
+                      "
                       @click.stop="showDialogTambahUserUnitKerja"
                     >
                       <v-icon>mdi-plus</v-icon>
@@ -219,7 +224,11 @@
                           color="blue darken-1"
                           text
                           @click.stop="save"
-                          :disabled="!form_valid || btnLoading || !editedItem.sorg_id.length > 0"
+                          :disabled="
+                            !form_valid ||
+                              btnLoading ||
+                              !editedItem.sorg_id.length > 0
+                          "
                         >
                           SIMPAN
                         </v-btn>
@@ -326,7 +335,11 @@
                           color="blue darken-1"
                           text
                           @click.stop="save"
-                          :disabled="!form_valid || btnLoading || !editedItem.sorg_id.length > 0"
+                          :disabled="
+                            !form_valid ||
+                              btnLoading ||
+                              !editedItem.sorg_id.length > 0
+                          "
                         >
                           SIMPAN
                         </v-btn>
@@ -607,7 +620,8 @@
             !!value || "Mohon untuk di pilih OPD / SKPD dari User ini !!!",
         ],
         rule_user_unitkerja: [
-          value => !!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
+          value =>
+            !!value || "Mohon untuk di pilih Unit Kerja dari User ini !!!",
         ],
         rule_user_password: [
           value => !!value || "Mohon untuk di isi password User !!!",

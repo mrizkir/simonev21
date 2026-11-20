@@ -209,12 +209,14 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   //data master - kegiatan - jenis pelaksanaan
   $router->post('/dmaster/jenispelaksanaan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\JenisPelaksanaanController@index','as'=>'jenispelaksanaan.index']);
   $router->post('/dmaster/jenispelaksanaan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@store','as'=>'jenispelaksanaan.store']);
+  $router->post('/dmaster/jenispelaksanaan/salin', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@salin','as'=>'jenispelaksanaan.salin']);
   $router->put('/dmaster/jenispelaksanaan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@update','as'=>'jenispelaksanaan.update']);
   $router->delete('/dmaster/jenispelaksanaan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@destroy','as'=>'jenispelaksanaan.destroy']);
 
   //data master - kegiatan - jenis pembangunan
   $router->post('/dmaster/jenispembangunan', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'DMaster\JenisPembangunanController@index','as'=>'jenispembangunan.index']);
   $router->post('/dmaster/jenispembangunan/store', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@store','as'=>'jenispembangunan.store']);
+  $router->post('/dmaster/jenispembangunan/salin', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@salin','as'=>'jenispembangunan.salin']);
   $router->put('/dmaster/jenispembangunan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@update','as'=>'jenispembangunan.update']);
   $router->delete('/dmaster/jenispembangunan/{id}', ['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@destroy','as'=>'jenispembangunan.destroy']);
 
@@ -428,8 +430,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjamurni/report/realisasiindikatorsubkegiatan/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanMurniController@printtoexcel','as'=>'realisasiindikatorsubkegiatanmurni.printtoexcel']);    
   
   //renja - report - lra opd murni
-  $router->post('/renjamurni/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@index','as'=>'lraopdmurni.index']);    
-  $router->post('/renjamurni/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@printtoexcel','as'=>'lraopdmurni.printtoexcel']);      
+  $router->post('/renjamurni/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@index','as'=>'lraopdmurni.index']);
+  $router->post('/renjamurni/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDMurniController@printtoexcel','as'=>'lraopdmurni.printtoexcel']);
+
+  //renja - report - lra opd 2 murni
+  $router->post('/renjamurni/report/lra2opd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRA2OPDMurniController@index','as'=>'lra2opdmurni.index']);
+  $router->post('/renjamurni/report/lra2opd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRA2OPDMurniController@printtoexcel','as'=>'lra2opdmurni.printtoexcel']);
   
   //renja - report - rekap lra belanja murni
   $router->post('/renjamurni/report/rekaplra', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RekapLRAMurniController@index','as'=>'rekaplramurni.index']);    
@@ -503,8 +509,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
   $router->post('/renjaperubahan/report/realisasiindikatorsubkegiatan/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RealisasiIndikatorSubKegiatanPerubahanController@printtoexcel','as'=>'realisasiindikatorsubkegiatanperubahan.printtoexcel']);    
   
   //renja - report - lra opd perubahan
-  $router->post('/renjaperubahan/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@index','as'=>'lraopdperubahan.index']);    
-  $router->post('/renjaperubahan/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@printtoexcel','as'=>'lraopdperubahan.printtoexcel']);      
+  $router->post('/renjaperubahan/report/lraopd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@index','as'=>'lraopdperubahan.index']);
+  $router->post('/renjaperubahan/report/lraopd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRAOPDPerubahanController@printtoexcel','as'=>'lraopdperubahan.printtoexcel']);
+
+  //renja - report - lra opd 2 perubahan
+  $router->post('/renjaperubahan/report/lra2opd', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRA2OPDPerubahanController@index','as'=>'lra2opdperubahan.index']);
+  $router->post('/renjaperubahan/report/lra2opd/printtoexcel', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\LRA2OPDPerubahanController@printtoexcel','as'=>'lra2opdperubahan.printtoexcel']);
   
   //renja - report - rekap lra belanja perubahan
   $router->post('/renjaperubahan/report/rekaplra', ['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja|pptk'],'uses'=>'Renja\RekapLRAPerubahanController@index','as'=>'rekaplraperubahan.index']);    

@@ -724,4 +724,413 @@ class ReportModel extends Model
     
     return $result;
   }
+  /**
+   * Form B per OPD, ditambah satu baris untuk tiap rincian belanja di bawah sub kegiatan.
+   *
+   * @param string $OrgID
+   * @param int|string $TA
+   * @param int|string $no_bulan
+   * @param int $entryLvl 1 = murni, 2 = perubahan
+   * @return array
+   */
+  public function getDataKontrakOPD($OrgID, $TA, $no_bulan, $entryLvl = 1)
+  {
+    $suffix = ((int) $entryLvl === 2) ? '2' : '1';
+    $paguCol = 'PaguDana'.$suffix;
+    $lokasiCol = 'lokasi_kegiatan'.$suffix;
+    $bulanCol = 'bulan'.$suffix;
+    $targetCol = 'target'.$suffix;
+    $realisasiCol = 'realisasi'.$suffix;
+    $fisikCol = 'fisik'.$suffix;
+    $namaUraianCol = 'NamaUraian'.$suffix;
+    $kodeUraianCol = 'kode_uraian'.$suffix;
+    $paguUraianCol = 'PaguUraian'.$suffix;
+
+    $daftarRka = \DB::table('trRKA')
+      ->select(
+        'RKAID',
+        'kode_program',
+        'Nm_Program',
+        'kode_kegiatan',
+        'Nm_Kegiatan',
+        'kode_sub_kegiatan',
+        'Nm_Sub_Kegiatan',
+        \DB::raw("`{$paguCol}` AS `pagu`"),
+        \DB::raw("`{$lokasiCol}` AS `lokasi`")
+      )
+      ->where('OrgID', $OrgID)
+      ->where('TA', $TA)
+      ->where('EntryLvl', (int) $entryLvl)
+      ->orderByRaw('kode_urusan="X" DESC')
+      ->orderBy('kode_bidang', 'ASC')
+      ->orderBy('kode_program', 'ASC')
+      ->orderBy('kode_kegiatan', 'ASC')
+      ->orderBy('kode_sub_kegiatan', 'ASC')
+      ->get();
+
+    $rkaIds = [];
+    $totalPaguOPD = 0;
+    foreach ($daftarRka as $rka)
+    {
+      $rkaIds[] = $rka->RKAID;
+      $totalPaguOPD += (float) $rka->pagu;
+    }
+
+    $rincianPerRka = [];
+    $targetMap = [];
+    $realisasiMap = [];
+    if (count($rkaIds) > 0)
+    {
+      $daftarRincian = \DB::table('trRKARinc')
+        ->select(
+          'RKARincID',
+          'RKAID',
+          \DB::raw("`{$kodeUraianCol}` AS `kode`"),
+          \DB::raw("`{$namaUraianCol}` AS `nama`"),
+          \DB::raw("`{$paguUraianCol}` AS `pagu`"),
+          'ket_lok'
+        )
+        ->whereIn('RKAID', $rkaIds)
+        ->orderBy($kodeUraianCol, 'ASC')
+        ->get();
+      foreach ($daftarRincian as $item)
+      {
+        $rincianPerRka[$item->RKAID][] = $item;
+      }
+
+      $daftarTarget = \DB::table('trRKATargetRinc')
+        ->select(\DB::raw("
+          `RKARincID`,
+          COALESCE(SUM(`{$targetCol}`), 0) AS `totaltarget`,
+          COALESCE(SUM(`{$fisikCol}`), 0) AS `jumlah_fisik`
+        "))
+        ->whereIn('RKAID', $rkaIds)
+        ->where($bulanCol, '<=', (int) $no_bulan)
+        ->groupBy('RKARincID')
+        ->get();
+      foreach ($daftarTarget as $item)
+      {
+        $targetMap[$item->RKARincID] = $item;
+      }
+
+      $daftarRealisasi = \DB::table('trRKARealisasiRinc')
+        ->select(\DB::raw("
+          `RKARincID`,
+          COALESCE(SUM(`{$realisasiCol}`), 0) AS `realisasi`,
+          COALESCE(SUM(`{$fisikCol}`), 0) AS `fisik`
+        "))
+        ->whereIn('RKAID', $rkaIds)
+        ->where($bulanCol, '<=', (int) $no_bulan)
+        ->groupBy('RKARincID')
+        ->get();
+      foreach ($daftarRealisasi as $item)
+      {
+        $realisasiMap[$item->RKARincID] = $item;
+      }
+    }
+
+    $programs = [];
+    foreach ($daftarRka as $rka)
+    {
+      if (!isset($programs[$rka->kode_program]))
+      {
+        $programs[$rka->kode_program] = [
+          'kode' => $rka->kode_program,
+          'nama' => $rka->Nm_Program,
+          'kegiatan' => [],
+        ];
+      }
+      if (!isset($programs[$rka->kode_program]['kegiatan'][$rka->kode_kegiatan]))
+      {
+        $programs[$rka->kode_program]['kegiatan'][$rka->kode_kegiatan] = [
+          'kode' => $rka->kode_kegiatan,
+          'nama' => $rka->Nm_Kegiatan,
+          'sub' => [],
+        ];
+      }
+      $programs[$rka->kode_program]['kegiatan'][$rka->kode_kegiatan]['sub'][] = $rka;
+    }
+
+    $rows = [];
+    $totalSubKegiatan = 0;
+    $totalPersenBobot = 0;
+    $totalPersenTargetFisik = 0;
+    $totalPersenRealisasiFisik = 0;
+    $totalTtbFisik = 0;
+    $totalTargetKeuangan = 0;
+    $totalRealisasiKeuangan = 0;
+    $totalTtbKeuangan = 0;
+
+    foreach ($programs as $program)
+    {
+      $paguProgram = 0;
+      $fisikTargetProgram = 0;
+      $fisikRealisasiProgram = 0;
+      $jumlahUraianProgram = 0;
+      $targetUangProgram = 0;
+      $realisasiUangProgram = 0;
+      $programIndex = count($rows);
+      $rows[] = [];
+
+      foreach ($program['kegiatan'] as $kegiatan)
+      {
+        $paguKegiatan = 0;
+        $fisikTargetKegiatan = 0;
+        $fisikRealisasiKegiatan = 0;
+        $jumlahUraianKegiatan = 0;
+        $targetUangKegiatan = 0;
+        $realisasiUangKegiatan = 0;
+        $kegiatanIndex = count($rows);
+        $rows[] = [];
+
+        foreach ($kegiatan['sub'] as $sub)
+        {
+          $children = isset($rincianPerRka[$sub->RKAID]) ? $rincianPerRka[$sub->RKAID] : [];
+          $jumlahUraian = count($children);
+          $sumTargetFisik = 0;
+          $sumRealisasiFisik = 0;
+          $sumTargetUang = 0;
+          $sumRealisasiUang = 0;
+          $detail = [];
+
+          foreach ($children as $child)
+          {
+            $pagu = (float) $child->pagu;
+            $targetFisik = isset($targetMap[$child->RKARincID]) ? (float) $targetMap[$child->RKARincID]->jumlah_fisik : 0;
+            $targetUang = isset($targetMap[$child->RKARincID]) ? (float) $targetMap[$child->RKARincID]->totaltarget : 0;
+            $realisasiFisik = isset($realisasiMap[$child->RKARincID]) ? (float) $realisasiMap[$child->RKARincID]->fisik : 0;
+            $realisasiUang = isset($realisasiMap[$child->RKARincID]) ? (float) $realisasiMap[$child->RKARincID]->realisasi : 0;
+            $sumTargetFisik += $targetFisik;
+            $sumRealisasiFisik += $realisasiFisik;
+            $sumTargetUang += $targetUang;
+            $sumRealisasiUang += $realisasiUang;
+
+            $bobot = Helper::formatPersen($pagu, $totalPaguOPD);
+            $persenTargetFisik = $targetFisik > 100 ? 100.00 : $targetFisik;
+            $persenRealisasiFisik = $realisasiFisik;
+            $persenTargetUang = Helper::formatPersen($targetUang, $pagu);
+            $persenRealisasiUang = Helper::formatPersen($realisasiUang, $pagu);
+            $ttbFisik = 0.00;
+            if ($persenRealisasiFisik > 0 && $bobot > 0)
+            {
+              $ttbFisik = number_format(($persenRealisasiFisik * $bobot) / 100, 2);
+            }
+            $ttbUang = 0.00;
+            if ($persenRealisasiUang > 0 && $bobot > 0)
+            {
+              $ttbUang = number_format(($persenRealisasiUang * $bobot) / 100, 2);
+            }
+            $sisa = $pagu - $realisasiUang;
+            $detail[] = [
+              'row_id' => $child->RKARincID,
+              'kode' => $child->kode,
+              'nama_uraian' => $child->nama,
+              'level' => 3,
+              'pagu_dana1' => $pagu,
+              'bobot1' => $bobot,
+              'fisik_target1' => $persenTargetFisik,
+              'fisik_realisasi1' => $persenRealisasiFisik,
+              'fisik_ttb1' => $ttbFisik,
+              'keuangan_target1' => $targetUang,
+              'keuangan_target_persen_1' => $persenTargetUang,
+              'keuangan_realisasi1' => $realisasiUang,
+              'keuangan_realisasi_persen_1' => $persenRealisasiUang,
+              'keuangan_ttb1' => $ttbUang,
+              'lokasi' => $child->ket_lok ? $child->ket_lok : '',
+              'sisa_anggaran' => $sisa,
+              'sisa_anggaran_persen' => Helper::formatPersen($sisa, $pagu),
+              'isprogram' => false,
+              'iskegiatan' => false,
+              'issubkegiatan' => false,
+              'isrincian' => true,
+            ];
+          }
+
+          $paguSub = (float) $sub->pagu;
+          $subRow = $this->ringkasBarisLRA2(
+            $sub->RKAID,
+            $sub->kode_sub_kegiatan,
+            $sub->Nm_Sub_Kegiatan,
+            2,
+            false,
+            false,
+            true,
+            $paguSub,
+            $jumlahUraian,
+            $sumTargetFisik,
+            $sumRealisasiFisik,
+            $sumTargetUang,
+            $sumRealisasiUang,
+            $totalPaguOPD,
+            $sub->lokasi ? $sub->lokasi : ''
+          );
+          $rows[] = $subRow;
+          foreach ($detail as $item)
+          {
+            $rows[] = $item;
+          }
+
+          $totalPersenBobot += $subRow['bobot1'];
+          $totalPersenTargetFisik += $subRow['fisik_target1'];
+          $totalPersenRealisasiFisik += $subRow['fisik_realisasi1'];
+          $totalTtbFisik += $subRow['fisik_ttb1'];
+          $totalTtbKeuangan += $subRow['keuangan_ttb1'];
+          $totalTargetKeuangan += $sumTargetUang;
+          $totalRealisasiKeuangan += $sumRealisasiUang;
+          $totalSubKegiatan += 1;
+
+          $paguProgram += $paguSub;
+          $paguKegiatan += $paguSub;
+          $fisikTargetProgram += $sumTargetFisik;
+          $fisikTargetKegiatan += $sumTargetFisik;
+          $fisikRealisasiProgram += $sumRealisasiFisik;
+          $fisikRealisasiKegiatan += $sumRealisasiFisik;
+          $jumlahUraianProgram += $jumlahUraian;
+          $jumlahUraianKegiatan += $jumlahUraian;
+          $targetUangProgram += $sumTargetUang;
+          $targetUangKegiatan += $sumTargetUang;
+          $realisasiUangProgram += $sumRealisasiUang;
+          $realisasiUangKegiatan += $sumRealisasiUang;
+        }
+
+        $rows[$kegiatanIndex] = $this->ringkasBarisLRA2(
+          'k-'.$kegiatan['kode'],
+          $kegiatan['kode'],
+          $kegiatan['nama'],
+          1,
+          false,
+          true,
+          false,
+          $paguKegiatan,
+          $jumlahUraianKegiatan,
+          $fisikTargetKegiatan,
+          $fisikRealisasiKegiatan,
+          $targetUangKegiatan,
+          $realisasiUangKegiatan,
+          $totalPaguOPD,
+          '-'
+        );
+      }
+
+      $rows[$programIndex] = $this->ringkasBarisLRA2(
+        'p-'.$program['kode'],
+        $program['kode'],
+        $program['nama'],
+        0,
+        true,
+        false,
+        false,
+        $paguProgram,
+        $jumlahUraianProgram,
+        $fisikTargetProgram,
+        $fisikRealisasiProgram,
+        $targetUangProgram,
+        $realisasiUangProgram,
+        $totalPaguOPD,
+        '-'
+      );
+    }
+
+    if ($totalPersenBobot > 100)
+    {
+      $totalPersenBobot = 100;
+    }
+    $totalSisaAnggaran = $totalPaguOPD - $totalRealisasiKeuangan;
+
+    return [
+      'rows' => $rows,
+      'total_data' => [
+        'totalPaguOPD' => $totalPaguOPD,
+        'totalPersenBobot' => round($totalPersenBobot, 2),
+        'totalPersenTargetFisik' => Helper::formatPecahan($totalPersenTargetFisik, $totalSubKegiatan),
+        'totalPersenRealisasiFisik' => Helper::formatPecahan($totalPersenRealisasiFisik, $totalSubKegiatan),
+        'total_ttb_fisik' => round($totalTtbFisik, 2),
+        'totalTargetKeuanganKeseluruhan' => $totalTargetKeuangan,
+        'totalRealisasiKeuanganKeseluruhan' => $totalRealisasiKeuangan,
+        'totalPersenTargetKeuangan' => Helper::formatPersen($totalTargetKeuangan, $totalPaguOPD),
+        'totalPersenRealisasiKeuangan' => Helper::formatPersen($totalRealisasiKeuangan, $totalPaguOPD),
+        'total_ttb_keuangan' => round($totalTtbKeuangan, 2),
+        'totalSisaAnggaran' => $totalSisaAnggaran,
+        'totalPersenSisaAnggaran' => Helper::formatPersen($totalSisaAnggaran, $totalPaguOPD),
+      ],
+    ];
+  }
+  /**
+   * Satu baris ringkasan Form B untuk program, kegiatan, atau sub kegiatan.
+   */
+  private function ringkasBarisLRA2(
+    $rowId,
+    $kode,
+    $nama,
+    $level,
+    $isprogram,
+    $iskegiatan,
+    $issubkegiatan,
+    $pagu,
+    $jumlahUraian,
+    $sumTargetFisik,
+    $sumRealisasiFisik,
+    $sumTargetUang,
+    $sumRealisasiUang,
+    $totalPaguOPD,
+    $lokasi
+  )
+  {
+    $bobot = Helper::formatPersen($pagu, $totalPaguOPD);
+    $targetFisik = Helper::formatPecahan($sumTargetFisik, $jumlahUraian);
+    $persenTargetFisik = $targetFisik > 100 ? 100.00 : $targetFisik;
+    $persenRealisasiFisik = Helper::formatPecahan($sumRealisasiFisik, $jumlahUraian);
+    $persenTargetUang = Helper::formatPersen($sumTargetUang, $pagu);
+    $persenRealisasiUang = Helper::formatPersen($sumRealisasiUang, $pagu);
+    $ttbFisik = 0.00;
+    if ($persenRealisasiFisik > 0 && $bobot > 0)
+    {
+      $ttbFisik = number_format(($persenRealisasiFisik * $bobot) / 100, 2);
+    }
+    $ttbUang = 0.00;
+    if ($persenRealisasiUang > 0 && $bobot > 0)
+    {
+      $ttbUang = number_format(($persenRealisasiUang * $bobot) / 100, 2);
+    }
+    $sisa = $pagu - $sumRealisasiUang;
+
+    return [
+      'row_id' => $rowId,
+      'kode' => $kode,
+      'nama_uraian' => $nama,
+      'level' => $level,
+      'pagu_dana1' => $pagu,
+      'bobot1' => $bobot,
+      'fisik_target1' => $persenTargetFisik,
+      'fisik_realisasi1' => $persenRealisasiFisik,
+      'fisik_ttb1' => $ttbFisik,
+      'keuangan_target1' => $sumTargetUang,
+      'keuangan_target_persen_1' => $persenTargetUang,
+      'keuangan_realisasi1' => $sumRealisasiUang,
+      'keuangan_realisasi_persen_1' => $persenRealisasiUang,
+      'keuangan_ttb1' => $ttbUang,
+      'lokasi' => $lokasi,
+      'sisa_anggaran' => $sisa,
+      'sisa_anggaran_persen' => Helper::formatPersen($sisa, $pagu),
+      'isprogram' => $isprogram,
+      'iskegiatan' => $iskegiatan,
+      'issubkegiatan' => $issubkegiatan,
+      'isrincian' => false,
+    ];
+  }
+  /**
+   * Label status lelang pada rincian belanja.
+   */
+  public function labelStatusLelang($status)
+  {
+    switch ((string) $status)
+    {
+      case '1':
+        return 'TELAH DILELANG';
+      case '2':
+        return 'PROSES LELANG';
+      default:
+        return 'BELUM DILELANG';
+    }
+  }
 }

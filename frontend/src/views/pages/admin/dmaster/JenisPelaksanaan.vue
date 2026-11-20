@@ -58,6 +58,31 @@
                 <v-toolbar-title>DAFTAR JENIS PELAKSANAAN</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="primary"
+                      icon
+                      outlined
+                      small
+                      class="ma-2"
+                      @click.stop="copyItem"
+                      :disabled="
+                        !$store.getters['auth/can'](
+                          'DMASTER-JENIS-PELAKSANAAN_STORE'
+                        )
+                      "
+                    >
+                      <v-icon>mdi-reload</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>
+                    Salin Jenis Pelaksanaan ke T.A
+                    {{ $store.getters["auth/TahunSelected"] }}
+                  </span>
+                </v-tooltip>
                 <v-dialog v-model="dialogfrm" max-width="500px" persistent>
                   <template v-slot:activator="{ on }">
                     <v-btn
@@ -109,6 +134,53 @@
                           :disabled="!form_valid || btnLoading"
                         >
                           SIMPAN
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-form>
+                </v-dialog>
+                <v-dialog v-model="dialogcopyfrm" max-width="500px" persistent>
+                  <v-form
+                    ref="frmcopydata"
+                    v-model="form_salin_valid"
+                    lazy-validation
+                  >
+                    <v-card>
+                      <v-card-title>
+                        <span class="headline">
+                          Salin Jenis Pelaksanaan ke T.A
+                          {{ $store.getters["auth/TahunSelected"] }}
+                        </span>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-alert type="warning">
+                          Menghindari duplikat proses salin, akan menghapus terlebih dahulu data Jenis Pelaksanaan T.A {{ $store.getters["auth/TahunSelected"] }}
+                        </v-alert>
+                        <v-select
+                          label="DARI TAHUN ANGGARAN"
+                          v-model="tahunasal"
+                          :items="daftar_ta"
+                          :rules="rule_tahun_asal"
+                          outlined
+                          dense
+                        />
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click.stop="closedialogcopyfrm"
+                        >
+                          TUTUP
+                        </v-btn>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click.stop="salinjenispelaksanaan"
+                          :disabled="!form_salin_valid || btnLoading"
+                        >
+                          SALIN
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -213,8 +285,10 @@
         search: "",
         //dialog
         dialogfrm: false,
+        dialogcopyfrm: false,
         //form data
         form_valid: true,
+        form_salin_valid: true,
         formdata: {
           JenisPelaksanaanID: "",
           NamaJenis: "",
@@ -230,6 +304,8 @@
           updated_at: "",
         },
         editedIndex: -1,
+        tahunasal: null,
+        daftar_ta: [],
 
         //form rules
         rule_name: [
@@ -237,6 +313,14 @@
           value =>
             /^[A-Za-z\s]*$/.test(value) ||
             "Nama Jenis hanya boleh string dan spasi",
+        ],
+        rule_tahun_asal: [
+          value =>
+            !!value || "Mohon untuk dipilih Tahun Anggaran sebelumnya!!!",
+          value =>
+            value < this.$store.getters["auth/TahunSelected"] ||
+            "Tahun asal harus lebih kecil dari " +
+              this.$store.getters["auth/TahunSelected"],
         ],
       };
     },
@@ -265,6 +349,34 @@
           this.expanded = [];
         } else {
           this.expanded = [item];
+        }
+      },
+      copyItem() {
+        this.daftar_ta = this.$store.getters["uifront/getDaftarTA"];
+        this.dialogcopyfrm = true;
+      },
+      salinjenispelaksanaan() {
+        if (this.$refs.frmcopydata.validate()) {
+          this.$ajax
+            .post(
+              "/dmaster/jenispelaksanaan/salin",
+              {
+                tahun_asal: this.tahunasal,
+                tahun_tujuan: this.$store.getters["auth/TahunSelected"],
+              },
+              {
+                headers: {
+                  Authorization: this.$store.getters["auth/Token"],
+                },
+              }
+            )
+            .then(() => {
+              this.$router.go();
+              this.closedialogcopyfrm();
+            })
+            .catch(() => {
+              this.btnLoading = false;
+            });
         }
       },
       editItem(item) {
@@ -359,6 +471,13 @@
                 });
             }
           });
+      },
+      closedialogcopyfrm() {
+        this.btnLoading = false;
+        this.dialogcopyfrm = false;
+        setTimeout(() => {
+          this.$refs.frmcopydata.reset();
+        }, 300);
       },
       closedialogfrm() {
         this.btnLoading = false;

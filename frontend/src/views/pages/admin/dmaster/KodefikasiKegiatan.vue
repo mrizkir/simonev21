@@ -510,8 +510,8 @@
         rule_kode: [
           value => !!value || "Mohon untuk di isi Kode Kegiatan!!!",
           value =>
-            /^[0-9]*\.?[0-9]*$/.test(value) ||
-            "Kode Kegiatan hanya boleh angka",
+            /^[0-9]+(\.[0-9]+)?$/.test(value) ||
+            "Kode Kegiatan hanya boleh angka, dengan maksimal 1 titik",
           value => value.length > 1 || "Kode Kegiatan minimal 2 angka",
         ],
         rule_name: [value => !!value || "Mohon untuk di isi Nama Kegiatan !!!"],

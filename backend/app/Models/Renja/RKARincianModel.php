@@ -47,6 +47,7 @@ class RKARincianModel extends Model
     'nama_direktur',
     'npwp',
     'no_kontrak',
+    'nilai_kontrak',
     'tgl_kontrak',
     'tgl_mulai_pelaksanaan',
     'tgl_selesai_pelaksanaan',

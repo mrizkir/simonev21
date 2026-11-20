@@ -924,7 +924,9 @@ class RKAMurniController extends Controller
     $rinciankegiatan->no_telepon= $request->input('no_telepon');                                                                              
     $rinciankegiatan->nama_direktur= $request->input('nama_direktur');                
     $rinciankegiatan->npwp= $request->input('npwp');                
-    $rinciankegiatan->no_kontrak= $request->input('no_kontrak');                
+    $rinciankegiatan->no_kontrak= $request->input('no_kontrak');
+    $nilai_kontrak = $request->input('nilai_kontrak');
+    $rinciankegiatan->nilai_kontrak = ($nilai_kontrak === null || $nilai_kontrak === '') ? 0 : $nilai_kontrak;
     $rinciankegiatan->tgl_kontrak= $request->input('tgl_kontrak');                                        
     $rinciankegiatan->tgl_mulai_pelaksanaan= $request->input('tgl_mulai_pelaksanaan');                
     $rinciankegiatan->tgl_selesai_pelaksanaan= $request->input('tgl_selesai_pelaksanaan');                
@@ -936,6 +938,7 @@ class RKAMurniController extends Controller
     return Response()->json([
       'status' => 1,
       'pid' => 'update',
+      'rinciankegiatan' => $rinciankegiatan,
       'message' => 'Update detail uraian berhasil disimpan.'
     ], 200); 
   }
@@ -1334,6 +1337,8 @@ class RKAMurniController extends Controller
         `trRKARinc`.`nama_direktur`,
         `trRKARinc`.`npwp`,
         `trRKARinc`.`no_kontrak`,
+        `trRKARinc`.`nilai_kontrak`,
+        `trRKARinc`.`tgl_kontrak`,
         `trRKARinc`.`tgl_mulai_pelaksanaan`,
         `trRKARinc`.`tgl_selesai_pelaksanaan`,
         `trRKARinc`.`status_lelang`,

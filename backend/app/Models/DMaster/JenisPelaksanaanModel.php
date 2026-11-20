@@ -23,7 +23,7 @@ class JenisPelaksanaanModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'JenisPelaksanaanID', 'NamaJenis', 'Descr','TA'
+        'JenisPelaksanaanID', 'NamaJenis', 'Descr', 'TA', 'JenisPelaksanaanID_Src'
     ];
     /**
      * enable auto_increment.
